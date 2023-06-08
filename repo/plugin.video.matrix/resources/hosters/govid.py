@@ -1,4 +1,4 @@
-﻿from resources.lib.handler.requestHandler import cRequestHandler
+from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.lib.comaddon import dialog
 from resources.hosters.hoster import iHoster
@@ -40,15 +40,19 @@ class cHoster(iHoster):
             oRequest.addHeaderEntry('User-Agent', UA)
             sHtmlContent2 = oRequest.request()
             VSlog(sHtmlContent2) 
-            sPattern = '(https.+?m3u8)'
+            sPattern = ',NAME="(.+?)",.+?(https.+?m3u8)'
             aResult = oParser.parse(sHtmlContent2, sPattern)
+            list_url=[]
+            list_q=[]
             for aEntry in aResult[1]:
-            
-                api_call = aEntry
+                list_q.append(aEntry[0]) 
+                list_url.append(aEntry[1]) 
+				
+            api_call = dialog().VSselectqual(list_q,list_url)
 
 
-                if api_call:
-                   return True, api_call+ '|User-Agent=' + UA+'&AUTH=TLS&verifypeer=false' + '&Referer=' + surl
+            if api_call:
+                return True, api_call+ '|User-Agent=' + UA+'&AUTH=TLS&verifypeer=false' + '&Referer=' + surl
 
         sPattern =  'sources: (.+?),' 
         aResult = oParser.parse(sHtmlContent,sPattern)
