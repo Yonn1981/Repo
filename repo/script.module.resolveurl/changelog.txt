@@ -1,17 +1,15 @@
-Version 5.1.98 (May 16, 2023)
+Version 5.1.100 (Jun 11, 2023)
 - Code Base Changes:
     - None
 
 - Resolvers Added:
-    - film77
-    - streamwish
-    - vidello
-    - vidlook
+    - None
 
 - Resolvers Fixed/Updated:
-    - cloudvideo
-    - mixdrop
-    - speedostream
+    - clicknupload
+    - desiupload
+    - filelions
+    - gofile
     - streamhide
     - streamsb
 
