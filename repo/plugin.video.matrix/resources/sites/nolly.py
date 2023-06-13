@@ -110,7 +110,7 @@ def seriesGenres():
 
         oOutputParameterHandler = cOutputParameterHandler()
         oOutputParameterHandler.addParameter('siteUrl', sUrl)
-        oGui.addDir(SITE_IDENTIFIER, 'showSeries', sTitle, 'genres.png', oOutputParameterHandler)
+        oGui.addDir(SITE_IDENTIFIER, 'showSeriesSeries', sTitle, 'genres.png', oOutputParameterHandler)
 
     oGui.setEndOfDirectory()
 
@@ -157,8 +157,15 @@ def showMovies(sSearch = ''):
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
- # ([^<]+) .+? (.+?)
-    sPattern = '<a class="post-img".+?img src="([^"]+)".+?<a href="([^"]+)">(.+?)</a>'
+
+    oParser = cParser()
+     # (.+?) ([^<]+) .+?
+    sStart = '<link rel="canonical"'
+    sEnd = '<h2 class="title">Trending Movies</h2>'
+    sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
+
+    # ([^<]+) .+? (.+?)
+    sPattern = '<a class="post-img" href="([^"]+)"><img src="([^"]+)".+?<a href=".+?">(.+?)</a>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -175,8 +182,8 @@ def showMovies(sSearch = ''):
 
 
             sTitle = aEntry[2]
-            siteUrl = aEntry[1]+'/download/'
-            sThumb = aEntry[0]
+            siteUrl = aEntry[0]+'/download/'
+            sThumb = aEntry[1]
             sDesc = ''
             sYear = ''
 
@@ -213,7 +220,7 @@ def showMoviesSeries(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  # ([^<]+) .+?
-    sPattern = '<a class="post-img" href="([^"]+)">.+?data-src="([^"]+)".+?<a href="([^"]+)">(.+?)</a>'
+    sPattern = '<a class="post-img" href="([^"]+)".+?data-src="([^"]+)" alt=.+?class="post-title.+?"><a href=".+?">(.+?)</a>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -228,8 +235,8 @@ def showMoviesSeries(sSearch = ''):
                 break
 
 
-            sTitle = aEntry[3]
-            siteUrl = aEntry[2]+'/download/'
+            sTitle = aEntry[2]
+            siteUrl = aEntry[0]+'/download/'
             sThumb = aEntry[1]
             sDesc = ''
             sYear = ''
@@ -305,8 +312,8 @@ def showMoviesTop(sSearch = ''):
  
     if not sSearch:
         oGui.setEndOfDirectory()  
- 
-def showSeries(sSearch = ''):
+
+def showSeriesSeries(sSearch = ''):
     oGui = cGui()
     if sSearch:
       sUrl = sSearch
@@ -319,7 +326,7 @@ def showSeries(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  # ([^<]+) .+?
-    sPattern = 'class="lazyload".+?data-src="([^"]+)" alt="([^"]+)".+?href="([^"]+)'
+    sPattern = '<a class="post-img" href="([^"]+)".+?data-src="([^"]+)" alt=.+?class="post-title"><a href=".+?">(.+?)</a></h3>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -334,9 +341,62 @@ def showSeries(sSearch = ''):
                 break
 
 
-            sTitle = aEntry[1]
-            siteUrl = aEntry[2]+'/seasons/'
-            sThumb = aEntry[0]
+            sTitle = aEntry[2]
+            siteUrl = aEntry[0]+'/seasons/'
+            sThumb = aEntry[1]
+            sDesc = ''
+            sYear = ''
+
+
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
+            oOutputParameterHandler.addParameter('sYear', sYear)
+            oOutputParameterHandler.addParameter('sDesc', sDesc)
+            oGui.addTV(SITE_IDENTIFIER, 'showSeasons', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+
+        progress_.VSclose(progress_)
+ 
+        sNextPage = __checkForNextPage(sHtmlContent)
+        if sNextPage:
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
+            oGui.addDir(SITE_IDENTIFIER, 'showSeriesSeries', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+ 
+    if not sSearch:
+        oGui.setEndOfDirectory()  
+
+def showSeries(sSearch = ''):
+    oGui = cGui()
+    if sSearch:
+      sUrl = sSearch
+    else:
+        oInputParameterHandler = cInputParameterHandler()
+        sUrl = oInputParameterHandler.getValue('siteUrl')
+
+
+
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request()
+ # ([^<]+) .+?
+    sPattern = '<a class="post-img" href="([^"]+)">.+?data-src="([^"]+)" alt="([^"]+)'
+
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+	
+    if aResult[0]:
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        oOutputParameterHandler = cOutputParameterHandler()    
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+
+
+            sTitle = aEntry[2]
+            siteUrl = aEntry[0]+'/seasons/'
+            sThumb = aEntry[1]
             sDesc = ''
             sYear = ''
 
@@ -370,7 +430,7 @@ def showSeasons():
 	oRequestHandler = cRequestHandler(sUrl)
 	sHtmlContent = oRequestHandler.request()
     # .+? ([^<]+)
-	sPattern = 'Seasons </th>.+?<td>(.+?)</td>.+?href="([^"]+)'
+	sPattern = '<tbody> <tr> <td>(.+?)</td>.+?<a class=".+?href="([^"]+)"'
 
 	oParser = cParser()
 	aResult = oParser.parse(sHtmlContent, sPattern)
@@ -419,7 +479,7 @@ def showEps():
             sHtmlContent = aEntry[1]
  # ([^<]+) .+?
 
-            sPattern = 'class="fa fa-download"></i>(.+?)</a>.+?href="([^"]+)'
+            sPattern = 'href="(.+?)"><i class="fa fa-download"></i>(.+?)</a>'
 
             oParser = cParser()
             aResult = oParser.parse(sHtmlContent, sPattern)
@@ -429,9 +489,9 @@ def showEps():
                 oOutputParameterHandler = cOutputParameterHandler()  
                 for aEntry in aResult[1]:
  
-                    siteUrl = aEntry[1]
+                    siteUrl = aEntry[0]
                     sTitle = sEpi
-                    Qual = 'Quality:' + aEntry[0].replace('px','').replace('p','').replace('.x265','')
+                    Qual = 'Quality:' + aEntry[1].replace('px','').replace('p','').replace('.x265','')
                     sTitle = ('%s  [COLOR coral](%sp)[/COLOR]') % (sTitle, Qual)
                     sThumb = sThumb
                     sDesc = ""

@@ -37,9 +37,6 @@ class cHoster(iHoster):
             oRequest.addHeaderEntry('Referer', surl)
             oRequest.addHeaderEntry('User-Agent', UA)
             sHtmlContent2 = oRequest.request()
-<<<<<<< HEAD
-=======
->>>>>>> 8b466d17a4e569f9dcef330c000cf0c39c4c33d0
             sPattern = ',NAME="(.+?)",.+?(https.+?m3u8)'
             aResult = oParser.parse(sHtmlContent2, sPattern)
             list_url=[]

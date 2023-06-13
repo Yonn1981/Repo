@@ -226,7 +226,7 @@ class cHosterGui:
             return self.getHoster('streamwish')
         if ('dooood' in sHostName):
             return self.getHoster('dood')
-        if ('dood' in sHostName):
+        if ('dood' in sHostName) or ('dood' in sHosterUrl):
             return self.getHoster('dood')
         if ('film77' in sHostName):
             return self.getHoster('film77')
@@ -237,7 +237,13 @@ class cHosterGui:
             #mise a jour du nom
             f.setRealHost(sHostName)
             return f
-        
+
+        if ('embedsito' in sHostName):
+            f = self.getHoster('resolver')
+            #mise a jour du nom
+            f.setRealHost(sHostName)
+            return f
+
         if ('vanfem' in sHostName):
             return self.getHoster('fembed')
 
@@ -430,6 +436,12 @@ class cHosterGui:
             f.setRealHost(sHostName)
             return f
 
+        if ('movembed' in sHostName) or ('sbnet' in sHosterUrl):
+            f = self.getHoster('resolver')
+            #mise a jour du nom
+            f.setRealHost(sHostName)
+            return f
+
         if ('rabbitstream' in sHostName) or ('dokicloud' in sHostName):
             f = self.getHoster('resolver')
             #mise a jour du nom
@@ -480,7 +492,10 @@ class cHosterGui:
             
         if ('reviewtech' in sHostName) or ('reviewrate' in sHostName):
             return self.getHoster('arabseed')
-            
+
+        if ('techradar' in sHostName):
+            return self.getHoster('filemoon')
+
         if ('4shared' in sHostName):
             return self.getHoster('shared')
 				

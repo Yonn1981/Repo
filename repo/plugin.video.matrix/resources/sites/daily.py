@@ -20,10 +20,10 @@ SITE_DESC = 'Watch IPTV Channels'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 URL_WEB = URL_MAIN
-URL_EUROPE = URL_MAIN + 'iptv-uk/'
+URL_EUROPE = URL_MAIN + 'iptv-uk-2023/'
 URL_AMERICA = URL_MAIN + 'iptv-usa/'
-URL_ARAB = URL_MAIN + 'iptv-arabic-2023-2/'
-URL_SPORT = URL_MAIN + 'iptv-sports-2023-2/'
+URL_ARAB = URL_MAIN + 'iptv-arabic-2023-3/'
+URL_SPORT = URL_MAIN + 'iptv-sports-2023-7/'
 
 TV_TV = (True, 'showDailyList')
 

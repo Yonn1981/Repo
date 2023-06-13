@@ -22,7 +22,7 @@
             <fanart>fanart.jpg</fanart>
         </assets>
     </extension>
-</addon><addon id="plugin.video.matrix" name="matrix" version="5.8.4i" provider-name="Yonn1981">
+</addon><addon id="plugin.video.matrix" name="matrix" version="5.8.4j" provider-name="Yonn1981">
     <requires>
 
         <trycatch>
@@ -134,7 +134,7 @@
             <icon>icon.png</icon>
         </assets>
     </extension>
-</addon><addon id="script.module.resolveurl" name="ResolveURL" version="5.1.100a" provider-name="gujal">
+</addon><addon id="script.module.resolveurl" name="ResolveURL" version="5.1.100b" provider-name="gujal">
     <requires>
         
         <import addon="script.module.six" />
@@ -227,35 +227,25 @@ v1.0.0 (2022-05-09) by opensubtitles
 		</assets>
 		<source>https://github.com/opensubtitlesdev/service.subtitles.opensubtitles-com</source>
 	</extension>
-</addon><addon id="service.subtitles.subscenenice" name="Subscene 2022" version="1.0" provider-name="NICE">
+</addon><addon id="service.subtitles.subscene" name="Subscene.com" version="2.1.4" provider-name="gujal">
     <requires>
         
         <import addon="script.module.six" />
         <import addon="script.module.kodi-six" />
-        <import addon="script.module.requests" />
+        <import addon="script.module.requests" version="2.4.3" />
     </requires>
     <extension point="xbmc.subtitle.module" library="service.py" />
     <extension point="xbmc.addon.metadata">
-        <summary lang="en">SUBSCENE HỔ TRỢ KODI 18 - 19</summary>
-        <description lang="en">SUBSCENE HỔ TRỢ KODI 18 - 19
-Liên Hệ: Fb.Com/PhatDatPQ
-Donate: 
-        ♥ Argibank ♥
-        ♥ 7790205260097 ♥
-        ♥ ĐOÀN PHÁT ĐẠT ♥
-ĐÓNG GÓP CHO CỘNG ĐỒNG KODI VN - VUI LÒNG KHÔNG MANG ĐI THƯƠNG MẠI. CẢM ƠN ♥
-        </description>
+        <summary lang="en">Get subtitles from Subscene.com</summary>
+        <description lang="en">Subscene.com provides subtitles in more than 50 languages, mainly in English, Arabic, Brazilian Portuguese, Farsi, Indonesian and Vietnamese.
+Other languages with a great number of subtitles are: Danish, French, Swedish, Dutch, Italian, Norwegian and Spanish.</description>
         <disclaimer lang="en" />
         <platform>all</platform>
         <language />
         <license>GNU GENERAL PUBLIC LICENSE. Version 2, June 1991</license>
-        <forum>https://www.facebook.com/groups/704400303417098</forum>
+        <forum>http://forum.xbmc.org/showthread.php?tid=184854</forum>
         <website />
         <email />
         <source>https://github.com/manacker/service.subtitles.subscene</source>
-        <news>
-[v1.0.0]:
-  * Subscene Hổ Trợ Kodi 18 - 19
-        </news>
     </extension>
 </addon></addons>

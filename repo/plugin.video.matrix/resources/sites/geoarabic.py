@@ -17,7 +17,7 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-DOC_NEWS = ('https://www.geoarabic.com/search/label/%D9%88%D8%AB%D8%A7%D8%A6%D9%82%D9%8A', 'showMovies')
+DOC_NEWS = (URL_MAIN + 'search/label/%D9%88%D8%AB%D8%A7%D8%A6%D9%82%D9%8A?max-results=300', 'showMovies')
 DOC_GENRES = (True, 'showGenres')
 
  
@@ -27,6 +27,9 @@ def load():
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', DOC_NEWS[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام وثائقية', 'doc.png', oOutputParameterHandler)
+
+    oOutputParameterHandler.addParameter('siteUrl', DOC_GENRES[0])
+    oGui.addDir(SITE_IDENTIFIER, DOC_GENRES[1], 'الأقسام', 'genres.png', oOutputParameterHandler)
  
     oGui.setEndOfDirectory()
    
@@ -36,11 +39,11 @@ def showGenres():
     sUrl = oInputParameterHandler.getValue('siteUrl')
  
     liste = []
-    liste.append( ["natgeoad","https://www.geoarabic.com/search/label/%D8%A7%D9%81%D9%84%D8%A7%D9%85%20%D9%86%D8%A7%D8%B4%D9%8A%D9%88%D9%86%D8%A7%D9%84%20%D8%AC%D9%8A%D9%88%D8%BA%D8%B1%D8%A7%D9%81%D9%8A%D9%83"] )
-    liste.append( ["natgeoad kids","https://www.geoarabic.com/search/label/%D9%86%D8%A7%D8%B4%D9%8A%D9%88%D9%86%D8%A7%D9%84%20%D8%AC%D9%8A%D9%88%D8%BA%D8%B1%D8%A7%D9%81%D9%8A%D9%83%20%D9%83%D9%8A%D8%AF%D8%B2"] )
-    liste.append( ["jazeeradoc-tv-channels","https://www.geoarabic.com/search/label/%D8%A7%D9%81%D9%84%D8%A7%D9%85%20%D8%A7%D9%84%D8%AC%D8%B2%D9%8A%D8%B1%D8%A9%20%D8%A7%D9%84%D9%88%D8%AB%D8%A7%D8%A6%D9%82%D9%8A%D8%A9"] )
-    liste.append( ["natgeowild","https://www.geoarabic.com/search/label/%D8%A7%D9%81%D9%84%D8%A7%D9%85%20%D9%86%D8%A7%D8%AA%20%D8%AC%D9%8A%D9%88%20%D9%88%D8%A7%D9%8A%D9%84%D8%AF"] )
-    liste.append( ["othertv","https://www.geoarabic.com/search/label/%D8%A7%D9%81%D9%84%D8%A7%D9%85%20%D9%85%D8%AA%D8%B1%D8%AC%D9%85%D8%A9"] )
+    liste.append( ["افلام ناشيونال جيوغرافيك", URL_MAIN + "search/label/%D8%A7%D9%81%D9%84%D8%A7%D9%85%20%D9%86%D8%A7%D8%B4%D9%8A%D9%88%D9%86%D8%A7%D9%84%20%D8%AC%D9%8A%D9%88%D8%BA%D8%B1%D8%A7%D9%81%D9%8A%D9%83?max-results=300"] )
+    liste.append( ["ناشيونال جيوغرافيك كيدز", URL_MAIN + "search/label/%D9%86%D8%A7%D8%B4%D9%8A%D9%88%D9%86%D8%A7%D9%84%20%D8%AC%D9%8A%D9%88%D8%BA%D8%B1%D8%A7%D9%81%D9%8A%D9%83%20%D9%83%D9%8A%D8%AF%D8%B2?max-results=300"] )
+    liste.append( ["افلام الجزيرة الوثائقية", URL_MAIN + "search/label/%D8%A7%D9%81%D9%84%D8%A7%D9%85%20%D8%A7%D9%84%D8%AC%D8%B2%D9%8A%D8%B1%D8%A9%20%D8%A7%D9%84%D9%88%D8%AB%D8%A7%D8%A6%D9%82%D9%8A%D8%A9?max-results=300"] )
+    liste.append( ["افلام نات جيو وايلد", URL_MAIN + "search/label/%D8%A7%D9%81%D9%84%D8%A7%D9%85%20%D9%86%D8%A7%D8%AA%20%D8%AC%D9%8A%D9%88%20%D9%88%D8%A7%D9%8A%D9%84%D8%AF?max-results=300"] )
+    liste.append( ["افلام مترجمة", URL_MAIN + "search/label/%D8%A7%D9%81%D9%84%D8%A7%D9%85%20%D9%85%D8%AA%D8%B1%D8%AC%D9%85%D8%A9?max-results=300"] )
    	            
     for sTitle,sUrl in liste:
         
@@ -59,7 +62,7 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
  
 # ([^<]+) .+?
-    sPattern = "<a href=([^<]+)><img alt='([^<]+)' class='lazyload' data-src='([^<]+)' data-srcset.+?<span itemprop='keywords'>([^<]+)</span></a>"
+    sPattern = '<a href="([^<]+)"><img alt="([^<]+)" class="lazyload" data-src="([^<]+)" data-srcset.+?<span itemprop="keywords">([^<]+)</span></a>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -74,10 +77,10 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1].replace("'", "")
+            sTitle = aEntry[1]
             
             sThumb = aEntry[2].replace('w50-h26', 'w400-h720')
-            siteUrl = aEntry[0].replace('"', '')
+            siteUrl = aEntry[0]
             sDesc = aEntry[3] 
 			
 
@@ -98,7 +101,7 @@ def showMovies(sSearch = ''):
     oGui.setEndOfDirectory()
  
 def __checkForNextPage(sHtmlContent):
-    sPattern = 'href="([^<]+)" id='
+    sPattern = ''
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -117,7 +120,7 @@ def showHosters():
     sThumb = oInputParameterHandler.getValue('sThumb')
     
     oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request();
+    sHtmlContent = oRequestHandler.request()
     sHtmlContent = sHtmlContent.replace('facebook','')
     # ([^<]+) (.+?)
                

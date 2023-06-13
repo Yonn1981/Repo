@@ -32,7 +32,7 @@
         },
         "akwameg": {
             "label": "AkwamEg",
-            "active": "True",
+            "active": "False",
             "url": "https://re.two.re/link/141054"
         },
         "alarab": {
@@ -138,7 +138,7 @@
         "ciimalight": {
             "label": "CiimaLight",
             "active": "True",
-            "url": "https://it.cimalight.vip/"
+            "url": "https://bl.cimalight.vip/"
         },
         "cimaclub": {
             "label": "CimaClub",
@@ -163,7 +163,7 @@
         "cimau": {
             "label": "Cima4u",
             "active": "True",
-            "url": "https://w30.cima4u7.hair/"
+            "url": "https://w2.cima4u7.sbs/"
         },
         "cinemana": {
             "label": "Cinemana",
@@ -299,6 +299,11 @@
             "label": "Lodynet",
             "active": "True",
             "url": "https://lodynet.link/"
+        },
+        "membed": {
+            "label": "mEmbed",
+            "active": "True",
+            "url": "https://membed1.com/"
         },
         "movizland": {
             "label": "Movizland",
