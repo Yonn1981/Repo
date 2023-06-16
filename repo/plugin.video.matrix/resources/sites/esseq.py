@@ -280,7 +280,7 @@ def showHosters():
             if 'box' in host:
                url =  'https://youdboox.com/embed-'+url+'.html'
             if 'Pro HD' in host:
-               url =  'https://embedo.co/e/'+url
+               url =  'https://segavid.com/embed-'+url+'.html'
             if 'online' in host:
                url =  'https://player.vimeo.com/video/'+url+'?title=0&byline=0'
             if 'youtube' in host:

@@ -247,6 +247,9 @@ class cHosterGui:
         if ('vanfem' in sHostName):
             return self.getHoster('fembed')
 
+        if ('segavid' in sHostName):
+            return self.getHoster('arabveturk')
+
         if ('diasfem' in sHosterUrl):
             return self.getHoster('fembed')
 

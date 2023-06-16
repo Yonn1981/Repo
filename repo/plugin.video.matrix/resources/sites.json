@@ -195,6 +195,11 @@
             "active": "True",
             "url": "https://wws.dramacafe-tv.com/"
         },
+        "edy": {
+            "label": "Edy",
+            "active": "True",
+            "url": "aHR0cHM6Ly9lZHl0amVkaGdtZGhtLmFiZmhhcXJoYm5mLndvcmtlcnMuZGV2Lw=="
+        },
         "egyclub": {
             "label": "Egyclub",
             "active": "True",

@@ -71,7 +71,7 @@ def showSearch():
     oGui = cGui()
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/search/'+sSearchText
+        sUrl = URL_MAIN + '/search/'+sSearchText.replace(' ','-')
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return  
@@ -80,7 +80,7 @@ def showSeriesSearch():
     oGui = cGui()
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/search/'+sSearchText
+        sUrl = URL_MAIN + '/search/'+sSearchText.replace(' ','-')
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return  
@@ -148,7 +148,6 @@ def moviesGenres():
     oGui.setEndOfDirectory()
 
 def showMovies(sSearch = ''):
-    import requests
     oGui = cGui()
     if sSearch:
       sUrl = sSearch
@@ -166,7 +165,7 @@ def showMovies(sSearch = ''):
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    VSlog(aResult)	
+    #VSlog(aResult)	
     if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -207,7 +206,6 @@ def showMovies(sSearch = ''):
 
 
 def showSeries(sSearch = ''):
-    import requests
     oGui = cGui()
     if sSearch:
       sUrl = sSearch
@@ -220,7 +218,7 @@ def showSeries(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  # ([^<]+) .+?
-    sPattern = '<div class="film-poster">.+?<img data-src="([^"]+)".+?class="fdi-item"><strong>(.+?)</strong>.+?<a href="([^"]+)".+?title="([^"]+)'
+    sPattern = '<div class="film-poster">.+?<img data-src="([^"]+)".+?<a href="([^"]+)".+?title="([^"]+)'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -234,11 +232,11 @@ def showSeries(sSearch = ''):
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
-            if "movie/"  in aEntry[2]:
+            if "movie/"  in aEntry[1]:
                 continue
 
-            sTitle = aEntry[3]
-            siteUrl = URL_MAIN+aEntry[2]
+            sTitle = aEntry[2]
+            siteUrl = URL_MAIN+aEntry[1]
             sThumb = aEntry[0]
             sDesc = ''
             sYear = ''
@@ -342,7 +340,7 @@ def showEps():
     sPattern = '<a href="([^"]+)" class="film-poster mb-0">.+?<img src="([^"]+)".+?class="film-poster-img".+?title="([^"]+)'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    VSlog(aResult)
+    #VSlog(aResult)
     if aResult[0]:
                         for aEntry in aResult[1]:
                             siteUrl = tvUrl + '.' + sId
@@ -366,7 +364,6 @@ def showEps():
 	
 
 def showLinks():
-    import requests
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -417,7 +414,7 @@ def showLinks():
                         for aEntry in aResult[1]:
             
                             url = aEntry               		
-                            VSlog(url)
+                            #VSlog(url)
                             sHosterUrl = url 
                             oHoster = cHosterGui().checkHoster(sHosterUrl)
                             if oHoster:
@@ -429,7 +426,6 @@ def showLinks():
     oGui.setEndOfDirectory()
 
 def showSeriesLinks():
-    import requests
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -446,7 +442,7 @@ def showSeriesLinks():
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
-    VSlog(aResult)
+    #VSlog(aResult)
     if aResult[0]:
         for aEntry in aResult[1]:
             sId = aEntry
@@ -457,7 +453,7 @@ def showSeriesLinks():
             oRequestHandler = cRequestHandler(sUrl)
             sHtmlContent = oRequestHandler.request()
             oParser = cParser()
-            VSlog(aResult)
+            #VSlog(aResult)
 
             sPattern = 'data-id="([^"]+)'
             oParser = cParser()
@@ -475,7 +471,7 @@ def showSeriesLinks():
                     sPattern = '"link":"([^"]+).+?title":"([^"]+)"'
                     oParser = cParser()
                     aResult = oParser.parse(sHtmlContent, sPattern)
-                    VSlog(aResult)
+                    #VSlog(aResult)
                     if aResult[0]:
                         for aEntry in aResult[1]:
                             if not sMovieTitle  in aEntry[1]:

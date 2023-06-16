@@ -22,7 +22,7 @@
             <fanart>fanart.jpg</fanart>
         </assets>
     </extension>
-</addon><addon id="plugin.video.matrix" name="matrix" version="5.8.4j" provider-name="Yonn1981">
+</addon><addon id="plugin.video.matrix" name="matrix" version="5.8.5a" provider-name="Yonn1981">
     <requires>
 
         <trycatch>
@@ -134,7 +134,7 @@
             <icon>icon.png</icon>
         </assets>
     </extension>
-</addon><addon id="script.module.resolveurl" name="ResolveURL" version="5.1.100b" provider-name="gujal">
+</addon><addon id="script.module.resolveurl" name="ResolveURL" version="5.1.100c" provider-name="gujal">
     <requires>
         
         <import addon="script.module.six" />
