@@ -42,7 +42,7 @@ def showMovies():
     oParser = cParser()
 
 	# (.+?) .+? 
-    sPattern = 'class="AF_EvItem.+?href="([^"]+)".+?<div class="AF_MaskText ">(.+?)</div>.+?.+?class="AF_TeamName">(.+?)</div>.+?class="AF_EvTime">(.+?)</div>.+?<div class="AF_TeamName">(.+?)</div>'
+    sPattern = 'class="AF_EvItem.+?href="([^"]+)".+?<div class="AF_MaskText.+?">(.+?)</div>.+?.+?class="AF_TeamName">(.+?)</div>.+?class="AF_EvTime">(.+?)</div>.+?<div class="AF_TeamName">(.+?)</div>'
 
 
     aResult = oParser.parse(sHtmlContent, sPattern)
