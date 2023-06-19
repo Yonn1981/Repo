@@ -167,7 +167,6 @@ def showMovies(sSearch = ''):
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
-    VSlog(aResult)
     if aResult[0] :
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -205,7 +204,7 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('sYear', sYear)
             oOutputParameterHandler.addParameter('sDesc', sDesc)
 
-            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showHosters2', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
@@ -319,11 +318,18 @@ def showEpisodes():
         oOutputParameterHandler = cOutputParameterHandler()  
         for aEntry in aResult[1]:
 
-            if "EN Server"  in aEntry[0]:
+            if "EN Server" in aEntry[0]:
                 continue
  
-            if "No Subtitle"  in aEntry[0]:
+            if "No Subtitle" in aEntry[0]:
                 continue
+
+            if "Non Subtitled Servers" in aEntry[0]:
+                continue
+
+            if "Non Sub Servers" in aEntry[0]:
+                continue
+
             sSeason = aEntry[0]
             sHtmlContent = aEntry[1]
  # ([^<]+) .+?
@@ -362,63 +368,16 @@ def showHosters():
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
 
-
-
     oRequestHandler = cRequestHandler(sUrl)
     oRequestHandler.addHeaderEntry('User-Agent', UA)
     sHtmlContent = oRequestHandler.request()
     oParser = cParser()
+     # (.+?) ([^<]+) .+?
 
-    # (.+?) ([^<]+)
-
-    oParser = cParser()
-    sPattern = '<a href="(.+?)" class="btn btn-sm btn-inline btn'
-    oParser = cParser()
+    sPattern = '<div class="video-embed-container"><iframe class="responsive-embed-item" src="([^"]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)
 
-   
-    if aResult[0]:
-        for aEntry in aResult[1]:
-            if 'filmihq' in aEntry:
-                oRequestHandler = cRequestHandler(aEntry)                        
-                sHtmlContent = oRequestHandler.request()
-                sPattern = '<iframe.+?src="([^"]+)"'
-                oParser = cParser()
-                aResult = oParser.parse(sHtmlContent, sPattern)
-                VSlog(aResult)
-                if aResult[0]:
-                    for aEntry in aResult[1]:               
-                        sHosterUrl = aEntry
-            sPattern =  '<iframe.+?src="([^"]+)"'
-            oParser = cParser()
-            aResult = oParser.parse(sHtmlContent, sPattern)
-            VSlog(aResult)
-            if aResult[0]:
-                for aEntry in aResult[1]:
-            
-                    url = aEntry.split('\\')[0]
-                    sTitle = " "
-                    if url.startswith('//'):
-                       url = 'http:' + url
-            
-                    sHosterUrl = url
-                    if 'userload' in sHosterUrl:
-                        sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-                    if 'moshahda' in sHosterUrl:
-                        sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-                    if 'mystream' in sHosterUrl:
-                        sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN   
-                    oHoster = cHosterGui().checkHoster(sHosterUrl)
-                    if oHoster:
-                       sDisplayTitle = sTitle
-                       oHoster.setDisplayName(sDisplayTitle)
-                       oHoster.setFileName(sMovieTitle)
-                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-				
-    sPattern = '<iframe.+?src="([^"]+)"'
-    aResult = oParser.parse(sHtmlContent, sPattern)
 
-	
     if aResult[0] :
         for aEntry in aResult[1]:
             url = aEntry.split('mp4')[0]
@@ -434,6 +393,59 @@ def showHosters():
                 sDisplayTitle = sTitle
                 oHoster.setDisplayName(sDisplayTitle)
                 oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)				
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)	
+
+
+				
+                
+    oGui.setEndOfDirectory()
+
+def showHosters2():
+    import requests
+    oGui = cGui()
+    oInputParameterHandler = cInputParameterHandler()
+    sUrl = oInputParameterHandler.getValue('siteUrl')
+    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
+    sThumb = oInputParameterHandler.getValue('sThumb')
+
+    oRequestHandler = cRequestHandler(sUrl)
+    oRequestHandler.addHeaderEntry('User-Agent', UA)
+    sHtmlContent = oRequestHandler.request()
+    oParser = cParser()
+     # (.+?) ([^<]+) .+?
+
+    sStart = '<div class="season">'
+    sEnd = '</div>'
+    sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
+
+    sPattern = '<a href="([^"]+)'
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+
+   
+    if aResult[0]:
+        for aEntry in aResult[1]:
+            if 'filmihq' in aEntry:
+                oRequestHandler = cRequestHandler(aEntry)                        
+                sHtmlContent = oRequestHandler.request()
+                sPattern = '<iframe.+?src="([^"]+)'
+                oParser = cParser()
+                aResult = oParser.parse(sHtmlContent, sPattern)
+                if aResult[0]:
+                    for aEntry in aResult[1]:               
+                        sHosterUrl = aEntry
+                        sTitle = " "
+                        if 'userload' in sHosterUrl:
+                            sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                        if 'moshahda' in sHosterUrl:
+                            sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                        if 'mystream' in sHosterUrl:
+                            sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN   
+                        oHoster = cHosterGui().checkHoster(sHosterUrl)
+                        if oHoster:
+                            sDisplayTitle = sTitle
+                            oHoster.setDisplayName(sDisplayTitle)
+                            oHoster.setFileName(sMovieTitle)
+                            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
                 
     oGui.setEndOfDirectory()

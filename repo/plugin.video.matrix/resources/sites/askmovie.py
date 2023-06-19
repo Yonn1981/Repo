@@ -167,8 +167,6 @@ def showMovies(sSearch = ''):
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    VSlog(aResult)
-
 	
     if aResult[0]:
         total = len(aResult[1])
@@ -225,7 +223,6 @@ def showSearchSeries(sSearch = ''):
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    VSlog(aResult)
 	
     if aResult[0]:
         total = len(aResult[1])
@@ -292,7 +289,6 @@ def showSeries(sSearch = ''):
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    VSlog(aResult)
 	
     if aResult[0]:
         total = len(aResult[1])
@@ -344,7 +340,6 @@ def showSeasons():
 
 	oParser = cParser()
 	aResult = oParser.parse(sHtmlContent, sPattern)
-	VSlog(aResult)	
 	if aResult[0]:
 		oOutputParameterHandler = cOutputParameterHandler()
 		for aEntry in aResult[1]:
@@ -385,7 +380,7 @@ def showEps():
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    VSlog(aResult)
+
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()    
         for aEntry in aResult[1]:

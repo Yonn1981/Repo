@@ -448,7 +448,7 @@ def showServers():
 	    #Affichage du menu  
     oGui.addText(SITE_IDENTIFIER,'[COLOR olive]---------------------------[/COLOR]')
   # ([^<]+) .+?
-    sPattern = '<a class="" href="([^<]+)" title="([^<]+)"><span>([^<]+)</span><span class="numEp">([^<]+)</span>'
+    sPattern = '<a class="" href="([^<]+)" title="([^<]+)">.+?<span>([^<]+)</span>.+?<span class="numEp">([^<]+)</span>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

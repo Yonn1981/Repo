@@ -222,7 +222,7 @@ def showSeries(sSearch = ''):
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    VSlog(aResult)
+    #VSlog(aResult)
 	
     if aResult[0]:
         total = len(aResult[1])
@@ -289,14 +289,14 @@ def showSeasons():
                     oRequestHandler = cRequestHandler(sUrl)
                     sHtmlContent = oRequestHandler.request()
 
-                    sPattern = 'class="dropdown-item ss-item.+?href="([^"]+)">(.+?)</a>'
+                    sPattern = '<a data-id="([^"]+)".+?class="dropdown-item ss-item.+?href="([^"]+)">(.+?)</a>'
                     oParser = cParser()
                     aResult = oParser.parse(sHtmlContent, sPattern)
                     #VSlog(aResult)
                     if aResult[0]:
                         for aEntry in aResult[1]:
-                            siteUrl = URL_MAIN + aEntry[0]
-                            sTitle = sMovieTitle+aEntry[1]
+                            siteUrl = URL_MAIN+'/ajax/v2/season/episodes/'+aEntry[0]
+                            sTitle = sMovieTitle+aEntry[2]
                             sThumb = ''
                             sDesc = ''
 			
@@ -315,45 +315,29 @@ def showEps():
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
-    sUrl2 = sUrl.split('episodes-')[1]
-    sUrl2 = URL_MAIN+'/ajax/v2/season/episodes/'+sUrl2
-    tvUrl = oInputParameterHandler.getValue('tvUrl')
 
 
-
-    oRequestHandler = cRequestHandler(sUrl2)
+    oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
     oParser = cParser()
      # (.+?) ([^<]+) .+?
 
-    sPattern = 'data-id="(.+?)"'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-    #VSlog(aResult)
-    if aResult[0]:
-        oOutputParameterHandler = cOutputParameterHandler()
-        for  aEntry in aResult[1]:
-            sId = aEntry
- 
-    sPattern = '<a href="([^"]+)" class="film-poster mb-0">.+?<img src="([^"]+)".+?class="film-poster-img".+?title="([^"]+)'
+    sPattern = 'data-id="([^"]+)">.+?<a href="([^"]+)" class="film-poster mb-0">.+?<img src="([^"]+)".+?class="film-poster-img".+?title="([^"]+)'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     #VSlog(aResult)
     if aResult[0]:
                         for aEntry in aResult[1]:
-                            siteUrl = tvUrl + '.' + sId
-                            siteUrl = siteUrl.replace('/tv','/watch-tv')
-                            sTitle = aEntry[2]
-                            sThumb = URL_MAIN + aEntry[1]
+                            oOutputParameterHandler = cOutputParameterHandler()
+                            siteUrl = URL_MAIN + '/ajax/v2/episode/servers/' + aEntry[0]
+                            sTitle = aEntry[3]
+                            sThumb = URL_MAIN + aEntry[2]
                             sDesc = ''
 			
                             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
                             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
                             oOutputParameterHandler.addParameter('sThumb', sThumb)
-                            oOutputParameterHandler.addParameter('sServer', sId)
-
                             oGui.addEpisode(SITE_IDENTIFIER, 'showSeriesLinks', sTitle, sThumb, sThumb, sDesc, oOutputParameterHandler)
 
 
@@ -442,47 +426,31 @@ def showSeriesLinks():
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
-    #VSlog(aResult)
+    VSlog(aResult)
     if aResult[0]:
         for aEntry in aResult[1]:
             sId = aEntry
  
 
-            sUrl = URL_MAIN + '/ajax/movie/episodes/' + sId
+            sUrl = URL_MAIN + '/ajax/sources/' + sId
 
             oRequestHandler = cRequestHandler(sUrl)
             sHtmlContent = oRequestHandler.request()
             oParser = cParser()
-            #VSlog(aResult)
 
-            sPattern = 'data-id="([^"]+)'
+            sPattern = '"link":"([^"]+)'
             oParser = cParser()
             aResult = oParser.parse(sHtmlContent, sPattern)
             #VSlog(aResult)
             if aResult[0]:
-                for aEntry in aResult[1]:
-                    sId = aEntry
-
-
-                    url = URL_MAIN + '/ajax/get_link/' + sId
-                    oRequestHandler = cRequestHandler(url)
-                    sHtmlContent = oRequestHandler.request()
-
-                    sPattern = '"link":"([^"]+).+?title":"([^"]+)"'
-                    oParser = cParser()
-                    aResult = oParser.parse(sHtmlContent, sPattern)
-                    #VSlog(aResult)
-                    if aResult[0]:
                         for aEntry in aResult[1]:
-                            if not sMovieTitle  in aEntry[1]:
-                                continue
-                            url = aEntry[0]    
-                            sName = aEntry[1]       		
+                            url = aEntry   
+   		
                             #VSlog(url)
                             sHosterUrl = url 
                             oHoster = cHosterGui().checkHoster(sHosterUrl)
                             if oHoster:
-                                sDisplayTitle = sName
+                                sDisplayTitle = sMovieTitle
                                 oHoster.setDisplayName(sDisplayTitle)
                                 oHoster.setFileName(sMovieTitle)
                                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)

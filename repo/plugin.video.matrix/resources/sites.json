@@ -195,6 +195,11 @@
             "active": "True",
             "url": "https://wws.dramacafe-tv.com/"
         },
+        "dopebox": {
+            "label": "Dopebox",
+            "active": "True",
+            "url": "https://dopebox.to"
+        },
         "edy": {
             "label": "Edy",
             "active": "True",
@@ -360,6 +365,16 @@
             "active": "True",
             "url": "https://spacepowerfan.com/"
         },
+        "solar": {
+            "label": "Solar",
+            "active": "True",
+            "url": "https://solarmovie.pe"
+        },
+        "solarone": {
+            "label": "SolarOne",
+            "active": "True",
+            "url": "https://www2.solarmovie.cr"
+        },
         "stardima": {
             "label": "Stardima",
             "active": "True",
@@ -369,11 +384,6 @@
             "label": "The Movie Database",
             "active": "True",
             "url": "https://www.themoviedb.org/"
-        },
-        "toonsland": {
-            "label": "Toonsland",
-            "active": "False",
-            "url": "https://www.toonsland.site/"
         },
         "topimdb": {
             "label": "Top IMDB",
@@ -417,7 +427,7 @@
         },
         "yalladrama": {
             "label": "Yalladrama",
-            "active": "True",
+            "active": "False",
             "url": "https://mb.yalladrama.co/"
         },
         "yallalive": {

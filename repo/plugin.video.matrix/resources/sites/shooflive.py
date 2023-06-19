@@ -22,20 +22,20 @@ RAMADAN_SERIES = (URL_MAIN + '/category/%d8%b1%d9%85%d8%b6%d8%a7%d9%86-2023/', '
 MOVIE_EN = (URL_MAIN + '/category/movies/افلام-اجنبية/', 'showMovies')
 MOVIE_AR = (URL_MAIN + '/category/movies/افلام-عربية/', 'showMovies')
 MOVIE_ASIAN = (URL_MAIN + '/category/movies/افلام-اسيوية/', 'showMovies')
-MOVIE_TURK = (URL_MAIN + '/category/movies/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%aa%d8%b1%d9%83%d9%8a%d8%a9/', 'showMovies')
-MOVIE_HI = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%87%d9%86%d8%af%d9%8a-indian-movies/', 'showMovies')
-KID_MOVIES = (URL_MAIN + '/category/movies/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d9%86%d9%85%d9%8a/', 'showMovies')
-SERIE_DUBBED = (URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%85%d8%af%d8%a8%d9%84%d8%ac%d8%a9/', 'showSeries')
-SERIE_AR = (URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b9%d8%b1%d8%a8%d9%8a%d8%a9/', 'showSeries')
-SERIE_EN = (URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a%d8%a9/', 'showSeries')
-SERIE_HEND = (URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/1-series-indian-%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%87%d9%86%d8%af%d9%8a%d8%a9/', 'showSeries')
+MOVIE_TURK = (URL_MAIN + '/category/movies/افلام-تركية/', 'showMovies')
+MOVIE_HI = (URL_MAIN + '/category/movies/افلام-هندية/', 'showMovies')
+KID_MOVIES = (URL_MAIN + '/category/movies/افلام-انمي/', 'showMovies')
+SERIE_DUBBED = (URL_MAIN + '/category/مسلسلات/?sercat=المسلسلات-المدبلجة', 'showSeries')
+SERIE_AR = (URL_MAIN + '/category/مسلسلات/?sercat=المسلسلات-العربية', 'showSeries')
+SERIE_EN = (URL_MAIN + '/category/مسلسلات/?sercat=المسلسلات-الاجنبية', 'showSeries')
+SERIE_HEND = (URL_MAIN + '/category/مسلسلات/?sercat=المسلسلات-الهندية', 'showSeries')
 
-SERIE_ASIA = (URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a7%d8%b3%d9%8a%d9%88%d9%8a%d8%a9/list/', 'showSeries')
-SERIE_TR = (URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%aa%d8%b1%d9%83%d9%8a%d8%a9/', 'showSeries')
-DOC_NEWS = (URL_MAIN + '/genre/%d9%88%d8%ab%d8%a7%d8%a6%d9%82%d9%8a/?filter=film', 'showMovies')
-URL_SEARCH = (URL_MAIN + '/search/', 'showSeries')
-URL_SEARCH_MOVIES = (URL_MAIN + '/search/', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + '/search/', 'showSeries')
+SERIE_ASIA = (URL_MAIN + '/category/مسلسلات/?sercat=المسلسلات-الاسيوية', 'showSeries')
+SERIE_TR = (URL_MAIN + '/category/مسلسلات/?sercat=المسلسلات-التركية', 'showSeries')
+DOC_NEWS = (URL_MAIN + '/advsearch/?gnr=وثائقي', 'showMovies')
+URL_SEARCH = (URL_MAIN + '/?s=', 'showSeries')
+URL_SEARCH_MOVIES = (URL_MAIN + '/?s=', 'showMovies')
+URL_SEARCH_SERIES = (URL_MAIN + '/?s=', 'showSeries')
 FUNCTION_SEARCH = 'showSearch'
  
 def load():
@@ -89,7 +89,7 @@ def showSeriesSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/search/'+sSearchText
+        sUrl = URL_MAIN + '/?s='+sSearchText
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -99,7 +99,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/search/'+sSearchText
+        sUrl = URL_MAIN + '/?s='+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -446,7 +446,7 @@ def showHosters():
 
     # ([^<]+) .+? (.+?)
                
-    sPattern = '<iframe src="(.+?)" id="srcFrame" frameborder='
+    sPattern = 'data-src="([^"]+)'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 

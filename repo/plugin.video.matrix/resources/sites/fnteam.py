@@ -16,7 +16,7 @@ SITE_DESC = 'arabic vod'
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 MOVIE_AR = ('http://www.fn-team.com/?cat=5', 'showMovies')
-SERIE_AR = ('http://www.fn-team.com/?cat=25', 'showSeries')
+SERIE_AR = ('http://www.fn-team.com/?cat=2', 'showSeries')
 KID_CARTOON = ('http://www.fn-team.com/?cat=6', 'showSeries')
 REPLAYTV_PLAY = ('http://www.fn-team.com/?cat=3', 'showSeries')
 
@@ -211,7 +211,7 @@ def showHosters():
     if aResult[0]:
         for aEntry in aResult[1]:
             
-            url = aEntry[0]
+            url = aEntry[0].replace('https://youtu.be/', 'https://www.youtube.com/watch?v=')
             Squality = aEntry[1]
             sTitle = ' ['+Squality+'] ' 
             if url.startswith('//'):
@@ -225,7 +225,7 @@ def showHosters():
                oHoster.setFileName(sMovieTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 				    
-    sPattern = '<a href="([^<]+)" class'
+    sPattern = '<a href="([^<]+)" class=".+?">(.+?)</a></h3>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
@@ -233,15 +233,15 @@ def showHosters():
     if aResult[0]:
         for aEntry in aResult[1]:
             
-            url = aEntry
-            sTitle = '' 
+            url = aEntry[0].replace('https://youtu.be/', 'https://www.youtube.com/watch?v=')
+            sTitle = aEntry[1]
             if url.startswith('//'):
                url = 'http:' + url
             
             sHosterUrl = url
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
-               sDisplayTitle = sMovieTitle+sTitle
+               sDisplayTitle = sMovieTitle+' '+sTitle
                oHoster.setDisplayName(sDisplayTitle)
                oHoster.setFileName(sMovieTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
@@ -254,7 +254,7 @@ def showHosters():
         if aResult[0]:
             for aEntry in aResult[1]:
             
-                sHosterUrl = aEntry
+                sHosterUrl = aEntry.replace('https://youtu.be/', 'https://www.youtube.com/watch?v=')
                 oHoster = cHosterGui().checkHoster(sHosterUrl)
                 if oHoster:
                    oHoster.setDisplayName(sMovieTitle)

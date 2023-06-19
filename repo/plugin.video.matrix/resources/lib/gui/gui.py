@@ -539,6 +539,11 @@ class cGui:
         oOutputParameterHandler.addParameter('sFileName', oGuiElement.getFileName())
         oOutputParameterHandler.addParameter('sTitle', oGuiElement.getTitle())
         oOutputParameterHandler.addParameter('sCat', oGuiElement.getCat())
+        oOutputParameterHandler.addParameter('sTitle', oGuiElement.getTitle())
+        sFileName = oGuiElement.getItemValue('tvshowtitle')
+        if not sFileName:
+            sFileName = oGuiElement.getFileName()
+        oOutputParameterHandler.addParameter('sFileName', sFileName)
 
         self.createSimpleMenu(oGuiElement, oOutputParameterHandler, 'cGui', oGuiElement.getSiteName(), 'viewSimil', self.ADDON.VSlang(30213))
     #MenuParents 
@@ -769,7 +774,11 @@ class cGui:
         sPluginPath = cPluginHandler().getPluginPath()
 
         oInputParameterHandler = cInputParameterHandler()
-        sCleanTitle = oInputParameterHandler.getValue('sTitle') if oInputParameterHandler.exist('sTitle') else xbmc.getInfoLabel('ListItem.Title')
+        if oInputParameterHandler.exist('sFileName'):
+            sCleanTitle = oInputParameterHandler.getValue('sFileName') 
+        else:
+            sCleanTitle = oInputParameterHandler.getValue('sTitle') if oInputParameterHandler.exist('sTitle') else xbmc.getInfoLabel('ListItem.Title')
+            # sCleanTitle = cUtil().titleWatched(sCleanTitle)
         sCat = oInputParameterHandler.getValue('sCat') if oInputParameterHandler.exist('sCat') else xbmc.getInfoLabel('ListItem.Property(sCat)')
 
         oOutputParameterHandler = cOutputParameterHandler()
@@ -788,6 +797,7 @@ class cGui:
         xbmc.executebuiltin('Container.Update(%s)' % sTest)
         return False
     def selectPage(self):
+        from resources.lib.parser import cParser
         sPluginPath = cPluginHandler().getPluginPath()
         oInputParameterHandler = cInputParameterHandler()
         # sParams = oInputParameterHandler.getAllParameter()

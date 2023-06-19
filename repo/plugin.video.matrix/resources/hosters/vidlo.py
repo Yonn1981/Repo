@@ -17,35 +17,36 @@ class cHoster(iHoster):
 
     def _getMediaLinkForGuest(self):
         VSlog(self._url)
-
         oRequest = cRequestHandler(self._url)
         sHtmlContent = oRequest.request()
-
-            # (.+?) .+? ([^<]+)
         oParser = cParser()
-        #test pour voir si code
-        sPattern = '(eval\(function\(p,a,c,k,e(?:.|\s)+?\))<\/script>'
+
+        api_call = False
+
+        sPattern = '(eval\(function\(p,a,c,k,e(?:.|\s)+?)</script>'
         aResult = oParser.parse(sHtmlContent, sPattern)
         if aResult[0]:
             sHtmlContent = cPacker().unpack(aResult[1][0])
-        sPattern = ',{file:"(.+?)",label:"(.+?)"}'
-        aResult = oParser.parse(sHtmlContent, sPattern)
-        api_call = False
+            sPattern = 'file:"(.+?)"'
+            aResult = oParser.parse(sHtmlContent, sPattern)
+            if aResult[0]:
+                api_call = aResult[1][0]
 
-        if aResult[0]:
-            
-            #initialisation des tableaux
-            url=[]
-            qua=[]
-            
-            #Replissage des tableaux
-            for i in aResult[1]:
-                url.append(str(i[0]))
-                qua.append(str(i[1]))
+        else:
+            sPattern = 'file:"([^"]+)",label:"[0-9]+"}'
+            aResult = oParser.parse(sHtmlContent, sPattern)
+            if aResult[0]:
+                # initialisation des tableaux
+                url = []
+                qua = []
+                for i in aResult[1]:
+                    url.append(str(i[0]))
+                    qua.append(str(i[1]))
 
-            api_call = dialog().VSselectqual(qua, url)
+                api_call = dialog().VSselectqual(qua, url + '|User-Agent=' + UA)
 
-            if api_call:
-                return True, api_call + '|User-Agent=' + UA + '&Referer=https://www.vidlo.us/' 
+
+        if api_call:
+            return True, api_call
 
         return False, False

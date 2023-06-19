@@ -433,6 +433,8 @@ def showServers():
                        sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
                    if 'mystream' in sHosterUrl:
                        sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN    
+                   if 'darkveed' in sHosterUrl:
+                       sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
                    oHoster = cHosterGui().checkHoster(sHosterUrl)
                    if oHoster:
                       sDisplayTitle = sMovieTitle
@@ -463,7 +465,9 @@ def showServers():
             if 'moshahda' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
             if 'mystream' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN   
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+            if 'darkveed' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
                sDisplayTitle = sTitle

@@ -27,7 +27,18 @@ class cHoster(iHoster):
         oParser = cParser()
         aResult = oParser.parse(sHtmlContent, sPattern)
         if aResult[0]:
-            api_call = aResult[1][0]+ '|User-Agent=' + UA + '&Referer=' + self._url 
+            api_call = aResult[1][0]
+            VSlog(api_call)
+
+            if api_call:
+                return True, api_call
+            
+        sPattern = ',"hls_ondemand":"(.+?)",'
+
+        oParser = cParser()
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        if aResult[0]:
+            api_call = aResult[1][0] 
             VSlog(api_call)
 
             if api_call:

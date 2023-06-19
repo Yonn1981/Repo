@@ -15,9 +15,9 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-MOVIE_ASIAN = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%b3%d9%8a%d9%88%d9%8a%d8%a9/', 'showMovies')
+MOVIE_ASIAN = (URL_MAIN + 'category/الأفلام-الاسيوية-asian-movies/', 'showMovies')
 
-SERIE_ASIA = (URL_MAIN + '/category/%d8%af%d8%b1%d8%a7%d9%85%d8%a7-%d9%83%d9%88%d8%b1%d9%8a%d8%a9/', 'showSeries')
+SERIE_ASIA = (URL_MAIN + 'category/الدراما-الكورية-kdrama/', 'showSeries')
 
 FUNCTION_SEARCH = 'showSeries'
  
@@ -26,34 +26,34 @@ def load():
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Recherche', 'search.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Search', 'search.png', oOutputParameterHandler)
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_ASIAN[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أسيوية', 'asia2.png', oOutputParameterHandler)
 
     oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', 'https://c-drama.net/category/%d8%af%d8%b1%d8%a7%d9%85%d8%a7-%d8%b5%d9%8a%d9%86%d9%8a%d8%a9/')
+    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'category/الدراما-الصينية-chinese-drama/')
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'الدراما الصينية', 'asia.png', oOutputParameterHandler)   
 
     oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl','https://c-drama.net/category/%d8%af%d8%b1%d8%a7%d9%85%d8%a7-%d9%83%d9%88%d8%b1%d9%8a%d8%a9/')
+    oOutputParameterHandler.addParameter('siteUrl', SERIE_ASIA[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'الدراما الكورية', 'asia.png', oOutputParameterHandler)   
 
     oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl',  'https://c-drama.net/category/%d8%a7%d9%84%d8%af%d8%b1%d8%a7%d9%85%d8%a7-%d8%a7%d9%84%d9%8a%d8%a7%d8%a8%d8%a7%d9%86%d9%8a%d8%a9-japanese-drama/')
+    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'category/الدراما-اليابانية-japanese-drama/')
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'الدراما اليابانية', 'asia.png', oOutputParameterHandler)   
 
     oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl',  'https://c-drama.net/category/%d8%af%d8%b1%d8%a7%d9%85%d8%a7%d8%aa-%d8%a2%d8%ae%d8%b1%d9%89-other-dramas/')
+    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'category/درامات-آخرى-other-dramas/')
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'درامات آخرى', 'asia.png', oOutputParameterHandler)   
 
     oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl',  'https://c-drama.net/category/%d8%aa%d8%b1%d8%ac%d9%85%d8%a7%d8%aa%d9%86%d8%a7-%d8%a7%d9%84%d8%ad%d8%b5%d8%b1%d9%8a%d8%a9-our-exclusive-translation/')
+    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'category/ترجماتنا-الحصرية-our-exclusive-translation/')
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'ترجماتنا الحصرية', 'asia.png', oOutputParameterHandler)    
 
     oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl',  'https://c-drama.net/category/%d8%a7%d9%84%d8%a8%d8%b1%d8%a7%d9%85%d8%ac-%d8%a7%d9%84%d8%a3%d8%b3%d9%8a%d9%88%d9%8a%d8%a9-asian-program/')
+    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'category/%d8%a7%d9%84%d8%a8%d8%b1%d8%a7%d9%85%d8%ac-%d8%a7%d9%84%d8%a3%d8%b3%d9%8a%d9%88%d9%8a%d8%a9-asian-program/')
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', ' البرامج الأسيوية', 'asia.png', oOutputParameterHandler)         
     
     oGui.setEndOfDirectory()
