@@ -313,15 +313,14 @@ def showLinks():
     sThumb = oInputParameterHandler.getValue('sThumb')
     
     oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
+    sHtmlContent1 = oRequestHandler.request()
     oParser = cParser()
 
-    sPattern = 'id="iframe-embed".+?src="(.+?)"'
+    sPattern = 'id="iframe-embed".+?src="([^"]+)'
 
     oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-
+    aResult = oParser.parse(sHtmlContent1, sPattern)
+    VSlog(aResult)
     if aResult[0]:
         for aEntry in aResult[1]:
             
@@ -329,16 +328,91 @@ def showLinks():
             sTitle = sMovieTitle
             if url.startswith('//'):
                 url = 'http:' + url
-            oRequestHandler = cRequestHandler(url)
-            sHtmlContent = oRequestHandler.request()
-            oParser = cParser()
+            if ('membed' in url):
+                oRequestHandler = cRequestHandler(url)
+                sHtmlContent = oRequestHandler.request()
+                oParser = cParser()
 
-            sPattern = 'data-video="([^"]+)"'
+                sPattern = 'data-video="([^"]+)'
 
-            oParser = cParser()
-            aResult = oParser.parse(sHtmlContent, sPattern)
+                oParser = cParser()
+                aResult = oParser.parse(sHtmlContent, sPattern)
+                VSlog(aResult)
+                if aResult[0]:
+                    for aEntry in aResult[1]:
+            
+                        url = aEntry
 
-            if aResult[0]:
+                        sHosterUrl = url
+                        oHoster = cHosterGui().checkHoster(sHosterUrl)
+                        if oHoster:
+                            sDisplayTitle = sTitle
+                            oHoster.setDisplayName(sDisplayTitle)
+                            oHoster.setFileName(sMovieTitle)
+                            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                sPattern = 'id="embedvideo" src="([^"]+)'
+
+                oParser = cParser()
+                aResult = oParser.parse(sHtmlContent, sPattern)
+                VSlog(aResult)
+                if aResult[0]:
+                    for aEntry in aResult[1]:
+            
+                        url = aEntry
+
+                        sHosterUrl = url
+                        oHoster = cHosterGui().checkHoster(sHosterUrl)
+                        if oHoster:
+                            sDisplayTitle = sTitle
+                            oHoster.setDisplayName(sDisplayTitle)
+                            oHoster.setFileName(sMovieTitle)
+                            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+            else:
+                sTitle = sMovieTitle
+                sHosterUrl = url
+                oHoster = cHosterGui().checkHoster(sHosterUrl)
+                if oHoster:
+                    sDisplayTitle = sTitle
+                    oHoster.setDisplayName(sDisplayTitle)
+                    oHoster.setFileName(sMovieTitle)
+                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+
+    sPattern = 'data-file="([^"]+)'
+
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent1, sPattern)
+    VSlog(aResult)
+    if aResult[0]:
+        for aEntry in aResult[1]:
+            
+            url = aEntry
+            if ('membed' in url):
+                oRequestHandler = cRequestHandler(url)
+                sHtmlContent = oRequestHandler.request()
+                oParser = cParser()
+
+                sPattern = 'data-video="([^"]+)'
+
+                oParser = cParser()
+                aResult = oParser.parse(sHtmlContent, sPattern)
+                VSlog(aResult)
+                if aResult[0]:
+                    for aEntry in aResult[1]:
+            
+                        url = aEntry
+
+                        sHosterUrl = url
+                        oHoster = cHosterGui().checkHoster(sHosterUrl)
+                        if oHoster:
+                            sDisplayTitle = sTitle
+                            oHoster.setDisplayName(sDisplayTitle)
+                            oHoster.setFileName(sMovieTitle)
+                            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                sPattern = 'id="embedvideo" src="([^"]+)'
+                oParser = cParser()
+                aResult = oParser.parse(sHtmlContent, sPattern)
+                VSlog(aResult)
+                if aResult[0]:
                     for aEntry in aResult[1]:
             
                         url = aEntry
@@ -351,28 +425,20 @@ def showLinks():
                             oHoster.setFileName(sMovieTitle)
                             cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
-            sPattern = '<iframe id="embedvideo" src="([^"]+)"'
-
-            oParser = cParser()
-            aResult = oParser.parse(sHtmlContent, sPattern)
-
-            if aResult[0]:
-                    for aEntry in aResult[1]:
-            
-                        url = aEntry
-
-                        sHosterUrl = url
-                        oHoster = cHosterGui().checkHoster(sHosterUrl)
-                        if oHoster:
-                            sDisplayTitle = sTitle
-                            oHoster.setDisplayName(sDisplayTitle)
-                            oHoster.setFileName(sMovieTitle)
-                            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+            else:
+                sTitle = sMovieTitle
+                sHosterUrl = url
+                oHoster = cHosterGui().checkHoster(sHosterUrl)
+                if oHoster:
+                    sDisplayTitle = sTitle
+                    oHoster.setDisplayName(sDisplayTitle)
+                    oHoster.setFileName(sMovieTitle)
+                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
     sPattern = 'data-video="([^"]+)"'
 
     oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
+    aResult = oParser.parse(sHtmlContent1, sPattern)
 
     if aResult[0]:
                     for aEntry in aResult[1]:
@@ -390,7 +456,7 @@ def showLinks():
     sPattern = '<iframe id="embedvideo" src="([^"]+)"'
 
     oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
+    aResult = oParser.parse(sHtmlContent1, sPattern)
 
     if aResult[0]:
                     for aEntry in aResult[1]:
@@ -404,7 +470,6 @@ def showLinks():
                             oHoster.setDisplayName(sDisplayTitle)
                             oHoster.setFileName(sMovieTitle)
                             cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-
     oGui.setEndOfDirectory()
 
 def __checkForNextPage(sHtmlContent):

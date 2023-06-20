@@ -436,6 +436,12 @@ class cHosterGui:
         if ('allviid' in sHostName):
             return self.getHoster('filemoon')
 
+        if ('upbaam' in sHostName) or ('moonmov' in sHostName):
+            f = self.getHoster('resolver')
+            #mise a jour du nom
+            f.setRealHost(sHostName)
+            return f
+
         if ('filemoon' in sHostName) or ('moonmov' in sHostName):
             f = self.getHoster('resolver')
             #mise a jour du nom
