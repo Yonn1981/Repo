@@ -15,6 +15,8 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
+# Thanks to enimax for the key
+# https://github.com/enimax-anime
 
 import json
 import re
@@ -43,13 +45,9 @@ class StreamRapidResolver(ResolveUrl):
             tries = 0
             key = ''
             while tries < 3 and not key:
-                js = self.net.http_GET(surl, headers).content
-                r = re.search(r"const\s*_0x[0-9a-f]{1,6}='([^']+)", js)
-                if r:
-                    key = r.group(1)
-                else:
-                    common.kodi.sleep(5000)
-                    tries += 1
+                import requests
+                response = requests.get("https://raw.githubusercontent.com/enimax-anime/key/e4/key.txt")
+                key = response.text
 
             if key:
                 headers.update({'X-Requested-With': 'XMLHttpRequest'})
