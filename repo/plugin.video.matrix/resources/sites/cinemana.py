@@ -364,7 +364,7 @@ def showHosters():
     oParser = cParser()
     sPattern = 'data-server="(.+?)"'
     aResult = oParser.parse(sHtmlContent, sPattern)
-    VSlog(aResult)
+    #VSlog(aResult)
 
    
     if aResult[0]:

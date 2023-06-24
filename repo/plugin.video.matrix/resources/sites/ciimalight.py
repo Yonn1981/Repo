@@ -332,7 +332,7 @@ def __checkForNextPage(sHtmlContent):
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    VSlog(aResult)
+
     if aResult[0] :
         
         return URL_MAIN+aResult[1][0]

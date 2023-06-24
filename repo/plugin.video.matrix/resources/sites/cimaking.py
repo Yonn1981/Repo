@@ -390,7 +390,7 @@ def showServer():
     oParser = cParser()   
     sPattern = '<link rel="shortlink" href="([^"]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)
-    VSlog(aResult)
+
     
     if aResult[0]:
         sId = aResult[1][0]
@@ -399,7 +399,7 @@ def showServer():
     oParser = cParser()
     sPattern = 'data-server="(.+?)"'
     aResult = oParser.parse(sHtmlContent, sPattern)
-    VSlog(aResult)
+
 
    
     if aResult[0]:
@@ -433,7 +433,7 @@ def showServer():
                         sPattern = 'src="([^"]+)'
                         oParser = cParser()
                         aResult = oParser.parse(sHtmlContent, sPattern)
-                        VSlog(aResult)
+
                         if aResult[0]:
                             for aEntry in aResult[1]:            
                                 sHosterUrl = aEntry

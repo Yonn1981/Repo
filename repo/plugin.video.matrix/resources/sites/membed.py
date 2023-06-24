@@ -150,7 +150,6 @@ def showSeries(sSearch = ''):
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    VSlog(aResult)
 
 	
     if aResult[0]:
@@ -204,7 +203,7 @@ def showSeasons():
 
 	oParser = cParser()
 	aResult = oParser.parse(sHtmlContent, sPattern)
-	VSlog(aResult)	
+
 	if aResult[0]:
 		oOutputParameterHandler = cOutputParameterHandler()
 		for aEntry in aResult[1]:
@@ -244,7 +243,6 @@ def showEps():
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    VSlog(aResult)
 
 	
     if aResult[0]:
@@ -304,7 +302,6 @@ def showLinks():
                 oParser = cParser()
                 aResult = oParser.parse(sHtmlContent, sPattern)
 
-                VSlog(aResult)
                 if aResult[0]:
                     for aEntry in aResult[1]:
             

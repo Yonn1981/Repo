@@ -80,7 +80,7 @@ def showSearchMovies(sSearch = ''):
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
-    VSlog(aResult)
+    #VSlog(aResult)
     if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -170,7 +170,7 @@ def showMovies(sSearch = ''):
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
-    VSlog(aResult)
+    #VSlog(aResult)
     if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -230,7 +230,7 @@ def showServer():
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
-    VSlog(aResult)
+
     if aResult[0]:
         for aEntry in aResult[1]:
             m = re.search('([0-9]{4})', sMovieTitle)
@@ -242,7 +242,7 @@ def showServer():
             url = aEntry[2]+'ttmxtt'
             qual = aEntry[0].replace('p','')
             sSize = aEntry[1].replace(' ','')
-            sTitle = ('%s  [COLOR coral](%sp)[/COLOR] [COLOR red]%s[/COLOR]') % (sMovieTitle, qual, sSize)	
+            sTitle = ('%s  [COLOR coral](%sp)[/COLOR]') % (sMovieTitle, qual)	
 					
             
             sHosterUrl = url 

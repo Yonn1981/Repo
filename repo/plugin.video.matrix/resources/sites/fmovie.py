@@ -250,7 +250,7 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('sYear', sYear)
             oOutputParameterHandler.addParameter('sDesc', sDesc)
 
-            oGui.addTV(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showSeasons', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
@@ -263,6 +263,67 @@ def showSeries(sSearch = ''):
     if not sSearch:
         oGui.setEndOfDirectory()  
 
+def showSeasons():
+    import requests
+    oGui = cGui()
+   
+    oInputParameterHandler = cInputParameterHandler()
+    sUrl = oInputParameterHandler.getValue('siteUrl')
+    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
+    sThumb = oInputParameterHandler.getValue('sThumb')
+    sURL2 = sUrl
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request()
+
+    oParser = cParser()
+     # (.+?) ([^<]+) .+?
+
+    sPattern = '<div class="watch".+?data-id="(.+?)"'
+
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+
+
+    if aResult[0]:
+        for aEntry in aResult[1]:
+            sId = aEntry
+
+            action = "fmovies-vrf"
+
+            vrf = vrf_function(sId, action)
+
+            sUrl = URL_MAIN + '/ajax/episode/list/' + sId + '?vrf=' + vrf
+
+            oRequestHandler = cRequestHandler(sUrl)
+            sHtmlContent = oRequestHandler.request()
+
+
+            sPattern = '"display: .+?data-season=([^<]+)>'
+
+            oParser = cParser()
+            aResult = oParser.parse(sHtmlContent, sPattern)
+	
+            #VSlog(aResult)
+            if aResult[0] :
+                oOutputParameterHandler = cOutputParameterHandler()  
+                for aEntry in aResult[1]:
+                    sSeason = "Season"+aEntry.replace('\\','').replace('"','')
+                    Ss = aEntry.replace('\\','').replace('"','')
+
+                    siteUrl = sURL2 + '/' + Ss + '-1'
+                    sTitle = sSeason + ' ' + sMovieTitle 
+
+                    sThumb = sThumb
+                    sDesc = ''
+			
+                    oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+                    oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+                    oOutputParameterHandler.addParameter('sThumb', sThumb)
+                    oOutputParameterHandler.addParameter('Ss', Ss)
+                    oGui.addTV(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+
+    
+    oGui.setEndOfDirectory() 
         
 def showEps():
     import requests
@@ -270,6 +331,7 @@ def showEps():
    
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
+    Ss = oInputParameterHandler.getValue('Ss')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
 
@@ -293,53 +355,53 @@ def showEps():
 
             vrf = vrf_function(sId, action)
 
-            sUrl = URL_MAIN + '/ajax/episode/list/' + sId +'?vrf='+vrf
+            sUrl = URL_MAIN + '/ajax/episode/list/' + sId + '?vrf=' + vrf
 
             oRequestHandler = cRequestHandler(sUrl)
-            sHtmlContent = oRequestHandler.request()
+            sHtmlContent = oRequestHandler.request().replace('\\','')
 
+            Ss = Ss.replace(' ','')
 
-            sPattern = '"display: .+?data-season=([^<]+)>(.+?)<\/ul>'
 
             oParser = cParser()
-            aResult = oParser.parse(sHtmlContent, sPattern)
-	
-            #VSlog(aResult)
-            if aResult[0] :
-                oOutputParameterHandler = cOutputParameterHandler()  
-                for aEntry in aResult[1]:
-                    sSeason = "S"+aEntry[0].replace('\\','').replace('"','')
-                    sHtmlContent = aEntry[1]
-                    # ([^<]+) .+?
-                    
-                    sPattern = '<a href=.+?([^"]+).+?data-id.+?"([^"]+).+?<span class=.+?>(.+?)<\/span> <span>(.+?)<\/span>'
-                    oParser = cParser()
-                    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-                    #VSlog(aResult)
-                    if aResult[1]:
-                        for aEntry in aResult[1]:
-                            oOutputParameterHandler = cOutputParameterHandler()  
-                            siteUrl = URL_MAIN +aEntry[0].split('\\')[0]
-                            sTitle = sSeason + ' '  + sMovieTitle + aEntry[2].replace(':','').replace('Episode','E')
-                            sTitle = sTitle + ' ' + aEntry[3]
-                            sId =  aEntry[1].split('\\')[0]
-                            action = "fmovies-vrf"
-                            vrf = vrf_function(sId, action)
 
-                            siteUrl = URL_MAIN + '/ajax/server/list/' + sId +'?vrf='+vrf
-                            sThumb = sThumb
-                            sDesc = ""
+            if Ss > '1':
+                sStart = ('style="display: none" data-season="'+Ss)
+            else:
+                sStart = ('style="display: block" data-season="'+Ss)    
+            sEnd = '</ul>'
+            sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
+       
+            sPattern = '<a href="([^"]+)" data-id="([^"]+)".+?class="num">(.+?)</span> <span>(.+?)</span>' 
+            oParser = cParser()
+            aResult = oParser.parse(sHtmlContent, sPattern)
+
+            if aResult[1]:
+                oOutputParameterHandler = cOutputParameterHandler()   
+                for aEntry in aResult[1]:
+
+                    siteUrl = URL_MAIN +aEntry[0].split('\\')[0]
+                    sTitle = aEntry[2].replace(':','').replace('Episode','E')
+                    if 'Episode' in aEntry[3]:
+                        sTitle = sTitle
+                    else:
+                        sTitle = sTitle + ' ' + aEntry[3]
+                    sId =  aEntry[1].split('\\')[0]
+
+                    action = "fmovies-vrf"
+                    vrf = vrf_function(sId, action)
+
+                    siteUrl = URL_MAIN + '/ajax/server/list/' + sId +'?vrf='+vrf
+                    sThumb = sThumb
+                    sDesc = ""
 			
-                            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-                            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-                            oOutputParameterHandler.addParameter('sThumb', sThumb)
-                            oGui.addEpisode(SITE_IDENTIFIER, 'showSeriesLinks', sTitle, sThumb, sThumb, sDesc, oOutputParameterHandler)
-     
+                    oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+                    oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+                    oOutputParameterHandler.addParameter('sThumb', sThumb)
+                    oGui.addEpisode(SITE_IDENTIFIER, 'showSeriesLinks', sTitle, sThumb, sThumb, sDesc, oOutputParameterHandler)
+   
     oGui.setEndOfDirectory() 
  
-	
-
 def showLinks():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
@@ -543,7 +605,8 @@ def vrf_function(query, action):
         for aEntry in aResult[1]:
             vrf = aEntry
             return vrf
-
+        
+    return False, False
 def vrf_function2(query, action):
 # ============== function taken aniyomi-extensions - from 9anime extension ================
     sUrl = 'https://9anime.eltik.net/'+action+'?query='+query+'&apikey=aniyomi'
@@ -561,3 +624,5 @@ def vrf_function2(query, action):
             url = aEntry
 
             return url
+        
+    return False, False

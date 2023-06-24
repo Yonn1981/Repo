@@ -426,7 +426,7 @@ def showSeriesLinks():
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
-    VSlog(aResult)
+    #VSlog(aResult)
     if aResult[0]:
         for aEntry in aResult[1]:
             sId = aEntry
