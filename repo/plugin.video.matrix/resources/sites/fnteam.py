@@ -216,7 +216,8 @@ def showHosters():
             sTitle = ' ['+Squality+'] ' 
             if url.startswith('//'):
                url = 'http:' + url
-            
+            if 'twitter' in url:
+                continue
             sHosterUrl = url
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
@@ -237,7 +238,8 @@ def showHosters():
             sTitle = aEntry[1]
             if url.startswith('//'):
                url = 'http:' + url
-            
+            if 'twitter' in url:
+                continue
             sHosterUrl = url
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
@@ -253,7 +255,8 @@ def showHosters():
         aResult = oParser.parse(sHtmlContent, sPattern)
         if aResult[0]:
             for aEntry in aResult[1]:
-            
+                if 'twitter' in aEntry:
+                    continue
                 sHosterUrl = aEntry.replace('https://youtu.be/', 'https://www.youtube.com/watch?v=')
                 oHoster = cHosterGui().checkHoster(sHosterUrl)
                 if oHoster:

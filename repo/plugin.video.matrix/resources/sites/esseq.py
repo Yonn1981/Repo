@@ -281,6 +281,8 @@ def showHosters():
                url =  'https://youdboox.com/embed-'+url+'.html'
             if 'Pro HD' in host:
                url =  'https://segavid.com/embed-'+url+'.html'
+            if 'Red HD' in host:
+               url =  'https://sbbrisk.com/e/'+ url
             if 'online' in host:
                url =  'https://player.vimeo.com/video/'+url+'?title=0&byline=0'
             if 'youtube' in host:

@@ -35,11 +35,6 @@
             "active": "False",
             "url": "https://re.two.re/link/141054"
         },
-        "alarab": {
-            "label": "Alarab",
-            "active": "True",
-            "url": "https://vod2.alarab.com/"
-        },
         "alarabiya": {
             "label": "Alarabiya",
             "active": "True",
@@ -249,6 +244,11 @@
             "label": "Fnteam",
             "active": "True",
             "url": "https://www.fn-team.com/"
+        },
+        "fmovie": {
+            "label": "FMovies",
+            "active": "True",
+            "url": "https://fmovies.to"
         },
         "fushaar": {
             "label": "Fushaar",

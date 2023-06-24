@@ -141,6 +141,10 @@ class cHosterGui:
         sHosterUrl = sHosterUrl.split('?')[0]
         sHosterUrl = sHosterUrl.lower()
 
+        # Fix for mcloud and vidstream m3u8 direct links
+        if ('mcloud' in sHosterUrl) or ('vizcloud' in sHosterUrl):
+            return self.getHoster('mcloud')
+        
         # lien direct ?
         if any(sHosterUrl.endswith(x) for x in ['.mp4', '.avi', '.flv', '.m3u8', '.webm', '.mkv', '.mpd']):
             return self.getHoster('lien_direct')
@@ -436,7 +440,7 @@ class cHosterGui:
         if ('allviid' in sHostName):
             return self.getHoster('filemoon')
 
-        if ('upbaam' in sHostName) or ('moonmov' in sHostName):
+        if ('upbaam' in sHostName):
             f = self.getHoster('resolver')
             #mise a jour du nom
             f.setRealHost(sHostName)
@@ -489,7 +493,7 @@ class cHosterGui:
             
         if ('myviid' in sHostName) or ('myvid' in sHostName):
             return self.getHoster('myvid')
-            
+
         if ('streamwire' in sHostName) or ('vup' in sHostName):
             f = self.getHoster('resolver')
             #mise a jour du nom
@@ -572,7 +576,10 @@ class cHosterGui:
             return self.getHoster('lien_direct')
 
         if ('embedo' in sHostName):
-            return self.getHoster('resolver')
+            f = self.getHoster('resolver')
+            #mise a jour du nom
+            f.setRealHost(sHostName)
+            return f
 
         # vidtodo et clone
         val = next((x for x in ['vidtodo', 'vixtodo', 'viddoto', 'vidstodo'] if x in sHostName), None)
@@ -662,13 +669,7 @@ class cHosterGui:
         if ('myfiles.alldebrid.com' in sHostName):
             return self.getHoster('lien_direct')
 
-        if ('.m3u8' in sHosterUrl):
-            return self.getHoster('lien_direct')
-
         if ('clientsportals' in sHosterUrl):
-            return self.getHoster('lien_direct')
-
-        if ('.mp4' in sHosterUrl):
             return self.getHoster('lien_direct')
 
         if re.search(r"\d+$", sHosterUrl):
@@ -679,8 +680,11 @@ class cHosterGui:
         
         if ('nitroflare' in sHostName or 'tubeload.' in sHostName or 'Facebook' in sHostName  or 'fastdrive' in sHostName or 'megaup.net' in sHostName  or 'openload' in sHostName):
             return False
- #       else:
- #           return self.getHoster('lien_direct')            
+        else:
+            f = self.getHoster('resolver')
+            #mise a jour du nom
+            f.setRealHost(sHostName)
+            return f            
         return False
 
     def getHoster(self, sHosterFileName):

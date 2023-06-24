@@ -130,6 +130,8 @@ def showMovies(sSearch = ''):
                 break
             if "youtube" in aEntry[1]:
                 continue
+            if "google" in aEntry[1]:
+                continue
  
             sTitle = aEntry[1]
             
@@ -208,6 +210,8 @@ def showSeries(sSearch = ''):
                 break
             if "youtube" in aEntry[1]:
                 continue
+            if "google" in aEntry[1]:
+                continue
  
             sTitle = aEntry[1]
             
@@ -271,6 +275,10 @@ def showEpisodes():
             sHosterUrl = url
             if "youtube" in sHosterUrl:
                 continue
+            if "google" in sHosterUrl:
+                continue
+            if "LINK0" in sHosterUrl:
+                continue
             if 'userload' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
             if 'moshahda' in sHosterUrl:
@@ -300,6 +308,10 @@ def showEpisodes():
             
             sHosterUrl = url
             if "youtube" in sHosterUrl:
+                continue
+            if "google" in sHosterUrl:
+                continue
+            if "LINK0" in sHosterUrl:
                 continue
             if 'userload' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
@@ -331,6 +343,10 @@ def showEpisodes():
             
             sHosterUrl = url
             if "youtube" in sHosterUrl:
+                continue
+            if "google" in sHosterUrl:
+                continue
+            if "LINK0" in sHosterUrl:
                 continue
             if 'userload' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
@@ -377,7 +393,7 @@ def showHosters():
     # (.+?) 
                
         
-    sPattern = 'src="(.+?)"'
+    sPattern = '<iframe .+?" src="(.+?)"'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
@@ -400,6 +416,8 @@ def showHosters():
                 continue
             if ".jpeg" in sHosterUrl:
                 continue
+            if "google" in sHosterUrl:
+                continue
             if 'userload' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
             if 'moshahda' in sHosterUrl:
@@ -413,7 +431,12 @@ def showHosters():
                oHoster.setFileName(sMovieTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
                
-        
+    oParser = cParser()
+     # (.+?) ([^<]+) .+?
+    sStart = '>روابط التحميل</span>'
+    sEnd = '</div>'
+    sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
+
     sPattern = '<a href="([^<]+)" target="'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -436,6 +459,8 @@ def showHosters():
             if ".jpg" in sHosterUrl:
                 continue
             if ".jpeg" in sHosterUrl:
+                continue
+            if "google" in sHosterUrl:
                 continue
             if 'userload' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN

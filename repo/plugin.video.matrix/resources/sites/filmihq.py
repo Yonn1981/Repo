@@ -386,7 +386,8 @@ def showHosters():
                 url = 'http:' + url
 				
 					
-            
+            if 'filmihq' in url:
+                continue
             sHosterUrl = url 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
@@ -435,6 +436,8 @@ def showHosters2():
                     for aEntry in aResult[1]:               
                         sHosterUrl = aEntry
                         sTitle = " "
+                        if 'filmihq' in sHosterUrl:
+                            continue
                         if 'userload' in sHosterUrl:
                             sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
                         if 'moshahda' in sHosterUrl:
