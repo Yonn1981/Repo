@@ -13,6 +13,7 @@
         "askmovie": {
             "label": "Ask4movie",
             "active": "True",
+            "cloudflare": "True",
             "url": "https://ask4movie.net/"
         },
         "ahdaf": {
@@ -323,6 +324,7 @@
         "nolly": {
             "label": "Nolly",
             "active": "True",
+            "cloudflare": "True",
             "url": "https://www.nollyverse.com/"
         },
         "pakistani": {
@@ -349,6 +351,11 @@
             "label": "sFlix",
             "active": "True",
             "url": "https://sflix.to"
+        },
+        "shahidu": {
+            "label": "Shahid4u",
+            "active": "True",
+            "url": "https://shahhed4u.cam/"
         },
         "shooflive": {
             "label": "Shooflive",
