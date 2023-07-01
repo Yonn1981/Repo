@@ -14,7 +14,7 @@ from resources.lib.parser import cParser
 
  
 SITE_IDENTIFIER = 'shahidu'
-SITE_NAME = 'Shahidu'
+SITE_NAME = 'Shahid4u'
 SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
@@ -226,7 +226,7 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            if "episode/" in aEntry[2]:
+            if "episode" in aEntry[2] or "season" in aEntry[2]or "series" in aEntry[2]:
                 continue
             if "مسلسل" in aEntry[3]:
                 continue
@@ -414,7 +414,13 @@ def showEpisodes():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-    sPattern = '<a href="([^"]+)".+?<h3>الحلقة<span>(.+?)</span></h3>'
+    oParser = cParser()
+
+    sStart = '<div class="holder-block">'
+    sEnd = '<div class="carousel-slider glide">'
+    sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
+
+    sPattern = '<a href="([^"]+)" class=.+?<span>(.+?)</span></h3>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -422,7 +428,8 @@ def showEpisodes():
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
- 
+            if "season/" in aEntry[0]:
+                continue 
             sTitle = " E"+aEntry[1]
             sTitle = sMovieTitle+sTitle
             siteUrl = aEntry[0].replace('episode/','download/')
@@ -434,34 +441,7 @@ def showEpisodes():
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
-
-    sPattern = '<a href="([^"]+)".+?<h3>الحلقة <span>(.+?)</span></h3>'
-
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    VSlog(aResult)
-    if aResult[0]:
-        oOutputParameterHandler = cOutputParameterHandler()
-        for aEntry in aResult[1]:
- 
-            sTitle = " E"+aEntry[1]
-            sTitle = sMovieTitle+sTitle
-            siteUrl = aEntry[0].replace('episode/','download/')
-            sThumb = sThumb
-            sDesc = ''
-			
-
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumb', sThumb)
-            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
-
-        sNextPage = __checkForNextPage(sHtmlContent)
-        if sNextPage:
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showEpisodes', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
-       
+      
     oGui.setEndOfDirectory()	
     # .+? ([^<]+)	
  

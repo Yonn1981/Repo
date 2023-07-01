@@ -478,7 +478,10 @@ class cHosterGui:
 
         if ('veehd.' in sHostName):
             return self.getHoster('veehd')
-				
+
+        if ('egybist.' in sHostName):
+            return self.getHoster('egybest')
+
         if ('streamsforu' in sHostName or 'ylass' in sHostName or 'rsc.cdn' in sHostName or 'btolat' in sHostName):
             return self.getHoster('streamz')
 				

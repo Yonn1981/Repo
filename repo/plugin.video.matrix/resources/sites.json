@@ -201,6 +201,11 @@
             "active": "True",
             "url": "aHR0cHM6Ly9lZHl0amVkaGdtZGhtLmFiZmhhcXJoYm5mLndvcmtlcnMuZGV2Lw=="
         },
+        "egybest": {
+            "label": "EgyBest",
+            "active": "True",
+            "url": "https://r.egybist.site/"
+        },
         "egyclub": {
             "label": "Egyclub",
             "active": "True",
@@ -318,7 +323,7 @@
         },
         "movizland": {
             "label": "Movizland",
-            "active": "True",
+            "active": "False",
             "url": "https://egy1.movizland.info/"
         },
         "nolly": {
@@ -434,8 +439,8 @@
         },
         "yalladrama": {
             "label": "Yalladrama",
-            "active": "False",
-            "url": "https://mb.yalladrama.co/"
+            "active": "True",
+            "url": "https://j.yalladrama.co/"
         },
         "yallalive": {
             "label": "Yallalive",
