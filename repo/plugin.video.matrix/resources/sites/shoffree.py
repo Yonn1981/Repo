@@ -24,7 +24,7 @@ oRequestHandler = cRequestHandler(URL_MAIN)
 sHtmlContent = oRequestHandler.request()
     # (.+?) ([^<]+)
 
-sPattern = '<meta property="og:url" content="(.+?)" />'
+sPattern = '<meta property="og:url" content="([^"]+)'
 aResult = oParser.parse(sHtmlContent, sPattern)
     
 if (aResult[0]):

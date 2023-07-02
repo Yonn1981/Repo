@@ -1253,6 +1253,10 @@ msgctxt "#31206"
 msgid "Flaresolverr استخدام"
 msgstr ""
 
+msgctxt "#31207"
+msgid "Display file infos"
+msgstr "عرض معلومات الملف"
+
 msgctxt "#31208"
 msgid "Remaining sites: %s"
 msgstr "المواقع المتبقية : %s"

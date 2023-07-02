@@ -14,6 +14,7 @@ class cHosterGui:
 
     # step 1 - bGetRedirectUrl in ein extra optionsObject verpacken
     def showHoster(self, oGui, oHoster, sMediaUrl, sThumbnail, bGetRedirectUrl=False):
+        oHoster.setUrl(sMediaUrl)
         oOutputParameterHandler = cOutputParameterHandler()
         oInputParameterHandler = cInputParameterHandler()
 
@@ -43,6 +44,11 @@ class cHosterGui:
                 sCat = '8'   # ...  On est maintenant au niveau "Episode"
         else:
             sCat = '5'     # Divers
+
+        sMediaFile = oHoster.getMediaFile()
+        if sMediaFile:
+            oGuiElement.setMediaUrl(sMediaFile)
+
         oGuiElement.setCat(sCat)
         oOutputParameterHandler.addParameter('sCat', sCat)
 
@@ -70,6 +76,11 @@ class cHosterGui:
         oOutputParameterHandler.addParameter('sId', 'cHosterGui')
         oOutputParameterHandler.addParameter('siteUrl', siteUrl)
         oOutputParameterHandler.addParameter('sTmdbId', sTmdbId)
+
+        if sMediaFile:  # Afficher le nom du fichier plutot que le titre
+            if self.ADDON.getSetting('display_info_file') == 'true':
+                oGuiElement.setRawTitle(sMediaFile)
+
 
         # gestion NextUp
         oOutputParameterHandler.addParameter('sourceName', site)    # source d'origine
@@ -261,6 +272,9 @@ class cHosterGui:
 
         if ('vanfem' in sHostName):
             return self.getHoster('fembed')
+
+        if ('vod540' in sHostName):
+            return self.getHoster('xvideo')
 
         if ('vidsrc' in sHostName):
             f = self.getHoster('resolver')

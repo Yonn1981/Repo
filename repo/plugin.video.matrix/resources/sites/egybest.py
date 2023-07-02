@@ -480,13 +480,13 @@ def showHosters():
     
     oRequestHandler = cRequestHandler(sUrl)
     St=requests.Session()
-    sHtmlContent = oRequestHandler.request()
+    sHtmlContent1 = oRequestHandler.request()
 
     oParser = cParser()
     sPattern = '<iframe.+?src="([^"]+)'
 
     oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
+    aResult = oParser.parse(sHtmlContent1, sPattern)
 
     if aResult[0]:
                     for aEntry in aResult[1]:
@@ -515,7 +515,7 @@ def showHosters():
                             sPattern = '<source src="([^"]+)".+?size="([^"]+)'
                             oParser = cParser()
                             aResult = oParser.parse(sHtmlContent, sPattern)
-                            VSlog(aResult)
+
                             if aResult[0]:
                                 for aEntry in aResult[1]:
             
@@ -531,4 +531,73 @@ def showHosters():
                                         oHoster.setFileName(sMovieTitle)
                                         cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
+
+
+
+    sPattern = '<div class="tr flex-start">.+?</div>.+?<div>(.+?)</div>.+?<a href="([^"]+)'
+
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent1, sPattern)
+
+    if aResult[0]:
+           for aEntry in aResult[1]:
+        
+                url = aEntry[1]
+                qual = aEntry[0].split('p')[0]
+                oRequestHandler = cRequestHandler(url)
+                sHtmlContent = oRequestHandler.request()
+                St=requests.Session()
+
+                sPattern = '<iframe.+?src="([^"]+)'
+                oParser = cParser()
+                aResult = oParser.parse(sHtmlContent, sPattern)
+
+                if aResult[0]:
+                    for aEntry in aResult[1]:
+            
+                        url = aEntry   
+                        
+                        cook = oRequestHandler.GetCookies()
+                        hdr = {'Sec-Fetch-Mode' : 'navigate','Cookie' : cook,'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Mobile Safari/537.36 Edg/114.0.1823.67','Referer' : 'https://vidstream.egybist.site/'}
+                        sHtmlContent = St.get(url,headers=hdr)
+                        sHtmlContent = sHtmlContent.content.decode('utf8')
+               
+                        sPattern = '<a href="([^"]+)'
+                        oParser = cParser()
+                        aResult = oParser.parse(sHtmlContent, sPattern)
+
+                        if aResult[0]:
+                                for aEntry in aResult[1]:
+            
+                                    url = aEntry
+                                    sHosterUrl = url
+
+                                    sTitle = ('%s  [COLOR coral](%sp)[/COLOR]') % (sMovieTitle, qual)
+                                    oHoster = cHosterGui().checkHoster(sHosterUrl)
+                                    if oHoster:
+                                        sDisplayTitle = sTitle
+                                        oHoster.setDisplayName(sDisplayTitle)
+                                        oHoster.setFileName(sMovieTitle)
+                                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+
+                sPattern = 'Watch</button><a href="([^"]+)'
+                oParser = cParser()
+                aResult = oParser.parse(sHtmlContent, sPattern)
+
+	
+                if aResult[0]:
+                    for aEntry in aResult[1]:
+            
+                        url = aEntry
+                        sTitle = ('%s  [COLOR coral](%sp)[/COLOR]') % (sMovieTitle, qual)
+                        if url.startswith('//'):
+                            url = 'http:' + url
+				            
+                        sHosterUrl = url 
+                        oHoster = cHosterGui().checkHoster(sHosterUrl)
+                        if oHoster:
+                            sDisplayTitle = sTitle
+                            oHoster.setDisplayName(sDisplayTitle)
+                            oHoster.setFileName(sMovieTitle)
+                            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
     oGui.setEndOfDirectory()
