@@ -522,42 +522,79 @@ def showHosters():
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0]:
         murl =  aResult[1][0]
+
         oRequest = cRequestHandler(murl)
         sHtmlContent = oRequest.request()
 # ([^<]+) .+? (.+?)
-    sPattern =  'href="(http[^<]+/watch/.+?)"' 
+    sPattern =  'href="(http[^<]+/watch/.+?)"'  
     aResult = oParser.parse(sHtmlContent,sPattern)
+    
     if aResult[0]:
         murl =  aResult[1][0]
         oRequest = cRequestHandler(murl)
         sHtmlContent = oRequest.request()
+        #VSlog(str(sHtmlContent))
             
 # ([^<]+) .+? (.+?)
-    sPattern =  '>Click here</span> to go for your link...</a>.+?<a href="(.+?)"' 
+    sPattern =  '>Click here</span> to go for your link...</a>.+?<a href="([^"]+)' 
     aResult = oParser.parse(sHtmlContent,sPattern)
+    
     if aResult[0]:
         murl =  aResult[1][0]
+
         oRequest = cRequestHandler(murl)
         sHtmlContent = oRequest.request()
+        
+        oParser = cParser()           
+        sPattern =  '<source src="(.*?)" type="video/mp4" size="(.*?)" />' 
+        
+                                                                     
+        aResult = oParser.parse(sHtmlContent,sPattern)
+        
+        url, qua = [], []
+        
+        if aResult[0]:
+            for aEntry1 in aResult[1]:
+                sHosterUrl = aEntry1[0] 
+                sHost = aEntry1[1]  
 
-    oParser = cParser()           
-    sPattern =  '<source.+?src="(.+?)".+?type="video/mp4".+?size="(.+?)"' 
-	
-                                                                 
-    aResult = oParser.parse(sHtmlContent,sPattern)
+                sTitle = ('%s  [COLOR coral](%sp)[/COLOR]') % (sMovieTitle, sHost)  
+                oHoster = cHosterGui().checkHoster(sHosterUrl)
 
-    if aResult[0]:
-       for aEntry1 in aResult[1]:
-           sHosterUrl = aEntry1[0]
-           sHost = aEntry1[1]
-           sTitle = ('%s  [COLOR coral](%sp)[/COLOR]') % (sMovieTitle, sHost)  
-           oHoster = cHosterGui().checkHoster(sHosterUrl)
-           if oHoster:
-              oHoster.setDisplayName(sTitle)
-              oHoster.setFileName(sMovieTitle)
-              cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                # url.append(str(sHosterUrl))
+                # qua.append(str(sHost))
+            
+            # api_call = dialog().VSselectqual(qua, url)
+            
+                if oHoster:
+                    oHoster.setDisplayName(sTitle)
+                    oHoster.setFileName(sMovieTitle)
+                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+
+            oGui.setEndOfDirectory()
+    else:
+        sPattern = '<source src="(.*?)" type="video/mp4" size="(.*?)" />'
+        aResult = oParser.parse(sHtmlContent,sPattern)
+        
+        url, qua = [], []
+        if aResult[0]:
+            for aEntry1 in aResult[1]:
+                sHosterUrl = aEntry1[0] 
+                sHost = aEntry1[1]  
+                VSlog('Found host url: ' + str(sHosterUrl))
+                sTitle = ('%s  [COLOR coral](%sp)[/COLOR]') % (sMovieTitle, sHost)  
+                oHoster = cHosterGui().checkHoster(sHosterUrl)
                 
-    oGui.setEndOfDirectory()
+                # url.append(str(sHosterUrl))
+                # qua.append(str(sHost))
+            
+            # api_call = dialog().VSselectqual(qua, url)
+                if oHoster:
+                    oHoster.setDisplayName(sTitle)
+                    oHoster.setFileName(sMovieTitle)
+                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                    
+            oGui.setEndOfDirectory()
 
 def showHosters2():
     oGui = cGui()
@@ -585,16 +622,13 @@ def showHosters2():
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent2, sPattern)
 
-
 	
     if aResult[0]: 
        for aEntry in aResult[1]:      
            url = aEntry[0]
-           sHost = aEntry[1]			
+           sHost = aEntry[1]				
            sTitle = ('%s  [COLOR coral]%sp[/COLOR]') % (sMovieTitle, sHost)
 				
-					
-            
        sHosterUrl = url
        oHoster = cHosterGui().checkHoster(sHosterUrl)
        if oHoster:

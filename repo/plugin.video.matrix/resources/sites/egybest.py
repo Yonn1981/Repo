@@ -19,19 +19,20 @@ SITE_DESC = 'arabic vod'
   
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-RAMADAN_SERIES = (URL_MAIN + '/category/مسلسلات/مسلسلات-رمضان-2023/', 'showSeries')
-
 MOVIE_EN = (URL_MAIN + 'movies?lang=الإنجليزية', 'showMovies')
 MOVIE_AR = (URL_MAIN + 'movies?lang=العربية', 'showMovies')
 MOVIE_HI = (URL_MAIN + 'movies?lang=الهندية', 'showMovies')
 MOVIE_ASIAN = (URL_MAIN + 'movies?lang=الكورية', 'showMovies')
 MOVIE_TURK = (URL_MAIN + 'movies?lang=التركية', 'showMovies')
 KID_MOVIES = (URL_MAIN + 'movies?genre=14', 'showMovies')
+MOVIE_GENRES = (True, 'moviesGenres')
 
 SERIE_EN = (URL_MAIN + 'series?lang=الإنجليزية', 'showSeries')
-SERIE_TR = (URL_MAIN + 'series?lang=التركية', 'showSeries')
 SERIE_AR = (URL_MAIN + 'series?lang=العربية', 'showSeries')
+SERIE_TR = (URL_MAIN + 'series?lang=التركية', 'showSeries')
+SERIE_HEND = (URL_MAIN + 'series?lang=الهندية', 'showSeries')
 SERIE_ASIA = (URL_MAIN + 'series?lang=الكورية', 'showSeries')
+SERIE_GENRES = (True, 'seriesGenres')
 
 ANIM_NEWS = (URL_MAIN + 'series?genre=40', 'showSeries')
 ANIM_MOVIES = (URL_MAIN + 'movies?genre=40', 'showMovies')
@@ -53,51 +54,71 @@ def load():
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_EN[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أجنبية', 'film.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أجنبية', 'agnab2.png', oOutputParameterHandler)
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_AR[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام عربية', 'film.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام عربية', 'arab2.png', oOutputParameterHandler)
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_ASIAN[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أسيوية', 'film.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أسيوية', 'asia2.png', oOutputParameterHandler)
    
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_TURK[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام تركية', 'film.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام تركية', 'turk2.png', oOutputParameterHandler)
     
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_HI[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام هندية', 'film.png', oOutputParameterHandler) 
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام هندية', 'hend2.png', oOutputParameterHandler) 
  
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', KID_MOVIES[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام كرتون', 'crtoon.png', oOutputParameterHandler)
 
     oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'trending/movie?t=movie')
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'الأفلام الرائجة', 'film.png', oOutputParameterHandler)	
+
+    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', SERIE_EN[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أجنبية', 'mslsl.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أجنبية', 'agnab.png', oOutputParameterHandler)
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', SERIE_AR[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات عربية', 'mslsl.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات عربية', 'arab.png', oOutputParameterHandler)
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', SERIE_ASIA[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أسيوية', 'mslsl.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أسيوية', 'asia.png', oOutputParameterHandler)
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', SERIE_TR[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات تركية', 'mslsl.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات تركية', 'turk.png', oOutputParameterHandler)
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', SERIE_HEND[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات هندية', 'hend.png', oOutputParameterHandler)
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'trending/serie?t=serie')
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'المسلسلات الرائجة', 'mslsl.png', oOutputParameterHandler)	
 
     oOutputParameterHandler.addParameter('siteUrl', ANIM_MOVIES[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'افلام انمي', 'anime.png', oOutputParameterHandler)
   
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', ANIM_NEWS[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات إنمي', 'anime.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات انمي', 'anime.png', oOutputParameterHandler)
 
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', SERIE_GENRES[0])
+    oGui.addDir(SITE_IDENTIFIER, SERIE_GENRES[1], 'المسلسلات (الأنواع)', 'mslsl.png', oOutputParameterHandler)
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_GENRES[0])
+    oGui.addDir(SITE_IDENTIFIER, MOVIE_GENRES[1], 'الأفلام (الأنواع)', 'film.png', oOutputParameterHandler)
+    
     oGui.setEndOfDirectory()
 
 	
@@ -120,7 +141,68 @@ def showSearchSeries():
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
-	
+
+def seriesGenres():
+    oGui = cGui()
+
+    liste = []
+    liste.append(['اكشن', URL_MAIN + 'series?genre=8'])
+    liste.append(['انيميشن', URL_MAIN + 'series?genre=14'])
+    liste.append(['مغامرات', URL_MAIN + 'series?genre=12'])
+    liste.append(['غموض', URL_MAIN + 'series?genre=7'])
+    liste.append(['تاريخي', URL_MAIN + 'series?genre=28'])
+    liste.append(['كوميديا', URL_MAIN + 'series?genre=16'])
+    liste.append(['موسيقى', URL_MAIN + 'series?genre=20'])
+    liste.append(['رياضي', URL_MAIN + 'series?genre=25'])
+    liste.append(['دراما', URL_MAIN + 'series?genre=6'])
+    liste.append(['رعب', URL_MAIN + 'series?genre=9'])
+    liste.append(['عائلى', URL_MAIN + 'series?genre=15'])
+    liste.append(['فانتازيا', URL_MAIN + 'series?genre=38'])
+    liste.append(['حروب', URL_MAIN + 'series?genre=36'])
+    liste.append(['الجريمة', URL_MAIN + 'series?genre=17'])
+    liste.append(['رومانسى', URL_MAIN + 'series?genre=5'])
+    liste.append(['خيال علمى', URL_MAIN + 'series?genre=13'])
+    liste.append(['اثارة', URL_MAIN + 'series?genre=11'])
+    liste.append(['وثائقى', URL_MAIN + 'series?genre=19'])
+
+    for sTitle, sUrl in liste:
+
+        oOutputParameterHandler = cOutputParameterHandler()
+        oOutputParameterHandler.addParameter('siteUrl', sUrl)
+        oGui.addDir(SITE_IDENTIFIER, 'showSeries', sTitle, 'genres.png', oOutputParameterHandler)
+
+    oGui.setEndOfDirectory()
+
+def moviesGenres():
+    oGui = cGui()
+
+    liste = []
+    liste.append(['اكشن', URL_MAIN + 'movies?genre=8'])
+    liste.append(['انيميشن', URL_MAIN + 'movies?genre=14'])
+    liste.append(['مغامرات', URL_MAIN + 'movies?genre=12'])
+    liste.append(['غموض', URL_MAIN + 'movies?genre=7'])
+    liste.append(['تاريخي', URL_MAIN + 'movies?genre=28'])
+    liste.append(['كوميديا', URL_MAIN + 'movies?genre=16'])
+    liste.append(['موسيقى', URL_MAIN + 'movies?genre=20'])
+    liste.append(['رياضي', URL_MAIN + 'movies?genre=25'])
+    liste.append(['دراما', URL_MAIN + 'movies?genre=6'])
+    liste.append(['رعب', URL_MAIN + 'movies?genre=9'])
+    liste.append(['عائلى', URL_MAIN + 'movies?genre=15'])
+    liste.append(['فانتازيا', URL_MAIN + 'movies?genre=38'])
+    liste.append(['حروب', URL_MAIN + 'movies?genre=36'])
+    liste.append(['الجريمة', URL_MAIN + 'movies?genre=17'])
+    liste.append(['رومانسى', URL_MAIN + 'movies?genre=5'])
+    liste.append(['خيال علمى', URL_MAIN + 'movies?genre=13'])
+    liste.append(['اثارة', URL_MAIN + 'movies?genre=11'])
+    liste.append(['وثائقى', URL_MAIN + 'movies?genre=19'])
+
+    for sTitle, sUrl in liste:
+
+        oOutputParameterHandler = cOutputParameterHandler()
+        oOutputParameterHandler.addParameter('siteUrl', sUrl)
+        oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle, 'genres.png', oOutputParameterHandler)
+
+    oGui.setEndOfDirectory()	
 	
 def showMovies(sSearch = ''):
     oGui = cGui()
@@ -134,7 +216,7 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
  # ([^<]+) .+?
 
-    sPattern = '<a class="block" href="([^"]+)".+?data-src="([^"]+)".+?title="([^"]+)'
+    sPattern = '<a class="block" href="([^"]+)".+?src="([^"]+)".+?title="([^"]+)'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -222,10 +304,17 @@ def showSeries(sSearch = ''):
             if sThumb.startswith('//'):
                 sThumb = "https:"+aEntry[1]
             sDesc = ''
+            sYear = ''
+            m = re.search('([0-9]{4})', sTitle)
+            if m:
+                sYear = str(m.group(0))
+                sTitle = sTitle.replace(sYear,'')
+
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
+            oOutputParameterHandler.addParameter('sYear', sYear)
 			
             oGui.addTV(SITE_IDENTIFIER, 'showSeasons', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 

@@ -362,6 +362,11 @@
             "active": "True",
             "url": "https://shahhed4u.cam/"
         },
+        "shoffree": {
+            "label": "Shoffree",
+            "active": "True",
+            "url": "https://sh.shoffree.com/"
+        },
         "shooflive": {
             "label": "Shooflive",
             "active": "True",

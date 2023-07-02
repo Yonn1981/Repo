@@ -212,6 +212,9 @@ class cHosterGui:
         if ('vadshar' in sHostName) or ('vidshar' in sHostName) or ('vedshaar' in sHostName) or ('vedsharr' in sHostName) or ('vedshar' in sHostName) or ('vidshare' in sHostName) or ('viidshar' in sHostName):
             return self.getHoster('vidshare')
 
+        if ('gettyshare' in sHostName):
+            return self.getHoster('gettyshare')
+        
         if ('sbfull' in sHostName):
             return self.getHoster('viewsb')
         if ('sbrapid' in sHostName):
@@ -481,6 +484,9 @@ class cHosterGui:
 
         if ('egybist.' in sHostName):
             return self.getHoster('egybest')
+
+        if ('shoffree' in sHostName):
+            return self.getHoster('shoffree')
 
         if ('streamsforu' in sHostName or 'ylass' in sHostName or 'rsc.cdn' in sHostName or 'btolat' in sHostName):
             return self.getHoster('streamz')
