@@ -400,9 +400,6 @@ class cHosterGui:
         if ('gcdn' in sHostName):
             return self.getHoster('lien_direct')
 
-        if ('egybest' in sHostName):
-            return self.getHoster('lien_direct')
-
         if ('alarabiya' in sHostName):
             return self.getHoster('lien_direct')
 
@@ -496,7 +493,7 @@ class cHosterGui:
         if ('veehd.' in sHostName):
             return self.getHoster('veehd')
 
-        if ('egybist.' in sHostName):
+        if ('eeggyy' in sHosterUrl):
             return self.getHoster('egybest')
 
         if ('shoffree' in sHostName):

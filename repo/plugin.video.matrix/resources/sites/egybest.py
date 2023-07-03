@@ -19,6 +19,18 @@ SITE_DESC = 'arabic vod'
   
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
+oParser = cParser()
+ 
+oRequestHandler = cRequestHandler(URL_MAIN)
+sHtmlContent = oRequestHandler.request()
+    # (.+?) ([^<]+)
+
+sPattern = '<meta property="og:url" content="([^"]+)'
+aResult = oParser.parse(sHtmlContent, sPattern)
+    
+if (aResult[0]):
+    URL_MAIN = aResult[1][0]+'/'
+
 MOVIE_EN = (URL_MAIN + 'movies?lang=الإنجليزية', 'showMovies')
 MOVIE_AR = (URL_MAIN + 'movies?lang=العربية', 'showMovies')
 MOVIE_HI = (URL_MAIN + 'movies?lang=الهندية', 'showMovies')
@@ -492,7 +504,7 @@ def showHosters():
                     for aEntry in aResult[1]:
                         if "embed/" in aEntry:
                             url = aEntry
-                            sHosterUrl = url
+                            sHosterUrl = url+"eeggyy"
                             if "youtube" in sHosterUrl:
                                 sTitle = 'Trailer'
                             else:
@@ -502,7 +514,7 @@ def showHosters():
                                 sDisplayTitle = sTitle
                                 oHoster.setDisplayName(sDisplayTitle)
                                 oHoster.setFileName(sMovieTitle)
-                                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                                cHosterGui().showHoster(oGui, oHoster, sHosterUrl + "|Referer=" + rUrl, sThumb)
                                 
                         if "stream/" in aEntry:
                             aurl = aEntry
@@ -541,7 +553,7 @@ def showHosters():
 
     if aResult[0]:
            for aEntry in aResult[1]:
-        
+                refer = aEntry[1].split("/d")[0]
                 url = aEntry[1]
                 qual = aEntry[0].split('p')[0]
                 oRequestHandler = cRequestHandler(url)
@@ -558,7 +570,7 @@ def showHosters():
                         url = aEntry   
                         
                         cook = oRequestHandler.GetCookies()
-                        hdr = {'Sec-Fetch-Mode' : 'navigate','Cookie' : cook,'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Mobile Safari/537.36 Edg/114.0.1823.67','Referer' : 'https://vidstream.egybist.site/'}
+                        hdr = {'Sec-Fetch-Mode' : 'navigate','Cookie' : cook,'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Mobile Safari/537.36 Edg/114.0.1823.67','Referer' : refer}
                         sHtmlContent = St.get(url,headers=hdr)
                         sHtmlContent = sHtmlContent.content.decode('utf8')
                
