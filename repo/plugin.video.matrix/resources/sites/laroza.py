@@ -127,7 +127,7 @@ def showMovies(sSearch = ''):
             sTitle = aEntry[1].replace("مشاهدة","").replace("مشاهده","").replace("مترجم","").replace("فيلم","").replace("اونلاين","").replace("اون لاين","").replace("برنامج","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("انمي","")
  
  
-            siteUrl = aEntry[0].replace("watch.php","play.php")
+            siteUrl = aEntry[0].replace("watch.php","play.php").replace("video.php","play.php")
             sDesc = ""
             sThumb = aEntry[2]
             sYear = ''
@@ -271,7 +271,7 @@ def showEpisodes():
                 for aEntry in aResult[1]:
  
                     siteUrl = URL_MAIN +aEntry[0]
-                    siteUrl = siteUrl.replace("video.php","play.php")
+                    siteUrl = siteUrl.replace("video.php","play.php").replace("video.php","play.php")
                     sTitle = sMovieTitle+' '+sSeason
                     sTitle = sTitle+" E"+aEntry[1]
                     sThumb = sThumb

@@ -10,7 +10,7 @@ UA = 'Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrom
 class cHoster(iHoster):
 
     def __init__(self):
-        iHoster.__init__(self, 'gettyshare', 'gettyshare')
+        iHoster.__init__(self, 'gettyshare', 'Gettyshare')
 
     def setUrl(self, url):
         self._url = str(url)

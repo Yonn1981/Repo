@@ -35,7 +35,7 @@ class cHosterGui:
         oGuiElement = cGuiElement()
         oGuiElement.setSiteName(self.SITE_NAME)
         oGuiElement.setFunction('play')
-        oGuiElement.setTitle(oHoster.getDisplayName())
+
 
         # Catégorie de lecture
         if oInputParameterHandler.exist('sCat'):
@@ -44,10 +44,6 @@ class cHosterGui:
                 sCat = '8'   # ...  On est maintenant au niveau "Episode"
         else:
             sCat = '5'     # Divers
-
-        sMediaFile = oHoster.getMediaFile()
-        if sMediaFile:
-            oGuiElement.setMediaUrl(sMediaFile)
 
         oGuiElement.setCat(sCat)
         oOutputParameterHandler.addParameter('sCat', sCat)
@@ -77,9 +73,17 @@ class cHosterGui:
         oOutputParameterHandler.addParameter('siteUrl', siteUrl)
         oOutputParameterHandler.addParameter('sTmdbId', sTmdbId)
 
+        sMediaFile = oHoster.getMediaFile()
         if sMediaFile:  # Afficher le nom du fichier plutot que le titre
+            oGuiElement.setMediaUrl(sMediaFile)
             if self.ADDON.getSetting('display_info_file') == 'true':
                 oGuiElement.setRawTitle(sMediaFile)
+                oHoster.setDisplayName(sMediaFile)
+                oGuiElement.setRawTitle(oHoster.getDisplayName())
+            else:
+                oGuiElement.setTitle(oHoster.getDisplayName())
+        else:
+            oGuiElement.setTitle(oHoster.getDisplayName())
 
 
         # gestion NextUp
@@ -155,10 +159,6 @@ class cHosterGui:
         # Fix for mcloud and vidstream m3u8 direct links
         if ('mcloud' in sHosterUrl) or ('vizcloud' in sHosterUrl):
             return self.getHoster('mcloud')
-        
-        # lien direct ?
-        if any(sHosterUrl.endswith(x) for x in ['.mp4', '.avi', '.flv', '.m3u8', '.webm', '.mkv', '.mpd']):
-            return self.getHoster('lien_direct')
  
         # Recuperation du host
         try:
@@ -223,7 +223,7 @@ class cHosterGui:
         if ('vadshar' in sHostName) or ('vidshar' in sHostName) or ('vedshaar' in sHostName) or ('vedsharr' in sHostName) or ('vedshar' in sHostName) or ('vidshare' in sHostName) or ('viidshar' in sHostName):
             return self.getHoster('vidshare')
 
-        if ('gettyshare' in sHostName):
+        if ('gettyshare' in sHosterUrl):
             return self.getHoster('gettyshare')
         
         if ('sbfull' in sHostName):
@@ -697,15 +697,17 @@ class cHosterGui:
 
         if ('clientsportals' in sHosterUrl):
             return self.getHoster('lien_direct')
-
-        if re.search(r"\d+$", sHosterUrl):
-            return self.getHoster('lien_direct')
-        
+    
         if ('torrent' in sHosterUrl) or ('magnet:' in sHosterUrl):
             return self.getHoster('torrent')
         
         if ('nitroflare' in sHostName or 'tubeload.' in sHostName or 'Facebook' in sHostName  or 'fastdrive' in sHostName or 'megaup.net' in sHostName  or 'openload' in sHostName):
             return False
+
+        # lien direct ?
+        if any(sHosterUrl.endswith(x) for x in ['.mp4', '.avi', '.flv', '.m3u8', '.webm', '.mkv', '.mpd']):
+            return self.getHoster('lien_direct')
+
         else:
             f = self.getHoster('resolver')
             #mise a jour du nom
