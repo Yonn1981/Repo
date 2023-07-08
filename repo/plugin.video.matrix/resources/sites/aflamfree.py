@@ -14,6 +14,12 @@ SITE_NAME = 'Aflamfree'
 SITE_DESC = 'arabic vod'	 
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
+
+MOVIE_EN = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a%d8%a9', 'showMovies')
+MOVIE_AR = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%b9%d8%b1%d8%a8%d9%8a%d8%a9', 'showMovies')
+MOVIE_HI = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%87%d9%86%d8%af%d9%8a%d8%a9', 'showMovies')
+MOVIE_ASIAN = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%b3%d9%8a%d9%88%d9%8a%d8%a9', 'showMovies')
+KID_MOVIES = (URL_MAIN + '/category/%d9%83%d8%a7%d8%b1%d8%aa%d9%88%d9%86-%d9%88%d8%a7%d9%86%d9%85%d9%8a', 'showMovies')
 MOVIE_PACK = (URL_MAIN + '/%D8%A7%D9%82%D8%B3%D8%A7%D9%85-%D8%A7%D9%84%D9%85%D9%88%D9%82%D8%B9', 'showPack')
 MOVIE_ANNEES = (True, 'showYears')
 
@@ -27,16 +33,40 @@ def load():
 	oOutputParameterHandler = cOutputParameterHandler()
 	oOutputParameterHandler.addParameter('siteUrl', URL_SEARCH[0])
 	oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Search Movies', 'search.png', oOutputParameterHandler)
-	
+
+	oOutputParameterHandler = cOutputParameterHandler()
+	oOutputParameterHandler.addParameter('siteUrl', MOVIE_EN[0])
+	oGui.addDir(SITE_IDENTIFIER, 'showLive', 'أفلام أجنبية', 'agnab.png', oOutputParameterHandler)
+   
+	oOutputParameterHandler = cOutputParameterHandler()
+	oOutputParameterHandler.addParameter('siteUrl', MOVIE_AR[0])
+	oGui.addDir(SITE_IDENTIFIER, 'showLive', 'أفلام عربية', 'arab.png', oOutputParameterHandler)
+ 
+	oOutputParameterHandler = cOutputParameterHandler()
+	oOutputParameterHandler.addParameter('siteUrl', MOVIE_ASIAN[0])
+	oGui.addDir(SITE_IDENTIFIER, 'showLive', 'أفلام أسيوية', 'asia.png', oOutputParameterHandler)
+   
+	oOutputParameterHandler = cOutputParameterHandler()
+	oOutputParameterHandler.addParameter('siteUrl', MOVIE_HI[0])
+	oGui.addDir(SITE_IDENTIFIER, 'showLive', 'أفلام هندية', 'hend.png', oOutputParameterHandler)
+    
+	oOutputParameterHandler = cOutputParameterHandler()
+	oOutputParameterHandler.addParameter('siteUrl', KID_MOVIES[0])
+	oGui.addDir(SITE_IDENTIFIER, 'showLive', 'أفلام كرتون', 'anim.png', oOutputParameterHandler)
+
 	oOutputParameterHandler.addParameter('siteUrl', MOVIE_PACK[0])
-	oGui.addDir(SITE_IDENTIFIER, 'showPack', 'أقسام الموقع', 'icon.png', oOutputParameterHandler)
-	
+	oGui.addDir(SITE_IDENTIFIER, 'showPack', 'أقسام الموقع', 'film.png', oOutputParameterHandler)
+
+	oOutputParameterHandler = cOutputParameterHandler()
+	oOutputParameterHandler.addParameter('siteUrl', MOVIE_ANNEES[0])
+	oGui.addDir(SITE_IDENTIFIER, MOVIE_ANNEES[1], 'أفلام (بالسنوات)', 'annees.png', oOutputParameterHandler)
+
 	oGui.setEndOfDirectory()
 
 def showYears():
     oGui = cGui()
     oOutputParameterHandler = cOutputParameterHandler()
-    for i in reversed(range(1921, 2022)):
+    for i in reversed(range(1921, 2024)):
         sYear = str(i)
         oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/release-year/' + sYear)  # / inutile
         oGui.addDir(SITE_IDENTIFIER, 'showLive', sYear, 'annees.png', oOutputParameterHandler)
@@ -120,7 +150,7 @@ def showPack(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
 #([^<]+) .+? 
 
-    sPattern = 'style="font-size: large;"><a href="([^<]+)">([^<]+)</a><br />'
+    sPattern = 'style="font-size: large;"><a href="([^"]+)">([^<]+)</a>'
 
 
     oParser = cParser()
@@ -130,7 +160,7 @@ def showPack(sSearch = ''):
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
-            sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","") 
+            sTitle = aEntry[1]
             sThumb = aEntry[1]
             siteUrl = aEntry[0]+'/page/1'
             sDesc = ''

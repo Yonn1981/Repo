@@ -36,6 +36,17 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', ANIM_MOVIES[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام إنمي', 'anime.png', oOutputParameterHandler)
 
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/special-list')
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'قائمة الحلقات خاصة', 'anime.png', oOutputParameterHandler)
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/ova-list')
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'قائمة الأوفا', 'anime.png', oOutputParameterHandler)
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/ona-list')
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'قائمة الأونا', 'anime.png', oOutputParameterHandler)
             
     oGui.setEndOfDirectory()
  

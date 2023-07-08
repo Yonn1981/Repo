@@ -62,6 +62,8 @@ def load():
 
     oGui.setEndOfDirectory()
 
+def opensetting():
+    addon().openSettings()
 
 def showMenuTV():
     oGui = cGui()

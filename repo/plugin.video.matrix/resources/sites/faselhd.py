@@ -24,7 +24,7 @@ KID_MOVIES = (URL_MAIN + '/dubbed-movies', 'showMovies')
 SERIE_EN = (URL_MAIN + '/series', 'showSeries')
 REPLAYTV_NEWS = (URL_MAIN + '/tvshows', 'showSeries')
 ANIM_MOVIES = (URL_MAIN + '/anime-movies', 'showMovies')
-SERIE_ASIA = ('https://www.faselhd.co/asian-series', 'showSeries')
+SERIE_ASIA = (URL_MAIN + '/asian-series', 'showSeries')
 ANIM_NEWS = (URL_MAIN + '/anime', 'showAnimes')
 DOC_NEWS = (URL_MAIN + '/movies-cats/documentary', 'showMovies')
 DOC_SERIES = (URL_MAIN + '/series_genres/documentary', 'showSeries')
@@ -48,15 +48,15 @@ def load():
 
     
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_EN[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أجنبية', 'agnab2.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أجنبية', 'agnab.png', oOutputParameterHandler)
  
     
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_ASIAN[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أسيوية', 'asia2.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أسيوية', 'asia.png', oOutputParameterHandler)
     
     
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_HI[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام هندية', 'hend2.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام هندية', 'hend.png', oOutputParameterHandler)
    
     
     oOutputParameterHandler.addParameter('siteUrl', ANIM_MOVIES[0])

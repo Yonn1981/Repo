@@ -24,8 +24,9 @@ MOVIE_4k = (URL_MAIN + '/Quality/4k/', 'showMovies')
 MOVIE_HI = (URL_MAIN + '/category/movies/indian-movies/', 'showMovies')
 MOVIE_ASIAN = (URL_MAIN + '/category/movies/asian-movies/', 'showMovies')
 KID_MOVIES = (URL_MAIN + '/category/anime-cartoon/cartoon/', 'showMovies')
-SERIE_TR = (URL_MAIN + '/category/series/turkish-series-translated-20221/', 'showSeries')
+MOVIE_GENRES = (True, 'moviesGenres')
 
+SERIE_TR = (URL_MAIN + '/category/series/turkish-series-translated-20221/', 'showSeries')
 SERIE_TR_AR = (URL_MAIN + '/category/turkish-series-dubbed/', 'showSeries')
 SERIE_EN = (URL_MAIN + '/category/series/english-series/', 'showSeries')
 # SERIE_AR = (URL_MAIN + '/category/series/arabic-series/', 'showSeries')
@@ -55,7 +56,7 @@ def load():
     oGui.addDir(SITE_IDENTIFIER, 'showSearchSeries', 'SEARCH_SERIES', 'search.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_EN[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أجنبية', 'agnab2.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أجنبية', 'agnab.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_4k[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', ' 4k أفلام', 'film.png', oOutputParameterHandler)
@@ -64,10 +65,10 @@ def load():
     # oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام عربية', 'film.png', oOutputParameterHandler)
  
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_ASIAN[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أسيوية', 'asia2.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أسيوية', 'asia.png', oOutputParameterHandler)
     
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_HI[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام هندية', 'hend2.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام هندية', 'hend.png', oOutputParameterHandler)
  
     oOutputParameterHandler.addParameter('siteUrl', KID_MOVIES[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام كرتون', 'anim.png', oOutputParameterHandler)
@@ -107,7 +108,11 @@ def load():
     
     # oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/category/%d8%a8%d8%b1%d8%a7%d9%85%d8%ac-%d8%b9%d8%b1%d8%a8%d9%8a/')
     # oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'برامج عربي', 'brmg.png', oOutputParameterHandler)
-  
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_GENRES[0])
+    oGui.addDir(SITE_IDENTIFIER, MOVIE_GENRES[1], 'الأفلام (الأنواع)', 'film.png', oOutputParameterHandler)
+
     oGui.setEndOfDirectory()
  
 def showSearch():
@@ -129,6 +134,38 @@ def showSearchSeries():
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
+
+def moviesGenres():
+    oGui = cGui()
+
+    liste = []
+    liste.append(['اكشن', URL_MAIN + '/genre/اكشن/'])
+    liste.append(['انيميشن', URL_MAIN + '/genre/animation/'])
+    liste.append(['مغامرات', URL_MAIN + '/genre/مغامرة/'])
+    liste.append(['غموض', URL_MAIN + '/genre/mystery/'])
+    liste.append(['تاريخي', URL_MAIN + '/genre/history/'])
+    liste.append(['كوميديا', URL_MAIN + '/genre/كوميديا/'])
+    liste.append(['موسيقى', URL_MAIN + '/genre/musical/'])
+    liste.append(['رياضي', URL_MAIN + '/genre/رياضة/'])
+    liste.append(['دراما', URL_MAIN + '/genre/drama/'])
+    liste.append(['رعب', URL_MAIN + '/genre/horror/'])
+    liste.append(['عائلى', URL_MAIN + '/genre/family/'])
+    liste.append(['فانتازيا', URL_MAIN + '/genre/fantasy/'])
+    liste.append(['حروب', URL_MAIN + '/genre/war/'])
+    liste.append(['الجريمة', URL_MAIN + '/genre/crime/'])
+    liste.append(['رومانسى', URL_MAIN + '/genre/romance/'])
+    liste.append(['خيال علمى', URL_MAIN + '/genre/sci-fi/'])
+    liste.append(['اثارة', URL_MAIN + '/genre/اثارة/'])
+    liste.append(['وثائقى', URL_MAIN + '/genre/documentary/'])
+    liste.append(['ويسترن', URL_MAIN + '/genre/ويسترن/'])
+
+    for sTitle, sUrl in liste:
+
+        oOutputParameterHandler = cOutputParameterHandler()
+        oOutputParameterHandler.addParameter('siteUrl', sUrl+'films/')
+        oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle, 'genres.png', oOutputParameterHandler)
+
+    oGui.setEndOfDirectory()	
 
 def showMovies(sSearch = ''):
     oGui = cGui()

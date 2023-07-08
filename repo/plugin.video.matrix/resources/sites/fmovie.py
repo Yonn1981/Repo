@@ -43,7 +43,7 @@ def load():
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_EN[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أجنبية', 'agnab2.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أجنبية', 'agnab.png', oOutputParameterHandler)
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', KID_MOVIES[0])
@@ -482,6 +482,7 @@ def showLinks():
                                     url = vrf_function(sId, action)
 
                             sHosterUrl = url
+                            VSlog(sHosterUrl)
                             if ('mcloud' in sHosterUrl):
                                 sHosterUrl = sHosterUrl.split('e/')[1].split('?')[0]
                                 action = "mcloud"
@@ -494,7 +495,7 @@ def showLinks():
                                     cHosterGui().showHoster(oGui, oHoster, sHosterUrl1, sThumb)
 
                             if ('vidstream' in sHosterUrl):
-                                sHosterUrl = sHosterUrl.split('embed/')[1].split('?')[0]
+                                sHosterUrl = sHosterUrl.split('e/')[1].split('?')[0]
                                 action = "vizcloud"
                                 sHosterUrl2 = vrf_function2(sHosterUrl, action)
                                 oHoster = cHosterGui().checkHoster(sHosterUrl2)
@@ -555,6 +556,7 @@ def showSeriesLinks():
                                     url = vrf_function(sId, action)
 
                             sHosterUrl = url 
+                            VSlog(sHosterUrl)
                             if ('mcloud' in sHosterUrl):
                                 sHosterUrl = sHosterUrl.split('e/')[1].split('?')[0]
                                 action = "mcloud"
@@ -567,7 +569,10 @@ def showSeriesLinks():
                                     cHosterGui().showHoster(oGui, oHoster, sHosterUrl1, sThumb)
 
                             if ('vidstream' in sHosterUrl):
-                                sHosterUrl = sHosterUrl.split('embed/')[1].split('?')[0]
+                                if ('embed/' in sHosterUrl):
+                                    sHosterUrl = sHosterUrl.split('embed/')[1].split('?')[0]
+                                else:
+                                    sHosterUrl = sHosterUrl.split('e/')[1].split('?')[0]
                                 action = "vizcloud"
                                 sHosterUrl2 = vrf_function2(sHosterUrl, action)
                                 oHoster = cHosterGui().checkHoster(sHosterUrl2)

@@ -23,8 +23,7 @@ KID_CARTOON = (URL_MAIN + '/tvshows/#gsc.tab=0', 'showSeries')
 
 URL_SEARCH = (URL_MAIN + '/?s=', 'showSeriesSearch')
 
-URL_SEARCH_MOVIES = ('https://stardima.co/watch/?s=', 'showMoviesSearch')
-URL_SEARCH_SERIES = ('https://stardima.co/watch/?s=', 'showSeriesSearch')
+URL_SEARCH_SERIES = (URL_MAIN + '/watch/?s=', 'showSeriesSearch')
 FUNCTION_SEARCH = 'showSeries'
  
 def load():
@@ -50,7 +49,7 @@ def showSearchMovies():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = 'https://stardima.co/watch/?s='+sSearchText
+        sUrl = URL_MAIN + '/watch/?s='+sSearchText
         showMoviesSearch(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -60,7 +59,7 @@ def showSearchSeries():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = 'https://stardima.co/watch/?s='+sSearchText
+        sUrl = URL_MAIN + '/watch/?s='+sSearchText
         showSeriesSearch(sUrl)
         oGui.setEndOfDirectory()
         return
