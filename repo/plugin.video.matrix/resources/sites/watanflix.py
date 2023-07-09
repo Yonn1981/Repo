@@ -17,11 +17,16 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
+MOVIE_AR = (URL_MAIN + '/ar/category/الأفلام', 'showSeries')
+
 RAMADAN_SERIES = (URL_MAIN + '/ar/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA', 'showSeries')
 SERIE_AR = (URL_MAIN + '/ar/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA', 'showSeries')
 KID_CARTOON = (URL_MAIN + '/ar/category/%D8%A3%D8%B7%D9%81%D8%A7%D9%84', 'showSerie')
 
-SERIE_GENRES = (True, 'showGenres')
+SERIE_GENRES = (True, 'seriesGenres')
+
+REPLAYTV_NEWS = (URL_MAIN + '/ar/category/برامج', 'showSeries')
+REPLAYTV_PLAY = (URL_MAIN + '/ar/category/مسرحيات', 'showSeries')
 
 URL_SEARCH = (URL_MAIN + '/ar/search?q=', 'showSeries')
 URL_SEARCH_SERIES = (URL_MAIN + '/ar/search?q=', 'showSeriesSearch')
@@ -34,12 +39,25 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
     oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Search', 'search.png', oOutputParameterHandler)
 
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_AR[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'أفلام عربية', 'arab.png', oOutputParameterHandler)
+
     oOutputParameterHandler.addParameter('siteUrl', SERIE_AR[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات عربية', 'arab.png', oOutputParameterHandler)
- 
+
+    oOutputParameterHandler.addParameter('siteUrl', REPLAYTV_NEWS[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'برامج تلفزيونية', 'brmg.png', oOutputParameterHandler)
+
     oOutputParameterHandler.addParameter('siteUrl', KID_CARTOON[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات كرتون', 'crtoon.png', oOutputParameterHandler) 
-    
+
+    oOutputParameterHandler.addParameter('siteUrl', REPLAYTV_PLAY[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسرحيات', 'msrh.png', oOutputParameterHandler)
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', SERIE_GENRES[0])
+    oGui.addDir(SITE_IDENTIFIER, SERIE_GENRES[1], 'المسلسلات (الأنواع)', 'mslsl.png', oOutputParameterHandler)
+
     oGui.setEndOfDirectory()
  
 def showSearch():
@@ -108,25 +126,31 @@ def showSeriesSearch(sSearch = ''):
         oGui.setEndOfDirectory()
    
 
-def showGenres():
+def seriesGenres():
     oGui = cGui()
-    oInputParameterHandler = cInputParameterHandler()
-    sUrl = oInputParameterHandler.getValue('siteUrl')
- 
+
     liste = []
-    liste.append( ["كوميدي","https://watanflix.com/ar/type/%D9%83%D9%88%D9%85%D9%8A%D8%AF%D9%8A"] )
-    liste.append( ["دراما","https://watanflix.com/ar/type/%D8%AF%D8%B1%D8%A7%D9%85%D8%A7"] )
-    liste.append( ["حارة-شامية","https://watanflix.com/ar/type/%D8%AD%D8%A7%D8%B1%D8%A9-%D8%B4%D8%A7%D9%85%D9%8A%D8%A9"] )
-    liste.append( ["تاريخي-سيرة-ذاتيه-وثائقي","https://watanflix.com/ar/type/%D8%AA%D8%A7%D8%B1%D9%8A%D8%AE%D9%8A-%D8%B3%D9%8A%D8%B1%D8%A9-%D8%B0%D8%A7%D8%AA%D9%8A%D9%87-%D9%88%D8%AB%D8%A7%D8%A6%D9%82%D9%8A"] )
-    liste.append( ["غموض-تشويق","https://watanflix.com/ar/type/%D8%BA%D9%85%D9%88%D8%B6-%D8%AA%D8%B4%D9%88%D9%8A%D9%82"] )
-    
-    for sTitle,sUrl in liste:
-        
+    liste.append(['دراما', URL_MAIN + '/ar/type/'])
+    liste.append(['كوميدي', URL_MAIN + '/ar/type/'])
+    liste.append(['حارة-شامية', URL_MAIN + '/ar/type/'])
+    liste.append(['رومنسي', URL_MAIN + '/ar/type/'])
+    liste.append(['اجتماعي', URL_MAIN + '/ar/type/'])
+    liste.append(['تاريخي-سيرة-ذاتيه-وثائقي', URL_MAIN + '/ar/type/'])
+    liste.append(['رعب', URL_MAIN + '/ar/type/'])
+    liste.append(['أكشن', URL_MAIN + '/ar/type/'])
+    liste.append(['رياضي', URL_MAIN + '/ar/type/'])
+    liste.append(['غموض-تشويق', URL_MAIN + '/ar/type/'])
+    liste.append(['مقابلات-تلفزيونية', URL_MAIN + '/ar/type/'])
+    liste.append(['ديني', URL_MAIN + '/ar/type/'])
+    liste.append(['طبخ', URL_MAIN + '/ar/type/'])
+
+    for sTitle, sUrl in liste:
+
         oOutputParameterHandler = cOutputParameterHandler()
-        oOutputParameterHandler.addParameter('siteUrl', sUrl)
+        oOutputParameterHandler.addParameter('siteUrl', sUrl + sTitle)
         oGui.addDir(SITE_IDENTIFIER, 'showSeries', sTitle, 'genres.png', oOutputParameterHandler)
-       
-    oGui.setEndOfDirectory()  
+
+    oGui.setEndOfDirectory()
  
 def showSeries(sSearch = ''):
     oGui = cGui()
@@ -138,7 +162,7 @@ def showSeries(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
- # .+? ([^<]+)
+
 
     sPattern = 'title="<h4>.+?</h4><br> <span>([^<]+)</span>".+?data-content=" <div>(.+?)<br/>.+?<a href="([^<]+)" class="v-link" >.+?<div  class="video_img"><img alt="([^<]+)"  class="" src="([^<]+)"></div>'
 
@@ -254,17 +278,50 @@ def showHosters():
     sThumb = oInputParameterHandler.getValue('sThumb')
     
     oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request();
+    sHtmlContent = oRequestHandler.request()
     #.+? ([^<]+)
-                     
-    sPattern = '<div style="overflow: hidden">.+?<a href="([^<]+)" target="_blank" class="linkPlay">.+?<img src="([^<]+)"  style=" margin: -13% 0 -10% 0; width: 100%;">.+?<i class="play-icon"></i>.+?</a>.+?</div>.+?<div><p><b>.+?</b><br/>([^<]+)</p></div>'
+    oParser = cParser()
+
+    sStart = '<ul class="seasons">'
+    sEnd = '</ul>'
+    sHtmlContent0 = oParser.abParse(sHtmlContent, sStart, sEnd)
+
+    sPattern = '<a href="([^"]+)" >(.+?)</a>'
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent0, sPattern)
+      
+    if aResult[0]:
+        oOutputParameterHandler = cOutputParameterHandler() 
+        for aEntry in aResult[1]:
+ 
+            sTitle = aEntry[1]
+            siteUrl = aEntry[0]
+            sThumb = sThumb
+            sDesc = ''
+ 
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
+            oOutputParameterHandler.addParameter('sTitle', sTitle)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
+            
+
+ 
+            oGui.addSeason(SITE_IDENTIFIER, 'showHosters', sTitle, '', '', sDesc, oOutputParameterHandler)
+
+
+    oParser = cParser()
+
+    sStart = '<div id="slidingSeries"'
+    sEnd = '<div class="clearfix"></div>'
+    sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
+
+    sPattern = '<a href="([^"]+)".+?<img src="([^"]+)".+?<div><p><b>([^<]+)</b><br/>([^<]+)</p></div>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
     if aResult[0]:
         for aEntry in aResult[1]:
             
-            sTitle = sMovieTitle+aEntry[2].replace("الحلقة "," E")                
+            sTitle = aEntry[2].replace("الجزء ","S").replace("الأول","1").replace("الاول","1").replace("الثاني","2").replace("الثانى","2").replace("الثالث","3").replace("الرابع","4").replace("الخامس","5").replace("السادس","6").replace("السابع","7").replace("الثامن","8").replace("التاسع","9") + aEntry[3].replace("الحلقة "," E")                
             sThumb = aEntry[1]
             url = str(aEntry[0])
             if url.startswith('//'):

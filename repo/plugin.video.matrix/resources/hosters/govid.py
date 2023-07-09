@@ -1,8 +1,9 @@
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
-from resources.lib.comaddon import dialog
+from resources.lib.comaddon import dialog, VSlog
 from resources.hosters.hoster import iHoster
 from resources.lib.packer import cPacker
+
 
 
 UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:61.0) Gecko/20100101 Firefox/61.0'
@@ -14,8 +15,7 @@ class cHoster(iHoster):
 			
     def setUrl(self, sUrl):
         self._url = str(sUrl)
-        if '/2down/'  in sUrl:
-            self._url = self._url.replace("/2down/","/play/").replace("/down/","/play/")
+
     def _getMediaLinkForGuest(self):
         sReferer = ""
         surl = self._url.split('|Referer=')[0]
@@ -26,7 +26,7 @@ class cHoster(iHoster):
         oRequest.addHeaderEntry('User-Agent', UA)
         sHtmlContent = oRequest.request()
         oParser = cParser()
-
+        VSlog(sHtmlContent)
        # (.+?) .+? ([^<]+)
         sPattern =  '"playbackUrl": "(.+?)"' 
         aResult = oParser.parse(sHtmlContent,sPattern)
@@ -50,6 +50,15 @@ class cHoster(iHoster):
 
             if api_call:
                 return True, api_call+ '|User-Agent=' + UA+'&AUTH=TLS&verifypeer=false' + '&Referer=' + surl
+
+        sPattern =  '<a target="_blank".+?href="([^"]+)' 
+        aResult = oParser.parse(sHtmlContent,sPattern)
+        if aResult[0]:
+            for aEntry in aResult[1]:            
+                api_call = aEntry
+
+                if api_call:
+                   return True, api_call+ '|User-Agent=' + UA+'&AUTH=TLS&verifypeer=false' + '&Referer=' + surl
 
         sPattern =  'sources: (.+?),' 
         aResult = oParser.parse(sHtmlContent,sPattern)

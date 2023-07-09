@@ -187,7 +187,11 @@ def showMovies(sSearch = ''):
             sThumb = aEntry[2]
             sDesc = ''
             sYear = ''
-
+            m = re.search('([0-9]{4})', sTitle)
+            if m:
+               sYear = str(m.group(0))
+               sTitle = sTitle.replace(sYear,'')
+            sDisplayTitle = ('%s (%s)') % (sTitle, sYear)
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -195,7 +199,7 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('sYear', sYear)
             oOutputParameterHandler.addParameter('sDesc', sDesc)
 
-            oGui.addTV(SITE_IDENTIFIER, 'showServer', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showServer', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
@@ -239,7 +243,7 @@ def showSeries(sSearch = ''):
                 break
  
             sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[arabic]").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
-            siteUrl = aEntry[0]
+            siteUrl = aEntry[0].replace("/watch","/view")
             sThumb = aEntry[2]
             sTitle = sTitle.split('الحلقة')[0]
             sDesc = ''
@@ -296,8 +300,63 @@ def showSeasons():
 			oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
 			oOutputParameterHandler.addParameter('sThumb', sThumb)
 			oGui.addSeason(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+
+	else:
+		oParser = cParser()
+
+		sPattern = '<meta name="title" content="([^"]+)'
+		aResult = oParser.parse(sHtmlContent, sPattern)
+    
+		if (aResult[0]):
+                    sDesc = aResult[1][0]
+
+		sStart = '<div class="text-center servers_list">'
+		sEnd = '</div>'
+		sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
+
+		sPattern = '<a href="([^"]+)'
+		aResult = oParser.parse(sHtmlContent, sPattern)
+
+   
+		if aResult[0]:
+                    for aEntry in aResult[1]:
+
+                        siteUrl = aEntry
+			
+                        oRequestHandler = cRequestHandler(siteUrl)
+                        sData = oRequestHandler.request()
+   
+                        sPattern = '<iframe src="(.+?)" style=' 
+                        oParser = cParser()
+                        aResult = oParser.parse(sData, sPattern)
+	
+                        if aResult[0]:
+                            for aEntry in aResult[1]:
         
-	oGui.setEndOfDirectory()
+                                url = aEntry
+                                url = url.replace("moshahda","ffsff")
+                                sTitle = sDesc
+                                sThumb = sThumb
+                                if url.startswith('//'):
+                                    url = 'http:' + url
+								            
+                                sHosterUrl = url
+                                if 'nowvid' in sHosterUrl:
+                                    sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+                                if 'userload' in sHosterUrl:
+                                    sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                                if 'moshahda' in sHosterUrl:
+                                    sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                                if 'mystream' in sHosterUrl:
+                                    sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
+                 
+                                oHoster = cHosterGui().checkHoster(sHosterUrl)
+                                if oHoster:
+                                    sDisplayTitle = sTitle
+                                    oHoster.setDisplayName(sDisplayTitle)
+                                    oHoster.setFileName(sMovieTitle)
+                                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+	oGui.setEndOfDirectory() 
     
 def showEps():
     import requests
@@ -358,16 +417,18 @@ def showServer():
     sHtmlContent = oRequestHandler.request()
     oParser = cParser()
             
+    sStart = '<div class="text-center servers_list">'
+    sEnd = '</div>'
+    sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
 
-    sPattern = '<a href="([^<]+)server=(.+?)"'
+    sPattern = '<a href="([^"]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)
 
    
     if aResult[0]:
         for aEntry in aResult[1]:
-            sId = aEntry[0]+'server='+aEntry[1]
 
-            siteUrl = sId
+            siteUrl = aEntry
 			
             oRequestHandler = cRequestHandler(siteUrl)
             sData = oRequestHandler.request()

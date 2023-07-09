@@ -240,7 +240,7 @@ class cHosterGui:
             #mise a jour du nom
             f.setRealHost(sHostName)
             return f
-        if ('streamwish' in sHostName) or ('khadhnayad' in sHostName):
+        if ('streamwish' in sHostName) or ('khadhnayad' in sHostName) or ('ajmidyad' in sHostName) or ('yadmalik' in sHostName) or ('kharabnah' in sHostName) or ('hayaatieadhab' in sHostName):
             return self.getHoster('streamwish')
         if ('upstream' in sHosterUrl):
             return self.getHoster('upstream')
@@ -257,7 +257,13 @@ class cHosterGui:
             #mise a jour du nom
             f.setRealHost(sHostName)
             return f
-
+        
+        if ('highload' in sHostName):
+            f = self.getHoster('resolver')
+            #mise a jour du nom
+            f.setRealHost(sHostName)
+            return f
+        
         if ('embedsito' in sHostName):
             f = self.getHoster('resolver')
             #mise a jour du nom
@@ -454,7 +460,7 @@ class cHosterGui:
         if ('workupload' in sHostName):
             return self.getHoster('workupload')
 
-        if ('upbam' in sHostName) or ('uppom' in sHostName) or ('uppboom' in sHostName):
+        if ('upbam' in sHostName) or ('uppom' in sHostName) or ('uppboom' in sHostName) or ('upbaam' in sHostName):
             return self.getHoster('uppom')
 
         if ('allviid' in sHostName):

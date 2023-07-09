@@ -360,6 +360,7 @@
         "shahidu": {
             "label": "Shahid4u",
             "active": "True",
+            "cloudflare": "True",
             "url": "https://shahhed4u.cam/"
         },
         "shoffree": {

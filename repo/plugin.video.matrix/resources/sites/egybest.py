@@ -647,7 +647,10 @@ def showHosters():
                                 sDisplayTitle = sTitle
                                 oHoster.setDisplayName(sDisplayTitle)
                                 oHoster.setFileName(sMovieTitle)
-                                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                                if "youtube" in sHosterUrl:
+                                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                                else:
+                                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl + "|Referer=" + rUrl, sThumb)
                                 
                         if "stream/" in aEntry:
                             aurl = aEntry

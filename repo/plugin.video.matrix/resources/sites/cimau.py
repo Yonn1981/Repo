@@ -414,13 +414,13 @@ def showEpisodes():
     oParser = cParser()
     
     #Recuperation infos
-    sNote = ''
+    sDesc = ''
 
     sPattern = '<h2>القصة</h2><p>([^<]+)</p>'
     aResult = oParser.parse(sHtmlContent, sPattern)
     
     if (aResult[0]):
-        sNote = aResult[1][0]
+        sDesc = aResult[1][0]
     
 
     oParser = cParser()
@@ -451,7 +451,7 @@ def showEpisodes():
                   sTitle = sMovieTitle+' E'+ aEntry[2]
                   sUrl = aEntry[0]
                   sThumb = sThumb
-                  sDesc = ''
+                  sDesc = sDesc
 			
                   oOutputParameterHandler.addParameter('siteUrl',sUrl)
                   oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
