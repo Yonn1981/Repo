@@ -437,15 +437,16 @@ def showLinks():
             sUrl = URL_MAIN + '/ajax/episode/list/' + sId +'?vrf='+vrf
 
             oRequestHandler = cRequestHandler(sUrl)
-            sHtmlContent = oRequestHandler.request()
+            sHtmlContent = oRequestHandler.request().replace('\\','')
 
-            sPattern = 'data-id.+?"([^"]+)'
+            sPattern = 'data-id="([^"]+)".+?<span>(.+?)</span>'
             oParser = cParser()
             aResult = oParser.parse(sHtmlContent, sPattern)
 
             if aResult[0]:
                 for aEntry in aResult[1]:
-                    sId = aEntry.split('\\')[0]
+                    sId = aEntry[0]
+                    nTitle = aEntry[1]
                     action = "fmovies-vrf"
                     vrf = vrf_function(sId, action)
 
@@ -464,7 +465,20 @@ def showLinks():
 
                             action = "fmovies-vrf"
                             vrf = vrf_function(sId, action)
-                    
+
+                            url0 = URL_MAIN + '/ajax/episode/subtitles/' + sId
+                            oRequestHandler = cRequestHandler(url0)
+                            sHtmlContents = oRequestHandler.request()
+
+                            sPattern = '"file":"([^"]+)'
+                            oParser = cParser()
+                            aResult = oParser.parse(sHtmlContents, sPattern)
+
+                            if aResult[0]:
+                                for aEntry in aResult[1]:
+            
+                                    sSub = aEntry 
+
                             url = URL_MAIN + '/ajax/server/' + sId +'?vrf='+vrf
                             oRequestHandler = cRequestHandler(url)
                             sHtmlContent = oRequestHandler.request()
@@ -482,25 +496,43 @@ def showLinks():
                                     url = vrf_function(sId, action)
 
                             sHosterUrl = url
-                            VSlog(sHosterUrl)
+
                             if ('mcloud' in sHosterUrl):
+                                if ('sub.info' in sHosterUrl):
+                                    SubTitle = sHosterUrl.split('sub.info=')[1]
+                                else:
+                                    SubTitle = ""
+                                    
                                 sHosterUrl = sHosterUrl.split('e/')[1].split('?')[0]
                                 action = "mcloud"
                                 sHosterUrl1 = vrf_function2(sHosterUrl, action)
                                 oHoster = cHosterGui().checkHoster(sHosterUrl1)
                                 if oHoster:
                                     sDisplayTitle = sMovieTitle
+                                    if ('http' in SubTitle):
+                                        sHosterUrl1 = sHosterUrl1+'?sub.info='+SubTitle
+                                    else:
+                                        sHosterUrl1 = sHosterUrl1
                                     oHoster.setDisplayName(sDisplayTitle)
                                     oHoster.setFileName(sMovieTitle)
                                     cHosterGui().showHoster(oGui, oHoster, sHosterUrl1, sThumb)
 
                             if ('vidstream' in sHosterUrl):
+                                if ('sub.info' in sHosterUrl):
+                                    SubTitle = sHosterUrl.split('sub.info=')[1]
+                                else:
+                                    SubTitle = ""
+
                                 sHosterUrl = sHosterUrl.split('e/')[1].split('?')[0]
                                 action = "vizcloud"
                                 sHosterUrl2 = vrf_function2(sHosterUrl, action)
                                 oHoster = cHosterGui().checkHoster(sHosterUrl2)
                                 if oHoster:
                                     sDisplayTitle = sMovieTitle
+                                    if ('http' in SubTitle):
+                                        sHosterUrl2 = sHosterUrl2+'?sub.info='+SubTitle
+                                    else:
+                                        sHosterUrl2 = sHosterUrl2
                                     oHoster.setDisplayName(sDisplayTitle)
                                     oHoster.setFileName(sMovieTitle)
                                     cHosterGui().showHoster(oGui, oHoster, sHosterUrl2, sThumb)
@@ -509,7 +541,7 @@ def showLinks():
                                 continue
                             oHoster = cHosterGui().checkHoster(sHosterUrl)
                             if oHoster:
-                                sDisplayTitle = sMovieTitle
+                                sDisplayTitle = nTitle+' '+sMovieTitle
                                 oHoster.setDisplayName(sDisplayTitle)
                                 oHoster.setFileName(sMovieTitle)
                                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
@@ -556,28 +588,42 @@ def showSeriesLinks():
                                     url = vrf_function(sId, action)
 
                             sHosterUrl = url 
-                            VSlog(sHosterUrl)
                             if ('mcloud' in sHosterUrl):
+                                if ('sub.info' in sHosterUrl):
+                                    SubTitle = sHosterUrl.split('sub.info=')[1]
+                                else:
+                                    SubTitle = ""
+                                    
                                 sHosterUrl = sHosterUrl.split('e/')[1].split('?')[0]
                                 action = "mcloud"
                                 sHosterUrl1 = vrf_function2(sHosterUrl, action)
                                 oHoster = cHosterGui().checkHoster(sHosterUrl1)
                                 if oHoster:
                                     sDisplayTitle = sMovieTitle
+                                    if ('http' in SubTitle):
+                                        sHosterUrl1 = sHosterUrl1+'?sub.info='+SubTitle
+                                    else:
+                                        sHosterUrl1 = sHosterUrl1
                                     oHoster.setDisplayName(sDisplayTitle)
                                     oHoster.setFileName(sMovieTitle)
                                     cHosterGui().showHoster(oGui, oHoster, sHosterUrl1, sThumb)
 
                             if ('vidstream' in sHosterUrl):
-                                if ('embed/' in sHosterUrl):
-                                    sHosterUrl = sHosterUrl.split('embed/')[1].split('?')[0]
+                                if ('sub.info' in sHosterUrl):
+                                    SubTitle = sHosterUrl.split('sub.info=')[1]
                                 else:
-                                    sHosterUrl = sHosterUrl.split('e/')[1].split('?')[0]
+                                    SubTitle = ""
+
+                                sHosterUrl = sHosterUrl.split('e/')[1].split('?')[0]
                                 action = "vizcloud"
                                 sHosterUrl2 = vrf_function2(sHosterUrl, action)
                                 oHoster = cHosterGui().checkHoster(sHosterUrl2)
                                 if oHoster:
                                     sDisplayTitle = sMovieTitle
+                                    if ('http' in SubTitle):
+                                        sHosterUrl2 = sHosterUrl2+'?sub.info='+SubTitle
+                                    else:
+                                        sHosterUrl2 = sHosterUrl2
                                     oHoster.setDisplayName(sDisplayTitle)
                                     oHoster.setFileName(sMovieTitle)
                                     cHosterGui().showHoster(oGui, oHoster, sHosterUrl2, sThumb)

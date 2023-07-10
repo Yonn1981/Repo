@@ -60,6 +60,7 @@ class StreamRapidResolver(ResolveUrl):
                     OpenSSL_AES = openssl_aes.AESCipher()
                     sources = json.loads(OpenSSL_AES.decrypt(sources, key))
                     source = sources[0]
+                    
                     if source:
                         headers.pop('X-Requested-With')
                         return source.get('file') + helpers.append_headers(headers)

@@ -1360,3 +1360,7 @@ msgstr "سلسلة"
 msgctxt "#70014"
 msgid "TV (Premium)"
 msgstr "بريميم ويب تي في"
+
+msgctxt "#70015"
+msgid "Select a subtitle"
+msgstr "اختر الترجمة"

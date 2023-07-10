@@ -1360,3 +1360,7 @@ msgstr ""
 msgctxt "#70014"
 msgid "TV (Premium)"
 msgstr ""
+
+msgctxt "#70015"
+msgid "Select a subtitle"
+msgstr ""

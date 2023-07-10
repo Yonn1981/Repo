@@ -473,10 +473,7 @@ class cHosterGui:
             return f
 
         if ('filemoon' in sHostName) or ('moonmov' in sHostName):
-            f = self.getHoster('resolver')
-            #mise a jour du nom
-            f.setRealHost(sHostName)
-            return f
+            return self.getHoster('filemoon')
 
         if ('hexupload' in sHostName):
             f = self.getHoster('resolver')
@@ -491,10 +488,7 @@ class cHosterGui:
             return f
 
         if ('rabbitstream' in sHostName) or ('dokicloud' in sHostName):
-            f = self.getHoster('resolver')
-            #mise a jour du nom
-            f.setRealHost(sHostName)
-            return f
+            return self.getHoster('streamrapid')
 
         if ('veehd.' in sHostName):
             return self.getHoster('veehd')

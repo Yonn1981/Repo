@@ -352,6 +352,11 @@
             "active": "True",
             "url": "https://k.s3udi.tv/"
         },
+        "soap": {
+            "label": "Soap2day",
+            "active": "True",
+            "url": "https://soap2day.id/"
+        },
         "sflix": {
             "label": "sFlix",
             "active": "True",
