@@ -32,8 +32,8 @@ class cHoster(iHoster):
 
             sPattern = '"file":"([^"]+)".+?"label":"(.+?)"'
             aResult = oParser.parse(sHtmlContent0, sPattern)
+
             if aResult[0]:
-                # initialisation des tableaux
                 url = []
                 qua = []
                 for i in aResult[1]:
@@ -45,25 +45,7 @@ class cHoster(iHoster):
 
         oParser = cParser()
 
-        sUrl = self._url
-        sUrlf = self._url.split('list.m3u8')[0]
-
-        url = []
-        qua = []
-
-        oRequest = cRequestHandler(sUrl)
-        oRequest.addHeaderEntry('User-Agent', UA)
-        sHtmlContent = oRequest.request()
-
-        sPattern = 'RESOLUTION=(\d+x\d+)(.+?.m3u8)'
-        aResult = oParser.parse(sHtmlContent, sPattern)
-        if aResult[0] is True:
-            for aEntry in aResult[1]:
-                url.append(aEntry[1])
-                qua.append(aEntry[0])
-
-            if url:
-                api_call = sUrlf + dialog().VSselectqual(qua, url)
+        api_call = self._url
 
         if api_call:
             if ('http' in SubTitle):

@@ -18,20 +18,26 @@ class cHoster(iHoster):
 
     def _getMediaLinkForGuest(self):
         sReferer = ""
-        surl = self._url.split('|Referer=')[0]
-        sReferer = self._url.split('|Referer=')[1]
+        if '|Referer=' in self._url:
+            surl = self._url.split('|Referer=')[0]
+        else:
+            surl = self._url
+        if '|Referer=' in self._url:
+            sReferer = self._url.split('|Referer=')[1]
+        else:
+            sReferer = self._url
 
         oRequest = cRequestHandler(surl)
         oRequest.addHeaderEntry('Referer', sReferer)
         oRequest.addHeaderEntry('User-Agent', UA)
         sHtmlContent = oRequest.request()
         oParser = cParser()
-        VSlog(sHtmlContent)
+
        # (.+?) .+? ([^<]+)
         sPattern =  '"playbackUrl": "(.+?)"' 
         aResult = oParser.parse(sHtmlContent,sPattern)
         if aResult[0]:
-            url2 = aResult[1][0].replace("hhttps","https").replace('api.govid.co/api','d10o.drkvid.site/api')
+            url2 = aResult[1][0].replace("hhttps","https").replace('api.govid.co/api','go.telvod.site/api')
 
             oRequest = cRequestHandler(url2)
             oRequest.addHeaderEntry('Referer', surl)
@@ -53,6 +59,7 @@ class cHoster(iHoster):
 
         sPattern =  '<a target="_blank".+?href="([^"]+)' 
         aResult = oParser.parse(sHtmlContent,sPattern)
+        VSlog(aResult)
         if aResult[0]:
             for aEntry in aResult[1]:            
                 api_call = aEntry

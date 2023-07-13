@@ -102,7 +102,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/?s=%D9%81%D9%8A%D9%84%D9%85+'+sSearchText
+        sUrl = URL_MAIN + '?s=%D9%81%D9%8A%D9%84%D9%85+'+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -112,7 +112,7 @@ def showSeriesSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+'+sSearchText
+        sUrl = URL_MAIN + '?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+'+sSearchText
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -252,7 +252,7 @@ def showSeries(sSearch = ''):
                 if t_ch:
                     nb = int(t_ch[0])+int(t_int[0])
                     page = page + chr(nb)
-            VSlog(page)
+
 
             sPattern = '<article aria-label="post"><a href="([^<]+)">.+?<li aria-label="year">(.+?)</li>.+?<li aria-label="title">([^<]+)<em>.+?data-src="(.+?)" width'
 
@@ -370,7 +370,7 @@ def showSeasons():
                 if t_ch:
                     nb = int(t_ch[0])+int(t_int[0])
                     page = page + chr(nb)
-            VSlog(page)
+
             sPattern = '<a href="([^<]+)">([^<]+)<em>'
     
             oParser = cParser()
@@ -436,7 +436,7 @@ def showEps():
                 if t_ch:
                     nb = int(t_ch[0])+int(t_int[0])
                     page = page + chr(nb)
-            VSlog(page)
+
 
             sPattern = '<li><a href="(.+?)"><img  src="(.+?)" alt="logo" />.+?<em>(.+?)</em>'
 
@@ -509,7 +509,7 @@ def showServer():
 
 
     # (.+?) .+? ([^<]+)        	
-            sPattern = '<a href="([^"]+)"><i class.+?download.+?</i>(.+?)<p'
+            sPattern = '<a href="(.+?)".+?class="fas fa-cloud-download-alt"></i>(.+?)<p'
             oParser = cParser()
             aResult = oParser.parse(page, sPattern)
 
@@ -598,7 +598,7 @@ def showServer():
 
             sPattern = 'data-index="([^"]+)".+?data-id="([^"]+)"' 
             aResult = oParser.parse(page, sPattern)
-            VSlog(aResult)
+
             if aResult[0]:
                 for aEntry in aResult[1]:
                     sIndex = aEntry[0]
@@ -615,11 +615,11 @@ def showServer():
                     sPattern =  '<iframe.+?src="([^"]+)"'
                     oParser = cParser()
                     aResult = oParser.parse(sHtmlContent, sPattern)
-                    VSlog(aResult)
+
                     if aResult[0]:
                         for aEntry in aResult[1]:
             
-                            url = aEntry
+                            url = aEntry.replace("cimanow","rrsrrs")
                             sTitle = sMovieTitle
                             if url.startswith('//'):
                                 url = 'http:' + url
@@ -630,7 +630,8 @@ def showServer():
                             if 'moshahda' in sHosterUrl:
                                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
                             if 'mystream' in sHosterUrl:
-                                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN   
+                                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
+
                             oHoster = cHosterGui().checkHoster(sHosterUrl)
                             if oHoster:
                                 oHoster.setDisplayName(sMovieTitle)

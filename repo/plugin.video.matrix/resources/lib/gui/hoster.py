@@ -359,7 +359,10 @@ class cHosterGui:
         
         if ('vimeo' in sHostName):
             return self.getHoster('vimeo')
-        
+
+        if ('rrsrrs' in sHostName):
+            return self.getHoster('cimanow')
+
         if ('embed.scdn.' in sHostName):
             return self.getHoster('faselhd')
         
@@ -538,7 +541,7 @@ class cHosterGui:
         if ('seeeed' in sHostName):
             return self.getHoster('arabseed')
             
-        if ('reviewtech' in sHostName) or ('reviewrate' in sHostName):
+        if ('reviewtech' in sHosterUrl) or ('reviewrate' in sHosterUrl):
             return self.getHoster('arabseed')
 
         if ('techradar' in sHostName) or ('albrq' in sHostName):
@@ -553,7 +556,7 @@ class cHosterGui:
         if ('goved' in sHostName) or ('govad' in sHostName) or ('govid.me' in sHostName):
             return self.getHoster('govidme')
             
-        if ('govid' in sHostName) or ('drkvid' in sHosterUrl) or ('gvid.' in sHosterUrl) or ('govid.' in sHostName) or ('kopatube' in sHostName) or ('kobatube' in sHostName) or ('darkveed' in sHostName):
+        if ('govid' in sHostName) or ('drkvid' in sHosterUrl) or ('gvid.' in sHosterUrl) or ('govid.' in sHostName) or ('kopatube' in sHostName) or ('kobatube' in sHostName) or ('darkveed' in sHostName) or ('downvol' in sHosterUrl) or ('telvod' in sHosterUrl):
             return self.getHoster('govid')
             
         if ('vid4up' in sHostName):

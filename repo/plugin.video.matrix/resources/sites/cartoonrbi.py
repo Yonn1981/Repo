@@ -20,6 +20,7 @@ URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 KID_MOVIES = (URL_MAIN + '/films.html', 'showMovies')
 KID_CARTOON = (URL_MAIN + '/cats.html', 'showSeries')
 
+MOVIE_PACK = (URL_MAIN , 'showPack')
  
 def load():
     oGui = cGui()
@@ -30,10 +31,51 @@ def load():
     
     oOutputParameterHandler.addParameter('siteUrl', KID_CARTOON[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات كرتون', 'crtoon.png', oOutputParameterHandler)    
-            
+
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_PACK[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showPack', 'جميع الكرتون', 'listes.png', oOutputParameterHandler)            
     oGui.setEndOfDirectory()
 
-   
+
+def showPack():
+    oGui = cGui()
+    
+    oInputParameterHandler = cInputParameterHandler()
+    sUrl = oInputParameterHandler.getValue('siteUrl')
+ 
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request()
+
+    oParser = cParser()
+     # (.+?) ([^<]+) .+?
+    sStart = '<ul id="sidebarmenu1">'
+    sEnd = '</ul></li></ul>'
+    sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
+    sPattern = '<a href="([^<]+)">([^<]+)</a>'
+
+
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+	
+	
+    if aResult[0]:
+        oOutputParameterHandler = cOutputParameterHandler()
+        for aEntry in aResult[1]:
+            if '#' in aEntry[0]:
+                continue 
+            sTitle = aEntry[1]
+            siteUrl = URL_MAIN + aEntry[0]	
+
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+			
+
+            oGui.addTV(SITE_IDENTIFIER, 'showEps', sTitle, 'crtoon.png', '', '', oOutputParameterHandler)
+
+ 
+    oGui.setEndOfDirectory()
+
 def showMovies(sSearch = ''):
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
@@ -81,7 +123,7 @@ def showMovies(sSearch = ''):
         oGui.setEndOfDirectory()
 		
 def __checkForNextPage(sHtmlContent):
-    sPattern = "<a href='([^<]+)'>«"
+    sPattern = '<a href="([^<]+)">«'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
@@ -90,16 +132,7 @@ def __checkForNextPage(sHtmlContent):
 
     return False	
 	
-def __checkForNextPageEp(sHtmlContent):
-    sPattern = "<a href='([^<]+)'>«"
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    if aResult[0]:
-        aResult = URL_MAIN+'/'+aResult[1][0]
-        return aResult
 
-    return False		
- 
 def showSeries(sSearch = ''):
     oGui = cGui()
 
@@ -148,7 +181,8 @@ def showSeries(sSearch = ''):
  
     if not sSearch:
         oGui.setEndOfDirectory()
-   
+
+
 def showEps():
     oGui = cGui()
    
@@ -184,11 +218,12 @@ def showEps():
             oGui.addEpisode(SITE_IDENTIFIER, 'showLink', sTitle, '', sThumb, '', oOutputParameterHandler)
  
  
-        sNextPage = __checkForNextPageEp(sHtmlContent)
+        sNextPage = __checkForNextPage(sHtmlContent)
         if sNextPage:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showEps', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+
 
         oGui.setEndOfDirectory()
        
@@ -249,6 +284,19 @@ def showLink():
                       url = url2[1].replace("&token","")
                    if url.startswith('//'):
                       url = 'http:' + url
+                   if 'arteenz' in url:
+                      VSlog(url)
+                      oRequestHandler = cRequestHandler(url)
+                      sUrl0 = oRequestHandler.request()
+                      sPattern = '<iframe.+?src="(.+?)"'
+                      oParser = cParser()
+                      aResult = oParser.parse(sUrl0, sPattern)
+                      VSlog(sUrl0)
+                      if aResult[0]:
+                        for aEntry in aResult[1]:
+                            url = aEntry
+                      else:
+                          url = ""
 								            
                    sHosterUrl = url
                    if 'userload' in sHosterUrl:

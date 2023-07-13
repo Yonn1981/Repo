@@ -44,9 +44,9 @@ class cHoster(iHoster):
             for aEntry in aResult[1]:
                 url = aEntry
                 sHtmlContent = cPacker().unpack(url)
-                sPattern = 'file:"(.+?)"'
+                sPattern = 'file:"([^"]+)"'
                 aResult = oParser.parse(sHtmlContent, sPattern)
-                VSlog(sHtmlContent)
+
                 if aResult[0]:
                     api_call = aResult[1][0]
 
