@@ -15,7 +15,12 @@ class cHoster(iHoster):
         iHoster.__init__(self, 'streamhide', 'StreamHide')
 
     def _getMediaLinkForGuest(self):
-        oRequest = cRequestHandler(self._url)
+        eURL = self._url
+        if ('/d' in eURL):
+            eURL = eURL.replace('/d','/e').split('_')[0]
+        else:
+            eURL = eURL
+        oRequest = cRequestHandler(eURL)
         sHtmlContent = oRequest.request()
 
         oParser = cParser()

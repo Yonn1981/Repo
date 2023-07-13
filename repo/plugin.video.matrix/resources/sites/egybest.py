@@ -621,7 +621,6 @@ def showHosters():
         rUrl1 = sUrl.split("/")[5]
         rUrl = sUrl.replace(rUrl1, '')
 
-    
     oRequestHandler = cRequestHandler(sUrl)
     St=requests.Session()
     sHtmlContent1 = oRequestHandler.request()
@@ -679,7 +678,52 @@ def showHosters():
                                         oHoster.setFileName(sMovieTitle)
                                         cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
+    sPattern =  'name="codes" value="(.+?)">' 
+    aResult = oParser.parse(sHtmlContent1,sPattern)
+    if aResult[0] is True:
+        mcode = aResult[1][0] 
 
+    sPattern = '<section class="code"><form action="(.+?)" method="post">'
+
+    aResult = oParser.parse(sHtmlContent1,sPattern)
+    if aResult[0] is True:
+        murl2 = aResult[1][0] 
+
+        import requests
+        s = requests.Session()            
+        headers = {'user-agent': 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1',
+							'origin': "https://egy-best.site",
+							'referer': rUrl}
+        data = {'codes':mcode}
+        r = s.post(murl2,data = data)
+        sHtmlContent = r.content.decode('utf8')
+   
+        sPattern = '"iframe_a" href="([^"]+)'
+        oParser = cParser()
+        aResult = oParser.parse(sHtmlContent, sPattern)
+
+	
+        if aResult[0]:
+           for aEntry in reversed(aResult[1]):
+               if 'http' not in aEntry:
+                    continue          
+               url = aEntry
+               sThumb = sThumb
+               if url.startswith('//'):
+                  url = 'http:' + url
+								            
+               sHosterUrl = url
+               if 'userload' in sHosterUrl:
+                  sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+               if 'egy-best' in sHosterUrl:
+                  sHosterUrl = sHosterUrl + "|Referer=" + murl2
+               if 'mystream' in sHosterUrl:
+                  sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN    
+               oHoster = cHosterGui().checkHoster(sHosterUrl)
+               if oHoster != False:
+                  oHoster.setDisplayName(sMovieTitle)
+                  oHoster.setFileName(sMovieTitle)
+                  cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
 
     sPattern = '<div class="tr flex-start">.+?</div>.+?<div>(.+?)</div>.+?<a href="([^"]+)'

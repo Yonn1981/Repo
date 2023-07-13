@@ -225,7 +225,10 @@ class cHosterGui:
 
         if ('gettyshare' in sHosterUrl):
             return self.getHoster('gettyshare')
-        
+
+        if ('.aflam' in sHosterUrl):
+            return self.getHoster('mixloads')
+
         if ('sbfull' in sHostName):
             return self.getHoster('viewsb')
         if ('sbrapid' in sHostName):
@@ -499,7 +502,7 @@ class cHosterGui:
         if ('eeggyy' in sHosterUrl):
             return self.getHoster('egybest')
 
-        if ('shoffree' in sHostName):
+        if ('shoffree' in sHostName) or ('egy-best' in sHostName):
             return self.getHoster('shoffree')
 
         if ('streamsforu' in sHostName or 'ylass' in sHostName or 'rsc.cdn' in sHostName or 'btolat' in sHostName):
@@ -511,7 +514,7 @@ class cHosterGui:
         if (('anavids' in sHostName) or ('anavidz' in sHostName)):
             return self.getHoster('anavids')
 
-        if ('guccihide' in sHostName) or ('streamhide' in sHostName) or ('fanakishtuna' in sHostName) or ('ahvsh' in sHostName):
+        if ('guccihide' in sHostName) or ('streamhide' in sHostName) or ('fanakishtuna' in sHostName) or ('ahvsh' in sHostName) or ('animezd' in sHostName):
             return self.getHoster('streamhide')
 
         if (('anonfile' in sHostName) or ('govid.xyz' in sHostName) or ('file.bz' in sHostName) or ('myfile.is' in sHostName) or ('upload.st' in sHostName)):
@@ -574,7 +577,7 @@ class cHosterGui:
         if ('sama-share' in sHostName):
             return self.getHoster('samashare')
 
-        if ('anafast' in sHostName):
+        if ('anafast' in sHostName) or ('anamov' in sHostName):
             return self.getHoster('anafasts')
 
         if ('myvi.' in sHostName):

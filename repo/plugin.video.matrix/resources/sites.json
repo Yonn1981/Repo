@@ -291,6 +291,11 @@
             "active": "True",
             "url": "https://tn.honadrama.us/"
         },
+        "ifushaar": {
+            "label": "iFushaar",
+            "active": "True",
+            "url": "https://t.ifushaar.com/"
+        },
         "iptv": {
             "label": "IPTV",
             "active": "True",

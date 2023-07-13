@@ -215,8 +215,13 @@ def showMovies(sSearch = ''):
 
         progress_.VSclose(progress_)
 
-    sPattern = '<div class="postDiv">.+?<a href="([^<]+)">.+?data-src="(.+?)".+?<div class="h1">(.+?)</div>'
+        sNextPage = __checkForNextPage(sHtmlContent)
+        if sNextPage:
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
+            oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
 
+    sPattern = '<div class="postDiv">.+?<a href="([^<]+)">.+?data-src="(.+?)".+?<div class="h1">(.+?)</div>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -653,7 +658,7 @@ def showLink():
     oGui.setEndOfDirectory()       
   
 def __checkForNextPage(sHtmlContent):
-    sPattern = "href='([^<]+)'>&rsaquo;</a>"
+    sPattern = "href='([^']+)'>&rsaquo;</a>"
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

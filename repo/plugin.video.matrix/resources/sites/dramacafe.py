@@ -318,13 +318,13 @@ def showHosters():
     sHtmlContent = oRequestHandler.request()
     oParser = cParser()
             
-    sPattern =  '<a id="play-video" class="video-play-button" href="(.+?)"  rel="nofollow">' 
+    sPattern =  '<a id="play-video" class="video-play-button" href="([^"]+)' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0] is True:
         m3url = aResult[1][0]
         oRequestHandler = cRequestHandler(m3url)
         oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
-        oRequestHandler.addHeaderEntry('referer', 'https://wwp.dramacafe-tv.com/')
+        oRequestHandler.addHeaderEntry('referer', URL_MAIN)
         sHtmlContent = oRequestHandler.request() 
 
     # (.+?) .+? ([^<]+)        	

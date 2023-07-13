@@ -102,7 +102,11 @@ def showSeries(sSearch = ''):
 
         progress_.VSclose(progress_)
         
-  # ([^<]+) .+? (.+?)
+        sNextPage = __checkForNextPage(sHtmlContent)
+        if sNextPage:
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
+            oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
  
     if not sSearch:
         oGui.setEndOfDirectory()
@@ -172,6 +176,16 @@ def showEpisodes():
         
     oGui.setEndOfDirectory()
 
+def __checkForNextPage(sHtmlContent):
+    sPattern = '<link rel="next" href="([^"]+)'
+	
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+ 
+    if aResult[0]:
+        return aResult[1][0]
+
+    return False
 
 def showHosters():
     oGui = cGui()
