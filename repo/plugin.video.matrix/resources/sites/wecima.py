@@ -65,7 +65,7 @@ def load():
     oGui.addDir(SITE_IDENTIFIER, 'showSeriesSearch', 'SEARCH SERIES', 'search.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
-    oGui.addDir(SITE_IDENTIFIER, 'showAnimesSearch', 'SEARCH Animes', 'search.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showAnimesSearch', 'SEARCH ANIME', 'search.png', oOutputParameterHandler)
     
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_EN[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أجنبية', 'agnab.png', oOutputParameterHandler)
@@ -756,6 +756,7 @@ def showHosters():
     oRequestHandler.addHeaderEntry('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
     oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
     oRequestHandler.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
+    oRequestHandler.disableSSL()
     sHtmlContent = oRequestHandler.request()
 
 
@@ -795,8 +796,7 @@ def showHosters():
         for aEntry in aResult[1]:
             
             sHosterUrl = aEntry
-            sHosterUrl = sHosterUrl.replace("upbbom","ddsdd")
-            sHosterUrl = sHosterUrl.replace("upbam","ddsdd")
+
             if sHosterUrl.startswith('//'):
                 sHosterUrl = 'http:' + sHosterUrl
             if 'userload' in sHosterUrl:
@@ -818,23 +818,26 @@ def showHosters():
 	
     if aResult[0]:
         for aEntry in aResult[1]:
+            if '.rar' in aEntry[0]:
+                continue
             sHosterUrl = aEntry[0]
-            sHosterUrl = sHosterUrl.replace("upbam","ddsdd").replace("upbem","ddsdd")
+
             sTitle = sMovieTitle+' ['+aEntry[2]+aEntry[1]+'] '
             if sHosterUrl.startswith('//'):
                 sHosterUrl = 'http:' + sHosterUrl
-					
+
             if 'userload' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
             if 'moshahda' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
             if 'mystream' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN   
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
+
+            oHoster = cHosterGui().getHoster('lien_direct')
             if oHoster:
                 oHoster.setDisplayName(sTitle)
                 oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl , sThumb)
 				
 
                 

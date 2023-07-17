@@ -43,5 +43,7 @@ class cHoster(iHoster):
 
             if api_call:
                 return True, api_call + '|User-Agent=' + UA+'&AUTH=TLS&verifypeer=false' + '&Referer=' + self._url
+        else:
+            return True, self._url
 
         return False, False

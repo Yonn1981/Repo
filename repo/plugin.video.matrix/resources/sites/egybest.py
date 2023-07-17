@@ -678,9 +678,9 @@ def showHosters():
                                         oHoster.setFileName(sMovieTitle)
                                         cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
-    sPattern =  'name="codes" value="(.+?)">' 
+    sPattern =  'name="codes" value="([^"]+)' 
     aResult = oParser.parse(sHtmlContent1,sPattern)
-    if aResult[0] is True:
+    if aResult[0]:
         mcode = aResult[1][0] 
 
     sPattern = '<section class="code"><form action="(.+?)" method="post">'

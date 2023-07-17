@@ -569,20 +569,23 @@ def showHostersepisode():
 
     oParser = cParser()
             
-    sPattern =  'name="code" value="(.+?)">' 
+    sPattern =  'name="codes" value="([^"]+)' 
     aResult = oParser.parse(sHtmlContent,sPattern)
-    if aResult[0] is True:
+    if aResult[0]:
         mcode = aResult[1][0] 
 
             
     sPattern =  '<form action="(.+?)" method="post">' 
     aResult = oParser.parse(sHtmlContent,sPattern)
-    if aResult[0] is True:
+    if aResult[0]:
         murl2 = aResult[1][0] 
 
         import requests
         s = requests.Session()            
-        data = {'code':mcode}
+        headers = {'user-agent': 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1',
+							'origin': URL_MAIN,
+							'referer': murl2}
+        data = {'codes':mcode}
         r = s.post(murl2,data = data)
         sHtmlContent = r.content.decode('utf8')
    
@@ -697,7 +700,7 @@ def showHosters():
 
     oParser = cParser()
             
-    sPattern =  'name="code" value="(.+?)">' 
+    sPattern =  'name="codes" value="([^"]+)' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0] is True:
         mcode = aResult[1][0] 
@@ -711,9 +714,9 @@ def showHosters():
         import requests
         s = requests.Session()            
         headers = {'user-agent': 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1',
-							'origin': "https://sh.shoffree.com",
+							'origin': URL_MAIN,
 							'referer': murl}
-        data = {'code':mcode}
+        data = {'codes':mcode}
         r = s.post(murl2,data = data)
         sHtmlContent = r.content.decode('utf8')
    

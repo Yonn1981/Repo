@@ -31,11 +31,6 @@
             "active": "True",
             "url": "https://akw.to/"
         },
-        "akwameg": {
-            "label": "AkwamEg",
-            "active": "False",
-            "url": "https://re.two.re/link/141054"
-        },
         "alarabiya": {
             "label": "Alarabiya",
             "active": "True",
@@ -106,6 +101,11 @@
             "active": "False",
             "url": "https://www.awaan.ae/"
         },
+        "bazplay": {
+            "label": "BazPlay",
+            "active": "True",
+            "url": "https://bazplay.cc/"
+        },
         "beinmatch": {
             "label": "Beinmatch",
             "active": "True",
@@ -150,6 +150,11 @@
             "label": "CimaKing",
             "active": "True",
             "url": "https://cimaking.com/"
+        },
+        "cimalek": {
+            "label": "Cimalek",
+            "active": "True",
+            "url": "https://w.cimalek.to/"
         },
         "cimanow": {
             "label": "CimaNow",
@@ -225,11 +230,6 @@
             "label": "Esseq",
             "active": "True",
             "url": "https://arab3sk.net/"
-        },
-        "esseqeg": {
-            "label": "Esseq Egypt",
-            "active": "False",
-            "url": "https://eyshq.net/"
         },
         "fansubs": {
             "label": "Fansubstv",
@@ -421,7 +421,7 @@
         "tuktukcinema": {
             "label": "Tuktukcinema",
             "active": "True",
-            "url": "https://tuktukcinema.vip/"
+            "url": "https://t.tuktukcinema.co/"
         },
         "tvfun": {
             "label": "Tvfun",
@@ -456,7 +456,7 @@
         "yalladrama": {
             "label": "Yalladrama",
             "active": "True",
-            "url": "https://j.yalladrama.co/"
+            "url": "https://v2.yalladrama.co/"
         },
         "yallalive": {
             "label": "Yallalive",

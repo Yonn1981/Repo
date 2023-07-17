@@ -53,8 +53,8 @@ def load():
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'ترجماتنا الحصرية', 'asia.png', oOutputParameterHandler)    
 
     oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'category/%d8%a7%d9%84%d8%a8%d8%b1%d8%a7%d9%85%d8%ac-%d8%a7%d9%84%d8%a3%d8%b3%d9%8a%d9%88%d9%8a%d8%a9-asian-program/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', ' البرامج الأسيوية', 'asia.png', oOutputParameterHandler)         
+    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'category/البرامج-الأسيوية-asian-program/')
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'البرامج الأسيوية', 'asia.png', oOutputParameterHandler)         
     
     oGui.setEndOfDirectory()
  
@@ -142,7 +142,7 @@ def showSeries(sSearch = ''):
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
-	
+    VSlog(sHtmlContent)
     if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)

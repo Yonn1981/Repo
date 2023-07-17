@@ -445,15 +445,16 @@ def showServer():
     oParser = cParser()
     Host = URL_MAIN.split('//')[1]
      # (.+?) ([^<]+) .+?
-    sPattern = 'data-post="([^<]+)" data-nume="(.+?)">'
+    sPattern = 'data-type="([^"]+)" data-post="([^<]+)" data-nume="(.+?)">'
     aResult = oParser.parse(sHtmlContent, sPattern)
     
     if aResult[0]:
        for aEntry in aResult[1]:
            pUrl = URL_MAIN + '/wp-admin/admin-ajax.php'
-           post = aEntry[0]
-           nume = aEntry[1]
-           pdata = 'action=doo_player_ajax&post='+post+'&nume='+nume+'&type=movie'
+           post = aEntry[1]
+           nume = aEntry[2]
+           dtype= aEntry[0]
+           pdata = 'action=doo_player_ajax&post='+post+'&nume='+nume+'&type='+dtype
            UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0"
            oRequest = cRequestHandler(pUrl)
            oRequest.setRequestType(1)
@@ -469,12 +470,9 @@ def showServer():
            aResult = oParser.parse(sHtmlContent, sPattern)
            if aResult[0]:
                for aEntry in aResult[1]:            
-                   url = aEntry
+                   url = aEntry.replace("%2F","/").replace("%3A",":").replace("https://show.alfajertv.com/jwplayer/?source=","").replace("&type=mp4","").split("&id")[0]
                    if 'hadara.ps' in aEntry :
-                       continue
-                   if 'fajer.video' in url:
-                      url = url.split('id=')[1]
-                      url = "https://fajer.video/hls/"+url+"/"+url+".playlist.m3u8"
+                      url = url + "|Referer=" + aEntry + "| User-Agent= Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36"
                    if url.startswith('//'):
                       url = 'http:' + url
             
@@ -488,27 +486,5 @@ def showServer():
                       oHoster.setDisplayName(sMovieTitle)
                       oHoster.setFileName(sMovieTitle)
                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-           sPattern = '<iframe.+?src="(.+?)" frameborder'
-           aResult = oParser.parse(sHtmlContent, sPattern)
-           if aResult[0]:
-               for aEntry in aResult[1]:            
-                   url = aEntry
-                   if 'hadara.ps' in aEntry :
-                       continue
-                   if 'fajer.video' in url:
-                      url = url.split('id=')[1]
-                      url = "https://fajer.video/hls/"+url+"/"+url+".playlist.m3u8"
-                   if url.startswith('//'):
-                      url = 'http:' + url
-            
-                   sHosterUrl = url
-                   if 'userload' in sHosterUrl:
-                       sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-                   if 'mystream' in sHosterUrl:
-                       sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
-                   oHoster = cHosterGui().checkHoster(sHosterUrl)
-                   if oHoster:
-                      oHoster.setDisplayName(sMovieTitle)
-                      oHoster.setFileName(sMovieTitle)
-                      cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+
     oGui.setEndOfDirectory()

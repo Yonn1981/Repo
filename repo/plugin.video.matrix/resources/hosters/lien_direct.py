@@ -21,10 +21,6 @@ class cHoster(iHoster):
         VSlog(self._url)
 
         api_call = self._url.replace("rrsrr","cimanow")
-        if 'ddsdd' in api_call:
-            api_call = self._url.replace("ddsdd","upbam")    
-            UA = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36'
-            api_call = api_call + '|User-Agent=' + UA + '&Referer=' + self._url
  	   
         if 'ffsff' in api_call:
             api_call = self._url.replace("ffsff","moshahda")
@@ -38,8 +34,7 @@ class cHoster(iHoster):
         if 'fushaar' in api_call:
             api_call = api_call + '|AUTH=TLS&verifypeer=false'  + '&Referer=https://fushaar.com/'
        
-        if 'akwam' in api_call or '.akw.' in api_call or '.onesav.' in api_call or '.AKWAM.' in api_call or 'akdl.' in api_call:
-            api_call = api_call + '|AUTH=TLS&verifypeer=false' + '&Referer=https://akwam.im/'
+
         if 'panet' in api_call:
             api_call = api_call + '|AUTH=TLS&verifypeer=false' 
         if 'scorarab' in api_call:

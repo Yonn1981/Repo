@@ -162,7 +162,7 @@ def showMovies(sSearch = ''):
 
             oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
-        progress_.VSclose(progress_)
+
  
         sNextPage = __checkForNextPage(sHtmlContent)
         if sNextPage:

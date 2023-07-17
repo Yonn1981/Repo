@@ -506,7 +506,10 @@ def __checkForNextPage(sHtmlContent):
 
 
 def showHosters():
+
     oGui = cGui()
+    oHosterGui = cHosterGui()
+
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
@@ -543,6 +546,7 @@ def showHosters():
         murl =  aResult[1][0]
 
         oRequest = cRequestHandler(murl)
+        oRequest.disableSSL()
         sHtmlContent = oRequest.request()
         
         oParser = cParser()           
@@ -551,8 +555,7 @@ def showHosters():
                                                                      
         aResult = oParser.parse(sHtmlContent,sPattern)
         
-        url, qua = [], []
-        
+       
         if aResult[0]:
             for aEntry1 in aResult[1]:
                 sHosterUrl = aEntry1[0] 
@@ -560,39 +563,29 @@ def showHosters():
 
                 sTitle = ('%s  [COLOR coral](%sp)[/COLOR]') % (sMovieTitle, sHost)  
                 oHoster = cHosterGui().checkHoster(sHosterUrl)
-
-                # url.append(str(sHosterUrl))
-                # qua.append(str(sHost))
-            
-            # api_call = dialog().VSselectqual(qua, url)
-            
+           
                 if oHoster:
                     oHoster.setDisplayName(sTitle)
                     oHoster.setFileName(sMovieTitle)
-                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                    oHosterGui.showHoster(oGui, oHoster, sHosterUrl + "|verifypeer=false", sThumb)
 
             oGui.setEndOfDirectory()
     else:
         sPattern = '<source src="(.*?)" type="video/mp4" size="(.*?)" />'
         aResult = oParser.parse(sHtmlContent,sPattern)
         
-        url, qua = [], []
         if aResult[0]:
             for aEntry1 in aResult[1]:
                 sHosterUrl = aEntry1[0] 
                 sHost = aEntry1[1]  
-                VSlog('Found host url: ' + str(sHosterUrl))
+
                 sTitle = ('%s  [COLOR coral](%sp)[/COLOR]') % (sMovieTitle, sHost)  
                 oHoster = cHosterGui().checkHoster(sHosterUrl)
                 
-                # url.append(str(sHosterUrl))
-                # qua.append(str(sHost))
-            
-            # api_call = dialog().VSselectqual(qua, url)
                 if oHoster:
                     oHoster.setDisplayName(sTitle)
                     oHoster.setFileName(sMovieTitle)
-                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                    oHosterGui.showHoster(oGui, oHoster, sHosterUrl + "|verifypeer=false", sThumb)
                     
             oGui.setEndOfDirectory()
 

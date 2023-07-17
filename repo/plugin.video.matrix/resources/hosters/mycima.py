@@ -31,6 +31,6 @@ class cHoster(iHoster):
             api_call = r2.group(1)
 
         if api_call:
-            return True, api_call+ '|User-Agent=' + UA +'&Referer=' + self._url
+            return True, api_call
 
         return False, False

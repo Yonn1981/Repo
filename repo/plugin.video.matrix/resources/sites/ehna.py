@@ -25,9 +25,12 @@ MOVIE_HI = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85/%d8%a7%d9%81%d9
 MOVIE_ASIAN = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%b3%d9%8a%d9%88%d9%8a%d8%a9/', 'showMovies')
 MOVIE_DUBBED = (URL_MAIN + '/tag/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%85%D8%AF%D8%A8%D9%84%D8%AC%D8%A9', 'showMovies')
 MOVIE_CLASSIC = (URL_MAIN + '/tag/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%83%D9%84%D8%A7%D8%B3%D9%8A%D9%83%D9%8A%D8%A9', 'showMovies')
+MOVIE_ANNEES = (URL_MAIN, 'showYears')
 KID_MOVIES = (URL_MAIN + '/category/الانيميشن/', 'showMovies')
-MOVIE_GENRES = (True, 'showGenres')
-SERIE_GENRES = (True, 'showGenres')
+MOVIE_WORLD = (URL_MAIN + '/tag/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d9%84%d8%a8%d9%88%d9%83%d8%b3-%d8%a7%d9%88%d9%81%d9%8a%d8%b3/', 'showMovies')
+MOVIE_GENRES = (URL_MAIN, 'moviesGenres')
+SERIE_GENRES = (URL_MAIN, 'seriesGenres')
+SERIE_ANNEES = (URL_MAIN, 'showSerieYears')
 
 REPLAYTV_NEWS = (URL_MAIN + '/tv', 'showSeries')
 
@@ -43,14 +46,18 @@ def load():
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'SEARCH_MOVIES', 'search.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'SEARCH MOVIES', 'search.png', oOutputParameterHandler)
 
-    oOutputParameterHandler.addParameter('siteUrl', MOVIE_GENRES[0])
-    oGui.addDir(SITE_IDENTIFIER, MOVIE_GENRES[1], 'أقسام الموقع', 'icon.png', oOutputParameterHandler)
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_WORLD[0])
+    oGui.addDir(SITE_IDENTIFIER, MOVIE_WORLD[1], 'افلام البوكس اوفيس', 'film.png', oOutputParameterHandler)
    
     oOutputParameterHandler.addParameter('siteUrl', SERIE_GENRES[0])
     oGui.addDir(SITE_IDENTIFIER, SERIE_GENRES[1], 'مسلسلات', 'mslsl.png', oOutputParameterHandler) 
- 
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN)
+    oGui.addDir(SITE_IDENTIFIER, 'showLang', 'أفلام (حسب اللغة)', 'film.png', oOutputParameterHandler)	
+
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_EN[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أجنبية', 'agnab.png', oOutputParameterHandler)
@@ -82,9 +89,26 @@ def load():
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', DOC_NEWS[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'برامج وثائقية', 'doc.png', oOutputParameterHandler) 
- 
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN)
+    oGui.addDir(SITE_IDENTIFIER, 'showYears', 'أفلام (بالسنوات)', 'annees.png', oOutputParameterHandler)
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN)
+    oGui.addDir(SITE_IDENTIFIER, 'showSerieYears', 'مسلسلات (بالسنوات)', 'annees.png', oOutputParameterHandler)
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', SERIE_GENRES[0])
+    oGui.addDir(SITE_IDENTIFIER, SERIE_GENRES[1], 'المسلسلات (الأنواع)', 'mslsl.png', oOutputParameterHandler)
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_GENRES[0])
+    oGui.addDir(SITE_IDENTIFIER, MOVIE_GENRES[1], 'الأفلام (الأنواع)', 'film.png', oOutputParameterHandler)
+
     oGui.setEndOfDirectory() 
-    
+
+
 def showSearch():
     oGui = cGui()
  
@@ -95,25 +119,119 @@ def showSearch():
         oGui.setEndOfDirectory()
         return
 
-def showGenres():
+def showYears():
     oGui = cGui()
+    
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
  
-    liste = []
-    liste.append( ["مسلسلات عربية",URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b9%d8%b1%d8%a8%d9%8a%d8%a9/'] ) 
-    liste.append( ["مسلسلات اجنبية",URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a%d8%a9/'] ) 
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request()
 
-   
- 
- 
-    for sTitle,sUrl in liste:
-        
-        oOutputParameterHandler = cOutputParameterHandler()
-        oOutputParameterHandler.addParameter('siteUrl', sUrl)
-        oGui.addDir(SITE_IDENTIFIER, 'showSeries', sTitle, 'genres.png', oOutputParameterHandler)       
+    oParser = cParser()
+     # (.+?) ([^<]+) .+?
+    sStart = '<option value="">السنة</option>'
+    sEnd = '</select>'
+    sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
 
-    oGui.setEndOfDirectory()    
+    sPattern = '<option value="([^"]+)"'
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+	
+
+    if aResult[0]:
+        oOutputParameterHandler = cOutputParameterHandler()    
+        for aEntry in reversed(aResult[1]):
+ 
+            sYear = aEntry
+            oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '?s=custom&cat=23&genre=&Quality=&year=' + sYear) 
+            oGui.addDir(SITE_IDENTIFIER, 'showMovies', sYear, 'annees.png', oOutputParameterHandler)
+    oGui.setEndOfDirectory()
+
+def showSerieYears():
+    oGui = cGui()
+    
+    oInputParameterHandler = cInputParameterHandler()
+    sUrl = oInputParameterHandler.getValue('siteUrl')
+ 
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request()
+
+    oParser = cParser()
+     # (.+?) ([^<]+) .+?
+    sStart = '<option value="">السنة</option>'
+    sEnd = '</select>'
+    sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
+
+    sPattern = '<option value="([^"]+)"'
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+	
+    if aResult[0]:
+        oOutputParameterHandler = cOutputParameterHandler()    
+        for aEntry in reversed(aResult[1]):
+ 
+            sYear = aEntry
+            oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '?s=custom&cat=35&genre=&Quality=&year=' + sYear) 
+            oGui.addDir(SITE_IDENTIFIER, 'showSeries', sYear, 'annees.png', oOutputParameterHandler)
+    oGui.setEndOfDirectory()
+
+def moviesGenres():
+    oGui = cGui()
+    
+    oInputParameterHandler = cInputParameterHandler()
+    sUrl = oInputParameterHandler.getValue('siteUrl')
+ 
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request()
+
+    oParser = cParser()
+     # (.+?) ([^<]+) .+?
+    sStart = '<option value="">النوع</option>'
+    sEnd = '</select>'
+    sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
+
+    sPattern = '<option value="(.+?)">([^<]+)</option>'
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+	
+
+    if aResult[0]:
+        oOutputParameterHandler = cOutputParameterHandler()    
+        for aEntry in reversed(aResult[1]):
+            sTitle = aEntry[1]  
+            sGenres = aEntry[0]
+            oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '?s=custom&cat=23&genre=' + sGenres) 
+            oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle, 'genres.png', oOutputParameterHandler)
+    oGui.setEndOfDirectory()
+
+def seriesGenres():
+    oGui = cGui()
+    
+    oInputParameterHandler = cInputParameterHandler()
+    sUrl = oInputParameterHandler.getValue('siteUrl')
+ 
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request()
+
+    oParser = cParser()
+     # (.+?) ([^<]+) .+?
+    sStart = '<option value="">النوع</option>'
+    sEnd = '</select>'
+    sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
+
+    sPattern = '<option value="(.+?)">([^<]+)</option>'
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+	
+    if aResult[0]:
+        oOutputParameterHandler = cOutputParameterHandler()    
+        for aEntry in reversed(aResult[1]):
+            sTitle = aEntry[1] 
+            sGenres = aEntry[0]
+            oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '?s=custom&cat=35&genre=' + sGenres) 
+            oGui.addDir(SITE_IDENTIFIER, 'showSeries', sTitle, 'genres.png', oOutputParameterHandler)
+    oGui.setEndOfDirectory()
 
 def showSearchSeries(sSearch = ''):
     oGui = cGui()
@@ -207,6 +325,38 @@ def showSeriesSearch():
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
+
+def showLang():
+    oGui = cGui()
+    
+    oInputParameterHandler = cInputParameterHandler()
+    sUrl = oInputParameterHandler.getValue('siteUrl')
+ 
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request()
+
+    oParser = cParser()
+     # (.+?) ([^<]+) .+?
+    sStart = '>تصنيفات الافلام</a>'
+    sEnd = '</ul>'
+    sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
+
+    sPattern = '<a href="([^<]+)">([^<]+)</a>'
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+	
+
+    if aResult[0]:
+        oOutputParameterHandler = cOutputParameterHandler()    
+        for aEntry in aResult[1]:
+            sTitle = aEntry[1]
+            siteUrl = aEntry[0] 
+
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oGui.addMisc(SITE_IDENTIFIER, 'showMovies', sTitle, 'film.png', '', '', oOutputParameterHandler)
+    oGui.setEndOfDirectory()
 
  
 def showMovies(sSearch = ''):
