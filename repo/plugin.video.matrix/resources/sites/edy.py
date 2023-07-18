@@ -51,7 +51,7 @@ def showMovies(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  # ([^<]+) .+? (.+?)
-    sPattern = '<span class="name"><a href="([^"]+)">(.+?)/</a></span>'
+    sPattern = '<a href="([^"]+)">(.+?)/</a>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -106,7 +106,7 @@ def showSeries(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  # ([^<]+) .+?
-    sPattern = '<span class="name"><a href="([^"]+)">(.+?)/</a></span>'
+    sPattern = '<a href="([^"]+)">(.+?)/</a>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -157,7 +157,7 @@ def showSeasons():
 	oRequestHandler = cRequestHandler(sUrl)
 	sHtmlContent = oRequestHandler.request()
     # .+? ([^<]+)
-	sPattern = '<span class="name"><a href="(.+?)">(.+?)/</a></span>'
+	sPattern = '<a href="([^"]+)">(.+?)/</a>'
 
 	oParser = cParser()
 	aResult = oParser.parse(sHtmlContent, sPattern)
@@ -190,7 +190,7 @@ def showEps():
     sHtmlContent = oRequestHandler.request()
 
      # (.+?) ([^<]+) .+?
-    sPattern = '<span class="name"><a href="([^"]+)">(.+?)</a></span>'
+    sPattern = '<a href="([^"]+)">(.+?)/</a>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -233,7 +233,7 @@ def showLinks():
     sHtmlContent = oRequestHandler.request()
     oParser = cParser()
 
-    sPattern = '<span class="name"><a href="([^"]+)">(.+?)</a></span>'
+    sPattern = '<a href="([^"]+)">(.+?)/</a>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

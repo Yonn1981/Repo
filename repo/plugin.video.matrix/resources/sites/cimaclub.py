@@ -470,7 +470,7 @@ def showServers():
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
             if 'darkveed' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
-            if 'telvod' in sHosterUrl:
+            if 'telvod' in sHosterUrl or 'downvol' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:

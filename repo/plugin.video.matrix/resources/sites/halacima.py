@@ -33,7 +33,7 @@ ANIM_NEWS = (URL_MAIN + '/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D
 SERIE_DUBBED = (URL_MAIN + '/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D9%85%D8%AF%D8%A8%D9%84%D8%AC%D8%A9', 'showSeries')
 
 
-URL_SEARCH = (URL_MAIN + '/search/page.html', 'showMovies')
+URL_SEARCH = (URL_MAIN + '/search/', 'showMovies')
 URL_SEARCH_MOVIES = (URL_MAIN + '/search/', 'showMovies')
 URL_SEARCH_SERIES = (URL_MAIN + '/search/', 'showSeries')
 FUNCTION_SEARCH = 'showMovies'
@@ -81,8 +81,15 @@ def load():
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات تركية', 'turk.png', oOutputParameterHandler)
 
     oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', SERIE_TR_AR[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات تركية مدبلجة', 'turk.png', oOutputParameterHandler)
+
+    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', ANIM_NEWS[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSerie', 'مسلسلات إنمي', 'anime.png', oOutputParameterHandler)
+
+    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN)
+    oGui.addDir(SITE_IDENTIFIER, 'showPack', 'أقسام الموقع', 'listes.png', oOutputParameterHandler)
 
     oGui.setEndOfDirectory()
  
@@ -91,7 +98,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/search/'+sSearchText
+        sUrl = URL_MAIN + 'search/%D9%81%D9%8A%D9%84%D9%85-'+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -101,11 +108,54 @@ def showSeriesSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/search/'+sSearchText
+        sUrl = URL_MAIN + 'search/'+sSearchText
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
 
+def showPack():
+    oGui = cGui()
+    
+    oInputParameterHandler = cInputParameterHandler()
+    sUrl = oInputParameterHandler.getValue('siteUrl')
+ 
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request()
+
+    oParser = cParser()
+     # (.+?) ([^<]+) .+?
+    sStart = '>الرئيسية</a>'
+    sEnd = '<div id="search">'
+    sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
+    sPattern = '<a href="([^<]+)">([^<]+)</a>'
+
+
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+	
+	
+    if aResult[0]:
+        oOutputParameterHandler = cOutputParameterHandler()
+        for aEntry in aResult[1]:
+            if 'المزيد' in aEntry[1]:
+                continue 
+            sTitle = aEntry[1]
+            siteUrl = aEntry[0]
+            sDesc = ''
+			
+
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+			
+            if 'مسلسلات' in sTitle:
+                oGui.addMisc(SITE_IDENTIFIER, 'showSeries', sTitle, 'mslsl.png', '', '', oOutputParameterHandler)
+            elif 'برامج' in sTitle:
+                oGui.addMisc(SITE_IDENTIFIER, 'showSerie', sTitle, 'mslsl.png', '', '', oOutputParameterHandler)
+            else:
+                oGui.addMisc(SITE_IDENTIFIER, 'showMovies', sTitle, 'film.png', '', '', oOutputParameterHandler)
+ 
+    oGui.setEndOfDirectory()
  
 def showMovies(sSearch = ''):
     oGui = cGui()
@@ -164,7 +214,7 @@ def showMovies(sSearch = ''):
         
   # ([^<]+) .+? (.+?)
 
-    sPattern = '<li><a href="([^<]+)" data-ci-pagination-page="([^<]+)">'
+    sPattern = '<li><a href="([^"]+)" data-ci-pagination-page="([^"]+)'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -210,6 +260,7 @@ def showSeries(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
  # ([^<]+) .+?
 
+
     sPattern = '<article class="post">.+?<a href="([^<]+)" title="([^<]+)">.+?data-original="([^<]+)" alt='
 
     oParser = cParser()
@@ -242,13 +293,13 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sDisplayTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 
-            oGui.addTV(SITE_IDENTIFIER, 'showServers', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showEps', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
         
   # ([^<]+) .+?
 
-    sPattern = '<li><a href="([^<]+)" data-ci-pagination-page="([^<]+)">'
+    sPattern = '<li><a href="([^"]+)" data-ci-pagination-page="([^"]+)'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -311,7 +362,7 @@ def showSerie(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1].split('الحلقه')[0].split('الحلقة')[0].split('الموسم')[0].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","")
+            sTitle = aEntry[1].split('الحلقه')[0].split('الحلقة')[0].split('الموسم')[0].replace("مشاهدة","").replace("مسلسل","").replace("أنمي","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","")
             siteUrl = aEntry[0]
             sThumb = aEntry[2]
             sDesc = ""
@@ -321,13 +372,16 @@ def showSerie(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
-            oGui.addTV(SITE_IDENTIFIER, 'showServers', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            if 'عرض' in sTitle or 'حفل' in sTitle or 'مبار' in sTitle:
+                oGui.addMovie(SITE_IDENTIFIER, 'showServers', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            else:
+                oGui.addTV(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
         
   # ([^<]+) .+?
 
-    sPattern = '<li><a href="([^<]+)" data-ci-pagination-page="([^<]+)">'
+    sPattern = '<li><a href="([^"]+)" data-ci-pagination-page="([^"]+)'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -362,7 +416,74 @@ def showSerie(sSearch = ''):
     if not sSearch:
         oGui.setEndOfDirectory()
 
-	 
+def showEps():
+    oGui = cGui()
+   
+    oInputParameterHandler = cInputParameterHandler()
+    sUrl = oInputParameterHandler.getValue('siteUrl')
+    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
+    sThumb = oInputParameterHandler.getValue('sThumb')
+    sDesc = oInputParameterHandler.getValue('sDesc')
+    
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request() 
+
+    sPattern = '<div id="getSeasonsBySeries" class="(.+?)">'
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)		
+    if aResult[0]:
+
+        oParser = cParser()
+        # (.+?) ([^<]+) .+?
+        sStart = '<a title="سلسلة مواسم">'
+        sEnd = '<div class="container">'
+        sHtmlContents = oParser.abParse(sHtmlContent, sStart, sEnd)
+
+        sPattern = '<div class="seasonNum">(.+?)</div>.+?href="(.+?)" title="(.+?)">.+?src="([^"]+)'
+        oParser = cParser()
+        aResult = oParser.parse(sHtmlContents, sPattern)
+
+        if aResult[0]:
+            oOutputParameterHandler = cOutputParameterHandler()    
+            for aEntry in aResult[1]:
+
+                sTitles = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("كامله","").replace("بجودة عالية","").replace("كاملة","").replace("جودة عالية","").replace("كامل","").replace("اونلاين","").replace("اون لاين","")  
+                sTitle =  sTitles + aEntry[0].replace('الموسم','Season')
+                siteUrl = aEntry[1]
+                sThumb = aEntry[3]
+                sDesc = ''
+                if sThumb.startswith('//'):
+                    sThumb = "https:"+aEntry[1]
+			
+                oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+                oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+                oOutputParameterHandler.addParameter('sThumb', sThumb)
+                oGui.addSeason(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+
+
+    sPattern = '<a class="" href="([^<]+)" title="([^<]+)">.+?<span>([^<]+)</span>.+?<span class="numEp">([^<]+)</span>'
+
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+	
+	
+    if aResult[0]:
+        oOutputParameterHandler = cOutputParameterHandler() 
+        for aEntry in aResult[1]:
+ 
+            sTitle = sMovieTitle + ' E'+ aEntry[3]
+            sThumb = aEntry[2]
+            siteUrl = aEntry[0].replace("/episodes/","/watch_episodes/")
+            sDesc = ""
+			
+
+
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
+            oGui.addEpisode(SITE_IDENTIFIER, 'showServers', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+    oGui.setEndOfDirectory()
+
 def showServers():
     oGui = cGui()
     import requests
@@ -409,7 +530,7 @@ def showServers():
             s = requests.Session()			
             r = s.post(URL_MAIN+'/ajax/getPlayer',data = data)
             sHtmlContent1 = r.content.decode('utf8',errors='ignore')  
-            VSlog(sHtmlContent1)   
+  
             sPattern = "src='(.+?)' frameborder"
             oParser = cParser()
             aResult = oParser.parse(sHtmlContent1, sPattern)
@@ -445,75 +566,5 @@ def showServers():
                oHoster.setDisplayName(sTitle)
                oHoster.setFileName(sTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-	    #Affichage du menu  
-    oGui.addText(SITE_IDENTIFIER,'[COLOR olive]---------------------------[/COLOR]')
-  # ([^<]+) .+?
-    sPattern = '<a class="" href="([^<]+)" title="([^<]+)">.+?<span>([^<]+)</span>.+?<span class="numEp">([^<]+)</span>'
 
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
-    if aResult[0]:
-        oOutputParameterHandler = cOutputParameterHandler() 
-        for aEntry in aResult[1]:
- 
-            sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("الموسم العاشر","S10").replace("الموسم الحادي عشر","S11").replace("الموسم الثاني عشر","S12").replace("الموسم الثالث عشر","S13").replace("الموسم الرابع عشر","S14").replace("الموسم الخامس عشر","S15").replace("الموسم السادس عشر","S16").replace("الموسم السابع عشر","S17").replace("الموسم الثامن عشر","S18").replace("الموسم التاسع عشر","S19").replace("الموسم العشرون","S20").replace("الموسم الحادي و العشرون","S21").replace("الموسم الثاني و العشرون","S22").replace("الموسم الثالث و العشرون","S23").replace("الموسم الرابع والعشرون","S24").replace("الموسم الخامس و العشرون","S25").replace("الموسم السادس والعشرون","S26").replace("الموسم السابع والعشرون","S27").replace("الموسم الثامن والعشرون","S28").replace("الموسم التاسع والعشرون","S29").replace("الموسم الثلاثون","S30").replace("الموسم الحادي و الثلاثون","S31").replace("الموسم الثاني والثلاثون","S32").replace("الموسم الاول","S1").replace("الموسم الأول","S1").replace(" الثانى","2").replace("الموسم الثاني","S2").replace("الموسم الثالث","S3").replace("الموسم الثالث","S3").replace("الموسم الرابع","S4").replace("الموسم الخامس","S5").replace("الموسم السادس","S6").replace("الموسم السابع","S7").replace("الموسم الثامن","S8").replace("الموسم التاسع","S9").replace("الحلقة "," E").replace("الموسم","S").replace("S ","S") 
-            sThumb = aEntry[2]
-            siteUrl = aEntry[0].replace("/episodes/","/watch_episodes/")
-            sDesc = ""
-			
-
-
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumb', sThumb)
-            oGui.addEpisode(SITE_IDENTIFIER, 'showServers', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
-
-       
-    oGui.setEndOfDirectory()
-def showHosters():
-    oGui = cGui()
-    oInputParameterHandler = cInputParameterHandler()
-    sUrl = oInputParameterHandler.getValue('siteUrl')
-    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumb = oInputParameterHandler.getValue('sThumb')
-
-    #print 'ff='+sUrl   
-
-    oRequestHandler = cRequestHandler(sUrl)
-    oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
-    oRequestHandler.addHeaderEntry('Host', 'm.halacima.net')
-    oRequestHandler.addHeaderEntry('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
-    oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
-    oRequestHandler.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
-    sHtmlContent = oRequestHandler.request()
-    # (.+?) .+?
-    #print sHtmlContent           
-
-    sPattern = "src='(.+?)'"
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-	
-    if aResult[0]:
-        for aEntry in aResult[1]:
-            
-            url = aEntry
-            sTitle = " "
-            if url.startswith('//'):
-                url = 'http:' + url
-				
-					
-            
-            sHosterUrl = url 
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if oHoster:
-                sDisplayTitle = sTitle
-                oHoster.setDisplayName(sDisplayTitle)
-                oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-				
-
-                
     oGui.setEndOfDirectory()

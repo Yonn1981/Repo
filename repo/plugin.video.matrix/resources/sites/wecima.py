@@ -201,12 +201,6 @@ def showPack():
             else:
                 oGui.addMisc(SITE_IDENTIFIER, 'showMovies', sTitle, 'film.png', '', '', oOutputParameterHandler)
  
-        sNextPage = __checkForNextPage(sHtmlContent)
-        if sNextPage:
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showPack', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
- 
     oGui.setEndOfDirectory()
 
 def showMovies(sSearch = ''):

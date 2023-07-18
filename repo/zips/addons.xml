@@ -22,7 +22,7 @@
             <fanart>fanart.jpg</fanart>
         </assets>
     </extension>
-</addon><addon id="plugin.video.matrix" name="matrix" version="5.9.6d" provider-name="Yonn1981">
+</addon><addon id="plugin.video.matrix" name="matrix" version="5.9.8a" provider-name="Yonn1981">
     <requires>
 
         <trycatch>
