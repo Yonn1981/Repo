@@ -33,6 +33,10 @@ SERIE_AR = (URL_MAIN + '/genre/arabic-series/', 'showSeries')
 REPLAYTV_PLAY = (URL_MAIN + '/genre/plays/', 'showMovies')
 
 RAMADAN_SERIES = (URL_MAIN + '/genre/ramadan2023/', 'showSeries')
+
+MOVIE_GENRES = (URL_MAIN, 'moviesGenres')
+SERIE_GENRES = (URL_MAIN, 'seriesGenres')
+
 URL_SEARCH = (URL_MAIN + '/?s=', 'showMoviesSearch')
 URL_SEARCH_MOVIES = (URL_MAIN + '/?s=', 'showMoviesSearch')
 URL_SEARCH_SERIES = (URL_MAIN + '/?s=', 'showSeriesSearch')
@@ -74,7 +78,15 @@ def load():
 
     oOutputParameterHandler.addParameter('siteUrl', REPLAYTV_PLAY[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'مسرحيات', 'msrh.png', oOutputParameterHandler)
-                       
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', SERIE_GENRES[0])
+    oGui.addDir(SITE_IDENTIFIER, SERIE_GENRES[1], 'المسلسلات (الأنواع)', 'mslsl.png', oOutputParameterHandler)
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_GENRES[0])
+    oGui.addDir(SITE_IDENTIFIER, MOVIE_GENRES[1], 'الأفلام (الأنواع)', 'film.png', oOutputParameterHandler)
+
     oGui.setEndOfDirectory()
  
 def showSearch():
@@ -212,7 +224,64 @@ def showSeriesSearch(sSearch = ''):
     if not sSearch:
         oGui.setEndOfDirectory()
 
-		
+
+def moviesGenres():
+    oGui = cGui()
+    
+    oInputParameterHandler = cInputParameterHandler()
+    sUrl = oInputParameterHandler.getValue('siteUrl')
+ 
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request()
+
+    oParser = cParser()
+     # (.+?) ([^<]+) .+?
+    sStart = '>التصنيفات</a>'
+    sEnd = '<div id="advc-menu"'
+    sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
+
+    sPattern = '<a href="(.+?)">([^<]+)</a>'
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+	
+
+    if aResult[0]:
+        oOutputParameterHandler = cOutputParameterHandler()    
+        for aEntry in aResult[1]:
+            sTitle = aEntry[1]  
+            sGenres = aEntry[0]
+            oOutputParameterHandler.addParameter('siteUrl', sGenres) 
+            oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle, 'genres.png', oOutputParameterHandler)
+    oGui.setEndOfDirectory()
+
+def seriesGenres():
+    oGui = cGui()
+    
+    oInputParameterHandler = cInputParameterHandler()
+    sUrl = oInputParameterHandler.getValue('siteUrl')
+ 
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request()
+
+    oParser = cParser()
+     # (.+?) ([^<]+) .+?
+    sStart = '>التصنيفات</a>'
+    sEnd = '<div id="advc-menu"'
+    sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
+
+    sPattern = '<a href="(.+?)">([^<]+)</a>'
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+	
+    if aResult[0]:
+        oOutputParameterHandler = cOutputParameterHandler()    
+        for aEntry in aResult[1]:
+            sTitle = aEntry[1]  
+            sGenres = aEntry[0]
+            oOutputParameterHandler.addParameter('siteUrl', sGenres) 
+            oGui.addDir(SITE_IDENTIFIER, 'showSeries', sTitle, 'genres.png', oOutputParameterHandler)
+    oGui.setEndOfDirectory()
+
 def showMovies(sSearch = ''):
     oGui = cGui()
     if sSearch:
@@ -239,7 +308,10 @@ def showMovies(sSearch = ''):
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
- 
+
+            if "/tvshow"  in aEntry[2]:
+                continue
+
             sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
             siteUrl = aEntry[2]
             sThumb = aEntry[0]	
@@ -349,7 +421,9 @@ def showSeries(sSearch = ''):
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
- 
+            if "/movie"  in aEntry[2]:
+                continue
+
             sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
             siteUrl = aEntry[2]
             sThumb = aEntry[0]		

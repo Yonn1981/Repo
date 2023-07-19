@@ -280,6 +280,9 @@ class cHosterGui:
             f.setRealHost(sHostName)
             return f
 
+        if ('avideo' in sHostName):
+            return self.getHoster('avideo')
+
         if ('vanfem' in sHostName):
             return self.getHoster('fembed')
 
@@ -502,6 +505,12 @@ class cHosterGui:
 
         if ('eeggyy' in sHosterUrl):
             return self.getHoster('egybest')
+
+        if ('vidhls' in sHosterUrl):
+            return self.getHoster('vidhls')
+
+        if ('play.imovietime' in sHosterUrl):
+            return self.getHoster('moviztime')
 
         if ('shoffree' in sHostName) or ('egy-best' in sHostName):
             return self.getHoster('shoffree')

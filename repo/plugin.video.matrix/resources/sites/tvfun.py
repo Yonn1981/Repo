@@ -19,7 +19,7 @@ URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 RAMADAN_SERIES = (URL_MAIN + '/ts/mosalsalat-ramadan-2023/', 'showSeries')
 SERIE_TR = (URL_MAIN + '/cat/mosalsalat-torkia,3/', 'showSeries')
-SERIE_DUBBED = (URL_MAIN + '/ts,mosalsalat--modablaja/', 'showSeries')
+SERIE_DUBBED = (URL_MAIN + '/ts/mosalsalat-modablaja/', 'showSeries')
 SERIE_HEND = (URL_MAIN + '/cat/mosalsalat-hindia/', 'showSeries')
 SERIE_AR = (URL_MAIN + '/cat/mosalsalat-3arabia,3/', 'showSeries')
 SERIE_ASIA = (URL_MAIN + '/cat/mosalsalat-korea/', 'showSeries')
@@ -57,24 +57,12 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', RAMADAN_SERIES[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات رمضان', 'rmdn.png', oOutputParameterHandler)
     
-    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/cat/mosalsalat-maghribia/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات مغربية', 'mslsl.png', oOutputParameterHandler)
-    
-    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/ts,mosalsalat-tarkiya/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات تاريخية', 'mslsl.png', oOutputParameterHandler)
-        
-    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/ts,mosalsalat-mexicia/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات مكسيكية', 'latin.png', oOutputParameterHandler)
-    
-    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/dessin-animee/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'انمي', 'anime.png', oOutputParameterHandler)
+    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/ts/mosalsalat-motarjama/')
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات مترجمة', 'mslsl.png', oOutputParameterHandler)
 
-    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/ts,baramij-tarfihiya/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'برامج ترفيهية', 'brmg.png', oOutputParameterHandler)
-    
-    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/ts,hidden-camera/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'الكاميرا الخفية', 'brmg.png', oOutputParameterHandler)
-    
+    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/ts/zee-alwan/')
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'زي الوان', 'mslsl.png', oOutputParameterHandler)
+
     oOutputParameterHandler.addParameter('siteUrl', REPLAYTV_NEWS[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'برامج تلفزيونية', 'brmg.png', oOutputParameterHandler)
     
@@ -85,7 +73,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/q/' +sSearchText
+        sUrl = URL_MAIN + '/q/'+sSearchText
         showSeriesSearch(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -160,7 +148,9 @@ def showSeries(sSearch = ''):
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
- 
+            if 'موقع' in aEntry[1]:
+                continue
+
             sTitle = aEntry[1]
             
             sTitle =  "PAGE " + sTitle
@@ -190,6 +180,7 @@ def showSeriesSearch(sSearch = ''):
     oGui = cGui()
     if sSearch:
       sUrl = sSearch+"/"
+      sUrl = sUrl.replace(' ','')
     else:
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -197,7 +188,7 @@ def showSeriesSearch(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-    sPattern = 'class="headline">(.+?)class="head-title"> أخر الحلقات </h3>'  
+    sPattern = 'class="headline">(.+?)<div id="footer">'  
     
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern) 
@@ -206,7 +197,7 @@ def showSeriesSearch(sSearch = ''):
     if aResult[0]:
         sHtmlContent2 = aResult[1][0]
    # ([^<]+) .+? (.+?)
-    sPattern = '<div class="video-thumb"><a href="(.+?)" title="(.+?)"><img src="(.+?)" sizes='
+    sPattern = '<a href="(.+?)" title="(.+?)">.+?src="([^"]+)'
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent2, sPattern)
@@ -297,7 +288,8 @@ def showSeriesSearch(sSearch = ''):
                 progress_.VSupdate(progress_, total)
                 if progress_.iscanceled():
                     break
- 
+                if 'موقع' in aEntry[1]:
+                    continue 
                 sTitle = aEntry[1]
             
                 sTitle =  "PAGE " + sTitle
@@ -425,7 +417,8 @@ def showEpisodes():
                 progress_.VSupdate(progress_, total)
                 if progress_.iscanceled():
                     break
- 
+                if 'موقع' in aEntry[1]:
+                    continue
                 sTitle = aEntry[1]
             
                 sTitle =  "PAGE " + sTitle

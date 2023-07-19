@@ -206,6 +206,12 @@ def showMovies(sSearch = ''):
     
         progress_.VSclose(progress_)
 
+        sNextPage = __checkForNextPage(sHtmlContent)
+        if sNextPage:
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
+            oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+
     sPattern = '<div class="Block--Item"> <a href="([^<]+)" title="([^<]+)"> <div class="Poster--Block"> <img src="([^<]+)" alt=".+?">'
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0] is True:
@@ -300,7 +306,13 @@ def showSeries(sSearch = ''):
             oGui.addTV(SITE_IDENTIFIER, 'showSeasons', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
-            
+
+        sNextPage = __checkForNextPage(sHtmlContent)
+        if sNextPage:
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
+            oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+
     sPattern = '<div class="Block--Item"> <a href="([^<]+)" title="([^<]+)"> <div class="Poster--Block"> <img src="([^<]+)" alt=".+?">'
 
     oParser = cParser()
@@ -416,7 +428,7 @@ def showEpisodes():
   
      # (.+?)
 def __checkForNextPage(sHtmlContent):
-    sPattern = '<a class="next page-numbers" href="(.+?)">>&raquo;</a>'	
+    sPattern = '<a class="next page-numbers" href="([^"]+)'	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
  
@@ -451,8 +463,7 @@ def showHosters():
 								
             sHosterUrl = url 
             if '?download_' in sHosterUrl:
-               sHosterUrl = sHosterUrl.replace("moshahda","ffsff")
-               sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+                continue
             if 'userload' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
             if 'moshahda' in sHosterUrl:
@@ -479,8 +490,7 @@ def showHosters():
 								
             sHosterUrl = url 
             if '?download_' in sHosterUrl:
-               sHosterUrl = sHosterUrl.replace("moshahda","ffsff")
-               sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+               continue
             if 'userload' in sHosterUrl:
                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
             if 'moshahda' in sHosterUrl:
@@ -507,8 +517,7 @@ def showHosters():
 								
             sHosterUrl = url 
             if '?download_' in sHosterUrl:
-              sHosterUrl = sHosterUrl.replace("moshahda","ffsff")
-              sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+                continue
             if 'userload' in sHosterUrl:
               sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
             if 'moshahda' in sHosterUrl:

@@ -331,6 +331,11 @@
             "active": "False",
             "url": "https://egy1.movizland.info/"
         },
+        "moviztime": {
+            "label": "MovizTime",
+            "active": "True",
+            "url": "https://movtime3.store/"
+        },
         "nolly": {
             "label": "Nolly",
             "active": "True",
