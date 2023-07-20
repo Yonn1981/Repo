@@ -507,13 +507,15 @@ def showServer():
                     nb = int(t_ch[0])+int(t_int[0])
                     page = page + chr(nb)
 
-
+            sStart = '<li aria-label="quality">'
+            sEnd = '<li aria-label="download">'
+            page0 = oParser.abParse(page, sStart, sEnd)
     # (.+?) .+? ([^<]+)        	
             sPattern = '<a href="(.+?)".+?class="fas fa-cloud-download-alt"></i>(.+?)<p'
             oParser = cParser()
-            aResult = oParser.parse(page, sPattern)
+            aResult = oParser.parse(page0, sPattern)
 
-	
+            VSlog(aResult) 
             if aResult[0]:
                 for aEntry in aResult[1]:
             
@@ -527,18 +529,13 @@ def showServer():
 				
 					
             
-                    sHosterUrl = url 
-                    if 'userload' in sHosterUrl:
-                        sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-                    if 'moshahda' in sHosterUrl:
-                        sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-                    if 'mystream' in sHosterUrl:
-                        sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
-                    oHoster = cHosterGui().checkHoster(sHosterUrl)
+                    sHosterUrl = url
+                    VSlog(sHosterUrl) 
+                    oHoster = cHosterGui().getHoster('lien_direct')
                     if oHoster:
                         oHoster.setDisplayName(sTitle)
                         oHoster.setFileName(sMovieTitle)
-                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl + "|Referer=" + URL_MAIN, sThumb)
 
             sPattern = '<iframe src="([^"]+)" scrolling'
             oParser = cParser()

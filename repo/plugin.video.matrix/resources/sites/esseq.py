@@ -231,7 +231,14 @@ def showEps():
             oOutputParameterHandler.addParameter('sThumb', sThumb)
  
             oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
-        
+
+    sPattern = '<h3>(.+?)</h3>'
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)  
+    if aResult[0]:       
+        sTitle = aResult[1][0]
+        oGui.addText(SITE_IDENTIFIER, '[COLOR %s]%s[/COLOR]' % ('red', 'قريباً في موقع قصة عشق'))
+
     oGui.setEndOfDirectory() 
 
 def showHosters():

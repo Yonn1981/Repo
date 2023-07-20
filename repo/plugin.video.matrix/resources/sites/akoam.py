@@ -444,7 +444,7 @@ def showLinks():
                 sDisplayTitle = sTitle
                 oHoster.setDisplayName(sDisplayTitle)
                 oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl + '|AUTH=TLS&verifypeer=false', sThumb)
          
     oGui.setEndOfDirectory()
 	
@@ -660,11 +660,11 @@ def showSeasons2():
                         if sHosterUrl.startswith('//'):
                            sHosterUrl = 'http:' + sHosterUrl
             
-                        oHoster = cHosterGui().checkHoster(sHosterUrl)
+                        oHoster = cHosterGui().getHoster('lien_direct')
                         if oHoster:
                            oHoster.setDisplayName(sMovieTitle)
                            oHoster.setFileName(sMovieTitle)
-                           cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                           cHosterGui().showHoster(oGui, oHoster, sHosterUrl + "|AUTH=TLS&verifypeer=false", sThumb)
  
        
     oGui.setEndOfDirectory()
