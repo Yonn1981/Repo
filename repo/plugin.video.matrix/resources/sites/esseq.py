@@ -237,7 +237,7 @@ def showEps():
     aResult = oParser.parse(sHtmlContent, sPattern)  
     if aResult[0]:       
         sTitle = aResult[1][0]
-        oGui.addText(SITE_IDENTIFIER, '[COLOR %s]%s[/COLOR]' % ('red', 'قريباً في موقع قصة عشق'))
+        oGui.addText(SITE_IDENTIFIER, '[COLOR %s]%s[/COLOR]' % ('red', sTitle), 'none.png')
 
     oGui.setEndOfDirectory() 
 

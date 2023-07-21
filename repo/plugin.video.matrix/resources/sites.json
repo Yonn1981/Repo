@@ -196,11 +196,6 @@
             "active": "True",
             "url": "https://wwv.dramacafe-tv.com/"
         },
-        "dopebox": {
-            "label": "Dopebox",
-            "active": "True",
-            "url": "https://dopebox.to"
-        },
         "edy": {
             "label": "Edy",
             "active": "True",

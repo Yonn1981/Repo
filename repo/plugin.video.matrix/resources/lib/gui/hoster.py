@@ -470,7 +470,7 @@ class cHosterGui:
         if ('workupload' in sHostName):
             return self.getHoster('workupload')
 
-        if ('upbam' in sHostName) or ('uppom' in sHostName) or ('uppboom' in sHostName) or ('upbaam' in sHostName):
+        if ('upbam' in sHostName) or ('uppom' in sHostName) or ('uppboom' in sHostName):
             return self.getHoster('uppom')
 
         if ('allviid' in sHostName):

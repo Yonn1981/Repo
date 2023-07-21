@@ -190,7 +190,7 @@ def showHosters():
             
             url = aEntry[0] 
             sHost = aEntry[1]  
-            sTitle = ('%s  [COLOR coral](%sp)[/COLOR]') % (sMovieTitle, sHost) 
+            sTitle = ('%s  [COLOR coral](%s)[/COLOR]') % (sMovieTitle, sHost) 
             sThumb = sThumb
             if url.startswith('//'):
                url = 'http:' + url
@@ -202,5 +202,15 @@ def showHosters():
                oHoster.setDisplayName(sTitle)
                oHoster.setFileName(sMovieTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl , sThumb)
-                
+
+    oParser = cParser()           
+    sPattern =  '</span><a href=.+?data-lazy-src="([^"]+)'
+	
+                                                                 
+    aResult = oParser.parse(sHtmlContent,sPattern)
+    if aResult[0]:
+             
+        sThumb = aResult[1][0]
+        oGui.addText(SITE_IDENTIFIER, '[COLOR %s]%s[/COLOR]' % ('red', 'الفلم للأعضاء فقط'), 'none.png')
+
     oGui.setEndOfDirectory()

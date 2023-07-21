@@ -31,7 +31,7 @@ class cHoster(iHoster):
 
         # VSlog(sHtmlContent)
 
-        sPattern = '{file:"([^"]+)"}]'
+        sPattern = '{file:"([^"]+)"'
         aResult = oParser.parse(sHtmlContent, sPattern)
         if aResult[0] is True:
             api_call = aResult[1][0]

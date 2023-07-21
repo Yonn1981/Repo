@@ -30,22 +30,7 @@ class cHoster(iHoster):
         oRequest = cRequestHandler(self._url)
         sHtmlContent = oRequest.request()
 
-        sdata = sUrl.split('data=')[1]
-
-        Sgn=requests.Session()
-
-        hdr = {'Sec-Fetch-Mode': 'navigate',
-        	'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
-        	'Accept-Language': 'en-US,en;q=0.9,ar;q=0.8',
-        	'User-Agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Mobile Safari/537.36 Edg/114.0.1823.82',
-        	'Upgrade-Insecure-Requests': '1',
-        	'Referer': 'https://movtime3.store/'}
-        prm={
-                "data": sdata}
-        _r = Sgn.post(sUrl,headers=hdr,data=prm)
-        sHtmlContent = _r.content.decode('utf8',errors='ignore').replace('\\','')
-        oParser = cParser() 
-
+        oParser = cParser()
         sPattern = '"videoServer":"([^"]+)'
         aResult = oParser.parse(sHtmlContent, sPattern)
         

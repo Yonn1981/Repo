@@ -22,7 +22,6 @@ UA = 'Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chr
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 MOVIE_AR = (URL_MAIN + 'category.php?cat=arabic-movies', 'showMovies')
-MOVIE_EN = (URL_MAIN + 'category.php?cat=english-movies', 'showMovies')
 RAMADAN_SERIES = (URL_MAIN + 'category.php?cat=8rmdan-2023', 'showSeries')
 SERIE_EN = (URL_MAIN + 'category.php?cat=english-series', 'showSeries')
 SERIE_AR = (URL_MAIN + 'category.php?cat=arabic-series3', 'showSeries')
@@ -47,11 +46,7 @@ def load():
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', RAMADAN_SERIES[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'رمضان', 'rmdn.png', oOutputParameterHandler)
-    
-    oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', MOVIE_EN[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أجنبية', 'agnab.png', oOutputParameterHandler)
-   
+     
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_AR[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام عربية', 'arab.png', oOutputParameterHandler)

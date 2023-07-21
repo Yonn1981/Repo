@@ -15,7 +15,7 @@ class cHoster(iHoster):
 			
     def setUrl(self, sUrl):
         self._url = str(sUrl).replace('rrsrrs','cimanow')
-        VSlog(self._url)
+
     def _getMediaLinkForGuest(self):
         
         sReferer = "https://cimanow.cc/"
@@ -28,7 +28,7 @@ class cHoster(iHoster):
         oRequest.disableSSL()
         sHtmlContent = oRequest.request()
         oParser = cParser()
-        VSlog(sHtmlContent)
+
        # (.+?) .+? ([^<]+)
 
         sPattern =  '<source src="(.+?)" type="video/mp4" size="(.+?)">' 
