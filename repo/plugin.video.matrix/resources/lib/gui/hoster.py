@@ -363,7 +363,13 @@ class cHosterGui:
             #mise a jour du nom
             f.setRealHost(sHostName)
             return f
-        
+
+        if ('asiawiki' in sHostName):
+            return self.getHoster('asiadtv')
+
+        if ('asiatvplayer' in sHostName):
+            return self.getHoster('asiadtv')
+
         if ('vimeo' in sHostName):
             return self.getHoster('vimeo')
 

@@ -428,6 +428,34 @@ msgctxt "#30104"
 msgid "Asian"
 msgstr "asiatique"
 
+msgctxt "#301041"
+msgid "Korean"
+msgstr "Korean"
+
+msgctxt "#301042"
+msgid "Korean - Dubbed"
+msgstr "Korean - Dubbed"
+
+msgctxt "#301043"
+msgid "Chinese"
+msgstr "Chinese"
+
+msgctxt "#301044"
+msgid "Japanese"
+msgstr "Japanese"
+
+msgctxt "#301045"
+msgid "Thai"
+msgstr "Thai"
+
+msgctxt "#301046"
+msgid "Vietnamese"
+msgstr "Vietnamese"
+
+msgctxt "#301047"
+msgid "Taiwanese"
+msgstr "Taiwanese"
+
 msgctxt "#30111"
 msgid "Pakistani"
 msgstr "Pakistani"

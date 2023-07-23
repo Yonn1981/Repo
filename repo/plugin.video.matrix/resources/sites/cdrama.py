@@ -17,6 +17,9 @@ URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 MOVIE_ASIAN = (URL_MAIN + 'category/الأفلام-الاسيوية-asian-movies/', 'showMovies')
 
+SERIE_KR = (URL_MAIN + 'category/الدراما-الكورية-kdrama/', 'showSeries')
+SERIE_CN = (URL_MAIN + 'category/الدراما-الصينية-chinese-drama/', 'showSeries')
+SERIE_JP = (URL_MAIN + 'category/الدراما-اليابانية-japanese-drama/', 'showSeries')
 SERIE_ASIA = (URL_MAIN + 'category/الدراما-الكورية-kdrama/', 'showSeries')
 
 FUNCTION_SEARCH = 'showSeries'
@@ -33,16 +36,17 @@ def load():
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أسيوية', 'asia.png', oOutputParameterHandler)
 
     oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'category/الدراما-الصينية-chinese-drama/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'الدراما الصينية', 'asia.png', oOutputParameterHandler)   
-
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', SERIE_ASIA[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'الدراما الكورية', 'asia.png', oOutputParameterHandler)   
 
-    oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'category/الدراما-اليابانية-japanese-drama/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'الدراما اليابانية', 'asia.png', oOutputParameterHandler)   
+    oOutputParameterHandler.addParameter('siteUrl', SERIE_KR[0])
+    oGui.addDir(SITE_IDENTIFIER, SERIE_KR[1], 'مسلسلات كورية', 'kr.png', oOutputParameterHandler)
+
+    oOutputParameterHandler.addParameter('siteUrl', SERIE_CN[0])
+    oGui.addDir(SITE_IDENTIFIER, SERIE_CN[1], 'مسلسلات صينية', 'cn.png', oOutputParameterHandler)
+    
+    oOutputParameterHandler.addParameter('siteUrl', SERIE_JP[0])
+    oGui.addDir(SITE_IDENTIFIER, SERIE_JP[1], 'مسلسلات يابانية', 'jp.png', oOutputParameterHandler)
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'category/درامات-آخرى-other-dramas/')
@@ -54,7 +58,7 @@ def load():
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'category/البرامج-الأسيوية-asian-program/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'البرامج الأسيوية', 'asia.png', oOutputParameterHandler)         
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'البرامج الأسيوية', 'brmg.png', oOutputParameterHandler)         
     
     oGui.setEndOfDirectory()
  

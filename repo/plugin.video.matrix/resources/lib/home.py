@@ -226,8 +226,8 @@ class cHome:
         oOutputParameterHandler.addParameter('siteUrl', 'MOVIE_TURK')
         oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30120), self.addons.VSlang(30109)), 'turk.png', oOutputParameterHandler)
 
-        oOutputParameterHandler.addParameter('siteUrl', 'MOVIE_ASIAN')
-        oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30120), self.addons.VSlang(30104)), 'asia.png', oOutputParameterHandler)
+        oOutputParameterHandler.addParameter('siteUrl', 'http://venom')
+        oGui.addDir(SITE_IDENTIFIER, 'showMoviesAsia', '%s (%s)' % (self.addons.VSlang(30120), self.addons.VSlang(30104)), 'asia.png', oOutputParameterHandler)
 
         oOutputParameterHandler.addParameter('siteUrl', 'MOVIE_HI')
         oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30120), self.addons.VSlang(30103)), 'hend.png', oOutputParameterHandler)
@@ -249,6 +249,35 @@ class cHome:
 
         oOutputParameterHandler.addParameter('siteUrl', 'MOVIE_ANNEES')
         oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30120), self.addons.VSlang(30106)), 'annees.png', oOutputParameterHandler)
+		
+        oGui.setEndOfDirectory()
+
+    def showMoviesAsia(self):
+        oGui = cGui()
+        oOutputParameterHandler = cOutputParameterHandler()
+        oOutputParameterHandler.addParameter('siteUrl', 'MOVIE_ASIAN')
+        oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30120), self.addons.VSlang(30104)), 'asia.png', oOutputParameterHandler)
+
+        oOutputParameterHandler.addParameter('siteUrl', 'MOVIE_KR')
+        oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30120), self.addons.VSlang(301041)), 'kr.png', oOutputParameterHandler)
+
+        oOutputParameterHandler.addParameter('siteUrl', 'MOVIE_KR_AR')
+        oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30120), self.addons.VSlang(301042)), 'kr.png', oOutputParameterHandler)
+
+        oOutputParameterHandler.addParameter('siteUrl', 'MOVIE_CN')
+        oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30120), self.addons.VSlang(301043)), 'cn.png', oOutputParameterHandler)
+
+        oOutputParameterHandler.addParameter('siteUrl', 'MOVIE_JP')
+        oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30120), self.addons.VSlang(301044)), 'jp.png', oOutputParameterHandler)
+
+        oOutputParameterHandler.addParameter('siteUrl', 'MOVIE_THAI')
+        oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30120), self.addons.VSlang(301045)), 'thai.png', oOutputParameterHandler)
+
+        oOutputParameterHandler.addParameter('siteUrl', 'MOVIE_VIET')
+        oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30120), self.addons.VSlang(301046)), 'viet.png', oOutputParameterHandler)
+
+        oOutputParameterHandler.addParameter('siteUrl', 'MOVIE_TA')
+        oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30120), self.addons.VSlang(301047)), 'ta.png', oOutputParameterHandler)
 		
         oGui.setEndOfDirectory()
 
@@ -280,8 +309,8 @@ class cHome:
         oOutputParameterHandler.addParameter('siteUrl', 'SERIE_TR_AR')
         oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30121), self.addons.VSlang(31110)), 'turk.png', oOutputParameterHandler)
 
-        oOutputParameterHandler.addParameter('siteUrl', 'SERIE_ASIA')
-        oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30121), self.addons.VSlang(30104)), 'asia.png', oOutputParameterHandler)
+        oOutputParameterHandler.addParameter('siteUrl', 'http://venom')
+        oGui.addDir(SITE_IDENTIFIER, 'showSeriesAsia', '%s (%s)' % (self.addons.VSlang(30121), self.addons.VSlang(30104)), 'asia.png', oOutputParameterHandler)
 
         oOutputParameterHandler.addParameter('siteUrl', 'SERIE_PAK')
         oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30121), self.addons.VSlang(30111)), 'paki.png', oOutputParameterHandler)
@@ -303,6 +332,35 @@ class cHome:
 
         oGui.setEndOfDirectory()
 
+    def showSeriesAsia(self):
+        oGui = cGui()
+
+        oOutputParameterHandler = cOutputParameterHandler()
+        oOutputParameterHandler.addParameter('siteUrl', 'SERIE_ASIA')
+        oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30121), self.addons.VSlang(30104)), 'asia.png', oOutputParameterHandler)   
+
+        oOutputParameterHandler.addParameter('siteUrl', 'SERIE_KR')
+        oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30121), self.addons.VSlang(301041)), 'kr.png', oOutputParameterHandler)
+
+        oOutputParameterHandler.addParameter('siteUrl', 'SERIE_KR_AR')
+        oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30121), self.addons.VSlang(301042)), 'kr.png', oOutputParameterHandler)
+
+        oOutputParameterHandler.addParameter('siteUrl', 'SERIE_CN')
+        oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30121), self.addons.VSlang(301043)), 'cn.png', oOutputParameterHandler)
+
+        oOutputParameterHandler.addParameter('siteUrl', 'SERIE_JP')
+        oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30121), self.addons.VSlang(301044)), 'jp.png', oOutputParameterHandler)
+
+        oOutputParameterHandler.addParameter('siteUrl', 'SERIE_THAI')
+        oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30121), self.addons.VSlang(301045)), 'thai.png', oOutputParameterHandler)
+
+        oOutputParameterHandler.addParameter('siteUrl', 'SERIE_VIET')
+        oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30121), self.addons.VSlang(301046)), 'viet.png', oOutputParameterHandler)
+
+        oOutputParameterHandler.addParameter('siteUrl', 'SERIE_TA')
+        oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30121), self.addons.VSlang(301047)), 'ta.png', oOutputParameterHandler)
+
+        oGui.setEndOfDirectory()
 
     def showAnimes(self):
         oGui = cGui()

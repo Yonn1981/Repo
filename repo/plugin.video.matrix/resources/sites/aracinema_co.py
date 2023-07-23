@@ -19,9 +19,23 @@ SITE_DESC = 'arabic vod'
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 MOVIE_ASIAN = (URL_MAIN + 'category/%d8%a7%d9%84%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d9%84%d8%a2%d8%b3%d9%8a%d9%88%d9%8a%d8%a9/', 'showMovies')
+MOVIE_KR = (URL_MAIN + 'type/k-movies/?stat=فيلم', 'showMovies')
+MOVIE_CN = (URL_MAIN  +'type/c-movies/', 'showMovies')
+MOVIE_JP = (URL_MAIN  +'type/j-movie/', 'showMovies')
+MOVIE_THAI = (URL_MAIN + 'type/t-movies/', 'showMovies')
+MOVIE_TA = (URL_MAIN  +'type/فيلم-تايواني/', 'showMovies')
+MOVIE_VIET = (URL_MAIN  +'type/فيلم-فيتنامي/', 'showMovies')
+
 MOVIE_GENRES = (URL_MAIN + 'category/الافلام-الآسيوية/', 'moviesGenres')
 MOVIE_ANNEES = (URL_MAIN + 'category/الافلام-الآسيوية/', 'showYears')
 SERIE_ASIA = (URL_MAIN + 'category/serie/', 'showSerie')
+SERIE_KR = (URL_MAIN + 'category/serie/korea/', 'showSeries')
+SERIE_CN = (URL_MAIN + 'category/serie/chinese-taiwan/', 'showSeries')
+SERIE_JP = (URL_MAIN + 'category/serie/japanese/', 'showSeries')
+SERIE_THAI = (URL_MAIN + 'category/serie/tailand/', 'showSeries')
+
+REPLAYTV_PLAY = (URL_MAIN + 'category/k-shows/', 'showSeries')
+
 SERIE_GENRES = (URL_MAIN + 'category/serie/', 'seriesGenres')
 SERIE_ANNEES = (URL_MAIN + 'category/serie/', 'showSerieYears')
 URL_SEARCH = (URL_MAIN + '?s=', 'showMovies')
@@ -39,16 +53,41 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_ASIAN[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أسيوية', 'asia.png', oOutputParameterHandler)
 
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_KR[0])
+    oGui.addDir(SITE_IDENTIFIER, MOVIE_KR[1], 'أفلام كورية', 'kr.png', oOutputParameterHandler)
+
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_CN[0])
+    oGui.addDir(SITE_IDENTIFIER, MOVIE_CN[1], 'أفلام صينية', 'cn.png', oOutputParameterHandler)
+    
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_JP[0])
+    oGui.addDir(SITE_IDENTIFIER, MOVIE_JP[1], 'أفلام يابانية', 'jp.png', oOutputParameterHandler)
+
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_THAI[0])
+    oGui.addDir(SITE_IDENTIFIER, MOVIE_THAI[1], 'أفلام تايلندية', 'thai.png', oOutputParameterHandler)
+
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_TA[0])
+    oGui.addDir(SITE_IDENTIFIER, MOVIE_TA[1], 'أفلام تايوانية', 'ta.png', oOutputParameterHandler)
+    
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_VIET[0])
+    oGui.addDir(SITE_IDENTIFIER, MOVIE_VIET[1], 'أفلام فيتنامية', 'viet.png', oOutputParameterHandler)
+
     oOutputParameterHandler.addParameter('siteUrl', SERIE_ASIA[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSerie', 'مسلسلات أسيوية', 'asia.png', oOutputParameterHandler)
 
-    oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'category/الافلام-الآسيوية/')
-    oGui.addDir(SITE_IDENTIFIER, 'moviesCountry', 'أفلام (حسب البلد)', 'annees.png', oOutputParameterHandler)
+    oOutputParameterHandler.addParameter('siteUrl', SERIE_KR[0])
+    oGui.addDir(SITE_IDENTIFIER, SERIE_KR[1], 'مسلسلات كورية', 'kr.png', oOutputParameterHandler)
 
-    oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'category/serie/')
-    oGui.addDir(SITE_IDENTIFIER, 'seriesCountry', 'مسلسلات (حسب البلد)', 'annees.png', oOutputParameterHandler)
+    oOutputParameterHandler.addParameter('siteUrl', SERIE_CN[0])
+    oGui.addDir(SITE_IDENTIFIER, SERIE_CN[1], 'مسلسلات صينية', 'cn.png', oOutputParameterHandler)
+    
+    oOutputParameterHandler.addParameter('siteUrl', SERIE_JP[0])
+    oGui.addDir(SITE_IDENTIFIER, SERIE_JP[1], 'مسلسلات يابانية', 'jp.png', oOutputParameterHandler)
+   
+    oOutputParameterHandler.addParameter('siteUrl', SERIE_THAI[0])
+    oGui.addDir(SITE_IDENTIFIER, SERIE_JP[1], 'مسلسلات تايلندية', 'thai.png', oOutputParameterHandler)
+
+    oOutputParameterHandler.addParameter('siteUrl', REPLAYTV_PLAY[0])
+    oGui.addDir(SITE_IDENTIFIER, REPLAYTV_PLAY[1], 'برامج ترفيهية', 'brmg.png', oOutputParameterHandler)
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', SERIE_GENRES[0])
@@ -132,41 +171,6 @@ def showSerieYears():
             sYear = aEntry
             oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'yr/' + sYear) 
             oGui.addDir(SITE_IDENTIFIER, 'showSerie', sYear, 'annees.png', oOutputParameterHandler)
-    oGui.setEndOfDirectory()
-
-def seriesCountry():
-    oGui = cGui()
-    List = []
-
-    List.append(['الدراما الكورية','/k-drama'])
-    List.append(['الدراما اليابانية','/j-drama'])
-    List.append(['الدراما الصينية','/c-drama'])
-    List.append(['الدراما التايلندية','/t-drama'])
-    List.append(['البرامج الترفيهة','/k-shows'])
-
-    for sTitle, sUrl in List:
-
-        oOutputParameterHandler = cOutputParameterHandler()
-        oOutputParameterHandler.addParameter('siteUrl', URL_MAIN+'/type'+sUrl)
-        oGui.addDir(SITE_IDENTIFIER, 'showSerie', sTitle, 'genres.png', oOutputParameterHandler)
-    oGui.setEndOfDirectory()
-
-def moviesCountry():
-    oGui = cGui()
-    List = []
-
-    List.append(['الافلام الكورية','/k-movies'])
-    List.append(['الافلام اليابانية','/j-movies'])
-    List.append(['الافلام الصينية','/c-movies']) 
-    List.append(['الافلام التايلندية','/t-movies'])
-    List.append(['الافلام التايوانية','/فيلم-تايواني'])
-    List.append(['الافلام الفلبينية','/فيلم-فلبيني'])
-    List.append(['الافلام الفيتنامية','/فيلم-فيتنامي'])
-    for sTitle, sUrl in List:
-
-        oOutputParameterHandler = cOutputParameterHandler()
-        oOutputParameterHandler.addParameter('siteUrl', URL_MAIN+'/type'+sUrl)
-        oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle, 'genres.png', oOutputParameterHandler)
     oGui.setEndOfDirectory()
 
 def moviesGenres():

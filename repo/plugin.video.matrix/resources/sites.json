@@ -13,8 +13,8 @@
         "askmovie": {
             "label": "Ask4movie",
             "active": "True",
-            "cloudflare": "True",
-            "url": "https://ask4movie.net/"
+            "cloudflare": "False",
+            "url": "https://ask4movie.nl/"
         },
         "ahdaf": {
             "label": "Ahdaf",
@@ -91,10 +91,20 @@
             "active": "True",
             "url": "https://arlionztv.site/"
         },
+        "asia2tv": {
+            "label": "Asia2TV",
+            "active": "True",
+            "url": "https://ww1.asia2tv.pw/"
+        },
         "asiaarabs": {
             "label": "Asia4arabs",
             "active": "True",
             "url": "https://www.asia4arabs.com/"
+        },
+        "asiadtv": {
+            "label": "AsiaDramaTV",
+            "active": "True",
+            "url": "https://www.asiadtv.com/"
         },
         "awaan": {
             "label": "Awaan",
@@ -300,6 +310,11 @@
             "label": "Katkoute",
             "active": "True",
             "url": "https://www.katkoute.com/"
+        },
+        "kporama": {
+            "label": "Kporama",
+            "active": "True",
+            "url": "https://asia.kporama.net/"
         },
         "koralive": {
             "label": "Koralive",

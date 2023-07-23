@@ -29,6 +29,7 @@ MOVIE_GENRES = (True, 'moviesGenres')
 SERIE_TR = (URL_MAIN + '/category/series/turkish-series-translated-20221/', 'showSeries')
 SERIE_TR_AR = (URL_MAIN + '/category/turkish-series-dubbed/', 'showSeries')
 SERIE_EN = (URL_MAIN + '/category/series/english-series/', 'showSeries')
+SERIE_KR = (URL_MAIN + '/category/series/korean-series/', 'showSeries')
 # SERIE_AR = (URL_MAIN + '/category/series/arabic-series/', 'showSeries')
 SERIE_ASIA = (URL_MAIN + '/category/series/asian-series/', 'showSeries')
 SERIE_HEND = (URL_MAIN + '/category/series/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%87%d9%86%d8%af%d9%8a%d8%a9/', 'showSeries')
@@ -93,7 +94,10 @@ def load():
  
     oOutputParameterHandler.addParameter('siteUrl', SERIE_LATIN[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات مكسيكي', 'mslsl.png', oOutputParameterHandler)
-    
+
+    oOutputParameterHandler.addParameter('siteUrl', SERIE_KR[0])
+    oGui.addDir(SITE_IDENTIFIER, SERIE_KR[1], 'مسلسلات كورية', 'kr.png', oOutputParameterHandler)
+
     oOutputParameterHandler.addParameter('siteUrl', ANIM_NEWS[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات إنمي', 'anime.png', oOutputParameterHandler)
     
@@ -563,16 +567,12 @@ def showHosters():
 	
     if aResult:
         for aEntry in aResult:
-            
+            if 'moshahda' in aEntry[0]:
+                continue
             url = aEntry[0]
             sTitle = sMovieTitle+'('+aEntry[1]+')'
             
             sHosterUrl = url
-            if '?download_' in sHosterUrl:
-                sHosterUrl = sHosterUrl.replace("moshahda","ffsff")
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
-            if 'moshahda' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
             if 'mystream' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
