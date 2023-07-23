@@ -13,7 +13,7 @@ from resources.lib.parser import cParser
  
  
 SITE_IDENTIFIER = 'aracinema_co'
-SITE_NAME = 'AradramTV'
+SITE_NAME = 'ARA Drama TV'
 SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
@@ -29,12 +29,12 @@ MOVIE_VIET = (URL_MAIN  +'type/فيلم-فيتنامي/', 'showMovies')
 MOVIE_GENRES = (URL_MAIN + 'category/الافلام-الآسيوية/', 'moviesGenres')
 MOVIE_ANNEES = (URL_MAIN + 'category/الافلام-الآسيوية/', 'showYears')
 SERIE_ASIA = (URL_MAIN + 'category/serie/', 'showSerie')
-SERIE_KR = (URL_MAIN + 'category/serie/korea/', 'showSeries')
-SERIE_CN = (URL_MAIN + 'category/serie/chinese-taiwan/', 'showSeries')
-SERIE_JP = (URL_MAIN + 'category/serie/japanese/', 'showSeries')
-SERIE_THAI = (URL_MAIN + 'category/serie/tailand/', 'showSeries')
+SERIE_KR = (URL_MAIN + 'category/serie/korea/', 'showSerie')
+SERIE_CN = (URL_MAIN + 'category/serie/chinese-taiwan/', 'showSerie')
+SERIE_JP = (URL_MAIN + 'category/serie/japanese/', 'showSerie')
+SERIE_THAI = (URL_MAIN + 'category/serie/tailand/', 'showSerie')
 
-REPLAYTV_PLAY = (URL_MAIN + 'category/k-shows/', 'showSeries')
+REPLAYTV_PLAY = (URL_MAIN + 'category/k-shows/', 'showSerie')
 
 SERIE_GENRES = (URL_MAIN + 'category/serie/', 'seriesGenres')
 SERIE_ANNEES = (URL_MAIN + 'category/serie/', 'showSerieYears')

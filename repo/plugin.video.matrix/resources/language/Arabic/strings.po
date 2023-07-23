@@ -1278,8 +1278,8 @@ msgid "Display"
 msgstr "عرض"
 
 msgctxt "#31206"
-msgid "Flaresolverr استخدام"
-msgstr ""
+msgid "Use FlareSolverr"
+msgstr "Flaresolverr استخدام"
 
 msgctxt "#31207"
 msgid "Display file infos"
@@ -1392,3 +1392,15 @@ msgstr "بريميم ويب تي في"
 msgctxt "#70015"
 msgid "Select a subtitle"
 msgstr "اختر الترجمة"
+
+msgctxt "#70016"
+msgid "Live TV (By Genre)"
+msgstr "البث التلفزيوني المباشر (حسب النوع)"
+
+msgctxt "#70017"
+msgid "Live TV Channels"
+msgstr "البث التلفزيوني المباشر"
+
+msgctxt "#70018"
+msgid "Live TV Channels Language"
+msgstr "لغة قنوات البث التلفزيوني المباشر"

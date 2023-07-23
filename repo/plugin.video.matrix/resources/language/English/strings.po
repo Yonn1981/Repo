@@ -1392,3 +1392,15 @@ msgstr ""
 msgctxt "#70015"
 msgid "Select a subtitle"
 msgstr ""
+
+msgctxt "#70016"
+msgid "Live TV (By Genre)"
+msgstr ""
+
+msgctxt "#70017"
+msgid "Live TV Channels"
+msgstr ""
+
+msgctxt "#70018"
+msgid "Live TV Channels Language"
+msgstr ""

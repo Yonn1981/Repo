@@ -1377,3 +1377,15 @@ msgstr "TV (Premium)"
 msgctxt "#70015"
 msgid "Select a subtitle"
 msgstr "Sélectionnez un sous-titre"
+
+msgctxt "#70016"
+msgid "Live TV (By Genre)"
+msgstr "Télévision en direct (par genre)"
+
+msgctxt "#70017"
+msgid "Live TV Channels"
+msgstr "Chaînes de télévision en direct"
+
+msgctxt "#70018"
+msgid "Live TV Channels Language"
+msgstr "Langue des chaînes de télévision en direct"

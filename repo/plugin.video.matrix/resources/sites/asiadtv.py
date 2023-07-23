@@ -88,9 +88,7 @@ def showMovies(sSearch = ''):
     else:
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
-    
-   #VSlog(sUrl)
-    
+       
     oRequestHandler = cRequestHandler(sUrl)
     oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36')
     oRequestHandler.addHeaderEntry('Referer', URL_MAIN)
@@ -133,14 +131,15 @@ def showMovies(sSearch = ''):
             oGui.addMovie(SITE_IDENTIFIER, 'showEpisodes' , sTitle, sYear, sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)   
-    if not sSearch:
+
         sNextPage = __checkForNextPage(sHtmlContent)
         oOutputParameterHandler = cOutputParameterHandler()
         if sNextPage:
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
 
-    oGui.setEndOfDirectory()
+    if not sSearch:
+        oGui.setEndOfDirectory()
 
 def showSeries(sSearch = ''):
     oGui = cGui()
@@ -192,14 +191,14 @@ def showSeries(sSearch = ''):
 
         progress_.VSclose(progress_)
     
-        if not sSearch:
-            sNextPage = __checkForNextPage(sHtmlContent)
-            oOutputParameterHandler = cOutputParameterHandler()
-            if sNextPage:
-                oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-                oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+        sNextPage = __checkForNextPage(sHtmlContent)
+        oOutputParameterHandler = cOutputParameterHandler()
+        if sNextPage:
+            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
+            oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
 
-    oGui.setEndOfDirectory()
+    if not sSearch:
+        oGui.setEndOfDirectory()
 
  			
 def showSeasons():
@@ -316,7 +315,6 @@ def __checkForNextPage(sHtmlContent):
         return aResult[1][0]
 
     return False
-
 
 def showHosters():
     oGui = cGui()

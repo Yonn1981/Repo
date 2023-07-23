@@ -61,7 +61,7 @@ class cHoster(iHoster):
                     url.append(str(i[0]))
                     qua.append(str(i[1]))
 
-                api_call = dialog().VSselectqual(qua, url + '|User-Agent=' + UA)
+                api_call = dialog().VSselectqual(qua, url)
 
 
         if api_call:

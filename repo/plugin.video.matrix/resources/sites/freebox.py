@@ -1,20 +1,21 @@
 # -*- coding: utf-8 -*-
 # vStream https://github.com/Kodi-vStream/venom-xbmc-addons
+# -*- coding: utf-8 -*-
+# zombi https://github.com/zombiB/zombi-addons/
+
 import re
 import string
+import json
+import requests
 
-from resources.lib.comaddon import progress, addon, dialog, siteManager
-from resources.lib.enregistrement import cEnregistremement
-from resources.lib.epg import cePg
+from resources.lib.comaddon import progress, addon, VSlog, siteManager
 from resources.lib.gui.gui import cGui
 from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.handler.premiumHandler import cPremiumHandler
 from resources.lib.parser import cParser
-from resources.lib.util import Unquote
 
 SITE_IDENTIFIER = 'freebox'
 SITE_NAME = '[COLOR orange]Free TV[/COLOR]'
@@ -23,6 +24,16 @@ SITE_DESC = 'Watch Livetelevision'
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 URL_WEB = 'https://raw.githubusercontent.com/Yonn1981/Repo/master/repo/zips/Resources/webtv2.m3u'
 
+TV_GROUPS = ('http://venom/', 'showGroups')
+
+TV_CHANNELS = ('http://venom/', 'showAllChannels')
+
+Streams = 'api/streams.json'
+Channels = 'api/channels.json'
+Categories = 'api/categories.json'
+Languages = 'api/languages.json'
+Countries = 'api/countries.json'
+Regions = 'api/regions.json'
 
 TV_TV = (True, 'showMenuTV')
 
@@ -41,6 +52,38 @@ class track:
         self.icon = icon
         self.data = data
 
+def getChannels():
+    addons = addon()
+
+    ChannelsJSON = requests.get(URL_MAIN + Channels).json()
+    StreamsJSON = requests.get(URL_MAIN + Streams).json()
+    ChannelsList = []
+
+    sLang = addons.getSetting('livetv_lang')
+
+    for ch in ChannelsJSON:
+            if sLang in ch['languages']:
+                for stream in StreamsJSON:
+                    if stream['channel'] ==ch['id']:
+                        try: 
+                            Cat = ch['categories'][0]
+                        except:
+                            Cat = 'Undefined'
+                        channel = {
+                            'name' : ch['name'],
+                            'logo' : ch['logo'],
+                            'country' : ch['country'],
+                            'cat' : Cat,
+                            'url' : stream['url'],
+                            'referrer' : stream['http_referrer'],
+                            'ua' : stream['user_agent']
+                            }
+                        ChannelsList.append(channel)
+    
+
+
+    return ChannelsList
+
 
 def load():
     oGui = cGui()
@@ -49,8 +92,100 @@ def load():
     oOutputParameterHandler = cOutputParameterHandler()
     oGui.addDir(SITE_IDENTIFIER, 'showMenuTV', addons.VSlang(30115), 'tv.png', oOutputParameterHandler)
 
+    oOutputParameterHandler.addParameter('siteUrl', TV_GROUPS[0])
+    oGui.addDir(SITE_IDENTIFIER, TV_GROUPS[1], addons.VSlang(70016), 'genres.png', oOutputParameterHandler)
+    
+    oOutputParameterHandler.addParameter('siteUrl', TV_CHANNELS[0])
+    oGui.addDir(SITE_IDENTIFIER, TV_CHANNELS[1], addons.VSlang(70017), 'tv.png', oOutputParameterHandler)
+
     oGui.setEndOfDirectory()
 
+
+def showGroups():
+    oGui = cGui()
+    oOutputParameterHandler = cOutputParameterHandler()
+    
+    ChannelsList = getChannels()
+    oInputParameterHandler = cInputParameterHandler()
+    sUrl = oInputParameterHandler.getValue('siteUrl')
+    CatsList = []
+    Count = 0
+    for aEntry in ChannelsList:
+        CatsList.append(aEntry['cat'])
+        
+    CatsList = list(set(CatsList))
+    
+    CatsCounter = dict(zip(CatsList, [0]*len(CatsList)))
+    
+    for Cat in CatsList:
+        for Ch in ChannelsList:
+            if Ch['cat'] == Cat:
+                CatsCounter[Cat] = CatsCounter[Cat] + 1
+
+    for aEntry in CatsList:
+        if aEntry not in [None,""," "]:
+            sTitle = aEntry.title() + ' (' + str(CatsCounter[aEntry]) + ')'
+            oOutputParameterHandler.addParameter('siteUrl',  sUrl) 
+            oOutputParameterHandler.addParameter('sTitle',  sTitle) 
+            oOutputParameterHandler.addParameter('sTitle2',  aEntry.title()) 
+            
+            oOutputParameterHandler.addParameter('sThumb',  '') 
+            
+            oGui.addDir(SITE_IDENTIFIER, 'showChannels', sTitle, 'genres.png', oOutputParameterHandler)
+    oGui.setEndOfDirectory()
+
+
+def showChannels():
+    oGui = cGui()
+    oInputParameterHandler = cInputParameterHandler()
+    SelectedCat = oInputParameterHandler.getValue('sTitle2')
+    
+    ChannelsList = getChannels()
+
+    for aEntry in ChannelsList:
+      
+        if SelectedCat in aEntry['cat'].title():
+            
+            sHosterUrl = aEntry['url']
+   
+            if aEntry['referrer'] not in [None, 'none', '']:
+                sHosterUrl = sHosterUrl + '|Referrer=' + aEntry['referrer']
+     
+            if aEntry['ua'] not in [None, 'none', '']:
+                sHosterUrl = sHosterUrl + '|User-Agent=' + aEntry['ua']
+            
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            
+            if oHoster:
+                oHoster.setDisplayName(aEntry['name'])
+                oHoster.setFileName(SelectedCat)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, aEntry['logo'])
+
+    oGui.setEndOfDirectory()
+
+def showAllChannels():
+    oGui = cGui()
+    oInputParameterHandler = cInputParameterHandler()
+    SelectedCat = oInputParameterHandler.getValue('sTitle2')
+
+    ChannelsList = getChannels()
+
+    for aEntry in ChannelsList:
+
+        sHosterUrl = aEntry['url']
+        if aEntry['referrer'] not in [None, 'none', '']:
+            sHosterUrl = sHosterUrl + '|Referrer=' + aEntry['referrer']
+        if aEntry['ua'] not in [None, 'none', '']:
+            sHosterUrl = sHosterUrl + '|User-Agent=' + aEntry['ua']
+        
+        oHoster = cHosterGui().checkHoster(sHosterUrl)
+        
+        if oHoster:
+            oHoster.setDisplayName(aEntry['name'])
+            oHoster.setFileName(aEntry['name'])
+            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, aEntry['logo'])
+
+    oGui.setEndOfDirectory()
 
 def showMenuTV():
     oGui = cGui()

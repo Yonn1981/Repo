@@ -364,6 +364,9 @@ class cHosterGui:
             f.setRealHost(sHostName)
             return f
 
+        if ('lanesh' in sHosterUrl):
+            return self.getHoster('lanesh')
+
         if ('asiawiki' in sHostName):
             return self.getHoster('asiadtv')
 
