@@ -169,10 +169,10 @@ class cHome:
         oGui.addDir('freebox', 'showWeb', self.addons.VSlang(30332), 'tv.png', oOutputParameterHandler)
 
         oOutputParameterHandler.addParameter('siteUrl', 'TV_GROUPS')
-        oGui.addDir(SITE_IDENTIFIER, 'callpluging', self.addons.VSlang(70016), 'genres.png', oOutputParameterHandler)
+        oGui.addDir('freebox', 'showGroups', self.addons.VSlang(70016), 'genres.png', oOutputParameterHandler)
 
         oOutputParameterHandler.addParameter('siteUrl', 'TV_CHANNELS')
-        oGui.addDir(SITE_IDENTIFIER, 'callpluging', self.addons.VSlang(70017), 'tv.png', oOutputParameterHandler)
+        oGui.addDir('freebox', 'showAllChannels', self.addons.VSlang(70017), 'tv.png', oOutputParameterHandler)
 
         oOutputParameterHandler.addParameter('siteUrl', 'TV')
         oGui.addDir('iptv', 'showWeb', self.addons.VSlang(70014), 'tv.png', oOutputParameterHandler)

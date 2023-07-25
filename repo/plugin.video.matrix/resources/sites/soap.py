@@ -504,7 +504,7 @@ def showLinks():
                                     SubTitle = ""
                                     
                                 sHosterUrl = sHosterUrl.split('e/')[1].split('?')[0]
-                                action = "mcloud"
+                                action = "rawMcloud"
                                 sHosterUrl1 = vrf_function2(sHosterUrl, action)
                                 oHoster = cHosterGui().checkHoster(sHosterUrl1)
                                 if oHoster:
@@ -524,7 +524,7 @@ def showLinks():
                                     SubTitle = ""
 
                                 sHosterUrl = sHosterUrl.split('e/')[1].split('?')[0]
-                                action = "vizcloud"
+                                action = "rawVizcloud"
                                 sHosterUrl2 = vrf_function2(sHosterUrl, action)
                                 oHoster = cHosterGui().checkHoster(sHosterUrl2)
                                 if oHoster:
@@ -595,7 +595,7 @@ def showSeriesLinks():
                                     SubTitle = ""
                                     
                                 sHosterUrl = sHosterUrl.split('e/')[1].split('?')[0]
-                                action = "mcloud"
+                                action = "rawMcloud"
                                 sHosterUrl1 = vrf_function2(sHosterUrl, action)
                                 oHoster = cHosterGui().checkHoster(sHosterUrl1)
                                 if oHoster:
@@ -615,7 +615,7 @@ def showSeriesLinks():
                                     SubTitle = ""
 
                                 sHosterUrl = sHosterUrl.split('e/')[1].split('?')[0]
-                                action = "vizcloud"
+                                action = "rawVizcloud"
                                 sHosterUrl2 = vrf_function2(sHosterUrl, action)
                                 oHoster = cHosterGui().checkHoster(sHosterUrl2)
                                 if oHoster:
@@ -673,15 +673,35 @@ def vrf_function2(query, action):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-    sPattern = '"file":"([^"]+)'
+    sPattern = '"rawURL":"([^"]+)'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
     if aResult[0]:
-        for aEntry in aResult[1]:
-            url = aEntry
+        url = aResult[1][0]
+        if 'rawVizcloud' in url:
+                referer = "https://fmovies.to/"
+        else:
+                referer = "https://fmovies.to/"
+        headers2 = {'Referer': referer
+                    }
+        import requests
+        s = requests.session()
 
-            return url
+        req = s.get(url, headers=headers2)
+        response = str(req.content)
+        sPattern = '"file":"([^"]+)'
+
+        oParser = cParser()
+        aResult = oParser.parse(response, sPattern)
+
+        if aResult[0]:
+            for aEntry in aResult[1]:
+                if 'thumb' in aEntry:
+                    continue
+                url = aEntry
+
+        return url
         
     return False, False

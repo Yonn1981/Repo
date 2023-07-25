@@ -21,6 +21,7 @@ class cHoster(iHoster):
     def setUrl(self, url):
         self._url = str(url).replace('+', '%2B').split('#')[0]
         self._url0 = str(url)
+
     def _getMediaLinkForGuest(self):
         api_call = self._url
 
@@ -43,9 +44,7 @@ class cHoster(iHoster):
         else:
             SubTitle = ''
 
-        oParser = cParser()
-
-        api_call = self._url
+        api_call = self._url.replace('\\','')
 
         if api_call:
             if ('http' in SubTitle):

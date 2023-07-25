@@ -157,7 +157,7 @@ class cHosterGui:
         sHosterUrl = sHosterUrl.lower()
 
         # Fix for mcloud and vidstream m3u8 direct links
-        if ('mcloud' in sHosterUrl) or ('vizcloud' in sHosterUrl):
+        if ('mcloud' in sHosterUrl) or ('vizcloud' in sHosterUrl) or ('vidstream' in sHosterUrl):
             return self.getHoster('mcloud')
  
         # Recuperation du host

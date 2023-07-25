@@ -200,7 +200,7 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
+            sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("ومترجمه","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
             siteUrl = aEntry[0]
             sThumb = aEntry[1].replace("(","").replace(")","")
             sDesc = ''
@@ -273,7 +273,6 @@ def showTag():
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0]:
         m3url = aResult[1][0] 
-        m3url = aResult[1][0] 
         oRequest = cRequestHandler(m3url)
         sHtmlContent = oRequest.request()
  # ([^<]+) .+?
@@ -281,7 +280,6 @@ def showTag():
 		
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-	
 	
     if aResult[0]:
         total = len(aResult[1])
@@ -314,15 +312,84 @@ def showTag():
                 oGui.addMovie(SITE_IDENTIFIER, 'showLinks', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
- 
-        sNextPage = __checkForNextPage(sHtmlContent)
-        if sNextPage:
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showTag', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
-       
-    oGui.setEndOfDirectory()
 
+    sPattern = '<title>([^<]+)</title>'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    
+    if (aResult[0]):
+        sDisplay = aResult[1][0]
+
+    oParser = cParser()
+    sStart = 'class="SeasonsSections"'
+    sEnd = 'class="WatchSectionContainer"'
+    sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
+
+    sPattern = "href='(.+?)'>(.+?)</a>"
+		
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+	
+	
+    if aResult[0]:
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        oOutputParameterHandler = cOutputParameterHandler()    
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+ 
+            sTitle = aEntry[1].replace("الجزء الأول","Part 1").replace("الجزء الاول","Part 1").replace("الجزء الثانى","Part 2").replace("الجزء الثاني","Part 2").replace("الجزء الثالث","Part 3").replace("الجزء الثالث","Part 3").replace("الجزء الرابع","Part 4").replace("الجزء الخامس","Part 5").replace("الجزء السادس","Part 6").replace("الجزء السابع","Part 7").replace("الجزء الثامن","Part 8").replace("الجزء التاسع","Part 9").replace("الجزء","Part ").replace('مترجم','').replace('ومدبلجة','مدبلجة')
+            sTitle = sTitle + ' ' + sDisplay.replace('سلسلة','').replace('افلام','').replace('أفلام','').replace('مترجم','')
+            siteUrl = aEntry[0]
+            sThumb = sThumb
+            sDesc = ''
+            sYear = ''
+            m = re.search('([0-9]{4})', sTitle)
+            if m:
+                sYear = str(m.group(0))
+                sTitle = sTitle.replace(sYear,'')
+
+
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
+            oOutputParameterHandler.addParameter('sYear', sYear)
+            oOutputParameterHandler.addParameter('sDesc', sDesc)
+
+            oGui.addMovie(SITE_IDENTIFIER, 'showLinks', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+
+        progress_.VSclose(progress_)
+
+    sPattern = 'page-numbers" href="([^"]+)">([^<]+)</a></li>'
+
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+	
+	
+    if aResult[0]:
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        oOutputParameterHandler = cOutputParameterHandler()
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+
+            sTitle = aEntry[1]
+            
+            sTitle =  "PAGE " + sTitle
+            sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
+            siteUrl = aEntry[0].replace('"',"")
+
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+			
+            oGui.addDir(SITE_IDENTIFIER, 'showTag', sTitle, '', oOutputParameterHandler)
+
+        progress_.VSclose(progress_)
+		
+    oGui.setEndOfDirectory()
+       
 
 def showSeries(sSearch = ''):
     oGui = cGui()
@@ -383,7 +450,7 @@ def showSeries(sSearch = ''):
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
- 
+
             sTitle = aEntry[1]
             
             sTitle =  "PAGE " + sTitle
@@ -659,7 +726,7 @@ def showLinks():
     oGui.setEndOfDirectory()  
 
 def __checkForNextPage(sHtmlContent):
-    sPattern = '<li><a class="next page-numbers" href="([^<]+)">'
+    sPattern = '<li><a class="next page-numbers" href="([^"]+)'
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
