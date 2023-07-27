@@ -260,10 +260,10 @@ def showHosters():
             oRequest = cRequestHandler(url)
             sHtmlContent3 = oRequest.request()
             
-            sPattern = 'RESOLUTION=(\d+x\d+)(.+?.m3u8)'
+            sPattern = 'RESOLUTION=(\d+x\d{0,3})(.+?.m3u8)'
             oParser = cParser()
             aResult = oParser.parse(sHtmlContent3, sPattern)
-            
+
             if aResult[0]:
                 for aEntry in aResult[1]:
 

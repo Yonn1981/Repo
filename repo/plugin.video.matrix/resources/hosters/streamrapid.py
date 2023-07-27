@@ -71,9 +71,19 @@ class cHoster(iHoster):
 
         if aResult[0]:
             sources = aResult[1][0]
+            
+        # Working?
+        table = json.loads(key)
+        decrypted_key = ""
+        offset = 0
+        encrypted_string = sources
+        for start, end in table:
+            decrypted_key += encrypted_string[start - offset:end - offset]
+            encrypted_string = encrypted_string[:start - offset] + encrypted_string[end - offset:]
+            offset += end - start
 
         OpenSSL_AES = openssl_aes.AESCipher()
-        sources = json.loads(OpenSSL_AES.decrypt(sources, key))
+        sources = json.loads(OpenSSL_AES.decrypt(encrypted_string, decrypted_key))
 
         sPattern = "'file': '(.+?)',"
         aResult = oParser.parse(sources, sPattern)
@@ -103,3 +113,15 @@ class cHoster(iHoster):
 
 
         return False, False
+
+def extract_real_key(sources, key):
+    table = json.loads(key)
+    decrypted_key = ""
+    offset = 0
+    encrypted_string = sources
+    for start, end in table:
+        decrypted_key += encrypted_string[start - offset:end - offset]
+        encrypted_string = encrypted_string[:start - offset] + encrypted_string[end - offset:]
+        offset += end - start
+        VSlog(decrypted_key)
+    return decrypted_key, encrypted_string

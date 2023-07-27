@@ -37,6 +37,7 @@ def load():
 
     sList = [
             ('AflamHQ','bNA04cJ','sites/aflaam.png'),
+            ('مكتبة المسلسلات والأفلام Movies and Series Library with 4k','_ig_gOEnWNM_2543983_3648','sites/linkbox.png'),
             ('Anime Box','app01e2f1adf1aca0a1a1a4a7a2a0adf2aca0a1a1a4a7a2a0','sites/linkbox.png'),
             ('Htm.Animes','app01e2f1adf2acaeafa1a3a1a0a0adf1acaeafa1a3a1a0a0','sites/linkbox.png'),
             ('Bein Movies','app01e2f1adf1aca5a4a7aea7a0a4adf2aca5a4a7aea7a0a4','sites/linkbox.png'),
@@ -142,7 +143,6 @@ def showContent(sSearch = ''):
 
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
-
     spage = int(oInputParameterHandler.getValue('page'))   
     spid = oInputParameterHandler.getValue('spid')
     
@@ -166,6 +166,10 @@ def showContent(sSearch = ''):
     data = data.get('list',[])
     if not data: data = []
     elm_count = 0
+
+    oOutputParameterHandler.addParameter('siteUrl',shareToken)
+    oGui.addDir(SITE_IDENTIFIER, 'showGroupSearch', '[COLOR yellow] Search Files within Group [/COLOR]', 'search.png', oOutputParameterHandler) 
+
     for elm in data:
                 sTitle = elm.get('name','')
                 type_ = elm.get('type','')
@@ -188,6 +192,7 @@ def showContent(sSearch = ''):
                 oOutputParameterHandler.addParameter('sTitle', sTitle)            
                 oOutputParameterHandler.addParameter('sThumb', '') 
                 oOutputParameterHandler.addParameter('siteUrl',shareToken)
+               
                 if type_=='dir':
                     oGui.addDir(SITE_IDENTIFIER, 'showContent', sTitle, icon, oOutputParameterHandler)
                     
@@ -199,6 +204,9 @@ def showContent(sSearch = ''):
                     oGui.addDir(SITE_IDENTIFIER, 'showContent', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
 
                 elif (type_=='video') or (type_=='audio'):
+                    icon  = elm.get('cover','')
+                    if '&x-image-process' in icon: 
+                         icon = icon.split('&x-image-process',1)[0]
                     sHosterUrl = link
                     sDisplayTitle = sTitle + '  [COLOR yellow]('+str(size) + 'MB)[/COLOR]'
                     oHoster = cHosterGui().getHoster('lien_direct')        
@@ -206,8 +214,9 @@ def showContent(sSearch = ''):
                         oHoster.setDisplayName(sDisplayTitle)
                         oHoster.setFileName(sTitle)
                         cHosterGui().showHoster(oGui, oHoster, sHosterUrl, icon)                
- 
+
     oGui.setEndOfDirectory()
+
 
 def GetSearch(sSearch = ''):
     import requests
@@ -215,11 +224,15 @@ def GetSearch(sSearch = ''):
     sUrl = sSearch
 
     oOutputParameterHandler = cOutputParameterHandler()  
-    
+    oInputParameterHandler = cInputParameterHandler()
+    spage = int(oInputParameterHandler.getValue('page'))     
     nb_elm = 50
     shareToken = sUrl
 
-    page = 1
+    if spage > 1:
+        page = spage
+    else:
+        page = 1
 
     data = requests.get(sUrl).json()
     data = data.get('data',{})
@@ -243,11 +256,165 @@ def GetSearch(sSearch = ''):
                         shareToken,pid = shareToken.split('?pid=')
                     else:
                         pid = ''
-
+                if elm_count + 1 > nb_elm:
+                    page = page + 1
+                    oOutputParameterHandler.addParameter('page',page)
                 oOutputParameterHandler.addParameter('spid', pid) 
                 oOutputParameterHandler.addParameter('sTitle', sTitle)            
                 oOutputParameterHandler.addParameter('sThumb', '') 
                 oOutputParameterHandler.addParameter('siteUrl',shareToken)
                 oGui.addDir(SITE_IDENTIFIER, 'showContent', sTitle, icon, oOutputParameterHandler)            
+ 
+    oGui.setEndOfDirectory()
+
+def showGroupSearch(sSearchText = ''):
+    import requests
+    oGui = cGui()
+    sSearchText = oGui.showKeyBoard()
+
+    oOutputParameterHandler = cOutputParameterHandler()  
+    oInputParameterHandler = cInputParameterHandler()
+    sUrl = oInputParameterHandler.getValue('siteUrl')
+
+    spage = int(oInputParameterHandler.getValue('page'))   
+    spid = oInputParameterHandler.getValue('spid')
+
+    nb_elm = 50
+    shareToken = sUrl
+
+    page = 1
+    pid = spid
+
+
+    if spage > 1:
+        page = spage
+    else:
+        page = 1
+
+    sUrl = URL_MAIN + '/api/file/share_out_list/?sortField=name&sortAsc=1&pageNo='+str(page)+'&pageSize='+str(nb_elm)+'&'+'shareToken='+shareToken+'&pid='+str(pid)+'&needTpInfo=1&scene=singleGroup&name='+sSearchText+'&platform=web&pf=web&lan=en'
+
+    data = requests.get(sUrl).json()
+    data = data.get('data',{})
+    data = data.get('list',[])
+    if not data: data = []
+    elm_count = 0
+    for elm in data:
+                sTitle = elm.get('name','')
+                type_ = elm.get('type','')
+
+                pid   = elm.get('id','')
+                spid = 0
+
+                desc  = ''
+                elm_count = elm_count + 1
+                
+                icon  = 'host.png'
+
+                url  = elm.get('url','')
+                size = elm.get('size','')
+                size = size/1024 
+                size = size/1024
+                size = int(size)
+
+                shareToken = shareToken
+
+
+                oOutputParameterHandler.addParameter('spid', pid) 
+                oOutputParameterHandler.addParameter('sTitle', sTitle)            
+                oOutputParameterHandler.addParameter('sThumb', '') 
+                oOutputParameterHandler.addParameter('siteUrl',shareToken)
+                    
+                if elm_count + 1 > nb_elm:
+                    page = page + 1
+                    oOutputParameterHandler.addParameter('page',page)
+                    oOutputParameterHandler.addParameter('siteUrl',shareToken)
+                    oOutputParameterHandler.addParameter('spid', spid) 
+                    oOutputParameterHandler.addParameter('sSearchText', sSearchText) 
+                    oGui.addDir(SITE_IDENTIFIER, 'showGroupSearchNext', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+
+                elif (type_=='video') or (type_=='audio'):
+                    icon  = elm.get('cover','')
+                    if '&x-image-process' in icon: 
+                         icon = icon.split('&x-image-process',1)[0]
+
+                    sHosterUrl = url
+                    sDisplayTitle = sTitle + '  [COLOR yellow]('+str(size) + 'MB)[/COLOR]'
+                    oHoster = cHosterGui().getHoster('lien_direct')        
+                    if oHoster:
+                        oHoster.setDisplayName(sDisplayTitle)
+                        oHoster.setFileName(sTitle)
+                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, icon)          
+ 
+    oGui.setEndOfDirectory()
+
+def showGroupSearchNext(sSearchText = ''):
+    import requests
+    oGui = cGui()
+
+    oOutputParameterHandler = cOutputParameterHandler()  
+    oInputParameterHandler = cInputParameterHandler()
+    sUrl = oInputParameterHandler.getValue('siteUrl')
+    sSearchText = oInputParameterHandler.getValue('sSearchText')
+    spage = int(oInputParameterHandler.getValue('page'))   
+    spid = oInputParameterHandler.getValue('spid')
+
+    nb_elm = 50
+    shareToken = sUrl
+
+    page = 1
+    pid = spid
+
+
+    if spage > 1:
+        page = spage
+    else:
+        page = 1
+    VSlog(page)
+
+    sUrl = URL_MAIN + '/api/file/share_out_list/?sortField=name&sortAsc=1&pageNo='+str(page)+'&pageSize='+str(nb_elm)+'&'+'shareToken='+shareToken+'&pid=0&needTpInfo=1&scene=singleGroup&name='+sSearchText+'&platform=web&pf=web&lan=en'
+
+    data = requests.get(sUrl).json()
+    data = data.get('data',{})
+    data = data.get('list',[])
+    if not data: data = []
+    elm_count = 0
+    for elm in data:
+                sTitle = elm.get('name','')
+                type_ = elm.get('type','')
+
+                spid = 0
+
+                elm_count = elm_count + 1
+                
+                icon  = 'host.png'
+
+                url  = elm.get('url','')
+                size = elm.get('size','')
+                size = size/1024 
+                size = size/1024
+                size = int(size)
+                shareToken = shareToken
+
+                   
+                if elm_count + 1 > nb_elm:
+                    page = page + 1
+                    oOutputParameterHandler.addParameter('page',page)
+                    oOutputParameterHandler.addParameter('siteUrl',shareToken)
+                    oOutputParameterHandler.addParameter('spid', spid) 
+                    oOutputParameterHandler.addParameter('sSearchText', sSearchText) 
+                    oGui.addDir(SITE_IDENTIFIER, 'showGroupSearchNext', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+
+                elif (type_=='video') or (type_=='audio'):
+                    icon  = elm.get('cover','')
+                    if '&x-image-process' in icon: 
+                         icon = icon.split('&x-image-process',1)[0]
+
+                    sHosterUrl = url
+                    sDisplayTitle = sTitle + '  [COLOR yellow]('+str(size) + 'MB)[/COLOR]'
+                    oHoster = cHosterGui().getHoster('lien_direct')        
+                    if oHoster:
+                        oHoster.setDisplayName(sDisplayTitle)
+                        oHoster.setFileName(sTitle)
+                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, icon)          
  
     oGui.setEndOfDirectory()
