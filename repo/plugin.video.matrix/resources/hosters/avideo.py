@@ -29,8 +29,12 @@ class cHoster(iHoster):
 
         oRequest = cRequestHandler(self._url)
         sHtmlContent = oRequest.request()
-        sHost = sUrl.split('/e')[0]
-        sCode = sUrl.split('/e-')[1]
+        if '/e' in sUrl:
+            sHost = sUrl.split('/e')[0]
+            sCode = sUrl.split('/e-')[1]
+        else:
+            sHost = sUrl
+            sCode = sUrl           
 
         Sgn=requests.Session()
 
@@ -63,9 +67,11 @@ class cHoster(iHoster):
 
             sPattern = 'file:"([^"]+)'
             aResult = oParser.parse(sHtmlContent2, sPattern)
-            VSlog(aResult)
+
             if aResult[0]:
                 api_call = aResult[1][0]  + '|AUTH=TLS&verifypeer=false' 
+
+        api_call = sUrl
 
         if api_call:
             return True, api_call

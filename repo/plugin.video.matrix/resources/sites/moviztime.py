@@ -354,6 +354,12 @@ def showHosters2():
     oParser = cParser()
      # (.+?) ([^<]+) .+?
 
+    sPattern =  '<p class="logo">.+?<a href="([^"]+)' 
+    aResult = oParser.parse(sHtmlContent,sPattern)
+    if aResult[0]:
+        sRefer = aResult[1][0] 
+
+
     sPattern = 'data-src="([^"]+)'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -363,7 +369,14 @@ def showHosters2():
         for aEntry in aResult[1]:       
             url = aEntry
             if url.startswith('//'):
-               url = 'http:' + url
+                url = 'http:' + url
+            if 'vidhls' in url:
+                url = url+'|Referer='+sRefer
+            import requests
+            if 'hamml' in url:
+                response = requests.get(url, headers={'referer': sRefer})
+                url = response.url +'|Referer='+sRefer
+
             sHosterUrl = url  
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
@@ -394,12 +407,9 @@ def showHosters2():
                 sPattern = '<a href="(.+?)" class="download_btn"'
                 oParser = cParser()
                 aResult = oParser.parse(sHtmlContent, sPattern)
-                VSlog(sHosterUrl)
                 if aResult[0]:
                     for aEntry in aResult[1]:               
-                        sHosterUrl = aEntry
-
-                        VSlog(sHosterUrl)
+                        sHosterUrl = aEntry.replace(',','')
                         if 'movietime' in sHosterUrl:
                             oHoster = cHosterGui().getHoster('lien_direct')
                             if oHoster:

@@ -39,6 +39,8 @@ class cHoster(iHoster):
 
             if aResult[0]:
                 api_call = aResult[1][0] 
+        else:
+            api_call = api_call
 
         if api_call:
             return True, api_call

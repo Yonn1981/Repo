@@ -13,7 +13,7 @@
         "askmovie": {
             "label": "Ask4movie",
             "active": "True",
-            "cloudflare": "False",
+            "cloudflare": "True",
             "url": "https://ask4movie.nl/"
         },
         "ahdaf": {

@@ -109,8 +109,7 @@ def showMovies(sSearch = ''):
        data = {'keyword':psearch,'nonce':'775957ec22'}
        r = s.post(URL_MAIN+'wp-json/lalaplay/search/?keyword='+psearch+'&nonce=775957ec22', headers=headers,data = data)
        sHtmlContent = r.content.decode('utf8')
-       VSlog(psearch)
-       VSlog(sHtmlContent)
+
       # (.+?) ([^<]+) .+?
     sPattern = '<div class="title">(.+?)</div>.+?<a href="(.+?)">.+?data-src="(.+?)" alt'
 
@@ -298,7 +297,7 @@ def showHosters():
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
-	
+
     if aResult[0]:
         for aEntry in aResult[1]:
             
@@ -306,18 +305,15 @@ def showHosters():
             siteUrl = URL_MAIN+'wp-json/lalaplayer/v2/?p='+aEntry[0]+'&t=movie&n='+aEntry[1]
 
             oRequestHandler = cRequestHandler(siteUrl)
-            sData = oRequestHandler.request();
-           # VSlog(sData)
-    # (.+?)
-               
+            sData = oRequestHandler.request()
 
-            sPattern = '"embed_url":"(.+?)","type":"iframe"'
+            sPattern = '"embed_url":"(.+?)",'
             oParser = cParser()
             aResult = oParser.parse(sData, sPattern)
-	
+
             if aResult:
-        
-                    url = aResult[1][0].replace("\/","/")
+                for aEntry in aResult[1]:
+                    url = aEntry.replace("\/","/")
                     if url.startswith('//'):
                        url = 'http:' + url
 
@@ -326,14 +322,14 @@ def showHosters():
                     oRequestHandler.addHeaderEntry('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
                     oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
                     oRequestHandler.addHeaderEntry('Referer', URL_MAIN)
-                    sData = oRequestHandler.request();
+                    sData = oRequestHandler.request()
     # (.+?)
                
 
                     sPattern = '"file":"(.+?)","label":'
                     oParser = cParser()
                     aResult = oParser.parse(sData, sPattern)
-	
+
                     if aResult[0]:
                        for aEntry in aResult[1]:        
                            url = aEntry.replace("\/","/")

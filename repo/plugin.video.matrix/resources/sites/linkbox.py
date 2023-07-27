@@ -58,6 +58,7 @@ def load():
             ('Kowaya Cinema','_ig_app01e2f1adf0f2acf0e6a5f9e4f1a6a6a5fcfba2_4250624_a55c','sites/linkbox.png'),
             ('MARVEL MOROCCO','SD9p5bO','sites/linkbox.png'),
             ('Movies Plus - أفلام','app01e2f1adf1aca0a2a3a1a0a6adf2aca0a2a3a1a0a6','sites/linkbox.png'),
+            ('Movies Time','U9eySIc','sites/moviztime.png'),
             ('Netflix','_ig_app01e2f1adf0f2acf0e6a5fda0aea6a6a6f3afe0_2674587_0ddd','sites/netflix.png'),
             ('Netflix','46Qaojv','sites/netflix.png'),
             ('افلام و مسلسلات netflix','_ig_2z1IFpK_4702801_f98c','sites/netflix.png'),
@@ -71,6 +72,7 @@ def load():
             ('The Movies','app01e2f1adf2aca5a5a2a3a3a4aeadf1aca5a5a2a3a3a4ae','sites/linkbox.png'),
             ('THROW LOB (رياضة)','NZKr9gl','sites/linkbox.png'),
             ('The Movie Muse','ZmM9DaP','sites/linkbox.png'),
+            ('Yalla Anime','app01e2f1adf2aca4afa3a5a1a5aeadf1aca4afa3a5a1a5ae','sites/linkbox.png'),
             ('World1Movies','app01e2f1adf2aca0a6a7a5aea3adf1aca0a6a7a5aea3','sites/linkbox.png'),
             ('افلام ومسلسلات عربيه واجنبيه مترجمه Various Movies','app01e2f1adf2aca7a2aea3a1a6aeadf1aca7a2aea3a1a6ae','sites/linkbox.png'),
             ('مجتمع الأفلام والمسلسلات | Documentary Films','app01e2f1adf2acaea7a5a2a3a5a4adf1acaea7a5a2a3a5a4','sites/linkbox.png'),
@@ -177,6 +179,10 @@ def showContent(sSearch = ''):
                 icon  = 'host.png'
 
                 link  = elm.get('url','')
+                size = elm.get('size','')
+                size = size/1024 
+                size = size/1024
+                size = int(size)
 
                 oOutputParameterHandler.addParameter('spid', pid) 
                 oOutputParameterHandler.addParameter('sTitle', sTitle)            
@@ -194,10 +200,10 @@ def showContent(sSearch = ''):
 
                 elif (type_=='video') or (type_=='audio'):
                     sHosterUrl = link
-            
+                    sDisplayTitle = sTitle + '  [COLOR yellow]('+str(size) + 'MB)[/COLOR]'
                     oHoster = cHosterGui().getHoster('lien_direct')        
                     if oHoster:
-                        oHoster.setDisplayName(sTitle)
+                        oHoster.setDisplayName(sDisplayTitle)
                         oHoster.setFileName(sTitle)
                         cHosterGui().showHoster(oGui, oHoster, sHosterUrl, icon)                
  

@@ -280,13 +280,13 @@ class cHosterGui:
             f.setRealHost(sHostName)
             return f
 
-        if ('avideo' in sHostName):
+        if ('avideo.host' in sHosterUrl):
             return self.getHoster('avideo')
 
         if ('vanfem' in sHostName):
             return self.getHoster('fembed')
 
-        if ('vod540' in sHostName):
+        if ('vod540' in sHostName) or ('hd-cdn' in sHostName):
             return self.getHoster('xvideo')
 
         if ('vidsrc' in sHostName):

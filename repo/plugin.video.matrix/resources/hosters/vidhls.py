@@ -26,6 +26,12 @@ class cHoster(iHoster):
 
     def _getMediaLinkForGuest(self):
         sUrl = self._url
+        if '|Referer=' in sUrl:
+            Referer = sUrl.split('|Referer=')[1]
+            sUrl = sUrl.split('|Referer=')[0]
+        else:
+            sUrl = sUrl
+            Referer = 'https://movtime8.store/'
 
         oRequest = cRequestHandler(self._url)
         sHtmlContent = oRequest.request()
@@ -39,7 +45,7 @@ class cHoster(iHoster):
         	'Accept-Language': 'en-US,en;q=0.9,ar;q=0.8',
         	'User-Agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Mobile Safari/537.36 Edg/114.0.1823.82',
         	'Upgrade-Insecure-Requests': '1',
-        	'Referer': 'https://movtime3.store/'}
+        	'Referer': Referer}
         prm={
                 "data": sdata}
         _r = Sgn.post(sUrl,headers=hdr,data=prm)
@@ -48,7 +54,7 @@ class cHoster(iHoster):
 
         sPattern = '"videoServer":"([^"]+)'
         aResult = oParser.parse(sHtmlContent, sPattern)
-        
+   
         if aResult[0]:
             VidServ = aResult[1][0]
             if "1" in VidServ :
@@ -78,7 +84,7 @@ class cHoster(iHoster):
 
         sPattern = '"videoUrl":"([^"]+)'
         aResult = oParser.parse(sHtmlContent, sPattern)
-        
+
         if aResult[0]:
             Url2 = aResult[1][0]
             Url2 = sHost+Url2

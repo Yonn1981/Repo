@@ -650,6 +650,28 @@ def showHosters():
                 oHoster.setDisplayName(sDisplayTitle)
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+    
+    else:
+        sPattern = 'data-link="(.+?)" class'
+        oParser = cParser()
+        aResult = oParser.parse(sHtmlContent, sPattern)
+
+	
+        if aResult[0]:
+            for aEntry in aResult[1]:
+            
+                url = aEntry
+                sTitle = " "
+                if url.startswith('//'):
+                    url = 'http:' + url
+				           
+                sHosterUrl = url 
+                oHoster = cHosterGui().checkHoster(sHosterUrl)
+                if oHoster:
+                    sDisplayTitle = sTitle
+                    oHoster.setDisplayName(sDisplayTitle)
+                    oHoster.setFileName(sMovieTitle)
+                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
     oGui.setEndOfDirectory()
 

@@ -18,12 +18,12 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-DOC_NEWS = ('https://arabsciences.com/category/tv-channels/', 'showMovies')
-DOC_GENRES = (True, 'showGenres')
+DOC_NEWS = (URL_MAIN + 'category/tv-channels/', 'showMovies')
+DOC_GENRES = (URL_MAIN, 'showGenres')
 
-URL_SEARCH = ('https://arabsciences.com/?s=', 'showMovies')
-URL_SEARCH_MOVIES = ('https://arabsciences.com/?s=', 'showMovies')
-URL_SEARCH_MISC = ('https://arabsciences.com/?s=', 'showMovies')
+URL_SEARCH = (URL_MAIN + '?s=', 'showMovies')
+URL_SEARCH_MOVIES = (URL_MAIN + '?s=', 'showMovies')
+URL_SEARCH_MISC = (URL_MAIN + '?s=', 'showMovies')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -37,38 +37,49 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', DOC_NEWS[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام وثائقية', 'doc.png', oOutputParameterHandler)
     
-
+    oOutputParameterHandler.addParameter('siteUrl', DOC_GENRES[0])
+    oGui.addDir(SITE_IDENTIFIER, DOC_GENRES[1], 'التصنيفات', 'genres.png', oOutputParameterHandler)
             
     oGui.setEndOfDirectory()
 
+
 def showGenres():
     oGui = cGui()
+    
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
  
-    liste = []
-    liste.append( ["natgeoad","https://arabsciences.com/category/tv-channels/natgeoad/"] )
-    liste.append( ["quest-arabiya","https://arabsciences.com/category/tv-channels/quest-arabiya/"] )
-    liste.append( ["jazeeradoc-tv-channels","https://arabsciences.com/category/tv-channels/jazeeradoc-tv-channels/"] )
-    liste.append( ["alarabyatv","https://arabsciences.com/category/tv-channels/alarabyatv/"] )
-    liste.append( ["bbc-arabic","https://arabsciences.com/category/tv-channels/bbc-arabic/"] )
-    liste.append( ["natgeowild","https://arabsciences.com/category/tv-channels/natgeowild/"] )
-    liste.append( ["dw-arabic","https://arabsciences.com/category/tv-channels/dw-arabic/"] )
-    liste.append( ["arabi-tv","https://arabsciences.com/category/tv-channels/arabi-tv-channels/"] )
-    liste.append( ["russia-today","https://arabsciences.com/category/tv-channels/russia-today/"] )
-    liste.append( ["قناة صانعوا القرار","https://arabsciences.com/category/tv-channels/%D9%82%D9%86%D8%A7%D8%A9-%D8%B5%D8%A7%D9%86%D8%B9%D9%88%D8%A7-%D8%A7%D9%84%D9%82%D8%B1%D8%A7%D8%B1/"] )
-    liste.append( ["othertv","https://arabsciences.com/category/tv-channels/othertv/"] )
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request()
 
-    
-	            
-    for sTitle,sUrl in liste:
-        
-        oOutputParameterHandler = cOutputParameterHandler()
-        oOutputParameterHandler.addParameter('siteUrl', sUrl)
-        oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle, 'genres.png', oOutputParameterHandler)
-       
-    oGui.setEndOfDirectory() 
+    oParser = cParser()
+
+
+    sPattern = '<a href="([^"]+)"> <span aria-hidden="true" class="mega-links-default-icon"></span>(.+?)</a>'
+
+
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
 	
+	
+    if aResult[0]:
+        oOutputParameterHandler = cOutputParameterHandler()
+        for aEntry in aResult[1]:
+            if '#' in aEntry[0]:
+                continue 
+            sTitle = cUtil().unescape(aEntry[1])
+            siteUrl = aEntry[0]
+            sDesc = ''
+			
+
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+
+            oGui.addMisc(SITE_IDENTIFIER, 'showMovies', sTitle, 'doc.png', '', '', oOutputParameterHandler)
+ 
+    oGui.setEndOfDirectory()
+
 	
 	
 def showSearch():
@@ -76,7 +87,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = 'https://arabsciences.com/?s='+sSearchText
+        sUrl = URL_MAIN + '?s='+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -96,7 +107,7 @@ def showMovies(sSearch = ''):
         sHtmlContent = oRequestHandler.request()
  
 # ([^<]+) .+? (.+?)
-        sPattern = '<a aria-label="(.+?)" href="(.+?)" class="post-thumb">.+?data-breeze="(.+?)" src.+?class="post-excerpt">([^<]+)</p>'
+        sPattern = '<a aria-label="(.+?)" href="(.+?)" class="post-thumb">.+?data-breeze="(.+?)" width=.+?src.+?class="post-excerpt">([^<]+)</p>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -140,7 +151,7 @@ def showMovies(sSearch = ''):
         oGui.setEndOfDirectory()
  
 def __checkForNextPage(sHtmlContent):
-    sPattern = '<a href="([^<]+)"><span class="pagination-icon" aria-hidden="true">'
+    sPattern = '<link rel="next" href="([^"]+)'
 	 #.+? ([^<]+)
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -169,7 +180,8 @@ def showHosters():
 	
     if aResult[0]:
         for aEntry in aResult[1]:
-            
+            if ".api"  in aEntry or "image"  in aEntry:
+                continue            
             url = aEntry.replace('?rel=0','').replace('"','')
             if url.startswith('//'):
                 url = 'http:' + url
@@ -190,7 +202,8 @@ def showHosters():
 	
     if aResult[0]:
         for aEntry in aResult[1]:
-            
+            if ".api"  in aEntry or "image"  in aEntry:
+                continue                  
             url = 'https://www.youtube.com/embed/'+aEntry
 				
 					
@@ -204,14 +217,12 @@ def showHosters():
 				          
            
 
-    sPattern = '<iframe src=([^<]+) width='
+    sPattern = '<iframe.+?src="([^"]+)'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
-	
     if aResult[0]:
         for aEntry in aResult[1]:
-            
             url = aEntry.replace('?rel=0','').replace('"','')
             if url.startswith('//'):
                url = 'http:' + url

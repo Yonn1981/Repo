@@ -151,23 +151,12 @@ def showWeb():  # Code qui s'occupe de liens TV du Web
             oOutputParameterHandler.addParameter('sMovieTitle', track.title)
             oOutputParameterHandler.addParameter('sThumbnail', thumb)
 
-            oGuiElement = cGuiElement()
-            oGuiElement.setSiteName(SITE_IDENTIFIER)
-            oGuiElement.setFunction('play__')
-
-            oGuiElement.setTitle(track.title)
-            oGuiElement.setFileName(track.title)
-            
-            oGuiElement.setIcon('tv.png')
-            oGuiElement.setMeta(0)
-            oGuiElement.setThumbnail(thumb)
-            oGuiElement.setDirectTvFanart()
-            oGuiElement.setCat(6)
-
-            # oGui.createSimpleMenu(oGuiElement, oOutputParameterHandler, SITE_IDENTIFIER, SITE_IDENTIFIER, 'direct_epg', 'Guide tv Direct')
-            # oGui.createSimpleMenu(oGuiElement, oOutputParameterHandler, SITE_IDENTIFIER, SITE_IDENTIFIER, 'soir_epg', 'Guide tv Soir')
-            # oGui.createSimpleMenu(oGuiElement, oOutputParameterHandler, SITE_IDENTIFIER, SITE_IDENTIFIER, 'enregistrement', 'Enregistrement')
-            oGui.addFolder(oGuiElement, oOutputParameterHandler)
+            oHoster = cHosterGui().getHoster('lien_direct')
+        
+            if oHoster:
+                oHoster.setDisplayName(track.title)
+                oHoster.setFileName(track.title)
+                cHosterGui().showHoster(oGui, oHoster, url2, sThumb)
 
         progress_.VSclose(progress_)
 
@@ -229,22 +218,12 @@ def showTV():
             oOutputParameterHandler.addParameter('sMovieTitle', aEntry[0])
             oOutputParameterHandler.addParameter('sThumbnail', 'tv.png')
 
-            oGuiElement = cGuiElement()
-            oGuiElement.setSiteName(SITE_IDENTIFIER)
-            oGuiElement.setFunction('play__')
-            oGuiElement.setTitle(aEntry[0])
-            oGuiElement.setFileName(aEntry[0])
-            oGuiElement.setIcon('tv.png')
-            oGuiElement.setMeta(0)
-            # oGuiElement.setThumbnail('tv.png')
-            oGuiElement.setDirectTvFanart()
-            oGuiElement.setCat(6)
-
-            # oGui.createSimpleMenu(oGuiElement, oOutputParameterHandler, SITE_IDENTIFIER, SITE_IDENTIFIER, 'direct_epg', 'Guide tv Direct')
-            # oGui.createSimpleMenu(oGuiElement, oOutputParameterHandler, SITE_IDENTIFIER, SITE_IDENTIFIER, 'soir_epg', 'Guide tv Soir')
-            # oGui.createSimpleMenu(oGuiElement, oOutputParameterHandler, SITE_IDENTIFIER, SITE_IDENTIFIER, 'enregistrement', 'Enregistrement')
-            oGui.createContexMenuBookmark(oGuiElement, oOutputParameterHandler)
-            oGui.addFolder(oGuiElement, oOutputParameterHandler)
+            oHoster = cHosterGui().getHoster('lien_direct')
+        
+            if oHoster:
+                oHoster.setDisplayName(track.title)
+                oHoster.setFileName(track.title)
+                cHosterGui().showHoster(oGui, oHoster, aEntry[1], 'tv.png')
 
         progress_.VSclose(progress_)
 

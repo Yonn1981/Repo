@@ -58,7 +58,7 @@ def showMovies(sSearch = ''):
  
             sTitle =  aEntry[1].replace(')','').replace("'",'').replace('_',' ')
             sThumb = ""
-            siteUrl = "https://beinmatch.life/home/live/"+aEntry[0].replace('(','')
+            siteUrl = "https://beinmatch.life/bein/live/"+aEntry[0].replace('(','')
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + aEntry[0]
             sDesc = aEntry[2]
@@ -100,7 +100,8 @@ def showLive():
                 sHosterUrl = sHosterUrl + "|Referer=" + sUrl
             if 'vimeo' not in sHosterUrl:
                 sHosterUrl = sHosterUrl + '|AUTH=TLS&verifypeer=false&Referer=' + sUrl
-            
+            if sHosterUrl.startswith('//'):
+                sHosterUrl = 'http:' + sHosterUrl            
 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
@@ -141,7 +142,8 @@ def showLive():
                 sHosterUrl = sHosterUrl + "|Referer=" + sUrl
             if 'vimeo' not in sHosterUrl:
                 sHosterUrl = sHosterUrl + '|AUTH=TLS&verifypeer=false&Referer=' + sUrl
-            
+            if sHosterUrl.startswith('//'):
+                sHosterUrl = 'http:' + sHosterUrl            
 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
@@ -160,7 +162,7 @@ def showLive():
         for aEntry in aResult[1]:
  
             sTitle = "link HD "+aEntry[1]
-            siteUrl = "https://beinmatch.life/home/live/"+aEntry[0].replace("(","")
+            siteUrl = "https://beinmatch.life/bein/live/"+aEntry[0].replace("(","")
             siteUrl = siteUrl+'/'+aEntry[1]
             sDesc = ''
  
@@ -195,7 +197,8 @@ def showHosters():
                 sHosterUrl = sHosterUrl + "|Referer=" + sUrl
             if 'vimeo' not in sHosterUrl:
                 sHosterUrl = sHosterUrl + '|AUTH=TLS&verifypeer=false&Referer=' + sUrl
-            
+            if sHosterUrl.startswith('//'):
+                sHosterUrl = 'http:' + sHosterUrl            
 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
