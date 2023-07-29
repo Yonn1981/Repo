@@ -1389,3 +1389,7 @@ msgstr "Chaînes de télévision en direct"
 msgctxt "#70018"
 msgid "Live TV Channels Language"
 msgstr "Langue des chaînes de télévision en direct"
+
+msgctxt "#70019"
+msgid "Update Sites Links"
+msgstr "Update Sites Links"

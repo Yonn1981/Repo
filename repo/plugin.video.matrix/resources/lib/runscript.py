@@ -251,6 +251,25 @@ class cClear:
 
             return
 
+        # Updates Sites
+        elif (env == 'updatesites'):
+            if self.DIALOG.VSyesno(self.ADDON.VSlang(30456)):
+                import datetime, time
+                addons = addon()
+                time_now = datetime.datetime.now()
+                sUrl = 'https://raw.githubusercontent.com/Yonn1981/Repo/master/repo/plugin.video.matrix/resources/sites.json'
+                oRequestHandler = cRequestHandler(sUrl)
+                properties = oRequestHandler.request(jsonDecode=True)
+                if properties == "":
+                    return
+                siteManager().setDefaultProps(properties)
+
+                addons.setSetting('setting_time', str(time_now))
+
+                self.DIALOG.VSinfo(self.ADDON.VSlang(30014))
+
+            return
+
         # aciver/désactiver les sources
         elif (env == 'search'):
 

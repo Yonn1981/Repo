@@ -1217,21 +1217,21 @@ msgstr "Small loading spinner"
 
 msgctxt "#30481"
 msgid "Interface"
-msgstr "Interface"
+msgstr "واجهه المستخدم"
 
 # upnext
 msgctxt "#30505"
 msgid "Would you like to automatically play the next episode?"
-msgstr "Voulez-vous activer l'enchainement des épisodes ?"
+msgstr "هل تريد تفعيل تسلسل الحلقات؟"
 
 msgctxt "#30506"
 msgid "Automatically play the next episode"
-msgstr "Activer l'enchainement des épisodes"
+msgstr "تفعيل تسلسل الحلقة"
 
 # Alldebrid
 msgctxt "#31000"
 msgid "Multimedia folder URL (Optional)"
-msgstr "URL du dossier multimedia (Optionnel)"
+msgstr "مجلد الوسائط المتعددة (اختياري)"
 
 msgctxt "#31101"
 msgid "Url"
@@ -1239,31 +1239,31 @@ msgstr "Url"
 
 msgctxt "#31102"
 msgid "Use the skin display for the information windows"
-msgstr "Utiliser la fenetre d'information du skin"
+msgstr " skinاستخدم نافذة معلومات الـ"
 
 msgctxt "#31103"
 msgid "Allow adult content"
-msgstr "Autoriser le contenu pour adultes"
+msgstr "السماح بالمحتوى للبالغين"
 
 msgctxt "#31104"
 msgid "Enable all sources"
-msgstr "Activer toutes les sources"
+msgstr "تفعيل جميع المصادر"
 
 msgctxt "#31105"
 msgid "Disable all sources"
-msgstr "Désactiver toutes les sources"
+msgstr "تعطيل كافة المصادر"
 
 msgctxt "#31200"
 msgid "Choose the number of items to display"
-msgstr "Choisir le nombre d'elements a afficher"
+msgstr "اختر عدد العناصر المراد عرضها"
 
 msgctxt "#31201"
 msgid "View: Seasons (recommended 50-51-500-501-508)"
-msgstr "Vue: Saisons (recommandé 50-51-500-501-508)"
+msgstr "طريقة العرض: الفصول (موصى به 50-51-500-501-508)"
 
 msgctxt "#31202"
 msgid "View: Episodes (recommended 50-51-500-501-508)"
-msgstr "Vue: Episodes (recommandé 50-51-500-501-508)"
+msgstr "عرض: الحلقات (مستحسن 50-51-500-501-508)"
 
 msgctxt "#31203"
 msgid "IP address for Flaresolverr"
@@ -1404,3 +1404,7 @@ msgstr "البث التلفزيوني المباشر"
 msgctxt "#70018"
 msgid "Live TV Channels Language"
 msgstr "لغة قنوات البث التلفزيوني المباشر"
+
+msgctxt "#70019"
+msgid "Update Sites Links"
+msgstr "تحديث روابط المواقع"

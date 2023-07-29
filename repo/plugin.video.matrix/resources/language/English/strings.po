@@ -1404,3 +1404,7 @@ msgstr ""
 msgctxt "#70018"
 msgid "Live TV Channels Language"
 msgstr ""
+
+msgctxt "#70019"
+msgid "Update Sites Links"
+msgstr ""

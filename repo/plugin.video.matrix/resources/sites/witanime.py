@@ -345,85 +345,86 @@ def showHosters():
     sHtmlContent = oRequestHandler.request()
     oParser = cParser()
 
-    sPattern = '<a data-ep-url="(.+?)">ok.ru.+?</a>'
-    aResult1 = re.findall(sPattern, sHtmlContent)
-    sPattern = 'class="btn btn-default" href="(.+?)">' 
-    aResult2 = re.findall(sPattern, sHtmlContent)
-    sPattern = '<a data-ep-url="(.+?)">daily.+?</a>' 
-    aResult3 = re.findall(sPattern, sHtmlContent)
-    sPattern = '<a data-ep-url="(.+?)">meg.+?</a>' 
-    aResult4 = re.findall(sPattern, sHtmlContent)
-    sPattern = '<a data-ep-url="(.+?)">videa.+?</a>' 
-    aResult5 = re.findall(sPattern, sHtmlContent)
-    if aResult1:
-        for aEntry in aResult1:
+    oGui.addText(SITE_IDENTIFIER,'[COLOR olive]-----●★| Download LInks |★●-----[/COLOR]')
 
-            url = aEntry
-            sTitle = sMovieTitle
+    sStart = '<div class="content episode-download-container">'
+    sEnd = '<div class="content">'
+    sHtmlContent0 = oParser.abParse(sHtmlContent, sStart, sEnd)
+
+    sPattern = '<li>(.+?)</li>(.+?)</div>'
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent0, sPattern)
+
+    if aResult[0] :
+       
+        for aEntry in reversed(aResult[1]):
+            sQual = aEntry[0].replace("الخارقة ","").replace(" العالية","").replace("المتوسطة","").replace("الجودة","").replace('-','').replace(' ','')
+            sHtmlContent1 = aEntry[1]
+
+            sPattern = 'href="([^"]+)'
+
+            oParser = cParser()
+            aResult = oParser.parse(sHtmlContent1, sPattern)
+		
+            if aResult[0] :
+                for aEntry in aResult[1]:            
+                    url = aEntry
+                    sTitle = " "
+                    if url.startswith('//'):
+                        url = 'http:' + url		         
+                    sHosterUrl = url
+                    oHoster = cHosterGui().checkHoster(sHosterUrl)
+                    if oHoster:
+                        sDisplayTitle = ('[COLOR coral](%s)[/COLOR]') % (sQual)
+                        oHoster.setDisplayName(sDisplayTitle)
+                        oHoster.setFileName(sMovieTitle)
+                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+
+    oGui.addText(SITE_IDENTIFIER,'[COLOR olive]-----●★| Watch LInks |★●-----[/COLOR]')
+
+    sPattern = '<a data-ep-url="([^"]+)">([^<]+)'
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+
+    if aResult[0]:
+        for aEntry in reversed(aResult[1]):
+
+            url = aEntry[0]
+            sTitle = aEntry[1]
             if url.startswith('//'):
                url = 'http:' + url
+            if 'yona' in url:
+                    oRequestHandler = cRequestHandler(url)
+                    oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
+                    oRequestHandler.addHeaderEntry('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
+                    oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
+                    oRequestHandler.addHeaderEntry('Referer', URL_MAIN)
+                    sData = oRequestHandler.request()
+                    sPattern = 'go_to_player(.+?)".+?<p>([^<]+)'
+                    oParser = cParser()
+                    aResult = oParser.parse(sData, sPattern)
+                    
+                    if aResult[0]:
+                       for aEntry in reversed(aResult[1]):  
+                            if 'mega' in aEntry[0]:
+                               continue      
+                            url = aEntry[0].replace(')','').replace('(','').replace("'","").replace('"','')
+                            sQual = aEntry[1].replace('-','').replace(' ','')
+
+                            sHosterUrl = url
+                            oHoster = cHosterGui().checkHoster(sHosterUrl)
+                            if oHoster:
+                                sDisplayTitle = ('[COLOR coral] Yonaplay (%s)[/COLOR]') % (sQual)
+                                oHoster.setDisplayName(sDisplayTitle)
+                                oHoster.setFileName(sMovieTitle)
+                                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)                  
 
             sHosterUrl = url
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
-               oHoster.setDisplayName(sMovieTitle)
+               sDisplayTitle = ('[COLOR coral](%s)[/COLOR]') % (sTitle)
+               oHoster.setDisplayName(sDisplayTitle)
                oHoster.setFileName(sMovieTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)	
-    if aResult3:
-        for aEntry in aResult3:
-
-            url = aEntry
-            sTitle = sMovieTitle
-            if url.startswith('//'):
-               url = 'http:' + url
-
-            sHosterUrl = url
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if oHoster:
-               oHoster.setDisplayName(sMovieTitle)
-               oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)	
-    if aResult4:
-        for aEntry in aResult4:
-
-            url = aEntry
-            sTitle = sMovieTitle
-            if url.startswith('//'):
-               url = 'http:' + url
-            sHosterUrl = url
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if oHoster:
-               oHoster.setDisplayName(sMovieTitle)
-               oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)	
-    if aResult5:
-        for aEntry in aResult5:
-
-            url = aEntry
-            sTitle = sMovieTitle
-            if url.startswith('//'):
-               url = 'http:' + url
-            sHosterUrl = url
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if oHoster:
-               oHoster.setDisplayName(sMovieTitle)
-               oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)	
-    if aResult2:
-        for aEntry in aResult2:
-
-            url = aEntry
-            sTitle = sMovieTitle
-            if url.startswith('//'):
-               url = 'http:' + url
-            if 'google' in url:
-               url = aEntry.split("id=")[1]
-               url = "https://drive.google.com/file/d/"+url
-
-            sHosterUrl = url
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if oHoster:
-               oHoster.setDisplayName(sMovieTitle)
-               oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)	       
+	       
     oGui.setEndOfDirectory()

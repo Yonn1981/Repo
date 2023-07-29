@@ -492,6 +492,27 @@ def showEpisodes():
 
             oGui.addEpisode(SITE_IDENTIFIER, 'showServer', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
+    sPattern = "<div class='imagen'><a href='([^<]+)'><img src='([^<]+)'></a></div><div class='numerando'>([^<]+)</div><div class='episodiotitle'><a href='.+?'>([^<]+)</a> <span class='date'>"
+
+    aResult = oParser.parse(sHtmlContent, sPattern)
+
+   
+    if aResult[0]:
+        oOutputParameterHandler = cOutputParameterHandler() 
+        for aEntry in aResult[1]:
+ 
+            sTitle = sMovieTitle+' S'+aEntry[2].replace("- ","E")
+            siteUrl = aEntry[0]
+            sThumb = aEntry[1]
+            sDesc =  sDesc
+
+ 
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
+
+            oGui.addEpisode(SITE_IDENTIFIER, 'showServer', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+
        
     oGui.setEndOfDirectory()
 
