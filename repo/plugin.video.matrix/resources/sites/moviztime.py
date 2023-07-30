@@ -207,8 +207,6 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
-
-        progress_.VSclose(progress_)
  
     if not sSearch:
         oGui.setEndOfDirectory()
@@ -264,22 +262,18 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 
             oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
- 
+
+        progress_.VSclose(progress_)
+
         sNextPage = __checkForNextPage(sHtmlContent)
         if sNextPage:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
-
-        progress_.VSclose(progress_)
-        
-  # ([^<]+) .+? (.+?)
  
     if not sSearch:
         oGui.setEndOfDirectory()
  
-      # (.+?) ([^<]+) .+?
-	
 def __checkForNextPage(sHtmlContent):
     oParser = cParser()
     sPattern = '<link rel="next" href="([^"]+)'

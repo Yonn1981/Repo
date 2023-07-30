@@ -370,7 +370,7 @@ def showSeasons():
 	oRequestHandler = cRequestHandler(sUrl)
 	sHtmlContent = oRequestHandler.request()
     # .+? ([^<]+)
-	sPattern = '<div class="Block--Item"><a href="([^<]+)" title><div class="Poster--Block"><img src=".+?" alt="([^<]+)" data-srccs="([^<]+)">'
+	sPattern = '<div class="Block--Item"><a href="([^<]+)" title.+?class="Poster--Block"><img src=".+?" alt="([^<]+)" data-srccs="([^<]+)">'
 
 	oParser = cParser()
 	aResult = oParser.parse(sHtmlContent, sPattern)

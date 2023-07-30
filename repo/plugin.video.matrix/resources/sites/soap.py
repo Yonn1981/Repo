@@ -4,7 +4,7 @@
 #############################################################
 
 import re
-	
+import base64	
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -19,6 +19,8 @@ SITE_NAME = 'Soap2day'
 SITE_DESC = 'english vod'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
+
+aniyomi = base64.b64decode('ZW5pbWF4').decode('utf8',errors='ignore')
 
 MOVIE_EN = (URL_MAIN + '/movie', 'showMovies')
 KID_MOVIES = (URL_MAIN + '/filter?keyword=&type%5B%5D=movie&genre%5B%5D=10&sort=recently_updated', 'showMovies')
@@ -397,7 +399,8 @@ def showEps():
                     sId =  aEntry[1].split('\\')[0]
 
                     action = "fmovies-vrf"
-                    vrf = vrf_function(sId, action)
+                    from urllib.parse import quote
+                    vrf = quote(vrf_function(sId, action))
 
                     siteUrl = URL_MAIN + '/ajax/server/list/' + sId +'?vrf='+vrf
                     sThumb = sThumb
@@ -498,6 +501,7 @@ def showLinks():
                             sHosterUrl = url
 
                             if ('mcloud' in sHosterUrl):
+                                continue
                                 if ('sub.info' in sHosterUrl):
                                     SubTitle = sHosterUrl.split('sub.info=')[1]
                                 else:
@@ -518,6 +522,7 @@ def showLinks():
                                     cHosterGui().showHoster(oGui, oHoster, sHosterUrl1, sThumb)
 
                             if ('vidstream' in sHosterUrl):
+                                continue
                                 if ('sub.info' in sHosterUrl):
                                     SubTitle = sHosterUrl.split('sub.info=')[1]
                                 else:
@@ -556,10 +561,10 @@ def showSeriesLinks():
     sThumb = oInputParameterHandler.getValue('sThumb')
     
     oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
+    sHtmlContent = oRequestHandler.request().replace('\\','')
     oParser = cParser()
 
-    sPattern = 'data-link-id.+?"([^"]+)'
+    sPattern = 'data-link-id="([^"]+)'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
@@ -589,6 +594,7 @@ def showSeriesLinks():
 
                             sHosterUrl = url 
                             if ('mcloud' in sHosterUrl):
+                                continue
                                 if ('sub.info' in sHosterUrl):
                                     SubTitle = sHosterUrl.split('sub.info=')[1]
                                 else:
@@ -609,6 +615,7 @@ def showSeriesLinks():
                                     cHosterGui().showHoster(oGui, oHoster, sHosterUrl1, sThumb)
 
                             if ('vidstream' in sHosterUrl):
+                                continue
                                 if ('sub.info' in sHosterUrl):
                                     SubTitle = sHosterUrl.split('sub.info=')[1]
                                 else:
@@ -650,7 +657,8 @@ def __checkForNextPage(sHtmlContent):
 
 def vrf_function(query, action):
 # ============== function taken aniyomi-extensions - from 9anime extension ================
-    sUrl = 'https://9anime.eltik.net/'+action+'?query='+query+'&apikey=aniyomi'
+    from urllib.parse import quote
+    sUrl = 'https://9anime.eltik.net/'+action+'?query='+query+'&apikey='+aniyomi
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -662,7 +670,7 @@ def vrf_function(query, action):
 
     if aResult[0]:
         for aEntry in aResult[1]:
-            vrf = aEntry
+            vrf = quote(aEntry)
             return vrf
         
     return False, False

@@ -8,7 +8,7 @@ from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress, siteManager
+from resources.lib.comaddon import progress, siteManager, VSlog
 from resources.lib.parser import cParser
  
 SITE_IDENTIFIER = 'detectiveconanar'
@@ -87,7 +87,7 @@ def showSeries(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  # ([^<]+) .+?
-    sPattern = '<div class="poster"><img data-src="([^<]+)" loading="lazy" class="lazyload" alt="([^<]+)"><div class="season_m animation-1"><a href="([^<]+)"><div class="see play4"></div>.+?<a href=".+?">([^<]+)</a></h3>'
+    sPattern = 'data-src="([^"]+).+?alt="(.+?)".+?href="([^"]+)"'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -96,23 +96,21 @@ def showSeries(sSearch = ''):
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()
-        for aEntry in aResult[1]:
+        for aEntry in reversed(aResult[1]):
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("أنمي","").replace("انمي","").replace("مترجمة عربي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","").replace(" والأخيرة","")
             siteUrl = aEntry[2]
             sThumb = aEntry[0]
-            sDesc = aEntry[3]
-            sDisplayTitle = sTitle.replace("الموسم العاشر","S10").replace("الموسم الحادي عشر","S11").replace("الموسم الثاني عشر","S12").replace("الموسم الثالث عشر","S13").replace("الموسم الرابع عشر","S14").replace("الموسم الخامس عشر","S15").replace("الموسم السادس عشر","S16").replace("الموسم السابع عشر","S17").replace("الموسم الثامن عشر","S18").replace("الموسم التاسع عشر","S19").replace("الموسم العشرون","S20").replace("الموسم الحادي و العشرون","S21").replace("الموسم الثاني و العشرون","S22").replace("الموسم الثالث و العشرون","S23").replace("الموسم الرابع والعشرون","S24").replace("الموسم الخامس و العشرون","S25").replace("الموسم السادس والعشرون","S26").replace("الموسم السابع والعشرون","S27").replace("الموسم الثامن والعشرون","S28").replace("الموسم التاسع والعشرون","S29").replace("الموسم الثلاثون","S30").replace("الموسم الحادي و الثلاثون","S31").replace("الموسم الثاني والثلاثون","S32").replace("الموسم الاول","S1").replace("الموسم الثاني","S2").replace("الموسم الثالث","S3").replace("الموسم الثالث","S3").replace("الموسم الرابع","S4").replace("الموسم الخامس","S5").replace("الموسم السادس","S6").replace("الموسم السابع","S7").replace("الموسم الثامن","S8").replace("الموسم التاسع","S9").replace("الموسم","S").replace("S ","S").replace("الحلقة "," E")
-
+            sDesc = ''
+            sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("أنمي","").replace("انمي","").replace("مترجمة عربي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","")
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sDisplayTitle)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
-            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
@@ -127,7 +125,7 @@ def showSeries(sSearch = ''):
         oGui.setEndOfDirectory()
   # .+? ([^<]+) 
 def __checkForNextPage(sHtmlContent):
-    sPattern = '/a><a class="arrow_pag" href="([^"]+)'
+    sPattern = '<span class="current">.+?href="([^"]+)'
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -150,7 +148,7 @@ def showHosters():
     # ([^<]+)
                
 
-    sPattern = 'data-embed="([^<]+)"><a href="javascript:;" class="btn">([^<]+)</a><'
+    sPattern = 'data-embed="([^<]+)">.+?href="javascript:;" class="btn">([^<]+)</a><'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 

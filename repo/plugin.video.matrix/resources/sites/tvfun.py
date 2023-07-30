@@ -107,8 +107,7 @@ def showSeries(sSearch = ''):
             siteUrl = aEntry[0]
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + siteUrl
-            if URL_MAIN not in siteUrl:
-                siteUrl = URL_MAIN + siteUrl
+
             sThumb = aEntry[2]
             sDesc = ''
             sYear = ''
@@ -215,8 +214,7 @@ def showSeriesSearch(sSearch = ''):
             siteUrl = aEntry[0]
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + siteUrl
-            if URL_MAIN not in siteUrl:
-                siteUrl = URL_MAIN + siteUrl
+
             sThumb = aEntry[2]
 			
 
@@ -347,8 +345,7 @@ def showEpisodes():
             siteUrl = aEntry[0]
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + siteUrl
-            if URL_MAIN not in siteUrl:
-                siteUrl = URL_MAIN + siteUrl
+
             sThumb = sThumb
 			
 
@@ -394,7 +391,7 @@ def showEpisodes():
 
         progress_.VSclose(progress_)
 
-    sPattern = '<ul class="pagination">(.+?)class="headline">'  
+    sPattern = '<ul class="pagination">(.+?)div id="footer">'  
     
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern) 

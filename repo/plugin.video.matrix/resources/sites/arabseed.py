@@ -2,7 +2,8 @@
 # zombi https://github.com/zombiB/zombi-addons/
 
 import re
-	
+import requests
+
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -54,8 +55,8 @@ ANIM_NEWS = (URL_MAIN + '/category/cartoon-series/', 'showSeries')
 
 
 REPLAYTV_NEWS = (URL_MAIN + '/category/%D8%A8%D8%B1%D8%A7%D9%85%D8%AC-%D8%AA%D9%84%D9%81%D8%B2%D9%8A%D9%88%D9%86%D9%8A%D8%A9', 'showMovies')
-URL_SEARCH_MOVIES = (URL_MAIN + '/?s=', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + '/?s=', 'showSeries')
+URL_SEARCH_MOVIES = (URL_MAIN + '/find/?find=', 'showMovies')
+URL_SEARCH_SERIES = (URL_MAIN + '/find/?find=', 'showSeries')
 FUNCTION_SEARCH = 'showMovies'
 
 
@@ -64,10 +65,10 @@ def load():
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'SEARCH_MOVIES', 'search.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'SEARCH MOVIES', 'search.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSeriesSearch', 'SEARCH_SERIES', 'search.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSeriesSearch', 'SEARCH SERIES', 'search.png', oOutputParameterHandler)
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', RAMADAN_SERIES[0])
@@ -158,9 +159,9 @@ def load():
 def showSearch():
     oGui = cGui()
  
-    sSearchText = oGui.showKeyBoard()
+    sSearchText = oGui.showKeyBoard()    
     if sSearchText is not False:
-        sUrl = URL_MAIN + '/?s='+sSearchText
+        sUrl = URL_MAIN + '/find/?find='+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -170,7 +171,7 @@ def showSeriesSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText is not False:
-        sUrl = URL_MAIN + '/?s='+sSearchText
+        sUrl = URL_MAIN + '/find/?find='+sSearchText
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -184,11 +185,24 @@ def showMovies(sSearch = ''):
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
 
-
-
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
- # ([^<]+) .+?
+
+    s = requests.Session()            
+    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
+							'Referer': Quote(sUrl)}
+    r = s.post(sUrl, headers=headers)
+    sHtmlContent = r.content.decode('utf8')
+    
+    if sSearch:
+       s = requests.Session()            
+       headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
+							'Referer': Quote(sUrl)}
+       psearch = sUrl.rsplit('?find=', 1)[1]
+       data = {'search':psearch,'type':'movies'}
+       r = s.post(URL_MAIN + '/wp-content/themes/Elshaikh2021/Ajaxat/SearchingTwo.php', headers=headers,data = data)
+       sHtmlContent = r.content.decode('utf8')
+
     sPattern = '</div><a href="(.+?)">.+?data-src="([^"]+)".+?alt="(.+?)">'
 
     oParser = cParser()
@@ -339,7 +353,6 @@ def showPack():
     oGui.setEndOfDirectory()
  
 def showSeries(sSearch = ''):
-    import requests
     oGui = cGui()
     if sSearch:
       sUrl = sSearch
@@ -347,12 +360,27 @@ def showSeries(sSearch = ''):
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
 
-
-
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
- # ([^<]+) .+?
-    sPattern = '<div class="Movie.+?">.+?<a href="([^<]+)">.+?data-src="([^"]+)".+?alt="([^<]+)">'
+
+    s = requests.Session()            
+    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
+							'Referer': Quote(sUrl)}
+    r = s.post(sUrl, headers=headers)
+    sHtmlContent = r.content.decode('utf8')
+
+    if sSearch:
+       s = requests.Session()            
+       headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
+							'Referer': Quote(sUrl)}
+       psearch = sUrl.rsplit('?find=', 1)[1]
+       data = {'search':psearch,'type':'series'}
+       r = s.post(URL_MAIN + '/wp-content/themes/Elshaikh2021/Ajaxat/SearchingTwo.php', headers=headers,data = data)
+       sHtmlContent = r.content.decode('utf8',errors='ignore')
+
+       sPattern = '<div class="Movie.+?">.+?<a href="([^<]+)">.+?data-image="([^<]+)" alt="([^<]+)">'
+    else:
+       sPattern = '</div><a href="(.+?)">.+?data-src="([^"]+)".+?alt="(.+?)">'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

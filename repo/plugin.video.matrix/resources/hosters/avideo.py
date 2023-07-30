@@ -43,7 +43,6 @@ class cHoster(iHoster):
         	'Accept-Language': 'en-US,en;q=0.9,ar;q=0.8',
         	'Content-Type': 'application/x-www-form-urlencoded',
         	'Content-Length': '47',
-        	'Origin': 'https://'+sHost,
         	'Referer': sUrl}
         prm={
                 "op": "embed",
@@ -56,7 +55,7 @@ class cHoster(iHoster):
 
         sPattern = '(eval\(function\(p,a,c,k,e(?:.|\s)+?)</script>'
         aResult = oParser.parse(sHtmlContent, sPattern)
-
+        
         import unicodedata
 
         if aResult[0]:
@@ -67,13 +66,11 @@ class cHoster(iHoster):
 
             sPattern = 'file:"([^"]+)'
             aResult = oParser.parse(sHtmlContent2, sPattern)
-
+        
             if aResult[0]:
-                api_call = aResult[1][0]  + '|AUTH=TLS&verifypeer=false' 
-
-        api_call = sUrl
+                api_call = aResult[1][0]
 
         if api_call:
-            return True, api_call
+            return True, api_call + '|AUTH=TLS&verifypeer=false' 
 
         return False, False

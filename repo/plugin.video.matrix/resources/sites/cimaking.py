@@ -131,12 +131,18 @@ def showMovies(sSearch = ''):
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
- 
+            if 'مسلسل' in aEntry[2] or 'موسم' in aEntry[2]:
+               continue
+
             sTitle = aEntry[2].replace("تحميل و فيلم","").replace("تحميل ومشاهدة","").replace("ومشاهدة","").replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[arabic]").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("بجودة عالية","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","").replace("للعربية","").replace("وتحميل","").replace("مباشر","").replace("تحميل","").replace("الاجنبى","").replace("ال ","").replace("الاجنبي","").replace("الغموض والدراما","").replace("التشويق والحركة","").replace("الدراما","").replace("بجودة","").replace("الحركة والمخيف","")
             siteUrl = aEntry[0]
             sThumb = aEntry[1]
             sDesc = ''
             sYear = ''
+            m = re.search('([0-9]{4})', sTitle)
+            if m:
+               sYear = str(m.group(0))
+               sTitle = sTitle.replace(sYear,'')
 
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -190,7 +196,9 @@ def showSeries(sSearch = ''):
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
- 
+            if 'فيلم' in aEntry[2] :
+               continue
+             
             sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("مسلسل","").replace("Web-dl","").replace("بجودة","").replace("اونلاين","").replace("بجوده","").replace("كامل","").replace("والأخيره","").replace("و الأخيرة","").replace("والأخيرة","").replace("والاخيرة","").replace("Full Episodes","").replace("وتحميل","").replace("شاهد","")
             siteUrl = aEntry[0]
             sThumb = aEntry[1]

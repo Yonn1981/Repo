@@ -346,7 +346,7 @@ class cHosterGui:
         if ('streamtape' in sHostName):
             f = self.getHoster('resolver')
             #mise a jour du nom
-            f.setRealHost(sHostName)
+            f.setRealHost('Streamtape')
             return f
 
         if ('sbhight' in sHostName):
@@ -492,7 +492,10 @@ class cHosterGui:
             return f
 
         if ('filemoon' in sHostName) or ('moonmov' in sHostName):
-            return self.getHoster('filemoon')
+            f = self.getHoster('resolver')
+            #mise a jour du nom
+            f.setRealHost('Filemoon')
+            return f
 
         if ('hexupload' in sHostName):
             f = self.getHoster('resolver')
