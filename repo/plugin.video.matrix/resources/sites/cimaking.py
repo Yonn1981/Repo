@@ -360,8 +360,7 @@ def showServer():
     data = {'watch':'1'}
     s = requests.Session()
     r = s.post(sUrl,data = data)
-    sHtmlContent = r.content
-
+    sHtmlContent = r.text.replace('\\','')
 
     sPattern = '<div class="ListDownloads">.+?href="(.+?)"' 
     oParser = cParser()
@@ -398,12 +397,20 @@ def showServer():
     oParser = cParser()   
     sPattern = '<link rel="shortlink" href="([^"]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)
-
     
     if aResult[0]:
         sId = aResult[1][0]
         sId = sId.split("p=")[1]
-     # (.+?) ([^<]+) .+?
+
+    oParser = cParser()   
+    sPattern = "<link rel='shortlink' href='([^']+)"
+    aResult = oParser.parse(sHtmlContent, sPattern)   
+    if aResult[0]:
+        sId = aResult[1][0]
+        sId = sId.split("p=")[1] 
+        
+
+
     oParser = cParser()
     sPattern = 'data-server="(.+?)"'
     aResult = oParser.parse(sHtmlContent, sPattern)

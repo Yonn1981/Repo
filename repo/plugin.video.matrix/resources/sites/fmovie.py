@@ -280,6 +280,7 @@ def showSeasons():
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
+    sSeriesTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
     sURL2 = sUrl
     oRequestHandler = cRequestHandler(sUrl)
@@ -328,6 +329,7 @@ def showSeasons():
 			
                     oOutputParameterHandler.addParameter('siteUrl',siteUrl)
                     oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+                    oOutputParameterHandler.addParameter('sSeriesTitle', sSeriesTitle)
                     oOutputParameterHandler.addParameter('sThumb', sThumb)
                     oOutputParameterHandler.addParameter('Ss', Ss)
                     oGui.addTV(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
@@ -342,7 +344,7 @@ def showEps():
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     Ss = oInputParameterHandler.getValue('Ss')
-    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
+    sSeriesTitle = oInputParameterHandler.getValue('sSeriesTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
 
     oRequestHandler = cRequestHandler(sUrl)
@@ -393,7 +395,7 @@ def showEps():
                     siteUrl = URL_MAIN +aEntry[0].split('\\')[0]
                     sTitle = aEntry[2].replace(':','').replace('Episode','E')
                     if 'Episode' in aEntry[3]:
-                        sTitle = sTitle
+                        sTitle = sSeriesTitle + ' ' + sTitle
                     else:
                         sTitle = sTitle + ' ' + aEntry[3]
                     sId =  aEntry[1].split('\\')[0]
@@ -415,6 +417,7 @@ def showEps():
  
 def showLinks():
     oGui = cGui()
+    from urllib.parse import unquote
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
@@ -497,18 +500,18 @@ def showLinks():
                                     action = "fmovies-decrypt"
                                     url = vrf_function(sId, action)
 
-                            sHosterUrl = url
+                            sHosterUrl = unquote(url)
 
 
                             if ('mcloud' in sHosterUrl):
-                                continue
+
                                 if ('sub.info' in sHosterUrl):
                                     SubTitle = sHosterUrl.split('sub.info=')[1]
                                 else:
                                     SubTitle = ""
                                     
-                                sHosterUrl = sHosterUrl.split('e/')[1].split('?')[0]
-                                action = "rawmcloud"
+                                sHosterUrl = sHosterUrl
+                                action = "rawMcloud"
                                 sHosterUrl1 = vrf_function2(sHosterUrl, action)
 
                                 oHoster = cHosterGui().checkHoster(sHosterUrl1)
@@ -522,15 +525,15 @@ def showLinks():
                                     oHoster.setFileName(sMovieTitle)
                                     cHosterGui().showHoster(oGui, oHoster, sHosterUrl1, sThumb)
 
-                            if ('vidstream' in sHosterUrl):
-                                continue
+                            elif ('vidstream' in sHosterUrl):
+
                                 if ('sub.info' in sHosterUrl):
                                     SubTitle = sHosterUrl.split('sub.info=')[1]
                                 else:
                                     SubTitle = ""
 
-                                sHosterUrl = sHosterUrl.split('e/')[1].split('?')[0]
-                                action = "rawvizcloud"
+                                sHosterUrl = sHosterUrl
+                                action = "rawVizcloud"
                                 sHosterUrl2 = vrf_function2(sHosterUrl, action)
                                 oHoster = cHosterGui().checkHoster(sHosterUrl2)
                                 if oHoster:
@@ -544,19 +547,19 @@ def showLinks():
                                     oHoster.setFileName(sMovieTitle)
                                     cHosterGui().showHoster(oGui, oHoster, sHosterUrl2, sThumb)
 
-                            if 'http' not in sHosterUrl:
-                                continue
-                            oHoster = cHosterGui().checkHoster(sHosterUrl)
-                            if oHoster:
-                                sDisplayTitle = nTitle+' '+sMovieTitle
-                                oHoster.setDisplayName(sDisplayTitle)
-                                oHoster.setFileName(sMovieTitle)
-                                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                            else:
+                                oHoster = cHosterGui().checkHoster(sHosterUrl)
+                                if oHoster:
+                                    sDisplayTitle = nTitle+' '+sMovieTitle
+                                    oHoster.setDisplayName(sDisplayTitle)
+                                    oHoster.setFileName(sMovieTitle)
+                                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
     oGui.setEndOfDirectory()
 
 def showSeriesLinks():
     oGui = cGui()
+    from urllib.parse import unquote
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
@@ -594,16 +597,15 @@ def showSeriesLinks():
                                     action = "fmovies-decrypt"
                                     url = vrf_function(sId, action)
 
-                            sHosterUrl = url 
+                            sHosterUrl = unquote(url)
                             if ('mcloud' in sHosterUrl):
-                                continue
                                 if ('sub.info' in sHosterUrl):
                                     SubTitle = sHosterUrl.split('sub.info=')[1]
                                 else:
                                     SubTitle = ""
                                     
-                                sHosterUrl = sHosterUrl.split('e/')[1].split('?')[0]
-                                action = "mcloud"
+                                sHosterUrl = sHosterUrl
+                                action = "rawMcloud"
                                 sHosterUrl1 = vrf_function2(sHosterUrl, action)
                                 oHoster = cHosterGui().checkHoster(sHosterUrl1)
                                 if oHoster:
@@ -616,15 +618,14 @@ def showSeriesLinks():
                                     oHoster.setFileName(sMovieTitle)
                                     cHosterGui().showHoster(oGui, oHoster, sHosterUrl1, sThumb)
 
-                            if ('vidstream' in sHosterUrl):
-                                continue
+                            elif ('vidstream' in sHosterUrl):
                                 if ('sub.info' in sHosterUrl):
                                     SubTitle = sHosterUrl.split('sub.info=')[1]
                                 else:
                                     SubTitle = ""
 
-                                sHosterUrl = sHosterUrl.split('e/')[1].split('?')[0]
-                                action = "vizcloud"
+                                sHosterUrl = sHosterUrl
+                                action = "rawVizcloud"
                                 sHosterUrl2 = vrf_function2(sHosterUrl, action)
                                 oHoster = cHosterGui().checkHoster(sHosterUrl2)
                                 if oHoster:
@@ -636,14 +637,13 @@ def showSeriesLinks():
                                     oHoster.setDisplayName(sDisplayTitle)
                                     oHoster.setFileName(sMovieTitle)
                                     cHosterGui().showHoster(oGui, oHoster, sHosterUrl2, sThumb)
-                            if 'http' not in sHosterUrl:
-                                continue     
-                            oHoster = cHosterGui().checkHoster(sHosterUrl)
-                            if oHoster:
-                                sDisplayTitle = sMovieTitle
-                                oHoster.setDisplayName(sDisplayTitle)
-                                oHoster.setFileName(sMovieTitle)
-                                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                            else:   
+                                oHoster = cHosterGui().checkHoster(sHosterUrl)
+                                if oHoster:
+                                    sDisplayTitle = sMovieTitle
+                                    oHoster.setDisplayName(sDisplayTitle)
+                                    oHoster.setFileName(sMovieTitle)
+                                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
                                 
     oGui.setEndOfDirectory()
 
@@ -673,16 +673,24 @@ def vrf_function(query, action):
     if aResult[0]:
         for aEntry in aResult[1]:
             vrf = quote(aEntry)
-            VSlog(vrf)
             return vrf
         
     return False, False
 def vrf_function2(query, action):
 # ============== function taken aniyomi-extensions - from 9anime extension ================
-    sUrl = 'https://9anime.eltik.net/'+action+'?query='+query+'&apikey='+aniyomi
+    import requests
+    from urllib.parse import unquote, quote
 
-    oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
+    SubTitle = query.split('?')[1]
+    query = query.split('e/')[1].split('?')[0]
+
+    reqURL = 'https://9anime.eltik.net/'+action+'?query='+query+'&apikey='+aniyomi
+
+    futoken = requests.get("https://vidstream.pro/futoken")
+    futoken = '(function () '+ futoken.text.split('()')[1] + '());'
+
+    rawSource = requests.post(reqURL, headers={"Content-Type": "application/x-www-form-urlencoded"}, data={"query": query, "futoken": futoken})
+    sHtmlContent = rawSource.content.decode('utf8',errors='ignore')
 
     sPattern = '"rawURL":"([^"]+)'
 
@@ -692,16 +700,18 @@ def vrf_function2(query, action):
     if aResult[0]:
         url = aResult[1][0]
         if 'vidstream' in url:
-                referer = 'https://vidstream.pro/info/'
+                referer = 'https://vidstream.pro/'
         else:
                 referer = "https://fmovies.to/"
         headers2 = {'Referer': referer
                     }
         import requests
-        s = requests.session()
 
-        req = s.get(url, headers=headers2)
+        url = url+'?'+SubTitle
+
+        req = requests.get(url ,headers=headers2)
         response = str(req.content)
+
         sPattern = '"file":"([^"]+)'
 
         oParser = cParser()
@@ -712,7 +722,6 @@ def vrf_function2(query, action):
                 if 'thumb' in aEntry:
                     continue
                 url = aEntry
-
         return url
         
     return False, False

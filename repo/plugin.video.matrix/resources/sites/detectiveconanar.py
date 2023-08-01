@@ -132,6 +132,14 @@ def __checkForNextPage(sHtmlContent):
  
     if aResult[0]:
         return aResult[1][0].replace('"',"")
+    else:
+        sPattern = '<span class="current">.+?href=(.+?) class='
+	
+        oParser = cParser()
+        aResult = oParser.parse(sHtmlContent, sPattern)
+ 
+        if aResult[0]:
+            return aResult[1][0].replace("'","")
 
     return False
 
