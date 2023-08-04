@@ -81,7 +81,7 @@ def showMovies(sSearch = ''):
     if not sSearch:
         oGui.setEndOfDirectory()
 
-def showLive():
+def showLive(oInputParameterHandler = False):
     oGui = cGui()
    
     oInputParameterHandler = cInputParameterHandler()
@@ -138,7 +138,7 @@ def showLive():
                    if oHoster:
                        oHoster.setDisplayName(sMovieTitle)
                        oHoster.setFileName(sMovieTitle)
-                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb) 
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
     # (.+?) # ([^<]+) .+? 
             sPattern = 'hls.loadSource(.+?);'
             aResult = oParser.parse(data, sPattern)
@@ -166,7 +166,7 @@ def showLive():
                    if oHoster:
                        oHoster.setDisplayName(sMovieTitle)
                        oHoster.setFileName(sMovieTitle)
-                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb) 
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
     # (.+?) # ([^<]+) .+? 
             sPattern = 'hls: "(.+?)"'
             aResult = oParser.parse(data, sPattern)
@@ -192,7 +192,7 @@ def showLive():
                    if oHoster:
                        oHoster.setDisplayName(sMovieTitle)
                        oHoster.setFileName(sMovieTitle)
-                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb) 
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
     # (.+?) # ([^<]+) .+? 
             sPattern = "source: '(.+?)',"
             aResult = oParser.parse(data, sPattern)
@@ -221,7 +221,7 @@ def showLive():
                    if oHoster:
                        oHoster.setDisplayName(sMovieTitle)
                        oHoster.setFileName(sMovieTitle)
-                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
     # (.+?) # ([^<]+) .+? 
             sPattern = 'src="(.+?)"'
             aResult = oParser.parse(data, sPattern)
@@ -265,7 +265,7 @@ def showLive():
                               if oHoster:
                                   oHoster.setDisplayName(sMovieTitle)
                                   oHoster.setFileName(sMovieTitle)
-                                  cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb) 
+                                  cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
                        sPattern = '<iframe src="(.+?)" height'
                        aResult = oParser.parse(data, sPattern)
                        if aResult[0]:
@@ -286,7 +286,7 @@ def showLive():
                               if oHoster:
                                   oHoster.setDisplayName(sMovieTitle)
                                   oHoster.setFileName(sMovieTitle)
-                                  cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb) 
+                                  cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
                        sPattern = 'source: "(.+?)",'
                        aResult = oParser.parse(data, sPattern)
                        if aResult[0]:
@@ -307,7 +307,7 @@ def showLive():
                               if oHoster:
                                   oHoster.setDisplayName(sMovieTitle)
                                   oHoster.setFileName(sMovieTitle)
-                                  cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb) 
+                                  cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
                    sHosterUrl = url.replace("https://tv.hd44.net/p/phone.html?src=","") 
  
                    UA = 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1' 
@@ -321,7 +321,7 @@ def showLive():
                    if oHoster:
                        oHoster.setDisplayName(sMovieTitle)
                        oHoster.setFileName(sMovieTitle)
-                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)  
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
     # (.+?) # ([^<]+) .+? 
             sPattern = 'hls: "(.+?)"'
 				
@@ -378,7 +378,7 @@ def showLive():
                    if oHoster:
                        oHoster.setDisplayName(sMovieTitle)
                        oHoster.setFileName(sMovieTitle)
-                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb) 
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
     # (.+?) # ([^<]+) .+? 
             sPattern = '(http.+?m3u8)'
             aResult = oParser.parse(data, sPattern)
@@ -396,7 +396,7 @@ def showLive():
                    if oHoster:
                        oHoster.setDisplayName(sMovieTitle)
                        oHoster.setFileName(sMovieTitle)
-                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb) 
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
             sPattern = 'file: "(.+?)",'
             aResult = oParser.parse(data, sPattern)
             if aResult[0]:
@@ -417,7 +417,7 @@ def showLive():
                    if oHoster:
                        oHoster.setDisplayName(sMovieTitle)
                        oHoster.setFileName(sMovieTitle)
-                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)   
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler) 
     # (.+?) # ([^<]+) .+? 
             sPattern = '<iframe src=".+?stream_url=(.+?)" height'
             aResult = oParser.parse(data, sPattern)
@@ -440,7 +440,7 @@ def showLive():
                    if oHoster:
                        oHoster.setDisplayName(sMovieTitle)
                        oHoster.setFileName(sMovieTitle)
-                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb) 
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
            
 
              

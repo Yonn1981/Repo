@@ -14,7 +14,7 @@ class cHoster(iHoster):
         if 'embed' not in self._url:
              self._url = self._url.replace("https://myviid.com/","https://myviid.com/embed-")
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
 
         oRequest = cRequestHandler(self._url)

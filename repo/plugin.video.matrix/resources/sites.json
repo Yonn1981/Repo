@@ -223,7 +223,7 @@
         },
         "egydead": {
             "label": "Egydead",
-            "active": "True",
+            "active": "False",
             "url": "https://a16.egydead.live/"
         },
         "ehna": {
@@ -395,7 +395,7 @@
         "shahidu": {
             "label": "Shahid4u",
             "active": "True",
-            "cloudflare": "True",
+            "cloudflare": "False",
             "url": "https://shhahed4u.com/"
         },
         "shoffree": {

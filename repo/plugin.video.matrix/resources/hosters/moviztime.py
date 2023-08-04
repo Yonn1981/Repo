@@ -23,7 +23,7 @@ class cHoster(iHoster):
     def setUrl(self, url):
         self._url = str(url)
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
 
         url = self._url
         

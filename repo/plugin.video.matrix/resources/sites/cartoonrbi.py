@@ -227,7 +227,7 @@ def showEps():
 
         oGui.setEndOfDirectory()
        
-def showLink():
+def showLink(oInputParameterHandler = False):
     oGui = cGui()
    
     oInputParameterHandler = cInputParameterHandler()
@@ -311,6 +311,6 @@ def showLink():
                    if oHoster:
                       oHoster.setDisplayName(sMovieTitle)
                       oHoster.setFileName(sMovieTitle)
-                      cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                      cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
        
     oGui.setEndOfDirectory()

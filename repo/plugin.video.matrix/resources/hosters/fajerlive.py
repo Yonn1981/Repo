@@ -15,7 +15,7 @@ class cHoster(iHoster):
     def isDownloadable(self):
         return True
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
 
         url = 'https://fajer.live/api/source/' + self._url.rsplit('/', 1)[1]

@@ -468,7 +468,7 @@ def showEps():
     oGui.setEndOfDirectory() 
 
   
-def showServer():
+def showServer(oInputParameterHandler = False):
     import requests
     oGui = cGui()
    
@@ -535,7 +535,7 @@ def showServer():
                     if oHoster:
                         oHoster.setDisplayName(sTitle)
                         oHoster.setFileName(sMovieTitle)
-                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl + "|Referer=" + URL_MAIN, sThumb)
+                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl + "|Referer=" + URL_MAIN, sThumb, oInputParameterHandler=oInputParameterHandler)
 
             sPattern = '<iframe src="([^"]+)" scrolling'
             oParser = cParser()
@@ -562,7 +562,7 @@ def showServer():
                     if oHoster:
                         oHoster.setDisplayName(sTitle)
                         oHoster.setFileName(sMovieTitle)
-                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
             sPattern = '<a href="([^"]+)"><i class="fa fa-download">'
             oParser = cParser()
@@ -589,7 +589,7 @@ def showServer():
                     if oHoster:
                         oHoster.setDisplayName(sTitle)
                         oHoster.setFileName(sMovieTitle)
-                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
     #Recuperation infos
 
@@ -633,7 +633,7 @@ def showServer():
                             if oHoster:
                                 oHoster.setDisplayName(sMovieTitle)
                                 oHoster.setFileName(sMovieTitle)
-                                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
                 
     oGui.setEndOfDirectory()

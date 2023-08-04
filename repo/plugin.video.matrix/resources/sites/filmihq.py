@@ -360,7 +360,7 @@ def showEpisodes():
        
     oGui.setEndOfDirectory() 
 	 
-def showHosters():
+def showHosters(oInputParameterHandler = False):
     import requests
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
@@ -394,14 +394,14 @@ def showHosters():
                 sDisplayTitle = sTitle
                 oHoster.setDisplayName(sDisplayTitle)
                 oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)	
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
 
 				
                 
     oGui.setEndOfDirectory()
 
-def showHosters2():
+def showHosters2(oInputParameterHandler = False):
     import requests
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
@@ -449,6 +449,6 @@ def showHosters2():
                             sDisplayTitle = sTitle
                             oHoster.setDisplayName(sDisplayTitle)
                             oHoster.setFileName(sMovieTitle)
-                            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
                 
     oGui.setEndOfDirectory()

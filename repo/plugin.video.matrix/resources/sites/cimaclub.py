@@ -362,7 +362,7 @@ def __checkForNextPage(sHtmlContent):
 
     return False
   
-def showServers():
+def showServers(oInputParameterHandler = False):
     oGui = cGui()
    
     oInputParameterHandler = cInputParameterHandler()
@@ -442,7 +442,7 @@ def showServers():
                       sDisplayTitle = sMovieTitle
                       oHoster.setDisplayName(sDisplayTitle)
                       oHoster.setFileName(sMovieTitle)
-                      cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                      cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
        	
     sPattern = 'rel="nofollow" href="(.+?)" class'
     oParser = cParser()
@@ -477,12 +477,12 @@ def showServers():
                sDisplayTitle = sTitle
                oHoster.setDisplayName(sDisplayTitle)
                oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
      
     oGui.setEndOfDirectory()	
  
-def showServers1():
+def showServers1(oInputParameterHandler = False):
     oGui = cGui()
    
     oInputParameterHandler = cInputParameterHandler()
@@ -554,10 +554,10 @@ def showServers1():
                sDisplayTitle = sTitle
                oHoster.setDisplayName(sDisplayTitle)
                oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
        
     oGui.setEndOfDirectory() 
-def showHosters():
+def showHosters(oInputParameterHandler = False):
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -606,7 +606,7 @@ def showHosters():
                sDisplayTitle = sMovieTitle+sTitle
                oHoster.setDisplayName(sDisplayTitle)
                oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 				
 		
                 

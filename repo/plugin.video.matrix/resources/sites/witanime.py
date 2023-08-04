@@ -334,7 +334,7 @@ def __checkForNextPage(sHtmlContent):
 
     return False
 
-def showHosters():
+def showHosters(oInputParameterHandler = False):
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -378,7 +378,7 @@ def showHosters():
                         sDisplayTitle = ('[COLOR coral](%s)[/COLOR]') % (sQual)
                         oHoster.setDisplayName(sDisplayTitle)
                         oHoster.setFileName(sMovieTitle)
-                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
     oGui.addText(SITE_IDENTIFIER,'[COLOR olive]-----●★| Watch LInks |★●-----[/COLOR]')
 
@@ -417,7 +417,7 @@ def showHosters():
                                 sDisplayTitle = ('[COLOR coral] Yonaplay (%s)[/COLOR]') % (sQual)
                                 oHoster.setDisplayName(sDisplayTitle)
                                 oHoster.setFileName(sMovieTitle)
-                                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)                  
+                                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)                 
 
             sHosterUrl = url
             oHoster = cHosterGui().checkHoster(sHosterUrl)
@@ -425,6 +425,6 @@ def showHosters():
                sDisplayTitle = ('[COLOR coral](%s)[/COLOR]') % (sTitle)
                oHoster.setDisplayName(sDisplayTitle)
                oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)	
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)	
 	       
     oGui.setEndOfDirectory()

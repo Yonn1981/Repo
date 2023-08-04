@@ -410,10 +410,11 @@ def showLink():
  
     oGui.setEndOfDirectory()
 	
-def showLinks():
+def showLinks(oInputParameterHandler = False):
     oGui = cGui()
     
-    oInputParameterHandler = cInputParameterHandler()
+    if not oInputParameterHandler:
+        oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
@@ -444,7 +445,7 @@ def showLinks():
                 sDisplayTitle = sTitle
                 oHoster.setDisplayName(sDisplayTitle)
                 oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl + '|AUTH=TLS&verifypeer=false', sThumb)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl + '|AUTH=TLS&verifypeer=false', sThumb, oInputParameterHandler=oInputParameterHandler)
          
     oGui.setEndOfDirectory()
 	
@@ -604,10 +605,11 @@ def showSeasons():
        
     oGui.setEndOfDirectory()
   
-def showSeasons2():
+def showSeasons2(oInputParameterHandler = False):
     oGui = cGui()
    
-    oInputParameterHandler = cInputParameterHandler()
+    if not oInputParameterHandler:
+        oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
@@ -664,7 +666,7 @@ def showSeasons2():
                         if oHoster:
                            oHoster.setDisplayName(sMovieTitle)
                            oHoster.setFileName(sMovieTitle)
-                           cHosterGui().showHoster(oGui, oHoster, sHosterUrl + "|AUTH=TLS&verifypeer=false", sThumb)
+                           cHosterGui().showHoster(oGui, oHoster, sHosterUrl + "|AUTH=TLS&verifypeer=false", sThumb, oInputParameterHandler=oInputParameterHandler)
  
        
     oGui.setEndOfDirectory()

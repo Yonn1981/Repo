@@ -38,7 +38,7 @@ class iHoster:
     def getUrl(self):
         return self._url
 
-    def getMediaLink(self):
+    def getMediaLink(self, autoPlay = False):
         return self._getMediaLinkForGuest()
 
     # nom du fichier, interessant pour afficher la release
@@ -56,8 +56,8 @@ class iHoster:
         sMediaFile = sMediaFile.replace('_', ' ')
         return sMediaFile
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         raise NotImplementedError()
 
-    def _getMediaLinkByPremiumUser(self):
+    def _getMediaLinkByPremiumUser(self, autoPlay = False):
         pass

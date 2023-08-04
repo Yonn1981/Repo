@@ -656,7 +656,7 @@ def showEps():
        
     oGui.setEndOfDirectory() 
  
-def showHosters2():
+def showHosters2(oInputParameterHandler = False):
     oGui = cGui()
     import requests
     oInputParameterHandler = cInputParameterHandler()
@@ -709,7 +709,7 @@ def showHosters2():
                sDisplayTitle = sTitle
                oHoster.setDisplayName(sDisplayTitle)
                oHoster.setFileName(sDisplayTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 				
     # ([^<]+) (.+?)         
 
@@ -740,12 +740,12 @@ def showHosters2():
                sDisplayTitle = sTitle
                oHoster.setDisplayName(sDisplayTitle)
                oHoster.setFileName(sDisplayTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
  
                 
     oGui.setEndOfDirectory()
  
-def showHosters():
+def showHosters(oInputParameterHandler = False):
     oGui = cGui()
     import requests
     oInputParameterHandler = cInputParameterHandler()
@@ -798,7 +798,7 @@ def showHosters():
                sDisplayTitle = sTitle
                oHoster.setDisplayName(sDisplayTitle)
                oHoster.setFileName(sDisplayTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 				
     # ([^<]+) (.+?)   .+?      
 
@@ -832,7 +832,7 @@ def showHosters():
                sDisplayTitle = sTitle
                oHoster.setDisplayName(sDisplayTitle)
                oHoster.setFileName(sDisplayTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 				
 
     # .+? ([^<]+)

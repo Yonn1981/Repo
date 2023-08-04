@@ -22,10 +22,10 @@ class cHoster(iHoster):
 
         return self._getMediaLinkByPremiumUser()
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         pass
 
-    def _getMediaLinkByPremiumUser(self):
+    def _getMediaLinkByPremiumUser(self, autoPlay = False):
         VSlog(self._url)
         api_call = False
 

@@ -38,7 +38,7 @@ class cHoster(iHoster):
         else:
             VSlog(self._url)
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
     
         oRequest = cRequestHandler(self._url)
         sHtmlContent = oRequest.request()

@@ -952,6 +952,10 @@ msgctxt "#30360"
 msgid "My Personnal Trakt Lists"
 msgstr ""
 
+msgctxt "#31209"
+msgid "Results: [COLOR deepskyblue]%s[/COLOR]"
+msgstr ""
+
 msgctxt "#31210"
 msgid "Add to new list"
 msgstr ""
@@ -962,6 +966,14 @@ msgstr ""
 
 msgctxt "#31212"
 msgid "Select a list"
+msgstr ""
+
+msgctxt "#31213"
+msgid "Auto play"
+msgstr ""
+
+msgctxt "#31214"
+msgid "Accepted language for auto play"
 msgstr ""
 
 msgctxt "#30361"

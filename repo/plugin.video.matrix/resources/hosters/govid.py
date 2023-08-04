@@ -16,7 +16,7 @@ class cHoster(iHoster):
     def setUrl(self, sUrl):
         self._url = str(sUrl)
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         sReferer = ""
         if '|Referer=' in self._url:
             surl = self._url.split('|Referer=')[0]

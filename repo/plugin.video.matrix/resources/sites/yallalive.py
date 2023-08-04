@@ -75,7 +75,7 @@ def showMovies():
  
     oGui.setEndOfDirectory()
 			
-def showHosters():
+def showHosters(oInputParameterHandler = False):
     import requests
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
@@ -163,7 +163,7 @@ def showHosters():
             if oHoster:
                 oHoster.setDisplayName(sTitle)
                 oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
     sPattern = "'link': u'(.+?)',"
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -221,7 +221,7 @@ def showHosters():
             if oHoster:
                 oHoster.setDisplayName(sMovieTitle+' '+sTitle)
                 oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
 
     oGui.setEndOfDirectory()

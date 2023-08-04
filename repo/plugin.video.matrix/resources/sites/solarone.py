@@ -305,7 +305,7 @@ def showEps():
 
     oGui.setEndOfDirectory() 
  
-def showLinks():
+def showLinks(oInputParameterHandler = False):
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -349,7 +349,7 @@ def showLinks():
                             sDisplayTitle = sTitle
                             oHoster.setDisplayName(sDisplayTitle)
                             oHoster.setFileName(sMovieTitle)
-                            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
                 sPattern = 'id="embedvideo" src="([^"]+)'
 
                 oParser = cParser()
@@ -366,7 +366,7 @@ def showLinks():
                             sDisplayTitle = sTitle
                             oHoster.setDisplayName(sDisplayTitle)
                             oHoster.setFileName(sMovieTitle)
-                            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
             else:
                 sTitle = sMovieTitle
                 sHosterUrl = url
@@ -375,7 +375,7 @@ def showLinks():
                     sDisplayTitle = sTitle
                     oHoster.setDisplayName(sDisplayTitle)
                     oHoster.setFileName(sMovieTitle)
-                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
     sPattern = 'data-file="([^"]+)'
 
@@ -407,7 +407,7 @@ def showLinks():
                             sDisplayTitle = sTitle
                             oHoster.setDisplayName(sDisplayTitle)
                             oHoster.setFileName(sMovieTitle)
-                            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
                 sPattern = 'id="embedvideo" src="([^"]+)'
                 oParser = cParser()
                 aResult = oParser.parse(sHtmlContent, sPattern)
@@ -423,7 +423,7 @@ def showLinks():
                             sDisplayTitle = sTitle
                             oHoster.setDisplayName(sDisplayTitle)
                             oHoster.setFileName(sMovieTitle)
-                            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
             else:
                 sTitle = sMovieTitle
@@ -433,7 +433,7 @@ def showLinks():
                     sDisplayTitle = sTitle
                     oHoster.setDisplayName(sDisplayTitle)
                     oHoster.setFileName(sMovieTitle)
-                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
     sPattern = 'data-video="([^"]+)"'
 
@@ -451,7 +451,7 @@ def showLinks():
                             sDisplayTitle = sTitle
                             oHoster.setDisplayName(sDisplayTitle)
                             oHoster.setFileName(sMovieTitle)
-                            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
     sPattern = '<iframe id="embedvideo" src="([^"]+)"'
 
@@ -469,7 +469,7 @@ def showLinks():
                             sDisplayTitle = sTitle
                             oHoster.setDisplayName(sDisplayTitle)
                             oHoster.setFileName(sMovieTitle)
-                            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
     oGui.setEndOfDirectory()
 
 def __checkForNextPage(sHtmlContent):

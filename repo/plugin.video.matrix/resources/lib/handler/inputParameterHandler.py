@@ -5,7 +5,6 @@ import sys
 
 from resources.lib.util import UnquotePlus, Unquote
 
-
 class cInputParameterHandler:
     def __init__(self):
         aParams = dict()
@@ -30,3 +29,13 @@ class cInputParameterHandler:
     def exist(self, sParamName):
         if sParamName in self.__aParams:
             return sParamName
+
+
+    def mergeAndOverwrite(self, parameterHandler):
+        for value in parameterHandler.__aParams:
+            self.__aParams[value] = parameterHandler.__aParams[value]
+
+    def mergeUnexistingInfos(self, parameterHandler):
+        for value in parameterHandler.__aParams:
+            if value not in self.__aParams:
+                self.__aParams[value] = parameterHandler.__aParams[value]

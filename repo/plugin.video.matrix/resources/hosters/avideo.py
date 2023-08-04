@@ -24,7 +24,7 @@ class cHoster(iHoster):
         self._url = str(sUrl).replace(".html","")
 
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         sUrl = self._url
 
         oRequest = cRequestHandler(self._url)
@@ -56,12 +56,8 @@ class cHoster(iHoster):
         sPattern = '(eval\(function\(p,a,c,k,e(?:.|\s)+?)</script>'
         aResult = oParser.parse(sHtmlContent, sPattern)
         
-        import unicodedata
-
         if aResult[0]:
-            data = aResult[1][0]
-            data = unicodedata.normalize('NFD', data).encode('ascii', 'ignore').decode('unicode_escape')
-            sHtmlContent2 = cPacker().unpack(data)
+            sHtmlContent2 = cPacker().unpack(aResult[1][0])
       # (.+?) ([^<]+) .+?
 
             sPattern = 'file:"([^"]+)'

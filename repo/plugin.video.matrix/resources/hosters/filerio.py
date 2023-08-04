@@ -22,7 +22,7 @@ class cHoster(iHoster):
             self._url = self._url.rsplit('/', 1)[1]
             self._url = 'https://filerio.in/embed-'+self._url+'-600x320.html'
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
         api_call = False
 

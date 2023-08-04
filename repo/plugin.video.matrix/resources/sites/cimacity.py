@@ -275,7 +275,7 @@ def showSeries(sSearch = ''):
  
     if not sSearch:
         oGui.setEndOfDirectory()  
-def showSeasons():
+def showSeasons(oInputParameterHandler = False):
 	oGui = cGui()
     
 	oInputParameterHandler = cInputParameterHandler()
@@ -359,7 +359,7 @@ def showSeasons():
                                     sDisplayTitle = sTitle
                                     oHoster.setDisplayName(sDisplayTitle)
                                     oHoster.setFileName(sMovieTitle)
-                                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 	oGui.setEndOfDirectory() 
     
 def showEps():
@@ -410,7 +410,7 @@ def showEps():
     oGui.setEndOfDirectory() 
  
 	
-def showServer():
+def showServer(oInputParameterHandler = False):
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -466,7 +466,7 @@ def showServer():
                       sDisplayTitle = sTitle
                       oHoster.setDisplayName(sDisplayTitle)
                       oHoster.setFileName(sMovieTitle)
-                      cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                      cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
        
       

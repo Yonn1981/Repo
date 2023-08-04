@@ -18,7 +18,7 @@ class cHoster(iHoster):
         if '/video/embed/' not in self._url:
             self._url = self._url.replace('https://gettyshare.com/','https://gettyshare.com/video/embed/')
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
         api_call = ''
         oParser = cParser()

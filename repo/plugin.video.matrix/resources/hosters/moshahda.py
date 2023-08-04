@@ -19,7 +19,7 @@ class cHoster(iHoster):
         if not "embed" in self._url:
                self._url = self._url.replace("https://moshahda.net/","https://moshahda.net/embed-")
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
         sReferer = ""
         url = self._url.split('|Referer=')[0]

@@ -24,7 +24,7 @@ class cHoster(iHoster):
     def setUrl(self, url):
         self._url = str(url).replace("eeggyy","")
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
 
         sReferer = ""
         url = self._url.split('|Referer=')[0]

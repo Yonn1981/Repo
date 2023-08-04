@@ -23,7 +23,7 @@ class cHoster(iHoster):
         if not self._url.endswith('.html'):
             self._url = self._url + '.html'
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
 
         sUrl = self._url

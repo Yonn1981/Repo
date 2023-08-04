@@ -471,7 +471,7 @@ def showEpisodes():
     oGui.setEndOfDirectory()
 	
 
-def showLink():
+def showLink(oInputParameterHandler = False):
     oGui = cGui()
    
     oInputParameterHandler = cInputParameterHandler()
@@ -510,7 +510,7 @@ def showLink():
             oRequestHandler = cRequestHandler(siteUrl)
             sHtmlContent1 = oRequestHandler.request()
     if sDesc:
-        oGui.addLink(SITE_IDENTIFIER, 'showHosters','القصة', sThumb, sDesc, oOutputParameterHandler)
+        oGui.addLink(SITE_IDENTIFIER, 'showHosters','القصة', sThumb, sDesc, oOutputParameterHandler, oInputParameterHandler)
 
 
     sPattern =  '<a class="first_A" href="([^<]+)" title=' 
@@ -544,7 +544,7 @@ def showLink():
             if oHoster:
                 oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
        
     oGui.setEndOfDirectory()
@@ -561,7 +561,7 @@ def __checkForNextPage(sHtmlContent):
 
     return False
 
-def showHosters():
+def showHosters(oInputParameterHandler = False):
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -605,7 +605,7 @@ def showHosters():
             if oHoster :
                 oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 				
                 
     oGui.setEndOfDirectory()

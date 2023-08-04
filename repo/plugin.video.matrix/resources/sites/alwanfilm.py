@@ -120,7 +120,7 @@ def __checkForNextPage(sHtmlContent):
     return False
 
 	 
-def showServer():
+def showServer(oInputParameterHandler = False):
     oGui = cGui()
    
     oInputParameterHandler = cInputParameterHandler()
@@ -169,7 +169,7 @@ def showServer():
             if oHoster:
                oHoster.setDisplayName(sMovieTitle)
                oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)        	
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)      	
     sPattern = '"embed_url":"(.+?)",'
     oParser = cParser()
     aResult = oParser.parse(sData, sPattern)
@@ -189,7 +189,7 @@ def showServer():
             if oHoster:
                oHoster.setDisplayName(sMovieTitle)
                oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 				
        
     oGui.setEndOfDirectory()

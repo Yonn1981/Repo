@@ -14,7 +14,7 @@ class cHoster(iHoster):
     def __init__(self):
         iHoster.__init__(self, 'streamhide', 'StreamHide')
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         eURL = self._url
         if ('/d' in eURL):
             eURL = eURL.replace('/d','/e').split('_')[0]

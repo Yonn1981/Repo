@@ -12,7 +12,7 @@ class cHoster(iHoster):
         iHoster.__init__(self, 'yourvid', 'Yourvid')
 
     # Extraction du lien et decodage si besoin
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         api_call = False
 
         oRequest = cRequestHandler(self._url)

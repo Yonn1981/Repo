@@ -22,7 +22,7 @@ class cHoster(iHoster):
         if 'embed' in sUrl:
             self._url = self._url.replace("embed-","")
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
 
         api_call = ''

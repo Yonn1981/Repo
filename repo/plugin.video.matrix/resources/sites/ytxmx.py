@@ -211,7 +211,7 @@ def showMovies(sSearch = ''):
 
  
 
-def showServer():
+def showServer(oInputParameterHandler = False):
     import xbmc
     oGui = cGui()
     import requests
@@ -251,7 +251,7 @@ def showServer():
                 sDisplayTitle = sTitle
                 oHoster.setDisplayName(sDisplayTitle)
                 oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
     oGui.setEndOfDirectory()  
 

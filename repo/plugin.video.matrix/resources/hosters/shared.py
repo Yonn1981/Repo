@@ -19,7 +19,7 @@ class cHoster(iHoster):
             self._url = self._url.split('/')[4]
             self._url = "https://www.4shared.com/web/embed/file/"+self._url
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
  
         api_call = ''

@@ -74,7 +74,7 @@ def showMovies(sSearch = ''):
  
     oGui.setEndOfDirectory()
   
-def showLive():
+def showLive(oInputParameterHandler = False):
     oGui = cGui()
    
     oInputParameterHandler = cInputParameterHandler()
@@ -107,7 +107,7 @@ def showLive():
             if oHoster:
                 oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
     # (.+?) # ([^<]+) .+? 
     sPattern = '<iframe.+?src="([^"]+)'
     aResult = oParser.parse(sHtmlContent1, sPattern)
@@ -132,7 +132,7 @@ def showLive():
                      if oHoster:
                                oHoster.setDisplayName(sMovieTitle)
                                oHoster.setFileName(sMovieTitle)
-                               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
             sHosterUrl = url
             sMovieTitle = sMovieTitle
             if 'vimeo' in sHosterUrl:
@@ -145,7 +145,7 @@ def showLive():
             if oHoster:
                 oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
     # (.+?) # ([^<]+) .+? 
     sPattern = 'href="javascript:goToMatch(.+?), (.+?),'
@@ -180,7 +180,7 @@ def showLive():
                     if oHoster:
                         oHoster.setDisplayName(sMovieTitle)
                         oHoster.setFileName(sMovieTitle)
-                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb) 
+                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
     else:
         sPattern = 'src="([^<]+)" width'
@@ -196,12 +196,12 @@ def showLive():
                 if oHoster:
                     oHoster.setDisplayName(sMovieTitle)
                     oHoster.setFileName(sMovieTitle)
-                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
             
     oGui.setEndOfDirectory() 
 	
-def showHosters():
+def showHosters(oInputParameterHandler = False):
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -242,6 +242,6 @@ def showHosters():
                     if oHoster:
                         oHoster.setDisplayName(sMovieTitle)
                         oHoster.setFileName(sMovieTitle)
-                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
                
     oGui.setEndOfDirectory()

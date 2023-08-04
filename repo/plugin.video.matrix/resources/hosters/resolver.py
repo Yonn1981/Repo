@@ -20,7 +20,7 @@ class cHoster(iHoster):
         self._displayName = displayName + ' [COLOR violet]'+ self._defaultDisplayName + self.__sRealHost + '[/COLOR]'
 
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         self._url0 = str(self._url)
 
         if ('sub.info' in self._url0):
@@ -42,7 +42,7 @@ class cHoster(iHoster):
         else:
             SubTitle = ''
 
-        hmf = resolveurl.HostedMediaFile(url=self._url)
+        hmf = resolveurl.HostedMediaFile(url = self._url)
         if hmf.valid_url():
             stream_url = hmf.resolve()
             if stream_url:

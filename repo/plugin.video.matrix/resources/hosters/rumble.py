@@ -15,7 +15,7 @@ class cHoster(iHoster):
     def setUrl(self, sUrl):
         self._url = str(sUrl)
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
 
         oRequest = cRequestHandler(self._url)

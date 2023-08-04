@@ -16,7 +16,7 @@ class cHoster(iHoster):
     def isDownloadable(self):
         return True
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
 
         url = 'https://www.linkbox.to/api/open/get_url?itemId=' + self._url.rsplit('/', 1)[1]

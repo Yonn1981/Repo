@@ -940,6 +940,10 @@ msgctxt "#30361"
 msgid "Activate scrobbling"
 msgstr "Activer le suivi de lecture"
 
+msgctxt "#31209"
+msgid "Results: [COLOR deepskyblue]%s[/COLOR]"
+msgstr "Résultats : [COLOR deepskyblue]%s[/COLOR]"
+
 msgctxt "#31210"
 msgid "Add to new list"
 msgstr "Add to new list"
@@ -951,6 +955,14 @@ msgstr "Add to existing list"
 msgctxt "#31212"
 msgid "Select a list"
 msgstr "Select a list"
+
+msgctxt "#31213"
+msgid "Auto play"
+msgstr "Lecture automatique"
+
+msgctxt "#31214"
+msgid "Accepted language for auto play"
+msgstr "Langue acceptée pour le player automatique"
 
 msgctxt "#30400"
 msgid "Premium/Login"

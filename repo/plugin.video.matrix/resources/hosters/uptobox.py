@@ -54,7 +54,7 @@ class cHoster(iHoster):
             VSlog('UPTOBOX - no premium')
             return self._getMediaLinkForGuest()
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         self._url = self._url.replace('uptobox.com/', 'uptostream.eu/')
         self._url = self._url.replace('uptobox.eu/', 'uptostream.eu/')
 
@@ -63,7 +63,7 @@ class cHoster(iHoster):
         oHoster.setUrl(self._url)
         return oHoster.getMediaLink()
 
-    def _getMediaLinkByPremiumUser(self):
+    def _getMediaLinkByPremiumUser(self, autoPlay = False):
 
         token = self.oPremiumHandler.getToken()
         if not token:

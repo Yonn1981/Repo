@@ -39,7 +39,7 @@ class cHoster(iHoster):
                 continue
         return files
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         pass
 
     def getMediaLink(self):

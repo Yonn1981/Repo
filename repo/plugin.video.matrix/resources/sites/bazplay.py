@@ -418,7 +418,7 @@ def showEps():
         
     oGui.setEndOfDirectory() 
 
-def showHosters():
+def showHosters(oInputParameterHandler = False):
     oGui = cGui()
     import requests
     oInputParameterHandler = cInputParameterHandler()
@@ -430,19 +430,32 @@ def showHosters():
     sHtmlContent = oRequestHandler.request()
     oParser = cParser()
 
-
-    sPattern =  'name="watch" value="([^"]+)' 
+    sPattern =  '<form method="post" action="([^"]+)".+?name="watch" value="([^"]+)' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0]:
-        wcode = aResult[1][0] 
-        import base64
+        for aEntry in aResult[1]:
+            wcode = aEntry[1]
+            sLink = aEntry[0]
 
-        sLinks = base64.b64decode(wcode).decode('utf8',errors='ignore').replace('\\','').replace('"<a href=','')
+
+        s = requests.Session()            
+        headers = {'user-agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Mobile Safari/537.36 Edg/115.0.1901.188',
+                  'origin': 'https://bazplay.cc',
+                  'referer': URL_MAIN,
+                  'sec-fetch-dest': 'document',
+                  'sec-fetch-mode': 'navigate',
+                  'sec-fetch-site': 'cross-site',
+                  'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7'}
+
+        data = {'watch':wcode,'submit':''}
+        r = s.post(sLink, headers=headers,data = data)
+        sHtmlContent = r.content.decode('utf8')
 
 
-        sPattern = '":"([^"]+)"'
+
+        sPattern = "<iframe src='([^']+)"
         oParser = cParser()
-        aResult = oParser.parse(sLinks, sPattern)
+        aResult = oParser.parse(sHtmlContent, sPattern)
 
 
         if aResult[0]:
@@ -459,6 +472,6 @@ def showHosters():
                 if oHoster != False:
                     oHoster.setDisplayName(sMovieTitle)
                     oHoster.setFileName(sMovieTitle)
-                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
     oGui.setEndOfDirectory()

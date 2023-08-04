@@ -136,7 +136,7 @@ def showSearch():
         oGui.setEndOfDirectory()
         return
 
-def showContent(sSearch = ''):
+def showContent(sSearch = '',oInputParameterHandler = False):
     import requests
     oGui = cGui()
     oOutputParameterHandler = cOutputParameterHandler()
@@ -213,7 +213,7 @@ def showContent(sSearch = ''):
                     if oHoster:
                         oHoster.setDisplayName(sDisplayTitle)
                         oHoster.setFileName(sTitle)
-                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, icon)                
+                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, icon, oInputParameterHandler=oInputParameterHandler)              
 
     oGui.setEndOfDirectory()
 
@@ -267,7 +267,7 @@ def GetSearch(sSearch = ''):
  
     oGui.setEndOfDirectory()
 
-def showGroupSearch(sSearchText = ''):
+def showGroupSearch(sSearchText = '', oInputParameterHandler = False):
     import requests
     oGui = cGui()
     sSearchText = oGui.showKeyBoard()
@@ -343,11 +343,11 @@ def showGroupSearch(sSearchText = ''):
                     if oHoster:
                         oHoster.setDisplayName(sDisplayTitle)
                         oHoster.setFileName(sTitle)
-                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, icon)          
+                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, icon, oInputParameterHandler=oInputParameterHandler)         
  
     oGui.setEndOfDirectory()
 
-def showGroupSearchNext(sSearchText = ''):
+def showGroupSearchNext(sSearchText = '', oInputParameterHandler = False):
     import requests
     oGui = cGui()
 
@@ -415,6 +415,6 @@ def showGroupSearchNext(sSearchText = ''):
                     if oHoster:
                         oHoster.setDisplayName(sDisplayTitle)
                         oHoster.setFileName(sTitle)
-                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, icon)          
+                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, icon, oInputParameterHandler=oInputParameterHandler)          
  
     oGui.setEndOfDirectory()

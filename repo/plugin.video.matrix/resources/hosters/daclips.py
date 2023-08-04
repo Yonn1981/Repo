@@ -22,7 +22,7 @@ class cHoster(iHoster):
             return aResult[1][0]
         return ''
 
-    def _getMediaLinkForGuest(self, api_call = None):
+    def _getMediaLinkForGuest(self, autoPlay = False, api_call=None):
         VSlog(self._url)
         oParser = cParser()
 

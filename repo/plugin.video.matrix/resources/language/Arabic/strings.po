@@ -927,17 +927,29 @@ msgctxt "#30361"
 msgid "Activate scrobbling"
 msgstr "تتبع القراءة"
 
+msgctxt "#31209"
+msgid "Results: [COLOR deepskyblue]%s[/COLOR]"
+msgstr "[COLOR deepskyblue]%s[/COLOR] :النتائج"
+
 msgctxt "#31210"
 msgid "Add to new list"
-msgstr "Add to new list"
+msgstr "أضف إلى قائمة جديدة"
 
 msgctxt "#31211"
 msgid "Add to existing list"
-msgstr "Add to existing list"
+msgstr "أضف إلى القائمة الموجودة"
 
 msgctxt "#31212"
 msgid "Select a list"
-msgstr "Select a list"
+msgstr "حدد قائمة"
+
+msgctxt "#31213"
+msgid "Auto play"
+msgstr "تشغيل تلقائي"
+
+msgctxt "#31214"
+msgid "Accepted language for auto play"
+msgstr "اللغة المقبولة للتشغيل التلقائي"
 
 msgctxt "#30400"
 msgid "Premium/Login"

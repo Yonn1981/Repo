@@ -126,9 +126,10 @@ def showLive():
        
     oGui.setEndOfDirectory()
 
-def showHosters():
+def showHosters(oInputParameterHandler = False):
     oGui = cGui()
-    oInputParameterHandler = cInputParameterHandler()
+    if not oInputParameterHandler:
+        oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
    
@@ -175,7 +176,7 @@ def showHosters():
             if oHoster:
                 oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, '')
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, '', oInputParameterHandler=oInputParameterHandler)
 
 		
     oGui.setEndOfDirectory()

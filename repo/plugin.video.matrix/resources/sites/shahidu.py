@@ -445,7 +445,7 @@ def showEpisodes():
     oGui.setEndOfDirectory()	
     # .+? ([^<]+)	
  
-def showHosters():
+def showHosters(oInputParameterHandler = False):
     oGui = cGui()
     import requests
    
@@ -491,7 +491,7 @@ def showHosters():
                     if oHoster:
                        oHoster.setDisplayName(sTitle)
                        oHoster.setFileName(sTitle)
-                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
     sUrl = sUrl.replace('download','watch')
     oRequestHandler = cRequestHandler(sUrl)
@@ -536,7 +536,7 @@ def showHosters():
                     if oHoster:
                        oHoster.setDisplayName(sTitle)
                        oHoster.setFileName(sTitle)
-                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
     oGui.setEndOfDirectory()
 

@@ -341,7 +341,7 @@ def showEps():
     oGui.setEndOfDirectory() 
  
 	
-def showServer():
+def showServer(oInputParameterHandler = False):
     oGui = cGui()
     import requests
 
@@ -391,7 +391,7 @@ def showServer():
                       sDisplayTitle = sTitle
                       oHoster.setDisplayName(sDisplayTitle)
                       oHoster.setFileName(sMovieTitle)
-                      cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                      cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
 
     oParser = cParser()   
@@ -457,7 +457,7 @@ def showServer():
                        sDisplayTitle = sTitle
                        oHoster.setDisplayName(sDisplayTitle)
                        oHoster.setFileName(sMovieTitle)
-                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
        
       
     oGui.setEndOfDirectory()  

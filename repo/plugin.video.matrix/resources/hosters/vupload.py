@@ -17,7 +17,7 @@ class cHoster(iHoster):
         self._url = str(url)
         self._url = self._url.replace('emb.html?', 'embed-')
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
         api_call = False
 

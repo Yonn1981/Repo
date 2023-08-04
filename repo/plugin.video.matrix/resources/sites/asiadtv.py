@@ -60,7 +60,11 @@ def load():
     
     oOutputParameterHandler.addParameter('siteUrl', SERIE_THAI[0])
     oGui.addDir(SITE_IDENTIFIER, SERIE_JP[1], 'مسلسلات تايلندية', 'thai.png', oOutputParameterHandler)
-       
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'الحلقات-الجديدة/')
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'احدث الحلقات', 'asia.png', oOutputParameterHandler)
+
     oGui.setEndOfDirectory()
 
 def showSearch():
@@ -316,7 +320,7 @@ def __checkForNextPage(sHtmlContent):
 
     return False
 
-def showHosters():
+def showHosters(oInputParameterHandler = False):
     oGui = cGui()
 
     oInputParameterHandler = cInputParameterHandler()
@@ -368,6 +372,6 @@ def showHosters():
             if oHoster != False:
                   oHoster.setDisplayName(sMovieTitle)
                   oHoster.setFileName(sMovieTitle)
-                  cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                  cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
     oGui.setEndOfDirectory()

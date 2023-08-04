@@ -283,7 +283,7 @@ def __checkForNextPage(sHtmlContent):
 
     return False
 	
-def showEpisodes():
+def showEpisodes(oInputParameterHandler = False):
     oGui = cGui()
     
     oInputParameterHandler = cInputParameterHandler()
@@ -328,13 +328,13 @@ def showEpisodes():
                         if oHoster:
                             oHoster.setDisplayName(sTitle)
                             oHoster.setFileName(sTitle)
-                            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
         
        
     oGui.setEndOfDirectory() 
 	 
 
-def showHosters2():
+def showHosters2(oInputParameterHandler = False):
     import requests
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
@@ -376,7 +376,7 @@ def showHosters2():
             if oHoster:
                oHoster.setDisplayName(sMovieTitle)
                oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
     oParser = cParser()
      # (.+?) ([^<]+) .+?
@@ -409,13 +409,13 @@ def showHosters2():
                             if oHoster:
                                 oHoster.setDisplayName(sMovieTitle)
                                 oHoster.setFileName(sMovieTitle)
-                                cHosterGui().showHoster(oGui, oHoster, sHosterUrl , sThumb)
+                                cHosterGui().showHoster(oGui, oHoster, sHosterUrl , sThumb, oInputParameterHandler=oInputParameterHandler)
                         else:
                             oHoster = cHosterGui().checkHoster(sHosterUrl)
                             if oHoster:
                                 sDisplayTitle = sMovieTitle
                                 oHoster.setDisplayName(sDisplayTitle)
                                 oHoster.setFileName(sMovieTitle)
-                                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
     oGui.setEndOfDirectory()

@@ -111,7 +111,7 @@ def parseM3U(sUrl=None):  # Traite les m3u local
     return playlist
 
 
-def showWeb():  # Code qui s'occupe de liens TV du Web
+def showWeb(oInputParameterHandler = False):  # Code qui s'occupe de liens TV du Web
     oGui = cGui()
 
     oInputParameterHandler = cInputParameterHandler()
@@ -156,7 +156,7 @@ def showWeb():  # Code qui s'occupe de liens TV du Web
             if oHoster:
                 oHoster.setDisplayName(track.title)
                 oHoster.setFileName(track.title)
-                cHosterGui().showHoster(oGui, oHoster, url2, sThumb)
+                cHosterGui().showHoster(oGui, oHoster, url2, sThumb, oInputParameterHandler=oInputParameterHandler)
 
         progress_.VSclose(progress_)
 
@@ -184,7 +184,7 @@ def showAZ():
     oGui.setEndOfDirectory()
 
 
-def showTV():
+def showTV(oInputParameterHandler = False):
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -223,14 +223,14 @@ def showTV():
             if oHoster:
                 oHoster.setDisplayName(track.title)
                 oHoster.setFileName(track.title)
-                cHosterGui().showHoster(oGui, oHoster, aEntry[1], 'tv.png')
+                cHosterGui().showHoster(oGui, oHoster, aEntry[1], 'tv.png', oInputParameterHandler=oInputParameterHandler)
 
         progress_.VSclose(progress_)
 
     oGui.setEndOfDirectory()
 
 
-def play__():  # Lancer les liens
+def play__(oInputParameterHandler = False):  # Lancer les liens
     addons = addon()
     oGui = cGui()
 
@@ -254,7 +254,7 @@ def play__():  # Lancer les liens
         if oHoster:
             oHoster.setDisplayName(sTitle)
             oHoster.setFileName(sTitle)
-            cHosterGui().showHoster(oGui, oHoster, sUrl, sThumbnail)
+            cHosterGui().showHoster(oGui, oHoster, sUrl, sThumbnail, oInputParameterHandler=oInputParameterHandler)
 
     else:
         oGuiElement = cGuiElement()

@@ -275,7 +275,7 @@ def showEps():
        
     oGui.setEndOfDirectory() 
 	 
-def showHosters():
+def showHosters(oInputParameterHandler = False):
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -335,7 +335,7 @@ def showHosters():
                            url = aEntry.replace("\/","/")
                            if url.startswith('//'):
                               url = 'http:' + url
-            
+                           VSlog(url)
                            sHosterUrl = url 
                            if 'userload' in sHosterUrl:
                               sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
@@ -349,7 +349,7 @@ def showHosters():
                            if oHoster:
                               oHoster.setDisplayName(sTitle)
                               oHoster.setFileName(sMovieTitle)
-                              cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                              cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
     # (.+?) ([^<]+)
 				
     # ([^<]+) .+?
@@ -374,7 +374,7 @@ def showHosters():
             if oHoster:
                 oHoster.setDisplayName(sTitle)
                 oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 				
 
                 

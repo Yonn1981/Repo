@@ -484,7 +484,7 @@ def showEps():
             oGui.addEpisode(SITE_IDENTIFIER, 'showServers', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
     oGui.setEndOfDirectory()
 
-def showServers():
+def showServers(oInputParameterHandler = False):
     oGui = cGui()
     import requests
    
@@ -545,7 +545,7 @@ def showServers():
                     if oHoster:
                        oHoster.setDisplayName(sTitle)
                        oHoster.setFileName(sTitle)
-                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)  
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 				
    
     # (.+?) ([^<]+) .+?
@@ -565,6 +565,6 @@ def showServers():
             if oHoster:
                oHoster.setDisplayName(sTitle)
                oHoster.setFileName(sTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
     oGui.setEndOfDirectory()

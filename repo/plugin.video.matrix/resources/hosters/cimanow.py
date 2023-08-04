@@ -16,7 +16,7 @@ class cHoster(iHoster):
     def setUrl(self, sUrl):
         self._url = str(sUrl).replace('rrsrrs','cimanow')
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         
         sReferer = "https://cimanow.cc/"
         host = self._url.split('/e')[0]

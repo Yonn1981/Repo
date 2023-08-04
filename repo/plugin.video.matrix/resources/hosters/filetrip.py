@@ -17,7 +17,7 @@ class cHoster(iHoster):
         url = 'http://filetrip.net/embed?' + str(url)
         return url
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
         #lien deja decode
         if self._url[-4] == '.':

@@ -415,7 +415,7 @@ def showEps():
    
     oGui.setEndOfDirectory() 
  
-def showLinks():
+def showLinks(oInputParameterHandler = False):
     oGui = cGui()
     from urllib.parse import unquote
     oInputParameterHandler = cInputParameterHandler()
@@ -521,7 +521,7 @@ def showLinks():
                                         sHosterUrl1 = sHosterUrl1
                                     oHoster.setDisplayName(sDisplayTitle)
                                     oHoster.setFileName(sMovieTitle)
-                                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl1, sThumb)
+                                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl1, sThumb, oInputParameterHandler=oInputParameterHandler)
 
                             elif ('vidstream' in sHosterUrl):
                                 if ('sub.info' in sHosterUrl):
@@ -541,7 +541,7 @@ def showLinks():
                                         sHosterUrl2 = sHosterUrl2
                                     oHoster.setDisplayName(sDisplayTitle)
                                     oHoster.setFileName(sMovieTitle)
-                                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl2, sThumb)
+                                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl2, sThumb, oInputParameterHandler=oInputParameterHandler)
 
                             else:
                                 oHoster = cHosterGui().checkHoster(sHosterUrl)
@@ -549,11 +549,11 @@ def showLinks():
                                     sDisplayTitle = nTitle+' '+sMovieTitle
                                     oHoster.setDisplayName(sDisplayTitle)
                                     oHoster.setFileName(sMovieTitle)
-                                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
     oGui.setEndOfDirectory()
 
-def showSeriesLinks():
+def showSeriesLinks(oInputParameterHandler = False):
     oGui = cGui()
     from urllib.parse import unquote
     oInputParameterHandler = cInputParameterHandler()
@@ -612,7 +612,7 @@ def showSeriesLinks():
                                         sHosterUrl1 = sHosterUrl1
                                     oHoster.setDisplayName(sDisplayTitle)
                                     oHoster.setFileName(sMovieTitle)
-                                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl1, sThumb)
+                                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl1, sThumb, oInputParameterHandler=oInputParameterHandler)
 
                             elif ('vidstream' in sHosterUrl):
                                 if ('sub.info' in sHosterUrl):
@@ -632,14 +632,14 @@ def showSeriesLinks():
                                         sHosterUrl2 = sHosterUrl2
                                     oHoster.setDisplayName(sDisplayTitle)
                                     oHoster.setFileName(sMovieTitle)
-                                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl2, sThumb)
+                                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl2, sThumb, oInputParameterHandler=oInputParameterHandler)
                             else:    
                                 oHoster = cHosterGui().checkHoster(sHosterUrl)
                                 if oHoster:
                                     sDisplayTitle = sMovieTitle
                                     oHoster.setDisplayName(sDisplayTitle)
                                     oHoster.setFileName(sMovieTitle)
-                                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
                                 
     oGui.setEndOfDirectory()
 

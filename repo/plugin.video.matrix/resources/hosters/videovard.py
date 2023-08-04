@@ -25,7 +25,7 @@ class cHoster(iHoster):
     def __getId(self, url):
         return url.split('/')[-1]
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         host = self.__getHost(self._url)
         videoId = self.__getId(self._url)
 

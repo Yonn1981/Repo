@@ -319,7 +319,7 @@ def showLink():
  
     oGui.setEndOfDirectory() 
 	 
-def showServer():
+def showServer(oInputParameterHandler = False):
     oGui = cGui()
    
     oInputParameterHandler = cInputParameterHandler()
@@ -387,11 +387,11 @@ def showServer():
             if oHoster:
                oHoster.setDisplayName(sMovieTitle)
                oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 				
        
     oGui.setEndOfDirectory()	 
-def showServer2():
+def showServer2(oInputParameterHandler = False):
     oGui = cGui()
    
     oInputParameterHandler = cInputParameterHandler()
@@ -476,7 +476,7 @@ def showServer2():
                          sDisplayTitle = sTitle
                          oHoster.setDisplayName(sDisplayTitle)
                          oHoster.setFileName(sMovieTitle)
-                         cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb) 
+                         cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
        
     oGui.setEndOfDirectory()

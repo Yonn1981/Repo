@@ -597,7 +597,7 @@ def __checkForNextPageS(sHtmlContent, sUrl):
 
     return False
 
-def showHosters():
+def showHosters(oInputParameterHandler = False):
     oGui = cGui()
     import base64
     import requests
@@ -640,9 +640,9 @@ def showHosters():
                                 oHoster.setDisplayName(sDisplayTitle)
                                 oHoster.setFileName(sMovieTitle)
                                 if "youtube" in sHosterUrl:
-                                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
                                 else:
-                                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl + "|Referer=" + rUrl, sThumb)
+                                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl + "|Referer=" + rUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
                                 
                         if "stream/" in aEntry:
                             aurl = aEntry
@@ -669,7 +669,7 @@ def showHosters():
                                         sDisplayTitle = sTitle
                                         oHoster.setDisplayName(sDisplayTitle)
                                         oHoster.setFileName(sMovieTitle)
-                                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
     sPattern =  'name="codes" value="([^"]+)' 
     aResult = oParser.parse(sHtmlContent1,sPattern)
@@ -716,7 +716,7 @@ def showHosters():
                if oHoster != False:
                   oHoster.setDisplayName(sMovieTitle)
                   oHoster.setFileName(sMovieTitle)
-                  cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                  cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
 
     sPattern = '<div class="tr flex-start">.+?</div>.+?<div>(.+?)</div>.+?<a href="([^"]+)'
@@ -763,7 +763,7 @@ def showHosters():
                                         sDisplayTitle = sTitle
                                         oHoster.setDisplayName(sDisplayTitle)
                                         oHoster.setFileName(sMovieTitle)
-                                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
                 sPattern = 'Watch</button><a href="([^"]+)'
                 oParser = cParser()
@@ -784,5 +784,5 @@ def showHosters():
                             sDisplayTitle = sTitle
                             oHoster.setDisplayName(sDisplayTitle)
                             oHoster.setFileName(sMovieTitle)
-                            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
     oGui.setEndOfDirectory()

@@ -1,7 +1,7 @@
 #-*- coding: utf8 -*-
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
-from resources.lib.comaddon import VSlog, xbmcgui
+from resources.lib.comaddon import VSlog, xbmcgui, dialog
 from resources.lib.gui.gui import cGui
 from resources.hosters.hoster import iHoster
 import  re
@@ -13,7 +13,7 @@ class cHoster(iHoster):
     def __init__(self):
         iHoster.__init__(self, 'thevid', 'Thevid')
 
-    def _getMediaLinkForGuest(self): 
+    def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
                     
         oRequest = cRequestHandler(self._url)
