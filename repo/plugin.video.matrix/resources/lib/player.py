@@ -44,6 +44,7 @@ class cPlayer(xbmc.Player):
         self.sCat  = oInputParameterHandler.getValue('sCat')
         self.sSaison = oInputParameterHandler.getValue('sSeason')
         self.sEpisode = oInputParameterHandler.getValue('sEpisode')
+        self.tvShowTitle = oInputParameterHandler.getValue('tvShowTitle')
         
         self.sSite = oInputParameterHandler.getValue('siteUrl')
         self.sSource = oInputParameterHandler.getValue('sourceName')
@@ -57,7 +58,6 @@ class cPlayer(xbmc.Player):
         self.playBackEventReceived = False
         self.playBackStoppedEventReceived = False
         self.forcestop = False
-        self.multi = False  # Plusieurs vidéos se sont enchainées
 
         VSlog('player initialized')
 
@@ -85,7 +85,6 @@ class cPlayer(xbmc.Player):
 
     def run(self, oGuiElement, sUrl):
         # Lancement d'une vidéo sans avoir arreté la précedente
-        self.tvShowTitle = oGuiElement.getItemValue('tvshowtitle')
         if self.isPlaying():
             sEpisode = str(oGuiElement.getEpisode())
             if sEpisode:
@@ -230,8 +229,12 @@ class cPlayer(xbmc.Player):
                         # Marquer VU dans la BDD matrixs
                         sTitleWatched = self.infotag.getOriginalTitle()
                         if sTitleWatched:
+                            if sEpisode :   # changement d'épisode suite à un enchainement automatique
+                                sTitle = sTitleWatched  # l'épisode vu et non pas le nouveau qui vient de démarrer
+                            else:
+                                sTitle = self.sTitle
                             meta = {}
-                            meta['title'] = sTitleWatched
+                            meta['title'] = sTitle
                             meta['cat'] = self.sCat
                             db.insert_watched(meta)
         
@@ -290,14 +293,14 @@ class cPlayer(xbmc.Player):
                     if saisonViewing:
                         meta['cat'] = '4'  # saison
                         meta['sTmdbId'] = self.sTmdbId
-                        tvShowTitle = cUtil().titleWatched(self.tvShowTitle).replace(' ', '')
+                        tvShowTitleWatched = cUtil().titleWatched(self.tvShowTitle).replace(' ', '')
                         if self.sSaison:
                             meta['season'] = self.sSaison
                             meta['title'] = self.tvShowTitle + " S" + self.sSaison
-                            meta['titleWatched'] = tvShowTitle + "_S" + self.sSaison
+                            meta['titleWatched'] = tvShowTitleWatched + "_S" + self.sSaison
                         else:
                             meta['title'] = self.tvShowTitle
-                            meta['titleWatched'] = tvShowTitle
+                            meta['titleWatched'] = tvShowTitleWatched
                         meta['site'] = self.sSource
                         meta['siteurl'] = self.saisonUrl
                         meta['fav'] = self.nextSaisonFunc

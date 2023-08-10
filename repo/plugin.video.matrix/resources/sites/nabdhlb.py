@@ -226,7 +226,8 @@ def showSeries(sSearch = ''):
     sPattern = '<div class="block-post">.+?href="([^"]+)" title="([^"]+)".+?src=(.+?) class='
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-		
+    
+    itemList = []	
     if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -253,15 +254,18 @@ def showSeries(sSearch = ''):
                 sThumb = 'https:' + sThumb
             
             sDesc = ''
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('siteUrl',  siteUrl) 
-            oOutputParameterHandler.addParameter('sThumb', sThumb)
-            oOutputParameterHandler.addParameter('sYear',sYear)
+
+            if sTitle not in itemList:
+                itemList.append(sTitle)	
+                oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+                oOutputParameterHandler.addParameter('siteUrl',  siteUrl) 
+                oOutputParameterHandler.addParameter('sThumb', sThumb)
+                oOutputParameterHandler.addParameter('sYear',sYear)
         
-            if '/movie' in siteUrl:
-                oGui.addMovie(SITE_IDENTIFIER, 'showHosters' , sTitle, sYear, sThumb, sDesc, oOutputParameterHandler)
-            else:
-                oGui.addTV(SITE_IDENTIFIER, 'showSeasons' , sTitle, sYear, sThumb, sDesc, oOutputParameterHandler)
+                if '/movie' in siteUrl:
+                    oGui.addMovie(SITE_IDENTIFIER, 'showHosters' , sTitle, sYear, sThumb, sDesc, oOutputParameterHandler)
+                else:
+                    oGui.addTV(SITE_IDENTIFIER, 'showSeasons' , sTitle, sYear, sThumb, sDesc, oOutputParameterHandler)
         progress_.VSclose(progress_)  
 
         sNextPage = __checkForNextPage(sHtmlContent)

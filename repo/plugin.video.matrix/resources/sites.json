@@ -206,11 +206,6 @@
             "active": "True",
             "url": "https://wwz.dramacafe-tv.com/"
         },
-        "edy": {
-            "label": "Edy",
-            "active": "True",
-            "url": "aHR0cHM6Ly9lZHl0amVkaGdtZGhtLmFiZmhhcXJoYm5mLndvcmtlcnMuZGV2Lw=="
-        },
         "egybest": {
             "label": "EgyBest",
             "active": "True",
@@ -341,11 +336,6 @@
             "active": "True",
             "url": "https://membed1.com/"
         },
-        "movizland": {
-            "label": "Movizland",
-            "active": "False",
-            "url": "https://egy1.movizland.info/"
-        },
         "moviztime": {
             "label": "MovizTime",
             "active": "True",
@@ -371,6 +361,11 @@
             "label": "Prstej",
             "active": "True",
             "url": "https://xy.brstej.com/"
+        },
+        "qfilm": {
+            "label": "QFilm",
+            "active": "True",
+            "url": "https://h.qfilm.tv/"
         },
         "rotana": {
             "label": "Rotana",

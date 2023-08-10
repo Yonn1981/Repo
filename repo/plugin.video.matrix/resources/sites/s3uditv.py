@@ -311,7 +311,7 @@ def showHosters(oInputParameterHandler = False):
     # ([^<]+) .+?
                
 
-    sPattern = "data-embed='([^<]+)' data"
+    sPattern = 'data-embed=["\']([^"\']+)["\']'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
@@ -325,8 +325,6 @@ def showHosters(oInputParameterHandler = False):
                 sHosterUrl = 'http:' + sHosterUrl
             if 'userload' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-            if 'moshahda' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
             if 'mystream' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN   
             oHoster = cHosterGui().checkHoster(sHosterUrl)

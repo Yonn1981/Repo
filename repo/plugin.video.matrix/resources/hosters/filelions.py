@@ -1,44 +1,36 @@
-﻿from resources.lib.handler.requestHandler import cRequestHandler
+﻿# coding: utf-8
+
+from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
-from resources.lib.comaddon import dialog, xbmcgui
 from resources.hosters.hoster import iHoster
+#from resources.lib.comaddon import VSlog
 from resources.lib.packer import cPacker
-from resources.lib.comaddon import VSlog
-import re
+
 
 class cHoster(iHoster):
 
     def __init__(self):
-        iHoster.__init__(self, 'filelions', 'filelions')
-			
-    def isDownloadable(self):
-        return True
+        iHoster.__init__(self, 'filelions', 'FileLions')
 
     def _getMediaLinkForGuest(self, autoPlay = False):
-        VSlog(self._url)
-        api_call = ''
-
         oRequest = cRequestHandler(self._url)
         sHtmlContent = oRequest.request()
+
+        api_call = ''
+
         oParser = cParser()
-       
-
-        sPattern = '(eval\(function\(p,a,c,k,e(?:.|\s)+?\))<\/script>'
+        
+        sPattern = '(\s*eval\s*\(\s*function\(p,a,c,k,e(?:.|\s)+?)<\/script>'
         aResult = oParser.parse(sHtmlContent, sPattern)
-        from resources.lib.util import Quote
-        import unicodedata
 
-        if aResult[0]:
-            data = aResult[1][0]
-            data = unicodedata.normalize('NFD', data).encode('ascii', 'ignore').decode('unicode_escape')
-            sHtmlContent2 = cPacker().unpack(data)
-      # (.+?) ([^<]+) .+?
+        if aResult[0] is True:
+            sHtmlContent = cPacker().unpack(aResult[1][0])
+        
+        sPattern = 'sources:\s*\[{file:\s*["\']([^"\']+)'
+        aResult = oParser.parse(sHtmlContent, sPattern)
 
-            sPattern = 'file:"(.+?)"'
-            aResult = oParser.parse(sHtmlContent2, sPattern)
-            VSlog(aResult)
-            if aResult[0]:
-                api_call = aResult[1][0] 
+        if aResult[0] is True:
+            api_call = aResult[1][0]
 
         if api_call:
             return True, api_call

@@ -1,89 +1,29 @@
-﻿#-*- coding: utf-8 -*-
+﻿# coding: utf-8
 
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
-from resources.lib.comaddon import dialog
 from resources.hosters.hoster import iHoster
-from resources.lib.packer import cPacker
-from resources.lib.comaddon import VSlog
 
-UA = 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Mobile Safari/537.36 Edg/115.0.1901.188'
 
 class cHoster(iHoster):
 
     def __init__(self):
-        iHoster.__init__(self, 'voe', 'voe')
+        iHoster.__init__(self, 'voe', 'Voe')
 
     def _getMediaLinkForGuest(self, autoPlay = False):
-        
         oRequest = cRequestHandler(self._url)
         sHtmlContent = oRequest.request()
-        VSlog(self._url)
-        
+
+        api_call = ''
+
         oParser = cParser()
-        
-            # (.+?) .+?
-        sPattern = "'hls': '(.+?)',.+?'video_height': (.+?),"
+        sPattern = '["\']hls["\']:\s*["\']([^"\']+)["\']'
         aResult = oParser.parse(sHtmlContent, sPattern)
-        
-        api_call = False
 
-        if aResult[0]:
-            
-            #initialisation des tableaux
-            url=[]
-            qua=[]
-            
-            #Replissage des tableaux
-            for i in aResult[1]:
-                url.append(str(i[0]))
-                qua.append(str(i[1]))
+        if aResult[0] is True:
+            api_call = aResult[1][0]
 
-            api_call = dialog().VSselectqual(qua, url)
-
-            if api_call:
-                return True, api_call + '|User-Agent=' + UA + '&Referer=' + self._url +'&verifypeer=false'
-        sPattern = '"hls": "(.+?)",.+?"video_height": (.+?),'
-        aResult = oParser.parse(sHtmlContent, sPattern)
-        
-        api_call = False
-
-        if aResult[0]:
-            
-            #initialisation des tableaux
-            url=[]
-            qua=[]
-            
-            #Replissage des tableaux
-            for i in aResult[1]:
-                url.append(str(i[0]))
-                qua.append(str(i[1]))
-
-            api_call = dialog().VSselectqual(qua, url)
-
-            if api_call:
-                return True, api_call + '|User-Agent=' + UA + '&Referer=' + self._url +'&verifypeer=false'
-
-        sPattern = "'hls': '(.+?)',.+?'video_height': (.+?),"
-        aResult = oParser.parse(sHtmlContent, sPattern)
-        
-        api_call = False
-
-        if aResult[0]:
-            
-            #initialisation des tableaux
-            url=[]
-            qua=[]
-            
-            #Replissage des tableaux
-            for i in aResult[1]:
-                url.append(str(i[0]))
-                qua.append(str(i[1]))
-
-            api_call = dialog().VSselectqual(qua, url)
-
-            if api_call:
-                return True, api_call + '|User-Agent=' + UA + '&Referer=' + self._url +'&verifypeer=false'
+        if api_call:
+            return True, api_call
 
         return False, False
-        

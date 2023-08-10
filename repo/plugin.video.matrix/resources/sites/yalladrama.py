@@ -205,8 +205,6 @@ def showSeries(sSearch = ''):
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
 
-
-
     oRequestHandler = cRequestHandler(sUrl)
     oRequestHandler.addHeaderEntry('User-Agent', UA)
     sHtmlContent = oRequestHandler.request()
@@ -216,7 +214,7 @@ def showSeries(sSearch = ''):
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
-	
+    itemList = []	
     if aResult[0] :
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -240,13 +238,14 @@ def showSeries(sSearch = ''):
                 sYear = str(m.group(0))
                 sTitle = sTitle.replace(sYear,'')
 
-			
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sYear', sYear)
-            oOutputParameterHandler.addParameter('sThumb', sThumb)
+            if sTitle not in itemList:
+                itemList.append(sTitle)				
+                oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+                oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+                oOutputParameterHandler.addParameter('sYear', sYear)
+                oOutputParameterHandler.addParameter('sThumb', sThumb)
 
-            oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+                oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
  
         sNextPage = __checkForNextPage(sHtmlContent)
         if sNextPage:
@@ -268,7 +267,6 @@ def __checkForNextPage(sHtmlContent):
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    VSlog(aResult)
     if aResult[0] :
         
         return URL_MAIN+aResult[1][0]
@@ -362,7 +360,7 @@ def showHosters(oInputParameterHandler = False):
     # ([^<]+) .+?
                
 
-    sPattern = 'data-code="([^"]+)'
+    sPattern = 'data-code=["\']([^"\']+)["\']'
     aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
