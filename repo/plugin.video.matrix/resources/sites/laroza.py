@@ -177,7 +177,7 @@ def showSeries(sSearch = ''):
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
-	
+    itemList = []		
     if aResult[0] :
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -200,12 +200,14 @@ def showSeries(sSearch = ''):
                 sTitle = sTitle.replace(sYear,'')
 
 			
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sYear', sYear)
-            oOutputParameterHandler.addParameter('sThumb', sThumb)
+            if sTitle not in itemList:
+                itemList.append(sTitle)				
+                oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+                oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+                oOutputParameterHandler.addParameter('sYear', sYear)
+                oOutputParameterHandler.addParameter('sThumb', sThumb)
 
-            oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+                oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
  
         sNextPage = __checkForNextPage(sHtmlContent)
         if sNextPage:
@@ -223,7 +225,7 @@ def showSeries(sSearch = ''):
       # (.+?) ([^<]+) .+?
 	
 def __checkForNextPage(sHtmlContent):
-    sPattern = '<li class="active"><a href="#".+?<li class=""><a href="([^"]+)".+?<li class="">'
+    sPattern = '<li class="active"><a href="#".+?<li class><a href="([^"]+)".+?<li class>'
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -260,7 +262,7 @@ def showEpisodes():
             sHtmlContent = aEntry[1]
  # ([^<]+) .+?
 
-            sPattern = '<a class=".+?href="(.+?)" title.+?<em>(.+?)</em><span>'
+            sPattern = 'href="(.+?)" title.+?<em>(.+?)</em><span>'
 
             oParser = cParser()
             aResult = oParser.parse(sHtmlContent, sPattern)
@@ -277,8 +279,6 @@ def showEpisodes():
                     sThumb = sThumb
                     sDesc = ""
 			
-
-
                     oOutputParameterHandler.addParameter('siteUrl',siteUrl)
                     oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
                     oOutputParameterHandler.addParameter('sThumb', sThumb)
@@ -303,10 +303,9 @@ def showHosters(oInputParameterHandler = False):
     # ([^<]+) .+?
                
 
-    sPattern = "data-embed='([^<]+)' data"
+    sPattern = 'data-embed=["\']([^"\']+)["\']'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-
 	
     if aResult[0]:
         for aEntry in aResult[1]:
@@ -315,16 +314,27 @@ def showHosters(oInputParameterHandler = False):
             sTitle =  ""
             if sHosterUrl.startswith('//'):
                 sHosterUrl = 'http:' + sHosterUrl
-            if 'userload' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-            if 'moshahda' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
-            if 'mystream' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN   
+ 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
                 oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
-                
+
+    else:
+        sPattern = '<iframe src=["\']([^"\']+)["\']'
+        aResult = oParser.parse(sHtmlContent, sPattern)	
+        if aResult[0] :
+            for aEntry in aResult[1]:
+            
+                sHosterUrl = aEntry
+                sTitle =  ""
+                if sHosterUrl.startswith('//'):
+                    sHosterUrl = 'http:' + sHosterUrl
+
+                oHoster = cHosterGui().checkHoster(sHosterUrl)
+                if oHoster:
+                    oHoster.setDisplayName(sMovieTitle)
+                    oHoster.setFileName(sMovieTitle)
+                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)                
     oGui.setEndOfDirectory()

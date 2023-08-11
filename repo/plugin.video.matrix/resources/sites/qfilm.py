@@ -22,7 +22,7 @@ UA = 'Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chr
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 MOVIE_EN = (URL_MAIN + 'category.php?cat=english-movies', 'showMovies')
-MOVIE_AR = (URL_MAIN + 'category.php?cat=arabic', 'showMovies')
+MOVIE_AR = ('https://arb.qfilm.tv/category.php?cat=arabic', 'showMovies')
 MOVIE_TURK = (URL_MAIN + 'category.php?cat=turkish-movies', 'showMovies')
 MOVIE_HI = (URL_MAIN + 'category.php?cat=indian-movies', 'showMovies')
 MOVIE_ASIAN = (URL_MAIN + 'category.php?cat=asian-movies', 'showMovies')
@@ -211,7 +211,7 @@ def showHosters(oInputParameterHandler = False):
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
             if 'mystream' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN   
-            oHoster = cHosterGui().getHoster('qfilm') 
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
                 oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)

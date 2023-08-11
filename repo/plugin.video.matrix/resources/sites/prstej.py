@@ -295,8 +295,6 @@ def showEpisodes():
                     sThumb = sThumb
                     sDesc = ""
 			
-
-
                     oOutputParameterHandler.addParameter('siteUrl',siteUrl)
                     oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
                     oOutputParameterHandler.addParameter('sThumb', sThumb)
@@ -312,28 +310,13 @@ def showHosters(oInputParameterHandler = False):
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
 
-
-
     oRequestHandler = cRequestHandler(sUrl)
     oRequestHandler.addHeaderEntry('User-Agent', UA)
     sHtmlContent = oRequestHandler.request()
     oParser = cParser()
 
-    # (.+?) ([^<]+)
-
-    sPattern = '<a href="(.+?)"'
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-    if (aResult[0]):
-        URL_MAIN = aResult[1][0]
-        VSlog(URL_MAIN)
-    # ([^<]+) .+?
-               
-
     sPattern = 'data-embed-url=["\']([^"\']+)["\']'
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-	
+    aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0] :
         for aEntry in aResult[1]:
             
@@ -341,16 +324,27 @@ def showHosters(oInputParameterHandler = False):
             sTitle =  ""
             if sHosterUrl.startswith('//'):
                 sHosterUrl = 'http:' + sHosterUrl
-            if 'userload' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-            if 'mystream' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN   
+
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
                 oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
-				
+    else:
+        sPattern = '<iframe src=["\']([^"\']+)["\']'
+        aResult = oParser.parse(sHtmlContent, sPattern)	
+        if aResult[0] :
+            for aEntry in aResult[1]:
+            
+                sHosterUrl = aEntry
+                sTitle =  ""
+                if sHosterUrl.startswith('//'):
+                    sHosterUrl = 'http:' + sHosterUrl
 
-                
+                oHoster = cHosterGui().checkHoster(sHosterUrl)
+                if oHoster:
+                    oHoster.setDisplayName(sMovieTitle)
+                    oHoster.setFileName(sMovieTitle)
+                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+               
     oGui.setEndOfDirectory()

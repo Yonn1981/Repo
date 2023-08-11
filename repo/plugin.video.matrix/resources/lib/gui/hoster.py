@@ -627,11 +627,14 @@ class cHosterGui:
         if ('vedpom' in sHostName) or ('vidbem' in sHostName):
             return self.getHoster('vidbem')
 
-        if ('vk.com' in sHostName) or ('vkontakte' in sHostName) or ('vkcom' in sHostName):
+        if ('vk.com' in sHostName) or ('vkontakte' in sHostName) or ('vkcom' in sHostName) or ('vk.ru' in sHostName):
             return self.getHoster('vk')
 
         if ('playvidto' in sHostName):
             return self.getHoster('vidto')
+
+        if ('liiivideo' in sHostName):
+            return self.getHoster('qfilm')
 
         if ('hd-stream' in sHostName):
             return self.getHoster('hd_stream')

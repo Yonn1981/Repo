@@ -34,8 +34,8 @@ SERIE_EN = (URL_MAIN + '/category/مسلسلات-series/مسلسلات-اجنب�
 
 RAMADAN_SERIES = (URL_MAIN + '/category/مسلسلات-series/مسلسلات-رمضان/', 'showSeries')
 
-URL_SEARCH_MOVIES = (URL_MAIN + '/?s=%D9%81%D9%84%D9%85+', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + '/?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSeries')
+URL_SEARCH_MOVIES = (URL_MAIN + '/?s=', 'showMovies')
+URL_SEARCH_SERIES = (URL_MAIN + '/?s=', 'showSeries')
 FUNCTION_SEARCH = 'showMovies'
 	
 def load():
@@ -86,7 +86,7 @@ def showSearch():
     oGui = cGui()
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/?s=%D9%81%D9%84%D9%85+'+sSearchText
+        sUrl = URL_MAIN + '/?s='+sSearchText
         if 'مسلسل' in sUrl or 'موسم' in sUrl:
             showSeries(sUrl)
         showMovies(sUrl)
@@ -97,7 +97,7 @@ def showSeriesSearch():
     oGui = cGui()
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+'+sSearchText
+        sUrl = URL_MAIN + '/?s='+sSearchText
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return  
