@@ -202,7 +202,9 @@ def showMovies(sSearch = ''):
  
             if "فيلم" not in aEntry[1] and "عرض" not in aEntry[1]:
                 continue
- 
+            if "سيرفر"  in aEntry[1]:
+                continue
+             
             sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","").replace("عرض","").replace("الرو","").replace("بالتعليق العربي","[COLOR gold]- Arabic Commentary -[/COLOR]")
             siteUrl = aEntry[0]
             sThumb = re.sub(r'-\d*x\d*.','.', aEntry[2])

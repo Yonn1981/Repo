@@ -266,7 +266,7 @@ class cHosterGui:
             return self.getHoster('film77')
         if ('vidguard' in sHostName) or ('fertoto' in sHostName) or ('vgembed' in sHostName) or ('vgfplay' in sHostName):
             return self.getHoster('vidguard')
-        if ('filelions' in sHostName) or ('ajmidyadfihayh' in sHostName) or ('alhayabambi' in sHostName):
+        if ('filelions' in sHostName) or ('ajmidyadfihayh' in sHostName) or ('alhayabambi' in sHostName) or ('bazwatch' in sHostName) or ('cilootv' in sHostName) or ('motvy55' in sHostName):
             return self.getHoster('filelions')
         if ('vidello' in sHostName):
             f = self.getHoster('resolver')
@@ -744,6 +744,9 @@ class cHosterGui:
         
         if ('nitroflare' in sHostName or 'tubeload.' in sHostName or 'Facebook' in sHostName  or 'fastdrive' in sHostName or 'megaup.net' in sHostName  or 'openload' in sHostName):
             return False
+
+        if ('tuktuk' in sHosterUrl):
+            return self.getHoster('tuktuk')
 
         # lien direct ?
         if any(sHosterUrl.endswith(x) for x in ['.mp4', '.avi', '.flv', '.m3u8', '.webm', '.mkv', '.mpd']):

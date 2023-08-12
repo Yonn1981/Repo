@@ -618,7 +618,7 @@ def showServer(oInputParameterHandler = False):
                     if aResult[0]:
                         for aEntry in aResult[1]:
             
-                            url = aEntry.replace("cimanow","rrsrrs")
+                            url = aEntry.replace("cimanow","rrsrrs").replace("newcima","rrsrrs")
                             sTitle = sMovieTitle
                             if url.startswith('//'):
                                 url = 'http:' + url

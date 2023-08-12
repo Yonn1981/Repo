@@ -181,6 +181,11 @@
             "active": "True",
             "url": "https://cinemana.work/"
         },
+        "cinematy": {
+            "label": "Cinematy",
+            "active": "True",
+            "url": "https://cinematy.online/"
+        },
         "daily": {
             "label": "Daily IPTV List",
             "active": "True",
@@ -218,8 +223,8 @@
         },
         "egydead": {
             "label": "Egydead",
-            "active": "False",
-            "url": "https://a16.egydead.live/"
+            "active": "True",
+            "url": "https://a23.egydead.live/"
         },
         "ehna": {
             "label": "Ehna",

@@ -453,7 +453,7 @@ def showHosters(oInputParameterHandler = False):
 
 
 
-        sPattern = "<iframe src='([^']+)"
+        sPattern = 'data-src=["\']([^"\']+)["\']'
         oParser = cParser()
         aResult = oParser.parse(sHtmlContent, sPattern)
 

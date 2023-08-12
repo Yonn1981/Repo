@@ -93,6 +93,7 @@ def showMoviesSearch(sSearch = ''):
             sTitle = aEntry[2].replace("مترجم عربي","مترجم").replace("مترجم","[COLOR yellow]مترجم[/COLOR]").replace("مشاهدة","").replace("المسلسل العائلي","").replace("كرتون","").replace("انمي","").replace("مترجمة","").replace("برنامج","").replace("فيلم","").replace("مسلسل","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","").replace("الموسم العاشر","S10").replace("الموسم الحادي عشر","S11").replace("الموسم الثاني عشر","S12").replace("الموسم الثالث عشر","S13").replace("الموسم الرابع عشر","S14").replace("الموسم الخامس عشر","S15").replace("الموسم السادس عشر","S16").replace("الموسم السابع عشر","S17").replace("الموسم الثامن عشر","S18").replace("الموسم التاسع عشر","S19").replace("الموسم العشرون","S20").replace("الموسم الحادي و العشرون","S21").replace("الموسم الثاني و العشرون","S22").replace("الموسم الثالث و العشرون","S23").replace("الموسم الرابع والعشرون","S24").replace("الموسم الخامس و العشرون","S25").replace("الموسم السادس والعشرون","S26").replace("الموسم السابع والعشرون","S27").replace("الموسم الثامن والعشرون","S28").replace("الموسم التاسع والعشرون","S29").replace("الموسم الثلاثون","S30").replace("الموسم الحادي و الثلاثون","S31").replace("الموسم الثاني والثلاثون","S32").replace("الموسم الاول","S1").replace("الموسم الثاني","S2").replace("الموسم الثالث","S3").replace("الموسم الثالث","S3").replace("الموسم الرابع","S4").replace("الموسم الخامس","S5").replace("الموسم السادس","S6").replace("الموسم السابع","S7").replace("الموسم الثامن","S8").replace("الموسم التاسع","S9").replace("الموسم","S").replace("S ","S").replace("الحلقة "," E")
             siteUrl = aEntry[0]
             sThumb = aEntry[1]
+            sThumb = re.sub(r'-\d*x\d*.','.', sThumb)
             sYear = ''
             sDesc = ''
 
@@ -159,6 +160,7 @@ def showSeriesSearch(sSearch = ''):
             sTitle = aEntry[2].replace("مترجم عربي","مترجم").replace("مترجم","[COLOR yellow]مترجم[/COLOR]").replace("مشاهدة","").replace("المسلسل العائلي","").replace("كرتون","").replace("انمي","").replace("مترجمة","").replace("برنامج","").replace("فيلم","").replace("مسلسل","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","").replace("الموسم العاشر","S10").replace("الموسم الحادي عشر","S11").replace("الموسم الثاني عشر","S12").replace("الموسم الثالث عشر","S13").replace("الموسم الرابع عشر","S14").replace("الموسم الخامس عشر","S15").replace("الموسم السادس عشر","S16").replace("الموسم السابع عشر","S17").replace("الموسم الثامن عشر","S18").replace("الموسم التاسع عشر","S19").replace("الموسم العشرون","S20").replace("الموسم الحادي و العشرون","S21").replace("الموسم الثاني و العشرون","S22").replace("الموسم الثالث و العشرون","S23").replace("الموسم الرابع والعشرون","S24").replace("الموسم الخامس و العشرون","S25").replace("الموسم السادس والعشرون","S26").replace("الموسم السابع والعشرون","S27").replace("الموسم الثامن والعشرون","S28").replace("الموسم التاسع والعشرون","S29").replace("الموسم الثلاثون","S30").replace("الموسم الحادي و الثلاثون","S31").replace("الموسم الثاني والثلاثون","S32").replace("الموسم الاول","S1").replace("الموسم الثاني","S2").replace("الموسم الثالث","S3").replace("الموسم الثالث","S3").replace("الموسم الرابع","S4").replace("الموسم الخامس","S5").replace("الموسم السادس","S6").replace("الموسم السابع","S7").replace("الموسم الثامن","S8").replace("الموسم التاسع","S9").replace("الموسم","S").replace("S ","S").replace("الحلقة "," E")
             siteUrl = aEntry[0]
             sThumb = aEntry[1]
+            sThumb = re.sub(r'-\d*x\d*.','.', sThumb)
             sYear = ''
             sDesc = ''
 
@@ -225,6 +227,7 @@ def showMovies(sSearch = ''):
             sTitle = aEntry[1].replace("مشاهدة","").replace("مترجم عربي","مترجم").replace("مترجم","[COLOR yellow]مترجم[/COLOR]").replace("المسلسل العائلي","").replace("كرتون","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
             siteUrl = aEntry[2]
             sThumb = aEntry[0]
+            sThumb = re.sub(r'-\d*x\d*.','.', sThumb)
             sYear = ''
             sDesc = ''
 
@@ -275,6 +278,7 @@ def showSeries(sSearch = ''):
             sTitle = aEntry[1].replace("مشاهدة","").replace("مترجم عربي","مترجم").replace("مترجم","[COLOR yellow]مترجم[/COLOR]").replace("المسلسل العائلي","").replace("كرتون","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","").replace("الموسم العاشر","S10").replace("الموسم الحادي عشر","S11").replace("الموسم الثاني عشر","S12").replace("الموسم الثالث عشر","S13").replace("الموسم الرابع عشر","S14").replace("الموسم الخامس عشر","S15").replace("الموسم السادس عشر","S16").replace("الموسم السابع عشر","S17").replace("الموسم الثامن عشر","S18").replace("الموسم التاسع عشر","S19").replace("الموسم العشرون","S20").replace("الموسم الحادي و العشرون","S21").replace("الموسم الثاني و العشرون","S22").replace("الموسم الثالث و العشرون","S23").replace("الموسم الرابع والعشرون","S24").replace("الموسم الخامس و العشرون","S25").replace("الموسم السادس والعشرون","S26").replace("الموسم السابع والعشرون","S27").replace("الموسم الثامن والعشرون","S28").replace("الموسم التاسع والعشرون","S29").replace("الموسم الثلاثون","S30").replace("الموسم الحادي و الثلاثون","S31").replace("الموسم الثاني والثلاثون","S32").replace("الموسم الاول","S1").replace("الموسم الثاني","S2").replace("الموسم الثالث","S3").replace("الموسم الثالث","S3").replace("الموسم الرابع","S4").replace("الموسم الخامس","S5").replace("الموسم السادس","S6").replace("الموسم السابع","S7").replace("الموسم الثامن","S8").replace("الموسم التاسع","S9").replace("الموسم","S").replace("S ","S").replace("الحلقة "," E")
             siteUrl = aEntry[2]
             sThumb = aEntry[0]
+            sThumb = re.sub(r'-\d*x\d*.','.', sThumb)
             sYear = ''
             sDesc = ''
 
@@ -327,6 +331,7 @@ def showEpisodes():
             sTitle = sMovieTitle+' '+sSea+sEp
             siteUrl = aEntry[2].replace("'","").replace('"',"")
             sThumb =  aEntry[0].replace("'","").replace('"',"")
+            sThumb = re.sub(r'-\d*x\d*.','.', sThumb)
             sDesc = ''
 			
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -368,30 +373,33 @@ def showHosters(oInputParameterHandler = False):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-               
-
+    hostName = ''
+    shost = ''
+    sPattern =  '"ajax_url":"([^"]+)' 
+    aResult = oParser.parse(sHtmlContent,sPattern)
+    if aResult[0]:
+        hostAjax = aResult[1][0].replace('\\','')
+        shost = hostAjax.split('/watch')[0]
+            
     sPattern =  '/?download=([^<]+)&itag'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-
 	
     if aResult[0]:
        total = len(aResult[1])
        for aEntry in aResult[1]:       
-           url = 'https://www.stardima.co/watch/player/player.php?slug='+aEntry
+           url = shost+'/watch/player/player.php?slug='+aEntry
 				
-					
-            
            sHosterUrl = url 
            oHoster = cHosterGui().checkHoster(sHosterUrl)
            if oHoster:
                oHoster.setDisplayName(sMovieTitle)
                oHoster.setFileName(sMovieTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
-    from resources.lib.util import Quote
+               
     cook = oRequestHandler.GetCookies()
             
-    sPattern =  'data-type="(.+?)" data-post="(.+?)" data-nume="(.+?)">'
+    sPattern =  'data-type=["\']([^"\']+)["\'] data-post=["\']([^"\']+)["\'] data-nume=["\']([^"\']+)["\']'
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0]:
        total = len(aResult[1])
@@ -403,11 +411,11 @@ def showHosters(oInputParameterHandler = False):
            s = requests.Session()            
            headers = {'User-Agent': 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1',
 							'cookie': cook,
-							'host': 'stardima.co',
-							'origin': 'https://stardima.co',
+							'host': shost.split('//')[1],
+							'origin': shost,
 							'Referer': Quote(sUrl)}
            data = {'post':m3url,'action':'doo_player_ajax','nume':mnume,'type':mtype}
-           r = s.post(URL_MAIN + '/wp-admin/admin-ajax.php', headers=headers,data = data)
+           r = s.post(hostAjax, headers=headers,data = data)
            sHtmlContent = r.content.decode('utf8')
     # (.+?) .+? ([^<]+)
  
@@ -427,9 +435,7 @@ def showHosters(oInputParameterHandler = False):
                      url = url.split('/?id=', 1)[1]
                   if url.startswith('//'):
                      url = 'https:' + url
-				
-					
-            
+				            
                   sHosterUrl = url
                   oHoster = cHosterGui().checkHoster(sHosterUrl)
                   if oHoster:
@@ -438,4 +444,4 @@ def showHosters(oInputParameterHandler = False):
                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 				
                 
-    oGui.setEndOfDirectory()				
+    oGui.setEndOfDirectory()			

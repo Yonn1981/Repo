@@ -449,7 +449,7 @@ def showHosters(oInputParameterHandler = False):
     oRequestHandler.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
     sHtmlContent = oRequestHandler.request()
     # (.+?) ([^<]+) .+?
-              
+    oGui.addText(SITE_IDENTIFIER,'[COLOR olive]-----●★| Watch LInks |★●-----[/COLOR]')              
     sPattern = 'data-link="(.+?)" class='
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -475,8 +475,9 @@ def showHosters(oInputParameterHandler = False):
                 oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
-    # (.+?) ([^<]+) .+?
 
+
+    oGui.addText(SITE_IDENTIFIER,'[COLOR olive]-----●★| Download LInks |★●-----[/COLOR]')
     sPattern = '<a target="_blank" href="(.+?)" class="download--direct"><i class="fa fa-download"></i><span>(.+?)</span>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
