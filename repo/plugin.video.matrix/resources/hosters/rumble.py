@@ -10,7 +10,7 @@ from resources.lib.packer import cPacker
 class cHoster(iHoster):
 
     def __init__(self):
-        iHoster.__init__(self, 'rumble', 'rumble')
+        iHoster.__init__(self, 'rumble', 'Rumble')
 
     def setUrl(self, sUrl):
         self._url = str(sUrl)
@@ -42,5 +42,25 @@ class cHoster(iHoster):
  
             if api_call:
                 return True, api_call 
+
+        else:
+            sPattern = 'RESOLUTION=(\d+x\d{0,3}).+?(https.+?m3u8)'
+            aResult = oParser.parse(sHtmlContent, sPattern)
+        
+            api_call = False
+
+            if aResult[0]:            
+            #initialisation des tableaux
+                url=[]
+                qua=[]
+            
+            #Replissage des tableaux
+                for i in aResult[1]:
+                    url.append(str(i[1]))
+                    qua.append(str(i[0]))
+                api_call = dialog().VSselectqual(qua, url)
+ 
+                if api_call:
+                    return True, api_call 
 
         return False, False

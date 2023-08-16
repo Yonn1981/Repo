@@ -204,6 +204,29 @@ def showHosters(oInputParameterHandler = False):
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl , sThumb, oInputParameterHandler=oInputParameterHandler)
 
     oParser = cParser()           
+    sPattern =  '<IFRAME sandbox.+?data-lazy-src="([^"]+)'                                                                
+    aResult = oParser.parse(sHtmlContent,sPattern)
+
+    if aResult[0]:
+        for aEntry in aResult[1]:
+            if 'imgur' in aEntry:
+                continue
+            url = aEntry
+  
+            sTitle = sMovieTitle
+            sThumb = sThumb
+            if url.startswith('//'):
+               url = 'http:' + url
+				
+				            
+            sHosterUrl = url 
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if oHoster:
+               oHoster.setDisplayName(sTitle)
+               oHoster.setFileName(sMovieTitle)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl , sThumb, oInputParameterHandler=oInputParameterHandler)
+
+    oParser = cParser()           
     sPattern =  '</span><a href=.+?data-lazy-src="([^"]+)'
 	
                                                                  

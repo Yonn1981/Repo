@@ -534,6 +534,9 @@ class cHosterGui:
         if ('play.imovietime' in sHosterUrl):
             return self.getHoster('moviztime')
 
+        if ('send.cm' in sHosterUrl):
+            return self.getHoster('sendme')
+
         if ('shoffree' in sHostName) or ('egy-best' in sHostName):
             return self.getHoster('shoffree')
 
@@ -626,6 +629,18 @@ class cHosterGui:
 
         if ('vedpom' in sHostName) or ('vidbem' in sHostName):
             return self.getHoster('vidbem')
+
+        if ('vkplay' in sHostName):
+            return self.getHoster('vkplay')
+
+        if ('sharecast' in sHostName):
+            return self.getHoster('sharecast')
+
+        if ('live7' in sHostName):
+            return self.getHoster('live7')
+
+        if ('voodc' in sHostName):
+            return self.getHoster('voodc')
 
         if ('vk.com' in sHostName) or ('vkontakte' in sHostName) or ('vkcom' in sHostName) or ('vk.ru' in sHostName):
             return self.getHoster('vk')
@@ -745,7 +760,7 @@ class cHosterGui:
         if ('nitroflare' in sHostName or 'tubeload.' in sHostName or 'Facebook' in sHostName  or 'fastdrive' in sHostName or 'megaup.net' in sHostName  or 'openload' in sHostName):
             return False
 
-        if ('tuktuk' in sHosterUrl):
+        if ('tuktuk' in sHosterUrl)  or ('volvovideo' in sHostName):
             return self.getHoster('tuktuk')
 
         # lien direct ?

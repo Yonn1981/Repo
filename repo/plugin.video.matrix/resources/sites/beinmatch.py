@@ -38,14 +38,15 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
  
 # ([^<]+) .+? (.+?)
+    oParser = cParser()
+    sPattern =  '<link rel="canonical" href="([^"]+)' 
+    aResult = oParser.parse(sHtmlContent,sPattern)
+    if aResult[0]:
+        mSite = aResult[1][0] 
 
     sPattern = '<button class="btn" onclick="goToMatch(.+?),([^<]+);">(.+?)</button>'
-
-
-
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-	
 	
     if aResult[0]:
         total = len(aResult[1])
@@ -58,7 +59,7 @@ def showMovies(sSearch = ''):
  
             sTitle =  aEntry[1].replace(')','').replace("'",'').replace('_',' ')
             sThumb = ""
-            siteUrl = "https://beinmatch.life/bein/live/"+aEntry[0].replace('(','')
+            siteUrl = mSite+"bein/live/"+aEntry[0].replace('(','')
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + aEntry[0]
             sDesc = aEntry[2]
@@ -81,15 +82,23 @@ def showLive(oInputParameterHandler = False):
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
- 
+
     oRequestHandler = cRequestHandler(sUrl)
-    oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1')
-    oRequestHandler.addHeaderEntry('authority', 'beinmatch.life')
-    sHtmlContent1 = oRequestHandler.request()
+    sHtmlContent = oRequestHandler.request()
+
     oParser = cParser()
-    # (.+?) # ([^<]+) .+? 
+    sPattern =  '<link rel="canonical" href="([^"]+)' 
+    aResult = oParser.parse(sHtmlContent,sPattern)
+    if aResult[0]:
+        mSite = aResult[1][0] 
+
+    oParser = cParser()
+    sStart = '<div id="contentBody">'
+    sEnd = '<div id="leftSide">'
+    sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
+
     sPattern = 'source: "(.+?)",'
-    aResult = oParser.parse(sHtmlContent1, sPattern)
+    aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
         for aEntry in aResult[1]:
             
@@ -97,9 +106,9 @@ def showLive(oInputParameterHandler = False):
             sHosterUrl = url
             sMovieTitle = sMovieTitle
             if 'vimeo' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + sUrl
+                sHosterUrl = sHosterUrl + "|Referer=" + mSite
             if 'vimeo' not in sHosterUrl:
-                sHosterUrl = sHosterUrl + '|AUTH=TLS&verifypeer=false&Referer=' + sUrl
+                sHosterUrl = sHosterUrl + '|AUTH=TLS&verifypeer=false&Referer=' + mSite
             if sHosterUrl.startswith('//'):
                 sHosterUrl = 'http:' + sHosterUrl            
 
@@ -108,35 +117,38 @@ def showLive(oInputParameterHandler = False):
                 oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
-    # (.+?) # ([^<]+) .+? 
-    sPattern = '<iframe.+?src="([^"]+)'
-    aResult = oParser.parse(sHtmlContent1, sPattern)
+
+    sPattern = '><iframe.+?src="([^"]+)'
+    aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
         for aEntry in aResult[1]:
             
             url = aEntry
             if '.php' in url:           
                 oRequestHandler = cRequestHandler(url)
-                sHtmlContent = oRequestHandler.request() 
+                sHtmlContent1 = oRequestHandler.request() 
                 sPattern =  'src="([^"]+)'
-                aResult = oParser.parse(sHtmlContent,sPattern)
+                aResult = oParser.parse(sHtmlContent1,sPattern)
                 if aResult[0]:
                      url = aResult[1][0]
  
                      sHosterUrl = url
                      sMovieTitle = sMovieTitle  
                      if 'vimeo' in sHosterUrl:
-                         sHosterUrl = sHosterUrl + "|Referer=" + sUrl                  
+                         sHosterUrl = sHosterUrl + "|Referer=" + mSite                  
 
                      oHoster = cHosterGui().checkHoster(sHosterUrl)
                      if oHoster:
                                oHoster.setDisplayName(sMovieTitle)
                                oHoster.setFileName(sMovieTitle)
                                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+            if 'youtube' in url:
+                url = url.split('?')[0]
+                
             sHosterUrl = url
             sMovieTitle = sMovieTitle
             if 'vimeo' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + sUrl
+                sHosterUrl = sHosterUrl + "|Referer=" + mSite
 
             if sHosterUrl.startswith('//'):
                 sHosterUrl = 'http:' + sHosterUrl            
@@ -147,44 +159,88 @@ def showLive(oInputParameterHandler = False):
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
-    # (.+?) # ([^<]+) .+? 
-    sPattern = 'href="javascript:goToMatch(.+?), (.+?),'
-    
+    sPattern = 'onclick="goToLink(.+?), (.+?),'  
     oParser = cParser()
-    aResult = oParser.parse(sHtmlContent1, sPattern)
-
+    aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
 
         for aEntry in aResult[1]:
- 
-
-            siteUrl = "https://beinmatch.life/bein/live/"+aEntry[0].replace("(","")
+            siteUrl = mSite+"bein/live/"+aEntry[0].replace("(","")
             siteUrl = siteUrl+'/'+aEntry[1]
             oRequestHandler = cRequestHandler(siteUrl)
-            sHtmlContent = oRequestHandler.request()
+            sHtmlContent0 = oRequestHandler.request()
+            oParser = cParser()
+            sStart = '<div id="contentBody">'
+            sEnd = '<div id="leftSide">'
+            sHtmlContent0 = oParser.abParse(sHtmlContent0, sStart, sEnd)
+            sPattern = '<iframe.+?src="([^"]+)'
+            aResult = oParser.parse(sHtmlContent0, sPattern)
+            if aResult[0]:
+                for aEntry in aResult[1]:
+                    url = aEntry
+                    sHosterUrl = url
+                    sDisplayTitle = sMovieTitle
+
+                    if sHosterUrl.startswith('//'):
+                        sHosterUrl = 'http:' + sHosterUrl            
+                    sHosterUrl = sHosterUrl + '|AUTH=TLS&verifypeer=false&Referer=' + mSite
+                    oHoster = cHosterGui().checkHoster(sHosterUrl)
+                    if oHoster:
+                        oHoster.setDisplayName(sDisplayTitle)
+                        oHoster.setFileName(sMovieTitle)
+                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+
+
+    sPattern = 'href="javascript:goToMatch(.+?), (.+?),.+?>(.+?)</a>'   
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    if aResult[0]:
+
+        for aEntry in aResult[1]:
+            sTitle = aEntry[2]
+            siteUrl = mSite+"bein/live/"+aEntry[0].replace("(","")
+            siteUrl = siteUrl+'/'+aEntry[1]
+            oRequestHandler = cRequestHandler(siteUrl)
+            sHtmlContent2 = oRequestHandler.request()
             oParser = cParser()
             sPattern = '<iframe.+?src="([^"]+)'
-            aResult = oParser.parse(sHtmlContent, sPattern)
+            aResult = oParser.parse(sHtmlContent2, sPattern)
+            if aResult[0]:
+                for aEntry in aResult[1]:
+                    url = aEntry
+                    sHosterUrl = url
+                    sDisplayTitle = sMovieTitle+' - '+sTitle
 
+                    if sHosterUrl.startswith('//'):
+                        sHosterUrl = 'http:' + sHosterUrl            
+                    sHosterUrl = sHosterUrl + '|AUTH=TLS&verifypeer=false&Referer=' + mSite
+                    oHoster = cHosterGui().checkHoster(sHosterUrl)
+                    if oHoster:
+                        oHoster.setDisplayName(sDisplayTitle)
+                        oHoster.setFileName(sMovieTitle)
+                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+
+            sPattern = 'source: "(.+?)",'
+            aResult = oParser.parse(sHtmlContent, sPattern)
             if aResult[0]:
                 for aEntry in aResult[1]:
             
                     url = aEntry
                     sHosterUrl = url
-                    sMovieTitle = sMovieTitle
+                    sDisplayTitle = sMovieTitle+' - '+sTitle
 
                     if sHosterUrl.startswith('//'):
                         sHosterUrl = 'http:' + sHosterUrl            
-
+                    sHosterUrl = sHosterUrl + '|AUTH=TLS&verifypeer=false&Referer=' + mSite
                     oHoster = cHosterGui().checkHoster(sHosterUrl)
                     if oHoster:
-                        oHoster.setDisplayName(sMovieTitle)
+                        oHoster.setDisplayName(sDisplayTitle)
                         oHoster.setFileName(sMovieTitle)
                         cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
     else:
-        sPattern = 'src="([^<]+)" width'
-        aResult = oParser.parse(sHtmlContent1, sPattern)
+        sPattern = 'id="video-container".+?<video.+?src="([^"]+)'
+        aResult = oParser.parse(sHtmlContent, sPattern)
         if aResult[0]:
             for aEntry in aResult[1]:
             
@@ -194,54 +250,9 @@ def showLive(oInputParameterHandler = False):
 
                 oHoster = cHosterGui().checkHoster(sHosterUrl)
                 if oHoster:
-                    oHoster.setDisplayName(sMovieTitle)
+                    oHoster.setDisplayName('لم يتم بعد وضع بث لهذه المباراة')
                     oHoster.setFileName(sMovieTitle)
                     cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
             
     oGui.setEndOfDirectory() 
-	
-def showHosters(oInputParameterHandler = False):
-    oGui = cGui()
-    oInputParameterHandler = cInputParameterHandler()
-    sUrl = oInputParameterHandler.getValue('siteUrl')
-    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumb = oInputParameterHandler.getValue('sThumb')
- 
-    oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
-    oParser = cParser()
-
-    sPattern = 'href="javascript:goToMatch(.+?), (.+?),'
-    
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-   
-    if aResult[0]:
-        for aEntry in aResult[1]:
-            siteUrl = "https://beinmatch.life/bein/live/"+aEntry[0].replace("(","")
-            siteUrl = siteUrl+'/'+aEntry[1]
-
-            oRequestHandler = cRequestHandler(siteUrl)
-            sHtmlContent = oRequestHandler.request()
-            oParser = cParser()
-            sPattern = '<iframe.+?src="([^"]+)'
-            aResult = oParser.parse(sHtmlContent, sPattern)
-            VSlog(aResult)
-            if aResult[0]:
-                for aEntry in aResult[1]:
-            
-                    url = aEntry
-                    sHosterUrl = url
-                    sMovieTitle = sMovieTitle
-
-                    if sHosterUrl.startswith('//'):
-                        sHosterUrl = 'http:' + sHosterUrl            
-
-                    oHoster = cHosterGui().checkHoster(sHosterUrl)
-                    if oHoster:
-                        oHoster.setDisplayName(sMovieTitle)
-                        oHoster.setFileName(sMovieTitle)
-                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
-               
-    oGui.setEndOfDirectory()

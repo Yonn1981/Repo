@@ -10,7 +10,7 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager
 from resources.lib.parser import cParser
-from resources.lib.util import cUtil
+from resources.lib.util import cUtil, Unquote
 from resources.lib.util import Quote
  
 SITE_IDENTIFIER = 'koralive'
@@ -65,7 +65,7 @@ def showMovies():
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 
-            oGui.addMisc(SITE_IDENTIFIER, 'showLive', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addMisc(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  
@@ -87,18 +87,18 @@ def showLive(oInputParameterHandler = False):
     URLMAIN = 'https://' + URLMAIN
     if "?src=" in sUrl:
        slink = sUrl.split('?src=')[1]
-       VSlog(slink)
+
     sHtmlContent2 =""
     sHtmlContent1 =""
     sHtmlContent3 =""
       # (.+?) ([^<]+) .+?
-    sPattern = "iframe.src = ([^<]+)+link"
+    sPattern = 'iframe.src = ["\']([^"\']+)["\']'
     aResult = oParser.parse(sHtmlContent, sPattern)   
     if (aResult[0]):
-        sUrl = aResult[1][0].replace("'","")
-        VSlog(sUrl)
+        sUrl = aResult[1][0]
+
         sUrl = sUrl+slink
-        VSlog(sUrl)
+
         oRequestHandler = cRequestHandler(sUrl)
         sHtmlContent3 = oRequestHandler.request()
       # (.+?) ([^<]+) .+?
@@ -108,7 +108,7 @@ def showLive(oInputParameterHandler = False):
         sUrl = aResult[1][0]
         if sUrl.startswith('/'):
            sUrl = URLMAIN + sUrl
-        VSlog(sUrl)
+
         oRequestHandler = cRequestHandler(sUrl)
         sHtmlContent = oRequestHandler.request()
     # (.+?) # ([^<]+) .+? 
@@ -342,167 +342,178 @@ def showLive(oInputParameterHandler = False):
 
                 
     oGui.setEndOfDirectory()			
-def showHosters(oInputParameterHandler = False):
-    import requests
-    oGui = cGui()
-    oInputParameterHandler = cInputParameterHandler()
-    sUrl = oInputParameterHandler.getValue('siteUrl')
-    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumb = oInputParameterHandler.getValue('sThumb')                    
-       
-    oParser = cParser()
 
-
-    oRequestHandler = cRequestHandler(sUrl)
-    hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Mobile Safari/537.36','Origin' : 'kora.360kora.live','Referer' : 'https://kora.360kora.live'}
-    St=requests.Session()              
-    sHtmlContent = St.get(sUrl,headers=hdr).content.decode('utf-8')            
-
-    # (.+?) .+? ([^<]+)
-    sPattern = 'href="(.+?)" target="search_iframe">(.+?)</a>'
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    if aResult[0]:
-        for aEntry in aResult[1]:
-            sTitle = aEntry[1]
-            url = aEntry[0]
-            if '.m3u8' in url:           
-                url = url.split('=')[1] 
-            if '.php' in url:           
-                oRequestHandler = cRequestHandler(url)
-                hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Mobile Safari/537.36','referer' : 'https://riyadh.himtree.com/'}
-                St=requests.Session()
-                sHtmlContent = St.get(url,headers=hdr)
-                sHtmlContent2 = sHtmlContent.content 
-                sPattern =  'src="(.+?)"'
-                aResult = oParser.parse(sHtmlContent2,sPattern)
-                if aResult[0]:
-                   url = aResult[1][0]
-                sPattern =  '(http[^<]+m3u8)'
-                aResult = oParser.parse(sHtmlContent2,sPattern)
-                if aResult[0]:
-                   url = aResult[1][0]
-                oParser = cParser()
-                sPattern =  'source: "(.+?)",'
-                aResult = oParser.parse(sHtmlContent2,sPattern)
-                if aResult[0]:
-                   url = aResult[1][0]
-                sPattern =  "source: '(.+?)',"
-                aResult = oParser.parse(sHtmlContent2,sPattern)
-                if aResult[0]:
-                   url = aResult[1][0]
-            if 'embed' in url:
-                oRequestHandler = cRequestHandler(url)
-                sHtmlContent2 = St.get(url).content
-                oParser = cParser()
-                sPattern =  'src="(.+?)" scrolling="no">'
-                aResult = oParser.parse(sHtmlContent2,sPattern)
-                if aResult[0]:
-                   url = aResult[1][0]
-            if '/dash/' in url:
-                oRequestHandler = cRequestHandler(url)
-                sHtmlContent4 = St.get(url).content
-                regx = '''var s = '(.+?)';.+?url="(.+?)".+?s;'''
-                var = re.findall(regx,sHtmlContent4,re.S)
-                if var:
-                   a = var[0][0]
-                   a = a.replace('\\','')
-                   b = var[0][1]
-                   url = 'https://video-a-sjc.xx.fbcdn.net/hvideo-ash66'+a
-            sHosterUrl = url+ '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" + '&Referer=' + URL_MAIN
-            
-
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if oHoster:
-                oHoster.setDisplayName(sTitle)
-                oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
-
-    sPattern = "'link': u'(.+?)',"
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    if aResult[0]:
-        for aEntry in aResult[1]:
-            
-            url = aEntry
-            if '.php?' in url:
-                oRequestHandler = cRequestHandler(url)
-                sHtmlContent2 = St.get(url).content
-                oParser = cParser()
-                sPattern =  'source: "(.+?)",'
-                aResult = oParser.parse(sHtmlContent2,sPattern)
-                if aResult[0]:
-                   url = aResult[1][0]
-            if 'embed' in url:
-                oRequestHandler = cRequestHandler(url)
-                sHtmlContent2 = St.get(url).content
-                oParser = cParser()
-                sPattern =  'src="(.+?)" scrolling="no">'
-                aResult = oParser.parse(sHtmlContent2,sPattern)
-                if aResult[0]:
-                   url = aResult[1][0]
-            if 'multi.html' in url:
-                url2 = url.split('=') 
-                live = url2[1].replace("&ch","")
-                ch = url2[2]
-                oRequestHandler = cRequestHandler(url)
-                sHtmlContent2 = St.get(url).content
-                oParser = cParser()
-                sPattern =  "var src = (.+?),"
-                aResult = oParser.parse(sHtmlContent2,sPattern)
-                if aResult[0]:
-                    url2 = aResult[1][0].split('hls:')
-                    url2 = url2[1].split('+')
-                    url2 = url2[0].replace("'","")
-                    url = url2+live+'/'+ch+'.m3u8'
-            if '/dash/' in url:
-                oRequestHandler = cRequestHandler(url)
-                sHtmlContent4 = St.get(url).content
-                regx = '''var s = '(.+?)';.+?url="(.+?)".+?s;'''
-                var = re.findall(regx,sHtmlContent4,re.S)
-                if var:
-                   a = var[0][0]
-                   a = a.replace('\\','')
-                   b = var[0][1]
-                   url = 'https://video-a-sjc.xx.fbcdn.net/hvideo-ash66'+a
-            sHosterUrl = url+ '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" + '&Referer=' + URL_MAIN
-            sMovieTitle = 'link'
-            
-
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if oHoster:
-                oHoster.setDisplayName(sMovieTitle+' '+sTitle)
-                oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
-
-
-    oGui.setEndOfDirectory()
   	
 def showHosters(oInputParameterHandler = False):
     oGui = cGui()
+    import requests
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
     
+    UA = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:56.0) Gecko/20100101 Firefox/56.0'
+
     oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request();
-    oParser = cParser() # (.+?) .+? ([^<]+)
-    sPattern = 'frameborder="0" allowfullscreen="" allow="autoplay" src="https.+?link=(.+?)" scrolling="no">' 
+    sHtmlContent = oRequestHandler.request()
+    cook = oRequestHandler.GetCookies()
+
+    oParser = cParser()
+    sPattern =  "'homepageUrl': '([^']+)" 
+    aResult = oParser.parse(sHtmlContent,sPattern)
+    if aResult[0]:
+        mSite = aResult[1][0] 
+
+    oParser = cParser()
+    sPattern = '; setURL(.+?)">(.+?)</button>'
     aResult = oParser.parse(sHtmlContent, sPattern)
+
     if aResult[0]:
         for aEntry in aResult[1]:
-            
-            url = aEntry
-            sTitle = sMovieTitle
-            if url.startswith('//'):
-                url = 'https:' + url
+            sQual = aEntry[1]
+            url = mSite + aEntry[0].replace("('","").replace("')","")
+            headers2 = {'Referer': sUrl,
+                        'authority': 'medo.360koralive.com',
+                        'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36 Edg/115.0.1901.203',
+                        'Cookie': cook,
+                        'Sec-Fetch-Dest':'iframe',
+                        'Sec-Fetch-Mode':'navigate',
+                        'Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7'
+                        }
+            req = requests.get(url ,headers=headers2)
+            sHtmlContent = str(req.text)
+            oParser = cParser()
+            sPattern = 'source:\s*["\']([^"\']+)["\']'
+            aResult = oParser.parse(sHtmlContent, sPattern)
+
+            if aResult[0]:
+                for aEntry in aResult[1]:
+                    url = aEntry
+                    sTitle = ('%s [COLOR coral](%s)[/COLOR]') % (sMovieTitle, sQual)
+                    if url.startswith('//'):
+                        url = 'https:' + url
             
                 
-            sHosterUrl = url
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if oHoster:
-                oHoster.setDisplayName(sTitle)
-                oHoster.setFileName(sTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                    sHosterUrl = url
+                    oHoster = cHosterGui().checkHoster(sHosterUrl)
+                    sHosterUrl = sHosterUrl + '|AUTH=TLS&verifypeer=false'
+                    if oHoster:
+                        oHoster.setDisplayName(sTitle)
+                        oHoster.setFileName(sTitle)
+                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+
+            sPattern = 'loadSource(.+?);'
+            aResult = oParser.parse(sHtmlContent, sPattern)
+
+            if aResult[0]:
+                for aEntry in aResult[1]:
+                    url = aEntry.replace("('","").replace("')","")
+                    sTitle = ('%s [COLOR coral](%s)[/COLOR]') % (sMovieTitle, sQual)
+                    if url.startswith('//'):
+                        url = 'https:' + url
+            
+                
+                    sHosterUrl = url
+                    oHoster = cHosterGui().checkHoster(sHosterUrl)
+                    sHosterUrl = sHosterUrl + '|AUTH=TLS&verifypeer=false'
+                    if oHoster:
+                        oHoster.setDisplayName(sTitle)
+                        oHoster.setFileName(sTitle)
+                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+
+            sPattern = '<iframe.+?src="([^"]+)'
+            aResult = oParser.parse(sHtmlContent, sPattern)
+            if aResult[0]:
+                for aEntry in aResult[1]:
+                    url = aEntry
+                    sHosterUrl = url
+                    sDisplayTitle = ('%s [COLOR coral](%s)[/COLOR]') % (sMovieTitle, sQual)
+
+                    if sHosterUrl.startswith('//'):
+                        sHosterUrl = 'http:' + sHosterUrl            
+                    oHoster = cHosterGui().checkHoster(sHosterUrl)
+                    if oHoster:
+                        oHoster.setDisplayName(sDisplayTitle)
+                        oHoster.setFileName(sMovieTitle)
+                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+    else:
+        sPattern = 'iframe.src = ["\']([^"\']+)["\']'
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        if aResult[0]:
+                for aEntry in aResult[1]:
+                    url = aEntry
+
+                    if 'albaplayer' in url:
+                        url = url + sUrl.split('src=')[1]
+                        oRequestHandler = cRequestHandler(url)
+                        data = oRequestHandler.request()
+
+                        oParser = cParser()
+                        sStart = 'class="albaplayer_name">'
+                        sEnd = 'class="albaplayer_site_name">'
+                        data = oParser.abParse(data, sStart, sEnd)
+                        sPattern =  'href=["\']([^"\']+)["\']'
+                        aResult = oParser.parse(data,sPattern)
+                        if aResult[0]:
+                            for aEntry in aResult[1]:
+                                url = aEntry
+                                oRequestHandler = cRequestHandler(url)
+                                data2 = oRequestHandler.request()
+                            
+                                sPattern =  '<iframe.+?src="([^"]+)'
+                                aResult = oParser.parse(data2,sPattern)
+                                if aResult[0]:
+                                    url = aResult[1][0]
+                                    if 'sharecast' in url:
+                                        Referer =  "https://sharecast.ws/"
+                                        oRequestHandler = cRequestHandler(url)
+                                        oRequestHandler.addHeaderEntry('Referer', Referer)
+                                        data3 = oRequestHandler.request()
+
+                                        sPattern2 = '"player","([^"]+)",{\'([^\']+)'
+
+                                        aResult = re.findall(sPattern2, data3)
+                                        if aResult:
+                                            sHosterUrl = 'https://%s/hls/%s/live.m3u8' % (aResult[0][1], aResult[0][0])
+                                            sHosterUrl += '|referer=https://sharecast.ws/'
+
+                                    if 'live7' in url:
+                                        oRequestHandler = cRequestHandler(url)
+                                        oRequestHandler.addHeaderEntry('Referer', Referer)
+                                        data3 = oRequestHandler.request()
+
+                                        sPatternUrl = 'hlsUrl = "https:\/\/" \+ ea \+ "([^"]+)"'
+                                        sPatternPK = 'var pk = "([^"]+)"'
+                                        sPatternEA = 'ea = "([^"]+)";'
+                                        aResultUrl = re.findall(sPatternUrl, data3)
+                                        aResultEA = re.findall(sPatternEA, data3)
+                                        aResultPK = re.findall(sPatternPK, data3)
+                                        if aResultUrl and aResultPK and aResultEA:
+                                            aResultPK = aResultPK[0][:53] + aResultPK[0][54:] 
+                                            url3 = aResultEA[0] + aResultUrl[0] + aResultPK
+                                            sHosterUrl = 'https://' + url3
+
+                                    sHosterUrl = url
+                                    sMovieTitle = sMovieTitle           
+
+                                    oHoster = cHosterGui().checkHoster(sHosterUrl)
+                                    if oHoster:
+                                        oHoster.setDisplayName(sMovieTitle)
+                                        oHoster.setFileName(sMovieTitle)
+                                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                    else:
+                        url = url + sUrl.split('src=')[1]                        
+                        sHosterUrl = url
+                    
+                    sDisplayTitle = sMovieTitle
+
+                    if sHosterUrl.startswith('//'):
+                        sHosterUrl = 'http:' + sHosterUrl            
+                    oHoster = cHosterGui().checkHoster(sHosterUrl)
+                    if oHoster:
+                        oHoster.setDisplayName(sDisplayTitle)
+                        oHoster.setFileName(sMovieTitle)
+                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
                 
     oGui.setEndOfDirectory()    

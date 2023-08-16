@@ -56,6 +56,6 @@ class cHoster(iHoster):
             api_call = dialog().VSselectqual(qua, url)
 
         if api_call:
-            return True, api_call+ '|Referer=' +self._url+'&cookie='+cookies
+            return True, api_call+ '|Referer=https://www.dailymotion.com/'
 
         return False, False

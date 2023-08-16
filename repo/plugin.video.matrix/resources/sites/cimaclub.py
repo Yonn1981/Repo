@@ -377,11 +377,9 @@ def showServers(oInputParameterHandler = False):
     oRequestHandler.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
     sHtmlContent = oRequestHandler.request()
 
-   
+    sReferer = sUrl.split('/watch')[0]
     oParser = cParser()
     
-    #Recuperation infos
-
     sPattern = '&_post_id=([^<]+)",'
     aResult = oParser.parse(sHtmlContent, sPattern)
     
@@ -424,19 +422,17 @@ def showServers(oInputParameterHandler = False):
 								            
                    sHosterUrl = url
                    if 'nowvid' in sHosterUrl:
-                       sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                       sHosterUrl = sHosterUrl + "|Referer=" + sReferer
                    if 'kvid' in sHosterUrl:
-                       sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                       sHosterUrl = sHosterUrl + "|Referer=" + sReferer
                    if 'userload' in sHosterUrl:
-                       sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-                   if 'moshahda' in sHosterUrl:
-                       sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                       sHosterUrl = sHosterUrl + "|Referer=" + sReferer
                    if 'mystream' in sHosterUrl:
-                       sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN    
+                       sHosterUrl = sHosterUrl + "|Referer=" + sReferer    
                    if 'darkveed' in sHosterUrl:
-                       sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+                       sHosterUrl = sHosterUrl + "|Referer=" + sReferer 
                    if 'telvod' in sHosterUrl:
-                       sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+                       sHosterUrl = sHosterUrl + "|Referer=" + sReferer 
                    oHoster = cHosterGui().checkHoster(sHosterUrl)
                    if oHoster:
                       sDisplayTitle = sMovieTitle
@@ -461,17 +457,15 @@ def showServers(oInputParameterHandler = False):
             
             sHosterUrl = url 
             if 'nowvid' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                sHosterUrl = sHosterUrl + "|Referer=" + sReferer
             if 'userload' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-            if 'moshahda' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                sHosterUrl = sHosterUrl + "|Referer=" + sReferer
             if 'mystream' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                sHosterUrl = sHosterUrl + "|Referer=" + sReferer
             if 'darkveed' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+                sHosterUrl = sHosterUrl + "|Referer=" + sReferer 
             if 'telvod' in sHosterUrl or 'downvol' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
+                sHosterUrl = sHosterUrl + "|Referer=" + sReferer  
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
                sDisplayTitle = sTitle
@@ -481,133 +475,3 @@ def showServers(oInputParameterHandler = False):
 
      
     oGui.setEndOfDirectory()	
- 
-def showServers1(oInputParameterHandler = False):
-    oGui = cGui()
-   
-    oInputParameterHandler = cInputParameterHandler()
-    sUrl = oInputParameterHandler.getValue('siteUrl')
-    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumb = oInputParameterHandler.getValue('sThumb')
-
-    oRequestHandler = cRequestHandler(sUrl)
-    oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
-    oRequestHandler.addHeaderEntry('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
-    oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
-    oRequestHandler.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
-    sHtmlContent = oRequestHandler.request()
-  
-    oParser = cParser()
-
-    sId='0'
-    # (.+?) ([^<]+) .+?
-
-    sPattern = '&_post_id=([^<]+)",'
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-   
-    if aResult[0]:
-        oOutputParameterHandler = cOutputParameterHandler()  
-        for aEntry in aResult[1]:
-           
-          for i in range(0,5):
-			
-            sId = URL_MAIN + '/ajaxCenter?_action=getserver&_post_id='+aEntry
-            sTitle = 'server '+': '+str(i)
-            siteUrl = sId+'&serverid='+str(i)
-            sDesc = ""
-
-            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle.replace(" موسم "," S").replace("الموسم ","S"))
-            oOutputParameterHandler.addParameter('sThumb', sThumb)
-			
-            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
-
-    # (.+?) .+? ([^<]+)        	
-    sPattern = 'rel="nofollow" href="(.+?)" class='
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-	
-    if aResult[0]:
-        for aEntry in aResult[1]:
-            
-            url = str(aEntry)
-            sTitle = sMovieTitle.replace(" موسم "," S").replace("الموسم ","S")
-            if url.startswith('//'):
-               url = 'http:' + url
-				
-					            
-            sHosterUrl = url 
-            if 'nowvid' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-            if 'userload' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-            if 'moshahda' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-            if 'mystream' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-            if 'telvod' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN    
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if oHoster:
-               sDisplayTitle = sTitle
-               oHoster.setDisplayName(sDisplayTitle)
-               oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
-       
-    oGui.setEndOfDirectory() 
-def showHosters(oInputParameterHandler = False):
-    oGui = cGui()
-    oInputParameterHandler = cInputParameterHandler()
-    sUrl = oInputParameterHandler.getValue('siteUrl')
-    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumb = oInputParameterHandler.getValue('sThumb')
-
-
-
-    oRequestHandler = cRequestHandler(sUrl)
-    oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
-    oRequestHandler.addHeaderEntry('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
-    oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
-    oRequestHandler.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
-    sHtmlContent = oRequestHandler.request()
-
-    sPattern = '([^<]+)'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-    if aResult[0]:
-        for aEntry in aResult[1]:
-        
-            url = str(aEntry)
-            sTitle = " "
-            if 'govid' in url:
-               url = url.replace("play","down").replace("embed-","")
-            if url.startswith('//'):
-               url = 'http:' + url
-				
-					
-            
-            sHosterUrl = url
-
-            if 'nowvid' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
-            if 'telvod' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
-            if 'userload' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-            if 'moshahda' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-            if 'mystream' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN   
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if oHoster:
-               sDisplayTitle = sMovieTitle+sTitle
-               oHoster.setDisplayName(sDisplayTitle)
-               oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
-				
-		
-                
-    oGui.setEndOfDirectory()

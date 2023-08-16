@@ -20,7 +20,7 @@ SITE_DESC = 'english vod'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-aniyomi = base64.b64decode('ZW5pbWF4').decode('utf8',errors='ignore')
+aniyomi = base64.b64decode('OTNkNDQyMzI3NTU0NGZmMDhlN2I4MjdkNmRlNTRlMmY=').decode('utf8',errors='ignore')
 
 MOVIE_EN = (URL_MAIN + '/movie', 'showMovies')
 KID_MOVIES = (URL_MAIN + '/filter?keyword=&type%5B%5D=movie&genre%5B%5D=10&sort=recently_updated', 'showMovies')
@@ -702,7 +702,7 @@ def vrf_function2(query, action):
         if 'vidstream' in url:
                 referer = 'https://vidstream.pro/'
         else:
-                referer = "https://fmovies.to/"
+                referer = "https://mcloud.to/"
         headers2 = {'Referer': referer
                     }
         import requests

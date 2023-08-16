@@ -579,7 +579,7 @@ def showHosters(oInputParameterHandler = False):
         m3url = aResult[1][0].replace(' ','')
         oRequestHandler = cRequestHandler(m3url)
         oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
-        oRequestHandler.addHeaderEntry('referer', Quote(URL_MAIN))
+        oRequestHandler.addHeaderEntry('referer', URL_MAIN+'/')
         sHtmlContent = oRequestHandler.request() 
 
     oParser = cParser()

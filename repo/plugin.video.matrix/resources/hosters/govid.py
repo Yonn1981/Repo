@@ -18,6 +18,7 @@ class cHoster(iHoster):
 
     def _getMediaLinkForGuest(self, autoPlay = False):
         sReferer = ""
+        url = self._url
         if '|Referer=' in self._url:
             surl = self._url.split('|Referer=')[0]
         else:
@@ -27,17 +28,23 @@ class cHoster(iHoster):
         else:
             sReferer = self._url
 
+        if '/play' in url:
+            api = url.split('/play')[0] + '/api'
+        if '/down' in url:
+            api = url.split('/down')[0] + '/api'
+        else:
+            api = 'https://go3.telvod.site/api'
+
         oRequest = cRequestHandler(surl)
         oRequest.addHeaderEntry('Referer', sReferer)
         oRequest.addHeaderEntry('User-Agent', UA)
         sHtmlContent = oRequest.request()
         oParser = cParser()
 
-       # (.+?) .+? ([^<]+)
         sPattern =  '"playbackUrl": "(.+?)"' 
         aResult = oParser.parse(sHtmlContent,sPattern)
         if aResult[0]:
-            url2 = aResult[1][0].replace("hhttps","https").replace('api.govid.co/api','go.telvod.site/api')
+            url2 = aResult[1][0].replace("hhttps","https").replace('api.govid.co/api',api.split('https://')[1])
 
             oRequest = cRequestHandler(url2)
             oRequest.addHeaderEntry('Referer', surl)
@@ -59,7 +66,6 @@ class cHoster(iHoster):
 
         sPattern =  '<a target="_blank".+?href="([^"]+)' 
         aResult = oParser.parse(sHtmlContent,sPattern)
-        VSlog(aResult)
         if aResult[0]:
             for aEntry in aResult[1]:            
                 api_call = aEntry
