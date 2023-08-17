@@ -258,7 +258,7 @@ https://ghaasiflu.online/alhqeqa/index.m3u8
 https://cdg8.edge.technocdn.com/palestiniantv_source/live/playlist.m3u8
 
 #EXTINF:-1 tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Fatafeat_Logo_Final.jpg/640px-Fatafeat_Logo_Final.jpg",Fatafeat
-http://nordicstream.xyz:80/c8JQKTqm/mG7SgFqZ/27893
+http://new-pro.tv:8080/99622282/etbVXafU6f/66087
 
 #EXTINF:-1 tvg-id="FebruaryChannel.ly" tvg-logo="https://i.imgur.com/WdMIpsA.png",February Channel
 https://b01c02nl.mediatriple.net/videoonlylive/mtfknklgwrlive/broadcast_5dc818c793576.smil/playlist.m3u8
@@ -596,33 +596,21 @@ https://5a3ed7a72ed4b.streamlock.net/zagrostv/SMIL:myStream.smil/playlist.m3u8
 
 
 
-#EXTINF:-1 tvg-id="" tvg-name="Baby TV" tvg-logo="http://s3.i3ns.net/portal/picon/2021-05/2941c49a22d1ab27d7ec9d15e8d7eaad.png" group-title="Arabic",Baby TV
-http://nordicstream.xyz:80/c8JQKTqm/mG7SgFqZ/20193
-
 #EXTINF:-1 tvg-id="" tvg-name="Baraem" tvg-logo="http://s3.i3ns.net/portal/picon/2021-05/cd1967b9651d24e8859ee70160af3165.png" group-title="Qatar ➾ Kids",Baraem
-http://nordicstream.xyz:80/c8JQKTqm/mG7SgFqZ/27898
+http://new-pro.tv:8080/99622282/etbVXafU6f/2715
 
 #EXTINF:-1 tvg-id="" tvg-name="beIN 4K" tvg-logo="http://s3.i3ns.net/portal/picon/2022-04/eec704df9ad75420a53c4e07a574fdac.png" group-title="Qatar ➾ Sports",beIN 4K
-http://nordicstream.xyz:80/c8JQKTqm/mG7SgFqZ/269457
+http://nv1connect.com:80/tamtam/tjfYkCbP3s/33283
 
 #EXTINF:-1 tvg-id="" tvg-name="Jeem TV" tvg-logo="http://s3.i3ns.net/portal/picon/2021-08/8b245602408c45034d4e5baf12e1bdf1.png" group-title="Qatar",Jeem TV
-http://nordicstream.xyz:80/c8JQKTqm/mG7SgFqZ/14436
-
-#EXTINF:-1 tvg-id="" tvg-name="OSN Kids" tvg-logo="http://s3.i3ns.net/portal/picon/2021-07/03e30c113bcbc5c1d32c20b7be28485b.png" group-title="UAE ➾ Kids",OSN Kids
-http://nordicstream.xyz:80/c8JQKTqm/mG7SgFqZ/20167
-
-#EXTINF:-1 tvg-id="" tvg-name="OSN Kidz Zone" tvg-logo="http://s3.i3ns.net/portal/picon/2021-05/23c85d16a1f554401706e03ca0e7f104.png" group-title="UAE ➾ Kids",OSN Kidz Zone
-http://nordicstream.xyz:80/c8JQKTqm/mG7SgFqZ/348070
+http://new-pro.tv:8080/99622282/etbVXafU6f/66125
 
 #EXTINF:-1 tvg-id="" tvg-name="beIN Gourmet" tvg-logo="http://s3.i3ns.net/portal/picon/2021-08/3ed2da3eb57b68e64b3c86821ca6201e.png" group-title="Qatar",beIN Gourmet
-http://nordicstream.xyz:80/c8JQKTqm/mG7SgFqZ/14438
+http://new-pro.tv:8080/99622282/etbVXafU6f/66093
 
 #EXTINF:-1 tvg-id="24kitchen.tr" tvg-name="24 Kitchen HD TR" tvg-logo="http://abvsjdg.cluster030.hosting.ovh.net/logo/Turkey/24_tr.jpg" group-title="Turkey",24 Kitchen HD TR
-http://nordicstream.xyz:80/c8JQKTqm/mG7SgFqZ/401405
-
-#EXTINF:-1 tvg-id="bbcearth.tr" tvg-name="BBC Earth HD TR" tvg-logo="https://upload.wikimedia.org/wikipedia/en/4/44/BBC_Earth_logo.png" group-title="Turkey",BBC Earth HD TR
-http://nordicstream.xyz:80/c8JQKTqm/mG7SgFqZ/401407
+http://new-pro.tv:8080/99622282/etbVXafU6f/134293
 
 #EXTINF:-1 tvg-id="beingurme.tr" tvg-name="beIN GURME HD TR" tvg-logo="http://abvsjdg.cluster030.hosting.ovh.net/logo/Turkey/beingurme.png" group-title="Turkey",beIN GURME HD TR
-http://nordicstream.xyz:80/c8JQKTqm/mG7SgFqZ/401408
+http://nv1connect.com:80/tamtam/tjfYkCbP3s/79393
 

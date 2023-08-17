@@ -27,6 +27,10 @@ class cHoster(iHoster):
 
         if ('sub.info' in self._url0):
             SubTitle = self._url0.split('sub.info=')[1]
+            if '&t=' in SubTitle:
+                SubTitle = SubTitle.split('&t=')[0]
+            else:
+                SubTitle = SubTitle
             oRequest0 = cRequestHandler(SubTitle)
             sHtmlContent0 = oRequest0.request().replace('\\','')
             oParser = cParser()

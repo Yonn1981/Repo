@@ -345,7 +345,7 @@ def showHosters(oInputParameterHandler = False):
     sHtmlContent = oRequestHandler.request()
     oParser = cParser()
 
-    oGui.addText(SITE_IDENTIFIER,'[COLOR olive]-----●★| Download LInks |★●-----[/COLOR]')
+    oGui.addText(SITE_IDENTIFIER,'[COLOR olive]-----●★| Download Links |★●-----[/COLOR]')
 
     sStart = '<div class="content episode-download-container">'
     sEnd = '<div class="content">'
@@ -380,7 +380,7 @@ def showHosters(oInputParameterHandler = False):
                         oHoster.setFileName(sMovieTitle)
                         cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
-    oGui.addText(SITE_IDENTIFIER,'[COLOR olive]-----●★| Watch LInks |★●-----[/COLOR]')
+    oGui.addText(SITE_IDENTIFIER,'[COLOR olive]-----●★| Watch Links |★●-----[/COLOR]')
 
     sPattern = '<a data-ep-url="([^"]+)">([^<]+)'
     oParser = cParser()
