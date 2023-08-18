@@ -8,10 +8,10 @@ from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress, VSlog, siteManager
+from resources.lib.comaddon import progress, VSlog, siteManager, isMatrix
 from resources.lib.parser import cParser
+from resources.lib.packer import cPacker
 from resources.lib.util import cUtil
-from resources.lib.util import Quote
  
 SITE_IDENTIFIER = 'yallalive'
 SITE_NAME = 'Yallalive'
@@ -148,37 +148,7 @@ def showHosters(oInputParameterHandler = False):
                     sHosterUrl = 'https://%s/hls/%s/live.m3u8' % (aResult[0][1], aResult[0][0])
                     sHosterUrl += '|referer=https://sharecast.ws/'
             else:   
-                oRequestHandler = cRequestHandler(url)
-                hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Mobile Safari/537.36','referer' : 'https://riyadh.himtree.com/'}
-                St=requests.Session()
-                sHtmlContent = St.get(url,headers=hdr)
-                sHtmlContent2 = sHtmlContent.content 
-                sPattern =  'src="(.+?)"'
-                aResult = oParser.parse(sHtmlContent2,sPattern)
-                if aResult[0]:
-                    url = aResult[1][0]
-                    if 'sharecast' in url:
-                        Referer =  "https://sharecast.ws/"
-                        oRequestHandler = cRequestHandler(url)
-                        oRequestHandler.addHeaderEntry('Referer', Referer)
-                        data3 = oRequestHandler.request()
-
-                        sPattern2 = '"player","([^"]+)",{\'([^\']+)'
-                        aResult = re.findall(sPattern2, data3)
-                        if aResult:
-                            sHosterUrl = 'https://%s/hls/%s/live.m3u8' % (aResult[0][1], aResult[0][0])
-                            sHosterUrl += '|referer=https://sharecast.ws/'
-
-                sPattern =  '(http[^<]+m3u8)'
-                aResult = oParser.parse(sHtmlContent2,sPattern)
-                if aResult[0]:
-                   url = aResult[1][0]
-                oParser = cParser()
-                sPattern =  'source:\s*["\']([^"\']+)["\']'
-                aResult = oParser.parse(sHtmlContent2,sPattern)
-                if aResult[0]:
-                   url = aResult[1][0]  
-                   sHosterUrl = sHosterUrl + "|Referer=" + sUrl         
+                sHosterUrl = getHosterIframe(url, sUrl)      
 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
@@ -244,5 +214,81 @@ def showHosters(oInputParameterHandler = False):
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
-
     oGui.setEndOfDirectory()
+
+def getHosterIframe(url, referer):
+    oRequestHandler = cRequestHandler(url)
+    oRequestHandler.addHeaderEntry('Referer', referer)
+    sHtmlContent = str(oRequestHandler.request())
+    if not sHtmlContent:
+        return False
+
+    referer = url
+    
+    sPattern = '(\s*eval\s*\(\s*function(?:.|\s)+?{}\)\))'
+    aResult = re.findall(sPattern, sHtmlContent)
+    if aResult:
+        sstr = aResult[0]
+        if not sstr.endswith(';'):
+            sstr = sstr + ';'
+        sHtmlContent = cPacker().unpack(sstr)
+
+    sPattern = '.atob\("(.+?)"'
+    aResult = re.findall(sPattern, sHtmlContent)
+    if aResult:
+        import base64
+        code = aResult[0]
+        try:
+            if isMatrix():
+                code = base64.b64decode(code).decode('ascii')
+            else:
+                code = base64.b64decode(code)
+            return code + '|Referer=' + referer
+        except Exception as e:
+            pass
+    
+    sPattern = '<iframe.+?src=["\']([^"\']+)["\']'
+    aResult = re.findall(sPattern, sHtmlContent)
+    if aResult:
+        for url in aResult:
+            if url.startswith("./"):
+                url = url[1:]
+            if not url.startswith("http"):
+                if not url.startswith("//"):
+                    url = '//'+referer.split('/')[2] + url  
+                url = "https:" + url
+            url = getHosterIframe(url, referer)
+            if url:
+                return url
+
+    sPattern = 'src=["\']([^"\']+)["\']'
+    aResult = re.findall(sPattern, sHtmlContent)
+
+    if aResult:
+        url = aResult[0]
+        if '.m3u8' in url:
+            return url
+
+    sPattern = '<iframe.+?src=["\']([^"\']+)["\']'
+    aResult = re.findall(sPattern, sHtmlContent)
+    if aResult:
+        return aResult[0]
+
+    sPattern = 'source:\s*["\']([^"\']+)["\']'
+    aResult = re.findall(sPattern, sHtmlContent)
+    if aResult:
+        return aResult[0] + '|referer=' + referer
+
+    sPattern = '[^/]source.+?["\'](https.+?)["\']'
+    aResult = re.findall(sPattern, sHtmlContent)
+    if aResult:
+        return aResult[0] + '|referer=' + referer
+
+    sPattern = 'file: *["\'](https.+?\.m3u8)["\']'
+    aResult = re.findall(sPattern, sHtmlContent)
+    if aResult:
+        return aResult[0] + '|referer=' + referer
+
+
+    return False
+	

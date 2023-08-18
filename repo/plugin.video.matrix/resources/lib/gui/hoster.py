@@ -296,6 +296,12 @@ class cHosterGui:
         if ('vanfem' in sHostName):
             return self.getHoster('fembed')
 
+        if ('vidtube' in sHostName):
+            return self.getHoster('vidtube')
+
+        if ('updown' in sHostName):
+            return self.getHoster('updown')
+
         if ('vod540' in sHostName) or ('hd-cdn' in sHostName):
             return self.getHoster('xvideo')
 

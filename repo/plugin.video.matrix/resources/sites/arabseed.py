@@ -20,20 +20,6 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-oParser = cParser()
- 
-oRequestHandler = cRequestHandler(URL_MAIN)
-sHtmlContent = oRequestHandler.request()
-
-    # (.+?) ([^<]+)
-
-sPattern = 'HomeURL = "(.+?)";'
-aResult = oParser.parse(sHtmlContent, sPattern)
-    
-if (aResult[0]):
-    URL_MAIN = aResult[1][0]
-
-
 MOVIE_CLASSIC = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%83%d9%84%d8%a7%d8%b3%d9%8a%d9%83%d9%8a%d9%87/', 'showMovies')
 MOVIE_EN = (URL_MAIN + '/category/foreign-movies/', 'showMovies')
 MOVIE_AR = (URL_MAIN + '/category/arabic-movies-5/', 'showMovies')
@@ -158,7 +144,7 @@ def load():
  
 def showSearch():
     oGui = cGui()
- 
+
     sSearchText = oGui.showKeyBoard()    
     if sSearchText is not False:
         sUrl = URL_MAIN + '/find/?find='+sSearchText
@@ -168,7 +154,7 @@ def showSearch():
  
 def showSeriesSearch():
     oGui = cGui()
- 
+
     sSearchText = oGui.showKeyBoard()
     if sSearchText is not False:
         sUrl = URL_MAIN + '/find/?find='+sSearchText
@@ -179,11 +165,19 @@ def showSeriesSearch():
 def showMovies(sSearch = ''):
     import requests
     oGui = cGui()
+
+    oParser = cParser()
+    oRequestHandler = cRequestHandler(URL_MAIN)
+    sHtmlContent = oRequestHandler.request()
+    URL_MAIN2 = main_function(sHtmlContent)
+
     if sSearch:
       sUrl = sSearch
     else:
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
+
+    sUrl = sUrl.replace(URL_MAIN, URL_MAIN2)
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -235,6 +229,7 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oOutputParameterHandler.addParameter('sYear', sYear)
             oOutputParameterHandler.addParameter('sDesc', sDesc)
+            oOutputParameterHandler.addParameter('URL_MAIN', URL_MAIN2)  
 
             oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
@@ -252,18 +247,22 @@ def showMovies(sSearch = ''):
  
 def showPacks(sSearch = ''):
     oGui = cGui()
+    oParser = cParser()
+    oRequestHandler = cRequestHandler(URL_MAIN)
+    sHtmlContent = oRequestHandler.request()
+    URL_MAIN2 = main_function(sHtmlContent)
+
     if sSearch:
       sUrl = sSearch
     else:
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
- 
+
+    sUrl = sUrl.replace(URL_MAIN, URL_MAIN2)
+
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  
-
-      # (.+?) ([^<]+) .+?
-
 
     sPattern = '<div class="BlockItem"><a href="([^<]+)">.+?src="([^"]+)".+?class.+?<div class="BlockTitle">([^<]+)</div>'
 
@@ -292,7 +291,7 @@ def showPacks(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oOutputParameterHandler.addParameter('sDesc', sDesc)
-			
+            oOutputParameterHandler.addParameter('URL_MAIN', URL_MAIN2) 
 
             oGui.addMovie(SITE_IDENTIFIER, 'showPack', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
         
@@ -315,7 +314,13 @@ def showPack():
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
- 
+
+    oParser = cParser()
+    oRequestHandler = cRequestHandler(URL_MAIN)
+    sHtmlContent = oRequestHandler.request()
+    URL_MAIN2 = main_function(sHtmlContent)
+    sUrl = sUrl.replace(URL_MAIN, URL_MAIN2)
+
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
      # (.+?) ([^<]+) .+?
@@ -347,6 +352,8 @@ def showPack():
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oOutputParameterHandler.addParameter('sYear', sYear)
             oOutputParameterHandler.addParameter('sDesc', sDesc)
+            oOutputParameterHandler.addParameter('URL_MAIN', URL_MAIN2) 
+
             oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
         
        
@@ -354,11 +361,18 @@ def showPack():
  
 def showSeries(sSearch = ''):
     oGui = cGui()
+    oParser = cParser()
+    oRequestHandler = cRequestHandler(URL_MAIN)
+    sHtmlContent = oRequestHandler.request()
+    URL_MAIN2 = main_function(sHtmlContent)
+
     if sSearch:
       sUrl = sSearch
     else:
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
+
+    sUrl = sUrl.replace(URL_MAIN, URL_MAIN2)
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -406,6 +420,7 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oOutputParameterHandler.addParameter('sDesc', sDesc)
+            oOutputParameterHandler.addParameter('URL_MAIN', URL_MAIN2)
             oGui.addTV(SITE_IDENTIFIER, 'showSeasons', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
@@ -427,6 +442,7 @@ def showSeasons():
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
+    URL_MAIN = oInputParameterHandler.getValue('URL_MAIN')
     oParser = cParser()
  
     oRequestHandler = cRequestHandler(sUrl)
@@ -465,7 +481,7 @@ def showSeasons():
                     oOutputParameterHandler.addParameter('siteUrl', siteUrl)
                     oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
                     oOutputParameterHandler.addParameter('sThumb', sThumb)
-            
+                    oOutputParameterHandler.addParameter('URL_MAIN', URL_MAIN)        
                     oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
     else:
 
@@ -497,6 +513,7 @@ def showSeasons():
                 oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
                 oOutputParameterHandler.addParameter('sHost', sHost)
                 oOutputParameterHandler.addParameter('sThumb', sThumb)
+                oOutputParameterHandler.addParameter('URL_MAIN', URL_MAIN)  
             
                 oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
        
@@ -510,6 +527,7 @@ def showEps():
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
+    URL_MAIN = oInputParameterHandler.getValue('URL_MAIN')
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -544,6 +562,7 @@ def showEps():
                 oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
                 oOutputParameterHandler.addParameter('sHost', sHost)
                 oOutputParameterHandler.addParameter('sThumb', sThumb)
+                oOutputParameterHandler.addParameter('URL_MAIN', URL_MAIN)  
              
                 oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
                       
@@ -567,12 +586,12 @@ def showHosters(oInputParameterHandler = False):
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
-    
+    URL_MAIN = oInputParameterHandler.getValue('URL_MAIN')    
+
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    oParser = cParser()
 
-         
+    oParser = cParser()
     sPattern =  '<a href="([^<]+)" class="watchBTn">'
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0]:
@@ -716,3 +735,11 @@ def url_function(sHtmlContent):
             if url.startswith('//'):
                 url = 'http:' + url
     return url
+
+def main_function(sHtmlContent):
+    oParser = cParser()
+    sPattern = 'HomeURL = "(.+?)";'
+    aResult = oParser.parse(sHtmlContent, sPattern)    
+    if (aResult[0]):
+        URL_MAIN = aResult[1][0]
+    return URL_MAIN

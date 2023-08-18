@@ -37,17 +37,19 @@ class cHoster(iHoster):
 
         if aResult[0]:
             for aEntry in aResult[1]:
+                if '.m3u8' not in aEntry:
+                    continue
+                if 'hls' not in aEntry:
+                    continue
+                if 'http' not in aEntry:
+                    continue
                 url = aEntry
-                if 'm3u8' not in url:
-                    continue
-                if 'hls' not in url:
-                    continue
-                if 'http' not in url:
-                    continue
+
             # Need proper work 
+            VSlog(url)
             api_call = url
 
             if api_call:
-                return True, api_call+ '|Referer='+sReferer
+                return True, api_call
 
             return False, False

@@ -438,6 +438,11 @@
             "active": "True",
             "url": "https://www.themoviedb.org/"
         },
+        "topcinema": {
+            "label": "TopCinema",
+            "active": "True",
+            "url": "https://topcinema.cam/"
+        },
         "topimdb": {
             "label": "Top IMDB",
             "active": "True",

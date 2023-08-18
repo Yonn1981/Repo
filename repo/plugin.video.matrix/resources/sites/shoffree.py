@@ -18,19 +18,6 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-oParser = cParser()
- 
-oRequestHandler = cRequestHandler(URL_MAIN)
-sHtmlContent = oRequestHandler.request()
-    # (.+?) ([^<]+)
-
-sPattern = '<meta property="og:url" content="([^"]+)'
-aResult = oParser.parse(sHtmlContent, sPattern)
-    
-if (aResult[0]):
-    URL_MAIN = aResult[1][0]
-
-
 MOVIE_EN = (URL_MAIN + 'movies?lang=الإنجليزية', 'showMovies')
 MOVIE_AR = (URL_MAIN + 'movies?lang=العربية', 'showMovies')
 MOVIE_HI = (URL_MAIN + 'movies?lang=الهندية', 'showMovies')
@@ -152,6 +139,13 @@ def load():
 
     oGui.setEndOfDirectory()
 
+def main_function(sHtmlContent):
+    oParser = cParser()
+    sPattern = '<meta property="og:url" content="([^"]+)'
+    aResult = oParser.parse(sHtmlContent, sPattern)    
+    if (aResult[0]):
+        URL_MAIN = aResult[1][0]+'/'
+    return URL_MAIN
  
 def showSearch():
     oGui = cGui()
@@ -178,7 +172,14 @@ def showYears():
     
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
- 
+
+    oParser = cParser()
+    oRequestHandler = cRequestHandler(URL_MAIN)
+    sHtmlContent = oRequestHandler.request()
+    URL_MAIN2 = main_function(sHtmlContent)
+
+    sUrl = sUrl.replace(URL_MAIN, URL_MAIN2)
+
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
@@ -207,7 +208,14 @@ def showSerieYears():
     
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
- 
+
+    oParser = cParser()
+    oRequestHandler = cRequestHandler(URL_MAIN)
+    sHtmlContent = oRequestHandler.request()
+    URL_MAIN2 = main_function(sHtmlContent)
+
+    sUrl = sUrl.replace(URL_MAIN, URL_MAIN2)
+
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
@@ -235,7 +243,14 @@ def showLang():
     
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
- 
+
+    oParser = cParser()
+    oRequestHandler = cRequestHandler(URL_MAIN)
+    sHtmlContent = oRequestHandler.request()
+    URL_MAIN2 = main_function(sHtmlContent)
+
+    sUrl = sUrl.replace(URL_MAIN, URL_MAIN2)
+
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
@@ -264,7 +279,14 @@ def showSerieLang():
     
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
- 
+
+    oParser = cParser()
+    oRequestHandler = cRequestHandler(URL_MAIN)
+    sHtmlContent = oRequestHandler.request()
+    URL_MAIN2 = main_function(sHtmlContent)
+
+    sUrl = sUrl.replace(URL_MAIN, URL_MAIN2)
+
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
@@ -357,7 +379,12 @@ def showMovies(sSearch = ''):
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
 
+    oParser = cParser()
+    oRequestHandler = cRequestHandler(URL_MAIN)
+    sHtmlContent = oRequestHandler.request()
+    URL_MAIN2 = main_function(sHtmlContent)
 
+    sUrl = sUrl.replace(URL_MAIN, URL_MAIN2)
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -415,6 +442,13 @@ def showSeries(sSearch = ''):
     else:
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
+
+    oParser = cParser()
+    oRequestHandler = cRequestHandler(URL_MAIN)
+    sHtmlContent = oRequestHandler.request()
+    URL_MAIN2 = main_function(sHtmlContent)
+
+    sUrl = sUrl.replace(URL_MAIN, URL_MAIN2)
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -558,13 +592,9 @@ def showHostersepisode(oInputParameterHandler = False):
 
 
     oRequestHandler = cRequestHandler(sUrl)
-    cook = oRequestHandler.GetCookies()
-    oRequestHandler.setRequestType(1)
-    oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
-    oRequestHandler.addHeaderEntry('Cookie', cook)
-    oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
-    oRequestHandler.addHeaderEntry('origin', URL_MAIN)
     sHtmlContent = oRequestHandler.request()
+
+    URL_MAIN = main_function(sHtmlContent)
 
     oParser = cParser()
             
@@ -679,13 +709,9 @@ def showHosters(oInputParameterHandler = False):
 
 
     oRequestHandler = cRequestHandler(sUrl)
-    cook = oRequestHandler.GetCookies()
-    oRequestHandler.setRequestType(1)
-    oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
-    oRequestHandler.addHeaderEntry('Cookie', cook)
-    oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
-    oRequestHandler.addHeaderEntry('origin', URL_MAIN)
     sHtmlContent = oRequestHandler.request()
+
+    URL_MAIN = main_function(sHtmlContent)
 
     oParser = cParser()
             
@@ -751,7 +777,7 @@ def showHosters(oInputParameterHandler = False):
                if 'userload' in sHosterUrl:
                   sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
                if 'shoffree' in sHosterUrl:
-                  sHosterUrl = sHosterUrl + "|Referer=" + murl2
+                  sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
                if 'mystream' in sHosterUrl:
                   sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN    
                oHoster = cHosterGui().checkHoster(sHosterUrl)

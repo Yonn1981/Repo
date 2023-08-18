@@ -17,18 +17,6 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-oParser = cParser()
- 
-oRequestHandler = cRequestHandler(URL_MAIN)
-sHtmlContent = oRequestHandler.request()
-
-
-sPattern = '<link rel="canonical" href="([^"]+)'
-aResult = oParser.parse(sHtmlContent, sPattern)
-    
-if (aResult[0]):
-    URL_MAIN = aResult[1][0]
-
 MOVIE_TOP = (URL_MAIN + '/movies/best/', 'showMovies')
 MOVIE_POP = (URL_MAIN + '/movies/top/', 'showMovies')
 MOVIE_CLASSIC = (URL_MAIN + '/movies/old/', 'showMovies')
@@ -130,7 +118,15 @@ def load():
     oGui.addDir(SITE_IDENTIFIER, 'showPack', 'أقسام الموقع', 'listes.png', oOutputParameterHandler)
 
     oGui.setEndOfDirectory()
- 
+
+def main_function(sHtmlContent):
+    oParser = cParser()
+    sPattern = '<link rel="canonical" href="([^"]+)'
+    aResult = oParser.parse(sHtmlContent, sPattern)    
+    if (aResult[0]):
+        URL_MAIN = aResult[1][0]
+    return URL_MAIN
+
 def showSeriesSearch():
     oGui = cGui()
  
@@ -166,7 +162,14 @@ def showPack():
     
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
- 
+
+    oParser = cParser()
+    oRequestHandler = cRequestHandler(URL_MAIN)
+    sHtmlContent = oRequestHandler.request()
+    URL_MAIN2 = main_function(sHtmlContent)
+
+    sUrl = sUrl.replace(URL_MAIN, URL_MAIN2)
+
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
@@ -210,6 +213,13 @@ def showMovies(sSearch = ''):
     else:
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
+
+    oParser = cParser()
+    oRequestHandler = cRequestHandler(URL_MAIN)
+    sHtmlContent = oRequestHandler.request()
+    URL_MAIN2 = main_function(sHtmlContent)
+
+    sUrl = sUrl.replace(URL_MAIN, URL_MAIN2)
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -270,7 +280,12 @@ def showSeries(sSearch = ''):
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
 
+    oParser = cParser()
+    oRequestHandler = cRequestHandler(URL_MAIN)
+    sHtmlContent = oRequestHandler.request()
+    URL_MAIN2 = main_function(sHtmlContent)
 
+    sUrl = sUrl.replace(URL_MAIN, URL_MAIN2)
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -373,7 +388,12 @@ def showAnimes(sSearch = ''):
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
 
+    oParser = cParser()
+    oRequestHandler = cRequestHandler(URL_MAIN)
+    sHtmlContent = oRequestHandler.request()
+    URL_MAIN2 = main_function(sHtmlContent)
 
+    sUrl = sUrl.replace(URL_MAIN, URL_MAIN2)
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -493,7 +513,9 @@ def showSeasons():
     oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
     oRequestHandler.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
     sHtmlContent = oRequestHandler.request()
- 
+
+    URL_MAIN2 = main_function(sHtmlContent)
+
       # (.+?) ([^<]+) .+?
     sPattern = 'href="([^<]+)">موسم(.+?)</a>'
     aResult = re.findall(sPattern, sHtmlContent)
@@ -587,15 +609,13 @@ def showSeasons():
             s = requests.Session()            
             headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0'}
             data = aEntry
-            r1 = s.get('https://mycima.biz/AjaxCenter/MoreEpisodes/'+data+'/30/', headers=headers)
+            r1 = s.get(URL_MAIN2+'/AjaxCenter/MoreEpisodes/'+data+'/30/', headers=headers)
             sHtmlContent1 = r1.content.decode('utf8').replace("\\","")
-            r2 = s.get('https://mycima.biz/AjaxCenter/MoreEpisodes/'+data+'/70/', headers=headers)
+            r2 = s.get(URL_MAIN2+'/AjaxCenter/MoreEpisodes/'+data+'/70/', headers=headers)
             sHtmlContent2 = r2.content.decode('utf8').replace("\\","")
             sHtmlContent = sHtmlContent1+sHtmlContent2
 
 	
- # ([^<]+) .+?
-
             sPattern = 'href=([^<]+)"><div.+?<episodeTitle>([^<]+)<'
 
             oParser = cParser()

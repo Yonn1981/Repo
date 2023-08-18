@@ -138,7 +138,7 @@ def showMovies(sSearch = ''):
     oParser = cParser()
 
  # ([^<]+) .+? (.+?)
-    sPattern = '<img class="img-responsive" src="([^<]+)" alt="([^<]+)" />.+?<h3><a href="([^<]+)">'
+    sPattern = '<img class="img-responsive" src="([^<]+)" alt="([^<]+)" />.+?data-content="([^<]+)".+?<h3><a href="([^<]+)">'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -153,9 +153,9 @@ def showMovies(sSearch = ''):
                 break
  
             sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("برنامج","").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("بلوراي","").replace("الفيلم الوثائقي","").replace("اون لاين","")
-            siteUrl = aEntry[2]
+            siteUrl = aEntry[3]
             sThumb = aEntry[0]
-            sDesc = ''
+            sDesc = aEntry[2]
             sYear = ''
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -190,7 +190,7 @@ def showSeries(sSearch = ''):
 
 
  # ([^<]+) .+?
-    sPattern = '<img class="img-responsive" src="([^<]+)" alt="([^<]+)" />.+?<h3><a href="([^<]+)">'
+    sPattern = '<img class="img-responsive" src="([^<]+)" alt="([^<]+)" />.+?data-content="([^<]+)".+?<h3><a href="([^<]+)">'
 
 
     oParser = cParser()
@@ -207,9 +207,9 @@ def showSeries(sSearch = ''):
                 break
  
             sTitle = aEntry[1]
-            siteUrl = aEntry[2]
+            siteUrl = aEntry[3]
             sThumb = aEntry[0]
-            sDesc = ''
+            sDesc = aEntry[2]
             sYear = ''
             sTitle = sTitle.split('الحلقة')[0].split('الموسم')[0]
             sTitle = sTitle.replace("Season ","S")

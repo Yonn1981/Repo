@@ -683,7 +683,7 @@ def vrf_function2(query, action):
     reqURL = 'https://9anime.eltik.net/'+action+'?query='+query+'&apikey='+aniyomi
 
     futoken = requests.get("https://vidstream.pro/futoken")
-    futoken = '(function () '+ futoken.text.split('()')[1] + '());'
+    futoken = futoken.text
 
     rawSource = requests.post(reqURL, headers={"Content-Type": "application/x-www-form-urlencoded"}, data={"query": query, "futoken": futoken})
     sHtmlContent = rawSource.content.decode('utf8',errors='ignore')
