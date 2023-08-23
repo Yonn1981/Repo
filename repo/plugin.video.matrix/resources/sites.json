@@ -425,7 +425,7 @@
         },
         "solarone": {
             "label": "SolarOne",
-            "active": "False",
+            "active": "True",
             "url": "https://www2.solarmovie.cr"
         },
         "stardima": {
