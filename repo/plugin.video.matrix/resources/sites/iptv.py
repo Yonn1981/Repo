@@ -3,26 +3,21 @@
 import re
 import string
 
-from resources.lib.comaddon import progress, addon, dialog, siteManager
-from resources.lib.enregistrement import cEnregistremement
-from resources.lib.epg import cePg
+from resources.lib.comaddon import progress, addon, siteManager
 from resources.lib.gui.gui import cGui
 from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.handler.premiumHandler import cPremiumHandler
 from resources.lib.parser import cParser
-from resources.lib.util import Unquote
 
 SITE_IDENTIFIER = 'iptv'
 SITE_NAME = '[COLOR orange]Premium IPTV[/COLOR]'
 SITE_DESC = 'Watch Live television'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
-URL_WEB = 'https://raw.githubusercontent.com/Yonn1981/Repo/master/repo/zips/Resources/iptv.m3u'
-
+URL_WEB = 'http://ugeen.live:8080/get.php?username=ugeenname&password=ugeenpassword&type=m3u_plus'
 
 TV_TV = (True, 'showMenuTV')
 
@@ -75,7 +70,7 @@ def showMenuTV():
     oGui.setEndOfDirectory()
 
 
-def parseM3U(sUrl=None):  # Traite les m3u local
+def parseM3U(sUrl=None):  
     
     if not sUrl:
         oInputParameterHandler = cInputParameterHandler()
@@ -111,18 +106,21 @@ def parseM3U(sUrl=None):  # Traite les m3u local
     return playlist
 
 
-def showWeb(oInputParameterHandler = False):  # Code qui s'occupe de liens TV du Web
+def showWeb():
     oGui = cGui()
+    addons = addon()
+
+    Iuser = addons.getSetting('hoster_iptv_username')
+    Ipass = addons.getSetting('hoster_iptv_password')
 
     oInputParameterHandler = cInputParameterHandler()
-    sUrl = oInputParameterHandler.getValue('siteUrl')
+    sUrl = oInputParameterHandler.getValue('siteUrl').replace('P_L_U_S', '+').replace('ugeenname', Iuser).replace('ugeenpassword', Ipass)
+
     if sUrl == 'TV':
-        sUrl = URL_WEB
+        sUrl = URL_WEB.replace('P_L_U_S', '+').replace('ugeenname', Iuser).replace('ugeenpassword', Ipass)
 
 
     playlist = parseM3U(sUrl=sUrl)
-
-
 
     if not playlist:
         oOutputParameterHandler = cOutputParameterHandler()
@@ -151,18 +149,24 @@ def showWeb(oInputParameterHandler = False):  # Code qui s'occupe de liens TV du
             oOutputParameterHandler.addParameter('sMovieTitle', track.title)
             oOutputParameterHandler.addParameter('sThumbnail', thumb)
 
-            oHoster = cHosterGui().getHoster('lien_direct')
-        
-            if oHoster:
-                oHoster.setDisplayName(track.title)
-                oHoster.setFileName(track.title)
-                cHosterGui().showHoster(oGui, oHoster, url2, sThumb, oInputParameterHandler=oInputParameterHandler)
+            oGuiElement = cGuiElement()
+            oGuiElement.setSiteName(SITE_IDENTIFIER)
+            oGuiElement.setFunction('play__')
+
+            oGuiElement.setTitle(track.title)
+            oGuiElement.setFileName(track.title)
+            
+            oGuiElement.setIcon('tv.png')
+            oGuiElement.setMeta(0)
+            oGuiElement.setThumbnail(thumb)
+            oGuiElement.setDirectTvFanart()
+            oGuiElement.setCat(6)
+
+            oGui.addFolder(oGuiElement, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
 
     oGui.setEndOfDirectory()
-
-
 
 
 def showAZ():
@@ -184,7 +188,7 @@ def showAZ():
     oGui.setEndOfDirectory()
 
 
-def showTV(oInputParameterHandler = False):
+def showTV():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -199,7 +203,6 @@ def showTV(oInputParameterHandler = False):
     if aResult[0]:
         progress_ = progress().VScreate(SITE_NAME)
 
-        # affiche par
         if oInputParameterHandler.exist('AZ'):
             sAZ = oInputParameterHandler.getValue('AZ')
             string = filter(lambda t: t[0].strip().capitalize().startswith(sAZ), aResult[1])
@@ -218,19 +221,25 @@ def showTV(oInputParameterHandler = False):
             oOutputParameterHandler.addParameter('sMovieTitle', aEntry[0])
             oOutputParameterHandler.addParameter('sThumbnail', 'tv.png')
 
-            oHoster = cHosterGui().getHoster('lien_direct')
-        
-            if oHoster:
-                oHoster.setDisplayName(track.title)
-                oHoster.setFileName(track.title)
-                cHosterGui().showHoster(oGui, oHoster, aEntry[1], 'tv.png', oInputParameterHandler=oInputParameterHandler)
+            oGuiElement = cGuiElement()
+            oGuiElement.setSiteName(SITE_IDENTIFIER)
+            oGuiElement.setFunction('play__')
+            oGuiElement.setTitle(aEntry[0])
+            oGuiElement.setFileName(aEntry[0])
+            oGuiElement.setIcon('tv.png')
+            oGuiElement.setMeta(0)
+            oGuiElement.setDirectTvFanart()
+            oGuiElement.setCat(6)
+
+            oGui.createContexMenuBookmark(oGuiElement, oOutputParameterHandler)
+            oGui.addFolder(oGuiElement, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
 
     oGui.setEndOfDirectory()
 
 
-def play__(oInputParameterHandler = False):  # Lancer les liens
+def play__(): 
     addons = addon()
     oGui = cGui()
 
@@ -240,49 +249,27 @@ def play__(oInputParameterHandler = False):  # Lancer les liens
     sUrl = oInputParameterHandler.getValue('siteUrl').replace('P_L_U_S', '+').replace('username', Iuser).replace('password', Ipass)
     sTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumbnail = oInputParameterHandler.getValue('sThumbnail')
-    sDesc = oInputParameterHandler.getValue('sDesc')
 
-    # Special url with tag
     if '[' in sUrl and ']' in sUrl:
         sUrl = getRealUrl(sUrl)
 
-    # Bug specifique au flux france TV
-    # eof detectedL
     if 'youtube' in sUrl:
         oHoster = cHosterGui().checkHoster(sUrl)
 
         if oHoster:
             oHoster.setDisplayName(sTitle)
             oHoster.setFileName(sTitle)
-            cHosterGui().showHoster(oGui, oHoster, sUrl, sThumbnail, oInputParameterHandler=oInputParameterHandler)
+            cHosterGui().showHoster(oGui, oHoster, sUrl, sThumbnail)
 
     else:
-        oGuiElement = cGuiElement()
-        oGuiElement.setSiteName(SITE_IDENTIFIER)
-        oGuiElement.setTitle(sTitle)
-        sUrl = sUrl.replace(' ', '%20')
-        oGuiElement.setMediaUrl(sUrl)
-        oGuiElement.setThumbnail(sThumbnail)
-        oGuiElement.setDescription(sDesc)
-
-        from resources.lib.player import cPlayer
-        oPlayer = cPlayer()
-        oPlayer.clearPlayList()
-        oPlayer.addItemToPlaylist(oGuiElement)
-        oPlayer.startPlayer()
+        oHoster = cHosterGui().getHoster('lien_direct')
         
-        return False, False
+        if oHoster:
+            oHoster.setDisplayName(sTitle)
+            oHoster.setFileName(sTitle)
+            cHosterGui().showHoster(oGui, oHoster, sUrl, sThumbnail, oInputParameterHandler=oInputParameterHandler)
 
     oGui.setEndOfDirectory()
-
-
-"""
-Fonction diverse:
-#   - getRealUrl = Regex pour Iptv(Officiel)
-#   - showDailymotionStream = Lis les liens de streaming de Daylimotion qui sont speciaux
-#   - getBrightcoveKey = Recupere le token pour les liens proteger par Brightcove (RMC Decouvert par exemple)
-"""
-
 
 def getRealUrl(chain):
     oParser = cParser()

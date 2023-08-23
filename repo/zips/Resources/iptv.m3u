@@ -1,75 +1,73 @@
 #EXTM3U
-#EXTINF:-1 tvg-logo="",UGEEN-IPTV
+#EXTINF:-1 tvg-id="" tvg-name="UGEEN IPTV" tvg-logo="" group-title="Islami - القنوات الإسلامية",UGEEN IPTV
 http://ugeen.live:8080/username/password/3019
-#EXTINF:-1 tvg-logo="",•●★★--- Islami ---★★●•
+#EXTINF:-1 tvg-id="" tvg-name="•●★★--- Islami ---★★●•" tvg-logo="""" group-title="Islami - القنوات الإسلامية",•●★★--- Islami ---★★●•
 http://ugeen.live:8080/username/password/116
-#EXTINF:-1 tvg-logo="",AR: Saudi Qraan
+#EXTINF:-1 tvg-id="" tvg-name="AR: Saudi Qraan" tvg-logo="[]" group-title="Islami - القنوات الإسلامية",AR: Saudi Qraan
 http://ugeen.live:8080/username/password/126
-#EXTINF:-1 tvg-logo="",AR: Saudi Sunna
+#EXTINF:-1 tvg-id="" tvg-name="AR: Saudi Sunna" tvg-logo="" group-title="Islami - القنوات الإسلامية",AR: Saudi Sunna
 http://ugeen.live:8080/username/password/958
-#EXTINF:-1 tvg-logo="",Ar: Quran TV 2
+#EXTINF:-1 tvg-id="" tvg-name="Ar: Quran TV 2" tvg-logo="" group-title="Islami - القنوات الإسلامية",Ar: Quran TV 2
 http://ugeen.live:8080/username/password/3708
-#EXTINF:-1 tvg-logo="",AR: AL Nas tv
+#EXTINF:-1 tvg-id="" tvg-name="AR: AL Nas tv" tvg-logo="" group-title="Islami - القنوات الإسلامية",AR: AL Nas tv
 http://ugeen.live:8080/username/password/3711
-#EXTINF:-1 tvg-logo="",AR: Almajd TV
+#EXTINF:-1 tvg-id="" tvg-name="AR: Almajd TV" tvg-logo="" group-title="Islami - القنوات الإسلامية",AR: Almajd TV
 http://ugeen.live:8080/username/password/2092
-#EXTINF:-1 tvg-logo="",AR: Almajd Quraan
+#EXTINF:-1 tvg-id="" tvg-name="AR: Almajd Quraan" tvg-logo="" group-title="Islami - القنوات الإسلامية",AR: Almajd Quraan
 http://ugeen.live:8080/username/password/957
-#EXTINF:-1 tvg-logo="",AR: Almajd Hadeth
+#EXTINF:-1 tvg-id="" tvg-name="AR: Almajd Hadeth" tvg-logo="" group-title="Islami - القنوات الإسلامية",AR: Almajd Hadeth
 http://ugeen.live:8080/username/password/956
-#EXTINF:-1 tvg-logo="",AR: Azhari Islamic
+#EXTINF:-1 tvg-id="" tvg-name="AR: Azhari Islamic" tvg-logo="" group-title="Islami - القنوات الإسلامية",AR: Azhari Islamic
 http://ugeen.live:8080/username/password/3647
-#EXTINF:-1 tvg-logo="",AR: Al Majd Kids
+#EXTINF:-1 tvg-id="" tvg-name="AR: Al Majd Kids" tvg-logo="" group-title="Islami - القنوات الإسلامية",AR: Al Majd Kids
 http://ugeen.live:8080/username/password/3648
-#EXTINF:-1 tvg-logo="",AR: Al Majd Science
+#EXTINF:-1 tvg-id="" tvg-name="AR: Al Majd Science" tvg-logo="" group-title="Islami - القنوات الإسلامية",AR: Al Majd Science
 http://ugeen.live:8080/username/password/3651
-#EXTINF:-1 tvg-logo="",AR: Masr Quraan
+#EXTINF:-1 tvg-id="" tvg-name="AR: Masr Quraan" tvg-logo="" group-title="Islami - القنوات الإسلامية",AR: Masr Quraan
 http://ugeen.live:8080/username/password/2091
-#EXTINF:-1 tvg-logo="",AR: Iqraa 
+#EXTINF:-1 tvg-id="" tvg-name="AR: Iqraa " tvg-logo="" group-title="Islami - القنوات الإسلامية",AR: Iqraa 
 http://ugeen.live:8080/username/password/3864
-#EXTINF:-1 tvg-logo="",AR:  Iqraa
-http://ugeen.live:8080/username/password/3867
-#EXTINF:-1 tvg-logo="",•●★★--- القرءان الكريــــــــــم---★★●•
+#EXTINF:-1 tvg-id="" tvg-name="•●★★--- القرءان الكريــــــــــم---★★●•" tvg-logo="" group-title="Islami - القنوات الإسلامية",•●★★--- القرءان الكريــــــــــم---★★●•
 http://ugeen.live:8080/username/password/3289
-#EXTINF:-1 tvg-logo="",اذاعه القرءان الكريم من القاهرة
+#EXTINF:-1 tvg-id="" tvg-name="اذاعه القرءان الكريم من القاهرة" tvg-logo="" group-title="Islami - القنوات الإسلامية",اذاعه القرءان الكريم من القاهرة
 http://ugeen.live:8080/username/password/3295
-#EXTINF:-1 tvg-logo="",راديو مشارى بن راشد العفاسى
+#EXTINF:-1 tvg-id="" tvg-name="راديو مشارى بن راشد العفاسى" tvg-logo="" group-title="Islami - القنوات الإسلامية",راديو مشارى بن راشد العفاسى
 http://ugeen.live:8080/username/password/2739
-#EXTINF:-1 tvg-logo="",راديو احمد بن على العجمى
+#EXTINF:-1 tvg-id="" tvg-name="راديو احمد بن على العجمى" tvg-logo="" group-title="Islami - القنوات الإسلامية",راديو احمد بن على العجمى
 http://ugeen.live:8080/username/password/2740
-#EXTINF:-1 tvg-logo="",راديو محمد جبريل
+#EXTINF:-1 tvg-id="" tvg-name="راديو محمد جبريل" tvg-logo="" group-title="Islami - القنوات الإسلامية",راديو محمد جبريل
 http://ugeen.live:8080/username/password/2741
-#EXTINF:-1 tvg-logo="",راديو عبدا الباسط عبد الصمد
+#EXTINF:-1 tvg-id="" tvg-name="راديو عبدا الباسط عبد الصمد" tvg-logo="" group-title="Islami - القنوات الإسلامية",راديو عبدا الباسط عبد الصمد
 http://ugeen.live:8080/username/password/2742
-#EXTINF:-1 tvg-logo="",راديو فارس عياد
+#EXTINF:-1 tvg-id="" tvg-name="راديو فارس عياد" tvg-logo="" group-title="Islami - القنوات الإسلامية",راديو فارس عياد
 http://ugeen.live:8080/username/password/3288
-#EXTINF:-1 tvg-logo="",راديو ابو بكر الشاطرى
+#EXTINF:-1 tvg-id="" tvg-name="راديو ابو بكر الشاطرى" tvg-logo="" group-title="Islami - القنوات الإسلامية",راديو ابو بكر الشاطرى
 http://ugeen.live:8080/username/password/2743
-#EXTINF:-1 tvg-logo="",راديو ماهر المعيقلى
+#EXTINF:-1 tvg-id="" tvg-name="راديو ماهر المعيقلى" tvg-logo="" group-title="Islami - القنوات الإسلامية",راديو ماهر المعيقلى
 http://ugeen.live:8080/username/password/2744
-#EXTINF:-1 tvg-logo="",راديو الحصرى
+#EXTINF:-1 tvg-id="" tvg-name="راديو الحصرى" tvg-logo="" group-title="Islami - القنوات الإسلامية",راديو الحصرى
 http://ugeen.live:8080/username/password/2745
-#EXTINF:-1 tvg-logo="",راديو احمد الطرابلسى
+#EXTINF:-1 tvg-id="" tvg-name="راديو احمد الطرابلسى" tvg-logo="" group-title="Islami - القنوات الإسلامية",راديو احمد الطرابلسى
 http://ugeen.live:8080/username/password/2746
-#EXTINF:-1 tvg-logo="",راديو الطبلاوي
+#EXTINF:-1 tvg-id="" tvg-name="راديو الطبلاوي" tvg-logo="" group-title="Islami - القنوات الإسلامية",راديو الطبلاوي
 http://ugeen.live:8080/username/password/3285
-#EXTINF:-1 tvg-logo="",راديو الشريم
+#EXTINF:-1 tvg-id="" tvg-name="راديو الشريم" tvg-logo="" group-title="Islami - القنوات الإسلامية",راديو الشريم
 http://ugeen.live:8080/username/password/3292
-#EXTINF:-1 tvg-logo="",راديو السديس
+#EXTINF:-1 tvg-id="" tvg-name="راديو السديس" tvg-logo="" group-title="Islami - القنوات الإسلامية",راديو السديس
 http://ugeen.live:8080/username/password/3293
-#EXTINF:-1 tvg-logo="",راديو الحذيفى
+#EXTINF:-1 tvg-id="" tvg-name="راديو الحذيفى" tvg-logo="" group-title="Islami - القنوات الإسلامية",راديو الحذيفى
 http://ugeen.live:8080/username/password/3294
-#EXTINF:-1 tvg-logo="",راديو عبد الله علي جابر
+#EXTINF:-1 tvg-id="" tvg-name="راديو عبد الله علي جابر" tvg-logo="" group-title="Islami - القنوات الإسلامية",راديو عبد الله علي جابر
 http://ugeen.live:8080/username/password/3286
-#EXTINF:-1 tvg-logo="",راديو محمد ايوب
+#EXTINF:-1 tvg-id="" tvg-name="راديو محمد ايوب" tvg-logo="" group-title="Islami - القنوات الإسلامية",راديو محمد ايوب
 http://ugeen.live:8080/username/password/3290
-#EXTINF:-1 tvg-logo="",راديو خالد القحطانى
+#EXTINF:-1 tvg-id="" tvg-name="راديو خالد القحطانى" tvg-logo="" group-title="Islami - القنوات الإسلامية",راديو خالد القحطانى
 http://ugeen.live:8080/username/password/3287
-#EXTINF:-1 tvg-logo="",راديو ياسر الدوسرى
+#EXTINF:-1 tvg-id="" tvg-name="راديو ياسر الدوسرى" tvg-logo="" group-title="Islami - القنوات الإسلامية",راديو ياسر الدوسرى
 http://ugeen.live:8080/username/password/3540
-#EXTINF:-1 tvg-logo="",راديو محمد صديق المنشاوى
+#EXTINF:-1 tvg-id="" tvg-name="راديو محمد صديق المنشاوى" tvg-logo="" group-title="Islami - القنوات الإسلامية",راديو محمد صديق المنشاوى
 http://ugeen.live:8080/username/password/3291
-#EXTINF:-1 tvg-logo="",راديو سعد الغامدى
+#EXTINF:-1 tvg-id="" tvg-name="راديو سعد الغامدى" tvg-logo="" group-title="Islami - القنوات الإسلامية",راديو سعد الغامدى
 http://ugeen.live:8080/username/password/3444
 #EXTINF:-1 tvg-id="" tvg-name="•●★★--- beIN Sport Full HD ---★★●•" tvg-logo="" group-title="beIN SPORTS [FHD] ⚽",•●★★--- beIN Sport Full HD ---★★●•
 http://ugeen.live:8080/username/password/3220
@@ -177,1099 +175,1257 @@ http://ugeen.live:8080/username/password/91
 http://ugeen.live:8080/username/password/61
 #EXTINF:-1 tvg-id="" tvg-name="beIN SPORTS 7SD" tvg-logo="" group-title="beIN SPORTS [SD] ⚽",beIN SPORTS 7SD
 http://ugeen.live:8080/username/password/4035
-#EXTINF:-1 tvg-logo="",•●★★--- SSC Sports - Serie A---★★●•
+#EXTINF:-1 tvg-id="" tvg-name="•●★★--- SSC Sports - Serie A---★★●•" tvg-logo="" group-title="SerieA - الدوري الإيطالي",•●★★--- SSC Sports - Serie A---★★●•
 http://ugeen.live:8080/username/password/4039
-#EXTINF:-1 tvg-logo="",AR: SSC SPORT 1 (1080p)
+#EXTINF:-1 tvg-id="" tvg-name="RedLocal: SSC NEWS" tvg-logo="" group-title="SSC Sports - Arab Sports [الرياضة العربية]",RedLocal: SSC NEWS
+http://ugeen.live:8080/username/password/4227
+#EXTINF:-1 tvg-id="" tvg-name="AR: SSC SPORT 1 (1080p)" tvg-logo="" group-title="SSC Sports - Arab Sports [الرياضة العربية]",AR: SSC SPORT 1 (1080p)
 http://ugeen.live:8080/username/password/4119
-#EXTINF:-1 tvg-logo="",AR: SSC SPORT 2 (1080p)
-http://ugeen.live:8080/username/password/4120
-#EXTINF:-1 tvg-logo="",AR: SSC SPORT 4 (1080p)
-http://ugeen.live:8080/username/password/4124
-#EXTINF:-1 tvg-logo="",AR: SSC SPORT 5 (1080p)
-http://ugeen.live:8080/username/password/4126
-#EXTINF:-1 tvg-logo="",AR: SSC Extra 1 (1080p)
-http://ugeen.live:8080/username/password/4128
-#EXTINF:-1 tvg-logo="",AR: SSC Extra 2 (1080p)
-http://ugeen.live:8080/username/password/4130
-#EXTINF:-1 tvg-logo="",AR: SSC Sport 1 (720P)
+#EXTINF:-1 tvg-id="" tvg-name="AR: SSC Sport 1 (720P)" tvg-logo="" group-title="SSC Sports - Arab Sports [الرياضة العربية]",AR: SSC Sport 1 (720P)
 http://ugeen.live:8080/username/password/3833
-#EXTINF:-1 tvg-logo="",AR: SSC Sport 2 (720p)
-http://ugeen.live:8080/username/password/3834
-#EXTINF:-1 tvg-logo="",AR: SSC Sport 3 (720p)
-http://ugeen.live:8080/username/password/3835
-#EXTINF:-1 tvg-logo="",AR: SSC Sport 4 (720p)
-http://ugeen.live:8080/username/password/3836
-#EXTINF:-1 tvg-logo="",AR: SSC Sport 5 (720p)
-http://ugeen.live:8080/username/password/3837
-#EXTINF:-1 tvg-logo="",Ar: SSC Extra 1 (720p)
-http://ugeen.live:8080/username/password/3838
-#EXTINF:-1 tvg-logo="",AR: SSC Extra 2 (720p)
-http://ugeen.live:8080/username/password/3839
-#EXTINF:-1 tvg-logo="",AR: SSC SPORT 1 (480p)
+#EXTINF:-1 tvg-id="" tvg-name="AR: SSC SPORT 1 (480p)" tvg-logo="" group-title="SSC Sports - Arab Sports [الرياضة العربية]",AR: SSC SPORT 1 (480p)
 http://ugeen.live:8080/username/password/4099
-#EXTINF:-1 tvg-logo="",AR: SSC Extra 1 (480p)
-http://ugeen.live:8080/username/password/4129
-#EXTINF:-1 tvg-logo="",AR: SSC Extra 2 (480p)
-http://ugeen.live:8080/username/password/4131
-#EXTINF:-1 tvg-logo="",AR: SSC HD1 [360P]
+#EXTINF:-1 tvg-id="" tvg-name="AR: SSC HD1 [360P]" tvg-logo="" group-title="SSC Sports - Arab Sports [الرياضة العربية]",AR: SSC HD1 [360P]
 http://ugeen.live:8080/username/password/4132
-#EXTINF:-1 tvg-logo="",AR: AD Sport Premium 1 HD
+#EXTINF:-1 tvg-id="" tvg-name="AR: SSC SPORT 2 (1080p)" tvg-logo="" group-title="SSC Sports - Arab Sports [الرياضة العربية]",AR: SSC SPORT 2 (1080p)
+http://ugeen.live:8080/username/password/4120
+#EXTINF:-1 tvg-id="" tvg-name="AR: SSC Sport 2 (720p)" tvg-logo="" group-title="SSC Sports - Arab Sports [الرياضة العربية]",AR: SSC Sport 2 (720p)
+http://ugeen.live:8080/username/password/3834
+#EXTINF:-1 tvg-id="" tvg-name="AR: SSC Sport 3 (1080p)" tvg-logo="" group-title="SSC Sports - Arab Sports [الرياضة العربية]",AR: SSC Sport 3 (1080p)
+http://ugeen.live:8080/username/password/4239
+#EXTINF:-1 tvg-id="" tvg-name="AR: SSC Sport 3 (720p)" tvg-logo="" group-title="SSC Sports - Arab Sports [الرياضة العربية]",AR: SSC Sport 3 (720p)
+http://ugeen.live:8080/username/password/3835
+#EXTINF:-1 tvg-id="" tvg-name="AR: SSC 3 (480p)" tvg-logo="" group-title="SSC Sports - Arab Sports [الرياضة العربية]",AR: SSC 3 (480p)
+http://ugeen.live:8080/username/password/4237
+#EXTINF:-1 tvg-id="" tvg-name="AR: SSC 3 (360p)" tvg-logo="" group-title="SSC Sports - Arab Sports [الرياضة العربية]",AR: SSC 3 (360p)
+http://ugeen.live:8080/username/password/4238
+#EXTINF:-1 tvg-id="" tvg-name="AR: SSC SPORT 4 (1080p)" tvg-logo="" group-title="SSC Sports - Arab Sports [الرياضة العربية]",AR: SSC SPORT 4 (1080p)
+http://ugeen.live:8080/username/password/4124
+#EXTINF:-1 tvg-id="" tvg-name="AR: SSC Sport 4 (720p)" tvg-logo="" group-title="SSC Sports - Arab Sports [الرياضة العربية]",AR: SSC Sport 4 (720p)
+http://ugeen.live:8080/username/password/3836
+#EXTINF:-1 tvg-id="" tvg-name="AR: SSC SPORT 5 (1080p)" tvg-logo="" group-title="SSC Sports - Arab Sports [الرياضة العربية]",AR: SSC SPORT 5 (1080p)
+http://ugeen.live:8080/username/password/4126
+#EXTINF:-1 tvg-id="" tvg-name="AR: SSC Sport 5 (720p)" tvg-logo="" group-title="SSC Sports - Arab Sports [الرياضة العربية]",AR: SSC Sport 5 (720p)
+http://ugeen.live:8080/username/password/3837
+#EXTINF:-1 tvg-id="" tvg-name="AR: SSC SPORT 5 (480p)" tvg-logo="" group-title="SSC Sports - Arab Sports [الرياضة العربية]",AR: SSC SPORT 5 (480p)
+http://ugeen.live:8080/username/password/4228
+#EXTINF:-1 tvg-id="" tvg-name="AR: SSC SPORT 5 (360) " tvg-logo="" group-title="SSC Sports - Arab Sports [الرياضة العربية]",AR: SSC SPORT 5 (360) 
+http://ugeen.live:8080/username/password/4229
+#EXTINF:-1 tvg-id="" tvg-name="AR: SSC Extra 1 (1080p)" tvg-logo="" group-title="SSC Sports - Arab Sports [الرياضة العربية]",AR: SSC Extra 1 (1080p)
+http://ugeen.live:8080/username/password/4128
+#EXTINF:-1 tvg-id="" tvg-name="Ar: SSC Extra 1 (720p)" tvg-logo="" group-title="SSC Sports - Arab Sports [الرياضة العربية]",Ar: SSC Extra 1 (720p)
+http://ugeen.live:8080/username/password/3838
+#EXTINF:-1 tvg-id="" tvg-name="AR: SSC Extra 1 (480p)" tvg-logo="" group-title="SSC Sports - Arab Sports [الرياضة العربية]",AR: SSC Extra 1 (480p)
+http://ugeen.live:8080/username/password/4230
+#EXTINF:-1 tvg-id="" tvg-name="AR: SSC Extra 1 (360p)" tvg-logo="" group-title="Islami - القنوات الإسلامية",AR: SSC Extra 1 (360p)
+http://ugeen.live:8080/username/password/4231
+#EXTINF:-1 tvg-id="" tvg-name="AR: SSC Extra 2 (1080p)" tvg-logo="" group-title="SSC Sports - Arab Sports [الرياضة العربية]",AR: SSC Extra 2 (1080p)
+http://ugeen.live:8080/username/password/4130
+#EXTINF:-1 tvg-id="" tvg-name="AR: SSC Extra 2 (720p)" tvg-logo="" group-title="SSC Sports - Arab Sports [الرياضة العربية]",AR: SSC Extra 2 (720p)
+http://ugeen.live:8080/username/password/3839
+#EXTINF:-1 tvg-id="" tvg-name="AR: SSC Extra 2 (480p)" tvg-logo="" group-title="SSC Sports - Arab Sports [الرياضة العربية]",AR: SSC Extra 2 (480p)
+http://ugeen.live:8080/username/password/4232
+#EXTINF:-1 tvg-id="" tvg-name="AR: SSC Extra 2 (360p)" tvg-logo="" group-title="SSC Sports - Arab Sports [الرياضة العربية]",AR: SSC Extra 2 (360p)
+http://ugeen.live:8080/username/password/4233
+#EXTINF:-1 tvg-id="" tvg-name="AR: SSC Extra 3 (1080p)" tvg-logo="" group-title="SSC Sports - Arab Sports [الرياضة العربية]",AR: SSC Extra 3 (1080p)
+http://ugeen.live:8080/username/password/4234
+#EXTINF:-1 tvg-id="" tvg-name="AR: SSC Extra 3 (720p)" tvg-logo="" group-title="SSC Sports - Arab Sports [الرياضة العربية]",AR: SSC Extra 3 (720p)
+http://ugeen.live:8080/username/password/4235
+#EXTINF:-1 tvg-id="" tvg-name="AR: SSC Extra 3 (480p)" tvg-logo="" group-title="SSC Sports - Arab Sports [الرياضة العربية]",AR: SSC Extra 3 (480p)
+http://ugeen.live:8080/username/password/4236
+#EXTINF:-1 tvg-id="" tvg-name="AR: AD Sport Premium 1 HD" tvg-logo="" group-title="SerieA - الدوري الإيطالي",AR: AD Sport Premium 1 HD
 http://ugeen.live:8080/username/password/4040
-#EXTINF:-1 tvg-logo="",AR: AD Sport Premium 2 HD 
+#EXTINF:-1 tvg-id="" tvg-name="AR: AD Sport Premium 2 HD " tvg-logo="" group-title="SerieA - الدوري الإيطالي",AR: AD Sport Premium 2 HD 
 http://ugeen.live:8080/username/password/4041
-#EXTINF:-1 tvg-logo="",AR: AD SPORT PREMIUM 1 SD
+#EXTINF:-1 tvg-id="" tvg-name="AR: AD SPORT PREMIUM 1 SD" tvg-logo="" group-title="SerieA - الدوري الإيطالي",AR: AD SPORT PREMIUM 1 SD
 http://ugeen.live:8080/username/password/4107
-#EXTINF:-1 tvg-logo="",AR: AD SPORT PREMIUM 2 SD 
+#EXTINF:-1 tvg-id="" tvg-name="AR: AD SPORT PREMIUM 2 SD " tvg-logo="" group-title="SerieA - الدوري الإيطالي",AR: AD SPORT PREMIUM 2 SD 
 http://ugeen.live:8080/username/password/4108
-#EXTINF:-1 tvg-logo="",•●★★--- beIN Entertainment ---★★●•
+#EXTINF:-1 tvg-id="" tvg-name="•●★★--- beIN Entertainment ---★★●•" tvg-logo="""" group-title="beIN Entertainment - بي إن الترفيهية",•●★★--- beIN Entertainment ---★★●•
 http://ugeen.live:8080/username/password/121
-#EXTINF:-1 tvg-logo="",AR: beIN Movies 1 HD
+#EXTINF:-1 tvg-id="" tvg-name="AR: beIN Movies 1 HD" tvg-logo="" group-title="beIN Entertainment - بي إن الترفيهية",AR: beIN Movies 1 HD
 http://ugeen.live:8080/username/password/24
-#EXTINF:-1 tvg-logo="",AR: beIN Movies 2 HD
+#EXTINF:-1 tvg-id="" tvg-name="AR: beIN Movies 2 HD" tvg-logo="[" group-title="beIN Entertainment - بي إن الترفيهية",AR: beIN Movies 2 HD
 http://ugeen.live:8080/username/password/17
-#EXTINF:-1 tvg-logo="",AR: beIN Movies 3 HD
+#EXTINF:-1 tvg-id="" tvg-name="AR: beIN Movies 3 HD" tvg-logo="[" group-title="beIN Entertainment - بي إن الترفيهية",AR: beIN Movies 3 HD
 http://ugeen.live:8080/username/password/18
-#EXTINF:-1 tvg-logo="",AR: beIN Movies 4 HD 
+#EXTINF:-1 tvg-id="" tvg-name="AR: beIN Movies 4 HD " tvg-logo="[" group-title="beIN Entertainment - بي إن الترفيهية",AR: beIN Movies 4 HD 
 http://ugeen.live:8080/username/password/19
-#EXTINF:-1 tvg-logo="",AR: beIN Series 1 HD
+#EXTINF:-1 tvg-id="" tvg-name="AR: beIN Series 1 HD" tvg-logo="" group-title="beIN Entertainment - بي إن الترفيهية",AR: beIN Series 1 HD
 http://ugeen.live:8080/username/password/20
-#EXTINF:-1 tvg-logo="",AR: beIN Series 2 HD
+#EXTINF:-1 tvg-id="" tvg-name="AR: beIN Series 2 HD" tvg-logo="" group-title="beIN Entertainment - بي إن الترفيهية",AR: beIN Series 2 HD
 http://ugeen.live:8080/username/password/21
-#EXTINF:-1 tvg-logo="",AR:  beIN Outdoor
+#EXTINF:-1 tvg-id="" tvg-name="AR:  beIN Outdoor" tvg-logo="[" group-title="beIN Entertainment - بي إن الترفيهية",AR:  beIN Outdoor
 http://ugeen.live:8080/username/password/13
-#EXTINF:-1 tvg-logo="",AR:  beIN AMC
+#EXTINF:-1 tvg-id="" tvg-name="AR:  beIN AMC" tvg-logo="[" group-title="beIN Entertainment - بي إن الترفيهية",AR:  beIN AMC
 http://ugeen.live:8080/username/password/14
-#EXTINF:-1 tvg-logo="",AR: beIN Drama
+#EXTINF:-1 tvg-id="" tvg-name="AR: beIN Drama" tvg-logo="[" group-title="beIN Entertainment - بي إن الترفيهية",AR: beIN Drama
 http://ugeen.live:8080/username/password/15
-#EXTINF:-1 tvg-logo="",AR: beIN  Gourmet
+#EXTINF:-1 tvg-id="" tvg-name="AR: beIN  Gourmet" tvg-logo="[" group-title="beIN Entertainment - بي إن الترفيهية",AR: beIN  Gourmet
 http://ugeen.live:8080/username/password/16
-#EXTINF:-1 tvg-logo="",AR: beIN Jeem HD
+#EXTINF:-1 tvg-id="" tvg-name="AR: beIN Jeem HD" tvg-logo="[" group-title="beIN Entertainment - بي إن الترفيهية",AR: beIN Jeem HD
 http://ugeen.live:8080/username/password/22
-#EXTINF:-1 tvg-logo="",AR: beIN Fox Movies
+#EXTINF:-1 tvg-id="" tvg-name="AR: beIN Fox Movies" tvg-logo="[" group-title="beIN Entertainment - بي إن الترفيهية",AR: beIN Fox Movies
 http://ugeen.live:8080/username/password/23
-#EXTINF:-1 tvg-logo="",AR: beIN FATAFEAT HD
+#EXTINF:-1 tvg-id="" tvg-name="AR: beIN FATAFEAT HD" tvg-logo="[" group-title="beIN Entertainment - بي إن الترفيهية",AR: beIN FATAFEAT HD
 http://ugeen.live:8080/username/password/25
-#EXTINF:-1 tvg-logo="",AR: beIN Baraeem
+#EXTINF:-1 tvg-id="" tvg-name="AR: beIN Baraeem" tvg-logo="" group-title="beIN Entertainment - بي إن الترفيهية",AR: beIN Baraeem
 http://ugeen.live:8080/username/password/2028
-#EXTINF:-1 tvg-logo="",AR :beIN_BOOMERANG
+#EXTINF:-1 tvg-id="" tvg-name="AR :beIN_BOOMERANG" tvg-logo="" group-title="beIN Entertainment - بي إن الترفيهية",AR :beIN_BOOMERANG
 http://ugeen.live:8080/username/password/2945
-#EXTINF:-1 tvg-logo="",AR: beIN DTX
+#EXTINF:-1 tvg-id="" tvg-name="AR: beIN DTX" tvg-logo="" group-title="beIN Entertainment - بي إن الترفيهية",AR: beIN DTX
 http://ugeen.live:8080/username/password/2946
-#EXTINF:-1 tvg-logo="",AR: beIN JUNIOR HD
+#EXTINF:-1 tvg-id="" tvg-name="AR: beIN JUNIOR HD" tvg-logo="" group-title="beIN Entertainment - بي إن الترفيهية",AR: beIN JUNIOR HD
 http://ugeen.live:8080/username/password/2947
-#EXTINF:-1 tvg-logo="",AR: beIN DREAMWORKS HD
+#EXTINF:-1 tvg-id="" tvg-name="AR: beIN DREAMWORKS HD" tvg-logo="" group-title="beIN Entertainment - بي إن الترفيهية",AR: beIN DREAMWORKS HD
 http://ugeen.live:8080/username/password/2948
-#EXTINF:-1 tvg-logo="",AR:Cartoon Network Arabic
+#EXTINF:-1 tvg-id="" tvg-name="AR:Cartoon Network Arabic" tvg-logo="" group-title="beIN Entertainment - بي إن الترفيهية",AR:Cartoon Network Arabic
 http://ugeen.live:8080/username/password/2949
-#EXTINF:-1 tvg-logo="",AR: beIN BOXOFFICE HD1
+#EXTINF:-1 tvg-id="" tvg-name="AR: beIN BOXOFFICE HD1" tvg-logo="" group-title="beIN Entertainment - بي إن الترفيهية",AR: beIN BOXOFFICE HD1
 http://ugeen.live:8080/username/password/3276
-#EXTINF:-1 tvg-logo="",AR: beIN BOXOFFICE HD2
-http://ugeen.live:8080/username/password/3706
-#EXTINF:-1 tvg-logo="",AR: beIN BOXOFFICE HD3
-http://ugeen.live:8080/username/password/3709
-#EXTINF:-1 tvg-logo="",Bein BBC Earth HD
+#EXTINF:-1 tvg-id="" tvg-name="Bein BBC Earth HD" tvg-logo="" group-title="beIN Entertainment - بي إن الترفيهية",Bein BBC Earth HD
 http://ugeen.live:8080/username/password/3945
-#EXTINF:-1 tvg-logo="",•●★★--- MBC HD ---★★●•
+#EXTINF:-1 tvg-id="" tvg-name="•●★★--- MBC HD ---★★●•" tvg-logo="" group-title="MBC [ MyHD ]",•●★★--- MBC HD ---★★●•
 http://ugeen.live:8080/username/password/125
-#EXTINF:-1 tvg-logo="",MYHD: MBC 1 HD
+#EXTINF:-1 tvg-id="" tvg-name="MYHD: MBC 1 HD" tvg-logo="" group-title="MBC [ MyHD ]",MYHD: MBC 1 HD
 http://ugeen.live:8080/username/password/845
-#EXTINF:-1 tvg-logo="",MYHD: MBC 2 HD
+#EXTINF:-1 tvg-id="" tvg-name="MYHD: MBC 2 HD" tvg-logo="" group-title="MBC [ MyHD ]",MYHD: MBC 2 HD
 http://ugeen.live:8080/username/password/846
-#EXTINF:-1 tvg-logo="",MYHD: MBC 3 HD
+#EXTINF:-1 tvg-id="" tvg-name="MYHD: MBC 3 HD" tvg-logo="" group-title="MBC [ MyHD ]",MYHD: MBC 3 HD
 http://ugeen.live:8080/username/password/847
-#EXTINF:-1 tvg-logo="",MYHD: MBC 4 HD
+#EXTINF:-1 tvg-id="" tvg-name="MYHD: MBC 4 HD" tvg-logo="" group-title="MBC [ MyHD ]",MYHD: MBC 4 HD
 http://ugeen.live:8080/username/password/848
-#EXTINF:-1 tvg-logo="",MYHD: MBC 5 HD
+#EXTINF:-1 tvg-id="" tvg-name="MYHD: MBC 5 HD" tvg-logo="" group-title="MBC [ MyHD ]",MYHD: MBC 5 HD
 http://ugeen.live:8080/username/password/2114
-#EXTINF:-1 tvg-logo="",MYHD: MBC Bollywood HD
+#EXTINF:-1 tvg-id="" tvg-name="MYHD: MBC Bollywood HD" tvg-logo="" group-title="MBC [ MyHD ]",MYHD: MBC Bollywood HD
 http://ugeen.live:8080/username/password/849
-#EXTINF:-1 tvg-logo="",MYHD: MBC Massr HD
+#EXTINF:-1 tvg-id="" tvg-name="MYHD: MBC Massr HD" tvg-logo="" group-title="MBC [ MyHD ]",MYHD: MBC Massr HD
 http://ugeen.live:8080/username/password/850
-#EXTINF:-1 tvg-logo="",MYHD: MBC Masr 2 HD
+#EXTINF:-1 tvg-id="" tvg-name="MYHD: MBC Masr 2 HD" tvg-logo="" group-title="MBC [ MyHD ]",MYHD: MBC Masr 2 HD
 http://ugeen.live:8080/username/password/851
-#EXTINF:-1 tvg-logo="",MYHD: MBC Drama HD
+#EXTINF:-1 tvg-id="" tvg-name="MYHD: MBC Drama HD" tvg-logo="" group-title="MBC [ MyHD ]",MYHD: MBC Drama HD
 http://ugeen.live:8080/username/password/852
-#EXTINF:-1 tvg-logo="",MYHD: MBC Action HD
+#EXTINF:-1 tvg-id="" tvg-name="MYHD: MBC Action HD" tvg-logo="" group-title="MBC [ MyHD ]",MYHD: MBC Action HD
 http://ugeen.live:8080/username/password/853
-#EXTINF:-1 tvg-logo="",MYHD: MBC Max HD
+#EXTINF:-1 tvg-id="" tvg-name="MYHD: MBC Max HD" tvg-logo="" group-title="MBC [ MyHD ]",MYHD: MBC Max HD
 http://ugeen.live:8080/username/password/854
-#EXTINF:-1 tvg-logo="",MYHD: MBC Iraq HD
+#EXTINF:-1 tvg-id="" tvg-name="MYHD: MBC Iraq HD" tvg-logo="" group-title="MBC [ MyHD ]",MYHD: MBC Iraq HD
 http://ugeen.live:8080/username/password/855
-#EXTINF:-1 tvg-logo="",MYHD: MBC Drama+ HD
+#EXTINF:-1 tvg-id="" tvg-name="MYHD: MBC Drama+ HD" tvg-logo="" group-title="MBC [ MyHD ]",MYHD: MBC Drama+ HD
 http://ugeen.live:8080/username/password/856
-#EXTINF:-1 tvg-logo="",MYHD: MBC+Variety HD
+#EXTINF:-1 tvg-id="" tvg-name="MYHD: MBC+Variety HD" tvg-logo="" group-title="MBC [ MyHD ]",MYHD: MBC+Variety HD
 http://ugeen.live:8080/username/password/857
-#EXTINF:-1 tvg-logo="",MYHD: MBC Persia
+#EXTINF:-1 tvg-id="" tvg-name="MYHD: MBC Persia" tvg-logo="" group-title="MBC [ MyHD ]",MYHD: MBC Persia
 http://ugeen.live:8080/username/password/3802
-#EXTINF:-1 tvg-logo="",MYHD: MBC Wanasah
+#EXTINF:-1 tvg-id="" tvg-name="MYHD: MBC Wanasah" tvg-logo="" group-title="MBC [ MyHD ]",MYHD: MBC Wanasah
 http://ugeen.live:8080/username/password/3803
-#EXTINF:-1 tvg-logo="",AR: MBC FM
+#EXTINF:-1 tvg-id="" tvg-name="AR: MBC FM" tvg-logo="" group-title="MBC [ MyHD ]",AR: MBC FM
 http://ugeen.live:8080/username/password/3737
-#EXTINF:-1 tvg-logo="",MYHD: FOX Rewayat HD
+#EXTINF:-1 tvg-id="" tvg-name="MYHD: FOX Rewayat HD" tvg-logo="" group-title="MBC [ MyHD ]",MYHD: FOX Rewayat HD
 http://ugeen.live:8080/username/password/859
-#EXTINF:-1 tvg-logo="",MYHD: FOX Life HD
+#EXTINF:-1 tvg-id="" tvg-name="MYHD: FOX Life HD" tvg-logo="" group-title="MBC [ MyHD ]",MYHD: FOX Life HD
 http://ugeen.live:8080/username/password/860
-#EXTINF:-1 tvg-logo="",MYHD: Family Movies HD
+#EXTINF:-1 tvg-id="" tvg-name="MYHD: Family Movies HD" tvg-logo="" group-title="MBC [ MyHD ]",MYHD: Family Movies HD
 http://ugeen.live:8080/username/password/861
-#EXTINF:-1 tvg-logo="",MYHD: FOX Crime HD
+#EXTINF:-1 tvg-id="" tvg-name="MYHD: FOX Crime HD" tvg-logo="" group-title="MBC [ MyHD ]",MYHD: FOX Crime HD
 http://ugeen.live:8080/username/password/862
-#EXTINF:-1 tvg-logo="",MYHD: Fox Action
+#EXTINF:-1 tvg-id="" tvg-name="MYHD: Fox Action" tvg-logo="" group-title="MBC [ MyHD ]",MYHD: Fox Action
 http://ugeen.live:8080/username/password/863
-#EXTINF:-1 tvg-logo="",MYHD: FX HD
+#EXTINF:-1 tvg-id="" tvg-name="MYHD: FX HD" tvg-logo="" group-title="MBC [ MyHD ]",MYHD: FX HD
 http://ugeen.live:8080/username/password/865
-#EXTINF:-1 tvg-logo="",MYHD: Fox Movies
+#EXTINF:-1 tvg-id="" tvg-name="MYHD: Fox Movies" tvg-logo="" group-title="MBC [ MyHD ]",MYHD: Fox Movies
 http://ugeen.live:8080/username/password/867
-#EXTINF:-1 tvg-logo="",MYHD: Planet Earth HD
+#EXTINF:-1 tvg-id="" tvg-name="MYHD: Planet Earth HD" tvg-logo="" group-title="MBC [ MyHD ]",MYHD: Planet Earth HD
 http://ugeen.live:8080/username/password/869
-#EXTINF:-1 tvg-logo="",MYHD: Discovery SC HD
+#EXTINF:-1 tvg-id="" tvg-name="MYHD: Discovery SC HD" tvg-logo="" group-title="MBC [ MyHD ]",MYHD: Discovery SC HD
 http://ugeen.live:8080/username/password/871
-#EXTINF:-1 tvg-logo="",MYHD: Gulli Arabic HD
+#EXTINF:-1 tvg-id="" tvg-name="MYHD: Gulli Arabic HD" tvg-logo="" group-title="MBC [ MyHD ]",MYHD: Gulli Arabic HD
 http://ugeen.live:8080/username/password/872
-#EXTINF:-1 tvg-logo="",MYHD: Duck TV HD
+#EXTINF:-1 tvg-id="" tvg-name="MYHD: Duck TV HD" tvg-logo="" group-title="MBC [ MyHD ]",MYHD: Duck TV HD
 http://ugeen.live:8080/username/password/874
-#EXTINF:-1 tvg-logo="",MBC_1 sd
+#EXTINF:-1 tvg-id="" tvg-name="MBC_1 sd" tvg-logo="" group-title="MBC [ MyHD ]",MBC_1 sd
 http://ugeen.live:8080/username/password/2771
-#EXTINF:-1 tvg-logo="",MBC_2 sd
+#EXTINF:-1 tvg-id="" tvg-name="MBC_2 sd" tvg-logo="" group-title="MBC [ MyHD ]",MBC_2 sd
 http://ugeen.live:8080/username/password/2772
-#EXTINF:-1 tvg-logo="",MBC_3 sd
+#EXTINF:-1 tvg-id="" tvg-name="MBC_3 sd" tvg-logo="" group-title="MBC [ MyHD ]",MBC_3 sd
 http://ugeen.live:8080/username/password/2773
-#EXTINF:-1 tvg-logo="",MBC_4 sd
+#EXTINF:-1 tvg-id="" tvg-name="MBC_4 sd" tvg-logo="" group-title="MBC [ MyHD ]",MBC_4 sd
 http://ugeen.live:8080/username/password/2774
-#EXTINF:-1 tvg-logo="",,MBC_5 sd
+#EXTINF:-1 tvg-id="" tvg-name=",MBC_5 sd" tvg-logo="" group-title="MBC [ MyHD ]",,MBC_5 sd
 http://ugeen.live:8080/username/password/2775
-#EXTINF:-1 tvg-logo="",MBC_MAX sd
+#EXTINF:-1 tvg-id="" tvg-name="MBC_MAX sd" tvg-logo="" group-title="MBC [ MyHD ]",MBC_MAX sd
 http://ugeen.live:8080/username/password/2776
-#EXTINF:-1 tvg-logo="",MBC_ACTION sd
+#EXTINF:-1 tvg-id="" tvg-name="MBC_ACTION sd" tvg-logo="" group-title="MBC [ MyHD ]",MBC_ACTION sd
 http://ugeen.live:8080/username/password/2777
-#EXTINF:-1 tvg-logo="",MBC_DRAMA sd
+#EXTINF:-1 tvg-id="" tvg-name="MBC_DRAMA sd" tvg-logo="" group-title="MBC [ MyHD ]",MBC_DRAMA sd
 http://ugeen.live:8080/username/password/2778
-#EXTINF:-1 tvg-logo="",MBC_MASR sd
+#EXTINF:-1 tvg-id="" tvg-name="MBC_MASR sd" tvg-logo="" group-title="MBC [ MyHD ]",MBC_MASR sd
 http://ugeen.live:8080/username/password/2779
-#EXTINF:-1 tvg-logo="",MBC_MASR 2 sd
+#EXTINF:-1 tvg-id="" tvg-name="MBC_MASR 2 sd" tvg-logo="" group-title="MBC [ MyHD ]",MBC_MASR 2 sd
 http://ugeen.live:8080/username/password/2780
-#EXTINF:-1 tvg-logo="",MBC_FM_PANORAMA sd
+#EXTINF:-1 tvg-id="" tvg-name="MBC_FM_PANORAMA sd" tvg-logo="" group-title="MBC [ MyHD ]",MBC_FM_PANORAMA sd
 http://ugeen.live:8080/username/password/2781
-#EXTINF:-1 tvg-logo="",•●★★--- OSN HD ---★★●•
+#EXTINF:-1 tvg-id="" tvg-name="•●★★--- OSN HD ---★★●•" tvg-logo="" group-title="OSN [ HD ]",•●★★--- OSN HD ---★★●•
 http://ugeen.live:8080/username/password/124
-#EXTINF:-1 tvg-logo="",OSN ALSAFWA
+#EXTINF:-1 tvg-id="" tvg-name="OSN ALSAFWA" tvg-logo="" group-title="OSN [ HD ]",OSN ALSAFWA
 http://ugeen.live:8080/username/password/4025
-#EXTINF:-1 tvg-logo="",OSN YaHala  HD
+#EXTINF:-1 tvg-id="" tvg-name="OSN YaHala  HD" tvg-logo="" group-title="OSN [ HD ]",OSN YaHala  HD
 http://ugeen.live:8080/username/password/4026
-#EXTINF:-1 tvg-logo="",OSN YAHALA 1
+#EXTINF:-1 tvg-id="" tvg-name="OSN  Hala Bil Araby" tvg-logo="[" group-title="OSN [ HD ]",OSN  Hala Bil Araby
 http://ugeen.live:8080/username/password/156
-#EXTINF:-1 tvg-logo="",OSN YAHALA CINEMA
+#EXTINF:-1 tvg-id="" tvg-name="OSN YAHALA AFLAM" tvg-logo="" group-title="OSN [ HD ]",OSN YAHALA AFLAM
 http://ugeen.live:8080/username/password/161
-#EXTINF:-1 tvg-logo="",OSN MUSALSALAT HD
+#EXTINF:-1 tvg-id="" tvg-name="OSN MUSALSALAT HD" tvg-logo="" group-title="OSN [ HD ]",OSN MUSALSALAT HD
 http://ugeen.live:8080/username/password/4027
-#EXTINF:-1 tvg-logo="",OSN:  AL YAWM HD
+#EXTINF:-1 tvg-id="" tvg-name="OSN:  AL YAWM HD" tvg-logo="" group-title="OSN [ HD ]",OSN:  AL YAWM HD
 http://ugeen.live:8080/username/password/2828
-#EXTINF:-1 tvg-logo="",OSN:  Alfa Fann
+#EXTINF:-1 tvg-id="" tvg-name="OSN:  Alfa Fann" tvg-logo="" group-title="OSN [ HD ]",OSN:  Alfa Fann
 http://ugeen.live:8080/username/password/2830
-#EXTINF:-1 tvg-logo="",OSN :H2
-http://ugeen.live:8080/username/password/3542
-#EXTINF:-1 tvg-logo="",OSN : Discovery 
+#EXTINF:-1 tvg-id="" tvg-name="OSN : Discovery " tvg-logo="" group-title="OSN [ HD ]",OSN : Discovery 
 http://ugeen.live:8080/username/password/3543
-#EXTINF:-1 tvg-logo="",OSN: TLC
+#EXTINF:-1 tvg-id="" tvg-name="OSN: TLC" tvg-logo="" group-title="OSN [ HD ]",OSN: TLC
 http://ugeen.live:8080/username/password/3871
-#EXTINF:-1 tvg-logo="",OSN Star Movies
+#EXTINF:-1 tvg-id="" tvg-name="OSN Star Movies" tvg-logo="" group-title="OSN [ HD ]",OSN Star Movies
 http://ugeen.live:8080/username/password/159
-#EXTINF:-1 tvg-logo="",OSN Star World 
+#EXTINF:-1 tvg-id="" tvg-name="OSN Star World " tvg-logo="" group-title="OSN [ HD ]",OSN Star World 
 http://ugeen.live:8080/username/password/160
-#EXTINF:-1 tvg-logo="",OSN: Star-Gold-HD
+#EXTINF:-1 tvg-id="" tvg-name="OSN: Nick JR" tvg-logo="" group-title="OSN [ HD ]",OSN: Nick JR
 http://ugeen.live:8080/username/password/3707
-#EXTINF:-1 tvg-logo="",OSN: E
+#EXTINF:-1 tvg-id="" tvg-name="OSN: E" tvg-logo="" group-title="OSN [ HD ]",OSN: E
 http://ugeen.live:8080/username/password/3284
-#EXTINF:-1 tvg-logo="",[OSN]  outdoor
-http://ugeen.live:8080/username/password/968
-#EXTINF:-1 tvg-logo="",OSN:  Series prime 
+#EXTINF:-1 tvg-id="" tvg-name="OSN:  Series prime " tvg-logo="" group-title="OSN [ HD ]",OSN:  Series prime 
 http://ugeen.live:8080/username/password/2172
-#EXTINF:-1 tvg-logo="",AR: OSN MOVIES FIRST+2 HD
+#EXTINF:-1 tvg-id="" tvg-name="AR: OSN MOVIES FIRST+2 HD" tvg-logo="[" group-title="OSN [ HD ]",AR: OSN MOVIES FIRST+2 HD
 http://ugeen.live:8080/username/password/89
-#EXTINF:-1 tvg-logo="",[OSN] Mezze
+#EXTINF:-1 tvg-id="" tvg-name="[OSN] Mezze" tvg-logo="" group-title="OSN [ HD ]",[OSN] Mezze
 http://ugeen.live:8080/username/password/975
-#EXTINF:-1 tvg-logo="",[OSN] OSN Boxoffice1
+#EXTINF:-1 tvg-id="" tvg-name="[OSN] OSN Boxoffice1" tvg-logo="" group-title="OSN [ HD ]",[OSN] OSN Boxoffice1
 http://ugeen.live:8080/username/password/973
-#EXTINF:-1 tvg-logo="", OSN MOVIES BOX OFFICE 3 HD
+#EXTINF:-1 tvg-id="" tvg-name=" OSN MOVIES BOX OFFICE 3 HD" tvg-logo="" group-title="OSN [ HD ]", OSN MOVIES BOX OFFICE 3 HD
 http://ugeen.live:8080/username/password/981
-#EXTINF:-1 tvg-logo="",OSN  Movies Action
+#EXTINF:-1 tvg-id="" tvg-name="OSN  Movies Action" tvg-logo="[" group-title="OSN [ HD ]",OSN  Movies Action
 http://ugeen.live:8080/username/password/155
-#EXTINF:-1 tvg-logo="",[OSN] Star-Movies india
+#EXTINF:-1 tvg-id="" tvg-name="[OSN] Star-Movies india" tvg-logo="" group-title="OSN [ HD ]",[OSN] Star-Movies india
 http://ugeen.live:8080/username/password/980
-#EXTINF:-1 tvg-logo="",[OSN] OSN PLAY TRILLER HD 2
-http://ugeen.live:8080/username/password/977
-#EXTINF:-1 tvg-logo="",[OSN] ONDEMAND EXTRA *1
+#EXTINF:-1 tvg-id="" tvg-name="[OSN] ONDEMAND EXTRA *1" tvg-logo="" group-title="OSN [ HD ]",[OSN] ONDEMAND EXTRA *1
 http://ugeen.live:8080/username/password/2826
-#EXTINF:-1 tvg-logo="",[OSN] OSN Kids
+#EXTINF:-1 tvg-id="" tvg-name="[OSN] OSN Kids" tvg-logo="" group-title="OSN [ HD ]",[OSN] OSN Kids
 http://ugeen.live:8080/username/password/976
-#EXTINF:-1 tvg-logo="",[OSN] ENIGMA HD
+#EXTINF:-1 tvg-id="" tvg-name="[OSN] ENIGMA HD" tvg-logo="" group-title="OSN [ HD ]",[OSN] ENIGMA HD
 http://ugeen.live:8080/username/password/964
-#EXTINF:-1 tvg-logo="",[OSN] Movies premiere*
+#EXTINF:-1 tvg-id="" tvg-name="[OSN] Movies premiere*" tvg-logo="" group-title="OSN [ HD ]",[OSN] Movies premiere*
 http://ugeen.live:8080/username/password/2825
-#EXTINF:-1 tvg-logo="",[OSN] OSN Discovery H
+#EXTINF:-1 tvg-id="" tvg-name="[OSN] OSN Discovery H" tvg-logo="" group-title="OSN [ HD ]",[OSN] OSN Discovery H
 http://ugeen.live:8080/username/password/969
-#EXTINF:-1 tvg-logo="",OSN: family
+#EXTINF:-1 tvg-id="" tvg-name="OSN: family" tvg-logo="" group-title="OSN [ HD ]",OSN: family
 http://ugeen.live:8080/username/password/2831
-#EXTINF:-1 tvg-logo="",[OSN] Animal Plannet 
+#EXTINF:-1 tvg-id="" tvg-name="[OSN] Animal Plannet " tvg-logo="" group-title="OSN [ HD ]",[OSN] Animal Plannet 
 http://ugeen.live:8080/username/password/966
-#EXTINF:-1 tvg-logo="",[OSN] OSN Comedy
+#EXTINF:-1 tvg-id="" tvg-name="[OSN] OSN Comedy" tvg-logo="" group-title="OSN [ HD ]",[OSN] OSN Comedy
 http://ugeen.live:8080/username/password/965
-#EXTINF:-1 tvg-logo="",OSN History Channel
+#EXTINF:-1 tvg-id="" tvg-name="OSN History Channel" tvg-logo="" group-title="OSN [ HD ]",OSN History Channel
 http://ugeen.live:8080/username/password/167
-#EXTINF:-1 tvg-logo="",OSN  Travel
+#EXTINF:-1 tvg-id="" tvg-name="OSN  Nick Toons" tvg-logo="" group-title="OSN [ HD ]",OSN  Nick Toons
 http://ugeen.live:8080/username/password/3705
-#EXTINF:-1 tvg-logo="",OSN Discovery ID
+#EXTINF:-1 tvg-id="" tvg-name="OSN Discovery ID" tvg-logo="" group-title="OSN [ HD ]",OSN Discovery ID
 http://ugeen.live:8080/username/password/168
-#EXTINF:-1 tvg-logo="",OSN Movies Disney
+#EXTINF:-1 tvg-id="" tvg-name="OSN Movies Disney" tvg-logo="" group-title="OSN [ HD ]",OSN Movies Disney
 http://ugeen.live:8080/username/password/171
-#EXTINF:-1 tvg-logo="", OSN: Disney Channel
+#EXTINF:-1 tvg-id="" tvg-name=" OSN: Disney Channel" tvg-logo="[" group-title="OSN [ HD ]", OSN: Disney Channel
 http://ugeen.live:8080/username/password/667
-#EXTINF:-1 tvg-logo="",OSN Disny Junior
+#EXTINF:-1 tvg-id="" tvg-name="OSN Disny Junior" tvg-logo="" group-title="OSN [ HD ]",OSN Disny Junior
 http://ugeen.live:8080/username/password/162
-#EXTINF:-1 tvg-logo="",OSN: ON-DEMAND-EXTRA-HD
+#EXTINF:-1 tvg-id="" tvg-name="OSN: ON-DEMAND-EXTRA-HD" tvg-logo="" group-title="OSN [ HD ]",OSN: ON-DEMAND-EXTRA-HD
 http://ugeen.live:8080/username/password/2832
-#EXTINF:-1 tvg-logo="",OSN : ID
+#EXTINF:-1 tvg-id="" tvg-name="OSN : ID" tvg-logo="" group-title="OSN [ HD ]",OSN : ID
 http://ugeen.live:8080/username/password/154
-#EXTINF:-1 tvg-logo="",OSN Nat Geo
+#EXTINF:-1 tvg-id="" tvg-name="OSN Nat Geo" tvg-logo="[" group-title="OSN [ HD ]",OSN Nat Geo
 http://ugeen.live:8080/username/password/157
-#EXTINF:-1 tvg-logo="",OSN Nat Geo Pepole
+#EXTINF:-1 tvg-id="" tvg-name="OSN Nat Geo Pepole" tvg-logo="[" group-title="OSN [ HD ]",OSN Nat Geo Pepole
 http://ugeen.live:8080/username/password/158
-#EXTINF:-1 tvg-logo="",[OSN] Movies Action
+#EXTINF:-1 tvg-id="" tvg-name="[OSN] Movies Action" tvg-logo="" group-title="OSN [ HD ]",[OSN] Movies Action
 http://ugeen.live:8080/username/password/963
-#EXTINF:-1 tvg-logo="",[OSN] wwe
+#EXTINF:-1 tvg-id="" tvg-name="[OSN] wwe" tvg-logo="" group-title="OSN [ HD ]",[OSN] wwe
 http://ugeen.live:8080/username/password/994
-#EXTINF:-1 tvg-logo="",[OSN] SYFY
+#EXTINF:-1 tvg-id="" tvg-name="[OSN] SYFY" tvg-logo="" group-title="OSN [ HD ]",[OSN] SYFY
 http://ugeen.live:8080/username/password/993
-#EXTINF:-1 tvg-logo="",[OSN] Alfa Cinema 1
+#EXTINF:-1 tvg-id="" tvg-name="[OSN] Alfa Cinema 1" tvg-logo="" group-title="OSN [ HD ]",[OSN] Alfa Cinema 1
 http://ugeen.live:8080/username/password/991
-#EXTINF:-1 tvg-logo="",[OSN] Alfa Cinema 2
+#EXTINF:-1 tvg-id="" tvg-name="[OSN] Alfa Cinema 2" tvg-logo="" group-title="OSN [ HD ]",[OSN] Alfa Cinema 2
 http://ugeen.live:8080/username/password/992
-#EXTINF:-1 tvg-logo="",[OSN] : Movies
+#EXTINF:-1 tvg-id="" tvg-name="[OSN] : Movies" tvg-logo="" group-title="OSN [ HD ]",[OSN] : Movies
 http://ugeen.live:8080/username/password/987
-#EXTINF:-1 tvg-logo="",[OSN] OSN Animal Planet
+#EXTINF:-1 tvg-id="" tvg-name="[OSN] OSN Animal Planet" tvg-logo="" group-title="OSN [ HD ]",[OSN] OSN Animal Planet
 http://ugeen.live:8080/username/password/962
-#EXTINF:-1 tvg-logo="",[OSN] OSN Nat Geo Wild
+#EXTINF:-1 tvg-id="" tvg-name="[OSN] OSN Nat Geo Wild" tvg-logo="" group-title="OSN [ HD ]",[OSN] OSN Nat Geo Wild
 http://ugeen.live:8080/username/password/982
-#EXTINF:-1 tvg-logo="",OSN: Nickelodeon HD AR
+#EXTINF:-1 tvg-id="" tvg-name="OSN: Nickelodeon HD AR" tvg-logo="" group-title="OSN [ HD ]",OSN: Nickelodeon HD AR
 http://ugeen.live:8080/username/password/2829
-#EXTINF:-1 tvg-logo="",OSN | Action
+#EXTINF:-1 tvg-id="" tvg-name="OSN | Action" tvg-logo="" group-title="OSN [ HD ]",OSN | Action
 http://ugeen.live:8080/username/password/3946
-#EXTINF:-1 tvg-logo="",OSN | FX HD
+#EXTINF:-1 tvg-id="" tvg-name="OSN | FX HD" tvg-logo="" group-title="OSN [ HD ]",OSN | FX HD
 http://ugeen.live:8080/username/password/3947
-#EXTINF:-1 tvg-logo="",OSN Netflix 
+#EXTINF:-1 tvg-id="" tvg-name="OSN Netflix " tvg-logo="" group-title="UGEEN BOX OFFICE",OSN Netflix 
 http://ugeen.live:8080/username/password/3948
-#EXTINF:-1 tvg-logo="", OSN Series Prime HD
+#EXTINF:-1 tvg-id="" tvg-name=" OSN Series Prime HD" tvg-logo="" group-title="OSN [ HD ]", OSN Series Prime HD
 http://ugeen.live:8080/username/password/4020
-#EXTINF:-1 tvg-logo="",•●★★--- UGEEN BOX OFFICE---★★●•
+#EXTINF:-1 tvg-id="" tvg-name="•●★★--- UGEEN BOX OFFICE---★★●•" tvg-logo="" group-title="UGEEN BOX OFFICE",•●★★--- UGEEN BOX OFFICE---★★●•
 http://ugeen.live:8080/username/password/513
-#EXTINF:-1 tvg-logo="",[NETFLIX] Thriller
+#EXTINF:-1 tvg-id="" tvg-name="[NETFLIX]  PLAYS " tvg-logo="" group-title="UGEEN BOX OFFICE",[NETFLIX]  PLAYS 
 http://ugeen.live:8080/username/password/2419
-#EXTINF:-1 tvg-logo="",[NETFLIX] SCi-Fi
+#EXTINF:-1 tvg-id="" tvg-name="[NETFLIX] SCi-Fi" tvg-logo="" group-title="UGEEN BOX OFFICE",[NETFLIX] SCi-Fi
 http://ugeen.live:8080/username/password/2420
-#EXTINF:-1 tvg-logo="",[NETFLIX] Hendy
+#EXTINF:-1 tvg-id="" tvg-name="[NETFLIX] JR" tvg-logo="" group-title="UGEEN BOX OFFICE",[NETFLIX] JR
 http://ugeen.live:8080/username/password/2421
-#EXTINF:-1 tvg-logo="",[NETFLIX] Horror
+#EXTINF:-1 tvg-id="" tvg-name="[NETFLIX] Horror" tvg-logo="" group-title="UGEEN BOX OFFICE",[NETFLIX] Horror
 http://ugeen.live:8080/username/password/2422
-#EXTINF:-1 tvg-logo="",NETFLIX_Comedy+
+#EXTINF:-1 tvg-id="" tvg-name="NETFLIX_Comedy+" tvg-logo="" group-title="UGEEN BOX OFFICE",NETFLIX_Comedy+
 http://ugeen.live:8080/username/password/2505
-#EXTINF:-1 tvg-logo="",NETFLIX_SCI FI
+#EXTINF:-1 tvg-id="" tvg-name="NETFLIX_SCI FI" tvg-logo="" group-title="UGEEN BOX OFFICE",NETFLIX_SCI FI
 http://ugeen.live:8080/username/password/2506
-#EXTINF:-1 tvg-logo="",NETFLIX_HOME_CINEMA_1
+#EXTINF:-1 tvg-id="" tvg-name="NETFLIX Masrah" tvg-logo="" group-title="UGEEN BOX OFFICE",NETFLIX Masrah
 http://ugeen.live:8080/username/password/2507
-#EXTINF:-1 tvg-logo="",NETFLIX N action
+#EXTINF:-1 tvg-id="" tvg-name="NETFLIX N action" tvg-logo="" group-title="UGEEN BOX OFFICE",NETFLIX N action
 http://ugeen.live:8080/username/password/2463
-#EXTINF:-1 tvg-logo="",Netflex Action
+#EXTINF:-1 tvg-id="" tvg-name="Netflex Action" tvg-logo="" group-title="UGEEN BOX OFFICE",Netflex Action
 http://ugeen.live:8080/username/password/2116
-#EXTINF:-1 tvg-logo="",Netflix عربي
+#EXTINF:-1 tvg-id="" tvg-name="Netflix عربي" tvg-logo="" group-title="UGEEN BOX OFFICE",Netflix عربي
 http://ugeen.live:8080/username/password/2041
-#EXTINF:-1 tvg-logo="",Netflix Kids
+#EXTINF:-1 tvg-id="" tvg-name="Netflix boxoffice" tvg-logo="" group-title="UGEEN BOX OFFICE",Netflix boxoffice
 http://ugeen.live:8080/username/password/2042
-#EXTINF:-1 tvg-logo="",Netflix Horror
+#EXTINF:-1 tvg-id="" tvg-name="Netflix Horror" tvg-logo="" group-title="UGEEN BOX OFFICE",Netflix Horror
 http://ugeen.live:8080/username/password/2043
-#EXTINF:-1 tvg-logo="",Netflix Comedy
+#EXTINF:-1 tvg-id="" tvg-name="Netflix Comedy" tvg-logo="" group-title="UGEEN BOX OFFICE",Netflix Comedy
 http://ugeen.live:8080/username/password/2044
-#EXTINF:-1 tvg-logo="",NETFLIX  ACTION
+#EXTINF:-1 tvg-id="" tvg-name="NETFLIX  ACTION" tvg-logo="" group-title="UGEEN BOX OFFICE",NETFLIX  ACTION
 http://ugeen.live:8080/username/password/2047
-#EXTINF:-1 tvg-logo="",NETFLIX_DRAMA
+#EXTINF:-1 tvg-id="" tvg-name="NETFLIX_DRAMA" tvg-logo="" group-title="UGEEN BOX OFFICE",NETFLIX_DRAMA
 http://ugeen.live:8080/username/password/2347
-#EXTINF:-1 tvg-logo="",Netflix Horror 2
+#EXTINF:-1 tvg-id="" tvg-name="Netflix Horror 2" tvg-logo="" group-title="UGEEN BOX OFFICE",Netflix Horror 2
 http://ugeen.live:8080/username/password/2350
-#EXTINF:-1 tvg-logo="",NETFLIX_THRILLER
+#EXTINF:-1 tvg-id="" tvg-name="NETFLIX_THRILLER" tvg-logo="" group-title="UGEEN BOX OFFICE",NETFLIX_THRILLER
 http://ugeen.live:8080/username/password/2358
-#EXTINF:-1 tvg-logo="",AR: Netflix Comedy+
+#EXTINF:-1 tvg-id="" tvg-name="AR: Netflix Comedy+" tvg-logo="" group-title="UGEEN BOX OFFICE",AR: Netflix Comedy+
 http://ugeen.live:8080/username/password/3410
-#EXTINF:-1 tvg-logo="",AR: NETFLIX  documentary
+#EXTINF:-1 tvg-id="" tvg-name="AR: NETFLIX  documentary" tvg-logo="" group-title="UGEEN BOX OFFICE",AR: NETFLIX  documentary
 http://ugeen.live:8080/username/password/3416
-#EXTINF:-1 tvg-logo="",AR: NETFLIX cinema
+#EXTINF:-1 tvg-id="" tvg-name="AR: NETFLIX Super" tvg-logo="" group-title="UGEEN BOX OFFICE",AR: NETFLIX Super
 http://ugeen.live:8080/username/password/3422
-#EXTINF:-1 tvg-logo="",AR: NETFLIX Kids +1
+#EXTINF:-1 tvg-id="" tvg-name="AR: NETFLIX Kids +1" tvg-logo="" group-title="UGEEN BOX OFFICE",AR: NETFLIX Kids +1
 http://ugeen.live:8080/username/password/3436
-#EXTINF:-1 tvg-logo="",AR: Netflix WWE
+#EXTINF:-1 tvg-id="" tvg-name="AR: Netflix WWE" tvg-logo="" group-title="UGEEN BOX OFFICE",AR: Netflix WWE
 http://ugeen.live:8080/username/password/3437
-#EXTINF:-1 tvg-logo="",AR: ON Netflix ᴴᴰ
+#EXTINF:-1 tvg-id="" tvg-name="AR:  Netflix  Romance" tvg-logo="" group-title="UGEEN BOX OFFICE",AR:  Netflix  Romance
 http://ugeen.live:8080/username/password/3718
-#EXTINF:-1 tvg-logo="",Netflix +Arabic
+#EXTINF:-1 tvg-id="" tvg-name="Netflix Kids+" tvg-logo="" group-title="UGEEN BOX OFFICE",Netflix Kids+
 http://ugeen.live:8080/username/password/3537
-#EXTINF:-1 tvg-logo="",Netflix+ Action
+#EXTINF:-1 tvg-id="" tvg-name="Netflix+ Action" tvg-logo="" group-title="UGEEN BOX OFFICE",Netflix+ Action
 http://ugeen.live:8080/username/password/3538
-#EXTINF:-1 tvg-logo="",NETFLIX+ HORROR
+#EXTINF:-1 tvg-id="" tvg-name="NETFLIX+ HORROR" tvg-logo="" group-title="UGEEN BOX OFFICE",NETFLIX+ HORROR
 http://ugeen.live:8080/username/password/3539
-#EXTINF:-1 tvg-logo="",[Shahid Action]
+#EXTINF:-1 tvg-id="" tvg-name="[Shahid Action]" tvg-logo="" group-title="UGEEN BOX OFFICE",[Shahid Action]
 http://ugeen.live:8080/username/password/2423
-#EXTINF:-1 tvg-logo="",[Shahid Aflam]
+#EXTINF:-1 tvg-id="" tvg-name="[Shahid ANIMATION]" tvg-logo="" group-title="UGEEN BOX OFFICE",[Shahid ANIMATION]
 http://ugeen.live:8080/username/password/2424
-#EXTINF:-1 tvg-logo="",[Shahid HINDI]
+#EXTINF:-1 tvg-id="" tvg-name="[Shahid HINDI]" tvg-logo="" group-title="UGEEN BOX OFFICE",[Shahid HINDI]
 http://ugeen.live:8080/username/password/2426
-#EXTINF:-1 tvg-logo="",[Shahid HORROR]
+#EXTINF:-1 tvg-id="" tvg-name="[Shahid HORROR]" tvg-logo="" group-title="UGEEN BOX OFFICE",[Shahid HORROR]
 http://ugeen.live:8080/username/password/2427
-#EXTINF:-1 tvg-logo="",AR:SHAHID_Aflam3+
+#EXTINF:-1 tvg-id="" tvg-name="AR:SHAHID_Aflam3+" tvg-logo="" group-title="UGEEN BOX OFFICE",AR:SHAHID_Aflam3+
 http://ugeen.live:8080/username/password/3252
-#EXTINF:-1 tvg-logo="",AR HBO Action
+#EXTINF:-1 tvg-id="" tvg-name="AR HBO Action" tvg-logo="" group-title="UGEEN BOX OFFICE",AR HBO Action
 http://ugeen.live:8080/username/password/3250
-#EXTINF:-1 tvg-logo="",AR :HBO Arabic
+#EXTINF:-1 tvg-id="" tvg-name="AR :HBO Arabic" tvg-logo="" group-title="UGEEN BOX OFFICE",AR :HBO Arabic
 http://ugeen.live:8080/username/password/3251
-#EXTINF:-1 tvg-logo="",AR :HBO Horror
+#EXTINF:-1 tvg-id="" tvg-name="AR :HBO Horror" tvg-logo="" group-title="UGEEN BOX OFFICE",AR :HBO Horror
 http://ugeen.live:8080/username/password/3253
-#EXTINF:-1 tvg-logo="",ugeen  Action Movies
-http://ugeen.live:8080/username/password/2398
-#EXTINF:-1 tvg-logo="",ugeen  B-Cinema
-http://ugeen.live:8080/username/password/2399
-#EXTINF:-1 tvg-logo="",ugeen  Box-Movies
-http://ugeen.live:8080/username/password/2400
-#EXTINF:-1 tvg-logo="",ugeen  Comedy-Movies
-http://ugeen.live:8080/username/password/2401
-#EXTINF:-1 tvg-logo="",ugeen  Disney-Movies
-http://ugeen.live:8080/username/password/2402
-#EXTINF:-1 tvg-logo="",ugeen   Cinema_One
-http://ugeen.live:8080/username/password/2403
-#EXTINF:-1 tvg-logo="",ugeen  Famely-Movies
-http://ugeen.live:8080/username/password/2404
-#EXTINF:-1 tvg-logo="",ugeen  KidsCo-Movies
-http://ugeen.live:8080/username/password/2405
-#EXTINF:-1 tvg-logo="",ugeen  MasterPiece-Movies
-http://ugeen.live:8080/username/password/2406
-#EXTINF:-1 tvg-logo="",ugeen  Premiere-Movies
-http://ugeen.live:8080/username/password/2407
-#EXTINF:-1 tvg-logo="",ugeen  Thriller-Movies
-http://ugeen.live:8080/username/password/2408
-#EXTINF:-1 tvg-logo="",ugeen  W-Movies
-http://ugeen.live:8080/username/password/2409
-#EXTINF:-1 tvg-logo="",ugeen The-Movies
-http://ugeen.live:8080/username/password/2410
-#EXTINF:-1 tvg-logo="",ugeen The-Movies2
-http://ugeen.live:8080/username/password/2411
-#EXTINF:-1 tvg-logo="",TOM &JERRY LIVE
+#EXTINF:-1 tvg-id="" tvg-name="TOM &JERRY LIVE" tvg-logo="" group-title="UGEEN BOX OFFICE",TOM &JERRY LIVE
 http://ugeen.live:8080/username/password/2819
-#EXTINF:-1 tvg-logo="",bee movies
+#EXTINF:-1 tvg-id="" tvg-name="Shamel Aflam 1HD" tvg-logo="" group-title="UGEEN BOX OFFICE",Shamel Aflam 1HD
 http://ugeen.live:8080/username/password/2929
-#EXTINF:-1 tvg-logo="",OXN Box-Office
+#EXTINF:-1 tvg-id="" tvg-name="ugeen TOP CHEF" tvg-logo="" group-title="UGEEN BOX OFFICE",ugeen TOP CHEF
 http://ugeen.live:8080/username/password/3517
-#EXTINF:-1 tvg-logo="",OXN MIX
+#EXTINF:-1 tvg-id="" tvg-name="ugeen TOD Turkey" tvg-logo="" group-title="UGEEN BOX OFFICE",ugeen TOD Turkey
 http://ugeen.live:8080/username/password/3518
-#EXTINF:-1 tvg-logo="",OXN Tarab
+#EXTINF:-1 tvg-id="" tvg-name="ugeen Cinema One" tvg-logo="" group-title="UGEEN BOX OFFICE",ugeen Cinema One
 http://ugeen.live:8080/username/password/3519
-#EXTINF:-1 tvg-logo="",OXN Islamixc
+#EXTINF:-1 tvg-id="" tvg-name="ugeen TOD ANim" tvg-logo="" group-title="UGEEN BOX OFFICE",ugeen TOD ANim
 http://ugeen.live:8080/username/password/3520
-#EXTINF:-1 tvg-logo="",OXN Cinema 2
+#EXTINF:-1 tvg-id="" tvg-name="ugeen Disney Movies" tvg-logo="" group-title="UGEEN BOX OFFICE",ugeen Disney Movies
 http://ugeen.live:8080/username/password/3521
-#EXTINF:-1 tvg-logo="",OXN Cinema 1
+#EXTINF:-1 tvg-id="" tvg-name="ugeen  B Cinema" tvg-logo="" group-title="UGEEN BOX OFFICE",ugeen  B Cinema
 http://ugeen.live:8080/username/password/3522
-#EXTINF:-1 tvg-logo="",Casper Action 1
-http://ugeen.live:8080/username/password/3938
-#EXTINF:-1 tvg-logo="",Casper Action 2
-http://ugeen.live:8080/username/password/3939
-#EXTINF:-1 tvg-logo="",Casper Arabic
-http://ugeen.live:8080/username/password/3942
-#EXTINF:-1 tvg-logo="",Casper Comedy
-http://ugeen.live:8080/username/password/3943
-#EXTINF:-1 tvg-logo="",Casper horror
-http://ugeen.live:8080/username/password/3944
-#EXTINF:-1 tvg-logo="",Aroma Discovery
-http://ugeen.live:8080/username/password/3559
-#EXTINF:-1 tvg-logo="", Aroma Action
-http://ugeen.live:8080/username/password/3563
-#EXTINF:-1 tvg-logo="",Dragon Action
-http://ugeen.live:8080/username/password/3564
-#EXTINF:-1 tvg-logo="",Dragon Arabia
-http://ugeen.live:8080/username/password/3565
-#EXTINF:-1 tvg-logo="",Dragon Ultra
-http://ugeen.live:8080/username/password/3566
-#EXTINF:-1 tvg-logo="",Dragon Comedy
-http://ugeen.live:8080/username/password/3567
-#EXTINF:-1 tvg-logo="",ON Arabic ᴴᴰ
-http://ugeen.live:8080/username/password/3574
-#EXTINF:-1 tvg-logo="",ON Cinema ᴴᴰ
-http://ugeen.live:8080/username/password/3575
-#EXTINF:-1 tvg-logo="",ON History ᴴᴰ
-http://ugeen.live:8080/username/password/3576
-#EXTINF:-1 tvg-logo="",On Animation HD
-http://ugeen.live:8080/username/password/3577
-#EXTINF:-1 tvg-logo="",ON Horror ᴴᴰ
-http://ugeen.live:8080/username/password/3578
-#EXTINF:-1 tvg-logo="",ON Movies ᴴᴰ
-http://ugeen.live:8080/username/password/3579
-#EXTINF:-1 tvg-logo="",Infinity Romance
-http://ugeen.live:8080/username/password/3600
-#EXTINF:-1 tvg-logo="",Infinity KIDS
-http://ugeen.live:8080/username/password/3601
-#EXTINF:-1 tvg-logo="",Iinfinity Comedy
-http://ugeen.live:8080/username/password/3602
-#EXTINF:-1 tvg-logo="",Infinity Action
-http://ugeen.live:8080/username/password/3603
-#EXTINF:-1 tvg-logo="",HULU Action
+#EXTINF:-1 tvg-id="" tvg-name="ugeen Family Movies" tvg-logo="" group-title="UGEEN BOX OFFICE",ugeen Family Movies
 http://ugeen.live:8080/username/password/3695
-#EXTINF:-1 tvg-logo="",HUlu Box-office
+#EXTINF:-1 tvg-id="" tvg-name="ugeen TOD INDIA" tvg-logo="" group-title="UGEEN BOX OFFICE",ugeen TOD INDIA
 http://ugeen.live:8080/username/password/3696
-#EXTINF:-1 tvg-logo="",Hulu Arabia
+#EXTINF:-1 tvg-id="" tvg-name="ugeen KidsCo Movies" tvg-logo="" group-title="UGEEN BOX OFFICE",ugeen KidsCo Movies
 http://ugeen.live:8080/username/password/3697
-#EXTINF:-1 tvg-logo="",Hulu Bollywood
+#EXTINF:-1 tvg-id="" tvg-name="ugeen  TOD ZAMAN" tvg-logo="" group-title="UGEEN BOX OFFICE",ugeen  TOD ZAMAN
 http://ugeen.live:8080/username/password/3698
-#EXTINF:-1 tvg-logo="",AR: NETFLIX zaman
-http://ugeen.live:8080/username/password/3726
-#EXTINF:-1 tvg-logo="",AR: SKY FLIX ACTION
+#EXTINF:-1 tvg-id="" tvg-name="ugeen TOD Masrh" tvg-logo="" group-title="UGEEN BOX OFFICE",ugeen TOD Masrh
 http://ugeen.live:8080/username/password/3727
-#EXTINF:-1 tvg-logo="",AR: SKY FLIX AFLAM 1
+#EXTINF:-1 tvg-id="" tvg-name="ugeen TOD ACTION" tvg-logo="" group-title="UGEEN BOX OFFICE",ugeen TOD ACTION
 http://ugeen.live:8080/username/password/3728
-#EXTINF:-1 tvg-logo="",AR: SKY FLIX AFLAM 2
+#EXTINF:-1 tvg-id="" tvg-name="ugeen TOD Horror" tvg-logo="" group-title="UGEEN BOX OFFICE",ugeen TOD Horror
 http://ugeen.live:8080/username/password/3729
-#EXTINF:-1 tvg-logo="",AR: SKY FLIX DRAMA
+#EXTINF:-1 tvg-id="" tvg-name="ugeen TOD wwe" tvg-logo="" group-title="UGEEN BOX OFFICE",ugeen TOD wwe
 http://ugeen.live:8080/username/password/3730
-#EXTINF:-1 tvg-logo="",AR: SKY FLIX BOX OFFICE 1
-http://ugeen.live:8080/username/password/3733
-#EXTINF:-1 tvg-logo="",AR: SKY FLIX BOLLYWOODY
+#EXTINF:-1 tvg-id="" tvg-name="Casper Action 1" tvg-logo="" group-title="UGEEN BOX OFFICE",Casper Action 1
+http://ugeen.live:8080/username/password/3938
+#EXTINF:-1 tvg-id="" tvg-name="Casper Action 2" tvg-logo="" group-title="UGEEN BOX OFFICE",Casper Action 2
+http://ugeen.live:8080/username/password/3939
+#EXTINF:-1 tvg-id="" tvg-name="Casper Arabic" tvg-logo="" group-title="UGEEN BOX OFFICE",Casper Arabic
+http://ugeen.live:8080/username/password/3942
+#EXTINF:-1 tvg-id="" tvg-name="Casper Comedy" tvg-logo="" group-title="UGEEN BOX OFFICE",Casper Comedy
+http://ugeen.live:8080/username/password/3943
+#EXTINF:-1 tvg-id="" tvg-name="Casper horror" tvg-logo="" group-title="UGEEN BOX OFFICE",Casper horror
+http://ugeen.live:8080/username/password/3944
+#EXTINF:-1 tvg-id="" tvg-name="MAC boxoffice1" tvg-logo="https://imgs1.e-droid.net/srv/imgs/cards/o1098790_3610171.png" group-title="UGEEN BOX OFFICE",MAC boxoffice1
+http://ugeen.live:8080/username/password/3564
+#EXTINF:-1 tvg-id="" tvg-name="MAC boxoffice2" tvg-logo="https://imgs1.e-droid.net/srv/imgs/cards/o1098790_3637189.png" group-title="UGEEN BOX OFFICE",MAC boxoffice2
+http://ugeen.live:8080/username/password/3565
+#EXTINF:-1 tvg-id="" tvg-name="MAC boxoffice3" tvg-logo="" group-title="UGEEN BOX OFFICE",MAC boxoffice3
+http://ugeen.live:8080/username/password/3567
+#EXTINF:-1 tvg-id="" tvg-name="ON Arabic ᴴᴰ" tvg-logo="" group-title="UGEEN BOX OFFICE",ON Arabic ᴴᴰ
+http://ugeen.live:8080/username/password/3574
+#EXTINF:-1 tvg-id="" tvg-name="ON Cinema ᴴᴰ" tvg-logo="" group-title="UGEEN BOX OFFICE",ON Cinema ᴴᴰ
+http://ugeen.live:8080/username/password/3575
+#EXTINF:-1 tvg-id="" tvg-name="ON Western" tvg-logo="" group-title="UGEEN BOX OFFICE",ON Western
+http://ugeen.live:8080/username/password/3576
+#EXTINF:-1 tvg-id="" tvg-name="On Animation HD" tvg-logo="" group-title="UGEEN BOX OFFICE",On Animation HD
+http://ugeen.live:8080/username/password/3577
+#EXTINF:-1 tvg-id="" tvg-name="ON Horror ᴴᴰ" tvg-logo="" group-title="UGEEN BOX OFFICE",ON Horror ᴴᴰ
+http://ugeen.live:8080/username/password/3578
+#EXTINF:-1 tvg-id="" tvg-name="ON Movies ᴴᴰ" tvg-logo="" group-title="UGEEN BOX OFFICE",ON Movies ᴴᴰ
+http://ugeen.live:8080/username/password/3579
+#EXTINF:-1 tvg-id="" tvg-name="weyyak.Action" tvg-logo="" group-title="UGEEN BOX OFFICE",weyyak.Action
+http://ugeen.live:8080/username/password/3600
+#EXTINF:-1 tvg-id="" tvg-name="weyyak Drama" tvg-logo="" group-title="UGEEN BOX OFFICE",weyyak Drama
+http://ugeen.live:8080/username/password/3601
+#EXTINF:-1 tvg-id="" tvg-name="weyyak Mix" tvg-logo="" group-title="UGEEN BOX OFFICE",weyyak Mix
+http://ugeen.live:8080/username/password/3602
+#EXTINF:-1 tvg-id="" tvg-name="weyyak nawaem" tvg-logo="" group-title="UGEEN BOX OFFICE",weyyak nawaem
+http://ugeen.live:8080/username/password/3603
+#EXTINF:-1 tvg-id="" tvg-name=" SHOOF MAX EXTRA 2" tvg-logo="" group-title="UGEEN BOX OFFICE", SHOOF MAX EXTRA 2
 http://ugeen.live:8080/username/password/3735
-#EXTINF:-1 tvg-logo="",SKYFLIX 1
+#EXTINF:-1 tvg-id="" tvg-name="AR: RADIO UMM KULTHUM" tvg-logo="" group-title="UGEEN BOX OFFICE",AR: RADIO UMM KULTHUM
 http://ugeen.live:8080/username/password/3691
-#EXTINF:-1 tvg-logo="",SKYFLIX 2
+#EXTINF:-1 tvg-id="" tvg-name="AR: RADIO ABDEL HALIM HAFEZ" tvg-logo="" group-title="UGEEN BOX OFFICE",AR: RADIO ABDEL HALIM HAFEZ
 http://ugeen.live:8080/username/password/3692
-#EXTINF:-1 tvg-logo="",SKYFLIX 3
+#EXTINF:-1 tvg-id="" tvg-name="AR: RADIO GEORGE WASSUF" tvg-logo="https://imgs1.e-droid.net/srv/imgs/gal/1621077_p.png" group-title="UGEEN BOX OFFICE",AR: RADIO GEORGE WASSUF
 http://ugeen.live:8080/username/password/3693
-#EXTINF:-1 tvg-logo="",SKYFLIX 4
+#EXTINF:-1 tvg-id="" tvg-name="AR: RADIO AMR DIAB" tvg-logo="https://imgs1.e-droid.net/srv/imgs/gal/1621077_p.png" group-title="UGEEN BOX OFFICE",AR: RADIO AMR DIAB
 http://ugeen.live:8080/username/password/3694
-#EXTINF:-1 tvg-logo="",AR: Shahid VIP Comedy
+#EXTINF:-1 tvg-id="" tvg-name="AR: Shahid VIP Comedy" tvg-logo="" group-title="UGEEN BOX OFFICE",AR: Shahid VIP Comedy
 http://ugeen.live:8080/username/password/3722
-#EXTINF:-1 tvg-logo="",AR: Shahid Movies Land
+#EXTINF:-1 tvg-id="" tvg-name="AR: Shahid  Western" tvg-logo="" group-title="UGEEN BOX OFFICE",AR: Shahid  Western
 http://ugeen.live:8080/username/password/3723
-#EXTINF:-1 tvg-logo="",AR: Shahid VIP INDIA
+#EXTINF:-1 tvg-id="" tvg-name="AR: Shahid VIP INDIA" tvg-logo="" group-title="UGEEN BOX OFFICE",AR: Shahid VIP INDIA
 http://ugeen.live:8080/username/password/3714
-#EXTINF:-1 tvg-logo="",AR: Shahid VIP Arabic
+#EXTINF:-1 tvg-id="" tvg-name="AR: Shahid VIP Arabic" tvg-logo="" group-title="UGEEN BOX OFFICE",AR: Shahid VIP Arabic
 http://ugeen.live:8080/username/password/3715
-#EXTINF:-1 tvg-logo="",AR: Shahid VIP TURKISH
+#EXTINF:-1 tvg-id="" tvg-name="AR: Shahid VIP TURKISH" tvg-logo="" group-title="UGEEN BOX OFFICE",AR: Shahid VIP TURKISH
 http://ugeen.live:8080/username/password/3716
-#EXTINF:-1 tvg-logo="",AR: Shahid VIP Action
+#EXTINF:-1 tvg-id="" tvg-name="AR: Shahid VIP Action" tvg-logo="" group-title="UGEEN BOX OFFICE",AR: Shahid VIP Action
 http://ugeen.live:8080/username/password/3713
-#EXTINF:-1 tvg-logo="",AR: Shahid VIP Documentary
+#EXTINF:-1 tvg-id="" tvg-name="AR: Shahid VIP Documentary" tvg-logo="" group-title="UGEEN BOX OFFICE",AR: Shahid VIP Documentary
 http://ugeen.live:8080/username/password/3717
-#EXTINF:-1 tvg-logo="",AR: Shahid VIP Wild
+#EXTINF:-1 tvg-id="" tvg-name="AR: Shahid VIP Wild" tvg-logo="" group-title="UGEEN BOX OFFICE",AR: Shahid VIP Wild
 http://ugeen.live:8080/username/password/3720
-#EXTINF:-1 tvg-logo="",AR: Shahid VIP Anime
+#EXTINF:-1 tvg-id="" tvg-name="AR: Shahid VIP Anime" tvg-logo="" group-title="UGEEN BOX OFFICE",AR: Shahid VIP Anime
 http://ugeen.live:8080/username/password/3721
-#EXTINF:-1 tvg-logo="",Shahid VIP Arabic Classic
+#EXTINF:-1 tvg-id="" tvg-name="Shahid VIP Arabic Classic" tvg-logo="https://i.ibb.co/yhZvcmP/8.png" group-title="UGEEN BOX OFFICE",Shahid VIP Arabic Classic
 http://ugeen.live:8080/username/password/4051
-#EXTINF:-1 tvg-logo="",Shahid VIP Masrahiyat
+#EXTINF:-1 tvg-id="" tvg-name="Shahid VIP Masrahiyat" tvg-logo="https://i.ibb.co/fY4S4b3/9.png" group-title="UGEEN BOX OFFICE",Shahid VIP Masrahiyat
 http://ugeen.live:8080/username/password/4052
-#EXTINF:-1 tvg-logo="",Shahid VIP Western
+#EXTINF:-1 tvg-id="" tvg-name="Shahid VIP Western" tvg-logo="https://i.ibb.co/vLCG0sC/10.png" group-title="UGEEN BOX OFFICE",Shahid VIP Western
 http://ugeen.live:8080/username/password/4053
-#EXTINF:-1 tvg-logo="",Shahid VIP Drama
+#EXTINF:-1 tvg-id="" tvg-name="Shahid VIP Drama" tvg-logo="https://i.ibb.co/PrF68pP/11.png" group-title="UGEEN BOX OFFICE",Shahid VIP Drama
 http://ugeen.live:8080/username/password/4054
-#EXTINF:-1 tvg-logo="",Shahid VIP Comedy
+#EXTINF:-1 tvg-id="" tvg-name="Shahid VIP Comedy" tvg-logo="https://i.ibb.co/p3Kbg7Y/12.png" group-title="UGEEN BOX OFFICE",Shahid VIP Comedy
 http://ugeen.live:8080/username/password/4055
-#EXTINF:-1 tvg-logo="",Shahid VIP Horror
+#EXTINF:-1 tvg-id="" tvg-name="Shahid VIP Horror" tvg-logo="https://i.ibb.co/L6N7bCW/13.png" group-title="UGEEN BOX OFFICE",Shahid VIP Horror
 http://ugeen.live:8080/username/password/4056
-#EXTINF:-1 tvg-logo="",Shahid VIP SCI FI
+#EXTINF:-1 tvg-id="" tvg-name="Shahid VIP SCI FI" tvg-logo="https://i.ibb.co/f0N41dX/14.png" group-title="UGEEN BOX OFFICE",Shahid VIP SCI FI
 http://ugeen.live:8080/username/password/4057
-#EXTINF:-1 tvg-logo="",Shahid VIP Fantasia
+#EXTINF:-1 tvg-id="" tvg-name="Shahid VIP Fantasia" tvg-logo="https://i.ibb.co/3cPVVMZ/15.png" group-title="UGEEN BOX OFFICE",Shahid VIP Fantasia
 http://ugeen.live:8080/username/password/4058
-#EXTINF:-1 tvg-logo="",Shahid VIP WAR
+#EXTINF:-1 tvg-id="" tvg-name="Shahid VIP WAR" tvg-logo="https://i.ibb.co/284NSBq/16.png" group-title="UGEEN BOX OFFICE",Shahid VIP WAR
 http://ugeen.live:8080/username/password/4059
-#EXTINF:-1 tvg-logo="",Shahid VIP Romance
+#EXTINF:-1 tvg-id="" tvg-name="Shahid VIP Romance" tvg-logo="https://i.ibb.co/xGZn6Nt/17.png" group-title="UGEEN BOX OFFICE",Shahid VIP Romance
 http://ugeen.live:8080/username/password/4060
-#EXTINF:-1 tvg-logo="",AR: Bee Movies 1
+#EXTINF:-1 tvg-id="" tvg-name="AR: Shamel Aflam 2HD" tvg-logo="" group-title="UGEEN BOX OFFICE",AR: Shamel Aflam 2HD
 http://ugeen.live:8080/username/password/3725
-#EXTINF:-1 tvg-logo="",•●★★--- ART Channels ---★★●•
+#EXTINF:-1 tvg-id="" tvg-name="OXN Box-office" tvg-logo="" group-title="UGEEN BOX OFFICE",OXN Box-office
+http://ugeen.live:8080/username/password/4190
+#EXTINF:-1 tvg-id="" tvg-name="OXN Cinema 1" tvg-logo="" group-title="UGEEN BOX OFFICE",OXN Cinema 1
+http://ugeen.live:8080/username/password/4191
+#EXTINF:-1 tvg-id="" tvg-name="OXN Cinema 2" tvg-logo="" group-title="UGEEN BOX OFFICE",OXN Cinema 2
+http://ugeen.live:8080/username/password/4192
+#EXTINF:-1 tvg-id="" tvg-name="OXN Islamic" tvg-logo="" group-title="UGEEN BOX OFFICE",OXN Islamic
+http://ugeen.live:8080/username/password/4193
+#EXTINF:-1 tvg-id="" tvg-name="OXN MIX" tvg-logo="" group-title="UGEEN BOX OFFICE",OXN MIX
+http://ugeen.live:8080/username/password/4194
+#EXTINF:-1 tvg-id="" tvg-name="OXN TARAB" tvg-logo="" group-title="UGEEN BOX OFFICE",OXN TARAB
+http://ugeen.live:8080/username/password/4195
+#EXTINF:-1 tvg-id="" tvg-name="HBO MAX 1" tvg-logo="" group-title="UGEEN BOX OFFICE",HBO MAX 1
+http://ugeen.live:8080/username/password/4196
+#EXTINF:-1 tvg-id="" tvg-name="HBO MAX 2" tvg-logo="" group-title="UGEEN BOX OFFICE",HBO MAX 2
+http://ugeen.live:8080/username/password/4197
+#EXTINF:-1 tvg-id="" tvg-name="HBO MAX 3" tvg-logo="" group-title="UGEEN BOX OFFICE",HBO MAX 3
+http://ugeen.live:8080/username/password/4198
+#EXTINF:-1 tvg-id="" tvg-name="HBO MAX 4" tvg-logo="" group-title="UGEEN BOX OFFICE",HBO MAX 4
+http://ugeen.live:8080/username/password/4199
+#EXTINF:-1 tvg-id="" tvg-name="Dragon Arabic" tvg-logo="" group-title="UGEEN BOX OFFICE",Dragon Arabic
+http://ugeen.live:8080/username/password/4200
+#EXTINF:-1 tvg-id="" tvg-name="DRAGON COMEDY" tvg-logo="" group-title="UGEEN BOX OFFICE",DRAGON COMEDY
+http://ugeen.live:8080/username/password/4201
+#EXTINF:-1 tvg-id="" tvg-name="DRAGON ULTRA" tvg-logo="" group-title="UGEEN BOX OFFICE",DRAGON ULTRA
+http://ugeen.live:8080/username/password/4202
+#EXTINF:-1 tvg-id="" tvg-name="Dragon Action" tvg-logo="" group-title="UGEEN BOX OFFICE",Dragon Action
+http://ugeen.live:8080/username/password/4203
+#EXTINF:-1 tvg-id="" tvg-name="HULU ACTION" tvg-logo="" group-title="UGEEN BOX OFFICE",HULU ACTION
+http://ugeen.live:8080/username/password/4204
+#EXTINF:-1 tvg-id="" tvg-name="HULU ARABIC" tvg-logo="" group-title="UGEEN BOX OFFICE",HULU ARABIC
+http://ugeen.live:8080/username/password/4205
+#EXTINF:-1 tvg-id="" tvg-name="HULU Bollywood" tvg-logo="" group-title="UGEEN BOX OFFICE",HULU Bollywood
+http://ugeen.live:8080/username/password/4206
+#EXTINF:-1 tvg-id="" tvg-name="HULU Box-Office" tvg-logo="" group-title="UGEEN BOX OFFICE",HULU Box-Office
+http://ugeen.live:8080/username/password/4207
+#EXTINF:-1 tvg-id="" tvg-name="HULU Kids" tvg-logo="" group-title="UGEEN BOX OFFICE",HULU Kids
+http://ugeen.live:8080/username/password/4208
+#EXTINF:-1 tvg-id="" tvg-name="INFINITY Kids" tvg-logo="" group-title="UGEEN BOX OFFICE",INFINITY Kids
+http://ugeen.live:8080/username/password/4209
+#EXTINF:-1 tvg-id="" tvg-name="INFINITY Action" tvg-logo="" group-title="UGEEN BOX OFFICE",INFINITY Action
+http://ugeen.live:8080/username/password/4210
+#EXTINF:-1 tvg-id="" tvg-name="INFINITY Comedy" tvg-logo="" group-title="UGEEN BOX OFFICE",INFINITY Comedy
+http://ugeen.live:8080/username/password/4211
+#EXTINF:-1 tvg-id="" tvg-name="INFINITY Romance" tvg-logo="" group-title="UGEEN BOX OFFICE",INFINITY Romance
+http://ugeen.live:8080/username/password/4212
+#EXTINF:-1 tvg-id="" tvg-name="SKYFLIX 1" tvg-logo="" group-title="UGEEN BOX OFFICE",SKYFLIX 1
+http://ugeen.live:8080/username/password/4213
+#EXTINF:-1 tvg-id="" tvg-name="SKYFLIX 2" tvg-logo="" group-title="UGEEN BOX OFFICE",SKYFLIX 2
+http://ugeen.live:8080/username/password/4214
+#EXTINF:-1 tvg-id="" tvg-name="SKYFLIX 3" tvg-logo="" group-title="UGEEN BOX OFFICE",SKYFLIX 3
+http://ugeen.live:8080/username/password/4215
+#EXTINF:-1 tvg-id="" tvg-name="SKYFLIX 4" tvg-logo="" group-title="UGEEN BOX OFFICE",SKYFLIX 4
+http://ugeen.live:8080/username/password/4216
+#EXTINF:-1 tvg-id="" tvg-name="Showtime Box-Office" tvg-logo="" group-title="UGEEN BOX OFFICE",Showtime Box-Office
+http://ugeen.live:8080/username/password/4217
+#EXTINF:-1 tvg-id="" tvg-name="•●★★--- ART Channels ---★★●•" tvg-logo="""" group-title="ART Channels",•●★★--- ART Channels ---★★●•
 http://ugeen.live:8080/username/password/122
-#EXTINF:-1 tvg-logo="",AR: ART Aflam 1
+#EXTINF:-1 tvg-id="" tvg-name="AR: ART Aflam 1" tvg-logo="" group-title="ART Channels",AR: ART Aflam 1
 http://ugeen.live:8080/username/password/997
-#EXTINF:-1 tvg-logo="",AR: ART Aflam  2
+#EXTINF:-1 tvg-id="" tvg-name="AR: ART Aflam  2" tvg-logo="[" group-title="ART Channels",AR: ART Aflam  2
 http://ugeen.live:8080/username/password/102
-#EXTINF:-1 tvg-logo="",AR: ART Cinema
+#EXTINF:-1 tvg-id="" tvg-name="AR: ART Cinema" tvg-logo="[" group-title="ART Channels",AR: ART Cinema
 http://ugeen.live:8080/username/password/103
-#EXTINF:-1 tvg-logo="",AR: ART Hekayat 1
+#EXTINF:-1 tvg-id="" tvg-name="AR: ART Hekayat 1" tvg-logo="[" group-title="ART Channels",AR: ART Hekayat 1
 http://ugeen.live:8080/username/password/104
-#EXTINF:-1 tvg-logo="",AR: ART Hekayat 2
+#EXTINF:-1 tvg-id="" tvg-name="AR: ART Hekayat 2" tvg-logo="[" group-title="ART Channels",AR: ART Hekayat 2
 http://ugeen.live:8080/username/password/105
-#EXTINF:-1 tvg-logo="",•●★★--- KIDS ---★★●•
+#EXTINF:-1 tvg-id="" tvg-name="•●★★--- KIDS ---★★●•" tvg-logo="" group-title="Kids - قنوات الأطفال",•●★★--- KIDS ---★★●•
 http://ugeen.live:8080/username/password/1009
-#EXTINF:-1 tvg-logo="",AR: Cartoon Network
+#EXTINF:-1 tvg-id="" tvg-name="AR: Cartoon Network" tvg-logo="" group-title="Kids - قنوات الأطفال",AR: Cartoon Network
 http://ugeen.live:8080/username/password/1011
-#EXTINF:-1 tvg-logo="",AR: Kooky
+#EXTINF:-1 tvg-id="" tvg-name="AR: Kooky" tvg-logo="" group-title="Kids - قنوات الأطفال",AR: Kooky
 http://ugeen.live:8080/username/password/1015
-#EXTINF:-1 tvg-logo="",AR: Toyor Al Ganna
+#EXTINF:-1 tvg-id="" tvg-name="AR: Toyor Al Ganna" tvg-logo="" group-title="Kids - قنوات الأطفال",AR: Toyor Al Ganna
 http://ugeen.live:8080/username/password/1020
-#EXTINF:-1 tvg-logo="",AR: Maged
+#EXTINF:-1 tvg-id="" tvg-name="AR: Maged" tvg-logo="" group-title="Kids - قنوات الأطفال",AR: Maged
 http://ugeen.live:8080/username/password/1019
-#EXTINF:-1 tvg-logo="",AR: Spacetoon
+#EXTINF:-1 tvg-id="" tvg-name="AR: Spacetoon" tvg-logo="" group-title="Kids - قنوات الأطفال",AR: Spacetoon
 http://ugeen.live:8080/username/password/1017
-#EXTINF:-1 tvg-logo="",AR: Mwaheb
+#EXTINF:-1 tvg-id="" tvg-name="AR: Mwaheb" tvg-logo="" group-title="Kids - قنوات الأطفال",AR: Mwaheb
 http://ugeen.live:8080/username/password/1016
-#EXTINF:-1 tvg-logo="",•●★★--- NEWS ---★★●•
+#EXTINF:-1 tvg-id="" tvg-name="•●★★--- NEWS ---★★●•" tvg-logo="" group-title="News - قنوات الأخبار",•●★★--- NEWS ---★★●•
 http://ugeen.live:8080/username/password/998
-#EXTINF:-1 tvg-logo="",AR: Al Jazeera
+#EXTINF:-1 tvg-id="" tvg-name="AR: Al Jazeera" tvg-logo="" group-title="News - قنوات الأخبار",AR: Al Jazeera
 http://ugeen.live:8080/username/password/999
-#EXTINF:-1 tvg-logo="",AR: Al Jazeera Documentry
+#EXTINF:-1 tvg-id="" tvg-name="AR: Al Jazeera Documentry" tvg-logo="" group-title="News - قنوات الأخبار",AR: Al Jazeera Documentry
 http://ugeen.live:8080/username/password/1000
-#EXTINF:-1 tvg-logo="",AR: AL JAZEERA MUBASHER
+#EXTINF:-1 tvg-id="" tvg-name="AR: AL JAZEERA MUBASHER" tvg-logo="" group-title="News - قنوات الأخبار",AR: AL JAZEERA MUBASHER
 http://ugeen.live:8080/username/password/3208
-#EXTINF:-1 tvg-logo="",AR: AlJazeera-English
+#EXTINF:-1 tvg-id="" tvg-name="AR: AlJazeera-English" tvg-logo="" group-title="News - قنوات الأخبار",AR: AlJazeera-English
 http://ugeen.live:8080/username/password/3209
-#EXTINF:-1 tvg-logo="",AR: AlJazeera Eng
+#EXTINF:-1 tvg-id="" tvg-name="AR: AlJazeera Eng" tvg-logo="" group-title="News - قنوات الأخبار",AR: AlJazeera Eng
 http://ugeen.live:8080/username/password/3210
-#EXTINF:-1 tvg-logo="",AR: Al Jazeera FHD
+#EXTINF:-1 tvg-id="" tvg-name="AR: Al Jazeera FHD" tvg-logo="" group-title="News - قنوات الأخبار",AR: Al Jazeera FHD
 http://ugeen.live:8080/username/password/1003
-#EXTINF:-1 tvg-logo="",AR: Al ALArabiya
+#EXTINF:-1 tvg-id="" tvg-name="AR: Al ALArabiya" tvg-logo="" group-title="News - قنوات الأخبار",AR: Al ALArabiya
 http://ugeen.live:8080/username/password/1001
-#EXTINF:-1 tvg-logo="",AR: Al ALArabiya Alhadaath
+#EXTINF:-1 tvg-id="" tvg-name="AR: Al ALArabiya Alhadaath" tvg-logo="" group-title="News - قنوات الأخبار",AR: Al ALArabiya Alhadaath
 http://ugeen.live:8080/username/password/1002
-#EXTINF:-1 tvg-logo="",AR: BBC Arabic
+#EXTINF:-1 tvg-id="" tvg-name="AR: BBC Arabic" tvg-logo="" group-title="News - قنوات الأخبار",AR: BBC Arabic
 http://ugeen.live:8080/username/password/1005
-#EXTINF:-1 tvg-logo="",AR: Sky News
+#EXTINF:-1 tvg-id="" tvg-name="AR: Sky News" tvg-logo="" group-title="News - قنوات الأخبار",AR: Sky News
 http://ugeen.live:8080/username/password/1007
-#EXTINF:-1 tvg-logo="",AR: TRT-ELARABIYE
+#EXTINF:-1 tvg-id="" tvg-name="AR: TRT-ELARABIYE" tvg-logo="" group-title="News - قنوات الأخبار",AR: TRT-ELARABIYE
 http://ugeen.live:8080/username/password/1006
-#EXTINF:-1 tvg-logo="",AR: RT Arabic
+#EXTINF:-1 tvg-id="" tvg-name="AR: RT Arabic" tvg-logo="" group-title="News - قنوات الأخبار",AR: RT Arabic
 http://ugeen.live:8080/username/password/1004
-#EXTINF:-1 tvg-logo="", AR: FR 24 arabic HD
+#EXTINF:-1 tvg-id="" tvg-name=" AR: FR 24 arabic HD" tvg-logo="" group-title="News - قنوات الأخبار", AR: FR 24 arabic HD
 http://ugeen.live:8080/username/password/3206
-#EXTINF:-1 tvg-logo="",AR: DW Arabic
+#EXTINF:-1 tvg-id="" tvg-name="AR: DW Arabic" tvg-logo="" group-title="News - قنوات الأخبار",AR: DW Arabic
 http://ugeen.live:8080/username/password/3207
-#EXTINF:-1 tvg-logo="",AR:  Alhurra
+#EXTINF:-1 tvg-id="" tvg-name="AR:  Alhurra" tvg-logo="" group-title="News - قنوات الأخبار",AR:  Alhurra
 http://ugeen.live:8080/username/password/3211
-#EXTINF:-1 tvg-logo="",CNN
+#EXTINF:-1 tvg-id="" tvg-name="CNN" tvg-logo="" group-title="News - قنوات الأخبار",CNN
 http://ugeen.live:8080/username/password/3212
-#EXTINF:-1 tvg-logo="",France 24 (En Francais)
+#EXTINF:-1 tvg-id="" tvg-name="France 24 (En Francais)" tvg-logo="" group-title="News - قنوات الأخبار",France 24 (En Francais)
 http://ugeen.live:8080/username/password/3213
-#EXTINF:-1 tvg-logo="",AR:Houra News
+#EXTINF:-1 tvg-id="" tvg-name="AR:Houra News" tvg-logo="" group-title="News - قنوات الأخبار",AR:Houra News
 http://ugeen.live:8080/username/password/3214
-#EXTINF:-1 tvg-logo="",•●★★--- Rotana ---★★●•
+#EXTINF:-1 tvg-id="" tvg-name="•●★★--- Rotana ---★★●•" tvg-logo="""" group-title="Rotana - روتانا",•●★★--- Rotana ---★★●•
 http://ugeen.live:8080/username/password/176
-#EXTINF:-1 tvg-logo="",AR:Rotana Cinema 
+#EXTINF:-1 tvg-id="" tvg-name="AR:Rotana Cinema " tvg-logo="[" group-title="Rotana - روتانا",AR:Rotana Cinema 
 http://ugeen.live:8080/username/password/106
-#EXTINF:-1 tvg-logo="",AR: Rotana Cinema KSA
+#EXTINF:-1 tvg-id="" tvg-name="AR: Rotana Cinema KSA" tvg-logo="[" group-title="Rotana - روتانا",AR: Rotana Cinema KSA
 http://ugeen.live:8080/username/password/107
-#EXTINF:-1 tvg-logo="",AR:Rotana Aflam
+#EXTINF:-1 tvg-id="" tvg-name="AR:Rotana Aflam" tvg-logo="[" group-title="Rotana - روتانا",AR:Rotana Aflam
 http://ugeen.live:8080/username/password/108
-#EXTINF:-1 tvg-logo="",AR: Rotana  Comedy 
+#EXTINF:-1 tvg-id="" tvg-name="AR: Rotana  Comedy " tvg-logo="[" group-title="Rotana - روتانا",AR: Rotana  Comedy 
 http://ugeen.live:8080/username/password/109
-#EXTINF:-1 tvg-logo="",AR: Rotana Classic 
+#EXTINF:-1 tvg-id="" tvg-name="AR: Rotana Classic " tvg-logo="[" group-title="Rotana - روتانا",AR: Rotana Classic 
 http://ugeen.live:8080/username/password/110
-#EXTINF:-1 tvg-logo="",AR: Rotana Drama
+#EXTINF:-1 tvg-id="" tvg-name="AR: Rotana Drama" tvg-logo="" group-title="Rotana - روتانا",AR: Rotana Drama
 http://ugeen.live:8080/username/password/3215
-#EXTINF:-1 tvg-logo="",AR: Rotana Comedy
+#EXTINF:-1 tvg-id="" tvg-name="AR: Rotana Comedy" tvg-logo="" group-title="Rotana - روتانا",AR: Rotana Comedy
 http://ugeen.live:8080/username/password/3216
-#EXTINF:-1 tvg-logo="",AR: Rotana Clip
+#EXTINF:-1 tvg-id="" tvg-name="AR: Rotana Clip" tvg-logo="" group-title="Rotana - روتانا",AR: Rotana Clip
 http://ugeen.live:8080/username/password/3217
-#EXTINF:-1 tvg-logo="",AR: Rotana Kids HD
-http://ugeen.live:8080/username/password/3469
-#EXTINF:-1 tvg-logo="",AR: Rotana Khaliji
+#EXTINF:-1 tvg-id="" tvg-name="AR: Rotana Khaliji" tvg-logo="" group-title="Rotana - روتانا",AR: Rotana Khaliji
 http://ugeen.live:8080/username/password/3218
-#EXTINF:-1 tvg-logo="",•●★★--- Egypt ---★★●•
+#EXTINF:-1 tvg-id="" tvg-name="•●★★--- Egypt ---★★●•" tvg-logo="" group-title="Egypt - مصر",•●★★--- Egypt ---★★●•
 http://ugeen.live:8080/username/password/511
-#EXTINF:-1 tvg-logo="",AR: ON Time Sport 1HD
+#EXTINF:-1 tvg-id="" tvg-name="AR: ON Time Sport 1HD" tvg-logo="" group-title="Egypt - مصر",AR: ON Time Sport 1HD
 http://ugeen.live:8080/username/password/507
-#EXTINF:-1 tvg-logo="",AR: ON Time Sport 2 HD
+#EXTINF:-1 tvg-id="" tvg-name="AR: ON Time Sport 2 HD" tvg-logo="" group-title="Egypt - مصر",AR: ON Time Sport 2 HD
 http://ugeen.live:8080/username/password/949
-#EXTINF:-1 tvg-logo="",AR: Time Sport
+#EXTINF:-1 tvg-id="" tvg-name="AR: Time Sport" tvg-logo="" group-title="Egypt - مصر",AR: Time Sport
 http://ugeen.live:8080/username/password/951
-#EXTINF:-1 tvg-logo="",AR: Alahly
+#EXTINF:-1 tvg-id="" tvg-name="AR: Alahly" tvg-logo="" group-title="Egypt - مصر",AR: Alahly
 http://ugeen.live:8080/username/password/952
-#EXTINF:-1 tvg-logo="",AR: Zamalek TV
+#EXTINF:-1 tvg-id="" tvg-name="AR: Zamalek TV" tvg-logo="" group-title="Egypt - مصر",AR: Zamalek TV
 http://ugeen.live:8080/username/password/2068
-#EXTINF:-1 tvg-logo="",AR:  Sada Elbabad
+#EXTINF:-1 tvg-id="" tvg-name="AR:  Sada Elbabad" tvg-logo="" group-title="Egypt - مصر",AR:  Sada Elbabad
 http://ugeen.live:8080/username/password/495
-#EXTINF:-1 tvg-logo="",AR:  Nile Sport
+#EXTINF:-1 tvg-id="" tvg-name="AR:  Nile Sport" tvg-logo="" group-title="Egypt - مصر",AR:  Nile Sport
 http://ugeen.live:8080/username/password/496
-#EXTINF:-1 tvg-logo="",AR:  Nile Comedy
+#EXTINF:-1 tvg-id="" tvg-name="AR:  Nile Comedy" tvg-logo="" group-title="Egypt - مصر",AR:  Nile Comedy
 http://ugeen.live:8080/username/password/497
-#EXTINF:-1 tvg-logo="",AR: Nile News
+#EXTINF:-1 tvg-id="" tvg-name="AR: Nile News" tvg-logo="" group-title="Egypt - مصر",AR: Nile News
 http://ugeen.live:8080/username/password/498
-#EXTINF:-1 tvg-logo="",AR: D Drama
+#EXTINF:-1 tvg-id="" tvg-name="AR: D Drama" tvg-logo="" group-title="Egypt - مصر",AR: D Drama
 http://ugeen.live:8080/username/password/499
-#EXTINF:-1 tvg-logo="",AR: Al Shams
+#EXTINF:-1 tvg-id="" tvg-name="AR: Al Shams" tvg-logo="" group-title="Egypt - مصر",AR: Al Shams
 http://ugeen.live:8080/username/password/4106
-#EXTINF:-1 tvg-logo="",AR:CBC Drama
+#EXTINF:-1 tvg-id="" tvg-name="AR:CBC Drama" tvg-logo="" group-title="Egypt - مصر",AR:CBC Drama
 http://ugeen.live:8080/username/password/500
-#EXTINF:-1 tvg-logo="",AR:CBC Sofra
+#EXTINF:-1 tvg-id="" tvg-name="AR:CBC Sofra" tvg-logo="" group-title="Egypt - مصر",AR:CBC Sofra
 http://ugeen.live:8080/username/password/501
-#EXTINF:-1 tvg-logo="",AR:CBC
+#EXTINF:-1 tvg-id="" tvg-name="AR:CBC" tvg-logo="" group-title="Egypt - مصر",AR:CBC
 http://ugeen.live:8080/username/password/502
-#EXTINF:-1 tvg-logo="",AR:DMC
+#EXTINF:-1 tvg-id="" tvg-name="AR:DMC" tvg-logo="" group-title="Egypt - مصر",AR:DMC
 http://ugeen.live:8080/username/password/503
-#EXTINF:-1 tvg-logo="",AR:Alnahar
+#EXTINF:-1 tvg-id="" tvg-name="AR:Alnahar" tvg-logo="" group-title="Egypt - مصر",AR:Alnahar
 http://ugeen.live:8080/username/password/504
-#EXTINF:-1 tvg-logo="",AR: ALnahar Drama
+#EXTINF:-1 tvg-id="" tvg-name="AR: ALnahar Drama" tvg-logo="" group-title="Egypt - مصر",AR: ALnahar Drama
 http://ugeen.live:8080/username/password/505
-#EXTINF:-1 tvg-logo="",AR: ON Drama
+#EXTINF:-1 tvg-id="" tvg-name="AR: ON Drama" tvg-logo="" group-title="Egypt - مصر",AR: ON Drama
 http://ugeen.live:8080/username/password/506
-#EXTINF:-1 tvg-logo="",AR: ON E
+#EXTINF:-1 tvg-id="" tvg-name="AR: ON E" tvg-logo="" group-title="Egypt - مصر",AR: ON E
 http://ugeen.live:8080/username/password/508
-#EXTINF:-1 tvg-logo="",AR: Alhayah
+#EXTINF:-1 tvg-id="" tvg-name="AR: Alhayah" tvg-logo="" group-title="Egypt - مصر",AR: Alhayah
 http://ugeen.live:8080/username/password/509
-#EXTINF:-1 tvg-logo="",AR:  Maspero-Zaman
+#EXTINF:-1 tvg-id="" tvg-name="AR:  Maspero-Zaman" tvg-logo="" group-title="Egypt - مصر",AR:  Maspero-Zaman
 http://ugeen.live:8080/username/password/950
-#EXTINF:-1 tvg-logo="",AR: Mehwar
+#EXTINF:-1 tvg-id="" tvg-name="AR: Mehwar" tvg-logo="" group-title="Egypt - مصر",AR: Mehwar
 http://ugeen.live:8080/username/password/510
-#EXTINF:-1 tvg-logo="",AR : Zee Alwan
+#EXTINF:-1 tvg-id="" tvg-name="AR : Zee Alwan" tvg-logo="" group-title="Egypt - مصر",AR : Zee Alwan
 http://ugeen.live:8080/username/password/3308
-#EXTINF:-1 tvg-logo="",AR : ZEE AFLAM
+#EXTINF:-1 tvg-id="" tvg-name="AR : ZEE AFLAM" tvg-logo="" group-title="Egypt - مصر",AR : ZEE AFLAM
 http://ugeen.live:8080/username/password/3309
-#EXTINF:-1 tvg-logo="",•●★★--- PALESTINE ---★★●•
+#EXTINF:-1 tvg-id="" tvg-name="•●★★--- PALESTINE ---★★●•" tvg-logo="""" group-title="Palestine - فلسطين",•●★★--- PALESTINE ---★★●•
 http://ugeen.live:8080/username/password/493
-#EXTINF:-1 tvg-logo="",AR: FajerTV1 HD
+#EXTINF:-1 tvg-id="" tvg-name="AR: FajerTV1 HD" tvg-logo="" group-title="Palestine - فلسطين",AR: FajerTV1 HD
 http://ugeen.live:8080/username/password/584
-#EXTINF:-1 tvg-logo="",AR: FajerTV2 HD
+#EXTINF:-1 tvg-id="" tvg-name="AR: FajerTV2 HD" tvg-logo="" group-title="Palestine - فلسطين",AR: FajerTV2 HD
 http://ugeen.live:8080/username/password/587
-#EXTINF:-1 tvg-logo="",Al Fajer 3
+#EXTINF:-1 tvg-id="" tvg-name="Al Fajer 3" tvg-logo="" group-title="Palestine - فلسطين",Al Fajer 3
 http://ugeen.live:8080/username/password/4028
-#EXTINF:-1 tvg-logo="",Al Fajer 4
+#EXTINF:-1 tvg-id="" tvg-name="Al Fajer 4" tvg-logo="" group-title="Palestine - فلسطين",Al Fajer 4
 http://ugeen.live:8080/username/password/4029
-#EXTINF:-1 tvg-logo="",Al Fajer 5
+#EXTINF:-1 tvg-id="" tvg-name="Al Fajer 5" tvg-logo="" group-title="Palestine - فلسطين",Al Fajer 5
 http://ugeen.live:8080/username/password/4030
-#EXTINF:-1 tvg-logo="",AR: palastine  live
+#EXTINF:-1 tvg-id="" tvg-name="AR: palastine  live" tvg-logo="" group-title="Palestine - فلسطين",AR: palastine  live
 http://ugeen.live:8080/username/password/590
-#EXTINF:-1 tvg-logo="",AR: Raya
+#EXTINF:-1 tvg-id="" tvg-name="AR: Raya" tvg-logo="" group-title="Palestine - فلسطين",AR: Raya
 http://ugeen.live:8080/username/password/481
-#EXTINF:-1 tvg-logo="",AR: Ajyal
-http://ugeen.live:8080/username/password/482
-#EXTINF:-1 tvg-logo="",AR: Palstine Today
+#EXTINF:-1 tvg-id="" tvg-name="AR: Palstine Today" tvg-logo="" group-title="Palestine - فلسطين",AR: Palstine Today
 http://ugeen.live:8080/username/password/486
-#EXTINF:-1 tvg-logo="",AR: Aqsa tv
-http://ugeen.live:8080/username/password/2944
-#EXTINF:-1 tvg-logo="",AR: nablus live
+#EXTINF:-1 tvg-id="" tvg-name="AR: nablus live" tvg-logo="" group-title="Palestine - فلسطين",AR: nablus live
 http://ugeen.live:8080/username/password/3045
-#EXTINF:-1 tvg-logo="",AR: Watan Tv
+#EXTINF:-1 tvg-id="" tvg-name="AR: Watan Tv" tvg-logo="" group-title="Palestine - فلسطين",AR: Watan Tv
 http://ugeen.live:8080/username/password/3958
-#EXTINF:-1 tvg-logo="",AR: adwaa tv
-http://ugeen.live:8080/username/password/3959
-#EXTINF:-1 tvg-logo="",AR: Rehan tv
+#EXTINF:-1 tvg-id="" tvg-name="AR: Rehan tv" tvg-logo="" group-title="Palestine - فلسطين",AR: Rehan tv
 http://ugeen.live:8080/username/password/3960
-#EXTINF:-1 tvg-logo="",AR: Hala Ramallah
-http://ugeen.live:8080/username/password/3961
-#EXTINF:-1 tvg-logo="",AR: Water 3
+#EXTINF:-1 tvg-id="" tvg-name="AR: Water 3" tvg-logo="" group-title="Palestine - فلسطين",AR: Water 3
 http://ugeen.live:8080/username/password/3962
-#EXTINF:-1 tvg-logo="",AR: Hala HD
+#EXTINF:-1 tvg-id="" tvg-name="AR: Hala HD" tvg-logo="" group-title="Palestine - فلسطين",AR: Hala HD
 http://ugeen.live:8080/username/password/3964
-#EXTINF:-1 tvg-logo="",AR: PNN
+#EXTINF:-1 tvg-id="" tvg-name="AR: PNN" tvg-logo="" group-title="Palestine - فلسطين",AR: PNN
 http://ugeen.live:8080/username/password/3965
-#EXTINF:-1 tvg-logo="",AR: Mawwal TV
+#EXTINF:-1 tvg-id="" tvg-name="AR: Mawwal TV" tvg-logo="" group-title="Palestine - فلسطين",AR: Mawwal TV
 http://ugeen.live:8080/username/password/3966
-#EXTINF:-1 tvg-logo="",Hekaya TV
+#EXTINF:-1 tvg-id="" tvg-name="Hekaya TV" tvg-logo="" group-title="Palestine - فلسطين",Hekaya TV
 http://ugeen.live:8080/username/password/3968
-#EXTINF:-1 tvg-logo="",•●★★--- LIBYA ---★★●•
+#EXTINF:-1 tvg-id="" tvg-name="•●★★--- LIBYA ---★★●•" tvg-logo="" group-title="Libya - ليبيا",•●★★--- LIBYA ---★★●•
 http://ugeen.live:8080/username/password/3141
-#EXTINF:-1 tvg-logo="",[LIB] Libya Sport Channel
+#EXTINF:-1 tvg-id="" tvg-name="[LIB] Libya Sport Channel" tvg-logo="" group-title="Libya - ليبيا",[LIB] Libya Sport Channel
 http://ugeen.live:8080/username/password/3455
-#EXTINF:-1 tvg-logo="",AR: Libya Sport 2
+#EXTINF:-1 tvg-id="" tvg-name="AR: Libya Sport 2" tvg-logo="" group-title="Libya - ليبيا",AR: Libya Sport 2
 http://ugeen.live:8080/username/password/3652
-#EXTINF:-1 tvg-logo="",AR: LIBYA 218 HD
+#EXTINF:-1 tvg-id="" tvg-name="AR: LIBYA 218 HD" tvg-logo="" group-title="Libya - ليبيا",AR: LIBYA 218 HD
 http://ugeen.live:8080/username/password/3128
-#EXTINF:-1 tvg-logo="",AR: Libya 218 News
+#EXTINF:-1 tvg-id="" tvg-name="AR: Libya 218 News" tvg-logo="" group-title="Libya - ليبيا",AR: Libya 218 News
 http://ugeen.live:8080/username/password/3129
-#EXTINF:-1 tvg-logo="",AR: Libya AlAhrar
+#EXTINF:-1 tvg-id="" tvg-name="AR: Libya AlAhrar" tvg-logo="" group-title="Libya - ليبيا",AR: Libya AlAhrar
 http://ugeen.live:8080/username/password/3130
-#EXTINF:-1 tvg-logo="",AR: Libya Alhadath
+#EXTINF:-1 tvg-id="" tvg-name="AR: Libya Alhadath" tvg-logo="" group-title="Libya - ليبيا",AR: Libya Alhadath
 http://ugeen.live:8080/username/password/3131
-#EXTINF:-1 tvg-logo="",AR: Lpc
+#EXTINF:-1 tvg-id="" tvg-name="AR: Lpc" tvg-logo="" group-title="Libya - ليبيا",AR: Lpc
 http://ugeen.live:8080/username/password/3132
-#EXTINF:-1 tvg-logo="",AR: Libya Alwatanya
+#EXTINF:-1 tvg-id="" tvg-name="AR: Libya Alwatanya" tvg-logo="" group-title="Libya - ليبيا",AR: Libya Alwatanya
 http://ugeen.live:8080/username/password/3133
-#EXTINF:-1 tvg-logo="",AR: Libya elwatan
+#EXTINF:-1 tvg-id="" tvg-name="AR: Libya elwatan" tvg-logo="" group-title="Libya - ليبيا",AR: Libya elwatan
 http://ugeen.live:8080/username/password/3134
-#EXTINF:-1 tvg-logo="",AR: Libya 218 News
-http://ugeen.live:8080/username/password/3135
-#EXTINF:-1 tvg-logo="",AR: LIBYA WTV
+#EXTINF:-1 tvg-id="" tvg-name="AR: LIBYA WTV" tvg-logo="" group-title="Libya - ليبيا",AR: LIBYA WTV
 http://ugeen.live:8080/username/password/3136
-#EXTINF:-1 tvg-logo="",AR: Libya 218
+#EXTINF:-1 tvg-id="" tvg-name="AR: Libya 218" tvg-logo="" group-title="Libya - ليبيا",AR: Libya 218
 http://ugeen.live:8080/username/password/3137
-#EXTINF:-1 tvg-logo="",AR: Libya Tanasuh
+#EXTINF:-1 tvg-id="" tvg-name="AR: Libya Tanasuh" tvg-logo="" group-title="Libya - ليبيا",AR: Libya Tanasuh
 http://ugeen.live:8080/username/password/3138
-#EXTINF:-1 tvg-logo="",AR: Libya Waad
+#EXTINF:-1 tvg-id="" tvg-name="AR: Libya Waad" tvg-logo="" group-title="Libya - ليبيا",AR: Libya Waad
 http://ugeen.live:8080/username/password/3139
-#EXTINF:-1 tvg-logo="",AR: Libyas Channel
+#EXTINF:-1 tvg-id="" tvg-name="AR: Libyas Channel" tvg-logo="" group-title="Libya - ليبيا",AR: Libyas Channel
 http://ugeen.live:8080/username/password/3140
-#EXTINF:-1 tvg-logo="",•●★★--- MAROC ---★★●•
+#EXTINF:-1 tvg-id="" tvg-name="•●★★--- MAROC ---★★●•" tvg-logo="[" group-title="Morocco - المغرب",•●★★--- MAROC ---★★●•
 http://ugeen.live:8080/username/password/725
-#EXTINF:-1 tvg-logo="", MA:ALOULA INT 
+#EXTINF:-1 tvg-id="" tvg-name=" MA:ALOULA INT " tvg-logo="" group-title="Morocco - المغرب", MA:ALOULA INT 
 http://ugeen.live:8080/username/password/726
-#EXTINF:-1 tvg-logo="", MA:ALMAGHRIBIA 
+#EXTINF:-1 tvg-id="" tvg-name=" MA:ALMAGHRIBIA " tvg-logo="" group-title="Morocco - المغرب", MA:ALMAGHRIBIA 
 http://ugeen.live:8080/username/password/727
-#EXTINF:-1 tvg-logo="", MA:2M 
+#EXTINF:-1 tvg-id="" tvg-name=" MA:2M " tvg-logo="" group-title="Morocco - المغرب", MA:2M 
 http://ugeen.live:8080/username/password/728
-#EXTINF:-1 tvg-logo="", MA: CHADA TV
+#EXTINF:-1 tvg-id="" tvg-name=" MA: CHADA TV" tvg-logo="" group-title="Morocco - المغرب", MA: CHADA TV
 http://ugeen.live:8080/username/password/729
-#EXTINF:-1 tvg-logo="", MA:ASSADISA 
+#EXTINF:-1 tvg-id="" tvg-name=" MA:ASSADISA " tvg-logo="" group-title="Morocco - المغرب", MA:ASSADISA 
 http://ugeen.live:8080/username/password/730
-#EXTINF:-1 tvg-logo="", MA:ARRIADIA 
+#EXTINF:-1 tvg-id="" tvg-name=" MA:ARRIADIA " tvg-logo="" group-title="Morocco - المغرب", MA:ARRIADIA 
 http://ugeen.live:8080/username/password/731
-#EXTINF:-1 tvg-logo="", MA:MEDI1 
+#EXTINF:-1 tvg-id="" tvg-name=" MA:MEDI1 " tvg-logo="" group-title="Morocco - المغرب", MA:MEDI1 
 http://ugeen.live:8080/username/password/732
-#EXTINF:-1 tvg-logo="", MA:ALMAGHRIBIA NEWS 
+#EXTINF:-1 tvg-id="" tvg-name=" MA:ALMAGHRIBIA NEWS " tvg-logo="" group-title="Morocco - المغرب", MA:ALMAGHRIBIA NEWS 
 http://ugeen.live:8080/username/password/734
-#EXTINF:-1 tvg-logo="", MA:TELE MAROC 
+#EXTINF:-1 tvg-id="" tvg-name=" MA:TELE MAROC " tvg-logo="" group-title="Morocco - المغرب", MA:TELE MAROC 
 http://ugeen.live:8080/username/password/735
-#EXTINF:-1 tvg-logo="", MA:TAMAZIGHT 
+#EXTINF:-1 tvg-id="" tvg-name=" MA:TAMAZIGHT " tvg-logo="" group-title="Morocco - المغرب", MA:TAMAZIGHT 
 http://ugeen.live:8080/username/password/736
-#EXTINF:-1 tvg-logo="",AR: Alrrabia FHD
+#EXTINF:-1 tvg-id="" tvg-name="AR: Alrrabia FHD" tvg-logo="" group-title="Morocco - المغرب",AR: Alrrabia FHD
 http://ugeen.live:8080/username/password/3107
-#EXTINF:-1 tvg-logo="",AR: AL MAGHRIBIA 
+#EXTINF:-1 tvg-id="" tvg-name="AR: AL MAGHRIBIA " tvg-logo="" group-title="Morocco - المغرب",AR: AL MAGHRIBIA 
 http://ugeen.live:8080/username/password/3109
-#EXTINF:-1 tvg-logo="",AR: AL MAGHRIBIA HD
+#EXTINF:-1 tvg-id="" tvg-name="AR: AL MAGHRIBIA HD" tvg-logo="" group-title="Morocco - المغرب",AR: AL MAGHRIBIA HD
 http://ugeen.live:8080/username/password/3110
-#EXTINF:-1 tvg-logo="",AR: Assadissa
+#EXTINF:-1 tvg-id="" tvg-name="AR: Assadissa" tvg-logo="" group-title="Morocco - المغرب",AR: Assadissa
 http://ugeen.live:8080/username/password/3112
-#EXTINF:-1 tvg-logo="",AR: Tamazight HD
+#EXTINF:-1 tvg-id="" tvg-name="AR: Tamazight HD" tvg-logo="" group-title="Morocco - المغرب",AR: Tamazight HD
 http://ugeen.live:8080/username/password/3114
-#EXTINF:-1 tvg-logo="",AR: Medi1 Afrique FHD
+#EXTINF:-1 tvg-id="" tvg-name="AR: Medi1 Afrique FHD" tvg-logo="" group-title="Morocco - المغرب",AR: Medi1 Afrique FHD
 http://ugeen.live:8080/username/password/3115
-#EXTINF:-1 tvg-logo="",AR: Maroc 7 Aflam
+#EXTINF:-1 tvg-id="" tvg-name="AR: Maroc 7 Aflam" tvg-logo="" group-title="Morocco - المغرب",AR: Maroc 7 Aflam
 http://ugeen.live:8080/username/password/3988
-#EXTINF:-1 tvg-logo="",AR: Baya TV HD
+#EXTINF:-1 tvg-id="" tvg-name="AR: Baya TV HD" tvg-logo="" group-title="Tunisia - تونس",AR: Baya TV HD
 http://ugeen.live:8080/username/password/3878
-#EXTINF:-1 tvg-logo="",•●★★--- TUNSIA --★★●•
+#EXTINF:-1 tvg-id="" tvg-name="•●★★--- TUNSIA --★★●•" tvg-logo="" group-title="Tunisia - تونس",•●★★--- TUNSIA --★★●•
 http://ugeen.live:8080/username/password/4081
-#EXTINF:-1 tvg-logo="",TN:WATANIA1
+#EXTINF:-1 tvg-id="" tvg-name="TN:WATANIA1" tvg-logo="http://tvchallenge.tn/logo/tunisia/watania1.png" group-title="Tunisia - تونس",TN:WATANIA1
 http://ugeen.live:8080/username/password/890
-#EXTINF:-1 tvg-logo="",TN:WATANIA2
+#EXTINF:-1 tvg-id="" tvg-name="TN:WATANIA2" tvg-logo="https://i75.servimg.com/u/f75/18/72/18/38/nat210.png" group-title="Tunisia - تونس",TN:WATANIA2
 http://ugeen.live:8080/username/password/891
-#EXTINF:-1 tvg-logo="",TN:ELHIWAR
+#EXTINF:-1 tvg-id="" tvg-name="TN:ELHIWAR" tvg-logo="https://i75.servimg.com/u/f75/18/72/18/38/elhiwa10.jpg" group-title="Tunisia - تونس",TN:ELHIWAR
 http://ugeen.live:8080/username/password/892
-#EXTINF:-1 tvg-logo="",Tunisia Carthage
+#EXTINF:-1 tvg-id="" tvg-name="Tunisia Carthage" tvg-logo="" group-title="Tunisia - تونس",Tunisia Carthage
 http://ugeen.live:8080/username/password/2541
-#EXTINF:-1 tvg-logo="",TN:HANNIBAL
+#EXTINF:-1 tvg-id="" tvg-name="TN:HANNIBAL" tvg-logo="https://i75.servimg.com/u/f75/18/72/18/38/hannib10.gif" group-title="Tunisia - تونس",TN:HANNIBAL
 http://ugeen.live:8080/username/password/894
-#EXTINF:-1 tvg-logo="",TN:ATTESIA
+#EXTINF:-1 tvg-id="" tvg-name="TN:ATTESIA" tvg-logo="https://i75.servimg.com/u/f75/18/72/18/38/attess10.jpg" group-title="Tunisia - تونس",TN:ATTESIA
 http://ugeen.live:8080/username/password/895
-#EXTINF:-1 tvg-logo="",TN:MTUNISIA
+#EXTINF:-1 tvg-id="" tvg-name="TN:MTUNISIA" tvg-logo="https://i75.servimg.com/u/f75/18/72/18/38/m_tuni10.png" group-title="Tunisia - تونس",TN:MTUNISIA
 http://ugeen.live:8080/username/password/896
-#EXTINF:-1 tvg-logo="",TN:TELEVISION1
+#EXTINF:-1 tvg-id="" tvg-name="TN:TELEVISION1" tvg-logo="http://tvchallenge.tn/logo/tunisia/television1.jpg" group-title="Tunisia - تونس",TN:TELEVISION1
 http://ugeen.live:8080/username/password/903
-#EXTINF:-1 tvg-logo="",TN:ALMOSTKELLA
+#EXTINF:-1 tvg-id="" tvg-name="TN:ALMOSTKELLA" tvg-logo="https://i75.servimg.com/u/f75/18/72/18/38/almost10.jpg" group-title="Tunisia - تونس",TN:ALMOSTKELLA
 http://ugeen.live:8080/username/password/902
-#EXTINF:-1 tvg-logo="",TN:TELVZATV
+#EXTINF:-1 tvg-id="" tvg-name="TN:TELVZATV" tvg-logo="http://tvchallenge.tn/logo/tunisia/telvzatv.jpg" group-title="Tunisia - تونس",TN:TELVZATV
 http://ugeen.live:8080/username/password/899
-#EXTINF:-1 tvg-logo="",TN:JANOUBIA
+#EXTINF:-1 tvg-id="" tvg-name="TN:JANOUBIA" tvg-logo="https://i75.servimg.com/u/f75/18/72/18/38/janoub10.png" group-title="Tunisia - تونس",TN:JANOUBIA
 http://ugeen.live:8080/username/password/898
-#EXTINF:-1 tvg-logo="",TN:TOUNESNA
+#EXTINF:-1 tvg-id="" tvg-name="TN:TOUNESNA" tvg-logo="http://tvchallenge.tn/logo/tunisia/tounesna.jpg" group-title="Tunisia - تونس",TN:TOUNESNA
 http://ugeen.live:8080/username/password/897
-#EXTINF:-1 tvg-logo="",•●★★--- ALGERIA ---★★●•
+#EXTINF:-1 tvg-id="" tvg-name="•●★★--- ALGERIA ---★★●•" tvg-logo="" group-title="Algeria - الجزائر",•●★★--- ALGERIA ---★★●•
 http://ugeen.live:8080/username/password/906
-#EXTINF:-1 tvg-logo="",Algerian:CANAL ALGERIE 2
+#EXTINF:-1 tvg-id="" tvg-name="Algerian:CANAL ALGERIE 2" tvg-logo="" group-title="Algeria - الجزائر",Algerian:CANAL ALGERIE 2
 http://ugeen.live:8080/username/password/907
-#EXTINF:-1 tvg-logo="",Algerian:ALGERIE3
+#EXTINF:-1 tvg-id="" tvg-name="Algerian:ALGERIE3" tvg-logo="" group-title="Algeria - الجزائر",Algerian:ALGERIE3
 http://ugeen.live:8080/username/password/908
-#EXTINF:-1 tvg-logo="",Algerian:Fajr
+#EXTINF:-1 tvg-id="" tvg-name="Algerian:Fajr" tvg-logo="" group-title="Algeria - الجزائر",Algerian:Fajr
 http://ugeen.live:8080/username/password/909
-#EXTINF:-1 tvg-logo="",Algerian:ECHOUROUK
+#EXTINF:-1 tvg-id="" tvg-name="Algerian:ECHOUROUK" tvg-logo="" group-title="Algeria - الجزائر",Algerian:ECHOUROUK
 http://ugeen.live:8080/username/password/911
-#EXTINF:-1 tvg-logo="",Algerian:El Djazair N1
+#EXTINF:-1 tvg-id="" tvg-name="Algerian:El Djazair N1" tvg-logo="" group-title="Algeria - الجزائر",Algerian:El Djazair N1
 http://ugeen.live:8080/username/password/910
-#EXTINF:-1 tvg-logo="",Algerian:   TV8 EDHAKIRA
+#EXTINF:-1 tvg-id="" tvg-name="Algerian:   TV8 EDHAKIRA" tvg-logo="" group-title="Algeria - الجزائر",Algerian:   TV8 EDHAKIRA
 http://ugeen.live:8080/username/password/912
-#EXTINF:-1 tvg-logo="",Algerian: Echorouk NEWS
+#EXTINF:-1 tvg-id="" tvg-name="Algerian: Echorouk NEWS" tvg-logo="" group-title="Algeria - الجزائر",Algerian: Echorouk NEWS
 http://ugeen.live:8080/username/password/913
-#EXTINF:-1 tvg-logo="",Algerian:SAMIRA TV
+#EXTINF:-1 tvg-id="" tvg-name="Algerian:SAMIRA TV" tvg-logo="" group-title="Algeria - الجزائر",Algerian:SAMIRA TV
 http://ugeen.live:8080/username/password/915
-#EXTINF:-1 tvg-logo="",Algerian:ENTV
+#EXTINF:-1 tvg-id="" tvg-name="Algerian:ENTV" tvg-logo="" group-title="Algeria - الجزائر",Algerian:ENTV
 http://ugeen.live:8080/username/password/917
-#EXTINF:-1 tvg-logo="",Algerian:Bahia Tv
+#EXTINF:-1 tvg-id="" tvg-name="Algerian:Bahia Tv" tvg-logo="" group-title="Algeria - الجزائر",Algerian:Bahia Tv
 http://ugeen.live:8080/username/password/946
-#EXTINF:-1 tvg-logo="",Algerian:BEUR TV
+#EXTINF:-1 tvg-id="" tvg-name="Algerian:BEUR TV" tvg-logo="" group-title="Algeria - الجزائر",Algerian:BEUR TV
 http://ugeen.live:8080/username/password/918
-#EXTINF:-1 tvg-logo="",Algerian:ALHADEF
+#EXTINF:-1 tvg-id="" tvg-name="Algerian:ALHADEF" tvg-logo="" group-title="Algeria - الجزائر",Algerian:ALHADEF
 http://ugeen.live:8080/username/password/919
-#EXTINF:-1 tvg-logo="",AL MAGHRIBIA
+#EXTINF:-1 tvg-id="" tvg-name="AL MAGHRIBIA" tvg-logo="" group-title="Algeria - الجزائر",AL MAGHRIBIA
 http://ugeen.live:8080/username/password/943
-#EXTINF:-1 tvg-logo="",Algerian: AL24 News
+#EXTINF:-1 tvg-id="" tvg-name="Algerian: AL24 News" tvg-logo="" group-title="Algeria - الجزائر",Algerian: AL24 News
 http://ugeen.live:8080/username/password/941
-#EXTINF:-1 tvg-logo="",Algerian:ELHAYA-ALGERIE
+#EXTINF:-1 tvg-id="" tvg-name="Algerian:ELHAYA-ALGERIE" tvg-logo="" group-title="Algeria - الجزائر",Algerian:ELHAYA-ALGERIE
 http://ugeen.live:8080/username/password/938
-#EXTINF:-1 tvg-logo="",Algerian: ENNAHAR TV
+#EXTINF:-1 tvg-id="" tvg-name="Algerian: ENNAHAR TV" tvg-logo="" group-title="Algeria - الجزائر",Algerian: ENNAHAR TV
 http://ugeen.live:8080/username/password/935
-#EXTINF:-1 tvg-logo="",Algerian:ERE TV
+#EXTINF:-1 tvg-id="" tvg-name="Algerian: KBC TV" tvg-logo="" group-title="Algeria - الجزائر",Algerian: KBC TV
 http://ugeen.live:8080/username/password/932
-#EXTINF:-1 tvg-logo="",Algerian: Zahra TV
+#EXTINF:-1 tvg-id="" tvg-name="Algerian: Zahra TV" tvg-logo="" group-title="Algeria - الجزائر",Algerian: Zahra TV
 http://ugeen.live:8080/username/password/933
-#EXTINF:-1 tvg-logo="",Algerian: Algerie 7 Elmaarifa
+#EXTINF:-1 tvg-id="" tvg-name="Algerian: Algerie 7 Elmaarifa" tvg-logo="" group-title="Algeria - الجزائر",Algerian: Algerie 7 Elmaarifa
 http://ugeen.live:8080/username/password/927
-#EXTINF:-1 tvg-logo="",Algerian:ENNAHAR
+#EXTINF:-1 tvg-id="" tvg-name="Algerian:ENNAHAR" tvg-logo="" group-title="Algeria - الجزائر",Algerian:ENNAHAR
 http://ugeen.live:8080/username/password/924
-#EXTINF:-1 tvg-logo="",Algerian:Algerie 8 Edhakira
+#EXTINF:-1 tvg-id="" tvg-name="Algerian:Algerie 8 Edhakira" tvg-logo="" group-title="Algeria - الجزائر",Algerian:Algerie 8 Edhakira
 http://ugeen.live:8080/username/password/922
-#EXTINF:-1 tvg-logo="",Algerian-ELBILAD
+#EXTINF:-1 tvg-id="" tvg-name="Algerian-ELBILAD" tvg-logo="" group-title="Algeria - الجزائر",Algerian-ELBILAD
 http://ugeen.live:8080/username/password/926
-#EXTINF:-1 tvg-logo="",Algerian: Elwatania 
+#EXTINF:-1 tvg-id="" tvg-name="Algerian: Elwatania " tvg-logo="" group-title="Algeria - الجزائر",Algerian: Elwatania 
 http://ugeen.live:8080/username/password/925
-#EXTINF:-1 tvg-logo="",Algerian: ALGERIE3
+#EXTINF:-1 tvg-id="" tvg-name="Algerian: ALGERIE3" tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyWMbbCrOELe33Wb6apad2Kra-fZJWsmWRWhLDret9Z56MZAHXGA" group-title="Algeria - الجزائر",Algerian: ALGERIE3
 http://ugeen.live:8080/username/password/928
-#EXTINF:-1 tvg-logo="",Algerian: ALGERIE4
+#EXTINF:-1 tvg-id="" tvg-name="Algerian: ALGERIE4" tvg-logo="" group-title="Algeria - الجزائر",Algerian: ALGERIE4
 http://ugeen.live:8080/username/password/929
-#EXTINF:-1 tvg-logo="",Algerian: ALGERIE5
+#EXTINF:-1 tvg-id="" tvg-name="Algerian: ALGERIE5" tvg-logo="" group-title="Algeria - الجزائر",Algerian: ALGERIE5
 http://ugeen.live:8080/username/password/930
-#EXTINF:-1 tvg-logo="",algerian: shababia 6
+#EXTINF:-1 tvg-id="" tvg-name="algerian: shababia 6" tvg-logo="" group-title="Algeria - الجزائر",algerian: shababia 6
 http://ugeen.live:8080/username/password/3971
-#EXTINF:-1 tvg-logo="",•●★★--- SYRIA --★★●• 
+#EXTINF:-1 tvg-id="" tvg-name="•●★★--- SYRIA --★★●• " tvg-logo="" group-title="Syria - سوريا",•●★★--- SYRIA --★★●• 
 http://ugeen.live:8080/username/password/1999
-#EXTINF:-1 tvg-logo="",SY: SYRIA. ALOULA
+#EXTINF:-1 tvg-id="" tvg-name="SY: SYRIA. ALOULA" tvg-logo="" group-title="Syria - سوريا",SY: SYRIA. ALOULA
 http://ugeen.live:8080/username/password/2000
-#EXTINF:-1 tvg-logo="",SY: SYRIA.DRAMA
+#EXTINF:-1 tvg-id="" tvg-name="SY: SYRIA.DRAMA" tvg-logo="" group-title="Syria - سوريا",SY: SYRIA.DRAMA
 http://ugeen.live:8080/username/password/2001
-#EXTINF:-1 tvg-logo="",Syr-Sama-TV+
+#EXTINF:-1 tvg-id="" tvg-name="Syr-Sama-TV+" tvg-logo="" group-title="Syria - سوريا",Syr-Sama-TV+
 http://ugeen.live:8080/username/password/2002
-#EXTINF:-1 tvg-logo="",SY: LANA Tv
+#EXTINF:-1 tvg-id="" tvg-name="SY: LANA Tv" tvg-logo="" group-title="Syria - سوريا",SY: LANA Tv
 http://ugeen.live:8080/username/password/2003
-#EXTINF:-1 tvg-logo="",SY: Sama.alsham
+#EXTINF:-1 tvg-id="" tvg-name="SY: Sama.alsham" tvg-logo="" group-title="Syria - سوريا",SY: Sama.alsham
 http://ugeen.live:8080/username/password/2013
-#EXTINF:-1 tvg-logo="",SY: SYRIA-TV2
+#EXTINF:-1 tvg-id="" tvg-name="SY: SYRIA-TV2" tvg-logo="" group-title="Syria - سوريا",SY: SYRIA-TV2
 http://ugeen.live:8080/username/password/2005
-#EXTINF:-1 tvg-logo="",SY: NOUREL SHAM
+#EXTINF:-1 tvg-id="" tvg-name="SY: NOUREL SHAM" tvg-logo="" group-title="Syria - سوريا",SY: NOUREL SHAM
 http://ugeen.live:8080/username/password/2012
-#EXTINF:-1 tvg-logo="",SY: Al.KhabarTV HD*
+#EXTINF:-1 tvg-id="" tvg-name="SY: Al.KhabarTV HD*" tvg-logo="" group-title="Syria - سوريا",SY: Al.KhabarTV HD*
 http://ugeen.live:8080/username/password/2010
-#EXTINF:-1 tvg-logo="",SY:  LANA Tv HD*
+#EXTINF:-1 tvg-id="" tvg-name="SY:  LANA Tv HD*" tvg-logo="" group-title="Syria - سوريا",SY:  LANA Tv HD*
 http://ugeen.live:8080/username/password/2009
-#EXTINF:-1 tvg-logo="",SY: Syria Education Channel
+#EXTINF:-1 tvg-id="" tvg-name="SY: Syria Education Channel" tvg-logo="" group-title="Syria - سوريا",SY: Syria Education Channel
 http://ugeen.live:8080/username/password/2004
-#EXTINF:-1 tvg-logo="",SY: Syria alyoum
+#EXTINF:-1 tvg-id="" tvg-name="SY: Syria alyoum" tvg-logo="" group-title="Syria - سوريا",SY: Syria alyoum
 http://ugeen.live:8080/username/password/2008
-#EXTINF:-1 tvg-logo="",SY: SYRIA.ALIKHBARIA
+#EXTINF:-1 tvg-id="" tvg-name="SY: SYRIA.ALIKHBARIA" tvg-logo="" group-title="Syria - سوريا",SY: SYRIA.ALIKHBARIA
 http://ugeen.live:8080/username/password/2006
-#EXTINF:-1 tvg-logo="",•●★★--- Lebanon ---★★●•
+#EXTINF:-1 tvg-id="" tvg-name="•●★★--- Lebanon ---★★●•" tvg-logo="" group-title="Lebanon - لبنان",•●★★--- Lebanon ---★★●•
 http://ugeen.live:8080/username/password/3043
-#EXTINF:-1 tvg-logo="",LBC
+#EXTINF:-1 tvg-id="" tvg-name="LBC" tvg-logo="" group-title="Lebanon - لبنان",LBC
 http://ugeen.live:8080/username/password/3025
-#EXTINF:-1 tvg-logo="",LBCI.International
+#EXTINF:-1 tvg-id="" tvg-name="LBCI.International" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/9/9d/LBC_INTERNATIONAL.png" group-title="Lebanon - لبنان",LBCI.International
 http://ugeen.live:8080/username/password/3026
-#EXTINF:-1 tvg-logo="",LEBANON TV
+#EXTINF:-1 tvg-id="" tvg-name="LEBANON TV" tvg-logo="" group-title="Lebanon - لبنان",LEBANON TV
 http://ugeen.live:8080/username/password/3028
-#EXTINF:-1 tvg-logo="",MTV LEBANON
+#EXTINF:-1 tvg-id="" tvg-name="MTV LEBANON" tvg-logo="https://code-gsm.com/logo/lebonan.jpg" group-title="Lebanon - لبنان",MTV LEBANON
 http://ugeen.live:8080/username/password/3029
-#EXTINF:-1 tvg-logo="",FUTURE LEBANON
+#EXTINF:-1 tvg-id="" tvg-name="FUTURE LEBANON" tvg-logo="http://www.tv-logo.com/pt-data/uploads/images/logo/future_tv_international.jpg" group-title="Lebanon - لبنان",FUTURE LEBANON
 http://ugeen.live:8080/username/password/3031
-#EXTINF:-1 tvg-logo="",NBN HD
+#EXTINF:-1 tvg-id="" tvg-name="NBN HD" tvg-logo="http://www.tv-logo.com/pt-data/uploads/images/logo/nbn_lebanon.jpg" group-title="Lebanon - لبنان",NBN HD
 http://ugeen.live:8080/username/password/3032
-#EXTINF:-1 tvg-logo="",AL MAYADEEN
-http://ugeen.live:8080/username/password/3033
-#EXTINF:-1 tvg-logo="",AL MANAR
+#EXTINF:-1 tvg-id="" tvg-name="AL MANAR" tvg-logo="http://www.tv-logo.com/pt-data/uploads/images/logo/al_manar_tv.jpg" group-title="Lebanon - لبنان",AL MANAR
 http://ugeen.live:8080/username/password/3034
-#EXTINF:-1 tvg-logo="",NOUR AL SHAM
+#EXTINF:-1 tvg-id="" tvg-name="NOUR AL SHAM" tvg-logo="https://live-tv-channels.org/pt-data/uploads/logo/sy-nour-el-sham-tv.jpg" group-title="Lebanon - لبنان",NOUR AL SHAM
 http://ugeen.live:8080/username/password/3037
-#EXTINF:-1 tvg-logo="",AL JADEED LEBANON
+#EXTINF:-1 tvg-id="" tvg-name="AL JADEED LEBANON" tvg-logo="https://www.lstatic.org/UserFiles/images/Lebanon/Diverts/Large/aljadeed-logo.jpg" group-title="Lebanon - لبنان",AL JADEED LEBANON
 http://ugeen.live:8080/username/password/3038
-#EXTINF:-1 tvg-logo="",AL EKHBARIYA
+#EXTINF:-1 tvg-id="" tvg-name="AL EKHBARIYA" tvg-logo="" group-title="Lebanon - لبنان",AL EKHBARIYA
 http://ugeen.live:8080/username/password/3039
-#EXTINF:-1 tvg-logo="",OTV
+#EXTINF:-1 tvg-id="" tvg-name="OTV" tvg-logo="https://code-gsm.com/logo/otv.png" group-title="Lebanon - لبنان",OTV
 http://ugeen.live:8080/username/password/3040
-#EXTINF:-1 tvg-logo="",•●★★--- World  ---★★●•
+#EXTINF:-1 tvg-id="" tvg-name="•●★★--- World  ---★★●•" tvg-logo="""" group-title="SSC Sports - Arab Sports [الرياضة العربية]",•●★★--- World  ---★★●•
 http://ugeen.live:8080/username/password/123
-#EXTINF:-1 tvg-logo="",AR: KSA Sports 1
+#EXTINF:-1 tvg-id="" tvg-name="AR: KSA Sports 1" tvg-logo="" group-title="SSC Sports - Arab Sports [الرياضة العربية]",AR: KSA Sports 1
 http://ugeen.live:8080/username/password/2053
-#EXTINF:-1 tvg-logo="",AR: KSA Sports 2
+#EXTINF:-1 tvg-id="" tvg-name="AR: KSA Sports 2" tvg-logo="" group-title="SSC Sports - Arab Sports [الرياضة العربية]",AR: KSA Sports 2
 http://ugeen.live:8080/username/password/2054
-#EXTINF:-1 tvg-logo="",AR: KSA SPORTS 3
+#EXTINF:-1 tvg-id="" tvg-name="AR: KSA SPORTS 3" tvg-logo="" group-title="SSC Sports - Arab Sports [الرياضة العربية]",AR: KSA SPORTS 3
 http://ugeen.live:8080/username/password/2055
-#EXTINF:-1 tvg-logo="",AR: ksa Sport 4
+#EXTINF:-1 tvg-id="" tvg-name="AR: ksa Sport 4" tvg-logo="" group-title="SSC Sports - Arab Sports [الرياضة العربية]",AR: ksa Sport 4
 http://ugeen.live:8080/username/password/2056
-#EXTINF:-1 tvg-logo="",AR: Sharjah Sports TV FHD
+#EXTINF:-1 tvg-id="" tvg-name="AR: Sharjah Sports TV FHD" tvg-logo="" group-title="SSC Sports - Arab Sports [الرياضة العربية]",AR: Sharjah Sports TV FHD
 http://ugeen.live:8080/username/password/3233
-#EXTINF:-1 tvg-logo="",AR: Alkass 1
+#EXTINF:-1 tvg-id="" tvg-name="AR: Alkass 1" tvg-logo="" group-title="SSC Sports - Arab Sports [الرياضة العربية]",AR: Alkass 1
 http://ugeen.live:8080/username/password/1461
-#EXTINF:-1 tvg-logo="",AR: Alkass 2
+#EXTINF:-1 tvg-id="" tvg-name="AR: Alkass 2" tvg-logo="" group-title="SSC Sports - Arab Sports [الرياضة العربية]",AR: Alkass 2
 http://ugeen.live:8080/username/password/1462
-#EXTINF:-1 tvg-logo="",AR: Alkass 3
+#EXTINF:-1 tvg-id="" tvg-name="AR: Alkass 3" tvg-logo="" group-title="SSC Sports - Arab Sports [الرياضة العربية]",AR: Alkass 3
 http://ugeen.live:8080/username/password/1463
-#EXTINF:-1 tvg-logo="",AR: Alkass 4
+#EXTINF:-1 tvg-id="" tvg-name="AR: Alkass 4" tvg-logo="" group-title="SSC Sports - Arab Sports [الرياضة العربية]",AR: Alkass 4
 http://ugeen.live:8080/username/password/1464
-#EXTINF:-1 tvg-logo="", DUBAI SPORTS 1 HD
+#EXTINF:-1 tvg-id="" tvg-name=" DUBAI SPORTS 1 HD" tvg-logo="" group-title="World Sports - الرياضة العالمية", DUBAI SPORTS 1 HD
 http://ugeen.live:8080/username/password/4038
-#EXTINF:-1 tvg-logo="",DUBAI SPORTS 2 HD
+#EXTINF:-1 tvg-id="" tvg-name="DUBAI SPORTS 2 HD" tvg-logo="" group-title="World Sports - الرياضة العالمية",DUBAI SPORTS 2 HD
 http://ugeen.live:8080/username/password/4093
-#EXTINF:-1 tvg-logo="",AR: ALRabiaa Sport - الرابعة العراقية
+#EXTINF:-1 tvg-id="" tvg-name="AR: ALRabiaa Sport - الرابعة العراقية" tvg-logo="" group-title="Iraq - العراق",AR: ALRabiaa Sport - الرابعة العراقية
 http://ugeen.live:8080/username/password/4036
-#EXTINF:-1 tvg-logo="",AR: AD Sport 1
+#EXTINF:-1 tvg-id="" tvg-name="AR: AD Sport 1" tvg-logo="" group-title="SSC Sports - Arab Sports [الرياضة العربية]",AR: AD Sport 1
 http://ugeen.live:8080/username/password/112
-#EXTINF:-1 tvg-logo="",AR: AD Sport 2
+#EXTINF:-1 tvg-id="" tvg-name="AR: AD Sport 2" tvg-logo="" group-title="SSC Sports - Arab Sports [الرياضة العربية]",AR: AD Sport 2
 http://ugeen.live:8080/username/password/113
-#EXTINF:-1 tvg-logo="",MUTV
+#EXTINF:-1 tvg-id="" tvg-name="MUTV" tvg-logo="" group-title="World Sports - الرياضة العالمية",MUTV
 http://ugeen.live:8080/username/password/4037
-#EXTINF:-1 tvg-logo="",[NL]_ZIGGO SPORT SELECT HD
+#EXTINF:-1 tvg-id="" tvg-name="[NL]_ZIGGO SPORT SELECT HD" tvg-logo="" group-title="World Sports - الرياضة العالمية",[NL]_ZIGGO SPORT SELECT HD
 http://ugeen.live:8080/username/password/4032
-#EXTINF:-1 tvg-logo="",NL: ZIGGO Voetbal
+#EXTINF:-1 tvg-id="" tvg-name="NL: ZIGGO Voetbal" tvg-logo="" group-title="World Sports - الرياضة العالمية",NL: ZIGGO Voetbal
 http://ugeen.live:8080/username/password/4049
-#EXTINF:-1 tvg-logo="",NL: ZIGGO Racing
+#EXTINF:-1 tvg-id="" tvg-name="NL: ZIGGO Racing" tvg-logo="" group-title="World Sports - الرياضة العالمية",NL: ZIGGO Racing
 http://ugeen.live:8080/username/password/4050
-#EXTINF:-1 tvg-logo="",ARENASPORT 1 PREMIUM
-http://ugeen.live:8080/username/password/4015
-#EXTINF:-1 tvg-logo="",ARENASPORT 2 PREMIUM
-http://ugeen.live:8080/username/password/4016
-#EXTINF:-1 tvg-logo="",Arena Sport 1 (Serb)
+#EXTINF:-1 tvg-id="" tvg-name="Arena Sport 1 (Serb)" tvg-logo="" group-title="World Sports - الرياضة العالمية",Arena Sport 1 (Serb)
 http://ugeen.live:8080/username/password/1465
-#EXTINF:-1 tvg-logo="",Arena Sport 2 (Serb)
+#EXTINF:-1 tvg-id="" tvg-name="Arena Sport 2 (Serb)" tvg-logo="" group-title="World Sports - الرياضة العالمية",Arena Sport 2 (Serb)
 http://ugeen.live:8080/username/password/1466
-#EXTINF:-1 tvg-logo="",Arena Sport 3 (Serb)
+#EXTINF:-1 tvg-id="" tvg-name="Arena Sport 3 (Serb" tvg-logo="" group-title="World Sports - الرياضة العالمية",Arena Sport 3 (Serb
 http://ugeen.live:8080/username/password/1467
-#EXTINF:-1 tvg-logo="",Arena Sport 4 (Serb)
+#EXTINF:-1 tvg-id="" tvg-name="Arena Sport 4 (Serb" tvg-logo="" group-title="World Sports - الرياضة العالمية",Arena Sport 4 (Serb
 http://ugeen.live:8080/username/password/1468
-#EXTINF:-1 tvg-logo="",Arena Sport 5 (Serb)
+#EXTINF:-1 tvg-id="" tvg-name="Arena Sport 5 (Serb)" tvg-logo="" group-title="World Sports - الرياضة العالمية",Arena Sport 5 (Serb)
 http://ugeen.live:8080/username/password/1469
-#EXTINF:-1 tvg-logo="",•●★★--- USA---★★●•
+#EXTINF:-1 tvg-id="" tvg-name="PT: Sport TV " tvg-logo="" group-title="World Sports - الرياضة العالمية",PT: Sport TV 
+http://ugeen.live:8080/username/password/2165
+#EXTINF:-1 tvg-id="" tvg-name="PT: Sport TV 1 HD " tvg-logo="" group-title="World Sports - الرياضة العالمية",PT: Sport TV 1 HD 
+http://ugeen.live:8080/username/password/2166
+#EXTINF:-1 tvg-id="" tvg-name="PT: Sport TV 2 HD " tvg-logo="" group-title="World Sports - الرياضة العالمية",PT: Sport TV 2 HD 
+http://ugeen.live:8080/username/password/2167
+#EXTINF:-1 tvg-id="" tvg-name="PT: Sport TV 3 HD " tvg-logo="" group-title="World Sports - الرياضة العالمية",PT: Sport TV 3 HD 
+http://ugeen.live:8080/username/password/2168
+#EXTINF:-1 tvg-id="" tvg-name="PT: Sport TV 4 HD " tvg-logo="" group-title="World Sports - الرياضة العالمية",PT: Sport TV 4 HD 
+http://ugeen.live:8080/username/password/2169
+#EXTINF:-1 tvg-id="" tvg-name="PT:  Sport TV 5 HD " tvg-logo="" group-title="World Sports - الرياضة العالمية",PT:  Sport TV 5 HD 
+http://ugeen.live:8080/username/password/2170
+#EXTINF:-1 tvg-id="" tvg-name="MATCH 1 HD" tvg-logo="" group-title="World Sports - الرياضة العالمية",MATCH 1 HD
+http://ugeen.live:8080/username/password/2837
+#EXTINF:-1 tvg-id="" tvg-name="TRT Sport HD" tvg-logo="" group-title="World Sports - الرياضة العالمية",TRT Sport HD
+http://ugeen.live:8080/username/password/2839
+#EXTINF:-1 tvg-id="" tvg-name="RAI 1 HD" tvg-logo="" group-title="World Sports - الرياضة العالمية",RAI 1 HD
+http://ugeen.live:8080/username/password/2836
+#EXTINF:-1 tvg-id="" tvg-name="BT SPORT 1 HD" tvg-logo="" group-title="World Sports - الرياضة العالمية",BT SPORT 1 HD
+http://ugeen.live:8080/username/password/2840
+#EXTINF:-1 tvg-id="" tvg-name="ZA: SuperSport Action HD" tvg-logo="" group-title="World Sports - الرياضة العالمية",ZA: SuperSport Action HD
+http://ugeen.live:8080/username/password/3060
+#EXTINF:-1 tvg-id="" tvg-name="ZA: SuperSport Cricket HD" tvg-logo="http://logo.streamstv.me/picon/AFSuperSport2.png" group-title="World Sports - الرياضة العالمية",ZA: SuperSport Cricket HD
+http://ugeen.live:8080/username/password/3061
+#EXTINF:-1 tvg-id="" tvg-name="ZA: SuperSport Football HD" tvg-logo="http://logo.streamstv.me/picon/AFSuperSport3.png" group-title="World Sports - الرياضة العالمية",ZA: SuperSport Football HD
+http://ugeen.live:8080/username/password/3062
+#EXTINF:-1 tvg-id="" tvg-name="ZA: SuperSport LaLiga" tvg-logo="" group-title="World Sports - الرياضة العالمية",ZA: SuperSport LaLiga
+http://ugeen.live:8080/username/password/3064
+#EXTINF:-1 tvg-id="" tvg-name="ZA: SuperSport Grandstand FHD" tvg-logo="" group-title="World Sports - الرياضة العالمية",ZA: SuperSport Grandstand FHD
+http://ugeen.live:8080/username/password/3065
+#EXTINF:-1 tvg-id="" tvg-name="ZA: SuperSport Premier League HD" tvg-logo="http://logo.streamstv.me/picon/AFSuperSport8.png" group-title="World Sports - الرياضة العالمية",ZA: SuperSport Premier League HD
+http://ugeen.live:8080/username/password/3067
+#EXTINF:-1 tvg-id="" tvg-name="ZA: SuperSport  Blitz" tvg-logo="" group-title="World Sports - الرياضة العالمية",ZA: SuperSport  Blitz
+http://ugeen.live:8080/username/password/3069
+#EXTINF:-1 tvg-id="" tvg-name="ZA: SuperSport Variety 3 HD" tvg-logo="" group-title="World Sports - الرياضة العالمية",ZA: SuperSport Variety 3 HD
+http://ugeen.live:8080/username/password/3070
+#EXTINF:-1 tvg-id="" tvg-name="ARGENTINA: TNT SPORT" tvg-logo="" group-title="World Sports - الرياضة العالمية",ARGENTINA: TNT SPORT
+http://ugeen.live:8080/username/password/3072
+#EXTINF:-1 tvg-id="" tvg-name="POL: CANAL_SPORT" tvg-logo="" group-title="World Sports - الرياضة العالمية",POL: CANAL_SPORT
+http://ugeen.live:8080/username/password/3159
+#EXTINF:-1 tvg-id="" tvg-name="AL: TRING_SPORT_1HD" tvg-logo="" group-title="World Sports - الرياضة العالمية",AL: TRING_SPORT_1HD
+http://ugeen.live:8080/username/password/3169
+#EXTINF:-1 tvg-id="" tvg-name="AL: TRING_SPORT_2HD" tvg-logo="" group-title="World Sports - الرياضة العالمية",AL: TRING_SPORT_2HD
+http://ugeen.live:8080/username/password/3170
+#EXTINF:-1 tvg-id="" tvg-name="AL: TRING_SPORT_3HD" tvg-logo="" group-title="World Sports - الرياضة العالمية",AL: TRING_SPORT_3HD
+http://ugeen.live:8080/username/password/3171
+#EXTINF:-1 tvg-id="" tvg-name="AL:SUPER SPORT 2" tvg-logo="" group-title="World Sports - الرياضة العالمية",AL:SUPER SPORT 2
+http://ugeen.live:8080/username/password/3174
+#EXTINF:-1 tvg-id="" tvg-name="AL:SUPER SPORT 3" tvg-logo="" group-title="World Sports - الرياضة العالمية",AL:SUPER SPORT 3
+http://ugeen.live:8080/username/password/3175
+#EXTINF:-1 tvg-id="" tvg-name="AL:SUPER SPORT 4" tvg-logo="" group-title="World Sports - الرياضة العالمية",AL:SUPER SPORT 4
+http://ugeen.live:8080/username/password/3176
+#EXTINF:-1 tvg-id="" tvg-name="AL: EXPLORER_NATYRA" tvg-logo="" group-title="World Sports - الرياضة العالمية",AL: EXPLORER_NATYRA
+http://ugeen.live:8080/username/password/3177
+#EXTINF:-1 tvg-id="" tvg-name="[PT] ELEVEN SPORTS 1 HD" tvg-logo="" group-title="World Sports - الرياضة العالمية",[PT] ELEVEN SPORTS 1 HD
+http://ugeen.live:8080/username/password/3279
+#EXTINF:-1 tvg-id="" tvg-name="[PT] ELEVEN SPORTS 2 HD" tvg-logo="" group-title="World Sports - الرياضة العالمية",[PT] ELEVEN SPORTS 2 HD
+http://ugeen.live:8080/username/password/3280
+#EXTINF:-1 tvg-id="" tvg-name="[PT] ELEVEN SPORTS 3 HD" tvg-logo="" group-title="World Sports - الرياضة العالمية",[PT] ELEVEN SPORTS 3 HD
+http://ugeen.live:8080/username/password/3281
+#EXTINF:-1 tvg-id="" tvg-name="[PT] ELEVEN SPORTS 4 HD" tvg-logo="" group-title="World Sports - الرياضة العالمية",[PT] ELEVEN SPORTS 4 HD
+http://ugeen.live:8080/username/password/3282
+#EXTINF:-1 tvg-id="" tvg-name="ZDF HD" tvg-logo="" group-title="World Sports - الرياضة العالمية",ZDF HD
+http://ugeen.live:8080/username/password/3460
+#EXTINF:-1 tvg-id="" tvg-name="AF | Canal+ Sport 1" tvg-logo="" group-title="World Sports - الرياضة العالمية",AF | Canal+ Sport 1
+http://ugeen.live:8080/username/password/3902
+#EXTINF:-1 tvg-id="" tvg-name="AF | Canal+ Sport 2" tvg-logo="" group-title="World Sports - الرياضة العالمية",AF | Canal+ Sport 2
+http://ugeen.live:8080/username/password/3935
+#EXTINF:-1 tvg-id="" tvg-name="AF | Canal+ Sport 3" tvg-logo="" group-title="World Sports - الرياضة العالمية",AF | Canal+ Sport 3
+http://ugeen.live:8080/username/password/3904
+#EXTINF:-1 tvg-id="" tvg-name="AF | Canal+ Sport 4" tvg-logo="" group-title="World Sports - الرياضة العالمية",AF | Canal+ Sport 4
+http://ugeen.live:8080/username/password/3936
+#EXTINF:-1 tvg-id="" tvg-name="AF | Canal+ Sport 5" tvg-logo="" group-title="World Sports - الرياضة العالمية",AF | Canal+ Sport 5
+http://ugeen.live:8080/username/password/3906
+#EXTINF:-1 tvg-id="" tvg-name="PL: Polsat Sport Premium 1" tvg-logo="" group-title="World Sports - الرياضة العالمية",PL: Polsat Sport Premium 1
+http://ugeen.live:8080/username/password/4042
+#EXTINF:-1 tvg-id="" tvg-name="PL: Polsat Sport Premium 2" tvg-logo="" group-title="World Sports - الرياضة العالمية",PL: Polsat Sport Premium 2
+http://ugeen.live:8080/username/password/4043
+#EXTINF:-1 tvg-id="" tvg-name="PL: Polsat Sport Premium 3" tvg-logo="" group-title="World Sports - الرياضة العالمية",PL: Polsat Sport Premium 3
+http://ugeen.live:8080/username/password/4044
+#EXTINF:-1 tvg-id="" tvg-name="PL: Polsat Sport Premium 5" tvg-logo="" group-title="World Sports - الرياضة العالمية",PL: Polsat Sport Premium 5
+http://ugeen.live:8080/username/password/4046
+#EXTINF:-1 tvg-id="" tvg-name="PL: Polsat Sport Premium 6" tvg-logo="" group-title="World Sports - الرياضة العالمية",PL: Polsat Sport Premium 6
+http://ugeen.live:8080/username/password/4047
+#EXTINF:-1 tvg-id="" tvg-name="BR: ESPN HD" tvg-logo="" group-title="World Sports - الرياضة العالمية",BR: ESPN HD
+http://ugeen.live:8080/username/password/4156
+#EXTINF:-1 tvg-id="" tvg-name="GR: Nova Sports 1" tvg-logo="" group-title="World Sports - الرياضة العالمية",GR: Nova Sports 1
+http://ugeen.live:8080/username/password/4247
+#EXTINF:-1 tvg-id="" tvg-name="GR: Nova sports 2" tvg-logo="" group-title="World Sports - الرياضة العالمية",GR: Nova sports 2
+http://ugeen.live:8080/username/password/4248
+#EXTINF:-1 tvg-id="" tvg-name="GR: Nova Sports 3" tvg-logo="" group-title="World Sports - الرياضة العالمية",GR: Nova Sports 3
+http://ugeen.live:8080/username/password/4249
+#EXTINF:-1 tvg-id="" tvg-name="GR: Nova Sports 4" tvg-logo="" group-title="World Sports - الرياضة العالمية",GR: Nova Sports 4
+http://ugeen.live:8080/username/password/4250
+#EXTINF:-1 tvg-id="" tvg-name="GR: Nova Sports 5" tvg-logo="" group-title="World Sports - الرياضة العالمية",GR: Nova Sports 5
+http://ugeen.live:8080/username/password/4251
+#EXTINF:-1 tvg-id="" tvg-name="GR: Nova Sports 6" tvg-logo="" group-title="World Sports - الرياضة العالمية",GR: Nova Sports 6
+http://ugeen.live:8080/username/password/4252
+#EXTINF:-1 tvg-id="" tvg-name="GR: Nova Sports Prime live" tvg-logo="" group-title="World Sports - الرياضة العالمية",GR: Nova Sports Prime live
+http://ugeen.live:8080/username/password/4254
+#EXTINF:-1 tvg-id="" tvg-name="GR: Nova sports Prime" tvg-logo="" group-title="World Sports - الرياضة العالمية",GR: Nova sports Prime
+http://ugeen.live:8080/username/password/4255
+#EXTINF:-1 tvg-id="" tvg-name="GR: Nova Sports Start" tvg-logo="" group-title="World Sports - الرياضة العالمية",GR: Nova Sports Start
+http://ugeen.live:8080/username/password/4256
+#EXTINF:-1 tvg-id="" tvg-name="GR: Cosmote Sport 1" tvg-logo="" group-title="World Sports - الرياضة العالمية",GR: Cosmote Sport 1
+http://ugeen.live:8080/username/password/4257
+#EXTINF:-1 tvg-id="" tvg-name="GR: Cosmote Sport 2" tvg-logo="" group-title="World Sports - الرياضة العالمية",GR: Cosmote Sport 2
+http://ugeen.live:8080/username/password/4258
+#EXTINF:-1 tvg-id="" tvg-name="GR: Cosmote Sport 3" tvg-logo="" group-title="World Sports - الرياضة العالمية",GR: Cosmote Sport 3
+http://ugeen.live:8080/username/password/4259
+#EXTINF:-1 tvg-id="" tvg-name="GR: Cosmote Sport 4" tvg-logo="" group-title="World Sports - الرياضة العالمية",GR: Cosmote Sport 4
+http://ugeen.live:8080/username/password/4260
+#EXTINF:-1 tvg-id="" tvg-name="GR: Cosmote Sport 5" tvg-logo="" group-title="World Sports - الرياضة العالمية",GR: Cosmote Sport 5
+http://ugeen.live:8080/username/password/4261
+#EXTINF:-1 tvg-id="" tvg-name="GR: Cosmote Sport 6" tvg-logo="" group-title="World Sports - الرياضة العالمية",GR: Cosmote Sport 6
+http://ugeen.live:8080/username/password/4262
+#EXTINF:-1 tvg-id="" tvg-name="GR: Cosmote Sport 7" tvg-logo="" group-title="World Sports - الرياضة العالمية",GR: Cosmote Sport 7
+http://ugeen.live:8080/username/password/4263
+#EXTINF:-1 tvg-id="" tvg-name="GR: Cosmote Sport 8" tvg-logo="" group-title="World Sports - الرياضة العالمية",GR: Cosmote Sport 8
+http://ugeen.live:8080/username/password/4264
+#EXTINF:-1 tvg-id="" tvg-name="GR: Cosmote Sport 9" tvg-logo="" group-title="World Sports - الرياضة العالمية",GR: Cosmote Sport 9
+http://ugeen.live:8080/username/password/4265
+#EXTINF:-1 tvg-id="" tvg-name="•●★★--- USA---★★●•" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",•●★★--- USA---★★●•
 http://ugeen.live:8080/username/password/844
-#EXTINF:-1 tvg-logo="",UK: EUROSPORT 1
+#EXTINF:-1 tvg-id="" tvg-name="UK: EUROSPORT 1" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",UK: EUROSPORT 1
 http://ugeen.live:8080/username/password/4091
-#EXTINF:-1 tvg-logo="",UK: EUROSPORT 2
+#EXTINF:-1 tvg-id="" tvg-name="UK: EUROSPORT 2" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",UK: EUROSPORT 2
 http://ugeen.live:8080/username/password/4092
-#EXTINF:-1 tvg-logo="",US:  ABC 
+#EXTINF:-1 tvg-id="" tvg-name="US:  ABC " tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US:  ABC 
 http://ugeen.live:8080/username/password/3653
-#EXTINF:-1 tvg-logo="",US: ABC News
+#EXTINF:-1 tvg-id="" tvg-name="US: ABC News" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: ABC News
 http://ugeen.live:8080/username/password/3654
-#EXTINF:-1 tvg-logo="",US: TNT HD
+#EXTINF:-1 tvg-id="" tvg-name="US: TNT HD" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: TNT HD
 http://ugeen.live:8080/username/password/3048
-#EXTINF:-1 tvg-logo="",US: TSN 1
+#EXTINF:-1 tvg-id="" tvg-name="US: TSN 1" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: TSN 1
 http://ugeen.live:8080/username/password/3057
-#EXTINF:-1 tvg-logo="",US:  TSN 2
+#EXTINF:-1 tvg-id="" tvg-name="US:  TSN 2" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US:  TSN 2
 http://ugeen.live:8080/username/password/3056
-#EXTINF:-1 tvg-logo="",US: TSN 3
+#EXTINF:-1 tvg-id="" tvg-name="US: TSN 3" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: TSN 3
 http://ugeen.live:8080/username/password/3055
-#EXTINF:-1 tvg-logo="",US: TSN 4
+#EXTINF:-1 tvg-id="" tvg-name="US: TSN 4" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: TSN 4
 http://ugeen.live:8080/username/password/3054
-#EXTINF:-1 tvg-logo="",US: TSN 5
+#EXTINF:-1 tvg-id="" tvg-name="US: TSN 5" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: TSN 5
 http://ugeen.live:8080/username/password/3053
-#EXTINF:-1 tvg-logo="",US: ESPN HD
+#EXTINF:-1 tvg-id="" tvg-name="US: ESPN HD" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: ESPN HD
 http://ugeen.live:8080/username/password/3049
-#EXTINF:-1 tvg-logo="",US: ESPN 2
+#EXTINF:-1 tvg-id="" tvg-name="US: ESPN 2" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: ESPN 2
 http://ugeen.live:8080/username/password/3050
-#EXTINF:-1 tvg-logo="",US: ESPN U HD
+#EXTINF:-1 tvg-id="" tvg-name="US: ESPN U HD" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: ESPN U HD
 http://ugeen.live:8080/username/password/3052
-#EXTINF:-1 tvg-logo="",US: Bein Sport USA
+#EXTINF:-1 tvg-id="" tvg-name="US: Bein Sport USA" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: Bein Sport USA
 http://ugeen.live:8080/username/password/739
-#EXTINF:-1 tvg-logo="",US: beIN Sports Ñ
+#EXTINF:-1 tvg-id="" tvg-name="US: beIN Sports Ñ" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: beIN Sports Ñ
 http://ugeen.live:8080/username/password/740
-#EXTINF:-1 tvg-logo="",US: ESPN
+#EXTINF:-1 tvg-id="" tvg-name="US: ESPN" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: ESPN
 http://ugeen.live:8080/username/password/742
-#EXTINF:-1 tvg-logo="",US: ESPN 2
+#EXTINF:-1 tvg-id="" tvg-name="US: ESPN 2" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: ESPN 2
 http://ugeen.live:8080/username/password/743
-#EXTINF:-1 tvg-logo="",US: Longhorn Network
+#EXTINF:-1 tvg-id="" tvg-name="US: Longhorn Network" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: Longhorn Network
 http://ugeen.live:8080/username/password/744
-#EXTINF:-1 tvg-logo="",US: Hallmark Drama
+#EXTINF:-1 tvg-id="" tvg-name="US: Hallmark Drama" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: Hallmark Drama
 http://ugeen.live:8080/username/password/745
-#EXTINF:-1 tvg-logo="",US: Hallmark Movies and Mysteries
+#EXTINF:-1 tvg-id="" tvg-name="US: Hallmark Movies and Mysteries" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: Hallmark Movies and Mysteries
 http://ugeen.live:8080/username/password/746
-#EXTINF:-1 tvg-logo="",US: HBO COMEDY HD
+#EXTINF:-1 tvg-id="" tvg-name="US: HBO COMEDY HD" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: HBO COMEDY HD
 http://ugeen.live:8080/username/password/747
-#EXTINF:-1 tvg-logo="",US: NAT GEO WILD HD
+#EXTINF:-1 tvg-id="" tvg-name="US: NAT GEO WILD HD" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: NAT GEO WILD HD
 http://ugeen.live:8080/username/password/748
-#EXTINF:-1 tvg-logo="",US: ESPN NEWS
+#EXTINF:-1 tvg-id="" tvg-name="US: ESPN NEWS" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: ESPN NEWS
 http://ugeen.live:8080/username/password/750
-#EXTINF:-1 tvg-logo="",US: ESPN U
+#EXTINF:-1 tvg-id="" tvg-name="US: ESPN U" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: ESPN U
 http://ugeen.live:8080/username/password/752
-#EXTINF:-1 tvg-logo="",US: FOX SPORTS 1 HD
+#EXTINF:-1 tvg-id="" tvg-name="US: FOX SPORTS 1 HD" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: FOX SPORTS 1 HD
 http://ugeen.live:8080/username/password/754
-#EXTINF:-1 tvg-logo="",US: FOX SPORTS 2 HD
+#EXTINF:-1 tvg-id="" tvg-name="US: FOX SPORTS 2 HD" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: FOX SPORTS 2 HD
 http://ugeen.live:8080/username/password/755
-#EXTINF:-1 tvg-logo="",US: Showtime Showcase
+#EXTINF:-1 tvg-id="" tvg-name="US: Showtime Showcase" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: Showtime Showcase
 http://ugeen.live:8080/username/password/756
-#EXTINF:-1 tvg-logo="",US: ShowTime HD
+#EXTINF:-1 tvg-id="" tvg-name="US: ShowTime HD" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: ShowTime HD
 http://ugeen.live:8080/username/password/757
-#EXTINF:-1 tvg-logo="",US: TBS HD
+#EXTINF:-1 tvg-id="" tvg-name="US: TBS HD" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: TBS HD
 http://ugeen.live:8080/username/password/760
-#EXTINF:-1 tvg-logo="",US: Discovery Channel HD
+#EXTINF:-1 tvg-id="" tvg-name="US: Discovery Channel HD" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: Discovery Channel HD
 http://ugeen.live:8080/username/password/761
-#EXTINF:-1 tvg-logo="",US: Fox Sports Arizona
+#EXTINF:-1 tvg-id="" tvg-name="US: Fox Sports Arizona" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: Fox Sports Arizona
 http://ugeen.live:8080/username/password/764
-#EXTINF:-1 tvg-logo="",US: Fox Sports Detroit
+#EXTINF:-1 tvg-id="" tvg-name="US: Fox Sports Detroit" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: Fox Sports Detroit
 http://ugeen.live:8080/username/password/765
-#EXTINF:-1 tvg-logo="",US: Fox Sports Florida
+#EXTINF:-1 tvg-id="" tvg-name="US: Fox Sports Florida" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: Fox Sports Florida
 http://ugeen.live:8080/username/password/766
-#EXTINF:-1 tvg-logo="",US: Fox Tampa
+#EXTINF:-1 tvg-id="" tvg-name="US: Fox Tampa" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: Fox Tampa
 http://ugeen.live:8080/username/password/767
-#EXTINF:-1 tvg-logo="",US: Fox Sport 2 4K+
+#EXTINF:-1 tvg-id="" tvg-name="US: Fox Sport 2 4K+" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: Fox Sport 2 4K+
 http://ugeen.live:8080/username/password/770
-#EXTINF:-1 tvg-logo="",US: Fox News GO
+#EXTINF:-1 tvg-id="" tvg-name="US: Fox News GO" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: Fox News GO
 http://ugeen.live:8080/username/password/771
-#EXTINF:-1 tvg-logo="",US: Fox Nashville
+#EXTINF:-1 tvg-id="" tvg-name="US: Fox Nashville" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: Fox Nashville
 http://ugeen.live:8080/username/password/772
-#EXTINF:-1 tvg-logo="",US: Fox  Sport 1 4K+
+#EXTINF:-1 tvg-id="" tvg-name="US: Fox  Sport 1 4K+" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: Fox  Sport 1 4K+
 http://ugeen.live:8080/username/password/773
-#EXTINF:-1 tvg-logo="",US: Fox Los Angeles
+#EXTINF:-1 tvg-id="" tvg-name="US: Fox Los Angeles" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: Fox Los Angeles
 http://ugeen.live:8080/username/password/774
-#EXTINF:-1 tvg-logo="",US: Fox Sports San Diego
+#EXTINF:-1 tvg-id="" tvg-name="US: Fox Sports San Diego" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: Fox Sports San Diego
 http://ugeen.live:8080/username/password/775
-#EXTINF:-1 tvg-logo="",US: Fox  Houston
+#EXTINF:-1 tvg-id="" tvg-name="US: Fox  Houston" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: Fox  Houston
 http://ugeen.live:8080/username/password/778
-#EXTINF:-1 tvg-logo="",US: GOLTV 
-http://ugeen.live:8080/username/password/780
-#EXTINF:-1 tvg-logo="",US: MLB NETWORK
+#EXTINF:-1 tvg-id="" tvg-name="US: MLB NETWORK" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: MLB NETWORK
 http://ugeen.live:8080/username/password/781
-#EXTINF:-1 tvg-logo="",US: MSNBC
+#EXTINF:-1 tvg-id="" tvg-name="US: MSNBC" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: MSNBC
 http://ugeen.live:8080/username/password/783
-#EXTINF:-1 tvg-logo="",US: Mav TV
+#EXTINF:-1 tvg-id="" tvg-name="US: Mav TV" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: Mav TV
 http://ugeen.live:8080/username/password/784
-#EXTINF:-1 tvg-logo="",US: NBA TV
+#EXTINF:-1 tvg-id="" tvg-name="US: NBA TV" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: NBA TV
 http://ugeen.live:8080/username/password/785
-#EXTINF:-1 tvg-logo="",US: NBCSN
+#EXTINF:-1 tvg-id="" tvg-name="US: NBCSN" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: NBCSN
 http://ugeen.live:8080/username/password/786
-#EXTINF:-1 tvg-logo="",US: NBC Sports Bay Area Plus
+#EXTINF:-1 tvg-id="" tvg-name="US: NBC Sports Bay Area Plus" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: NBC Sports Bay Area Plus
 http://ugeen.live:8080/username/password/788
-#EXTINF:-1 tvg-logo="",US: NBC Sports Boston
+#EXTINF:-1 tvg-id="" tvg-name="US: NBC Sports Boston" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: NBC Sports Boston
 http://ugeen.live:8080/username/password/789
-#EXTINF:-1 tvg-logo="",US: NBC 4any
+#EXTINF:-1 tvg-id="" tvg-name="US: NBC 4any" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: NBC 4any
 http://ugeen.live:8080/username/password/791
-#EXTINF:-1 tvg-logo="",US: NBC Sports Chicago Plus
+#EXTINF:-1 tvg-id="" tvg-name="US: NBC Sports Chicago Plus" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: NBC Sports Chicago Plus
 http://ugeen.live:8080/username/password/792
-#EXTINF:-1 tvg-logo="",US: NBC Sports Philadelphia
+#EXTINF:-1 tvg-id="" tvg-name="US: NBC Sports Philadelphia" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: NBC Sports Philadelphia
 http://ugeen.live:8080/username/password/794
-#EXTINF:-1 tvg-logo="",US: NBC Sports Washington Plus
-http://ugeen.live:8080/username/password/795
-#EXTINF:-1 tvg-logo="",US: NBCSN
+#EXTINF:-1 tvg-id="" tvg-name="US: NBCSN" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: NBCSN
 http://ugeen.live:8080/username/password/796
-#EXTINF:-1 tvg-logo="",US: NESN PLUS
+#EXTINF:-1 tvg-id="" tvg-name="US: NESN PLUS" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: NESN PLUS
 http://ugeen.live:8080/username/password/798
-#EXTINF:-1 tvg-logo="",US: NFL Network
+#EXTINF:-1 tvg-id="" tvg-name="US: NFL Network" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: NFL Network
 http://ugeen.live:8080/username/password/799
-#EXTINF:-1 tvg-logo="",US: Olympic Channel
+#EXTINF:-1 tvg-id="" tvg-name="US: Olympic Channel" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: Olympic Channel
 http://ugeen.live:8080/username/password/800
-#EXTINF:-1 tvg-logo="",US: Outside TV
+#EXTINF:-1 tvg-id="" tvg-name="US: Outside TV" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: Outside TV
 http://ugeen.live:8080/username/password/801
-#EXTINF:-1 tvg-logo="",US: PAC-12 Arizona
+#EXTINF:-1 tvg-id="" tvg-name="US: PAC-12 Arizona" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: PAC-12 Arizona
 http://ugeen.live:8080/username/password/802
-#EXTINF:-1 tvg-logo="",US: PAC-12 Los Angeles
+#EXTINF:-1 tvg-id="" tvg-name="US: PAC-12 Los Angeles" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: PAC-12 Los Angeles
 http://ugeen.live:8080/username/password/804
-#EXTINF:-1 tvg-logo="",US: PAC-12 Oregon
+#EXTINF:-1 tvg-id="" tvg-name="US: PAC-12 Oregon" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: PAC-12 Oregon
 http://ugeen.live:8080/username/password/805
-#EXTINF:-1 tvg-logo="",US: PAC-12 Washington
+#EXTINF:-1 tvg-id="" tvg-name="US: PAC-12 Washington" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: PAC-12 Washington
 http://ugeen.live:8080/username/password/806
-#EXTINF:-1 tvg-logo="",US: Pac-12 Mountain
+#EXTINF:-1 tvg-id="" tvg-name="US: Pac-12 Mountain" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: Pac-12 Mountain
 http://ugeen.live:8080/username/password/807
-#EXTINF:-1 tvg-logo="",US: PAC-12 Bay Area
+#EXTINF:-1 tvg-id="" tvg-name="US: PAC-12 Bay Area" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: PAC-12 Bay Area
 http://ugeen.live:8080/username/password/803
-#EXTINF:-1 tvg-logo="",US: wwe Network
+#EXTINF:-1 tvg-id="" tvg-name="USA: FOX DETROIT" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",USA: FOX DETROIT
+http://ugeen.live:8080/username/password/4245
+#EXTINF:-1 tvg-id="" tvg-name="USA: TUDN HD " tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",USA: TUDN HD 
+http://ugeen.live:8080/username/password/4246
+#EXTINF:-1 tvg-id="" tvg-name="US: wwe Network" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",US: wwe Network
 http://ugeen.live:8080/username/password/954
-#EXTINF:-1 tvg-logo="",BG: ELEVEN SPORTS 1 BELGIUM (NL) HD
+#EXTINF:-1 tvg-id="" tvg-name="BG: ELEVEN SPORTS 1 BELGIUM (NL) HD" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",BG: ELEVEN SPORTS 1 BELGIUM (NL) HD
 http://ugeen.live:8080/username/password/814
-#EXTINF:-1 tvg-logo="",BG: ELEVEN SPORTS 2 BELGIUM (NL) HD
+#EXTINF:-1 tvg-id="" tvg-name="BG: ELEVEN SPORTS 2 BELGIUM (NL) HD" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",BG: ELEVEN SPORTS 2 BELGIUM (NL) HD
 http://ugeen.live:8080/username/password/815
-#EXTINF:-1 tvg-logo="",CA: SPORTSNET 1 ʜᴅ
+#EXTINF:-1 tvg-id="" tvg-name="CA: SPORTSNET 1 ʜᴅ" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",CA: SPORTSNET 1 ʜᴅ
 http://ugeen.live:8080/username/password/816
-#EXTINF:-1 tvg-logo="",CA: SPORTSNET 360 ʜᴅ
+#EXTINF:-1 tvg-id="" tvg-name="CA: SPORTSNET 360 ʜᴅ" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",CA: SPORTSNET 360 ʜᴅ
 http://ugeen.live:8080/username/password/817
-#EXTINF:-1 tvg-logo="",[CA]_LOVE NATURE HD
+#EXTINF:-1 tvg-id="" tvg-name="[CA]_LOVE NATURE HD" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",[CA]_LOVE NATURE HD
 http://ugeen.live:8080/username/password/3879
-#EXTINF:-1 tvg-logo="",Latino: Fox Sports 1 HD
+#EXTINF:-1 tvg-id="" tvg-name="Latino: Fox Sports 1 HD" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",Latino: Fox Sports 1 HD
 http://ugeen.live:8080/username/password/828
-#EXTINF:-1 tvg-logo="",Latino: Fox Sports 2 HD
+#EXTINF:-1 tvg-id="" tvg-name="Latino: Fox Sports 2 HD" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",Latino: Fox Sports 2 HD
 http://ugeen.live:8080/username/password/829
-#EXTINF:-1 tvg-logo="",UK: BT SPORT 1
+#EXTINF:-1 tvg-id="" tvg-name="UK: BT SPORT 1" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",UK: BT SPORT 1
 http://ugeen.live:8080/username/password/838
-#EXTINF:-1 tvg-logo="",UK: BT SPORT 2
+#EXTINF:-1 tvg-id="" tvg-name="UK: BT SPORT 2" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",UK: BT SPORT 2
 http://ugeen.live:8080/username/password/839
-#EXTINF:-1 tvg-logo="",UK: BT SPORT 3
+#EXTINF:-1 tvg-id="" tvg-name="UK: BT SPORT 3" tvg-logo="" group-title="USA - الولايات المتحدة الامريكية",UK: BT SPORT 3
 http://ugeen.live:8080/username/password/840
-#EXTINF:-1 tvg-logo="",US: NBC HD
-http://ugeen.live:8080/username/password/843
+#EXTINF:-1 tvg-id="" tvg-name="Digi4 Sport (RO)" tvg-logo="" group-title="World Sports - الرياضة العالمية",Digi4 Sport (RO)
+http://ugeen.live:8080/username/password/3885
+#EXTINF:-1 tvg-id="" tvg-name="•●★★--- KURD SPORT --★★●•" tvg-logo="" group-title="Kurd Sport",•●★★--- KURD SPORT --★★●•
+http://ugeen.live:8080/username/password/4148
+#EXTINF:-1 tvg-id="" tvg-name="KU: Post sport HD" tvg-logo="" group-title="Kurd Sport",KU: Post sport HD
+http://ugeen.live:8080/username/password/4149
+#EXTINF:-1 tvg-id="" tvg-name="KU: Dasynia Sport HD" tvg-logo="" group-title="Kurd Sport",KU: Dasynia Sport HD
+http://ugeen.live:8080/username/password/4150
+#EXTINF:-1 tvg-id="" tvg-name="KU : Post Sport sd" tvg-logo="" group-title="World Sports - الرياضة العالمية",KU : Post Sport sd
+http://ugeen.live:8080/username/password/4152
+#EXTINF:-1 tvg-id="" tvg-name="KU : Post Sport low" tvg-logo="" group-title="World Sports - الرياضة العالمية",KU : Post Sport low
+http://ugeen.live:8080/username/password/4153
+#EXTINF:-1 tvg-id="" tvg-name="KU: Aso Sport HD" tvg-logo="" group-title="Kurd Sport",KU: Aso Sport HD
+http://ugeen.live:8080/username/password/4151
+#EXTINF:-1 tvg-id="" tvg-name="KU: MMN sport Hd" tvg-logo="" group-title="World Sports - الرياضة العالمية",KU: MMN sport Hd
+http://ugeen.live:8080/username/password/4155
+#EXTINF:-1 tvg-id="" tvg-name="•●★★--- 4K ---★★●•" tvg-logo="" group-title="4K channal",•●★★--- 4K ---★★●•
+http://ugeen.live:8080/username/password/4242
+#EXTINF:-1 tvg-id="" tvg-name="LOVE NATURE (ULTRA4K)" tvg-logo="" group-title="4K channal",LOVE NATURE (ULTRA4K)
+http://ugeen.live:8080/username/password/4241
+#EXTINF:-1 tvg-id="" tvg-name="VTC 13 (ULTRA4K)" tvg-logo="" group-title="4K channal",VTC 13 (ULTRA4K)
+http://ugeen.live:8080/username/password/4243
+#EXTINF:-1 tvg-id="" tvg-name="Clarity (ULTRA4K)" tvg-logo="" group-title="4K channal",Clarity (ULTRA4K)
+http://ugeen.live:8080/username/password/4244
+#EXTINF:-1 tvg-id="" tvg-name="Jhon wick" tvg-logo="" group-title="vod",Jhon wick
+http://ugeen.live:8080/movie/username/password/4157.mp4

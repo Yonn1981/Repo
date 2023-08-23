@@ -409,8 +409,6 @@ def showLinks(oInputParameterHandler = False):
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-
-    #VSlog(aResult)
     if aResult[0]:
         for aEntry in aResult[1]:
             sId = aEntry
@@ -421,37 +419,26 @@ def showLinks(oInputParameterHandler = False):
             oRequestHandler = cRequestHandler(sUrl)
             sHtmlContent = oRequestHandler.request()
 
-            url = sHtmlContent
-
-    sPattern = 'data-id="([^"]+)'
+    sPattern = 'data-id="([^"]+)".+?<span>(.+?)</span>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    #VSlog(aResult)
+
     if aResult[0]:
-                for aEntry in aResult[1]:
-                    sId = aEntry
+        oOutputParameterHandler = cOutputParameterHandler()
+        for aEntry in aResult[1]:
+            sId = aEntry[0]
+            sHost = aEntry[1]
+            sUrl2 = URL_MAIN + '/ajax/get_link/' + sId
 
+            sTitle = ('%s [COLOR coral]%s[/COLOR]') % (sMovieTitle, sHost)
 
-                    url = URL_MAIN + '/ajax/get_link/' + sId
-                    oRequestHandler = cRequestHandler(url)
-                    sHtmlContent = oRequestHandler.request()
+            oOutputParameterHandler.addParameter('siteUrl', sUrl2)
+            oOutputParameterHandler.addParameter('referer', sUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
+            oOutputParameterHandler.addParameter('sHost', sHost)
 
-                    sPattern = '"link":"([^"]+)'
-                    oParser = cParser()
-                    aResult = oParser.parse(sHtmlContent, sPattern)
-                    #VSlog(aResult)
-                    if aResult[0]:
-                        for aEntry in aResult[1]:
-            
-                            url = aEntry               		
-                            #VSlog(url)
-                            sHosterUrl = url 
-                            oHoster = cHosterGui().checkHoster(sHosterUrl)
-                            if oHoster:
-                                sDisplayTitle = sMovieTitle
-                                oHoster.setDisplayName(sDisplayTitle)
-                                oHoster.setFileName(sMovieTitle)
-                                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+            oGui.addLink(SITE_IDENTIFIER, 'showHosters', sTitle, sThumb, '', oOutputParameterHandler, oInputParameterHandler)
 
     oGui.setEndOfDirectory()
 
@@ -467,39 +454,52 @@ def showSeriesLinks(oInputParameterHandler = False):
     sHtmlContent = oRequestHandler.request()
     oParser = cParser()
 
-    sPattern = 'data-id="(.+?)"'
-
+    sPattern = 'data-id="([^"]+)".+?<span>(.+?)</span>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
-    #VSlog(aResult)
     if aResult[0]:
+        oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
-            sId = aEntry
- 
+            sId = aEntry[0]
+            sHost = aEntry[1]
+            sUrl2 = URL_MAIN + '/ajax/sources/' + sId
 
-            sUrl = URL_MAIN + '/ajax/sources/' + sId
+            sTitle = ('%s [COLOR coral]%s[/COLOR]') % (sMovieTitle, sHost)
 
-            oRequestHandler = cRequestHandler(sUrl)
-            sHtmlContent = oRequestHandler.request()
-            oParser = cParser()
+            oOutputParameterHandler.addParameter('siteUrl', sUrl2)
+            oOutputParameterHandler.addParameter('referer', sUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
+            oOutputParameterHandler.addParameter('sHost', sHost)
 
-            sPattern = '"link":"([^"]+)'
-            oParser = cParser()
-            aResult = oParser.parse(sHtmlContent, sPattern)
-            #VSlog(aResult)
-            if aResult[0]:
-                        for aEntry in aResult[1]:
-                            url = aEntry   
-   		
-                            #VSlog(url)
-                            sHosterUrl = url 
-                            oHoster = cHosterGui().checkHoster(sHosterUrl)
-                            if oHoster:
-                                sDisplayTitle = sMovieTitle
-                                oHoster.setDisplayName(sDisplayTitle)
-                                oHoster.setFileName(sMovieTitle)
-                                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+            oGui.addLink(SITE_IDENTIFIER, 'showHosters', sTitle, sThumb, '', oOutputParameterHandler, oInputParameterHandler)
+
+
+    oGui.setEndOfDirectory()
+
+def showHosters():
+    oGui = cGui()
+
+    oInputParameterHandler = cInputParameterHandler()
+    sUrl = oInputParameterHandler.getValue('siteUrl')
+    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
+    sThumb = oInputParameterHandler.getValue('sThumb')
+
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request()
+
+    sPattern = '"link":"([^"]+)'
+    aResult = re.findall(sPattern, sHtmlContent)
+    if aResult:
+        sHosterUrl = aResult[0]
+
+        oHoster = cHosterGui().checkHoster(sHosterUrl)
+        if oHoster:
+            oHoster.setDisplayName(sMovieTitle)
+            oHoster.setFileName(sMovieTitle)
+            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+
     oGui.setEndOfDirectory()
 
 def __checkForNextPage(sHtmlContent):

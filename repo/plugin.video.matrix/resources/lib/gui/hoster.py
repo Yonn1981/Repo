@@ -503,8 +503,7 @@ class cHosterGui:
 
         if ('upbaam' in sHostName):
             f = self.getHoster('resolver')
-            #mise a jour du nom
-            f.setRealHost(sHostName)
+            f.setRealHost('UpBaam')
             return f
 
         if ('filemoon' in sHostName) or ('moonmov' in sHostName):

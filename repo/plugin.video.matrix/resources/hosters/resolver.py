@@ -10,11 +10,11 @@ from urllib.parse import unquote
 class cHoster(iHoster):
 
     def __init__(self):
-        iHoster.__init__(self, 'resolver', 'ResolveURL')
+        iHoster.__init__(self, 'resolver', 'Resolve')
         self.__sRealHost = ''
 
     def setRealHost(self, host):
-        self.__sRealHost = "/" + host
+        self.__sRealHost = ('[COLOR skyblue](%s)[/COLOR]') % (host)
 
     def setDisplayName(self, displayName):
         self._displayName = displayName + ' [COLOR violet]'+ self._defaultDisplayName + self.__sRealHost + '[/COLOR]'

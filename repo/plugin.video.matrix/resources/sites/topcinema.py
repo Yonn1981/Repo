@@ -188,7 +188,7 @@ def showMovies(sSearch = ''):
             else:
                 siteUrl = aEntry[0]+'/watch'
                 oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-                oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
+                oGui.addMovie(SITE_IDENTIFIER, 'showLinks', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
     
         progress_.VSclose(progress_)
 
@@ -245,7 +245,7 @@ def showassemblies():
             oOutputParameterHandler.addParameter('sYear', sYear)
             oOutputParameterHandler.addParameter('sDesc', sDesc)
 
-            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showLinks', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
          progress_.VSclose(progress_)
          sNextPage = __checkForNextPage(sHtmlContent)
          if sNextPage:
@@ -384,7 +384,7 @@ def showEpisodes():
 			oOutputParameterHandler.addParameter('siteUrl',siteUrl)
 			oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
 			oOutputParameterHandler.addParameter('sThumb', sThumb)
-			oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+			oGui.addEpisode(SITE_IDENTIFIER, 'showLinks', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
         
 	oGui.setEndOfDirectory()
   
@@ -397,7 +397,7 @@ def __checkForNextPage(sHtmlContent):
     if aResult[0]:
         return aResult[1][0]
 
-def showHosters(oInputParameterHandler = False):
+def showLinks(oInputParameterHandler = False):
     oGui = cGui()
     import requests
 
@@ -413,79 +413,65 @@ def showHosters(oInputParameterHandler = False):
     oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
     oRequestHandler.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
     sHtmlContent = oRequestHandler.request()
-
-    oGui.addText(SITE_IDENTIFIER,'[COLOR olive]-----●★| Watch LInks |★●-----[/COLOR]')              
-    sPattern = 'data-id="(.+?)" data-server="([^"]+)'
+          
+    sPattern = 'data-id="(.+?)" data-server="([^"]+)".+?<span>(.+?)</span>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
     if aResult[0]:
+        oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:           
             Serv = aEntry[1]
             Sid = aEntry[0]
+            sHost = aEntry[2]
 
-            s = requests.Session()            
-            headers = {'user-agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Mobile Safari/537.36 Edg/115.0.1901.203',
-            'origin': URL_MAIN,
-            'referer': URL_MAIN,
-            'Sec-Fetch-Mode':'cors',
-            'X-Requested-With':'XMLHttpRequest',
-            'Sec-Fetch-Dest':'empty',
-            'Sec-Fetch-Site':'same-origin'}
+            sTitle = ('%s [COLOR coral]%s[/COLOR]') % (sMovieTitle, sHost)
 
-            data = {'id':Sid,'i':Serv}
-            r = s.post((URL_MAIN+'wp-content/themes/movies2023/Ajaxat/Single/Server.php'),data=data,headers=headers)
-            sHtmlContent = r.content
+            oOutputParameterHandler.addParameter('siteUrl', sUrl)
+            oOutputParameterHandler.addParameter('Serv', Serv)
+            oOutputParameterHandler.addParameter('Sid', Sid)
+            oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
+            oOutputParameterHandler.addParameter('sHost', sHost)
 
-            sPattern = '<iframe src="([^"]+)'
-            oParser = cParser()
-            aResult = oParser.parse(sHtmlContent, sPattern)
+            oGui.addLink(SITE_IDENTIFIER, 'showHosters', sTitle, sThumb, '', oOutputParameterHandler, oInputParameterHandler)
+		               
+    oGui.setEndOfDirectory()
 
-            if aResult[0]:
-                for aEntry in aResult[1]:           
-                    url = aEntry
+def showHosters():
+    oGui = cGui()
+    import requests
 
-                    if url.startswith('//'):
-                        url = 'http:' + url
-								
-            sHosterUrl = url 
+    oInputParameterHandler = cInputParameterHandler()
+    sUrl = oInputParameterHandler.getValue('siteUrl')
+    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
+    sThumb = oInputParameterHandler.getValue('sThumb')
+    Serv = oInputParameterHandler.getValue('Serv')
+    Sid = oInputParameterHandler.getValue('Sid')
 
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if oHoster:
-                oHoster.setDisplayName(sMovieTitle)
-                oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+    s = requests.Session()            
+    headers = {'user-agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Mobile Safari/537.36 Edg/115.0.1901.203',
+    'origin': URL_MAIN,
+    'referer': URL_MAIN,
+    'Sec-Fetch-Mode':'cors',
+    'X-Requested-With':'XMLHttpRequest',
+    'Sec-Fetch-Dest':'empty',
+    'Sec-Fetch-Site':'same-origin'}
 
+    data = {'id':Sid,'i':Serv}
+    r = s.post((URL_MAIN+'wp-content/themes/movies2023/Ajaxat/Single/Server.php'),data=data,headers=headers)
+    sHtmlContent = r.content
 
-    oGui.addText(SITE_IDENTIFIER,'[COLOR olive]-----●★| Download LInks |★●-----[/COLOR]')
-
-    oRequestHandler = cRequestHandler(sUrl2)
-    sHtmlContent = oRequestHandler.request()
-    oParser = cParser()
-
-    sStart = '<div class="DownloadBox">'
-    sEnd = '<script'
-    sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)    
-    sPattern = 'href="([^"]+)".+?<p>(.+?)</p>'
+    sPattern = '<iframe src="([^"]+)'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
+    if aResult:
+        sHosterUrl = aResult[1][0]
 
-    if aResult[0]:
-        for aEntry in aResult[1]:           
-            url = aEntry[0]
-            sQual = aEntry[1]
+        oHoster = cHosterGui().checkHoster(sHosterUrl)
+        if oHoster:
+            oHoster.setDisplayName(sMovieTitle)
+            oHoster.setFileName(sMovieTitle)
+            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
-            sTitle = sMovieTitle+'('+aEntry[1]+')' 
-            if url.startswith('//'):
-               url = 'http:' + url
-								
-            sHosterUrl = url 
-
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if oHoster:
-                sDisplayTitle = ('[COLOR coral](%s)[/COLOR]') % (sQual)
-                oHoster.setDisplayName(sDisplayTitle)
-                oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
-			               
     oGui.setEndOfDirectory()

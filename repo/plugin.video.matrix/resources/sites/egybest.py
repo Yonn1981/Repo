@@ -701,6 +701,8 @@ def showHosters(oInputParameterHandler = False):
                                     url = aEntry[0]
                                     qual = aEntry[1]
                                     sHosterUrl = url
+                                    if '.ak' in sHosterUrl:
+                                        sHosterUrl = sHosterUrl+"|verifypeer=false"  
 
                                     sTitle = ('%s  [COLOR coral](%sp)[/COLOR]') % (sMovieTitle, qual)
                                     oHoster = cHosterGui().checkHoster(sHosterUrl)
@@ -750,7 +752,9 @@ def showHosters(oInputParameterHandler = False):
                if 'egy-best' in sHosterUrl:
                   sHosterUrl = sHosterUrl + "|Referer=" + murl2
                if 'mystream' in sHosterUrl:
-                  sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN    
+                  sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+               if '.ak' in sHosterUrl:
+                  sHosterUrl = sHosterUrl+"|verifypeer=false"   
                oHoster = cHosterGui().checkHoster(sHosterUrl)
                if oHoster != False:
                   oHoster.setDisplayName(sMovieTitle)
@@ -795,6 +799,8 @@ def showHosters(oInputParameterHandler = False):
             
                                     url = aEntry
                                     sHosterUrl = url
+                                    if '.ak' in sHosterUrl:
+                                        sHosterUrl = sHosterUrl+"|verifypeer=false" 
 
                                     sTitle = ('%s  [COLOR coral](%sp)[/COLOR]') % (sMovieTitle, qual)
                                     oHoster = cHosterGui().checkHoster(sHosterUrl)
@@ -818,6 +824,8 @@ def showHosters(oInputParameterHandler = False):
                             url = 'http:' + url
 				            
                         sHosterUrl = url 
+                        if '.ak' in sHosterUrl:
+                            sHosterUrl = sHosterUrl+"|verifypeer=false"  
                         oHoster = cHosterGui().checkHoster(sHosterUrl)
                         if oHoster:
                             sDisplayTitle = sTitle

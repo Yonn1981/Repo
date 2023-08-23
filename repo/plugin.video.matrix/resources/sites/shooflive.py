@@ -19,23 +19,23 @@ URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 	
 RAMADAN_SERIES = (URL_MAIN + '/category/%d8%b1%d9%85%d8%b6%d8%a7%d9%86-2023/', 'showSeries')
 
-MOVIE_EN = (URL_MAIN + '/category/movies/افلام-اجنبية/', 'showMovies')
-MOVIE_AR = (URL_MAIN + '/category/movies/افلام-عربية/', 'showMovies')
-MOVIE_ASIAN = (URL_MAIN + '/category/movies/افلام-اسيوية/', 'showMovies')
-MOVIE_TURK = (URL_MAIN + '/category/movies/افلام-تركية/', 'showMovies')
-MOVIE_HI = (URL_MAIN + '/category/movies/افلام-هندية/', 'showMovies')
-KID_MOVIES = (URL_MAIN + '/category/movies/افلام-انمي/', 'showMovies')
-SERIE_DUBBED = (URL_MAIN + '/category/مسلسلات/?sercat=المسلسلات-المدبلجة', 'showSeries')
-SERIE_AR = (URL_MAIN + '/category/مسلسلات/?sercat=المسلسلات-العربية', 'showSeries')
-SERIE_EN = (URL_MAIN + '/category/مسلسلات/?sercat=المسلسلات-الاجنبية', 'showSeries')
-SERIE_HEND = (URL_MAIN + '/category/مسلسلات/?sercat=المسلسلات-الهندية', 'showSeries')
+MOVIE_EN = (URL_MAIN + 'category/movies/افلام-اجنبية/page/0/', 'showMovies')
+MOVIE_AR = (URL_MAIN + 'category/movies/افلام-عربية/page/0/', 'showMovies')
+MOVIE_ASIAN = (URL_MAIN + 'category/movies/افلام-اسيوية/page/0/', 'showMovies')
+MOVIE_TURK = (URL_MAIN + 'category/movies/افلام-تركية/page/0/', 'showMovies')
+MOVIE_HI = (URL_MAIN + 'category/movies/افلام-هندية/page/0/', 'showMovies')
+KID_MOVIES = (URL_MAIN + 'category/movies/افلام-انمي/page/0/', 'showMovies')
+SERIE_DUBBED = (URL_MAIN + 'category/مسلسلات/?sercat=المسلسلات-المدبلجة', 'showSeries')
+SERIE_AR = (URL_MAIN + 'category/مسلسلات/?sercat=المسلسلات-العربية', 'showSeries')
+SERIE_EN = (URL_MAIN + 'category/مسلسلات/?sercat=المسلسلات-الاجنبية', 'showSeries')
+SERIE_HEND = (URL_MAIN + 'category/مسلسلات/?sercat=المسلسلات-الهندية', 'showSeries')
 
-SERIE_ASIA = (URL_MAIN + '/category/مسلسلات/?sercat=المسلسلات-الاسيوية', 'showSeries')
-SERIE_TR = (URL_MAIN + '/category/مسلسلات/?sercat=المسلسلات-التركية', 'showSeries')
-DOC_NEWS = (URL_MAIN + '/advsearch/?gnr=وثائقي', 'showMovies')
-URL_SEARCH = (URL_MAIN + '/?s=', 'showSeries')
-URL_SEARCH_MOVIES = (URL_MAIN + '/?s=', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + '/?s=', 'showSeries')
+SERIE_ASIA = (URL_MAIN + 'category/مسلسلات/?sercat=المسلسلات-الاسيوية', 'showSeries')
+SERIE_TR = (URL_MAIN + 'category/مسلسلات/?sercat=المسلسلات-التركية', 'showSeries')
+DOC_NEWS = (URL_MAIN + 'advsearch/?gnr=وثائقي', 'showMovies')
+URL_SEARCH = (URL_MAIN + '?s=', 'showSeries')
+URL_SEARCH_MOVIES = (URL_MAIN + '?s=', 'showMovies')
+URL_SEARCH_SERIES = (URL_MAIN + '?s=', 'showSeries')
 FUNCTION_SEARCH = 'showSearch'
  
 def load():
@@ -89,7 +89,7 @@ def showSeriesSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/?s='+sSearchText
+        sUrl = URL_MAIN + '?s='+sSearchText
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -99,7 +99,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/?s='+sSearchText
+        sUrl = URL_MAIN + '?s='+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -115,7 +115,8 @@ def showMovies(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
       # (.+?) ([^<]+) .+?
-    sPattern = 'href="([^<]+)" alt="(.+?)">.+?<img src="(.+?)"><.+?/release-year/(.+?)/">'
+    sPattern = 'href="([^<]+)" alt="([^"]+)"'
+    sPattern += '.+?<img src="([^"]+)"'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -132,21 +133,17 @@ def showMovies(sSearch = ''):
  
             if "فيلم"  not in aEntry[1]:
                 continue
- 
- 
-            
+             
             sTitle = aEntry[1].replace("مشاهدة","").replace("مشاهده","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("برنامج","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("انمي","").replace("كامل","").replace("اون لاين","")
- 
  
             siteUrl = aEntry[0]
             sDesc = ''
             sThumb = str(aEntry[2])
-            sYear = aEntry[3]
+            sYear = ''
             m = re.search('([0-9]{4})', sTitle)
             if m:
                 sYear = str(m.group(0))
                 sTitle = sTitle.replace(sYear,'')
-
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -163,9 +160,7 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
- 
-   
-  # ([^<]+) .+?
+
 
     sPattern = '<li><a class="page-numbers" href="([^<]+)">([^<]+)</a></li>'
 
@@ -218,8 +213,9 @@ def showSeries(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
     oParser = cParser()
-    # (.+?) .+? ([^<]+)   
-    sPattern = 'href="([^<]+)" alt="(.+?)">.+?<img src="(.+?)"><.+?/release-year/(.+?)/">'
+ 
+    sPattern = 'href="([^<]+)" alt="([^"]+)"'
+    sPattern += '.+?<img src="([^"]+)"'
 
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -242,7 +238,7 @@ def showSeries(sSearch = ''):
             sThumb = str(aEntry[2])
             sDesc = ''
             sDisplayTitle = str(sTitle).split('الموسم')[0].split('الحلقة')[0].split('حلقة')[0]
-            sYear = aEntry[3]
+            sYear = ''
             m = re.search('([0-9]{4})', sDisplayTitle)
             if m:
                 sYear = str(m.group(0))
@@ -264,7 +260,6 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)       
-  # ([^<]+) .+?
 
     sPattern = '<li><a class="page-numbers" href="([^<]+)">([^<]+)</a></li>'
 

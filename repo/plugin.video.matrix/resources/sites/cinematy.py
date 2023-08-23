@@ -178,7 +178,7 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             			
-            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showLinks', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
     
         progress_.VSclose(progress_)
     if not sSearch:
@@ -307,7 +307,7 @@ def showSeasons():
                 oOutputParameterHandler.addParameter('sHost', sHost)
                 oOutputParameterHandler.addParameter('sThumb', sThumb)
              
-                oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+                oGui.addEpisode(SITE_IDENTIFIER, 'showLinks', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
        
     oGui.setEndOfDirectory()
 
@@ -350,7 +350,7 @@ def showEpisodes():
                 oOutputParameterHandler.addParameter('sHost', sHost)
                 oOutputParameterHandler.addParameter('sThumb', sThumb)
 			    
-                oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+                oGui.addEpisode(SITE_IDENTIFIER, 'showLinks', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
       
     oGui.setEndOfDirectory()
 	
@@ -363,7 +363,7 @@ def __checkForNextPage(sHtmlContent):
         return aResult[1][0]
     return False
 
-def showHosters(oInputParameterHandler = False):
+def showLinks(oInputParameterHandler = False):
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -372,7 +372,6 @@ def showHosters(oInputParameterHandler = False):
     sThumb = oInputParameterHandler.getValue('sThumb')
 
     oRequestHandler = cRequestHandler(sUrl)
-    cook = oRequestHandler.GetCookies()  
     sHtmlContent = oRequestHandler.request()
 
     oParser = cParser()
@@ -382,40 +381,27 @@ def showHosters(oInputParameterHandler = False):
         sID = aResult[1][0] 
 
     ## Watch Servers
-    sPattern = 'id="s_.+?onClick="([^"]+)'
+    sPattern = 'id="s_.+?onClick="([^"]+)".+?</i>(.+?)</a>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0]:
+        oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
-            ServerIDs = aEntry.replace('getServer2(this.id,','').replace(');','') 
+            ServerIDs = aEntry[0].replace('getServer2(this.id,','').replace(');','') 
             sHosterID = ServerIDs.split(',')[0]
             serverId = ServerIDs.split(',')[1]
       
             url = URL_MAIN + 'wp-content/themes/vo2022/temp/ajax/iframe2.php?id=' + sID + '&video=' + sHosterID + '&serverId=' + serverId
-            oRequestHandler = cRequestHandler(url)
-            cook = oRequestHandler.GetCookies()
-            oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36'.encode('utf-8'))
-            oRequestHandler.addHeaderEntry('Referer', Referer.encode('utf-8'))
-            oRequestHandler.addHeaderEntry('Cookie', cook.encode('utf-8'))
-            oRequestHandler.addHeaderEntry('authority', 'cinematy.online'.encode('utf-8'))
-            oRequestHandler.addHeaderEntry('sec-fetch-dest', 'empty'.encode('utf-8'))
-            oRequestHandler.addHeaderEntry('sec-fetch-mode', 'cors'.encode('utf-8'))
-            oRequestHandler.addHeaderEntry('x-requested-with', 'XMLHttpRequest')
-            sHtmlContent2 = oRequestHandler.request()
-    
-            sPattern = 'iframe.+?src=\"(.+?)\"'
-            oParser = cParser()
-            aResult = oParser.parse(sHtmlContent2.lower(), sPattern)
-            if aResult[0]:
-                sHosterUrl = aResult[1][0]
+            sHost = aEntry[1]
+            sTitle = ('%s [COLOR coral]%s[/COLOR]') % (sMovieTitle, sHost)
 
-                if 'mystream' in sHosterUrl:
-                    sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN    
-                oHoster = cHosterGui().checkHoster(sHosterUrl)
-                if oHoster != False:
-                    oHoster.setDisplayName(sMovieTitle)
-                    oHoster.setFileName(sMovieTitle)
-                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+            oOutputParameterHandler.addParameter('siteUrl', url)
+            oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
+            oOutputParameterHandler.addParameter('sHost', sHost)
+            oOutputParameterHandler.addParameter('Referer', Referer)
+
+            oGui.addLink(SITE_IDENTIFIER, 'showHosters', sTitle, sThumb, '', oOutputParameterHandler, oInputParameterHandler)
                        
     ## Download Servers
     sPattern = 'target="_blank" href="(.+?)"><i class="icon-download">'
@@ -435,5 +421,41 @@ def showHosters(oInputParameterHandler = False):
                oHoster.setDisplayName(sTitle)
                oHoster.setFileName(sTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+
+    oGui.setEndOfDirectory()
+
+def showHosters():
+    oGui = cGui()
+
+    oInputParameterHandler = cInputParameterHandler()
+    siteUrl = oInputParameterHandler.getValue('siteUrl')
+    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
+    sThumb = oInputParameterHandler.getValue('sThumb')
+    Referer = oInputParameterHandler.getValue('Referer')
+
+    oRequestHandler = cRequestHandler(siteUrl)
+    cook = oRequestHandler.GetCookies()
+    oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36'.encode('utf-8'))
+    oRequestHandler.addHeaderEntry('Referer', Referer.encode('utf-8'))
+    oRequestHandler.addHeaderEntry('Cookie', cook.encode('utf-8'))
+    oRequestHandler.addHeaderEntry('authority', 'cinematy.online'.encode('utf-8'))
+    oRequestHandler.addHeaderEntry('sec-fetch-dest', 'empty'.encode('utf-8'))
+    oRequestHandler.addHeaderEntry('sec-fetch-mode', 'cors'.encode('utf-8'))
+    oRequestHandler.addHeaderEntry('x-requested-with', 'XMLHttpRequest')
+    sHtmlContent2 = oRequestHandler.request()
+    
+    sPattern = 'iframe.+?src=\"(.+?)\"'
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent2.lower(), sPattern)
+    if aResult[0]:
+                sHosterUrl = aResult[1][0]
+
+                if 'mystream' in sHosterUrl:
+                    sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN    
+                oHoster = cHosterGui().checkHoster(sHosterUrl)
+                if oHoster != False:
+                    oHoster.setDisplayName(sMovieTitle)
+                    oHoster.setFileName(sMovieTitle)
+                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
     oGui.setEndOfDirectory()

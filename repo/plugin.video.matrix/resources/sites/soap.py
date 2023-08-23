@@ -4,7 +4,9 @@
 #############################################################
 
 import re
-import base64	
+import base64
+import requests
+from urllib.parse import unquote, quote
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -448,7 +450,7 @@ def showLinks(oInputParameterHandler = False):
             sPattern = 'data-id="([^"]+)".+?<span>(.+?)</span>'
             oParser = cParser()
             aResult = oParser.parse(sHtmlContent, sPattern)
-
+            
             if aResult[0]:
                 for aEntry in aResult[1]:
                     sId = aEntry[0]
@@ -457,190 +459,126 @@ def showLinks(oInputParameterHandler = False):
                     vrf = vrf_function(sId, action)
 
                     url = URL_MAIN + '/ajax/server/list/' + sId +'?vrf='+vrf
-                    oRequestHandler = cRequestHandler(url)
-                    sHtmlContent = oRequestHandler.request()
 
-                    sPattern = 'data-link-id.+?"([^"]+)'
+                    oRequestHandler = cRequestHandler(url)
+                    sHtmlContent = oRequestHandler.request().replace('\\','')
+
+                    sPattern = 'data-link-id="([^"]+)".+?<div>.+?<div>(.+?)</div>'
                     oParser = cParser()
                     aResult = oParser.parse(sHtmlContent, sPattern)
-
                     if aResult[0]:
+                        oOutputParameterHandler = cOutputParameterHandler()
                         for aEntry in aResult[1]:
             
-                            sId = aEntry.split('\\')[0]   
+                            sId = aEntry[0].split('\\')[0] 
+                            sHost = aEntry[1]
 
-                            action = "fmovies-vrf"
-                            vrf = vrf_function(sId, action)
+                            sTitle = ('%s [COLOR coral]%s[/COLOR]') % (sMovieTitle, sHost)
 
-                            url0 = URL_MAIN + '/ajax/episode/subtitles/' + sId
-                            oRequestHandler = cRequestHandler(url0)
-                            sHtmlContents = oRequestHandler.request()
+                            oOutputParameterHandler.addParameter('sId', sId)
+                            oOutputParameterHandler.addParameter('nTitle', nTitle)
+                            oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
+                            oOutputParameterHandler.addParameter('sThumb', sThumb)
+                            oOutputParameterHandler.addParameter('sHost', sHost)
 
-                            sPattern = '"file":"([^"]+)'
-                            oParser = cParser()
-                            aResult = oParser.parse(sHtmlContents, sPattern)
-
-                            if aResult[0]:
-                                for aEntry in aResult[1]:
-            
-                                    sSub = aEntry 
-
-                            url = URL_MAIN + '/ajax/server/' + sId +'?vrf='+vrf
-                            oRequestHandler = cRequestHandler(url)
-                            sHtmlContent = oRequestHandler.request()
-
-                            sPattern = '"url":"([^"]+)'
-                            oParser = cParser()
-                            aResult = oParser.parse(sHtmlContent, sPattern)
-
-                            if aResult[0]:
-                                for aEntry in aResult[1]:
-            
-                                    sId = aEntry 
-                            
-                                    action = "fmovies-decrypt"
-                                    url = vrf_function(sId, action)
-
-                            sHosterUrl = unquote(url)
-
-                            if ('mcloud' in sHosterUrl):
-                                if ('sub.info' in sHosterUrl):
-                                    SubTitle = sHosterUrl.split('sub.info=')[1]
-                                else:
-                                    SubTitle = ""
-                                    
-                                sHosterUrl = sHosterUrl
-                                action = "rawMcloud"
-                                sHosterUrl1 = vrf_function2(sHosterUrl, action)
-                                oHoster = cHosterGui().checkHoster(sHosterUrl1)
-                                if oHoster:
-                                    sDisplayTitle = sMovieTitle
-                                    if ('http' in SubTitle):
-                                        sHosterUrl1 = sHosterUrl1+'?sub.info='+SubTitle
-                                    else:
-                                        sHosterUrl1 = sHosterUrl1
-                                    oHoster.setDisplayName(sDisplayTitle)
-                                    oHoster.setFileName(sMovieTitle)
-                                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl1, sThumb, oInputParameterHandler=oInputParameterHandler)
-
-                            elif ('vidstream' in sHosterUrl):
-                                if ('sub.info' in sHosterUrl):
-                                    SubTitle = sHosterUrl.split('sub.info=')[1]
-                                else:
-                                    SubTitle = ""
-
-                                sHosterUrl = sHosterUrl
-                                action = "rawVizcloud"
-                                sHosterUrl2 = vrf_function2(sHosterUrl, action)
-                                oHoster = cHosterGui().checkHoster(sHosterUrl2)
-                                if oHoster:
-                                    sDisplayTitle = sMovieTitle
-                                    if ('http' in SubTitle):
-                                        sHosterUrl2 = sHosterUrl2+'?sub.info='+SubTitle
-                                    else:
-                                        sHosterUrl2 = sHosterUrl2
-                                    oHoster.setDisplayName(sDisplayTitle)
-                                    oHoster.setFileName(sMovieTitle)
-                                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl2, sThumb, oInputParameterHandler=oInputParameterHandler)
-
-                            else:
-                                oHoster = cHosterGui().checkHoster(sHosterUrl)
-                                if oHoster:
-                                    sDisplayTitle = nTitle+' '+sMovieTitle
-                                    oHoster.setDisplayName(sDisplayTitle)
-                                    oHoster.setFileName(sMovieTitle)
-                                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                            oGui.addLink(SITE_IDENTIFIER, 'showHosters', sTitle, sThumb, '', oOutputParameterHandler, oInputParameterHandler)
 
     oGui.setEndOfDirectory()
 
 def showSeriesLinks(oInputParameterHandler = False):
     oGui = cGui()
-    from urllib.parse import unquote
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
-    
+
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request().replace('\\','')
     oParser = cParser()
 
-    sPattern = 'data-link-id="([^"]+)'
+    sPattern = 'data-link-id="([^"]+)".+?<div>.+?<div>(.+?)</div>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-
     if aResult[0]:
-                        for aEntry in aResult[1]:
+        oOutputParameterHandler = cOutputParameterHandler()
+        for aEntry in aResult[1]:
             
-                            sId = aEntry.split('\\')[0]   
+            sId = aEntry[0]
+            sHost = aEntry[1]
 
-                            action = "fmovies-vrf"
-                            vrf = vrf_function(sId, action)
-                    
-                            url = URL_MAIN + '/ajax/server/' + sId +'?vrf='+vrf
-                            oRequestHandler = cRequestHandler(url)
-                            sHtmlContent = oRequestHandler.request()
+            sTitle = ('%s [COLOR coral]%s[/COLOR]') % (sMovieTitle, sHost)
 
-                            sPattern = '"url":"([^"]+)'
-                            oParser = cParser()
-                            aResult = oParser.parse(sHtmlContent, sPattern)
+            oOutputParameterHandler.addParameter('sId', sId)
+            oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
+            oOutputParameterHandler.addParameter('sHost', sHost)
 
-                            if aResult[0]:
-                                for aEntry in aResult[1]:
-            
-                                    sId = aEntry 
-                            
-                                    action = "fmovies-decrypt"
-                                    url = vrf_function(sId, action)
-
-                            sHosterUrl = unquote(url) 
-                            if ('mcloud' in sHosterUrl):
-                                if ('sub.info' in sHosterUrl):
-                                    SubTitle = sHosterUrl.split('sub.info=')[1]
-                                else:
-                                    SubTitle = ""
-                                    
-                                sHosterUrl = sHosterUrl
-                                action = "rawMcloud"
-                                sHosterUrl1 = vrf_function2(sHosterUrl, action)
-                                oHoster = cHosterGui().checkHoster(sHosterUrl1)
-                                if oHoster:
-                                    sDisplayTitle = sMovieTitle
-                                    if ('http' in SubTitle):
-                                        sHosterUrl1 = sHosterUrl1+'?sub.info='+SubTitle
-                                    else:
-                                        sHosterUrl1 = sHosterUrl1
-                                    oHoster.setDisplayName(sDisplayTitle)
-                                    oHoster.setFileName(sMovieTitle)
-                                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl1, sThumb, oInputParameterHandler=oInputParameterHandler)
-
-                            elif ('vidstream' in sHosterUrl):
-                                if ('sub.info' in sHosterUrl):
-                                    SubTitle = sHosterUrl.split('sub.info=')[1]
-                                else:
-                                    SubTitle = ""
-
-                                sHosterUrl = sHosterUrl
-                                action = "rawVizcloud"
-                                sHosterUrl2 = vrf_function2(sHosterUrl, action)
-                                oHoster = cHosterGui().checkHoster(sHosterUrl2)
-                                if oHoster:
-                                    sDisplayTitle = sMovieTitle
-                                    if ('http' in SubTitle):
-                                        sHosterUrl2 = sHosterUrl2+'?sub.info='+SubTitle
-                                    else:
-                                        sHosterUrl2 = sHosterUrl2
-                                    oHoster.setDisplayName(sDisplayTitle)
-                                    oHoster.setFileName(sMovieTitle)
-                                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl2, sThumb, oInputParameterHandler=oInputParameterHandler)
-                            else:    
-                                oHoster = cHosterGui().checkHoster(sHosterUrl)
-                                if oHoster:
-                                    sDisplayTitle = sMovieTitle
-                                    oHoster.setDisplayName(sDisplayTitle)
-                                    oHoster.setFileName(sMovieTitle)
-                                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+            oGui.addLink(SITE_IDENTIFIER, 'showHosters', sTitle, sThumb, '', oOutputParameterHandler, oInputParameterHandler)
                                 
+    oGui.setEndOfDirectory()
+
+def showHosters():
+    oGui = cGui()
+
+    oInputParameterHandler = cInputParameterHandler()
+    sId = oInputParameterHandler.getValue('sId')
+    nTitle = oInputParameterHandler.getValue('nTitle')
+    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
+    sThumb = oInputParameterHandler.getValue('sThumb')
+
+    action = "fmovies-vrf"
+    vrf = vrf_function(sId, action)
+
+    url = URL_MAIN + '/ajax/server/' + sId +'?vrf='+vrf
+    oRequestHandler = cRequestHandler(url)
+    sHtmlContent = oRequestHandler.request()
+
+    sPattern = '"url":"([^"]+)'
+    aResult = re.findall(sPattern, sHtmlContent)
+    if aResult:
+        sId = aResult[0]
+                                     
+        action = "fmovies-decrypt"
+        url = vrf_function(sId, action)
+
+        sHosterUrl = unquote(url)
+
+        if ('mcloud' in sHosterUrl) or ('vidstream' in sHosterUrl):
+            if ('sub.info' in sHosterUrl):
+                SubTitle = sHosterUrl.split('sub.info=')[1]
+            else:
+                SubTitle = ""
+                                    
+            sHosterUrl = sHosterUrl
+            if ('vidstream' in sHosterUrl):
+                action = "rawVizcloud"
+            else:
+                action = "rawMcloud"
+            sHosterUrl1 = vrf_function2(sHosterUrl, action)
+
+            oHoster = cHosterGui().checkHoster(sHosterUrl1)
+            if oHoster:
+                sDisplayTitle = sMovieTitle
+                if ('http' in SubTitle):
+                    sHosterUrl1 = sHosterUrl1+'?sub.info='+SubTitle
+                else:
+                    sHosterUrl1 = sHosterUrl1
+                oHoster.setDisplayName(sDisplayTitle)
+                oHoster.setFileName(sMovieTitle)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl1, sThumb, oInputParameterHandler=oInputParameterHandler)
+
+        else:
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if oHoster:
+                if nTitle:
+                    sDisplayTitle = nTitle+' '+sMovieTitle
+                else:
+                    sDisplayTitle = sMovieTitle
+                oHoster.setDisplayName(sDisplayTitle)
+                oHoster.setFileName(sMovieTitle)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+
+
     oGui.setEndOfDirectory()
 
 def __checkForNextPage(sHtmlContent):
@@ -654,29 +592,20 @@ def __checkForNextPage(sHtmlContent):
     return False
 
 def vrf_function(query, action):
-# ============== function taken aniyomi-extensions - from 9anime extension ================
-    from urllib.parse import quote
     sUrl = 'https://9anime.eltik.net/'+action+'?query='+query+'&apikey='+aniyomi
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
     sPattern = '"url":"(.+?)"'
-
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-    if aResult[0]:
-        for aEntry in aResult[1]:
-            vrf = quote(aEntry)
-            return vrf
+    aResult = re.findall(sPattern, sHtmlContent)
+    if aResult:
+        vrf = quote(aResult[0])
+        return vrf
         
     return False, False
-def vrf_function2(query, action):
-# ============== function taken aniyomi-extensions - from 9anime extension ================
-    import requests
-    from urllib.parse import unquote, quote
 
+def vrf_function2(query, action):
     SubTitle = query.split('?')[1]
     query = query.split('e/')[1].split('?')[0]
 
@@ -686,13 +615,11 @@ def vrf_function2(query, action):
     futoken = futoken.text
 
     rawSource = requests.post(reqURL, headers={"Content-Type": "application/x-www-form-urlencoded"}, data={"query": query, "futoken": futoken})
-    sHtmlContent = rawSource.content.decode('utf8',errors='ignore')
+    sHtmlContent = rawSource.content
 
     sPattern = '"rawURL":"([^"]+)'
-
     oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    
+    aResult = oParser.parse(sHtmlContent, sPattern)   
     if aResult[0]:
         url = aResult[1][0]
         if 'vidstream' in url:
@@ -701,18 +628,14 @@ def vrf_function2(query, action):
                 referer = "https://mcloud.to/"
         headers2 = {'Referer': referer
                     }
-        import requests
 
         url = url+'?'+SubTitle
-
         req = requests.get(url ,headers=headers2)
         response = str(req.content)
 
         sPattern = '"file":"([^"]+)'
-
         oParser = cParser()
         aResult = oParser.parse(response, sPattern)
-
         if aResult[0]:
             for aEntry in aResult[1]:
                 if 'thumb' in aEntry:

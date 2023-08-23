@@ -2,7 +2,7 @@
 # zombi https://github.com/zombiB/zombi-addons/
 
 import re
-	
+import requests	
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -101,7 +101,6 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
     
     if sSearch:
-       import requests
        s = requests.Session()            
        headers = {'User-Agent': 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1',
 							'Referer': URL_MAIN}
@@ -110,13 +109,10 @@ def showMovies(sSearch = ''):
        r = s.post(URL_MAIN+'wp-json/lalaplay/search/?keyword='+psearch+'&nonce=775957ec22', headers=headers,data = data)
        sHtmlContent = r.content.decode('utf8')
 
-      # (.+?) ([^<]+) .+?
     sPattern = '<div class="title">(.+?)</div>.+?<a href="(.+?)">.+?data-src="(.+?)" alt'
 
     oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
+    aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -130,9 +126,7 @@ def showMovies(sSearch = ''):
                 continue
  
             
-            sTitle = aEntry[0].replace("مشاهدة","").replace("مشاهده","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("برنامج","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("انمي","")
- 
- 
+            sTitle = aEntry[0].replace("مشاهدة","").replace("مشاهده","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("برنامج","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("انمي","") 
             siteUrl = aEntry[1]+"/watch/"
             sDesc = ''
             sThumb = aEntry[2]
@@ -149,7 +143,7 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('sYear', sYear)
             oOutputParameterHandler.addParameter('sDesc', sDesc)
 
-            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showLinks', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  
@@ -271,88 +265,40 @@ def showEps():
             
 
  
-            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addEpisode(SITE_IDENTIFIER, 'showLinks', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
        
     oGui.setEndOfDirectory() 
 	 
-def showHosters(oInputParameterHandler = False):
+def showLinks(oInputParameterHandler = False):
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
 
-
-
     oRequestHandler = cRequestHandler(sUrl)
-    oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
-    oRequestHandler.addHeaderEntry('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
-    oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
-    oRequestHandler.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
     sHtmlContent = oRequestHandler.request()
-
-    # ([^<]+) .+? (.+?)
 
     sPattern = "data-post='(.+?)' data-nume='(.+?)'><ul><li>(.+?)</li>"
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
-
     if aResult[0]:
+        oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
             
-            sTitle = sMovieTitle+' ['+aEntry[2]+']'
+            sHost = aEntry[2]
             siteUrl = URL_MAIN+'wp-json/lalaplayer/v2/?p='+aEntry[0]+'&t=movie&n='+aEntry[1]
+            sHost = aEntry[2]
+            sTitle = ('%s [COLOR coral]%s[/COLOR]') % (sMovieTitle, sHost)
 
-            oRequestHandler = cRequestHandler(siteUrl)
-            sData = oRequestHandler.request()
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
+            oOutputParameterHandler.addParameter('sHost', sHost)
 
-            sPattern = '"embed_url":"(.+?)",'
-            oParser = cParser()
-            aResult = oParser.parse(sData, sPattern)
+            oGui.addLink(SITE_IDENTIFIER, 'showHosters', sTitle, sThumb, '', oOutputParameterHandler, oInputParameterHandler)
 
-            if aResult:
-                for aEntry in aResult[1]:
-                    url = aEntry.replace("\/","/")
-                    if url.startswith('//'):
-                       url = 'http:' + url
-
-                    oRequestHandler = cRequestHandler(url)
-                    oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
-                    oRequestHandler.addHeaderEntry('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
-                    oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
-                    oRequestHandler.addHeaderEntry('Referer', URL_MAIN)
-                    sData = oRequestHandler.request()
-    # (.+?)
-               
-
-                    sPattern = '"file":"(.+?)","label":'
-                    oParser = cParser()
-                    aResult = oParser.parse(sData, sPattern)
-
-                    if aResult[0]:
-                       for aEntry in aResult[1]:        
-                           url = aEntry.replace("\/","/")
-                           if url.startswith('//'):
-                              url = 'http:' + url
-                           VSlog(url)
-                           sHosterUrl = url 
-                           if 'userload' in sHosterUrl:
-                              sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-                           if 'moshahda' in sHosterUrl:
-                              sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-                           if 'streamtape' in sHosterUrl:
-                              sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
-                           if 'mystream' in sHosterUrl:
-                              sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN                           
-                           oHoster = cHosterGui().checkHoster(sHosterUrl)
-                           if oHoster:
-                              oHoster.setDisplayName(sTitle)
-                              oHoster.setFileName(sMovieTitle)
-                              cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
-    # (.+?) ([^<]+)
-				
-    # ([^<]+) .+?
     sPattern = 'href="([^<]+)" target="_blank" rel.+?<em>([^<]+)</em></div>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -364,10 +310,6 @@ def showHosters(oInputParameterHandler = False):
             if sHosterUrl.startswith('//'):
                 sHosterUrl = 'http:' + sHosterUrl
 					
-            if 'userload' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-            if 'moshahda' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
             if 'mystream' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN   
             oHoster = cHosterGui().checkHoster(sHosterUrl)
@@ -375,7 +317,56 @@ def showHosters(oInputParameterHandler = False):
                 oHoster.setDisplayName(sTitle)
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
-				
+				              
+    oGui.setEndOfDirectory()
 
-                
+def showHosters():
+    oGui = cGui()
+
+    oInputParameterHandler = cInputParameterHandler()
+    siteUrl = oInputParameterHandler.getValue('siteUrl')
+    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
+    sThumb = oInputParameterHandler.getValue('sThumb')
+
+    oRequestHandler = cRequestHandler(siteUrl)
+    sData = oRequestHandler.request()
+
+    sPattern = '"embed_url":"(.+?)",'
+    oParser = cParser()
+    aResult = oParser.parse(sData, sPattern)
+
+    if aResult:
+                for aEntry in aResult[1]:
+                    url = aEntry.replace("\/","/")
+                    if url.startswith('//'):
+                       url = 'http:' + url
+
+                    oRequestHandler = cRequestHandler(url)
+                    oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
+                    oRequestHandler.addHeaderEntry('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
+                    oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
+                    oRequestHandler.addHeaderEntry('Referer', URL_MAIN)
+                    sData = oRequestHandler.request()              
+
+                    sPattern = '"file":"(.+?)","label":'
+                    oParser = cParser()
+                    aResult = oParser.parse(sData, sPattern)
+
+                    if aResult[0]:
+                       for aEntry in aResult[1]:        
+                           url = aEntry.replace("\/","/")
+                           if url.startswith('//'):
+                              url = 'http:' + url
+
+                           sHosterUrl = url 
+                           if 'streamtape' in sHosterUrl:
+                              sHosterUrl = sHosterUrl
+                           if 'mystream' in sHosterUrl:
+                              sHosterUrl = sHosterUrl                         
+                           oHoster = cHosterGui().checkHoster(sHosterUrl)
+                           if oHoster:
+                              oHoster.setDisplayName(sMovieTitle)
+                              oHoster.setFileName(sMovieTitle)
+                              cHosterGui().showHoster(oGui, oHoster, sHosterUrl+"|verifypeer=false", sThumb, oInputParameterHandler=oInputParameterHandler)
+
     oGui.setEndOfDirectory()
