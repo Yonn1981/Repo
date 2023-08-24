@@ -425,7 +425,7 @@
         },
         "solarone": {
             "label": "SolarOne",
-            "active": "False",
+            "active": "True",
             "url": "https://www2.solarmovie.cr"
         },
         "stardima": {
@@ -451,7 +451,7 @@
         "tuktukcinema": {
             "label": "Tuktukcinema",
             "active": "True",
-            "url": "https://tuktukcinema1.top/"
+            "url": "https://www.tuktukcin.one/"
         },
         "tvfun": {
             "label": "Tvfun",
