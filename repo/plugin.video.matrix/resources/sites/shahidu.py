@@ -212,7 +212,7 @@ def showMovies(sSearch = ''):
 
     oParser = cParser()
     sStart = '<div class="container">'
-    sEnd = '<nav'
+    sEnd = '<div class="footer">'
     sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
 
     sPattern = '<a href="([^"]+)".+?style="background-image: url\((.+?)\);.+?class="title">(.+?)</h4>'
@@ -283,7 +283,7 @@ def showSeries(sSearch = ''):
 
     oParser = cParser()
     sStart = '<div class="container">'
-    sEnd = '<nav'
+    sEnd = '<div class="footer">'
     sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
 
     sPattern = '<a href="([^"]+)".+?style="background-image: url\((.+?)\);.+?class="title">(.+?)</h4>'
@@ -531,7 +531,7 @@ def showHosters(oInputParameterHandler = False):
                     sHosterUrl = url
                     oHoster = cHosterGui().checkHoster(sHosterUrl)
                     if oHoster:
-                        sDisplayTitle = ('[COLOR coral](%sp)[/COLOR]') % (sQual)
+                        sDisplayTitle = sMovieTitle + ('[COLOR coral](%sp)[/COLOR]') % (sQual)
                         oHoster.setDisplayName(sDisplayTitle)
                         oHoster.setFileName(sMovieTitle)
                         cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
@@ -539,7 +539,7 @@ def showHosters(oInputParameterHandler = False):
     oGui.setEndOfDirectory()
 
 def __checkForNextPage(sHtmlContent, sUrl):
-    sPattern = '<a class="page-link cursor-normal" style="background-color.+?onclick="(.+?)">.+?class="fa-solid fa-backward"></i>' 
+    sPattern = 'class="page-link cursor-normal".+?style="background-color.+?onclick="(.+?)">.+?class="fa-solid fa-backward"></i>' 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 

@@ -125,7 +125,7 @@ def showWeb():
     if not playlist:
         oOutputParameterHandler = cOutputParameterHandler()
         oOutputParameterHandler.addParameter('siteUrl', 'http://')
-        oGui.addText(SITE_IDENTIFIER, '[COLOR red]Error getting playlist[/COLOR]')
+        oGui.addText(SITE_IDENTIFIER, '[COLOR red]Error getting playlist - Check your Ugeen Subscription[/COLOR]')
 
     else:
         total = len(playlist)

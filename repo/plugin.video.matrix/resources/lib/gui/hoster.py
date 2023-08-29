@@ -296,7 +296,7 @@ class cHosterGui:
         if ('vanfem' in sHostName):
             return self.getHoster('fembed')
 
-        if ('vidtube' in sHostName):
+        if ('vidtube' in sHostName) or ('vtbe' in sHostName):
             return self.getHoster('vidtube')
 
         if ('updown' in sHostName):
@@ -406,6 +406,9 @@ class cHosterGui:
 
         if ('rumble' in sHostName):
             return self.getHoster('rumble')
+
+        if ('file-upload' in sHostName):
+            return self.getHoster('fileupload')
 
         if ('.googleusercontent.com' in sHostName):
             return self.getHoster('lien_direct')

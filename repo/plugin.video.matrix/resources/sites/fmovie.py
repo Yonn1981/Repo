@@ -606,8 +606,12 @@ def vrf_function(query, action):
     return False, False
 
 def vrf_function2(query, action):
-    SubTitle = query.split('?')[1]
-    query = query.split('e/')[1].split('?')[0]
+    if '?' in query:
+        SubTitle = query.split('?')[1]
+        query = query.split('e/')[1].split('?')[0]
+    else:
+        SubTitle = ''
+        query = query.split('e/')[1]
 
     reqURL = 'https://9anime.eltik.net/'+action+'?query='+query+'&apikey='+aniyomi
 

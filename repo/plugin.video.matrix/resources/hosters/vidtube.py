@@ -18,9 +18,18 @@ class cHoster(iHoster):
         VSlog(self._url)
         if '/d/' in self._url:
             self._url = self._url.replace('/d/','/embed-')
+        if '|Referer=' in self._url:
+            self._url = self._url.split('|Referer=')[0]
+        else:
+            self._url = self._url
+        if '|Referer=' in self._url:
+            sReferer = self._url.split('|Referer=')[1]
+        else:
+            sReferer = self._url
         api_call = ''
 
         oRequest = cRequestHandler(self._url)
+        oRequest.addHeaderEntry('Referer', sReferer)
         sHtmlContent = oRequest.request()
         sPattern = "(\s*eval\s*\(\s*function(?:.|\s)+?)<\/script>"
         oParser = cParser()
@@ -28,8 +37,9 @@ class cHoster(iHoster):
 
         if aResult[0]:
             sHtmlContent = cPacker().unpack(aResult[1][0])
-            sPattern = 'file:"([^"]+)".+?label:"([^"]+)"'
-            aResult = oParser.parse(sHtmlContent, sPattern)
+        
+        sPattern = 'file:"([^"]+)".+?label:"([^"]+)"'
+        aResult = oParser.parse(sHtmlContent, sPattern)
 
         if aResult[0]:
             url = []
@@ -39,6 +49,12 @@ class cHoster(iHoster):
                 qua.append(str(i[1]))
 
             api_call = dialog().VSselectqual(qua, url)
+
+        sPattern =  'sources: *\[{file:"([^"]+)"' 
+        aResult = oParser.parse(sHtmlContent,sPattern)
+        if aResult[0]:
+            for aEntry in aResult[1]:            
+                api_call = aEntry
 
         if api_call:
             return True, api_call

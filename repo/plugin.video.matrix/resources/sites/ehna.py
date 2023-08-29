@@ -19,26 +19,26 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-MOVIE_EN = (URL_MAIN + '/category/افلام/افلام-اجنبية/', 'showMovies')
-MOVIE_AR = (URL_MAIN + '/category/افلام/افلام-عربية/', 'showMovies')
-MOVIE_HI = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%87%d9%86%d8%af%d9%8a%d8%a9/', 'showMovies')
-MOVIE_ASIAN = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%b3%d9%8a%d9%88%d9%8a%d8%a9/', 'showMovies')
-MOVIE_DUBBED = (URL_MAIN + '/tag/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%85%D8%AF%D8%A8%D9%84%D8%AC%D8%A9', 'showMovies')
-MOVIE_CLASSIC = (URL_MAIN + '/tag/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%83%D9%84%D8%A7%D8%B3%D9%8A%D9%83%D9%8A%D8%A9', 'showMovies')
+MOVIE_EN = (URL_MAIN + 'category/افلام/افلام-اجنبية/', 'showMovies')
+MOVIE_AR = (URL_MAIN + 'category/افلام/افلام-عربية/', 'showMovies')
+MOVIE_HI = (URL_MAIN + 'category/%d8%a7%d9%81%d9%84%d8%a7%d9%85/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%87%d9%86%d8%af%d9%8a%d8%a9/', 'showMovies')
+MOVIE_ASIAN = (URL_MAIN + 'category/%d8%a7%d9%81%d9%84%d8%a7%d9%85/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%b3%d9%8a%d9%88%d9%8a%d8%a9/', 'showMovies')
+MOVIE_DUBBED = (URL_MAIN + 'tag/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%85%D8%AF%D8%A8%D9%84%D8%AC%D8%A9', 'showMovies')
+MOVIE_CLASSIC = (URL_MAIN + 'tag/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%83%D9%84%D8%A7%D8%B3%D9%8A%D9%83%D9%8A%D8%A9', 'showMovies')
 MOVIE_ANNEES = (URL_MAIN, 'showYears')
-KID_MOVIES = (URL_MAIN + '/category/الانيميشن/', 'showMovies')
-MOVIE_WORLD = (URL_MAIN + '/tag/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d9%84%d8%a8%d9%88%d9%83%d8%b3-%d8%a7%d9%88%d9%81%d9%8a%d8%b3/', 'showMovies')
+KID_MOVIES = (URL_MAIN + 'category/الانيميشن/', 'showMovies')
+MOVIE_WORLD = (URL_MAIN + 'tag/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d9%84%d8%a8%d9%88%d9%83%d8%b3-%d8%a7%d9%88%d9%81%d9%8a%d8%b3/', 'showMovies')
 MOVIE_GENRES = (URL_MAIN, 'moviesGenres')
 SERIE_GENRES = (URL_MAIN, 'seriesGenres')
 SERIE_ANNEES = (URL_MAIN, 'showSerieYears')
 
-REPLAYTV_NEWS = (URL_MAIN + '/tv', 'showSeries')
+REPLAYTV_NEWS = (URL_MAIN + 'tv', 'showSeries')
 
-DOC_NEWS = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%88%d8%ab%d8%a7%d8%a6%d9%82%d9%8a%d8%a9/', 'showMovies')
+DOC_NEWS = (URL_MAIN + 'category/%d8%a7%d9%81%d9%84%d8%a7%d9%85/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%88%d8%ab%d8%a7%d8%a6%d9%82%d9%8a%d8%a9/', 'showMovies')
 
 
-URL_SEARCH = (URL_MAIN + '/search/', 'showMovies')
-URL_SEARCH_MOVIES = (URL_MAIN + '/search/', 'showMovies')
+URL_SEARCH = (URL_MAIN + 'search/', 'showMovies')
+URL_SEARCH_MOVIES = (URL_MAIN + 'search/', 'showMovies')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -114,7 +114,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/search/'+sSearchText
+        sUrl = URL_MAIN + 'search/'+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return

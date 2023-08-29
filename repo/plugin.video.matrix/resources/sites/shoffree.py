@@ -638,7 +638,17 @@ def showHostersepisode(oInputParameterHandler = False):
                sThumb = sThumb
                if url.startswith('//'):
                   url = 'http:' + url
-								            
+
+               oRequest = cRequestHandler(url)
+               oRequest.addHeaderEntry('Referer',URL_MAIN)
+               sHtmlContent1 = oRequest.request()
+
+               oParser = cParser()
+               sPattern = '<iframe.+?src="([^"]+)'
+               aResult = oParser.parse(sHtmlContent1, sPattern)
+
+               if aResult[0]:
+                    url = aResult[1][0]								            
                sHosterUrl = url
                if 'userload' in sHosterUrl:
                   sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
@@ -772,6 +782,16 @@ def showHosters(oInputParameterHandler = False):
                sThumb = sThumb
                if url.startswith('//'):
                   url = 'http:' + url
+               oRequest = cRequestHandler(url)
+               oRequest.addHeaderEntry('Referer',URL_MAIN)
+               sHtmlContent1 = oRequest.request()
+
+               oParser = cParser()
+               sPattern = '<iframe.+?src="([^"]+)'
+               aResult = oParser.parse(sHtmlContent1, sPattern)
+
+               if aResult[0]:
+                    url = aResult[1][0]
 								            
                sHosterUrl = url
                if 'userload' in sHosterUrl:

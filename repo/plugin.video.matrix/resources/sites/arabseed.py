@@ -708,6 +708,8 @@ def showHosters(oInputParameterHandler = False):
             for aEntry in aResult[1]:
             
                 url = aEntry
+                if 'vtbe' in url:
+                    url = url +'|Referer='+URL_MAIN
                 sTitle = " "
                 if url.startswith('//'):
                     url = 'http:' + url
@@ -731,6 +733,8 @@ def url_function(sHtmlContent):
     if aResult[0] :
         for aEntry in aResult[1]:            
             url = aEntry
+            if 'vtbe' in url:
+                url = url +'|Referer='+URL_MAIN
             sTitle = " "
             if url.startswith('//'):
                 url = 'http:' + url
