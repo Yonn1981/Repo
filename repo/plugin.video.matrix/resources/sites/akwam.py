@@ -319,7 +319,7 @@ def showSeasons():
     oParser = cParser()
     
      # (.+?) .+?  ([^<]+)
-    sPattern = '<meta property="og:title" content="([^<]+)" />.+?<meta property="og:image" content="([^<]+)" />.+?<meta property="og:url" content="([^<]+)" />'
+    sPattern = '<meta property="og:title" content="([^"]+)".+?<meta property="og:image" content="([^"]+)".+?<meta property="og:url" content="([^"]+)'
     
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -447,7 +447,7 @@ def showEpisodes():
     sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
   
      # (.+?) ([^<]+) .+?
-    sPattern = 'class="text-white">([^<]+)</a>.+?<a href="([^<]+)">.+?<img src="([^<]+)" class="img-fluid" alt='
+    sPattern = 'class="text-white">([^<]+)</a>.+?href="([^"]+)".+?img src="([^"]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
     if aResult[0]:
@@ -522,8 +522,6 @@ def showHosters(oInputParameterHandler = False):
     sHtmlContent = oRequestHandler.request()
 
     oParser = cParser()
-            
-# ([^<]+) .+? (.+?)<a href="http://noon.khsm.io/link/126002"
     sPattern =  'href="(http[^<]+/watch/.+?)"' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0]:
@@ -531,7 +529,7 @@ def showHosters(oInputParameterHandler = False):
 
         oRequest = cRequestHandler(murl)
         sHtmlContent = oRequest.request()
-# ([^<]+) .+? (.+?)
+
     sPattern =  'href="(http[^<]+/watch/.+?)"'  
     aResult = oParser.parse(sHtmlContent,sPattern)
     
@@ -539,10 +537,8 @@ def showHosters(oInputParameterHandler = False):
         murl =  aResult[1][0]
         oRequest = cRequestHandler(murl)
         sHtmlContent = oRequest.request()
-        #VSlog(str(sHtmlContent))
-            
-# ([^<]+) .+? (.+?)
-    sPattern =  '>Click here</span> to go for your link...</a>.+?<a href="([^"]+)' 
+
+    sPattern =  '>Click here</span>.+?<a href="([^"]+)' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     
     if aResult[0]:
@@ -552,14 +548,10 @@ def showHosters(oInputParameterHandler = False):
         oRequest.disableSSL()
         sHtmlContent = oRequest.request()
         
-        oParser = cParser()           
-        sPattern =  '<source src="(.*?)" type="video/mp4" size="(.*?)" />' 
-        
-                                                                     
-        aResult = oParser.parse(sHtmlContent,sPattern)
-        
-       
-        if aResult[0]:
+    oParser = cParser()           
+    sPattern =  '<source src="([^"]+)" type="video/mp4" size="([^"]+)'                                                                      
+    aResult = oParser.parse(sHtmlContent,sPattern)       
+    if aResult[0]:
             for aEntry1 in aResult[1]:
                 sHosterUrl = aEntry1[0] 
                 sHost = aEntry1[1]  
@@ -574,21 +566,21 @@ def showHosters(oInputParameterHandler = False):
 
             oGui.setEndOfDirectory()
     else:
-        sPattern = '<source src="(.*?)" type="video/mp4" size="(.*?)" />'
-        aResult = oParser.parse(sHtmlContent,sPattern)
+            sPattern = '<source.+?src="([^"]+)".+?type="video/mp4".+?size="([^"]+)'
+            aResult = oParser.parse(sHtmlContent,sPattern)
         
-        if aResult[0]:
-            for aEntry1 in aResult[1]:
-                sHosterUrl = aEntry1[0] 
-                sHost = aEntry1[1]  
+            if aResult[0]:
+                for aEntry1 in aResult[1]:
+                    sHosterUrl = aEntry1[0] 
+                    sHost = aEntry1[1]  
 
-                sTitle = ('%s  [COLOR coral](%sp)[/COLOR]') % (sMovieTitle, sHost)  
-                oHoster = cHosterGui().checkHoster(sHosterUrl)
+                    sTitle = ('%s  [COLOR coral](%sp)[/COLOR]') % (sMovieTitle, sHost)  
+                    oHoster = cHosterGui().checkHoster(sHosterUrl)
                 
-                if oHoster:
-                    oHoster.setDisplayName(sTitle)
-                    oHoster.setFileName(sMovieTitle)
-                    oHosterGui.showHoster(oGui, oHoster, sHosterUrl + "|verifypeer=false", sThumb, oInputParameterHandler=oInputParameterHandler)
+                    if oHoster:
+                        oHoster.setDisplayName(sTitle)
+                        oHoster.setFileName(sMovieTitle)
+                        oHosterGui.showHoster(oGui, oHoster, sHosterUrl + "|verifypeer=false", sThumb, oInputParameterHandler=oInputParameterHandler)
                     
             oGui.setEndOfDirectory()
 
@@ -611,15 +603,10 @@ def showHosters2(oInputParameterHandler = False):
         murl =  aResult[1][0]
         oRequest = cRequestHandler(murl)
         sHtmlContent2 = oRequest.request()
-
-
-    # (.+?) .+? ([^<]+)
                
     sPattern = 'href="([^<]+)" download.+?style=".+?">(.+?)</a>'
     oParser = cParser()
-    aResult = oParser.parse(sHtmlContent2, sPattern)
-
-	
+    aResult = oParser.parse(sHtmlContent2, sPattern)	
     if aResult[0]: 
        for aEntry in aResult[1]:      
            url = aEntry[0]

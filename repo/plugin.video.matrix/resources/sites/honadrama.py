@@ -391,7 +391,7 @@ def showServer(oInputParameterHandler = False):
     oParser = cParser()
             
 # ([^<]+) .+? (.+?)
-    sPattern =  '<link itemprop="embedURL" href="([^<]+)">' 
+    sPattern =  '<link itemprop="embedURL" href="([^"]+)' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0]:
         murl =  aResult[1][0]
@@ -401,7 +401,7 @@ def showServer(oInputParameterHandler = False):
     oParser = cParser()
 				     
     # (.+?) ([^<]+) .+?
-    sPattern = 'data-server="([^<]+)" data-q="([^<]+)">' 
+    sPattern = 'data-server="([^<]+)" data-q="([^"]+)' 
     aResult = oParser.parse(sHtmlContent, sPattern)
 
    
@@ -420,7 +420,7 @@ def showServer(oInputParameterHandler = False):
             oRequestHandler.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
             sData = oRequestHandler.request()
    
-            sPattern = '<iframe.+?src="([^<]+)"' 
+            sPattern = '<iframe.+?src="([^"]+)' 
             oParser = cParser()
             aResult = oParser.parse(sData, sPattern)
 	
@@ -455,7 +455,6 @@ def showServer(oInputParameterHandler = False):
     oGui.setEndOfDirectory()  
 
 def __checkForNextPage(sHtmlContent):
-#    sPattern = 'class="next page-numbers" href="(.+?)"'
     sPattern = '<li class="active"><a href=.+?<a href="(.+?)"'	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

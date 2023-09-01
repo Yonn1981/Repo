@@ -29,7 +29,7 @@
         "akwam": {
             "label": "Akwam",
             "active": "True",
-            "url": "https://akw.to/"
+            "url": "https://ak.sv/"
         },
         "alarabiya": {
             "label": "Alarabiya",
@@ -149,7 +149,7 @@
         "cimaclub": {
             "label": "CimaClub",
             "active": "True",
-            "url": "https://cimaclllb.store/"
+            "url": "https://cima-club.vip/"
         },
         "cimacity": {
             "label": "CimaCity",
@@ -248,7 +248,7 @@
         },
         "filmihq": {
             "label": "FilmiHQ",
-            "active": "True",
+            "active": "False",
             "url": "https://filmihq.su/"
         },
         "fnteam": {
@@ -396,7 +396,7 @@
             "label": "Shahid4u",
             "active": "True",
             "cloudflare": "False",
-            "url": "https://shahiid4u.com/"
+            "url": "https://shaaed4u.cam/"
         },
         "shoffree": {
             "label": "Shoffree",
