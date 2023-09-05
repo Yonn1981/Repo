@@ -442,12 +442,12 @@ def showHosters(oInputParameterHandler = False):
 
     sURL_MAIN='0'
     # (.+?) ([^<]+)
-    sPattern = 'title="الرئيسية" href="(.+?)">'
+    sPattern = "HomeURL   = '([^']+)"
     aResult = oParser.parse(sHtmlContent, sPattern)    
     if (aResult[0]):
         sURL_MAIN = aResult[1][0]
 			
-    sPattern =  'data-id="(.+?)">' 
+    sPattern =  'data-id="([^"]+)"' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0]:
         mId = aResult[1][0] 
@@ -458,7 +458,7 @@ def showHosters(oInputParameterHandler = False):
     r = s.post(sURL_MAIN +'/wp-admin/admin-ajax.php', headers=headers,data = data)
     sHtmlContent = r.content.decode('utf8')
             
-    sPattern =  '<a class="watchNow" href="([^<]+)" target=' 
+    sPattern =  '<a class="watchNow" href="([^"]+)' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     m3url=''
     if aResult[0]:

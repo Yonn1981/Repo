@@ -90,7 +90,7 @@ def showSeries(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
   # ([^<]+) .+? (.+?)
 
-    sPattern = '<div class="serie-thumb"> <a href="(.+?)" title="(.+?)"> <img loading=".+?" src="(.+?)" alt'
+    sPattern = '<div class="serie-thumb">\s*<a href="(.+?)" title="(.+?)">\s*<img loading=".+?" src="(.+?)" alt'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -227,7 +227,7 @@ def showSeriesSearch(sSearch = ''):
         
         progress_.VSclose(progress_)
    #([^<]+) .+?
-    sPattern = 'class="videocontainer"> <iframe src="([^<]+)" id="([^<]+)"'
+    sPattern = 'class="videocontainer">\s*<iframe src="([^<]+)" id="([^<]+)"'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -327,7 +327,7 @@ def showEpisodes():
     if aResult[0]:
         sHtmlContent = aResult[1][0]
    # ([^<]+) .+? (.+?)
-    sPattern = '<div class="video-thumb"> <a href="(.+?)" title="(.+?)"> <img loading="lazy" src="(.+?)" alt'
+    sPattern = '<div class="video-thumb">\s*<a href="(.+?)" title="(.+?)">\s*<img loading="lazy" src="(.+?)" alt'
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -358,7 +358,7 @@ def showEpisodes():
 
         progress_.VSclose(progress_)
    #([^<]+) .+?
-    sPattern = 'class="videocontainer"> <iframe src="([^<]+)" id="([^<]+)"'
+    sPattern = 'class="videocontainer">\s*<iframe src="([^<]+)" id="([^<]+)"'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

@@ -192,9 +192,9 @@ def showMovies(sSearch = ''):
        s = requests.Session()            
        headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
 							'Referer': Quote(sUrl)}
-       psearch = sUrl.rsplit('?find=', 1)[1]
+       psearch = sUrl.split('?find=')[1]
        data = {'search':psearch,'type':'movies'}
-       r = s.post(URL_MAIN + '/wp-content/themes/Elshaikh2021/Ajaxat/SearchingTwo.php', headers=headers,data = data)
+       r = s.post(URL_MAIN2 + '/wp-content/themes/Elshaikh2021/Ajaxat/SearchingTwo.php', headers=headers,data = data)
        sHtmlContent = r.content.decode('utf8')
 
     sPattern = '</div><a href="(.+?)">.+?data-src="([^"]+)".+?alt="(.+?)">'
@@ -389,7 +389,7 @@ def showSeries(sSearch = ''):
 							'Referer': Quote(sUrl)}
        psearch = sUrl.rsplit('?find=', 1)[1]
        data = {'search':psearch,'type':'series'}
-       r = s.post(URL_MAIN + '/wp-content/themes/Elshaikh2021/Ajaxat/SearchingTwo.php', headers=headers,data = data)
+       r = s.post(URL_MAIN2 + '/wp-content/themes/Elshaikh2021/Ajaxat/SearchingTwo.php', headers=headers,data = data)
        sHtmlContent = r.content.decode('utf8',errors='ignore')
 
        sPattern = '<div class="Movie.+?">.+?<a href="([^<]+)">.+?data-image="([^<]+)" alt="([^<]+)">'
