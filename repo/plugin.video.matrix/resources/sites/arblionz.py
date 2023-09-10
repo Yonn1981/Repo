@@ -17,10 +17,8 @@ SITE_DESC = 'arabic vod'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-# RAMADAN_SERIES = (URL_MAIN + '/category/series/arabic-series/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b1%d9%85%d8%b6%d8%a7%d9%86-2022/', 'showSeries')
 MOVIE_EN = (URL_MAIN + '/category/movies/english-movies/', 'showMovies')
 MOVIE_4k = (URL_MAIN + '/Quality/4k/', 'showMovies')
-# MOVIE_AR = (URL_MAIN + '/category/movies/arabic-movies/', 'showMovies')
 MOVIE_HI = (URL_MAIN + '/category/movies/indian-movies/', 'showMovies')
 MOVIE_ASIAN = (URL_MAIN + '/category/movies/asian-movies/', 'showMovies')
 KID_MOVIES = (URL_MAIN + '/category/anime-cartoon/cartoon/', 'showMovies')
@@ -30,7 +28,6 @@ SERIE_TR = (URL_MAIN + '/category/series/turkish-series-translated-20221/', 'sho
 SERIE_TR_AR = (URL_MAIN + '/category/turkish-series-dubbed/', 'showSeries')
 SERIE_EN = (URL_MAIN + '/category/series/english-series/', 'showSeries')
 SERIE_KR = (URL_MAIN + '/category/series/korean-series/', 'showSeries')
-# SERIE_AR = (URL_MAIN + '/category/series/arabic-series/', 'showSeries')
 SERIE_ASIA = (URL_MAIN + '/category/series/asian-series/', 'showSeries')
 SERIE_HEND = (URL_MAIN + '/category/series/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%87%d9%86%d8%af%d9%8a%d8%a9/', 'showSeries')
 SERIE_LATIN = (URL_MAIN + '/category/series/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%85%d9%83%d8%b3%d9%8a%d9%83%d9%8a/', 'showSeries')
@@ -38,9 +35,10 @@ SERIE_LATIN = (URL_MAIN + '/category/series/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7
 ANIM_NEWS = (URL_MAIN + '/category/series/anime/', 'showSeries')
 
 REPLAYTV_NEWS = (URL_MAIN + '/category/برامج-اجنبي/', 'showSeries')
-# REPLAYTV_PLAY = (URL_MAIN + '/category/other-shows/theater/', 'showSeries')
-# SPORT_FOOT = (URL_MAIN + '/category/other-shows/sport/', 'showMovies')
+
+SPORT_FOOT = (URL_MAIN + '/category/other-shows/sport/', 'showMovies')
 SPORT_WWE = (URL_MAIN + '/category/other-shows/wrestling/', 'showMovies')
+
 URL_SEARCH = (URL_MAIN + '/search/', 'showMovies')
 URL_SEARCH_MOVIES = (URL_MAIN + '/search/', 'showMovies')
 URL_SEARCH_SERIES = (URL_MAIN + '/search/', 'showSeries')
@@ -62,9 +60,6 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_4k[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', ' 4k أفلام', 'film.png', oOutputParameterHandler)
 
-    # oOutputParameterHandler.addParameter('siteUrl', MOVIE_AR[0])
-    # oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام عربية', 'film.png', oOutputParameterHandler)
- 
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_ASIAN[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أسيوية', 'asia.png', oOutputParameterHandler)
     
@@ -76,9 +71,6 @@ def load():
  
     oOutputParameterHandler.addParameter('siteUrl', SERIE_EN[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أجنبية', 'agnab.png', oOutputParameterHandler)
-
-   # oOutputParameterHandler.addParameter('siteUrl', SERIE_AR[0])
-   # oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات عربية', 'mslsl.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', SERIE_ASIA[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أسيوية', 'asia.png', oOutputParameterHandler)
@@ -93,7 +85,7 @@ def load():
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات هندية', 'hend.png', oOutputParameterHandler)
  
     oOutputParameterHandler.addParameter('siteUrl', SERIE_LATIN[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات مكسيكي', 'mslsl.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات مكسيكية', 'mslsl.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', SERIE_KR[0])
     oGui.addDir(SITE_IDENTIFIER, SERIE_KR[1], 'مسلسلات كورية', 'kr.png', oOutputParameterHandler)
@@ -104,14 +96,11 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', REPLAYTV_NEWS[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'برامج تلفزيونية', 'brmg.png', oOutputParameterHandler)
     
-    # oOutputParameterHandler.addParameter('siteUrl', REPLAYTV_PLAY[0])
-    # oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسرحيات', 'msrh.png', oOutputParameterHandler)
-
     oOutputParameterHandler.addParameter('siteUrl', SPORT_WWE[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'مصارعة', 'wwe.png', oOutputParameterHandler)
-    
-    # oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/category/%d8%a8%d8%b1%d8%a7%d9%85%d8%ac-%d8%b9%d8%b1%d8%a8%d9%8a/')
-    # oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'برامج عربي', 'brmg.png', oOutputParameterHandler)
+
+    oOutputParameterHandler.addParameter('siteUrl', SPORT_FOOT[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'رياضة', 'sport.png', oOutputParameterHandler)
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_GENRES[0])
@@ -200,7 +189,7 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            if "فيلم" not in aEntry[1] and "عرض" not in aEntry[1]:
+            if "فيلم" not in aEntry[1] and "عرض" not in aEntry[1] and "كأس" not in aEntry[1]:
                 continue
             if "سيرفر"  in aEntry[1]:
                 continue

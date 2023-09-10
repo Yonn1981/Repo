@@ -5,6 +5,7 @@ from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
 from resources.lib.comaddon import dialog
 from resources.lib.comaddon import VSlog
+from resources.lib.util import Quote
 import re
 
 class cHoster(iHoster):
@@ -27,15 +28,16 @@ class cHoster(iHoster):
         oRequestHandler.addHeaderEntry('Referer', Referer)
         data3 = oRequestHandler.request()
 
-        sPattern2 = '"player","([^"]+)",{\'([^\']+)'
-        aResult = re.findall(sPattern2, data3)
-        if aResult:
-                url = 'https://%s/hls/%s/live.m3u8' % (aResult[0][1], aResult[0][0])
-                url += '|referer=https://sharecast.ws/'
+        sPattern = "new Player\(.+?player\",\"([^\"]+)\",{'([^\']+)"
+        aResult = re.findall(sPattern, data3)
 
-                api_call = url
+        if aResult:
+            site = 'https://' + aResult[0][1]
+            url = (site + '/hls/' + aResult[0][0]  + '/live.m3u8')
+
+            api_call = url
 
         if api_call:
-            return True, api_call
+            return True, api_call  + '|Referer=https://sharecast.ws/'
 
         return False, False

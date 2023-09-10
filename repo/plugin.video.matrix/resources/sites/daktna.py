@@ -66,7 +66,7 @@ def showSeries(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
     # (.+?) .+? ([^<]+)   
-    sPattern = '<div class="thumb"><a href="(.+?)" title="(.+?)"><img src=".+?" alt=".+?" data-src="(.+?)" class='
+    sPattern = '<div class="thumb"><a href="(.+?)"><img src=".+?" alt="(.+?)" data-src="(.+?)" class='
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -125,7 +125,7 @@ def showEpisodes():
     sHtmlContent = oRequestHandler.request()
  # ([^<]+) .+? (.+?)
 
-    sPattern = '<meta itemprop="position" content="2" />.+?<a href="([^<]+)" itemprop'
+    sPattern = '<meta itemprop="position" content="2".+?<a href="([^<]+)" itemprop'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -137,7 +137,7 @@ def showEpisodes():
     oRequestHandler = cRequestHandler(m3url)
     sHtmlContent = oRequestHandler.request()
     # (.+?) .+? ([^<]+)   
-    sPattern = '<div class="thumb"><a href="(.+?)" title="(.+?)"><img src=".+?" alt=".+?" data-src="(.+?)" class='
+    sPattern = '<div class="thumb"><a href="(.+?)"><img src=".+?" alt="(.+?)" data-src="(.+?)" class='
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -202,28 +202,28 @@ def showHosters(oInputParameterHandler = False):
 
     sURL_MAIN= URL_MAIN
     # (.+?) ([^<]+)
-    sPattern = 'class="logo"><a href="(.+?)">'
+    sPattern = 'class="logo">\s*<a href="(.+?)">'
     aResult = oParser.parse(sHtmlContent, sPattern)    
     if (aResult[0]):
         sURL_MAIN = aResult[1][0]
-            
-    sPattern =  '<a href="([^<]+)" target="_blank"'
+
+    sPattern =  'data-vid="([^"]+)'
     aResult = oParser.parse(sHtmlContent,sPattern)
     m3url=''
     if aResult[0]:
-        m3url = aResult[1][0] 
-        if m3url.startswith('//'):
-           m3url = 'https:' + m3url
+        postid = aResult[1][0] 
+
     import requests
     s = requests.Session()            
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
 							'Referer': sURL_MAIN }
-    r = s.get(m3url, headers=headers)
+    data = {'action': 'video_info',
+			'post_id': postid }
+    m3url = sURL_MAIN+'wp-admin/admin-ajax.php?action=video_info&post_id='+postid
+    r = s.get(m3url, data=data, headers=headers)
     sHtmlContent = r.content.decode('utf8')
-
-    # ([^<]+) .+? (.+?)
                
-    sPattern = 'data-src="([^<]+)">'
+    sPattern = '"src":"([^"]+)'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
@@ -231,7 +231,7 @@ def showHosters(oInputParameterHandler = False):
     if aResult[0]:
         for aEntry in aResult[1]:
             
-            sHosterUrl = aEntry
+            sHosterUrl = aEntry.replace('\\','')
             if sHosterUrl.startswith('//'):
                 sHosterUrl = 'http:' + sHosterUrl 
             oHoster = cHosterGui().checkHoster(sHosterUrl)

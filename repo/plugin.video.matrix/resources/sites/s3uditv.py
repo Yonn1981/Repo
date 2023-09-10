@@ -38,10 +38,10 @@ def load():
     oGui = cGui()
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'SEARCH_MOVIES', 'search.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'SEARCH MOVIES', 'search.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSeriesSearch', 'SEARCH_SERIES', 'search.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSeriesSearch', 'SEARCH SERIES', 'search.png', oOutputParameterHandler)
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', RAMADAN_SERIES[0])
@@ -99,6 +99,7 @@ def showSearch():
 
 def showMovies(sSearch = ''):
     oGui = cGui()
+    oParser = cParser()
     if sSearch:
       sUrl = sSearch
     else:
@@ -108,7 +109,15 @@ def showMovies(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     oRequestHandler.addHeaderEntry('User-Agent', UA)
     sHtmlContent = oRequestHandler.request()
-      # (.+?) ([^<]+) .+?
+
+    sPattern = 'content="0;URL=([^"]+)">'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    if aResult:
+        sUrl = aResult[1][0]
+        oRequestHandler = cRequestHandler(sUrl)
+        oRequestHandler.addHeaderEntry('User-Agent', UA)
+        sHtmlContent = oRequestHandler.request()
+
     sPattern = '<a href="([^<]+)" class="movie" title="([^<]+)".+?data-src="([^<]+)">' 
 
     oParser = cParser()
@@ -130,7 +139,7 @@ def showMovies(sSearch = ''):
             if "حلقة"  in aEntry[1]:
                 continue
  
-            sTitle = aEntry[1].replace("مشاهدة","").replace("مشاهده","").replace("مترجم","").replace("فيلم","").replace("اونلاين","").replace("اون لاين","").replace("برنامج","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("انمي","")
+            sTitle = aEntry[1].replace("مشاهدة","").replace("مشاهده","").replace("مترجم","").replace("فيلم","").replace("اونلاين","").replace("اون لاين","").replace("برنامج","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("انمي","").replace("كامل","")
  
  
             siteUrl = aEntry[0].replace("watch.php","play.php")
@@ -168,6 +177,7 @@ def showMovies(sSearch = ''):
 
 def showSeries(sSearch = ''):
     oGui = cGui()
+    oParser = cParser()
     if sSearch:
       sUrl = sSearch
     else:
@@ -178,7 +188,15 @@ def showSeries(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     oRequestHandler.addHeaderEntry('User-Agent', UA)
     sHtmlContent = oRequestHandler.request()
-      # (.+?) ([^<]+) .+?
+
+    sPattern = 'content="0;URL=([^"]+)">'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    if aResult:
+        sUrl = aResult[1][0]
+        oRequestHandler = cRequestHandler(sUrl)
+        oRequestHandler.addHeaderEntry('User-Agent', UA)
+        sHtmlContent = oRequestHandler.request()
+
     sPattern = '<a href="([^<]+)" class="movie" title="([^<]+)">.+?data-src="([^<]+)">' 
 
     oParser = cParser()
@@ -246,7 +264,8 @@ def __checkForNextPage(sHtmlContent):
   
 def showEpisodes():
     oGui = cGui()
-    
+    oParser = cParser()
+
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
@@ -255,27 +274,22 @@ def showEpisodes():
     oRequestHandler = cRequestHandler(sUrl)
     oRequestHandler.addHeaderEntry('User-Agent', UA)
     sHtmlContent = oRequestHandler.request()
- # ([^<]+) .+? (.+?)
+
+
+    URL_MAIN = sUrl.split('watch.php')[0]
 
     sPattern = '<div class="SeasonsEpisodes".+?data-serie="(.+?)">(.+?)</div>'
-
     oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
+    aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()  
         for aEntry in aResult[1]:
             sSeason = "S"+aEntry[0]
             sHtmlContent = aEntry[1]
- # ([^<]+) .+?
 
             sPattern = '<a href="(.+?)" class.+?<em>(.+?)</em></a>'
-
             oParser = cParser()
-            aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
+            aResult = oParser.parse(sHtmlContent, sPattern)	
             if aResult[0]:
                 oOutputParameterHandler = cOutputParameterHandler()  
                 for aEntry in aResult[1]:
@@ -287,8 +301,6 @@ def showEpisodes():
                     sThumb = sThumb
                     sDesc = ""
 			
-
-
                     oOutputParameterHandler.addParameter('siteUrl',siteUrl)
                     oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
                     oOutputParameterHandler.addParameter('sThumb', sThumb)
@@ -299,25 +311,20 @@ def showEpisodes():
 
 def showHosters(oInputParameterHandler = False):
     oGui = cGui()
+    oParser = cParser()
+
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
 
-
-
     oRequestHandler = cRequestHandler(sUrl)
     oRequestHandler.addHeaderEntry('User-Agent', UA)
     sHtmlContent = oRequestHandler.request()
 
-    # ([^<]+) .+?
-               
-
     sPattern = 'data-embed=["\']([^"\']+)["\']'
     oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-	
+    aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
         for aEntry in aResult[1]:
             

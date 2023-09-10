@@ -407,7 +407,7 @@ def showHosters(oInputParameterHandler = False):
     sHtmlContent = oRequestHandler.request()
 
     oParser = cParser()
-    sPattern =  'data-content-id="([^"]+)' 
+    sPattern =  'vo_postID="([^"]+)' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0]:
         sID = aResult[1][0] 

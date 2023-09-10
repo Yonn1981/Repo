@@ -270,51 +270,13 @@ def showHosters(oInputParameterHandler = False):
     sHtmlContent = oRequestHandler.request()
 
     oParser = cParser()       
-
-
-    # (.+?) .+? ([^<]+)
-               
-
-    sPattern = 'data-ep-url="([^<]+)">'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-	
-    if aResult[0]:
-            oOutputParameterHandler = cOutputParameterHandler() 
-            for aEntry in aResult[1]:
-        
-                url = aEntry
-                if url.startswith('//'):
-                    url = 'https:' + url
-				
-					
-            
-                sHosterUrl = url 
-                if 'userload' in sHosterUrl:
-                    sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-                if 'moshahda' in sHosterUrl:
-                    sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-                if 'mystream' in sHosterUrl:
-                    sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
-                oHoster = cHosterGui().checkHoster(sHosterUrl)
-                if oHoster:
-                    sDisplayTitle = sMovieTitle
-                    oHoster.setDisplayName(sDisplayTitle)
-                    oHoster.setFileName(sMovieTitle)
-                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
-
     sPattern = '<a href="(.+?)" target="_blank"><i class="fa fa-star"></i><span>(.+?)</span><span>(.+?)</span></a>' 
     aResult1 = re.findall(sPattern, sHtmlContent)
-
-    aResult = aResult1 
-    
-    # (.+?) .+?  ([^<]+)       
-	
+    aResult = aResult1 	
     if aResult:
         for aEntry in aResult:
             
-            url = aEntry[0]
+            url = aEntry[0].replace('/d','/f')
 
             sTitle = ('%s  [COLOR coral](%s)[/COLOR]') % (sMovieTitle, aEntry[1])
             sHosterUrl = url
@@ -332,7 +294,6 @@ def showHosters(oInputParameterHandler = False):
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
     oParser = cParser()
-     # (.+?) ([^<]+) .+?
     sStart = '<div class="tab-content"'
     sEnd = '<div class="container">'
     sHtmlContent0 = oParser.abParse(sHtmlContent, sStart, sEnd)

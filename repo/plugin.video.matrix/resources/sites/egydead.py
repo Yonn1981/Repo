@@ -15,28 +15,28 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-RAMADAN_SERIES = (URL_MAIN + '/tag/%d8%b1%d9%85%d8%b6%d8%a7%d9%86-2022/', 'showSeries')
-MOVIE_EN = (URL_MAIN+'/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a/', 'showMovies')
-MOVIE_PACK = (URL_MAIN + '/assembly/', 'showPack')
-MOVIE_DUBBED = (URL_MAIN+'/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a%d8%a9-%d9%85%d8%af%d8%a8%d9%84%d8%ac%d8%a9/', 'showMovies')
-MOVIE_TURK = (URL_MAIN+'/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%aa%d8%b1%d9%83%d9%8a%d8%a9/', 'showMovies')
-# MOVIE_AR = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%b9%d8%b1%d8%a8%d9%8a/', 'showMovies')
-MOVIE_ASIAN = (URL_MAIN+'/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%b3%d9%8a%d9%88%d9%8a%d8%a9/', 'showMovies')
-KID_MOVIES = (URL_MAIN+'/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%83%d8%b1%d8%aa%d9%88%d9%86/', 'showMovies')
-KID_CARTOON = (URL_MAIN+'/series-category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%83%d8%b1%d8%aa%d9%88%d9%86/', 'showSeries')
-SERIE_LATIN = (URL_MAIN+'/series-category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%84%d8%a7%d8%aa%d9%8a%d9%86%d9%8a%d8%a9/', 'showSeries')
-SERIE_EN = (URL_MAIN+'/series-category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a/', 'showSeries')
-# SERIE_AR = (URL_MAIN+'/series-category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b9%d8%b1%d8%a8%d9%8a/', 'showSeries')
-SERIE_TR = (URL_MAIN+'/series-category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%aa%d8%b1%d9%83%d9%8a%d8%a9/', 'showSeries')
-SERIE_ASIA = (URL_MAIN+'/series-category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a7%d8%b3%d9%8a%d9%88%d9%8a%d8%a9/', 'showSeries')
+MOVIE_EN = (URL_MAIN+'category/english-movies/', 'showMovies')
+MOVIE_PACK = (URL_MAIN + 'assembly/', 'showPack')
+MOVIE_DUBBED = (URL_MAIN+'category/english-movies-dub/', 'showMovies')
+MOVIE_TURK = (URL_MAIN+'category/turkish-movies/', 'showMovies')
+MOVIE_ASIAN = (URL_MAIN+'category/asian-movies/', 'showMovies')
+KID_MOVIES = (URL_MAIN+'category/animation-movies/', 'showMovies')
 
-DOC_SERIES = (URL_MAIN+'/series-category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%88%d8%ab%d8%a7%d8%a6%d9%82%d9%8a%d8%a9/', 'showSeries')
-SERIE_DUBBED = (URL_MAIN+'/series-category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a%d8%a9-%d9%85%d8%af%d8%a8%d9%84%d8%ac%d8%a9/', 'showSeries')
-DOC_NEWS = (URL_MAIN+'/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%88%d8%ab%d8%a7%d8%a6%d9%82%d9%8a%d8%a9/', 'showMovies')
-ANIM_MOVIES = (URL_MAIN+'/series-category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d9%86%d9%85%d9%8a/', 'showMovies')
-ANIM_NEWS = (URL_MAIN+'/series-category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a7%d9%86%d9%85%d9%8a/', 'showSeries')
-#REPLAYTV_PLAY = (URL_MAIN+'/category/%d9%85%d8%b3%d8%b1%d8%ad%d9%8a%d8%a7%d8%aa/', 'showMovies')
-REPLAYTV_NEWS = (URL_MAIN+'/category/%d8%b9%d8%b1%d9%88%d8%b6-%d9%88%d8%ad%d9%81%d9%84%d8%a7%d8%aa/', 'showMovies')
+KID_CARTOON = (URL_MAIN+'series-category/مسلسلات-كرتون/', 'showSeries')
+SERIE_LATIN = (URL_MAIN+'series-category/مسلسلات-لاتينية/', 'showSeries')
+SERIE_EN = (URL_MAIN+'series-category/مسلسلات-اجنبي/', 'showSeries')
+SERIE_TR = (URL_MAIN+'series-category/مسلسلات-تركية/', 'showSeries')
+SERIE_ASIA = (URL_MAIN+'series-category/مسلسلات-اسيوية/', 'showSeries')
+SERIE_DUBBED = (URL_MAIN+'series-category/مسلسلات-اجنبي-مدبلجة/', 'showSeries')
+SERIE_TR_AR = (URL_MAIN + 'series-category/مسلسلات-تركية-مدبلجة/', 'showSeries')
+
+DOC_SERIES = (URL_MAIN+'series-category/مسلسلات-وثائقية/', 'showSeries')
+DOC_NEWS = (URL_MAIN+'category/documentary-movies/', 'showMovies')
+
+ANIM_MOVIES = (URL_MAIN+'category/anime-movies/', 'showMovies')
+ANIM_NEWS = (URL_MAIN+'series-category/مسلسلات-انمي/', 'showSeries')
+REPLAYTV_PLAY = (URL_MAIN+'series-category/برامج-تلفزيونية/', 'showMovies')
+REPLAYTV_NEWS = (URL_MAIN+'category/shows/', 'showMovies')
 SPORT_FOOT = (URL_MAIN+'/tag/%d9%83%d8%a7%d8%b3-%d8%a7%d9%84%d8%b9%d8%a7%d9%84%d9%85-2022/', 'showMovies')
 
 URL_SEARCH = (URL_MAIN+'/?s=', 'showMovies')
@@ -72,8 +72,8 @@ def load():
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام إنمي', 'anime.png', oOutputParameterHandler)
     
     oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN+'/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d9%86%d9%85%d9%8a/')
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام إنمي2', 'anime.png', oOutputParameterHandler)
+    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN+'series-category/افلام-انمي/')
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام إنمي 2', 'anime.png', oOutputParameterHandler)
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', KID_MOVIES[0])
@@ -91,10 +91,6 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', SERIE_EN[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أجنبية', 'agnab.png', oOutputParameterHandler)
 
-    # oOutputParameterHandler = cOutputParameterHandler()
-    # oOutputParameterHandler.addParameter('siteUrl', SERIE_AR[0])
-    # oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات عربية', 'arab.png', oOutputParameterHandler)
-
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', SERIE_ASIA[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أسيوية', 'asia.png', oOutputParameterHandler)
@@ -102,6 +98,9 @@ def load():
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', SERIE_TR[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات تركية', 'turk.png', oOutputParameterHandler) 
+
+    oOutputParameterHandler.addParameter('siteUrl', SERIE_TR_AR[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات تركية مدبلجة', 'turk.png', oOutputParameterHandler)
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', SERIE_LATIN[0])
@@ -116,6 +115,10 @@ def load():
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات كرتون', 'crtoon.png', oOutputParameterHandler)
 
     oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN+'series-category/مسلسلات-كرتون-مدبلجة/')
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات كرتون مدبلجة', 'crtoon.png', oOutputParameterHandler)
+
+    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', DOC_SERIES[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات وثائقية', 'doc.png', oOutputParameterHandler)
 
@@ -125,19 +128,18 @@ def load():
     
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', URL_MAIN+'/channel/netflix/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات Netfilx', 'mslsl.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات Netfilx', 'netflix.png', oOutputParameterHandler)
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', REPLAYTV_NEWS[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'برامج تلفزيونية', 'brmg.png', oOutputParameterHandler)
-	
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'ستاند اب وحفلات', 'brmg.png', oOutputParameterHandler)
+
     oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN+'category/رياضة/')
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'رياضة', 'sport.png', oOutputParameterHandler)
-    
-    oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN+'/category/%d8%b9%d8%b1%d9%88%d8%b6-%d9%88%d8%ad%d9%81%d9%84%d8%a7%d8%aa/')
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies' ,'ستاند اب وحفلات', 'brmg.png', oOutputParameterHandler)
+    oOutputParameterHandler.addParameter('siteUrl', REPLAYTV_PLAY[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'برامج تلفزيونية', 'brmg.png', oOutputParameterHandler)
+
+    oOutputParameterHandler.addParameter('siteUrl', SPORT_FOOT[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'كاس العالم 2022', 'sport.png', oOutputParameterHandler)
 
     oGui.setEndOfDirectory()
  

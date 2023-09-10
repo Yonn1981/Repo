@@ -462,6 +462,7 @@ class siteManager:
     CLOUDFLARE = 'cloudflare'
     LABEL = 'label'
     URL_MAIN = 'url'
+    URL_MAIN2 = 'url2'
 
     def __init__(self):
         
@@ -509,7 +510,10 @@ class siteManager:
 
     def getUrlMain(self, sourceName):
         return str(self.getDefaultProperty(sourceName, self.URL_MAIN))
-    
+
+    def getUrlMain2(self, sourceName):
+        return str(self.getDefaultProperty(sourceName, self.URL_MAIN2))
+
     def disableAll(self):
         for sourceName in self.data[self.SITES]:
             self.setActive(sourceName, False)

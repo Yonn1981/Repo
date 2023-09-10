@@ -39,10 +39,10 @@ def load():
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'SEARCH_MOVIES', 'search.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'SEARCH MOVIES', 'search.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSeriesSearch', 'SEARCH_SERIES', 'search.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSeriesSearch', 'SEARCH SERIES', 'search.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', RAMADAN_SERIES[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'رمضان', 'rmdn.png', oOutputParameterHandler)
@@ -225,7 +225,7 @@ def showSeries(sSearch = ''):
       # (.+?) ([^<]+) .+?
 	
 def __checkForNextPage(sHtmlContent):
-    sPattern = '<li class="active"><a href="#".+?<li class><a href="([^"]+)".+?<li class>'
+    sPattern = '<li class="active">\s*<a href="#".+?<li class.+?href="([^"]+)"'
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

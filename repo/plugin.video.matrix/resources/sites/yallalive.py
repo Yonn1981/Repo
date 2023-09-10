@@ -11,7 +11,7 @@ from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, isMatrix
 from resources.lib.parser import cParser
 from resources.lib.packer import cPacker
-from resources.lib.util import cUtil
+from resources.lib.util import Quote
  
 SITE_IDENTIFIER = 'yallalive'
 SITE_NAME = 'Yallalive'
@@ -21,7 +21,8 @@ URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 SPORT_LIVE = (URL_MAIN, 'showMovies')
 
- 
+UA = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:56.0) Gecko/20100101 Firefox/56.0'
+
 def load():
     oGui = cGui()
 
@@ -41,13 +42,12 @@ def showMovies():
     sHtmlContent = oRequestHandler.request()
     oParser = cParser()
 
-	# (.+?) .+? 
+    sStart = '<div id="today"'
+    sEnd = '<div id="tommorw"'
+    sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
+
     sPattern = 'class="AF_EvItem.+?href="([^"]+)".+?<div class="AF_MaskText.+?">(.+?)</div>.+?.+?class="AF_TeamName">(.+?)</div>.+?class="AF_EvTime">(.+?)</div>.+?<div class="AF_TeamName">(.+?)</div>'
-
-
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
+    aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -62,16 +62,12 @@ def showMovies():
             siteUrl =  aEntry[0]
             sDesc = aEntry[3]+ " KSA" + " - " +aEntry[1]+ " "
 			
-			
-
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
-
             oGui.addMisc(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
- 
  
     oGui.setEndOfDirectory()
 			
@@ -82,7 +78,9 @@ def showHosters(oInputParameterHandler = False):
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')                    
-       
+
+    sHosterUrl = ''
+
     oParser = cParser()
  
     oRequestHandler = cRequestHandler(sUrl)
@@ -94,22 +92,19 @@ def showHosters(oInputParameterHandler = False):
     if (aResult[0]):
         sUrl = aResult[1][0]
 
-
     oRequestHandler = cRequestHandler(sUrl)
     hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Mobile Safari/537.36','Origin' : 'yallalive.id','Referer' : 'https://yallalive.id/'}
     St=requests.Session()              
     sHtmlContent = St.get(sUrl,headers=hdr).content.decode('utf-8')        
 
-    # (.+?) .+? ([^<]+)
     sPattern = 'href="(.+?)" target="search_iframe">(.+?)</a>'
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    
+    aResult = oParser.parse(sHtmlContent, sPattern)    
     if aResult[0]:
         for aEntry in aResult[1]:
             sTitle = sMovieTitle+' '+aEntry[1]
             url = aEntry[0]
             if '.m3u8' in url:           
-                url = url.split('=')[1] 
+                sHosterUrl = url.split('=')[1] 
             if 'embed' in url:
                 oRequestHandler = cRequestHandler(url)
                 sHtmlContent2 = St.get(url).content
@@ -117,7 +112,7 @@ def showHosters(oInputParameterHandler = False):
                 sPattern =  'src="(.+?)" scrolling="no">'
                 aResult = oParser.parse(sHtmlContent2,sPattern)
                 if aResult[0]:
-                   url = aResult[1][0]
+                   sHosterUrl = aResult[1][0]
             if '/dash/' in url:
                 oRequestHandler = cRequestHandler(url)
                 sHtmlContent4 = St.get(url).content
@@ -128,8 +123,8 @@ def showHosters(oInputParameterHandler = False):
                    a = a.replace('\\','')
                    b = var[0][1]
                    url = 'https://video-a-sjc.xx.fbcdn.net/hvideo-ash66'+a
-            sHosterUrl = url+ '|Referer=' + URL_MAIN
-            Referer = aEntry[0].split('live')[0]
+                sHosterUrl = url+ '|Referer=' + URL_MAIN
+                Referer = aEntry[0].split('live')[0]
   
             if 'amazonaws.com'  in sHosterUrl:
                 sHosterUrl = url + '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" + '&Referer='+Referer
@@ -138,15 +133,8 @@ def showHosters(oInputParameterHandler = False):
             
             if 'sharecast' in url:
                 Referer =  "https://sharecast.ws/"
-                oRequestHandler = cRequestHandler(url)
-                oRequestHandler.addHeaderEntry('Referer', Referer)
-                data3 = oRequestHandler.request()
+                sHosterUrl = Hoster_ShareCast(url, Referer)
 
-                sPattern2 = '"player","([^"]+)",{\'([^\']+)'
-                aResult = re.findall(sPattern2, data3)
-                if aResult:
-                    sHosterUrl = 'https://%s/hls/%s/live.m3u8' % (aResult[0][1], aResult[0][0])
-                    sHosterUrl += '|referer=https://sharecast.ws/'
             else:   
                 sHosterUrl = getHosterIframe(url, sUrl)      
 
@@ -207,7 +195,6 @@ def showHosters(oInputParameterHandler = False):
             if 'vimeo' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + sUrl
             
-
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
                 oHoster.setDisplayName(sMovieTitle+' '+sTitle)
@@ -215,6 +202,22 @@ def showHosters(oInputParameterHandler = False):
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
     oGui.setEndOfDirectory()
+
+def Hoster_ShareCast(url, referer):
+    oRequestHandler = cRequestHandler(url)
+    oRequestHandler.addHeaderEntry('User-Agent', UA)
+    oRequestHandler.addHeaderEntry('Referer', referer)
+    sHtmlContent = oRequestHandler.request()
+
+    sPattern = "new Player\(.+?player\",\"([^\"]+)\",{'([^\']+)"
+    aResult = re.findall(sPattern, sHtmlContent)
+
+    if aResult:
+        site = 'https://' + aResult[0][1]
+        url = (site + '/hls/' + aResult[0][0]  + '/live.m3u8')
+        return True, url  + '|Referer=' + Quote(site)
+
+    return False, False
 
 def getHosterIframe(url, referer):
     oRequestHandler = cRequestHandler(url)
@@ -224,7 +227,9 @@ def getHosterIframe(url, referer):
         return False
 
     referer = url
-    
+    if 'channel' in referer:
+         referer = referer.split('channel')[0]
+
     sPattern = '(\s*eval\s*\(\s*function(?:.|\s)+?{}\)\))'
     aResult = re.findall(sPattern, sHtmlContent)
     if aResult:
@@ -272,7 +277,7 @@ def getHosterIframe(url, referer):
     sPattern = '<iframe.+?src=["\']([^"\']+)["\']'
     aResult = re.findall(sPattern, sHtmlContent)
     if aResult:
-        return aResult[0]
+        return aResult[0] +'|Referer='+referer
 
     sPattern = 'source:\s*["\']([^"\']+)["\']'
     aResult = re.findall(sPattern, sHtmlContent)
@@ -288,6 +293,19 @@ def getHosterIframe(url, referer):
     aResult = re.findall(sPattern, sHtmlContent)
     if aResult:
         return aResult[0] + '|referer=' + referer
+
+    sPattern = "onload=\"ThePlayerJS\('.+?','([^\']+)"
+    aResult = re.findall(sPattern, sHtmlContent)
+    if aResult:
+        url = 'https://sharecast.ws/player/' + aResult[0]
+        b, url = Hoster_ShareCast(url, referer)
+        if b:
+            return True, url
+
+    sPattern = '[^/]source.+?["\'](https.+?)["\']'
+    aResult = re.findall(sPattern, sHtmlContent)
+    if aResult:
+        return True, aResult[0] + '|referer=' + url
 
 
     return False

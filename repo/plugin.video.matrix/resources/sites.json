@@ -3,7 +3,7 @@
         "aflamfree": {
             "label": "Aflamfree",
             "active": "True",
-            "url": "https://www.aflamfree.top/"
+            "url": "https://aflamfree.one/"
         },
         "aflaam": {
             "label": "Aflaam",
@@ -59,7 +59,7 @@
         "animeup": {
             "label": "Anime4up",
             "active": "True",
-            "url": "https://w1.anime4up.tv/"
+            "url": "https://anime4up.cam/"
         },
         "animezid": {
             "label": "Animezid",
@@ -194,7 +194,7 @@
         "daktna": {
             "label": "Daktna",
             "active": "True",
-            "url": "https://z.daktna.cam/"
+            "url": "https://u.daktna.cam/"
         },
         "detectiveconanar": {
             "label": "Detectiveconanar",
@@ -219,7 +219,7 @@
         "egyclub": {
             "label": "Egyclub",
             "active": "True",
-            "url": "https://www.egy-club.com/"
+            "url": "https://a.egy-club.com/"
         },
         "egydead": {
             "label": "Egydead",
@@ -319,7 +319,8 @@
         "koralive": {
             "label": "Koralive",
             "active": "True",
-            "url": "https://elkora.360koralive.com/"
+            "url": "https://on.360kora-live.com/",
+            "url2": "https://www.alkoora-live.live/"
         },
         "laroza": {
             "label": "Laroza",
@@ -380,7 +381,7 @@
         "s3uditv": {
             "label": "S3uditv",
             "active": "True",
-            "url": "https://k.s3udi.tv/"
+            "url": "https://y.s3udi.tv/"
         },
         "soap": {
             "label": "Soap2day",
@@ -395,8 +396,8 @@
         "shahidu": {
             "label": "Shahid4u",
             "active": "True",
-            "cloudflare": "False",
-            "url": "https://shaaed4u.cam/"
+            "cloudflare": "True",
+            "url": "https://shhahed4u.info/"
         },
         "shoffree": {
             "label": "Shoffree",
@@ -431,7 +432,7 @@
         "stardima": {
             "label": "Stardima",
             "active": "True",
-            "url": "https://w1.stardima.sbs/watch/"
+            "url": "https://www.stardiima.sbs/watch/"
         },
         "themoviedb_org": {
             "label": "The Movie Database",
@@ -456,12 +457,12 @@
         "tvfun": {
             "label": "Tvfun",
             "active": "True",
-            "url": "https://s.tvfun.me/"
+            "url": "https://www.tv-f.com/"
         },
         "tvnine": {
             "label": "Tv96",
             "active": "True",
-            "url": "https://www.tv96.tv/"
+            "url": "https://hd.tv96.me/"
         },
         "watanflix": {
             "label": "Watanflix",
@@ -476,17 +477,17 @@
         "witanime": {
             "label": "WitAnime",
             "active": "True",
-            "url": "https://witanime.com/"
+            "url": "https://witanime.me/"
         },
         "xsanime": {
             "label": "Xsanime",
             "active": "True",
-            "url": "https://v.xsanime.com/"
+            "url": "https://x.xsanime.com/"
         },
         "yalladrama": {
             "label": "Yalladrama",
             "active": "True",
-            "url": "https://ww1.yalladrama.co/"
+            "url": "https://ww2.yalladrama.co/"
         },
         "yallalive": {
             "label": "Yallalive",
