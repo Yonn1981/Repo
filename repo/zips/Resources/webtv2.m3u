@@ -596,23 +596,40 @@ https://5a3ed7a72ed4b.streamlock.net/zagrostv/SMIL:myStream.smil/playlist.m3u8
 
 
 #EXTINF:-1 tvg-id="" tvg-name="Baraem" tvg-logo="http://s3.i3ns.net/portal/picon/2021-05/cd1967b9651d24e8859ee70160af3165.png" group-title="Qatar ➾ Kids",Baraem
-http://clientsportals.com:2095/st6HGHKd/dgCaygFg/27898
+http://live.maxcimo.com:8000/DavideSma/98000mc/803
 
 #EXTINF:-1 tvg-id="" tvg-name="beIN 4K" tvg-logo="http://s3.i3ns.net/portal/picon/2022-04/eec704df9ad75420a53c4e07a574fdac.png" group-title="Qatar ➾ Sports",beIN 4K
 https://7pal.short.gy/bein-uhd
 
 #EXTINF:-1 tvg-id="" tvg-name="beIN SPORTS AFC HEVC AR" tvg-logo="http://s3.i3ns.net/portal/picon/2022-04/eec704df9ad75420a53c4e07a574fdac.png" group-title="Arabic Sports",beIN SPORTS AFC HEVC AR
-http://clientsportals.com:2095/st6HGHKd/dgCaygFg/226816
+http://live.maxcimo.com:8000/DavideSma/98000mc/19816
 
 #EXTINF:-1 tvg-id="" tvg-name="Jeem TV" tvg-logo="http://s3.i3ns.net/portal/picon/2021-08/8b245602408c45034d4e5baf12e1bdf1.png" group-title="Qatar",Jeem TV
 http://clientsportals.com:2095/st6HGHKd/dgCaygFg/90873
 
 #EXTINF:-1 tvg-id="" tvg-name="beIN Gourmet" tvg-logo="http://s3.i3ns.net/portal/picon/2021-08/3ed2da3eb57b68e64b3c86821ca6201e.png" group-title="Qatar",beIN Gourmet
-http://new-pro.tv:8080/99622282/etbVXafU6f/66093
+http://live.maxcimo.com:8000/DavideSma/98000mc/3859
 
 #EXTINF:-1 tvg-id="24kitchen.tr" tvg-name="24 Kitchen HD TR" tvg-logo="http://abvsjdg.cluster030.hosting.ovh.net/logo/Turkey/24_tr.jpg" group-title="Turkey",24 Kitchen HD TR
-http://clientsportals.com:2095/st6HGHKd/dgCaygFg/401405
+http://live.maxcimo.com:8000/DavideSma/98000mc/21291
 
 #EXTINF:-1 tvg-id="beingurme.tr" tvg-name="beIN GURME HD TR" tvg-logo="http://abvsjdg.cluster030.hosting.ovh.net/logo/Turkey/beingurme.png" group-title="Turkey",beIN GURME HD TR
-http://clientsportals.com:2095/st6HGHKd/dgCaygFg/401408
+http://live.maxcimo.com:8000/DavideSma/98000mc/2787
 
+#EXTINF:-1 tvg-id="" tvg-logo="https://i.postimg.cc/RC2Zf1sm/Astro-Super-Sport-UHD.png" group-title=" SPORTSTATION ", Astro SuperSport UHD
+https://7pal.short.gy/astrouhd
+
+#EXTINF:-1 tvg-id="" tvg-logo="https://i.postimg.cc/prh3RFzY/BT-Sport-Ultimate.png" group-title=" SPORTSTATION ", BT Sport Ultimate
+https://7pal.short.gy/BTUltimate
+
+#EXTINF:-1 tvg-id="" tvg-logo="https://i.postimg.cc/x12jpfVF/Hub-Premier-2-UHD.png" group-title=" SPORTSTATION ", Hub Premier 2 UHD
+https://7pal.short.gy/HubP2uhd
+
+#EXTINF:-1 tvg-id="" tvg-logo="https://i.postimg.cc/ht1DHkS4/Now-Sports-4-K-1.png" group-title=" SPORTSTATION ", Now Sports 4K 1
+https://7pal.short.gy/nowsport4k
+
+#EXTINF:-1 tvg-id="" tvg-logo="https://i.postimg.cc/TYmYcyFD/Sky-Sports-Main-Event-Ultra-HD.png" group-title=" SPORTSTATION ", Sky Sports Main Event UHD
+https://7pal.short.gy/SSMEuhd
+
+#EXTINF:-1 tvg-id="" tvg-logo="https://i.postimg.cc/ryDpKZ9g/V-Sport-Ultra-HD.png" group-title=" SPORTSTATION ", V Sport Ultra HD
+https://7pal.short.gy/VSportUHD

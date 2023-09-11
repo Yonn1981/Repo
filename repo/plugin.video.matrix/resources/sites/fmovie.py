@@ -556,7 +556,10 @@ def showHosters():
                 action = "rawMcloud"
             sHosterUrl1 = vrf_function2(sHosterUrl, action)
 
-            oHoster = cHosterGui().checkHoster(sHosterUrl1)
+            if 'm3u8' in sHosterUrl1:
+                oHoster = cHosterGui().getHoster('mcloud') 
+            else:
+                oHoster = cHosterGui().checkHoster(sHosterUrl1)
             if oHoster:
                 sDisplayTitle = sMovieTitle
                 if ('http' in SubTitle):
@@ -644,7 +647,8 @@ def vrf_function2(query, action):
             for aEntry in aResult[1]:
                 if 'thumb' in aEntry:
                     continue
-                url = aEntry
+                url = aEntry.replace('\\','').replace('+','%2B')
+
         return url
         
     return False, False
