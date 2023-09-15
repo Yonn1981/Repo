@@ -44,6 +44,8 @@ REPLAYTV_NEWS = (URL_MAIN + 'category/برامج-تلفزيونية', 'showSerie
 DOC_NEWS = (URL_MAIN + 'genre/وثائقي', 'showMovies')
 DOC_SERIES = (URL_MAIN + 'genre/وثائقي', 'showSeries')
 
+SPORT_WWE = (URL_MAIN + 'category/عروض-مصارعة', 'showMovies')
+
 URL_SEARCH = (URL_MAIN + 'search?s=', 'showMovies')
 URL_SEARCH_MOVIES = (URL_MAIN + 'search?s=فيلم+', 'showMovies')
 URL_SEARCH_SERIES = (URL_MAIN + 'search?s=مسلسل+', 'showSeries')
@@ -76,16 +78,13 @@ def load():
     
     oOutputParameterHandler.addParameter('siteUrl', DOC_NEWS[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام وثائقية', 'doc.png', oOutputParameterHandler) 
- 
     
     oOutputParameterHandler.addParameter('siteUrl', SERIE_EN[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أجنبية', 'agnab.png', oOutputParameterHandler)
-
     
     oOutputParameterHandler.addParameter('siteUrl', SERIE_AR[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات عربية', 'arab.png', oOutputParameterHandler)
-
-    
+   
     oOutputParameterHandler.addParameter('siteUrl', SERIE_TR[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات تركية', 'turk.png', oOutputParameterHandler)
 
@@ -106,6 +105,9 @@ def load():
      
     oOutputParameterHandler.addParameter('siteUrl', REPLAYTV_NEWS[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'برامج تلفزيونية', 'brmg.png', oOutputParameterHandler)
+
+    oOutputParameterHandler.addParameter('siteUrl', SPORT_WWE[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'مصارعة', 'wwe.png', oOutputParameterHandler)
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', SERIE_GENRES[0])
@@ -240,14 +242,17 @@ def showMovies(sSearch = ''):
             else:
                 sThumb = aEntry[1]
             if 'http' not in aEntry[0]:
-                siteUrl = URL_MAIN+aEntry[0].replace('film/','download/')
+                siteUrl = URL_MAIN+aEntry[0].replace('film/','download/').replace('post/','download/')
             else:
-                siteUrl = aEntry[0].replace('film/','download/')
+                siteUrl = aEntry[0].replace('film/','download/').replace('post/','download/')
             sYear = ''
             m = re.search('([0-9]{4})', sTitle)
             if m:
                 sYear = str(m.group(0))
-                sTitle = sTitle.replace(sYear,'')
+                if 'عرض' in sTitle:
+                    sTitle = sTitle.replace('عرض','')
+                else:
+                    sTitle = sTitle.replace(sYear,'')
             sDesc = str(aEntry[3])
 
 

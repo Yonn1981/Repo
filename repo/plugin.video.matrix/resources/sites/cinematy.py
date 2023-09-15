@@ -170,8 +170,11 @@ def showMovies(sSearch = ''):
             sDesc = ''
             m = re.search('([0-9]{4})', sTitle)
             if m:
-               sYear = str(m.group(0))
-               sTitle = sTitle.replace(sYear,'')
+                sYear = str(m.group(0))
+                if 'عرض' in sTitle:
+                    sTitle = sTitle.replace('عرض','')
+                else:
+                    sTitle = sTitle.replace(sYear,'')
 
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)

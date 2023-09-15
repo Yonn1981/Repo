@@ -20,11 +20,25 @@ except ImportError:  # Python 3
     import urllib.request as urllib2
     from urllib.error import URLError as UrlError
 	
-SITE_IDENTIFIER = 'akwamEg'
+SITE_IDENTIFIER = 'akwameg'
 SITE_NAME = 'Akwam Egypt'
 SITE_DESC = 'arabic vod'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
+
+oParser = cParser()
+
+oRequestHandler = cRequestHandler(URL_MAIN)
+sHtmlContent = oRequestHandler.request()
+
+    # (.+?) ([^<]+)
+
+sPattern = '<div class="d-none d-md-block">.+?<a href="([^"]+)".+?<div class="d-md-none">'
+aResult = oParser.parse(sHtmlContent, sPattern)
+
+if (aResult[0]):
+    URL_MAIN = aResult[1][0]
+    URL_MAIN = URL_MAIN.split("/download")[0]
 
 MOVIE_FAM = (URL_MAIN + '/movies?section=0&category=33&rating=0&year=0&language=0&formats=0&quality=0', 'showMovies')
 MOVIE_AR = (URL_MAIN + '/movies?section=29', 'showMovies')
@@ -37,7 +51,7 @@ MOVIE_TURK = (URL_MAIN + '/movies?section=32', 'showMovies')
 MOVIE_TOP = (URL_MAIN + '/movies?section=30&category=0&rating=8&year=0&language=0&formats=0&quality=0', 'showMovies')
 RAMADAN_SERIES = (URL_MAIN + '/series?section=0&category=87&rating=0&year=0&language=0&formats=0&quality=0', 'showSeries')
 SERIE_EN = (URL_MAIN + '/series?section=30', 'showSeries')
-SERIE_AR = (URL_MAIN + '/series?section=29', 'showSeries')
+SERIE_AR = (URL_MAIN + '/series?section=29&category=0&rating=0&year=0&language=0&formats=0&quality=0', 'showSeries')
 SERIE_HEND = (URL_MAIN + '/series?section=31', 'showSeries')
 SERIE_ASIA = (URL_MAIN + '/series?section=33', 'showSeries')
 SERIE_TR = (URL_MAIN + '/series?section=32', 'showSeries')
@@ -80,27 +94,27 @@ def load():
     
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_EN[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أجنبية', 'film.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أجنبية', 'agnab2.png', oOutputParameterHandler)
    
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_AR[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام عربية', 'film.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام عربية', 'arab2.png', oOutputParameterHandler)
  
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_ASIAN[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أسيوية', 'film.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أسيوية', 'asia.png', oOutputParameterHandler)
    
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_TURK[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام تركية', 'film.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام تركية', 'turk2.png', oOutputParameterHandler)
     
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_HI[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام هندية', 'film.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام هندية', 'hend2.png', oOutputParameterHandler)
     
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', KID_MOVIES[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام كرتون', 'crtoon.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام كرتون', 'anim.png', oOutputParameterHandler)
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', DOC_NEWS[0])
@@ -108,23 +122,23 @@ def load():
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', SERIE_EN[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أجنبية', 'mslsl.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أجنبية', 'agnab.png', oOutputParameterHandler)
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', SERIE_AR[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات عربية', 'mslsl.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات عربية', 'arab.png', oOutputParameterHandler)
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', SERIE_ASIA[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أسيوية', 'mslsl.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أسيوية', 'asia.png', oOutputParameterHandler)
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', SERIE_TR[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات تركية', 'mslsl.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات تركية', 'turk.png', oOutputParameterHandler)
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', SERIE_HEND[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات هندية', 'mslsl.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات هندية', 'hend.png', oOutputParameterHandler)
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', ANIM_NEWS[0])
@@ -132,15 +146,15 @@ def load():
   
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', SERIE_DUBBED[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات مدبلجة', 'mslsl.png', oOutputParameterHandler)  
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات مدبلجة', 'mdbljt.png', oOutputParameterHandler)  
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', SERIE_TR_AR[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات تركية مدبلجة', 'mslsl.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات تركية مدبلجة', 'turk.png', oOutputParameterHandler)
     
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', SERIE_HEND_AR[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات هندية مدبلجة', 'mslsl.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات هندية مدبلجة', 'hend.png', oOutputParameterHandler)
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', DOC_SERIES[0])
@@ -414,7 +428,7 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
-            oGui.addTV(SITE_IDENTIFIER, 'showSeasons', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
@@ -440,12 +454,12 @@ def showEpisodes():
 
     oParser = cParser()
 
-    sStart = 'id="series-episodes">'
+    sStart = 'class="header-link text-white">الحلقات</span>'
     sEnd = '<div class="widget-4 widget widget-style-1 more mb-4">'
     sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
   
      # (.+?) ([^<]+) .+?
-    sPattern = 'class="text-white">([^<]+)</a>.+?<a href="([^<]+)">.+?<img src="([^<]+)" class="img-fluid" alt='
+    sPattern = 'class="text-white">(.+?)</a>.+?<a href="([^<]+)">.+?<img src="([^<]+)" class="img-fluid" alt='
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
     if aResult[0]:
@@ -478,7 +492,7 @@ def showEpisodes():
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]: 
             sTitle = sMovieTitle
-            siteUrl = sUrl
+            siteUrl = sUrl.replace("https://akwam.to", URL_MAIN).replace("https://akw.to", URL_MAIN)
             sThumb = sThumb
             sDesc = ""
  
@@ -505,7 +519,7 @@ def __checkForNextPage(sHtmlContent):
     return False
 
 
-def showHosters():
+def showHosters(oInputParameterHandler = False):
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -522,6 +536,7 @@ def showHosters():
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0]:
         murl =  aResult[1][0]
+        murl = murl.replace("https://akwam.to", URL_MAIN).replace("https://akw.to", URL_MAIN)
         oRequest = cRequestHandler(murl)
         sHtmlContent = oRequest.request()
 # ([^<]+) .+? (.+?)
@@ -529,6 +544,7 @@ def showHosters():
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0]:
         murl =  aResult[1][0]
+        murl = murl.replace("https://akwam.to", URL_MAIN).replace("https://akw.to", URL_MAIN)
         oRequest = cRequestHandler(murl)
         sHtmlContent = oRequest.request()
             
@@ -536,7 +552,8 @@ def showHosters():
     sPattern =  '>Click here</span> to go for your link...</a>.+?<a href="(.+?)"' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0]:
-        murl =  aResult[1].replace("akwam.to","ak4eg.cam")[0].replace("akwam.to","ak4eg.cam")
+        murl =  aResult[1][0]
+        murl = murl.replace("https://akwam.to", URL_MAIN).replace("https://akw.to", URL_MAIN)
         oRequest = cRequestHandler(murl)
         sHtmlContent = oRequest.request()
 
@@ -548,18 +565,18 @@ def showHosters():
 
     if aResult[0]:
        for aEntry1 in aResult[1]:
-           sHosterUrl = aEntry1[0].replace("akwam.to","ak4eg.cam") 
-           sHost = aEntry1[1]  
+           sHosterUrl = aEntry1[0].replace("https://akwam.to", URL_MAIN).replace("https://akw.to", URL_MAIN) 
+           sHost = aEntry1[1].replace("https://akwam.to", URL_MAIN).replace("https://akw.to", URL_MAIN) 
            sTitle = ('%s  [COLOR coral](%sp)[/COLOR]') % (sMovieTitle, sHost)  
            oHoster = cHosterGui().checkHoster(sHosterUrl)
            if oHoster:
               oHoster.setDisplayName(sTitle)
               oHoster.setFileName(sMovieTitle)
-              cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+              cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
                 
     oGui.setEndOfDirectory()
 
-def showHosters2():
+def showHosters2(oInputParameterHandler = False):
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -574,7 +591,8 @@ def showHosters2():
     sPattern =  '<a href="([^<]+)" class="download-link"' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0]:
-        murl =  aResult[1].replace("akwam.to","ak4eg.cam")[0].replace("akwam.to","ak4eg.cam")
+        murl =  aResult[1][0]
+        murl = murl.replace("https://akwam.to", URL_MAIN).replace("https://akw.to", URL_MAIN)
         oRequest = cRequestHandler(murl)
         sHtmlContent2 = oRequest.request()
 
@@ -589,17 +607,17 @@ def showHosters2():
 	
     if aResult[0]: 
        for aEntry in aResult[1]:      
-           url = aEntry[0].replace("akwam.to","ak4eg.cam")
-           sHost = aEntry[1]				
+           url = aEntry[0].replace("https://akwam.to", URL_MAIN).replace("https://akw.to", URL_MAIN)
+           sHost = aEntry[1].replace("https://akwam.to", URL_MAIN).replace("https://akw.to", URL_MAIN)				
            sTitle = ('%s  [COLOR coral]%sp[/COLOR]') % (sMovieTitle, sHost)
 				
 					
             
-       sHosterUrl = url
+       sHosterUrl = url.replace("https://akwam.to", URL_MAIN).replace("https://akw.to", URL_MAIN)
        oHoster = cHosterGui().checkHoster(sHosterUrl)
        if oHoster:
           oHoster.setDisplayName(sTitle)
           oHoster.setFileName(sMovieTitle)
-          cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+          cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
                 
     oGui.setEndOfDirectory()

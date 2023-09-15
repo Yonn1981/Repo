@@ -26,6 +26,8 @@ MOVIE_AR = (URL_MAIN + '/page/arabic-movies/', 'showMovies')
 SERIE_GENRES = (True, 'seriesGenres')
 MOVIE_GENRES = (True, 'moviesGenres')
 
+SPORT_WWE = (URL_MAIN + '/watch=category/مصارعة-حرة/', 'showMovies')
+
 URL_SEARCH = (URL_MAIN + '/?s=', 'showSeries')
 URL_SEARCH_MOVIES = (URL_MAIN + '/search/?search=%D9%81%D9%8A%D9%84%D9%85+', 'showMovies')
 URL_SEARCH_SERIES = (URL_MAIN + '/search/?search=مسلسل+', 'showSeries')
@@ -48,6 +50,9 @@ def load():
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_AR[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام عربية', 'arab.png', oOutputParameterHandler)
+
+    oOutputParameterHandler.addParameter('siteUrl', SPORT_WWE[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'مصارعة', 'wwe.png', oOutputParameterHandler)
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', SERIE_GENRES[0])
@@ -185,7 +190,10 @@ def showMovies(sSearch = ''):
             m = re.search('([0-9]{4})', sTitle)
             if m:
                 sYear = str(m.group(0))
-                sTitle = sTitle.replace(sYear,'')
+                if 'عرض' in sTitle:
+                    sTitle = sTitle.replace('عرض','')
+                else:
+                    sTitle = sTitle.replace(sYear,'')
 
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)

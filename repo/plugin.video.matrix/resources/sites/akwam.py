@@ -52,6 +52,7 @@ DOC_SERIES = (URL_MAIN + '/shows?section=46&category=0&rating=0&year=0&formats=0
 
 REPLAYTV_NEWS = (URL_MAIN + '/shows?section=42', 'showSeries')
 REPLAYTV_PLAY = (URL_MAIN + '/shows?section=45', 'showMovies')
+SPORT_WWE = (URL_MAIN + 'shows?section=43&category=0&rating=0&year=0&formats=0&quality=0', 'showMovies')
 
 MOVIE_ANNEES = (True, 'showYears')
 
@@ -149,7 +150,10 @@ def load():
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', REPLAYTV_NEWS[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'برامج تلفزيونية', 'brmg.png', oOutputParameterHandler)
-	
+
+    oOutputParameterHandler.addParameter('siteUrl', SPORT_WWE[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'مصارعة', 'wwe.png', oOutputParameterHandler)
+
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', REPLAYTV_PLAY[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'مسرحيات', 'msrh.png', oOutputParameterHandler)

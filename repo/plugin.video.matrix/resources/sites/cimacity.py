@@ -38,6 +38,8 @@ RAMADAN_SERIES = (URL_MAIN + '/category.php?cat=ramdan-2023', 'showSeries')
 ANIM_NEWS = (URL_MAIN + '/category.php?cat=animation-series', 'showSeries')
 
 REPLAYTV_PLAY = (URL_MAIN + '/category.php?cat=tv-programs', 'showMovies')
+SPORT_WWE = (URL_MAIN + 'category.php?cat=mosaraa', 'showMovies')
+
 URL_SEARCH_MOVIES = (URL_MAIN + '/search.php?keywords=', 'showMovies')
 URL_SEARCH_SERIES = (URL_MAIN + '/search.php?keywords=', 'showSeries')
 FUNCTION_SEARCH = 'showMovies'
@@ -121,8 +123,8 @@ def load():
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'مسرحيات', 'msrh.png', oOutputParameterHandler)
 
     oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/category.php?cat=mosaraa')
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مصارعة', 'wwe.png', oOutputParameterHandler)
+    oOutputParameterHandler.addParameter('siteUrl', SPORT_WWE[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'مصارعة', 'wwe.png', oOutputParameterHandler)
     
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/category.php?cat=netflix')
@@ -191,8 +193,11 @@ def showMovies(sSearch = ''):
             sYear = ''
             m = re.search('([0-9]{4})', sTitle)
             if m:
-               sYear = str(m.group(0))
-               sTitle = sTitle.replace(sYear,'')
+                sYear = str(m.group(0))
+                if 'عرض' in sTitle:
+                    sTitle = sTitle.replace('عرض','')
+                else:
+                    sTitle = sTitle.replace(sYear,'')
             sDisplayTitle = ('%s (%s)') % (sTitle, sYear)
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
