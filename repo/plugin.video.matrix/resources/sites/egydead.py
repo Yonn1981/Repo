@@ -15,12 +15,12 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-MOVIE_EN = (URL_MAIN+'category/english-movies/', 'showMovies')
-MOVIE_PACK = (URL_MAIN + 'assembly/', 'showPack')
-MOVIE_DUBBED = (URL_MAIN+'category/english-movies-dub/', 'showMovies')
-MOVIE_TURK = (URL_MAIN+'category/turkish-movies/', 'showMovies')
-MOVIE_ASIAN = (URL_MAIN+'category/asian-movies/', 'showMovies')
-KID_MOVIES = (URL_MAIN+'category/animation-movies/', 'showMovies')
+MOVIE_EN = (URL_MAIN+'category/افلام-اجنبي/', 'showMovies')
+MOVIE_PACK = (URL_MAIN+'assembly/', 'showPack')
+MOVIE_DUBBED = (URL_MAIN+'category/افلام-اجنبية-مدبلجة/', 'showMovies')
+MOVIE_TURK = (URL_MAIN+'category/افلام-تركية/', 'showMovies')
+MOVIE_ASIAN = (URL_MAIN+'category/افلام-اسيوية/', 'showMovies')
+KID_MOVIES = (URL_MAIN+'category/افلام-كرتون/', 'showMovies')
 
 KID_CARTOON = (URL_MAIN+'series-category/مسلسلات-كرتون/', 'showSeries')
 SERIE_LATIN = (URL_MAIN+'series-category/مسلسلات-لاتينية/', 'showSeries')
@@ -37,11 +37,11 @@ ANIM_MOVIES = (URL_MAIN+'category/anime-movies/', 'showMovies')
 ANIM_NEWS = (URL_MAIN+'series-category/مسلسلات-انمي/', 'showSeries')
 REPLAYTV_PLAY = (URL_MAIN+'series-category/برامج-تلفزيونية/', 'showMovies')
 REPLAYTV_NEWS = (URL_MAIN+'category/shows/', 'showMovies')
-SPORT_FOOT = (URL_MAIN+'/tag/%d9%83%d8%a7%d8%b3-%d8%a7%d9%84%d8%b9%d8%a7%d9%84%d9%85-2022/', 'showMovies')
+SPORT_FOOT = (URL_MAIN+'tag/%d9%83%d8%a7%d8%b3-%d8%a7%d9%84%d8%b9%d8%a7%d9%84%d9%85-2022/', 'showMovies')
 
-URL_SEARCH = (URL_MAIN+'/?s=', 'showMovies')
-URL_SEARCH_MOVIES = (URL_MAIN+'/?s=%D9%81%D9%8A%D9%84%D9%85+', 'showMoviesSearch')
-URL_SEARCH_SERIES = (URL_MAIN+'/?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSearchSeries')
+URL_SEARCH = (URL_MAIN+'?s=', 'showMovies')
+URL_SEARCH_MOVIES = (URL_MAIN+'?s=%D9%81%D9%8A%D9%84%D9%85+', 'showMoviesSearch')
+URL_SEARCH_SERIES = (URL_MAIN+'?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSearchSeries')
 FUNCTION_SEARCH = 'showSearch'
  
 def load():
@@ -665,8 +665,6 @@ def showHosters2(oInputParameterHandler = False):
     sThumb = oInputParameterHandler.getValue('sThumb')
     sDesc = oInputParameterHandler.getValue('sDesc')
 
-    #print sHtmlContent 
-
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
@@ -676,12 +674,8 @@ def showHosters2(oInputParameterHandler = False):
     sHtmlContent = r.content
     if isMatrix(): 
        sHtmlContent = sHtmlContent.decode('utf8',errors='ignore')
-    
-
-   
+       
     oParser = cParser()
-    # ([^<]+) (.+?)       
-
     sPattern = '<li data-link="(.+?)">'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -710,8 +704,6 @@ def showHosters2(oInputParameterHandler = False):
                oHoster.setDisplayName(sDisplayTitle)
                oHoster.setFileName(sDisplayTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
-				
-    # ([^<]+) (.+?)         
 
     sPattern = 'class="ser-link" href="(.+?)">'
     oParser = cParser()
@@ -725,14 +717,10 @@ def showHosters2(oInputParameterHandler = False):
             sTitle =  sMovieTitle
             if url.startswith('//'):
                url = 'http:' + url
-				
-					
-            
+				           
             sHosterUrl = url
             if 'userload' in sHosterUrl:
                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-            if 'moshahda' in sHosterUrl:
-               sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
             if 'mystream' in sHosterUrl:
                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
             oHoster = cHosterGui().checkHoster(sHosterUrl)
@@ -754,8 +742,6 @@ def showHosters(oInputParameterHandler = False):
     sThumb = oInputParameterHandler.getValue('sThumb')
     sDesc = oInputParameterHandler.getValue('sDesc')
 
-    #print sHtmlContent 
-
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
@@ -769,28 +755,19 @@ def showHosters(oInputParameterHandler = False):
 
    
     oParser = cParser()
-    # ([^<]+) (.+?)       
-
     sPattern = '<li data-link="(.+?)">'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-	
+    aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
         for aEntry in aResult[1]:
             
             url = aEntry
             sTitle =  sMovieTitle
             if url.startswith('//'):
-               url = 'http:' + url
-				
-					
+               url = 'http:' + url					
             
             sHosterUrl = url 
             if 'userload' in sHosterUrl:
                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-            if 'moshahda' in sHosterUrl:
-               sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
             if 'mystream' in sHosterUrl:
                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
             oHoster = cHosterGui().checkHoster(sHosterUrl)
@@ -800,8 +777,6 @@ def showHosters(oInputParameterHandler = False):
                oHoster.setFileName(sDisplayTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 				
-    # ([^<]+) (.+?)   .+?      
-
     sPattern = '<span class="ser-name">(.+?)</span>.+?class="ser-link" href="(.+?)">'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -823,8 +798,6 @@ def showHosters(oInputParameterHandler = False):
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
             if 'userload' in sHosterUrl:
                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-            if 'moshahda' in sHosterUrl:
-               sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
             if 'mystream' in sHosterUrl:
                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
             oHoster = cHosterGui().checkHoster(sHosterUrl)
@@ -834,14 +807,9 @@ def showHosters(oInputParameterHandler = False):
                oHoster.setFileName(sDisplayTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 				
-
-    # .+? ([^<]+)
-    sPattern = '<a href="([^<]+)" title="([^<]+)">([^<]+)</a>'
-    
+    sPattern = '<a href="([^<]+)" title="([^<]+)">([^<]+)</a>'    
     oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-   
+    aResult = oParser.parse(sHtmlContent, sPattern)  
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()    
         for aEntry in aResult[1]:
@@ -855,10 +823,7 @@ def showHosters(oInputParameterHandler = False):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oOutputParameterHandler.addParameter('sDesc', sTitle)
-            
-
- 
+             
             oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
- 
-                
+               
     oGui.setEndOfDirectory()

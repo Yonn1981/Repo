@@ -28,11 +28,10 @@ class cHoster(iHoster):
                 oRequestHandler.addHeaderEntry('Referer', Referer)
                 sHtmlContent2 = oRequestHandler.request()
                 
-                sPattern2 = 'var r = "player="\+embedded\+"&e=([^"]+)'
+                sPattern2 = 'var r = (.+?);'
                 aResult = re.findall(sPattern2, sHtmlContent2)
                 if aResult:
-                    url2 = 'https://voodc.com/player.php?player=d&e=' + aResult[0]
-                    Referer = url
+                    url2 = 'https://voodc.com/player/m' + aResult[0].replace('embedded+"','').replace('"','')
                     oRequestHandler = cRequestHandler(url2)
                     oRequestHandler.addHeaderEntry('Referer', Referer)
                     sHtmlContent2 = oRequestHandler.request()

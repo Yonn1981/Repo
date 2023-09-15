@@ -315,26 +315,25 @@ def showSeasons():
 
             oParser = cParser()
             aResult = oParser.parse(sHtmlContent, sPattern)
-	
-            #VSlog(aResult)
             if aResult[0] :
                 oOutputParameterHandler = cOutputParameterHandler()  
                 for aEntry in aResult[1]:
-                    sSeason = "Season"+aEntry.replace('\\','').replace('"','')
+                    sSeason = aEntry.replace('\\','').replace('"','')
+                    
                     Ss = aEntry.replace('\\','').replace('"','')
+                    sDisplaySeason = sSeriesTitle+ ' S{:02d}'.format(int(sSeason))
 
                     siteUrl = sURL2 + '/' + Ss + '-1'
-                    sTitle = sSeason + ' ' + sMovieTitle 
 
                     sThumb = sThumb
                     sDesc = ''
 			
                     oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-                    oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+                    oOutputParameterHandler.addParameter('SeasonTitle', sDisplaySeason)
                     oOutputParameterHandler.addParameter('sSeriesTitle', sSeriesTitle)
                     oOutputParameterHandler.addParameter('sThumb', sThumb)
                     oOutputParameterHandler.addParameter('Ss', Ss)
-                    oGui.addTV(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+                    oGui.addSeason(SITE_IDENTIFIER, 'showEps', sDisplaySeason, '', sThumb, sDesc, oOutputParameterHandler)
 
     
     oGui.setEndOfDirectory() 
@@ -345,6 +344,7 @@ def showEps():
    
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
+    SeasonTitle = oInputParameterHandler.getValue('SeasonTitle')
     Ss = oInputParameterHandler.getValue('Ss')
     sSeriesTitle = oInputParameterHandler.getValue('sSeriesTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
@@ -359,8 +359,6 @@ def showEps():
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-
-
     if aResult[0]:
         for aEntry in aResult[1]:
             sId = aEntry
@@ -389,17 +387,17 @@ def showEps():
             sPattern = '<a href="([^"]+)" data-id="([^"]+)".+?class="num">(.+?)</span> <span>(.+?)</span>' 
             oParser = cParser()
             aResult = oParser.parse(sHtmlContent, sPattern)
-
             if aResult[1]:
                 oOutputParameterHandler = cOutputParameterHandler()   
                 for aEntry in aResult[1]:
 
                     siteUrl = URL_MAIN +aEntry[0].split('\\')[0]
-                    sTitle = aEntry[2].replace(':','').replace('Episode','E')
-                    if 'Episode' in aEntry[3]:
-                        sTitle = sSeriesTitle + ' ' + sTitle
-                    else:
-                        sTitle = sTitle + ' ' + aEntry[3]
+                    sEpisode = aEntry[2].replace('Episode ','').replace(':','')
+                    episode = '{}E{:02d}'.format(SeasonTitle, int(sEpisode))
+
+                    sTitle = aEntry[3].replace(':','')                      
+                    sDisplayTitle = SeasonTitle + ' - ' + episode + ' - ' + sTitle
+
                     sId =  aEntry[1].split('\\')[0]
 
                     action = "fmovies-vrf"
@@ -411,9 +409,9 @@ def showEps():
                     sDesc = ""
 			
                     oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-                    oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+                    oOutputParameterHandler.addParameter('sMovieTitle', sDisplayTitle)
                     oOutputParameterHandler.addParameter('sThumb', sThumb)
-                    oGui.addEpisode(SITE_IDENTIFIER, 'showSeriesLinks', sTitle, sThumb, sThumb, sDesc, oOutputParameterHandler)
+                    oGui.addEpisode(SITE_IDENTIFIER, 'showSeriesLinks', sDisplayTitle, sThumb, sThumb, sDesc, oOutputParameterHandler)
    
     oGui.setEndOfDirectory() 
  

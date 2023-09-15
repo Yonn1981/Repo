@@ -532,7 +532,6 @@ def showServer(oInputParameterHandler = False):
 					
             
                     sHosterUrl = url
-                    VSlog(sHosterUrl) 
                     oHoster = cHosterGui().getHoster('lien_direct')
                     if oHoster:
                         oHoster.setDisplayName(sTitle)

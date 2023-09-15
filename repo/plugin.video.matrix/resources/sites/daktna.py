@@ -66,7 +66,7 @@ def showSeries(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
     # (.+?) .+? ([^<]+)   
-    sPattern = '<div class="thumb"><a href="(.+?)"><img src=".+?" alt="(.+?)" data-src="(.+?)" class='
+    sPattern = '<div class="thumb"><a href="([^"]+)"><img src=".+?" alt="([^"]+)" data-src="([^"]+)'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -123,10 +123,8 @@ def showEpisodes():
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
- # ([^<]+) .+? (.+?)
 
-    sPattern = '<meta itemprop="position" content="2".+?<a href="([^<]+)" itemprop'
-
+    sPattern = '<meta itemprop="position" content="2".+?<a href="([^"]+)'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     m3url=''
@@ -134,6 +132,7 @@ def showEpisodes():
         m3url = aResult[1][0] 
         if m3url.startswith('//'):
            m3url = 'https:' + m3url
+
     oRequestHandler = cRequestHandler(m3url)
     sHtmlContent = oRequestHandler.request()
     # (.+?) .+? ([^<]+)   

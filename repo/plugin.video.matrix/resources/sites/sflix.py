@@ -318,12 +318,10 @@ def showSeasons():
 	oRequestHandler = cRequestHandler(sUrl)
 	sHtmlContent = oRequestHandler.request()
 	oParser = cParser()
-    # .+? ([^<]+)
+
 	sPattern = 'data-id="(.+?)"'
 	oParser = cParser()
 	aResult = oParser.parse(sHtmlContent, sPattern)
-
-	#VSlog(aResult)
 	if aResult[0]:
 		oOutputParameterHandler = cOutputParameterHandler()
 		for aEntry in aResult[1]:
@@ -338,12 +336,11 @@ def showSeasons():
                     sPattern = '<a data-id="([^"]+)".+?class="dropdown-item ss-item.+?href="([^"]+)">(.+?)</a>'
                     oParser = cParser()
                     aResult = oParser.parse(sHtmlContent, sPattern)
-                    #VSlog(aResult)
                     if aResult[0]:
                         for aEntry in aResult[1]:
                             siteUrl = URL_MAIN+'/ajax/v2/season/episodes/'+aEntry[0]
                             sTitle = sMovieTitle+aEntry[2]
-                            sThumb = ''
+                            sThumb = sThumb
                             sDesc = ''
 			
                             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -367,24 +364,26 @@ def showEps():
     sHtmlContent = oRequestHandler.request()
 
     oParser = cParser()
-     # (.+?) ([^<]+) .+?
 
     sPattern = 'data-id="([^"]+)">.+?<a href="([^"]+)" class="film-poster mb-0">.+?<img src="([^"]+)".+?class="film-poster-img".+?title="([^"]+)'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    #VSlog(aResult)
     if aResult[0]:
+                        oOutputParameterHandler = cOutputParameterHandler()
                         for aEntry in aResult[1]:
                             oOutputParameterHandler = cOutputParameterHandler()
                             siteUrl = URL_MAIN + '/ajax/v2/episode/servers/' + aEntry[0]
-                            sTitle = aEntry[3]
-                            sThumb = URL_MAIN + aEntry[2]
+                            sEpisode = aEntry[3].split(':')[0].replace('Episode ','').replace(':','')
+                            sEpisode = '{}E{:02d}'.format(sMovieTitle, int(sEpisode))
+                            sTitle = aEntry[3].split(':')[1].replace('Episode','')
+                            sDisplayTitle = '{} [COLOR coral]{}[/COLOR]'.format(sEpisode, str(sTitle)) 
+                            sThumb = sThumb
                             sDesc = ''
 			
                             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-                            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+                            oOutputParameterHandler.addParameter('sMovieTitle', sDisplayTitle)
                             oOutputParameterHandler.addParameter('sThumb', sThumb)
-                            oGui.addEpisode(SITE_IDENTIFIER, 'showSeriesLinks', sTitle, sThumb, sThumb, sDesc, oOutputParameterHandler)
+                            oGui.addEpisode(SITE_IDENTIFIER, 'showSeriesLinks', sDisplayTitle, sThumb, sThumb, sDesc, oOutputParameterHandler)
 
 
                

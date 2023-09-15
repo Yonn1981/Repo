@@ -320,6 +320,7 @@ def showHosters(oInputParameterHandler = False):
 
     oRequestHandler = cRequestHandler(sUrl)
     oRequestHandler.addHeaderEntry('User-Agent', UA)
+    oRequestHandler.addHeaderEntry('Referer', sUrl.replace("play.php","watch.php"))
     sHtmlContent = oRequestHandler.request()
 
     sPattern = 'data-embed=["\']([^"\']+)["\']'

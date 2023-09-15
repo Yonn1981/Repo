@@ -65,6 +65,10 @@ def showMovies():
                 sCondition = "الروابط متاحة \n \n"
  
             sTitle =  aEntry[1]
+            if 'مباراة' in sTitle:
+                sTitle = sTitle.split('مباراة')[1]
+                if 'كورة' in sTitle:
+                    sTitle = sTitle.split('كورة')[0]
             sThumb = aEntry[2] 
             siteUrl =  aEntry[0]
             sDesc = sCondition + f'وقت المباراة \n {aEntry[4].split("T")[1]}GMT \n \n النتيجة \n {aEntry[3]}'
@@ -235,12 +239,19 @@ def showHosters(oInputParameterHandler = False):
                     if 'sportsonline' in url:
                             url2 = getHosterIframe(url,url) 
                             url = url2   
-                    
+
+                    if 'youtube' in url:
+                            url = url  
+
+                    if 'javascript' in url:
+                            url = ''
+
                     else:
+                            
                             oRequestHandler = cRequestHandler(url)
                             oRequestHandler.addHeaderEntry('Referer', url)
                             data3 = oRequestHandler.request()
-
+                        
                             sPatternUrl = "source: 'https:\/\/' \+ serv \+ '([^']+)'"
                             sPatternPK = 'var servs = .+?, "([^"]+)"'
                             aResultUrl = re.findall(sPatternUrl, data3)

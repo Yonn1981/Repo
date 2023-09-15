@@ -555,7 +555,7 @@ def showSeasons():
             for aEntry in aResult[1]:
  
                 sTitle = aEntry[1].replace("الحلقة","E").replace(" ","")
-                sTitle = sMovieTitle+" "+sTitle
+                sTitle = sMovieTitle+" S01 "+sTitle
                 siteUrl = aEntry[0]
                 sThumb = sThumb
                 sDesc = ""
@@ -666,7 +666,7 @@ def showEps():
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
- 
+
             sTitle = aEntry[1].replace("الحلقة ","E")
             sTitle = sMovieTitle+sSeason+sTitle
             siteUrl = aEntry[0]

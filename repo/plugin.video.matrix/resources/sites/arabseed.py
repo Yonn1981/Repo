@@ -621,9 +621,9 @@ def showHosters(oInputParameterHandler = False):
             sHosterUrl = url_function(sHtmlContent)
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
-                sDisplayTitle = ('[COLOR coral](%sp)[/COLOR]') % (sQual)
+                sDisplayTitle = ('%s [COLOR coral](%sp)[/COLOR]') % (sMovieTitle, sQual)
                 oHoster.setDisplayName(sDisplayTitle)
-                oHoster.setFileName(sMovieTitle)
+                oHoster.setFileName(sDisplayTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
     sPattern = '<h3>(.+?)</h3>(.+?)</i>(.+?)</i>'
@@ -639,9 +639,9 @@ def showHosters(oInputParameterHandler = False):
             sHosterUrl = url_function(sHtmlContent)
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
-                sDisplayTitle = ('[COLOR coral](%sp)[/COLOR]') % (sQual)
+                sDisplayTitle = ('%s [COLOR coral](%sp)[/COLOR]') % (sMovieTitle, sQual)
                 oHoster.setDisplayName(sDisplayTitle)
-                oHoster.setFileName(sMovieTitle)
+                oHoster.setFileName(sDisplayTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
     sPattern = '<h3>(.+?)</h3>(.+?)</i>(.+?)</i>(.+?)</i>'
@@ -657,9 +657,9 @@ def showHosters(oInputParameterHandler = False):
             sHosterUrl = url_function(sHtmlContent)
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
-                sDisplayTitle = ('[COLOR coral](%sp)[/COLOR]') % (sQual)
+                sDisplayTitle = ('%s [COLOR coral](%sp)[/COLOR]') % (sMovieTitle, sQual)
                 oHoster.setDisplayName(sDisplayTitle)
-                oHoster.setFileName(sMovieTitle)
+                oHoster.setFileName(sDisplayTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
     sPattern = '<h3>(.+?)</h3>(.+?)</i>(.+?)</i>(.+?)</i>(.+?)</i>'
@@ -675,9 +675,9 @@ def showHosters(oInputParameterHandler = False):
             sHosterUrl = url_function(sHtmlContent)
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
-                sDisplayTitle = ('[COLOR coral](%sp)[/COLOR]') % (sQual)
+                sDisplayTitle = ('%s [COLOR coral](%sp)[/COLOR]') % (sMovieTitle, sQual)
                 oHoster.setDisplayName(sDisplayTitle)
-                oHoster.setFileName(sMovieTitle)
+                oHoster.setFileName(sDisplayTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
     sPattern = '<h3>(.+?)</h3>(.+?)</i>(.+?)</i>(.+?)</i>(.+?)</i>(.+?)</i>'
@@ -693,9 +693,9 @@ def showHosters(oInputParameterHandler = False):
             sHosterUrl = url_function(sHtmlContent)
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
-                sDisplayTitle = ('[COLOR coral](%sp)[/COLOR]') % (sQual)
+                sDisplayTitle = ('%s [COLOR coral](%sp)[/COLOR]') % (sMovieTitle, sQual)
                 oHoster.setDisplayName(sDisplayTitle)
-                oHoster.setFileName(sMovieTitle)
+                oHoster.setFileName(sDisplayTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
     
     else:
@@ -717,9 +717,9 @@ def showHosters(oInputParameterHandler = False):
                 sHosterUrl = url 
                 oHoster = cHosterGui().checkHoster(sHosterUrl)
                 if oHoster:
-                    sDisplayTitle = sTitle
+                    sDisplayTitle = sMovieTitle
                     oHoster.setDisplayName(sDisplayTitle)
-                    oHoster.setFileName(sMovieTitle)
+                    oHoster.setFileName(sDisplayTitle)
                     cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
     oGui.setEndOfDirectory()

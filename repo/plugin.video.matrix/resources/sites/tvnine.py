@@ -19,7 +19,7 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-SPORT_LIVE = ('https://www.tv96.tv', 'showMovies')
+SPORT_LIVE = (URL_MAIN, 'showMovies')
 
 FUNCTION_SEARCH = 'showMovies'
  
@@ -250,7 +250,7 @@ def showLive(oInputParameterHandler = False):
                        aResult = oParser.parse(data, sPattern)
                        if aResult[0]:
                           for aEntry in aResult[1]:                  
-                              url2 = aEntry
+                              url2 = aEntry.replace("https://href.li/?","") 
                               if url2.startswith('//'):
                                  url2 = 'https:' + url2
                               if '?src=' in url2:
@@ -259,7 +259,7 @@ def showLive(oInputParameterHandler = False):
                               sMovieTitle = sTitle
                               if 'vimeo' in sHosterUrl:
                                   sHosterUrl = sHosterUrl + "|Referer=" + sUrl
-                              if 'sportsonline' in url:
+                              if 'sportsonline' in sHosterUrl:
                                 url2 = getHosterIframe(aEntry,url) 
                                 sHosterUrl = url2 + "|Referer=" + url             
 
