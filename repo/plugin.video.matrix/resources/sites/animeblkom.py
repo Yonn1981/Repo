@@ -72,7 +72,7 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
      # (.+?) ([^<]+) .+?
 
-    sPattern = '<img class="lazy" data-original="([^"]+)".+?<a href="([^"]+)">(.+?)<.+?<p>(.+?)<'
+    sPattern = '<img class="lazy" data-original="([^"]+)".+?<a href="([^"]+)">(.+?)<.+?story-text">.+?p>(.*?)</'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -91,7 +91,7 @@ def showMovies(sSearch = ''):
             
             sTitle = sTitle.replace("poster","")
             siteUrl = aEntry[1]
-            sThumb = aEntry[0]
+            sThumb = URL_MAIN.rstrip('/') + aEntry[0]
             sDesc = aEntry[3]
             sDesc = '[COLOR yellow]'+aEntry[3]+'[/COLOR]'
             sYear = ''
@@ -127,7 +127,7 @@ def showSeries(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
      # (.+?) ([^<]+) .+?
-    sPattern = '<img class="lazy" data-original="([^"]+)".+?<a href="([^"]+)">(.+?)<.+?<p>(.+?)<'
+    sPattern = '<img class="lazy" data-original="([^"]+)".+?<a href="([^"]+)">(.+?)<.+?story-text">.+?p>(.*?)</'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -143,7 +143,7 @@ def showSeries(sSearch = ''):
  
             sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
             siteUrl = aEntry[1]
-            sThumb = aEntry[0]
+            sThumb = URL_MAIN.rstrip('/') + aEntry[0]
             sDesc = aEntry[3]
             sYear = ''
 
