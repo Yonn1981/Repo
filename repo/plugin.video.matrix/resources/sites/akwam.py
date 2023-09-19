@@ -19,7 +19,7 @@ try:  # Python 2
 except ImportError:  # Python 3
     import urllib.request as urllib2
     from urllib.error import URLError as UrlError
-	
+
 SITE_IDENTIFIER = 'akwam'
 SITE_NAME = 'Akwam'
 SITE_DESC = 'arabic vod'
@@ -514,7 +514,6 @@ def __checkForNextPage(sHtmlContent):
 
 
 def showHosters(oInputParameterHandler = False):
-
     oGui = cGui()
     oHosterGui = cHosterGui()
 
@@ -532,7 +531,6 @@ def showHosters(oInputParameterHandler = False):
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0]:
         murl =  aResult[1][0]
-
         oRequest = cRequestHandler(murl)
         sHtmlContent = oRequest.request()
 
@@ -541,8 +539,27 @@ def showHosters(oInputParameterHandler = False):
     
     if aResult[0]:
         murl =  aResult[1][0]
+
         oRequest = cRequestHandler(murl)
         sHtmlContent = oRequest.request()
+
+        import requests
+        s = requests.Session() 
+        from resources.lib import librecaptcha
+        from resolveurl import common
+        token = librecaptcha.get_token(api_key="6LdMb-QZAAAAAPpUMcYZSn9CpIgBqDVAfTx_SAao", site_url=sUrl, user_agent=common.FF_USER_AGENT,
+                                      gui=False, debug=False)
+        data = {'g-recaptcha-response':token}
+        url = URL_MAIN+'verify'
+        headers = {'User-Agent': common.FF_USER_AGENT,
+                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+                    'Accept-Language': 'en-US,en;q=0.9',
+                    'Accept-Encoding': 'gzip, deflate, br',
+                    'Referer': murl,
+                    'Content-Type': 'application/x-www-form-urlencoded'}
+        r = s.post(url,data=data,headers=headers)
+        rt = s.get(murl)
+        sHtmlContent = rt.text
 
     sPattern =  '>Click here</span>.+?<a href="([^"]+)' 
     aResult = oParser.parse(sHtmlContent,sPattern)
@@ -553,77 +570,44 @@ def showHosters(oInputParameterHandler = False):
         oRequest = cRequestHandler(murl)
         oRequest.disableSSL()
         sHtmlContent = oRequest.request()
-        
+
     oParser = cParser()           
-    sPattern =  '<source src="([^"]+)" type="video/mp4" size="([^"]+)'                                                                      
+    sPattern =  '<source\s*src="([^"]+)" type="video/mp4" size="([^"]+)'                                                                      
     aResult = oParser.parse(sHtmlContent,sPattern)       
     if aResult[0]:
+            oOutputParameterHandler = cOutputParameterHandler()
             for aEntry1 in aResult[1]:
                 sHosterUrl = aEntry1[0] 
                 sHost = aEntry1[1]  
 
                 sTitle = ('%s  [COLOR coral](%sp)[/COLOR]') % (sMovieTitle, sHost)  
-                oHoster = cHosterGui().checkHoster(sHosterUrl)
-           
-                if oHoster:
-                    oHoster.setDisplayName(sTitle)
-                    oHoster.setFileName(sMovieTitle)
-                    oHosterGui.showHoster(oGui, oHoster, sHosterUrl + "|verifypeer=false", sThumb)
+
+                oOutputParameterHandler.addParameter('sTitle', sTitle)
+                oOutputParameterHandler.addParameter('sHosterUrl', sHosterUrl)
+                oOutputParameterHandler.addParameter('sThumb', sThumb)
+                oOutputParameterHandler.addParameter('sHost', sHost)
+
+                oGui.addLink(SITE_IDENTIFIER, 'showLinks', sTitle, sThumb, '', oOutputParameterHandler, oInputParameterHandler)
 
             oGui.setEndOfDirectory()
-    else:
-            sPattern = '<source.+?src="([^"]+)".+?type="video/mp4".+?size="([^"]+)'
-            aResult = oParser.parse(sHtmlContent,sPattern)
-        
-            if aResult[0]:
-                for aEntry1 in aResult[1]:
-                    sHosterUrl = aEntry1[0] 
-                    sHost = aEntry1[1]  
 
-                    sTitle = ('%s  [COLOR coral](%sp)[/COLOR]') % (sMovieTitle, sHost)  
-                    oHoster = cHosterGui().checkHoster(sHosterUrl)
-                
-                    if oHoster:
-                        oHoster.setDisplayName(sTitle)
-                        oHoster.setFileName(sMovieTitle)
-                        oHosterGui.showHoster(oGui, oHoster, sHosterUrl + "|verifypeer=false", sThumb, oInputParameterHandler=oInputParameterHandler)
-                    
-            oGui.setEndOfDirectory()
 
-def showHosters2(oInputParameterHandler = False):
+def showLinks(oInputParameterHandler = False):
     oGui = cGui()
+    oHosterGui = cHosterGui()
     if not oInputParameterHandler:
         oInputParameterHandler = cInputParameterHandler()
-    sUrl = oInputParameterHandler.getValue('siteUrl')
+    sHosterUrl = oInputParameterHandler.getValue('sHosterUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
+    sTitle = oInputParameterHandler.getValue('sTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
     
-    oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
-
-    oParser = cParser()
-            
-    sPattern =  '<a href="([^<]+)" class="download-link"' 
-    aResult = oParser.parse(sHtmlContent,sPattern)
-    if aResult[0]:
-        murl =  aResult[1][0]
-        oRequest = cRequestHandler(murl)
-        sHtmlContent2 = oRequest.request()
-               
-    sPattern = 'href="([^<]+)" download.+?style=".+?">(.+?)</a>'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent2, sPattern)	
-    if aResult[0]: 
-       for aEntry in aResult[1]:      
-           url = aEntry[0]
-           sHost = aEntry[1]				
-           sTitle = ('%s  [COLOR coral]%sp[/COLOR]') % (sMovieTitle, sHost)
-				
-       sHosterUrl = url
-       oHoster = cHosterGui().checkHoster(sHosterUrl)
-       if oHoster:
-          oHoster.setDisplayName(sTitle)
-          oHoster.setFileName(sMovieTitle)
-          cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+    sHosterUrl = sHosterUrl
+    oHoster = cHosterGui().checkHoster(sHosterUrl)
+           
+    if oHoster:
+        oHoster.setDisplayName(sTitle)
+        oHoster.setFileName(sMovieTitle)
+        oHosterGui.showHoster(oGui, oHoster, sHosterUrl + "|verifypeer=false", sThumb, oInputParameterHandler=oInputParameterHandler)
                 
     oGui.setEndOfDirectory()

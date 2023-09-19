@@ -37,7 +37,7 @@ import xbmcvfs
 
 BASE_URL = "https://www.google.com/recaptcha/api2/"
 API_JS_URL = "https://www.google.com/recaptcha/api.js"
-JS_URL_TEMPLATE = "https://www.gstatic.com/recaptcha/releases/{}/recaptcha__fr.js"
+JS_URL_TEMPLATE = "https://www.gstatic.com/recaptcha/releases/{}/recaptcha__en.js"
 
 STRINGS_VERSION = "0.1.0"
 STRINGS_PATH = 'special://home/userdata/addon_data/plugin.video.matrix'
@@ -413,7 +413,7 @@ class ReCaptcha(object):
         if api:
             params["k"] = self.api_key
             params["v"] = self.rc_version
-            params["hl"] = "fr"
+            params["hl"] = "en"
         headers = self.get_headers(headers)
 
         r = requests.get(
@@ -431,7 +431,7 @@ class ReCaptcha(object):
         if api:
             params["k"] = self.api_key
             data["v"] = self.rc_version
-            params["hl"] = "fr"
+            params["hl"] = "en"
         headers = self.get_headers(headers)
 
         r = requests.post(

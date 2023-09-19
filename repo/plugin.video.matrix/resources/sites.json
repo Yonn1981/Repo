@@ -29,7 +29,7 @@
         "akwam": {
             "label": "Akwam",
             "active": "True",
-            "url": "https://ak.sv/"
+            "url": "https://akwam.im/"
         },
         "alarabiya": {
             "label": "Alarabiya",
@@ -351,6 +351,11 @@
             "label": "Nabd8lb",
             "active": "True",
             "url": "https://nabd8lb.net/"
+        },
+        "netflixmirror": {
+            "label": "Netflix",
+            "active": "True",
+            "url": "https://m.netflixmirror.com/"
         },
         "nolly": {
             "label": "Nolly",
