@@ -48,7 +48,7 @@ def showMovies():
     sHtmlContent = oRequestHandler.request()
     oParser = cParser()
 	# (.+?) .+? 
-    sPattern = '<div class="match-container"><a href="([^"]+)".+?title="([^"]+)".+?data-img="([^"]+).+?id="result">(.+?)</div>.+?data-start=["\']([^"\']+)["\']'
+    sPattern = '<div class="match-container"><a href="([^"]+)".+?title="([^"]+)".+?id="result">(.+?)</div>.+?data-start=["\']([^"\']+)["\']'
     aResult = oParser.parse(sHtmlContent, sPattern)
 
     if aResult[0]:
@@ -69,9 +69,9 @@ def showMovies():
                 sTitle = sTitle.split('مباراة')[1]
                 if 'كورة' in sTitle:
                     sTitle = sTitle.split('كورة')[0]
-            sThumb = aEntry[2] 
+            sThumb = ''
             siteUrl =  aEntry[0]
-            sDesc = sCondition + f'وقت المباراة \n {aEntry[4].split("T")[1]}GMT \n \n النتيجة \n {aEntry[3]}'
+            sDesc = sCondition + f'وقت المباراة \n {aEntry[3].split("T")[1]}GMT \n \n النتيجة \n {aEntry[2]}'
 			
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)

@@ -72,40 +72,8 @@ def showMovies(sSearch = ''):
     import requests
     oParser = cParser()
     if sSearch:
-      sUrl = sSearch
-      
-    else:
-        oInputParameterHandler = cInputParameterHandler()
-        sUrl = oInputParameterHandler.getValue('siteUrl')
+        sUrl = sSearch
 
-    cookies = {"hd": "on"}
-    response = requests.get(sUrl, cookies=cookies)
-    sHtmlContent = response.text
-
-    sPattern =  'data-time="([^"]+)' 
-    aResult = oParser.parse(sHtmlContent,sPattern)
-    if aResult[0]:
-        sTime = aResult[1][0] 
-
-    sPattern = '<a class="tray-link">(.+?)</a>(.+?)</article></div></div></div></div></div>'
-
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
-    if aResult[0] :
-        oOutputParameterHandler = cOutputParameterHandler()  
-        for aEntry in aResult[1]:
-            sCat = aEntry[0]
-
-            oOutputParameterHandler.addParameter('sCat',sCat)
-            oOutputParameterHandler.addParameter('sUrl',sUrl)
-            oOutputParameterHandler.addParameter('sTime', sTime)
-            oOutputParameterHandler.addParameter('cookies', cookies)
-            oOutputParameterHandler.addParameter('sHtmlContent', sHtmlContent)
-            oGui.addDir(SITE_IDENTIFIER, 'showMoviesContent', sCat, 'agnab.png', oOutputParameterHandler)
-
-    if sSearch:
         oOutputParameterHandler = cOutputParameterHandler()
         data = requests.get(sUrl, cookies={"hd": "on"}).json()
         for key in data['searchResult']:
@@ -117,102 +85,70 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
-            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, sThumb, sThumb, sDesc, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+
+    else:
+        oInputParameterHandler = cInputParameterHandler()
+        sUrl = oInputParameterHandler.getValue('siteUrl')
+
+        cookies = {"hd": "on"}
+        response = requests.get(sUrl, cookies=cookies)
+        sHtmlContent = response.text
+  
+        Yes = xbmcgui.Dialog().yesno(
+            'Get Title Name',
+            'Do you want to try getting title name? Might be slow..',
+            'Cancel'
+            )
+
+        listitems =[]
+        sPattern =  'class="tray-link">(.+?)</a>' 
+        aResult = oParser.parse(sHtmlContent,sPattern)
+        if aResult[0]:
+            for aEntry in aResult[1]:
+                sCat = aEntry
+                listitems.append(sCat)
+      
+        index = xbmcgui.Dialog().contextmenu(listitems)
+        if index>=0:
+            entry = listitems[index] 
+
+        oParser = cParser()
+        sStart = f'>{entry}</a>'
+        sEnd = '<div class="tray-container">'
+        sHtmlContent1 = oParser.abParse(sHtmlContent, sStart, sEnd)
+
+        sPattern = 'data-post="([^"]+)".+?data-src="([^"]+)'
+        oParser = cParser()
+        aResult = oParser.parse(sHtmlContent1, sPattern)	
+        if aResult[0] :
+            oOutputParameterHandler = cOutputParameterHandler()  
+            for aEntry in aResult[1]:
+                siteUrl = URL_MAIN+'hls/'+aEntry[0]+'.m3u8'
+                sThumb = aEntry[1]
+                sTitle = aEntry[0]
+                if Yes:
+                    sMovie = f'{URL_MAIN}post.php?id={aEntry[0]}'
+                    data = requests.get(sMovie, cookies={"hd": "on"}).json()
+                    sTitle = data['title']
+                sDesc = ''
+                sCode = aEntry[0]
+
+                oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+                oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+                oOutputParameterHandler.addParameter('sThumb', sThumb)
+                oOutputParameterHandler.addParameter('sCode', sCode)
+                oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
     if not sSearch:
         oGui.setEndOfDirectory()  
-
-def showMoviesContent():
-    oGui = cGui()
-    import requests
-    oParser = cParser()
-
-    oInputParameterHandler = cInputParameterHandler()
-    sTime = oInputParameterHandler.getValue('sTime')
-    cookies = oInputParameterHandler.getValue('cookies')
-    sCat = oInputParameterHandler.getValue('sCat')
-    sHtmlContent = oInputParameterHandler.getValue('sHtmlContent')
-
-    cookies = {"hd": "on"}
-    sHtmlContent1 = sHtmlContent
-
-    Yes = xbmcgui.Dialog().yesno(
-        'Get Title Name',
-        'Do you want to try getting title name? Might be slow..',
-        'Cancel'
-        )
-
-    sPattern = '<a class="tray-link">'+sCat+'</a>(.+?)</article></div></div></div></div></div>'    
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent1, sPattern)
-    if aResult[0] :
-        oOutputParameterHandler = cOutputParameterHandler()  
-        for aEntry in aResult[1]:
-            sHtmlContent2 = aEntry          
-
-            sPattern = 'data-post="([^"]+)".+?data-src="([^"]+)'
-            oParser = cParser()
-            aResult = oParser.parse(sHtmlContent2, sPattern)
-            if aResult[0]:
-                oOutputParameterHandler = cOutputParameterHandler()    
-                for aEntry in aResult[1]:
-                    
-                    siteUrl = URL_MAIN+'hls/'+aEntry[0]+'.m3u8'
-                    sTitle = aEntry[0]
-                    if Yes:
-                        data = requests.get(siteUrl, cookies={"hd": "on"}).json()
-                        sTitle = data['title']
-                    sThumb = aEntry[1]
-                    sDesc = ''
-                    sYear = ''
-
-                    oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-                    oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-                    oOutputParameterHandler.addParameter('sThumb', sThumb)
-                    oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
- 
-        oGui.setEndOfDirectory()  
-
 
 def showSeries(sSearch = ''):
     oGui = cGui()
     import requests
     oParser = cParser()
     if sSearch:
-      sUrl = sSearch
-      
-    else:
-        oInputParameterHandler = cInputParameterHandler()
-        sUrl = oInputParameterHandler.getValue('siteUrl')
-
-    cookies = {"hd": "on"}
-    response = requests.get(sUrl, cookies=cookies)
-    sHtmlContent = response.text
-
-    sPattern =  'data-time="([^"]+)' 
-    aResult = oParser.parse(sHtmlContent,sPattern)
-    if aResult[0]:
-        sTime = aResult[1][0] 
-
-    sPattern = '<a class="tray-link">(.+?)</a>(.+?)</article></div></div></div></div></div>'
-
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
-    if aResult[0] :
-        oOutputParameterHandler = cOutputParameterHandler()  
-        for aEntry in aResult[1]:
-            sCat = aEntry[0]
-
-            oOutputParameterHandler.addParameter('sCat',sCat)
-            oOutputParameterHandler.addParameter('sUrl',sUrl)
-            oOutputParameterHandler.addParameter('sTime', sTime)
-            oOutputParameterHandler.addParameter('cookies', cookies)
-            oOutputParameterHandler.addParameter('sHtmlContent', sHtmlContent)
-            oGui.addDir(SITE_IDENTIFIER, 'showSeriesContent', sCat, 'agnab.png', oOutputParameterHandler)
-
-    if sSearch:
+        sUrl = sSearch
         oOutputParameterHandler = cOutputParameterHandler()
         data = requests.get(sUrl, cookies={"hd": "on"}).json()
         for key in data['searchResult']:
@@ -227,64 +163,65 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oOutputParameterHandler.addParameter('sCode', sCode)
             oGui.addTV(SITE_IDENTIFIER, 'showSeasons', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+      
+    else:
+        oInputParameterHandler = cInputParameterHandler()
+        sUrl = oInputParameterHandler.getValue('siteUrl')
+
+        cookies = {"hd": "on"}
+        response = requests.get(sUrl, cookies=cookies)
+        sHtmlContent = response.text
+
+        sPattern =  'data-time="([^"]+)' 
+        aResult = oParser.parse(sHtmlContent,sPattern)
+        if aResult[0]:
+            sTime = aResult[1][0] 
+
+        Yes = xbmcgui.Dialog().yesno(
+            'Get Title Name',
+            'Do you want to try getting title name? Might be slow..',
+            'Cancel'
+            )
+
+        listitems =[]
+        sPattern =  'class="tray-link">(.+?)</a>' 
+        aResult = oParser.parse(sHtmlContent,sPattern)
+        if aResult[0]:
+            for aEntry in aResult[1]:
+                sCat = aEntry
+                listitems.append(sCat)
+      
+        index = xbmcgui.Dialog().contextmenu(listitems)
+        if index>=0:
+            entry = listitems[index] 
+
+        oParser = cParser()
+        sStart = f'>{entry}</a>'
+        sEnd = '<div class="tray-container">'
+        sHtmlContent1 = oParser.abParse(sHtmlContent, sStart, sEnd)
+
+        sPattern = 'data-post="([^"]+)".+?data-src="([^"]+)'
+        oParser = cParser()
+        aResult = oParser.parse(sHtmlContent1, sPattern)	
+        if aResult[0] :
+            oOutputParameterHandler = cOutputParameterHandler()  
+            for aEntry in aResult[1]:
+                siteUrl = f'{URL_MAIN}post.php?id={aEntry[0]}'
+                sThumb = aEntry[1]
+                sTitle = aEntry[0]
+                if Yes:
+                    data = requests.get(siteUrl, cookies={"hd": "on"}).json()
+                    sTitle = data['title']
+                sDesc = ''
+                sCode = aEntry[0]
+
+                oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+                oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+                oOutputParameterHandler.addParameter('sThumb', sThumb)
+                oOutputParameterHandler.addParameter('sCode', sCode)
+                oGui.addTV(SITE_IDENTIFIER, 'showSeasons', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
     if not sSearch:
-        oGui.setEndOfDirectory()  
-
-def showSeriesContent():
-    oGui = cGui()
-    import requests
-    oParser = cParser()
-
-    oInputParameterHandler = cInputParameterHandler()
-    sTime = oInputParameterHandler.getValue('sTime')
-    sCat = oInputParameterHandler.getValue('sCat')
-    sHtmlContent = oInputParameterHandler.getValue('sHtmlContent')
-
-    sHtmlContent1 = sHtmlContent
-    
-    sPattern = '<a class="tray-link">'+sCat+'</a>(.+?)</article></div></div></div></div></div>'
-    
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent1, sPattern)
-
-    Yes = xbmcgui.Dialog().yesno(
-        'Get Title Name',
-        'Do you want to try getting title name? Might be slow..',
-        'Cancel'
-        )
-
-    if aResult[0] :
-        oOutputParameterHandler = cOutputParameterHandler()  
-        for aEntry in aResult[1]:
-            sHtmlContent2 = aEntry          
-
-            sPattern = 'data-post="([^"]+)".+?data-src="([^"]+)'
-
-            oParser = cParser()
-            aResult = oParser.parse(sHtmlContent2, sPattern)
-
-            if aResult[0]:
-                oOutputParameterHandler = cOutputParameterHandler()    
-                for aEntry in aResult[1]:
-                    
-                    siteUrl = URL_MAIN+'post.php?id='+aEntry[0]+'&t='+sTime
-                    sTitle = aEntry[0]
-                    if Yes:
-                        data = requests.get(siteUrl, cookies={"hd": "on"}).json()
-                        sTitle = data['title']
-                    sCode = aEntry[0]
-                    sThumb = "https://i0.wp.com/img.netflixmirror.com/poster/v/"+aEntry[0]+".jpg"
-                    sDesc = ''
-                    sYear = ''
-
-                    oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-                    oOutputParameterHandler.addParameter('sTime', sTime)
-                    oOutputParameterHandler.addParameter('sCode', sCode)
-                    oOutputParameterHandler.addParameter('sThumb', sThumb)
-                    oOutputParameterHandler.addParameter('sYear', sYear)
-                    oGui.addTV(SITE_IDENTIFIER, 'showSeasons', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
- 
         oGui.setEndOfDirectory()  
 
 def showSeasons():
@@ -342,8 +279,9 @@ def showEpisodes():
 
     sPage = int(data['nextPageShow'])
     if sPage > 0: 
-            siteUrl = URL_MAIN+'episodes.php?s='+key['id']+'&series='+sCode
+            siteUrl = f'{URL_MAIN}episodes.php?s={data["nextPageSeason"]}&series={sCode}&page={data["nextPage"]}'
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
             oGui.addDir(SITE_IDENTIFIER, 'showEpisodes', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
 
     oGui.setEndOfDirectory() 
@@ -351,26 +289,11 @@ def showEpisodes():
 
 def showHosters():
     oGui = cGui()
-    from resources.lib.comaddon import dialog
-    oParser = cParser()
 
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
-
-    cookies = {"hd": "on"}
-    data = requests.get(sUrl, cookies=cookies).text
-
-    sPattern = 'RESOLUTION=(\w+).+?(https.+?m3u8)'
-    aResult = oParser.parse(data, sPattern)
-    if aResult[0]:            
-        url=[]
-        qua=[]
-        for i in aResult[1]:
-            url.append(str(i[1]))
-            qua.append(str(i[0]))
-        sUrl = dialog().VSselectqual(qua, url)
 
     sHosterUrl = sUrl +'|Referer='+URL_MAIN
     oHoster = cHosterGui().checkHoster(sHosterUrl)
