@@ -77,7 +77,7 @@ def showMovies(sSearch = ''):
         oOutputParameterHandler = cOutputParameterHandler()
         data = requests.get(sUrl, cookies={"hd": "on"}).json()
         for key in data['searchResult']:
-            siteUrl = URL_MAIN+'hls/'+key['id']+'.m3u8'
+            siteUrl = f'{URL_MAIN}playlist.php?id={key["id"]}'
             sThumb = "https://i0.wp.com/img.netflixmirror.com/poster/v/"+key['id']+".jpg"
             sTitle = key['t']
             sDesc = ''
@@ -94,7 +94,12 @@ def showMovies(sSearch = ''):
         cookies = {"hd": "on"}
         response = requests.get(sUrl, cookies=cookies)
         sHtmlContent = response.text
-  
+
+        sPattern =  'data-time="([^"]+)' 
+        aResult = oParser.parse(sHtmlContent,sPattern)
+        if aResult[0]:
+            sTime = aResult[1][0] 
+
         Yes = xbmcgui.Dialog().yesno(
             'Get Title Name',
             'Do you want to try getting title name? Might be slow..',
@@ -124,13 +129,14 @@ def showMovies(sSearch = ''):
         if aResult[0] :
             oOutputParameterHandler = cOutputParameterHandler()  
             for aEntry in aResult[1]:
-                siteUrl = URL_MAIN+'hls/'+aEntry[0]+'.m3u8'
+                siteUrl = f'{URL_MAIN}playlist.php?id={aEntry[0]}&tm={sTime}'
                 sThumb = aEntry[1]
                 sTitle = aEntry[0]
                 if Yes:
                     sMovie = f'{URL_MAIN}post.php?id={aEntry[0]}'
                     data = requests.get(sMovie, cookies={"hd": "on"}).json()
                     sTitle = data['title']
+                    siteUrl = f'{URL_MAIN}playlist.php?id={aEntry[0]}&t={sTitle}&tm={sTime}'
                 sDesc = ''
                 sCode = aEntry[0]
 
@@ -219,6 +225,7 @@ def showSeries(sSearch = ''):
                 oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
                 oOutputParameterHandler.addParameter('sThumb', sThumb)
                 oOutputParameterHandler.addParameter('sCode', sCode)
+                oOutputParameterHandler.addParameter('sTime', sTime)
                 oGui.addTV(SITE_IDENTIFIER, 'showSeasons', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
     if not sSearch:
@@ -232,6 +239,7 @@ def showSeasons():
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sCode = oInputParameterHandler.getValue('sCode')
     sThumb = oInputParameterHandler.getValue('sThumb')
+    sTime = oInputParameterHandler.getValue('sTime')
     
     data = requests.get(sUrl, cookies={"hd": "on"}).json()
     for key in data['season']:
@@ -247,6 +255,7 @@ def showSeasons():
         oOutputParameterHandler.addParameter('sThumb', sThumb)
         oOutputParameterHandler.addParameter('sDesc', sDesc)
         oOutputParameterHandler.addParameter('sCode', sCode)
+        oOutputParameterHandler.addParameter('sTime', sTime)
         oGui.addSeason(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
     
@@ -262,12 +271,13 @@ def showEpisodes():
     sThumb = oInputParameterHandler.getValue('sThumb')
     sDesc = oInputParameterHandler.getValue('sDesc')
     sCode = oInputParameterHandler.getValue('sCode')
+    sTime = oInputParameterHandler.getValue('sTime')
 
 
     data = requests.get(sUrl, cookies={"hd": "on"}).json()
     for key in data['episodes']:
         sEpisode = key['ep']
-        siteUrl = URL_MAIN+'hls/'+key['id']+'.m3u8'
+        siteUrl = f'{URL_MAIN}playlist.php?id={key["id"]}&tm={sTime}'
         sThumb = "https://i0.wp.com/img.netflixmirror.com/poster/v/"+key['id']+".jpg"
         sTitle = sMovieTitle + sEpisode
         sDesc = sDesc
@@ -295,10 +305,24 @@ def showHosters():
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
 
-    sHosterUrl = sUrl +'|Referer='+URL_MAIN
-    oHoster = cHosterGui().checkHoster(sHosterUrl)
-    if oHoster:
-                sDisplayTitle = sMovieTitle
+    data = requests.get(sUrl, cookies={"hd": "on"}).json()
+    for key in data:
+        for data in key['sources']:
+            sQual = data['label']
+            if 'Full' in sQual:
+                sQual = '1080p'
+            if 'Mid' in sQual:
+                sQual = '720p Default'
+            if 'Low' in sQual:
+                sQual = '480p'
+            sUrl = f'{URL_MAIN}{data["file"]}'
+            sThumb = ''
+            sTitle = ('%s  [COLOR coral](%s)[/COLOR]') % (sMovieTitle, sQual)  
+
+            sHosterUrl = sUrl +'|Referer='+URL_MAIN
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if oHoster:
+                sDisplayTitle = sTitle
                 oHoster.setDisplayName(sDisplayTitle)
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)

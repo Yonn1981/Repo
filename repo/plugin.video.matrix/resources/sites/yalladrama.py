@@ -263,7 +263,7 @@ def showSeries(sSearch = ''):
       # (.+?) ([^<]+) .+?
 	
 def __checkForNextPage(sHtmlContent):
-    sPattern = '<li class="active"><a href="#".+?<li class=""><a href="([^"]+)".+?<li class="">'
+    sPattern = '<li class="active"><a href="#".+?<li class><a href="([^"]+)'
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -306,7 +306,7 @@ def showEpisodes():
             sHtmlContent = aEntry[1]
  # ([^<]+) .+?
 
-            sPattern = "title='(.+?)' href='(.+?)'><li>(.+?)</li>"
+            sPattern = 'title=["\']([^"\']+)["\'] href=["\']([^"\']+)["\']><li>(.+?)</li>'
 
             oParser = cParser()
             aResult = oParser.parse(sHtmlContent, sPattern)

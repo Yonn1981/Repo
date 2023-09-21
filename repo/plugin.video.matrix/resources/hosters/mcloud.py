@@ -48,7 +48,7 @@ class cHoster(iHoster):
         else:
             SubTitle = ''
 
-        api_call = self._url.replace('\\','')
+        api_call = self._url.replace('\\','')+"|Referer=https://mcloud.to/"
 
         if api_call:
             if ('http' in SubTitle):

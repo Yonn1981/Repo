@@ -219,12 +219,12 @@
         "egyclub": {
             "label": "Egyclub",
             "active": "True",
-            "url": "https://a.egy-club.com/"
+            "url": "https://w1.egy-club.com/"
         },
         "egydead": {
             "label": "Egydead",
             "active": "True",
-            "url": "https://a27.egydead.live/"
+            "url": "https://a53.egydead.live/"
         },
         "ehna": {
             "label": "Ehna",
@@ -259,7 +259,7 @@
         "fmovie": {
             "label": "FMovies",
             "active": "True",
-            "url": "https://fmovies.to"
+            "url": "https://fmoviesz.to"
         },
         "fushaar": {
             "label": "Fushaar",
@@ -284,7 +284,7 @@
         "halacima": {
             "label": "Halacima",
             "active": "True",
-            "url": "https://halacima.website/"
+            "url": "https://halacima.media/"
         },
         "hidaya": {
             "label": "Hidaya",
@@ -299,7 +299,7 @@
         "ifushaar": {
             "label": "iFushaar",
             "active": "True",
-            "url": "https://t.ifushaar.com/"
+            "url": "https://s.ifushaar.com/"
         },
         "iptv": {
             "label": "IPTV",
@@ -391,7 +391,7 @@
         "soap": {
             "label": "Soap2day",
             "active": "True",
-            "url": "https://soap2day.id/"
+            "url": "https://soap2dayx.to/"
         },
         "sflix": {
             "label": "sFlix",
@@ -402,7 +402,7 @@
             "label": "Shahid4u",
             "active": "True",
             "cloudflare": "True",
-            "url": "https://shhahed4u.info/"
+            "url": "https://shhahed4u.site/"
         },
         "shoffree": {
             "label": "Shoffree",
@@ -432,7 +432,7 @@
         "solarone": {
             "label": "SolarOne",
             "active": "True",
-            "url": "https://www2.solarmovie.cr"
+            "url": "https://wwv.solarmovie.one/"
         },
         "stardima": {
             "label": "Stardima",
@@ -467,7 +467,7 @@
         "tvnine": {
             "label": "Tv96",
             "active": "True",
-            "url": "https://hd.tv96.me/"
+            "url": "https://me.tv96.me/"
         },
         "watanflix": {
             "label": "Watanflix",

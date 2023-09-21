@@ -296,6 +296,12 @@ def showEpisodes(oInputParameterHandler = False):
     sHtmlContent = oRequestHandler.request()
  # ([^<]+) .+? (.+?)
 
+    oParser = cParser()
+    sPattern =  '<p class="logo">.+?<a href="([^"]+)' 
+    aResult = oParser.parse(sHtmlContent,sPattern)
+    if aResult[0]:
+        sRefer = aResult[1][0] 
+
     sPattern = '<div class="title">(.+?)</div>(.+?)</div>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -317,13 +323,13 @@ def showEpisodes(oInputParameterHandler = False):
             if aResult[0] :
                     for aEntry in aResult[1]:
  
-                        siteUrl = aEntry[0]
+                        siteUrl = aEntry[0] 
                         sTitle = sServer
                         sTitle = sTitle+" "+aEntry[1].replace('الحلقة','E').replace('حلقة','E')
                         sThumb = sThumb		
 
 
-                        sHosterUrl = siteUrl  
+                        sHosterUrl = siteUrl+'|Referer='+sRefer
                         oHoster = cHosterGui().checkHoster(sHosterUrl)
                         if oHoster:
                             oHoster.setDisplayName(sTitle)

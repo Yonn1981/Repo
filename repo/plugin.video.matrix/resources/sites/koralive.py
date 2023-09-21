@@ -140,10 +140,21 @@ def showHosters(oInputParameterHandler = False):
             oParser = cParser()
             sPattern = 'source:\s*["\']([^"\']+)["\']'
             aResult = oParser.parse(sHtmlContent, sPattern)
-
             if aResult[0]:
                 for aEntry in aResult[1]:
                     url = aEntry
+                    if 'm3u8' not in url:
+                        try:
+                            sPatternUrl = "source: 'https:\/\/'\s*\+\s*serv\s*\+\s*'([^']+)'"
+                            sPatternPK = 'var servs = .+?,\s*"([^"]+)"'
+                            aResultUrl = re.findall(sPatternUrl, sHtmlContent)
+                            aResultPK = re.findall(sPatternPK, sHtmlContent)
+                            if aResultUrl and aResultPK:
+                                url3 = 'http://'+aResultPK[0]+aResultUrl[0]
+                                url = url3 + "|Referer=" + url
+                        except:
+                            VSlog('no link detected')
+
                     sTitle = ('%s [COLOR coral](%s)[/COLOR]') % (sMovieTitle, sTitle)
                     if url.startswith('//'):
                         url = 'https:' + url
@@ -240,11 +251,31 @@ def showHosters(oInputParameterHandler = False):
                             url2 = getHosterIframe(url,url) 
                             url = url2   
 
+                    if 'realbitsport' in url:
+                            url2 = getHosterIframe(url,url) 
+                            url = url2   
+
                     if 'youtube' in url:
                             url = url  
 
                     if 'javascript' in url:
                             url = ''
+                    if '/albaplayer/ch' in url:
+                            import base64
+                            if 'ch2cdn/' in url:
+                                url = 'https://ninecdn.online/albaplayer/ch2cdn/'
+                            if 'ch3cdn/' in url:
+                                url = 'https://ninecdn.online/albaplayer/ch3cdn/'
+                            if 'ch4cdn/' in url:
+                                url = 'https://ninecdn.online/albaplayer/ch4cdn/'
+                            oRequestHandler = cRequestHandler(url)
+                            oRequestHandler.addHeaderEntry('Referer', url)
+                            data3 = oRequestHandler.request()                        
+
+                            sPattern = "AlbaPlayerControl.+?'([^\']+)"
+                            aResult = re.findall(sPattern, data3)
+                            if aResult:
+                                url = f'{base64.b64decode(aResult[1]).decode("utf8",errors="ignore")}|Referer={url}'
 
                     else:
                             
@@ -272,7 +303,8 @@ def showHosters(oInputParameterHandler = False):
                         oHoster.setDisplayName(sDisplayTitle)
                         oHoster.setFileName(sMovieTitle)
                         cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
-                
+
+
     oGui.setEndOfDirectory()    
 
 def Hoster_ShareCast(url, referer):
@@ -395,6 +427,11 @@ def getHosterIframe(url, referer):
     aResult = re.findall(sPattern, sHtmlContent)
     if aResult:
         return True, aResult[0] + '|referer=' + url
+
+    sPattern = 'source\s*["\'](https.+?\.m3u8)["\']'
+    aResult = re.findall(sPattern, sHtmlContent)
+    if aResult:
+        return aResult[0] + '|referer=' + referer
 
     return False
 	

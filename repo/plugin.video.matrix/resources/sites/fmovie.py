@@ -624,7 +624,7 @@ def vrf_function2(query, action):
 
     sPattern = '"rawURL":"([^"]+)'
     oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)   
+    aResult = oParser.parse(sHtmlContent, sPattern)  
     if aResult[0]:
         url = aResult[1][0]
         if 'vidstream' in url:
@@ -642,10 +642,8 @@ def vrf_function2(query, action):
         oParser = cParser()
         aResult = oParser.parse(response, sPattern)
         if aResult[0]:
-            for aEntry in aResult[1]:
-                if 'thumb' in aEntry:
-                    continue
-                url = aEntry.replace('\\','').replace('+','%2B')
+            url = aResult[1][0]
+            url = url.replace('\\','').replace('+','%2B')
 
         return url
         
