@@ -181,7 +181,6 @@ def showMovies(sSearch = ''):
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    #VSlog(aResult)	
     if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -235,8 +234,6 @@ def showSeries(sSearch = ''):
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    #VSlog(aResult)
-	
     if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -541,14 +538,14 @@ def showHosters():
 
         sHosterUrl = unquote(url)
 
-        if ('mcloud' in sHosterUrl) or ('vidstream' in sHosterUrl):
+        if ('mcloud' in sHosterUrl) or ('vidstream' in sHosterUrl) or ('vidplay' in sHosterUrl):
             if ('sub.info' in sHosterUrl):
                 SubTitle = sHosterUrl.split('sub.info=')[1]
             else:
                 SubTitle = ""
                                     
             sHosterUrl = sHosterUrl
-            if ('vidstream' in sHosterUrl):
+            if ('vidstream' in sHosterUrl) or ('vidplay' in sHosterUrl):
                 action = "rawVizcloud"
             else:
                 action = "rawMcloud"
@@ -609,7 +606,8 @@ def vrf_function(query, action):
 def vrf_function2(query, action):
     if '?' in query:
         SubTitle = query.split('?')[1]
-        query = query.split('e/')[1].split('?')[0]
+        query = query.split('/e/')[1].split('?')[0]
+
     else:
         SubTitle = ''
         query = query.split('e/')[1]
@@ -625,10 +623,11 @@ def vrf_function2(query, action):
     sPattern = '"rawURL":"([^"]+)'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)  
+
     if aResult[0]:
         url = aResult[1][0]
-        if 'vidstream' in url:
-                referer = 'https://vidstream.pro/'
+        if 'vidstream' in url or 'vidplay' in url:
+                referer = 'https://vidplay.site/'
         else:
                 referer = "https://mcloud.to/"
         headers2 = {'Referer': referer

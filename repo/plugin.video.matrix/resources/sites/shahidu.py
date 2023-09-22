@@ -218,7 +218,7 @@ def showMovies(sSearch = ''):
     sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
 
     sPattern = '<a href="([^"]+)".+?style="background-image: url\((.+?)\);.+?class="title">(.+?)</h4>'
-    sPattern += '<h5 class="description">(.+?)</h5>'
+    sPattern += '.+?<h5 class="description">(.+?)</h5>'
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
@@ -253,7 +253,9 @@ def showMovies(sSearch = ''):
                     sTitle = sTitle.replace('عرض','')
                 else:
                     sTitle = sTitle.replace(sYear,'')
-            sDesc = str(aEntry[3])
+            sDesc = ''
+            if aEntry[3]:
+                sDesc = str(aEntry[3])
 
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -292,7 +294,7 @@ def showSeries(sSearch = ''):
     sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
 
     sPattern = '<a href="([^"]+)".+?style="background-image: url\((.+?)\);.+?class="title">(.+?)</h4>'
-    sPattern += '<h5 class="description">(.+?)</h5>'    
+    sPattern += '.+?<h5 class="description">(.+?)</h5>'    
     aResult = oParser.parse(sHtmlContent, sPattern)
 		
     if aResult[0]:
@@ -321,7 +323,9 @@ def showSeries(sSearch = ''):
                 siteUrl = URL_MAIN+aEntry[0].replace('film/','download/')
             else:
                 siteUrl = aEntry[0].replace('film/','download/')
-            sDesc = str(aEntry[3])
+            sDesc = ''
+            if aEntry[3]:
+                sDesc = str(aEntry[3])
             sYear = ''
             sTitle = sTitle.split('الحلقة')[0].split('الموسم')[0]
 
