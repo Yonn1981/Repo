@@ -449,6 +449,16 @@ def showHosters():
     Serv = oInputParameterHandler.getValue('Serv')
     Sid = oInputParameterHandler.getValue('Sid')
 
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request()
+
+    sPattern = '<a class="Logo--Area" href="([^"]+)'	
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+ 
+    if aResult[0]:
+        URL_MAIN = aResult[1][0]
+
     s = requests.Session()            
     headers = {'user-agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Mobile Safari/537.36 Edg/115.0.1901.203',
     'origin': URL_MAIN,
@@ -459,7 +469,7 @@ def showHosters():
     'Sec-Fetch-Site':'same-origin'}
 
     data = {'id':Sid,'i':Serv}
-    r = s.post((URL_MAIN+'wp-content/themes/movies2023/Ajaxat/Single/Server.php'),data=data,headers=headers)
+    r = s.post((URL_MAIN+'/wp-content/themes/movies2023/Ajaxat/Single/Server.php'),data=data,headers=headers)
     sHtmlContent = r.content
 
     sPattern = '<iframe src="([^"]+)'

@@ -723,6 +723,9 @@ class cHosterGui:
         if ('upvid.' in sHostName):
             return self.getHoster('upvid')
 
+        if ('dynamicrevival' in sHostName):
+            return self.getHoster('dynamic')
+
         if ('upvideo' in sHostName) or ('streamon' in sHostName):
             return self.getHoster('upvideo')
 

@@ -260,8 +260,26 @@ def showLive(oInputParameterHandler = False):
                               if 'vimeo' in sHosterUrl:
                                   sHosterUrl = sHosterUrl + "|Referer=" + sUrl
                               if 'sportsonline' in sHosterUrl:
-                                url2 = getHosterIframe(aEntry,url) 
-                                sHosterUrl = url2 + "|Referer=" + url             
+                                sHosterUrl = getHosterIframe(url2,url) 
+                                sHosterUrl = sHosterUrl + "|Referer=" + url  
+                              if 'dynamic' in url2:
+                                sHosterUrl = url2 + "|Referer=" + url 
+                              if 'mangomolo' in sHosterUrl:
+                                oRequestHandler = cRequestHandler(sHosterUrl)
+                                data = oRequestHandler.request() 
+                                sPattern = 'src: ["\']([^"\']+)["\']'
+                                aResult = oParser.parse(data, sPattern)
+                                if aResult[0]:
+                                    for aEntry in aResult[1]:           
+                                        sHosterUrl = aEntry
+                              if 'live7' in sHosterUrl:
+                                oRequestHandler = cRequestHandler(sHosterUrl)
+                                data = oRequestHandler.request() 
+                                sPattern = '<iframe src=["\']([^"\']+)["\']'
+                                aResult = oParser.parse(data, sPattern)
+                                if aResult[0]:
+                                    for aEntry in aResult[1]:           
+                                        sHosterUrl = aEntry  + "|Referer=https://www.live7.pro/"          
 
                               oHoster = cHosterGui().checkHoster(sHosterUrl)
                               if oHoster:
@@ -461,8 +479,18 @@ def getHosterIframe(url, referer):
         return False
 
     referer = url
-    
+    if 'channel' in referer:
+         referer = referer.split('channel')[0]
+
     sPattern = '(\s*eval\s*\(\s*function(?:.|\s)+?{}\)\))'
+    aResult = re.findall(sPattern, sHtmlContent)
+    if aResult:
+        sstr = aResult[0]
+        if not sstr.endswith(';'):
+            sstr = sstr + ';'
+        sHtmlContent = cPacker().unpack(sstr)
+
+    sPattern = '(\s*eval\s*\(\s*function\(p,a,c,k,e(?:.|\s)+?)<\/script>'
     aResult = re.findall(sPattern, sHtmlContent)
     if aResult:
         sstr = aResult[0]
@@ -494,9 +522,10 @@ def getHosterIframe(url, referer):
                 if not url.startswith("//"):
                     url = '//'+referer.split('/')[2] + url  
                 url = "https:" + url
+            referer2 = url.split('embed')[0]
             url = getHosterIframe(url, referer)
             if url:
-                return url
+                return url + "|Referer=" + referer2 
 
     sPattern = 'src=["\']([^"\']+)["\']'
     aResult = re.findall(sPattern, sHtmlContent)
@@ -505,6 +534,24 @@ def getHosterIframe(url, referer):
         url = aResult[0]
         if '.m3u8' in url:
             return url
+
+    sPattern = 'player.load\({source: (.+?)\('
+    aResult = re.findall(sPattern, sHtmlContent)
+    if aResult:
+        func = aResult[0]
+        sPattern = 'function %s\(\) +{\n + return\(\[([^\]]+)' % func
+        aResult = re.findall(sPattern, sHtmlContent)
+        if aResult:
+            referer = url
+            sHosterUrl = aResult[0].replace('"', '').replace(',', '').replace('\\', '').replace('////', '//')
+            return True, sHosterUrl + '|referer=' + referer
+
+    sPattern = ';var.+?src=["\']([^"\']+)["\']'
+    aResult = re.findall(sPattern, sHtmlContent)
+    if aResult:
+        sHosterUrl = aResult[0]
+        if '.m3u8' in sHosterUrl:
+            return True, sHosterUrl 
 
     sPattern = '[^/]source.+?["\'](https.+?)["\']'
     aResult = re.findall(sPattern, sHtmlContent)
@@ -516,6 +563,15 @@ def getHosterIframe(url, referer):
     if aResult:
         return aResult[0] + '|referer=' + referer
 
+    sPattern = '[^/]source.+?["\'](https.+?)["\']'
+    aResult = re.findall(sPattern, sHtmlContent)
+    if aResult:
+        return True, aResult[0] + '|referer=' + url
+
+    sPattern = 'source\s*["\'](https.+?\.m3u8)["\']'
+    aResult = re.findall(sPattern, sHtmlContent)
+    if aResult:
+        return aResult[0] + '|referer=' + referer
 
     return False
 	

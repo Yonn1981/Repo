@@ -97,11 +97,30 @@ def showHosters(oInputParameterHandler = False):
     sHtmlContent = oRequestHandler.request()
 
     murl = ''
+    sTitle = ''
+    sHosterUrl = ''
+
     sPattern = 'iframe.src = ["\']([^"\']+)["\']'
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
         for aEntry in aResult[1]:
             murl = aEntry + sUrl.split('src=')[1]
+            if 'youtube' in murl or 'ok' in murl:
+                    sHosterUrl = murl
+                    sDisplayTitle = sMovieTitle
+
+                    if sHosterUrl.startswith('//'):
+                        sHosterUrl = 'http:' + sHosterUrl            
+
+                    oHoster = cHosterGui().checkHoster(sHosterUrl)
+                    if oHoster:
+                        oHoster.setDisplayName(sDisplayTitle)
+                        oHoster.setFileName(sMovieTitle)
+                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+            else:
+                oRequestHandler = cRequestHandler(murl)
+                sHtmlContent = oRequestHandler.request()
+
     else:
         sPattern = '<iframe.+?src=["\']([^"\']+)["\']'
         aResult = oParser.parse(sHtmlContent, sPattern)
@@ -109,10 +128,23 @@ def showHosters(oInputParameterHandler = False):
             for aEntry in aResult[1]:
                 murl = aEntry
 
-    oRequestHandler = cRequestHandler(murl)
-    sHtmlContent = oRequestHandler.request()
+                oRequestHandler = cRequestHandler(murl)
+                sHtmlContent = oRequestHandler.request()
 
     if 'class="albaplayer_name' not in sHtmlContent:
+        if 'youtube' in murl or 'ok' in murl:
+                    sHosterUrl = murl
+                    sDisplayTitle = ('%s [COLOR coral](%s)[/COLOR]') % (sMovieTitle, sTitle)
+
+                    if sHosterUrl.startswith('//'):
+                        sHosterUrl = 'http:' + sHosterUrl            
+
+                    oHoster = cHosterGui().checkHoster(sHosterUrl)
+                    if oHoster:
+                        oHoster.setDisplayName(sDisplayTitle)
+                        oHoster.setFileName(sMovieTitle)
+                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+
         sPattern = '<iframe src=["\']([^"\']+)["\']'
         aResult = oParser.parse(sHtmlContent, sPattern)
         if aResult[0]:
@@ -233,26 +265,14 @@ def showHosters(oInputParameterHandler = False):
                             url = Hoster_ShareCast(url, Referer)
 
                     if 'live7' in url:
-                            oRequestHandler = cRequestHandler(url)
-                            oRequestHandler.addHeaderEntry('Referer', url)
-                            data3 = oRequestHandler.request()
-
-                            sPatternUrl = 'hlsUrl = "https:\/\/" \+ ea \+ "([^"]+)"'
-                            sPatternPK = 'var pk = "([^"]+)"'
-                            sPatternEA = 'ea = "([^"]+)";'
-                            aResultUrl = re.findall(sPatternUrl, data3)
-                            aResultEA = re.findall(sPatternEA, data3)
-                            aResultPK = re.findall(sPatternPK, data3)
-                            if aResultUrl and aResultPK and aResultEA:
-                                aResultPK = aResultPK[0][:53] + aResultPK[0][54:] 
-                                url3 = aResultEA[0] + aResultUrl[0] + aResultPK
-                                url = 'https://' + url3
+                            url2 = getHosterIframe(url,url) 
+                            url = url2 
 
                     if 'sportsonline' in url:
                             url2 = getHosterIframe(url,url) 
                             url = url2   
 
-                    if 'realbitsport' in url:
+                    if 'realbitsport' in url or 'abolishstand' in url:
                             url2 = getHosterIframe(url,url) 
                             url = url2   
 
