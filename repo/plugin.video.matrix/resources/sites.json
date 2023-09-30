@@ -108,7 +108,7 @@
         },
         "awaan": {
             "label": "Awaan",
-            "active": "False",
+            "active": "True",
             "url": "https://www.awaan.ae/"
         },
         "bazplay": {
@@ -174,7 +174,7 @@
         "cimau": {
             "label": "Cima4u",
             "active": "True",
-            "url": "https://cima4u12.cfd/"
+            "url": "https://w5.cima4u16.shop/"
         },
         "cinemana": {
             "label": "Cinemana",
@@ -184,7 +184,8 @@
         "cinematy": {
             "label": "Cinematy",
             "active": "True",
-            "url": "https://f33.cinematy.online/"
+            "cloudflare": "True",
+            "url": "https://d2.cinematy.online/"
         },
         "daily": {
             "label": "Daily IPTV List",
@@ -198,7 +199,7 @@
         },
         "detectiveconanar": {
             "label": "Detectiveconanar",
-            "active": "Fasle",
+            "active": "True",
             "url": "https://detectiveconanar.com/"
         },
         "docarabic": {
@@ -224,7 +225,7 @@
         "egydead": {
             "label": "Egydead",
             "active": "True",
-            "url": "https://a53.egydead.live/"
+            "url": "https://a62.egydead.live/"
         },
         "ehna": {
             "label": "Ehna",
@@ -244,12 +245,7 @@
         "faselhd": {
             "label": "Faselhd",
             "active": "True",
-            "url": "https://www.faselhd.vip/"
-        },
-        "filmihq": {
-            "label": "FilmiHQ",
-            "active": "False",
-            "url": "https://filmihq.su/"
+            "url": "https://www.faselhd.express/"
         },
         "fnteam": {
             "label": "Fnteam",
@@ -294,7 +290,7 @@
         "honadrama": {
             "label": "Honadrama",
             "active": "True",
-            "url": "https://tn.honadrama.us/"
+            "url": "https://honadrama.vip/"
         },
         "ifushaar": {
             "label": "iFushaar",
@@ -351,11 +347,6 @@
             "label": "Nabd8lb",
             "active": "True",
             "url": "https://nabd8lb.net/"
-        },
-        "netflixmirror": {
-            "label": "Netflix",
-            "active": "True",
-            "url": "https://m.netflixmirror.com/"
         },
         "nolly": {
             "label": "Nolly",

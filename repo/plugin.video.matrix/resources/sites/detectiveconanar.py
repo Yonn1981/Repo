@@ -41,7 +41,7 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
   # .+? ([^<]+) (.+?) .+?
 
-    sPattern = '<div class="poster"><img data-src="([^<]+)" loading="lazy" class="lazyload" alt="([^<]+)"><div.+?<a href="([^<]+)"><div '
+    sPattern = 'class="film-poster">\s*<img data-src="([^"]+)".+?alt="([^"]+)".+?<a href="([^"]+)'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -87,7 +87,7 @@ def showSeries(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  # ([^<]+) .+?
-    sPattern = 'data-src="([^"]+).+?alt="(.+?)".+?href="([^"]+)"'
+    sPattern = 'class="film-poster">.+?data-src="([^"]+)".+?alt="([^"]+)".+?<a href="([^"]+)'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -125,13 +125,13 @@ def showSeries(sSearch = ''):
         oGui.setEndOfDirectory()
   # .+? ([^<]+) 
 def __checkForNextPage(sHtmlContent):
-    sPattern = '<span class="current">.+?href="([^"]+)'
+    sPattern = '<a title="التالي" class="page-link" href="([^"]+)'
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
  
     if aResult[0]:
-        return aResult[1][0].replace('"',"")
+        return aResult[1][0]
     else:
         sPattern = '<span class="current">.+?href=(.+?) class='
 	
@@ -152,51 +152,26 @@ def showHosters(oInputParameterHandler = False):
     sThumb = oInputParameterHandler.getValue('sThumb')
     
     oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request();
-    # ([^<]+)
-               
+    sHtmlContent = oRequestHandler.request()        
 
-    sPattern = 'data-embed="([^<]+)">.+?href="javascript:;" class="btn">([^<]+)</a><'
+    sPattern = '<tr id="link.+?<a href="([^"]+)".+?<strong class="quality">(.+?)</strong>'
     oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-	
+    aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
         for aEntry in aResult[1]:
             
             url = aEntry[0]
-            sTitle =  '[COLOR gold] '+aEntry[1]+'[/COLOR]'
+            sTitle =  '[COLOR gold] ('+aEntry[1]+')[/COLOR]'
+            if 'Blog' in aEntry[1]:
+                continue
             if url.startswith('//'):
                url = 'http:' + url
             
-            sHosterUrl = url 
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            sHosterUrl = url + "|Referer=" + sUrl
+            oHoster = cHosterGui().getHoster('lien_direct') 
             if oHoster:
                oHoster.setDisplayName(sMovieTitle+sTitle)
                oHoster.setFileName(sMovieTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
-    # ([^<]+) .+?
                
-
-    sPattern = '<li movieurl="([^<]+)"><a class="tab-link" data-source=".+?">([^<]+)</a></li>'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-	
-    if aResult[0]:
-        for aEntry in aResult[1]:
-            
-            url = aEntry[0]
-            sTitle =  '[COLOR gold] '+aEntry[1]+'[/COLOR]'
-            if url.startswith('//'):
-               url = 'http:' + url
-            
-            sHosterUrl = url 
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if oHoster:
-               oHoster.setDisplayName(sMovieTitle+sTitle)
-               oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
-
-                
     oGui.setEndOfDirectory()

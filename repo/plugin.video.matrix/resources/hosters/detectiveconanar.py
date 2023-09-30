@@ -23,6 +23,7 @@ class cHoster(iHoster):
         oRequest.addHeaderEntry('user-agent',UA)
         oRequest.addHeaderEntry('Referer',sReferer)
         sHtmlContent = oRequest.request()
+        VSlog(sHtmlContent)
         VSlog(self._url)
         
         oParser = cParser()

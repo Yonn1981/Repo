@@ -17,6 +17,7 @@ class cInputWindow(xbmcgui.WindowDialog):
 
         bg_image = 'special://home/addons/plugin.video.matrix/resources/art/background.png'
         check_image = 'special://home/addons/plugin.video.matrix/resources/art/trans_checked.png'
+        sel_image = 'special://home/addons/plugin.video.matrix/resources/art/sel.png'
 
         self.ctrlBackground = xbmcgui.ControlImage(0, 0, 1280, 720, bg_image)
         self.cancelled = False
@@ -43,7 +44,7 @@ class cInputWindow(xbmcgui.WindowDialog):
             for x in range(DimTab[0]):
 
                 self.chk[c] = xbmcgui.ControlImage(ox + cx * x, oy + cy * y, cx, cy, check_image)
-                self.chkbutton[c] = xbmcgui.ControlButton(ox + cx * x, oy + cy * y, cx, cy, str(c + 1), font='font1')
+                self.chkbutton[c] = xbmcgui.ControlButton(ox + cx * x, oy + cy * y, cx, cy, str(c + 1), sel_image)
                 c += 1
 
         for obj in self.chk:

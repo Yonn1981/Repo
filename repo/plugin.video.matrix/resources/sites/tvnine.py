@@ -459,6 +459,7 @@ def showLive(oInputParameterHandler = False):
 
                    if aResult:
                         url = aResult[0]
+                        sMovieTitle = sTitle
                         if '.m3u8' in url:
                             sHosterUrl = url
             
