@@ -73,7 +73,7 @@ def showSeriesSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/?s='+sSearchText
+        sUrl = URL_MAIN + '?s='+sSearchText
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -84,7 +84,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/?s='+sSearchText
+        sUrl = URL_MAIN + '?s='+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -100,15 +100,6 @@ def showMovies(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
     
-    if sSearch:
-       s = requests.Session()            
-       headers = {'User-Agent': 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1',
-							'Referer': URL_MAIN}
-       psearch = sUrl.rsplit('?s=', 1)[1]
-       data = {'keyword':psearch,'nonce':'775957ec22'}
-       r = s.post(URL_MAIN+'wp-json/lalaplay/search/?keyword='+psearch+'&nonce=775957ec22', headers=headers,data = data)
-       sHtmlContent = r.content.decode('utf8')
-
     sPattern = '<div class="title">(.+?)</div>.+?<a href="(.+?)">.+?data-src="(.+?)" alt'
 
     oParser = cParser()
@@ -254,7 +245,7 @@ def showEps():
         for aEntry in aResult[1]:
  
             sTitle = aEntry[1].replace("الحلقة ","E").replace("الحلقة ","E").replace("الموسم","S").replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("مشاهده","").replace("برنامج","").replace("مترجمة","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","")
-            siteUrl = aEntry[0]+"/watch/"
+            siteUrl = aEntry[0]
             sThumb = sThumb
             sDesc = ""
  
@@ -279,8 +270,13 @@ def showLinks(oInputParameterHandler = False):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-    sPattern = "data-post='(.+?)' data-nume='(.+?)'><ul><li>(.+?)</li>"
     oParser = cParser()
+    sPattern =  '"ver":"([^"]+)' 
+    aResult = oParser.parse(sHtmlContent,sPattern)
+    if aResult[0]:
+        ver = aResult[1][0] 
+
+    sPattern = 'data-post=["\']([^"\']+)["\']\s*data-nume=["\']([^"\']+)["\']><ul><li>(.+?)</li>'
     aResult = oParser.parse(sHtmlContent, sPattern)
 
     if aResult[0]:
@@ -288,7 +284,7 @@ def showLinks(oInputParameterHandler = False):
         for aEntry in aResult[1]:
             
             sHost = aEntry[2]
-            siteUrl = URL_MAIN+'wp-json/lalaplayer/v2/?p='+aEntry[0]+'&t=movie&n='+aEntry[1]
+            siteUrl = f'{URL_MAIN}wp-json/lalaplayer/v2/?p={aEntry[0]}&t=movie&n={aEntry[1]}&ver={ver}'
             sHost = aEntry[2]
             sTitle = ('%s [COLOR coral]%s[/COLOR]') % (sMovieTitle, sHost)
 

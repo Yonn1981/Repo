@@ -32,7 +32,7 @@ ANIM_NEWS = (URL_MAIN + 'category/مسلسلات-انمي/', 'showSeries')
 
 URL_SEARCH = (URL_MAIN + '?s=', 'showMovies')
 URL_SEARCH_MOVIES = (URL_MAIN +'?s=', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN +'?s=', 'showSeriesSearch')
+URL_SEARCH_SERIES = (URL_MAIN +'?s=', 'showSeries')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -477,6 +477,11 @@ def showHosters():
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult:
         sHosterUrl = aResult[1][0]
+
+        if 'vidtube' in sHosterUrl:
+            sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+        if 'updown' in sHosterUrl:
+            sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
 
         oHoster = cHosterGui().checkHoster(sHosterUrl)
         if oHoster:

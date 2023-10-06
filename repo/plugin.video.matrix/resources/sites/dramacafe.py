@@ -45,7 +45,7 @@ REPLAYTV_NEWS = (URL_MAIN + 'category.php?cat=tv-programs', 'showSeries')
 
 URL_SEARCH = (URL_MAIN + 'search.php?keywords=', 'showSeries')
 URL_SEARCH_MOVIES = (URL_MAIN + 'search.php?keywords=', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + 'search.php?keywords=', 'showSerie')
+URL_SEARCH_SERIES = (URL_MAIN + 'search.php?keywords=', 'showSeries')
 
 FUNCTION_SEARCH = 'showSeries'
 	

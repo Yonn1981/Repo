@@ -48,7 +48,7 @@ def showMovies():
     sHtmlContent = oRequestHandler.request()
     oParser = cParser()
 	# (.+?) .+? 
-    sPattern = '<div class="match-container"><a href="([^"]+)".+?title="([^"]+)".+?id="result">(.+?)</div>.+?data-start=["\']([^"\']+)["\']'
+    sPattern = '<div class="match-container">\s*<a href="([^"]+)".+?title="([^"]+)".+?id="result">(.+?)</div>.+?data-start=["\']([^"\']+)["\']'
     aResult = oParser.parse(sHtmlContent, sPattern)
 
     if aResult[0]:
@@ -64,7 +64,7 @@ def showMovies():
             else:
                 sCondition = "الروابط متاحة \n \n"
  
-            sTitle =  aEntry[1]
+            sTitle =  aEntry[1].replace('بث مباشر اليوم','')
             if 'مباراة' in sTitle:
                 sTitle = sTitle.split('مباراة')[1]
                 if 'كورة' in sTitle:
@@ -95,6 +95,20 @@ def showHosters(oInputParameterHandler = False):
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+
+    if '.mp4' in sUrl:
+        oOutputParameterHandler = cOutputParameterHandler()
+        sTitle = ' نتيجة مباراة ' + sMovieTitle
+        url = sUrl.split('src=')[1]
+
+
+        sHosterUrl = url
+        oHoster = cHosterGui().checkHoster(sHosterUrl)
+        sHosterUrl = sHosterUrl 
+        if oHoster:
+           oHoster.setDisplayName(sTitle)
+           oHoster.setFileName(sTitle)
+           cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oOutputParameterHandler)
 
     murl = ''
     sTitle = ''
@@ -175,7 +189,7 @@ def showHosters(oInputParameterHandler = False):
             aResult = oParser.parse(sHtmlContent, sPattern)
             if aResult[0]:
                 for aEntry in aResult[1]:
-                    url = aEntry
+                    url1 = aEntry
                     if 'm3u8' not in url:
                         try:
                             sPatternUrl = "source: 'https:\/\/'\s*\+\s*serv\s*\+\s*'([^']+)'"
@@ -184,16 +198,16 @@ def showHosters(oInputParameterHandler = False):
                             aResultPK = re.findall(sPatternPK, sHtmlContent)
                             if aResultUrl and aResultPK:
                                 url3 = 'http://'+aResultPK[0]+aResultUrl[0]
-                                url = url3 + "|Referer=" + url
+                                url1 = url3 + "|Referer=" + url
                         except:
                             VSlog('no link detected')
 
                     sTitle = ('%s [COLOR coral](%s)[/COLOR]') % (sMovieTitle, sTitle)
-                    if url.startswith('//'):
-                        url = 'https:' + url
+                    if url1.startswith('//'):
+                        url1 = 'https:' + url1
             
                 
-                    sHosterUrl = url
+                    sHosterUrl = url1
                     oHoster = cHosterGui().checkHoster(sHosterUrl)
                     sHosterUrl = sHosterUrl + '|AUTH=TLS&verifypeer=false'
                     if oHoster:
@@ -206,13 +220,13 @@ def showHosters(oInputParameterHandler = False):
 
             if aResult[0]:
                 for aEntry in aResult[1]:
-                    url = aEntry.replace("('","").replace("')","")
+                    url1 = aEntry.replace("('","").replace("')","")
                     sTitle = ('%s [COLOR coral](%s)[/COLOR]') % (sMovieTitle, sTitle)
-                    if url.startswith('//'):
-                        url = 'https:' + url
+                    if url1.startswith('//'):
+                        url1 = 'https:' + url1
             
                 
-                    sHosterUrl = url
+                    sHosterUrl = url1
                     oHoster = cHosterGui().checkHoster(sHosterUrl)
                     sHosterUrl = sHosterUrl + '|AUTH=TLS&verifypeer=false'
                     if oHoster:
@@ -226,12 +240,12 @@ def showHosters(oInputParameterHandler = False):
                import base64
                for aEntry in aResult[1]:
                    url_tmp = aEntry
-                   url = base64.b64decode(url_tmp).decode('utf8',errors='ignore')
+                   url1 = base64.b64decode(url_tmp).decode('utf8',errors='ignore')
                    sTitle = ('%s [COLOR coral](%s)[/COLOR]') % (sMovieTitle, sTitle)
-                   sHosterUrl = url+ '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" + '&Referer='+ murl
+                   sHosterUrl = url1+ '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" + '&Referer='+ url
 
                    if 'vimeo' in sHosterUrl:
-                       sHosterUrl = sHosterUrl + "|Referer=" + sUrl
+                       sHosterUrl = sHosterUrl + "|Referer=" + url
                    oHoster = cHosterGui().checkHoster(sHosterUrl)
                    if oHoster:
                        oHoster.setDisplayName(sTitle)
@@ -242,11 +256,11 @@ def showHosters(oInputParameterHandler = False):
             aResult = oParser.parse(sHtmlContent, sPattern)
             if aResult[0]:
                for aEntry in aResult[1]:
-                   url = aEntry.replace("('","").replace("')","")
-                   sHosterUrl = url+ '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" +'&Referer='+ murl 
+                   url1 = aEntry.replace("('","").replace("')","")
+                   sHosterUrl = url1+ '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" +'&Referer='+ url 
                    sMovieTitle = sMovieTitle
                    if 'vimeo' in sHosterUrl:
-                       sHosterUrl = sHosterUrl + "|Referer=" + sUrl
+                       sHosterUrl = sHosterUrl + "|Referer=" + url
                    oHoster = cHosterGui().checkHoster(sHosterUrl)
                    if oHoster:
                        oHoster.setDisplayName(sMovieTitle+' '+sTitle)
@@ -258,49 +272,49 @@ def showHosters(oInputParameterHandler = False):
 
             if aResult[0]:
                 for aEntry in aResult[1]:
-                    url = aEntry
+                    url1 = aEntry
 
-                    if 'sharecast' in url:
+                    if 'sharecast' in url1:
                             Referer =  "https://sharecast.ws/"
-                            url = Hoster_ShareCast(url, Referer)
+                            url1 = Hoster_ShareCast(url, Referer)
 
-                    if 'live7' in url:
-                            url2 = getHosterIframe(url,url) 
-                            url = url2 
+                    if 'live7' in url1:
+                            url2 = getHosterIframe(url1,url) 
+                            url1 = url2 
 
-                    if 'sportsonline' in url:
-                            url2 = getHosterIframe(url,url) 
-                            url = url2   
+                    if 'sportsonline' in url1:
+                            url2 = getHosterIframe(url1,url) 
+                            url1 = url2   
 
-                    if 'realbitsport' in url or 'abolishstand' in url:
-                            url2 = getHosterIframe(url,url) 
-                            url = url2   
+                    if 'realbitsport' in url1 or 'abolishstand' in url1:
+                            url2 = getHosterIframe(url1,url) 
+                            url1 = url2   
 
-                    if 'youtube' in url:
-                            url = url  
+                    if 'youtube' in url1:
+                            url1 = url1  
 
-                    if 'javascript' in url:
-                            url = ''
-                    if '/albaplayer/ch' in url:
+                    if 'javascript' in url1:
+                            url1 = ''
+                    if '/albaplayer/ch' in url1:
                             import base64
-                            if 'ch2cdn/' in url:
-                                url = 'https://ninecdn.online/albaplayer/ch2cdn/'
-                            if 'ch3cdn/' in url:
-                                url = 'https://ninecdn.online/albaplayer/ch3cdn/'
-                            if 'ch4cdn/' in url:
-                                url = 'https://ninecdn.online/albaplayer/ch4cdn/'
-                            oRequestHandler = cRequestHandler(url)
+                            if 'ch2cdn/' in url1:
+                                url1 = 'https://ninecdn.online/albaplayer/ch2cdn/'
+                            if 'ch3cdn/' in url1:
+                                url1 = 'https://ninecdn.online/albaplayer/ch3cdn/'
+                            if 'ch4cdn/' in url1:
+                                url1 = 'https://ninecdn.online/albaplayer/ch4cdn/'
+                            oRequestHandler = cRequestHandler(url1)
                             oRequestHandler.addHeaderEntry('Referer', url)
                             data3 = oRequestHandler.request()                        
 
                             sPattern = "AlbaPlayerControl.+?'([^\']+)"
                             aResult = re.findall(sPattern, data3)
                             if aResult:
-                                url = f'{base64.b64decode(aResult[1]).decode("utf8",errors="ignore")}|Referer={url}'
+                                url1 = f'{base64.b64decode(aResult[1]).decode("utf8",errors="ignore")}|Referer={url}'
 
                     else:
                             
-                            oRequestHandler = cRequestHandler(url)
+                            oRequestHandler = cRequestHandler(url1)
                             oRequestHandler.addHeaderEntry('Referer', url)
                             data3 = oRequestHandler.request()
                         
@@ -311,9 +325,9 @@ def showHosters(oInputParameterHandler = False):
 
                             if aResultUrl and aResultPK:
                                 url3 = 'http://'+aResultPK[0]+aResultUrl[0]
-                                url = url3 + "|Referer=" + url
+                                url1 = url3 + "|Referer=" + url
 
-                    sHosterUrl = url
+                    sHosterUrl = url1
                     sDisplayTitle = ('%s [COLOR coral](%s)[/COLOR]') % (sMovieTitle, sTitle)
 
                     if sHosterUrl.startswith('//'):

@@ -793,6 +793,8 @@ def showHosters(oInputParameterHandler = False):
 					
             
             sHosterUrl = url
+            if 'mirrorace' in sHosterUrl:
+                continue
             if '?download_' in sHosterUrl:
                 sHosterUrl = sHosterUrl.replace("moshahda","ffsff")
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 

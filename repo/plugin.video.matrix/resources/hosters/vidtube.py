@@ -16,16 +16,13 @@ class cHoster(iHoster):
 
     def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
+        sReferer = ''
         if '/d/' in self._url:
             self._url = self._url.replace('/d/','/embed-')
         if '|Referer=' in self._url:
+            sReferer = self._url.split('|Referer=')[1]            
             self._url = self._url.split('|Referer=')[0]
-        else:
-            self._url = self._url
-        if '|Referer=' in self._url:
-            sReferer = self._url.split('|Referer=')[1]
-        else:
-            sReferer = self._url
+
         api_call = ''
 
         oRequest = cRequestHandler(self._url)

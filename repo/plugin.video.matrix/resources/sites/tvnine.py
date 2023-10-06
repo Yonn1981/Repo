@@ -46,7 +46,7 @@ def showMovies(sSearch = ''):
  
 # ([^<]+) .+? (.+?)
 
-    sPattern = '<div class="containerMatch"><a href="(.+?)" target=.+?<div style="font-weight: bold">(.+?)</div>.+?<div class="matchTime">(.+?)</div>.+?<div style="font-weight: bold">(.+?)</div>'
+    sPattern = '<div class="containerMatch"><a href="([^"]+)".+?<div style="font-weight: bold">(.+?)</div>.+?<div class="matchTime">(.+?)</div>.+?<div style="font-weight: bold">(.+?)</div>'
 
 
 
@@ -83,7 +83,7 @@ def showMovies(sSearch = ''):
     if not sSearch:
         oGui.setEndOfDirectory()
 
-def showLive(oInputParameterHandler = False):
+def showLive():
     oGui = cGui()
    
     oInputParameterHandler = cInputParameterHandler()
@@ -95,7 +95,7 @@ def showLive(oInputParameterHandler = False):
     sHtmlContent = oRequestHandler.request()
     oParser = cParser()                   
     UA = 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1' 
-
+    # (.+?) # ([^<]+) .+? 
     if 'data-embed=' in sHtmlContent :
         sPattern = 'data-embed="(.+?)">(.+?)</li>'
         aResult = oParser.parse(sHtmlContent, sPattern)
@@ -113,7 +113,7 @@ def showLive(oInputParameterHandler = False):
             data = oRequestHandler.request()
 
             oParser = cParser()
-
+    # (.+?) # ([^<]+) .+? 
             sPattern = 'source: "(.+?)",'
             aResult = oParser.parse(data, sPattern)
             if aResult[0]:
@@ -140,8 +140,8 @@ def showLive(oInputParameterHandler = False):
                    if oHoster:
                        oHoster.setDisplayName(sMovieTitle)
                        oHoster.setFileName(sMovieTitle)
-                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
-
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb) 
+    # (.+?) # ([^<]+) .+? 
             sPattern = 'hls.loadSource(.+?);'
             aResult = oParser.parse(data, sPattern)
             if aResult[0]:
@@ -168,8 +168,34 @@ def showLive(oInputParameterHandler = False):
                    if oHoster:
                        oHoster.setDisplayName(sMovieTitle)
                        oHoster.setFileName(sMovieTitle)
-                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
-
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb) 
+    # (.+?) # ([^<]+) .+? 
+            sPattern = 'hls: "(.+?)"'
+            aResult = oParser.parse(data, sPattern)
+            if aResult[0]:
+               for aEntry in aResult[1]:
+                   url = aEntry
+ 
+                   if 'googleusercontent' in url:
+                       continue
+                   if '.webp' in url:
+                       continue
+                   if '.jpg' in url:
+                       continue
+                   if url.startswith('//'):
+                      url = 'https:' + url 
+                   if '?src=' in url:
+                      url = url.split('?src=')[1]
+                   sHosterUrl = url
+                   sMovieTitle = sTitle
+                   if 'vimeo' in sHosterUrl:
+                       sHosterUrl = sHosterUrl + "|Referer=" + sUrl
+                   oHoster = cHosterGui().checkHoster(sHosterUrl)
+                   if oHoster:
+                       oHoster.setDisplayName(sMovieTitle)
+                       oHoster.setFileName(sMovieTitle)
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb) 
+    # (.+?) # ([^<]+) .+? 
             sPattern = "source: '(.+?)',"
             aResult = oParser.parse(data, sPattern)
             if aResult[0]:
@@ -197,8 +223,8 @@ def showLive(oInputParameterHandler = False):
                    if oHoster:
                        oHoster.setDisplayName(sMovieTitle)
                        oHoster.setFileName(sMovieTitle)
-                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
-
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+    # (.+?) # ([^<]+) .+? 
             sPattern = 'src="(.+?)"'
             aResult = oParser.parse(data, sPattern)
             if aResult[0]:
@@ -245,7 +271,209 @@ def showLive(oInputParameterHandler = False):
                               if oHoster:
                                   oHoster.setDisplayName(sMovieTitle)
                                   oHoster.setFileName(sMovieTitle)
-                                  cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                                  cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb) 
+                       sPattern = '<iframe src="(.+?)" height'
+                       aResult = oParser.parse(data, sPattern)
+                       if aResult[0]:
+                          for aEntry in aResult[1]:
+            
+                              url = aEntry
+                              if url.startswith('//'):
+                                 url = 'https:' + url
+                              if '?src=' in url:
+                                 url = url.split('?src=')[1] 
+                              sHosterUrl = url
+                              sMovieTitle = sTitle
+                              if 'vimeo' in sHosterUrl:
+                                  sHosterUrl = sHosterUrl + "|Referer=" + sUrl
+            
+
+                              oHoster = cHosterGui().checkHoster(sHosterUrl)
+                              if oHoster:
+                                  oHoster.setDisplayName(sMovieTitle)
+                                  oHoster.setFileName(sMovieTitle)
+                                  cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb) 
+                       sPattern = 'source: "(.+?)",'
+                       aResult = oParser.parse(data, sPattern)
+                       if aResult[0]:
+                          for aEntry in aResult[1]:
+            
+                              url = aEntry
+                              if url.startswith('//'):
+                                 url = 'https:' + url
+                              if '?src=' in url:
+                                 url = url.split('?src=')[1] 
+                              sHosterUrl = url
+                              sMovieTitle = sTitle
+                              if 'vimeo' in sHosterUrl:
+                                  sHosterUrl = sHosterUrl + "|Referer=" + sUrl
+            
+
+                              oHoster = cHosterGui().checkHoster(sHosterUrl)
+                              if oHoster:
+                                  oHoster.setDisplayName(sMovieTitle)
+                                  oHoster.setFileName(sMovieTitle)
+                                  cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb) 
+                   sHosterUrl = url.replace("https://tv.hd44.net/p/phone.html?src=","") 
+ 
+                   UA = 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1' 
+                   sHosterUrl = sHosterUrl   
+                   sMovieTitle = sTitle
+            
+
+                   oHoster = cHosterGui().checkHoster(sHosterUrl)
+                   if 'vimeo' in sHosterUrl:
+                       sHosterUrl = sHosterUrl + "|Referer=" + sUrl
+                   if oHoster:
+                       oHoster.setDisplayName(sMovieTitle)
+                       oHoster.setFileName(sMovieTitle)
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)  
+    # (.+?) # ([^<]+) .+? 
+            sPattern = 'hls: "(.+?)"'
+				
+            aResult = oParser.parse(data, sPattern)
+            if aResult[0]:
+               for aEntry in aResult[1]:
+            
+                   url = aEntry
+ 
+                   if 'googleusercontent' in url:
+                       continue
+                   if '.webp' in url:
+                       continue
+                   if '.jpg' in url:
+                       continue
+                   if url.startswith('//'):
+                      url = 'https:' + url
+                   if '?src=' in url:
+                      url = url.split('?src=')[1] 
+                   sHosterUrl = url
+                   sMovieTitle = sTitle
+                   if 'vimeo' in sHosterUrl:
+                       sHosterUrl = sHosterUrl + "|Referer=" + sUrl
+            
+
+                   oHoster = cHosterGui().checkHoster(sHosterUrl)
+                   if oHoster:
+                       oHoster.setDisplayName(sMovieTitle)
+                       oHoster.setFileName(sMovieTitle)
+            sPattern = "hls: '(.+?)'"
+            aResult = oParser.parse(data, sPattern)
+            if aResult[0]:
+               for aEntry in aResult[1]:
+            
+                   url = aEntry
+ 
+                   if 'googleusercontent' in url:
+                       continue
+                   if '.webp' in url:
+                       continue
+                   if '.jpg' in url:
+                       continue
+                   if url.startswith('//'):
+                      url = 'https:' + url
+                   if '?src=' in url:
+                      url = url.split('?src=')[1] 
+                   sHosterUrl = url 
+                   sMovieTitle = sTitle
+                   if 'vimeo' in sHosterUrl:
+                       sHosterUrl = sHosterUrl + "|Referer=" + sUrl
+            
+
+                   oHoster = cHosterGui().checkHoster(sHosterUrl)
+                   if oHoster:
+                       oHoster.setDisplayName(sMovieTitle)
+                       oHoster.setFileName(sMovieTitle)
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb) 
+    # (.+?) # ([^<]+) .+? 
+            sPattern = '(http.+?m3u8)'
+            aResult = oParser.parse(data, sPattern)
+            if aResult[0]:
+               for aEntry in aResult[1]:
+            
+                   url = aEntry
+                   sHosterUrl = url
+                   sMovieTitle = sTitle
+                   if 'vimeo' in sHosterUrl:
+                       sHosterUrl = sHosterUrl + "|Referer=" + sUrl
+            
+
+                   oHoster = cHosterGui().checkHoster(sHosterUrl)
+                   if oHoster:
+                       oHoster.setDisplayName(sMovieTitle)
+                       oHoster.setFileName(sMovieTitle)
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb) 
+            sPattern = 'file: "(.+?)",'
+            aResult = oParser.parse(data, sPattern)
+            if aResult[0]:
+               for aEntry in aResult[1]:
+            
+                   url = aEntry
+                   if url.startswith('//'):
+                      url = 'https:' + url
+                   if '?src=' in url:
+                      url = url.split('?src=')[1] 
+                   sHosterUrl = url
+                   sMovieTitle = sTitle
+                   if 'vimeo' in sHosterUrl:
+                       sHosterUrl = sHosterUrl + "|Referer=" + sUrl
+            
+
+                   oHoster = cHosterGui().checkHoster(sHosterUrl)
+                   if oHoster:
+                       oHoster.setDisplayName(sMovieTitle)
+                       oHoster.setFileName(sMovieTitle)
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)   
+    # (.+?) # ([^<]+) .+? 
+            sPattern = '<iframe src=".+?stream_url=(.+?)" height'
+            aResult = oParser.parse(data, sPattern)
+            UA = 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Mobile Safari/537.36'
+            if aResult[0]:
+               for aEntry in aResult[1]:
+            
+                   url = aEntry
+                   if url.startswith('//'):
+                      url = 'https:' + url
+                   if '?src=' in url:
+                      url = url.split('?src=')[1] 
+                   sHosterUrl = url
+                   sMovieTitle = sTitle
+                   if 'vimeo' in sHosterUrl:
+                       sHosterUrl = sHosterUrl + "|Referer=" + sUrl
+            
+
+                   oHoster = cHosterGui().checkHoster(sHosterUrl)
+                   if oHoster:
+                       oHoster.setDisplayName(sMovieTitle)
+                       oHoster.setFileName(sMovieTitle)
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb) 
+                   if 'href.li' in url:
+                      url = url.replace("https://href.li/?","") 
+                   if ".php" or ".html" in url:
+                       oRequestHandler = cRequestHandler(url)
+                       data = oRequestHandler.request() 
+                       sPattern = "source: '(.+?)',"
+                       aResult = oParser.parse(data, sPattern)
+                       if aResult[0]:
+                          oOutputParameterHandler = cOutputParameterHandler()
+                          for aEntry in aResult[1]:
+            
+                              url = aEntry
+                              if url.startswith('//'):
+                                 url = 'https:' + url
+                              if '?src=' in url:
+                                 url = url.split('?src=')[1] 
+                              sHosterUrl = url
+                              sMovieTitle = sTitle
+                              if 'vimeo' in sHosterUrl:
+                                  sHosterUrl = sHosterUrl + "|Referer=" + sUrl
+            
+
+                              oHoster = cHosterGui().checkHoster(sHosterUrl)
+                              if oHoster:
+                                  oHoster.setDisplayName(sMovieTitle)
+                                  oHoster.setFileName(sMovieTitle)
+                                  cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oOutputParameterHandler)
                        sPattern = '<iframe src=["\']([^"\']+)["\']'
                        aResult = oParser.parse(data, sPattern)
                        if aResult[0]:
@@ -278,6 +506,7 @@ def showLive(oInputParameterHandler = False):
                                 sPattern = '<iframe src=["\']([^"\']+)["\']'
                                 aResult = oParser.parse(data, sPattern)
                                 if aResult[0]:
+                                    oOutputParameterHandler = cOutputParameterHandler()
                                     for aEntry in aResult[1]:           
                                         sHosterUrl = aEntry  + "|Referer=https://www.live7.pro/"          
 
@@ -285,7 +514,7 @@ def showLive(oInputParameterHandler = False):
                               if oHoster:
                                   oHoster.setDisplayName(sMovieTitle)
                                   oHoster.setFileName(sMovieTitle)
-                                  cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                                  cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oOutputParameterHandler)
                        sPattern = 'source: "(.+?)",'
                        aResult = oParser.parse(data, sPattern)
                        if aResult[0]:
@@ -306,7 +535,7 @@ def showLive(oInputParameterHandler = False):
                               if oHoster:
                                   oHoster.setDisplayName(sMovieTitle)
                                   oHoster.setFileName(sMovieTitle)
-                                  cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                                  cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oOutputParameterHandler)
                                   
                    sHosterUrl = url.replace("https://tv.hd44.net/p/phone.html?src=","") 
                    if 'sportsonline' in sHosterUrl:
@@ -321,12 +550,13 @@ def showLive(oInputParameterHandler = False):
                    if oHoster:
                        oHoster.setDisplayName(sMovieTitle)
                        oHoster.setFileName(sMovieTitle)
-                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oOutputParameterHandler)
 
             sPattern = '["\']hls["\']:\s*["\']([^"\']+)["\']'
 				
             aResult = oParser.parse(data, sPattern)
             if aResult[0]:
+               oOutputParameterHandler = cOutputParameterHandler()
                for aEntry in aResult[1]:
             
                    url = aEntry
@@ -350,7 +580,7 @@ def showLive(oInputParameterHandler = False):
                    if oHoster:
                        oHoster.setDisplayName(sMovieTitle)
                        oHoster.setFileName(sMovieTitle)
-                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oOutputParameterHandler)
 
             sPattern = 'hls:\s*["\']([^"\']+)["\']'
 				
@@ -381,11 +611,12 @@ def showLive(oInputParameterHandler = False):
                    if oHoster:
                        oHoster.setDisplayName(sMovieTitle)
                        oHoster.setFileName(sMovieTitle)
-                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oOutputParameterHandler)
 
             sPattern = 'url.+?(http.+?m3u8)'
             aResult = oParser.parse(data, sPattern)
             if aResult[0]:
+               oOutputParameterHandler = cOutputParameterHandler()
                for aEntry in aResult[1]:
                    if 'm3u8' not in url:
                        continue
@@ -400,11 +631,12 @@ def showLive(oInputParameterHandler = False):
                    if oHoster:
                        oHoster.setDisplayName(sMovieTitle)
                        oHoster.setFileName(sMovieTitle)
-                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oOutputParameterHandler)
 
             sPattern = 'file: "(.+?)",'
             aResult = oParser.parse(data, sPattern)
             if aResult[0]:
+               oOutputParameterHandler = cOutputParameterHandler()
                for aEntry in aResult[1]:
             
                    url = aEntry
@@ -422,11 +654,12 @@ def showLive(oInputParameterHandler = False):
                    if oHoster:
                        oHoster.setDisplayName(sMovieTitle)
                        oHoster.setFileName(sMovieTitle)
-                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler) 
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oOutputParameterHandler) 
 
             sPattern = '<iframe src=".+?stream_url=(.+?)" height'
             aResult = oParser.parse(data, sPattern)
             if aResult[0]:
+               oOutputParameterHandler = cOutputParameterHandler()
                for aEntry in aResult[1]:
             
                    url = aEntry
@@ -443,12 +676,13 @@ def showLive(oInputParameterHandler = False):
                    if oHoster:
                        oHoster.setDisplayName(sMovieTitle)
                        oHoster.setFileName(sMovieTitle)
-                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oOutputParameterHandler)
 
             sPattern = "document.write(.+?)</script>"
             aResult = oParser.parse(data, sPattern)
             
             if aResult[0]:
+               oOutputParameterHandler = cOutputParameterHandler()
                for aEntry in aResult[1]:
                    sContent = aEntry.replace("(unescape('","").replace("'))","")
                    import urllib
@@ -467,9 +701,11 @@ def showLive(oInputParameterHandler = False):
                    if oHoster:
                        oHoster.setDisplayName(sMovieTitle)
                        oHoster.setFileName(sMovieTitle)
-                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oOutputParameterHandler)
 
-                       
+           
+
+             
     oGui.setEndOfDirectory() 
 
 def getHosterIframe(url, referer):

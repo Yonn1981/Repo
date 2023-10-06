@@ -32,9 +32,14 @@ class cHoster(iHoster):
             data = aResult[1][0]
             data = unicodedata.normalize('NFD', data).encode('ascii', 'ignore').decode('unicode_escape')
             sHtmlContent2 = cPacker().unpack(data)
-      # (.+?) ([^<]+) .+?
 
             sPattern = 'file:"(.+?)"'
+            aResult = oParser.parse(sHtmlContent2, sPattern)
+
+            if aResult[0]:
+                api_call = aResult[1][0] 
+
+            sPattern = 'sources:\["([^"]+)'
             aResult = oParser.parse(sHtmlContent2, sPattern)
 
             if aResult[0]:

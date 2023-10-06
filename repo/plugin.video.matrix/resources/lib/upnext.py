@@ -70,16 +70,17 @@ class UpNext:
         sHosterIdentifier = oInputParameterHandler.getValue('sHosterIdentifier')
         nextSaisonFunc = oInputParameterHandler.getValue('nextSaisonFunc')
         sLang = oInputParameterHandler.getValue('sLang')
+        sRes = oInputParameterHandler.getValue('sRes')
 
         try:
             # sauvegarde des parametres d'appel
-            oldParams = sys.argv[2] 
-            
-            sHosterIdentifier, sMediaUrl, nextTitle, sDesc, sThumb = self.getMediaUrl(sSiteName, nextSaisonFunc, sParams, sSaison, nextEpisode, sLang, sHosterIdentifier)
+            oldParams = sys.argv[2]
+
+            sHosterIdentifier, sMediaUrl, nextTitle, sDesc, sThumb = self.getMediaUrl(sSiteName, nextSaisonFunc, sParams, sSaison, nextEpisode, sLang, sRes, sHosterIdentifier)
 
             # restauration des anciens params
             sys.argv[2] = oldParams
-            
+
             # pas d'épisode suivant
             if not sMediaUrl:
                 return
@@ -94,11 +95,10 @@ class UpNext:
             if sLang:
                 nextTitle += ' (%s)' % sLang
 
-            episodeTitle = nextTitle
-
             saisonUrl = oInputParameterHandler.getValue('saisonUrl')
             siteUrl = oInputParameterHandler.getValue('siteUrl')
             sourceFav = oInputParameterHandler.getValue('sourceFav')
+            
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('sHosterIdentifier', sHosterIdentifier)
             oOutputParameterHandler.addParameter('sourceName', sSiteName)
@@ -113,12 +113,14 @@ class UpNext:
             oOutputParameterHandler.addParameter('sSeason', sSaison)
             oOutputParameterHandler.addParameter('sEpisode', sNextEpisode)
             oOutputParameterHandler.addParameter('sLang', sLang)
+            oOutputParameterHandler.addParameter('sRes', sRes)
             oOutputParameterHandler.addParameter('tvShowTitle', tvShowTitle)
             oOutputParameterHandler.addParameter('sTmdbId', sTmdbId)
 
             # gestion Marqué VU
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sourceFav', sourceFav)
+
 
             sParams = oOutputParameterHandler.getParameterAsUri()
             url = 'plugin://plugin.video.matrix/?site=cHosterGui&function=play&%s' % sParams
@@ -168,7 +170,7 @@ class UpNext:
         except Exception as e:
             VSlog('UpNext : %s' % e)
 
-    def getMediaUrl(self, sSiteName, sFunction, sParams, sSaison, iEpisode, sLang, sHosterIdentifier, sTitle='', sDesc='', sThumb=''):
+    def getMediaUrl(self, sSiteName, sFunction, sParams, sSaison, iEpisode, sLang, sRes, sHosterIdentifier, sTitle='', sDesc='', sThumb=''):
 
         try:
             sys.argv[2] = '?%s' % sParams
@@ -180,7 +182,13 @@ class UpNext:
             return None, None, None, None, None
 
         sMediaUrl = ''
+        
+        # cloner la liste qui est effacé ensuite
+        episodesLinks = []
         for sUrl, listItem, isFolder in cGui().getEpisodeListing():
+            episodesLinks.append([sUrl, listItem])
+            
+        for sUrl, listItem in episodesLinks:
             sParams = sUrl.split('?', 1)[1]
             aParams = dict(param.split('=') for param in sParams.split('&'))
             sFunction = aParams['function']
@@ -188,13 +196,16 @@ class UpNext:
                 continue
 
             if sLang and 'sLang' in aParams and UnquotePlus(aParams['sLang']) != sLang:
-                continue           # La langue est connue, mais ce n'est pas la bonne
+                continue  # La langue est connue, mais ce n'est pas la bonne
+
+            if sRes and 'sRes' in aParams and aParams['sRes'] != sRes:
+                continue  # La Resolution est connue, mais ce n'est pas celle recherchée
 
             if sSaison and 'sSeason' in aParams and aParams['sSeason'] and int(aParams['sSeason']) != int(sSaison):
-                continue           # La saison est connue, mais ce n'est pas la bonne
+                continue  # La saison est connue, mais ce n'est pas la bonne
 
             if 'sEpisode' in aParams and aParams['sEpisode'] and int(aParams['sEpisode']) != iEpisode:
-                continue           # L'épisode est connu, mais ce n'est pas le bon
+                continue  # L'épisode est connu, mais ce n'est pas le bon
 
             sMediaUrl = aParams['sMediaUrl'] if 'sMediaUrl' in aParams else None
             infoTag = listItem.getVideoInfoTag()
@@ -233,7 +244,9 @@ class UpNext:
                 return hostName, sMediaUrl, sTitle, sDesc, sThumb
 
             # if sFunction != 'play':
-            return self.getMediaUrl(sSiteName, sFunction, sParams, sSaison, iEpisode, sLang, sHosterIdentifier, sTitle, sDesc, sThumb)
+            hostName, sMediaUrl, sTitle, sDesc, sThumb = self.getMediaUrl(sSiteName, sFunction, sParams, sSaison, iEpisode, sLang, sRes, sHosterIdentifier, sTitle, sDesc, sThumb)
+            if sMediaUrl:
+                return hostName, sMediaUrl, sTitle, sDesc, sThumb
 
         if sMediaUrl:    # si on n'a pas trouvé le bon host on en retourne un autre, il pourrait fonctionner
             return hostName, sMediaUrl, sTitle, sDesc, sThumb
@@ -284,7 +297,7 @@ class UpNext:
             # tente de charger UpNext pour tester sa présence
             xbmcaddon.Addon(upnext_id)
             return True
-        except RuntimeError:    # Addon non installé ou désactivé
+        except RuntimeError:  # Addon non installé ou désactivé
             if not dialog().VSyesno(addons.VSlang(30505)):  # Voulez-vous l'activer ?
                 addons.setSetting('upnext', 'false')
                 return False
@@ -298,7 +311,7 @@ class UpNext:
                     return False
 
                 return True  # addon activé
-            else:                          # UpNext non installé, on l'installe et on l'utilise
+            else:  # UpNext non installé, on l'installe et on l'utilise
                 addonManager().installAddon(upnext_id)
                 # ce n'est pas pris en compte à l'installation de l'addon, donc return False, il faudra attendre le prochain épisode
                 return False

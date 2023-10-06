@@ -18,7 +18,7 @@ URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 MOVIE_ASIAN = (URL_MAIN + 'category/الأفلام-الاسيوية-asian-movies/', 'showMovies')
 
 SERIE_KR = (URL_MAIN + 'category/الدراما-الكورية-kdrama/', 'showSeries')
-SERIE_CN = (URL_MAIN + 'category/الدراما-الصينية-chinese-drama/', 'showSeries')
+SERIE_CN = (URL_MAIN + 'category/دراما-الصينية-chinese-drama/', 'showSeries')
 SERIE_JP = (URL_MAIN + 'category/الدراما-اليابانية-japanese-drama/', 'showSeries')
 SERIE_ASIA = (URL_MAIN + 'category/الدراما-الكورية-kdrama/', 'showSeries')
 
@@ -84,7 +84,7 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
  # ([^<]+) .+?
 
-    sPattern = '<img src="([^<]+)" class=.+?<a href="([^<]+)">([^<]+)</a></h3>'
+    sPattern = '<div class=["\']img["\']>.+?<img src=["\']([^"\']+)["\'].+?alt=["\']([^"\']+)["\'].+?<a href=["\']([^"\']+)["\']'
 
 			
     oParser = cParser()
@@ -100,8 +100,8 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
             
-            sTitle = aEntry[2].replace("مشاهدة","").replace("مترجم","").replace("فيلم","").replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
-            siteUrl = aEntry[1]
+            sTitle = aEntry[1].replace("مشاهدة","").replace("مترجم","").replace("فيلم","").replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
+            siteUrl = aEntry[2]
             sThumbnail = aEntry[0]
             sInfo = ''
             sYear = ''
@@ -139,14 +139,11 @@ def showSeries(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
- # ([^<]+) .+? (.+?)
 
-    sPattern = "<img src='(.+?)' class=.+?alt='(.+?)' >.+?<a href='(.+?)'>"
+    sPattern = '<div class=["\']img["\']>.+?<img src=["\']([^"\']+)["\'].+?alt=["\']([^"\']+)["\'].+?<a href=["\']([^"\']+)["\']'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-	
-    VSlog(sHtmlContent)
     if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)

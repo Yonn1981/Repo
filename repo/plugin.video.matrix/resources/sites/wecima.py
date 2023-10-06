@@ -124,7 +124,7 @@ def main_function(sHtmlContent):
     sPattern = '<link rel="canonical" href="([^"]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)    
     if (aResult[0]):
-        URL_MAIN = aResult[1][0]
+        URL_MAIN = aResult[1][0].replace('mycima/','')
     return URL_MAIN
 
 def showSeriesSearch():

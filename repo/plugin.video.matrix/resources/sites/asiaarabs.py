@@ -250,13 +250,11 @@ def showEpisodes(oInputParameterHandler = False):
         sHtmlContent = oRequest.request()
     sPattern =  '<a href="(https://www.asia4arabs.co.+?)" target'
     aResult = oParser.parse(sHtmlContent,sPattern)
-    VSlog(aResult)
+
     if aResult[0]:
         m3url =  aResult[1][0]
         oRequest = cRequestHandler(m3url)
         sHtmlContent = oRequest.request()
-        VSlog(m3url)
-  # ([^<]+) .+? (.+?)
 
     sPattern = 'iframes([^<]+)=.+?width="100%" height="400" src="(.+?)" frameborder='
 
@@ -325,7 +323,40 @@ def showEpisodes(oInputParameterHandler = False):
                oHoster.setDisplayName(sTitle)
                oHoster.setFileName(sTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
-  # ([^<]+) .+? (.+?)
+
+    sPattern = '<td><a href=["\']([^"\']+)["\']\s*target="iframe_a">(.+?)</a>'
+
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+
+	
+    if aResult[0]:
+        for aEntry in aResult[1]:
+            
+            url = aEntry[0]
+            sTitle = aEntry[1].replace("Episode "," E").replace("Episod "," E")
+            if url.startswith('//'):
+               url = 'http:' + url
+            
+            sHosterUrl = url
+            if "youtube" in sHosterUrl:
+                continue
+            if "google" in sHosterUrl:
+                continue
+            if "LINK0" in sHosterUrl:
+                continue
+            if 'userload' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+            if 'moshahda' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+            if 'mystream' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if oHoster:
+               sTitle = sTitle+sMovieTitle
+               oHoster.setDisplayName(sTitle)
+               oHoster.setFileName(sTitle)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
     sPattern = '>الحلقة([^<]+)</span></span></h4><iframe allowfullscreen.+?src="(.+?)" width'
 

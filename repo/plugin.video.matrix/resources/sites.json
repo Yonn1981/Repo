@@ -16,11 +16,6 @@
             "cloudflare": "True",
             "url": "https://ask4movie.nl/"
         },
-        "ahdaf": {
-            "label": "Ahdaf",
-            "active": "True",
-            "url": "https://www.ahdaf-kooora.com/"
-        },
         "akoam": {
             "label": "Akoam",
             "active": "True",
@@ -174,7 +169,7 @@
         "cimau": {
             "label": "Cima4u",
             "active": "True",
-            "url": "https://w5.cima4u16.shop/"
+            "url": "https://w5.cima4u17.online/"
         },
         "cinemana": {
             "label": "Cinemana",
@@ -184,7 +179,7 @@
         "cinematy": {
             "label": "Cinematy",
             "active": "True",
-            "cloudflare": "True",
+            "cloudflare": "False",
             "url": "https://d2.cinematy.online/"
         },
         "daily": {
@@ -210,7 +205,7 @@
         "dramacafe": {
             "label": "Dramacafe",
             "active": "True",
-            "url": "https://wwz.dramacafe-tv.com/"
+            "url": "https://aae.dramacafe-tv.com/"
         },
         "egybest": {
             "label": "EgyBest",
@@ -307,6 +302,11 @@
             "active": "True",
             "url": "https://www.katkoute.com/"
         },
+        "karbala": {
+            "label": "KarbalaTV",
+            "active": "True",
+            "url": "https://karbala-tv.iq/video.php"
+        },
         "kporama": {
             "label": "Kporama",
             "active": "True",
@@ -315,7 +315,7 @@
         "koralive": {
             "label": "Koralive",
             "active": "True",
-            "url": "https://on.360kora-live.com/",
+            "url": "https://online.360kora-live.com/",
             "url2": "https://www.alkoora-live.live/"
         },
         "laroza": {
@@ -331,7 +331,7 @@
         "lodynet": {
             "label": "Lodynet",
             "active": "True",
-            "url": "https://lodynet.link/"
+            "url": "https://lodynet.cloud/"
         },
         "membed": {
             "label": "mEmbed",
@@ -341,7 +341,7 @@
         "moviztime": {
             "label": "MovizTime",
             "active": "True",
-            "url": "https://yavid.xyz/"
+            "url": "https://movtime50.site/"
         },
         "nabdhlb": {
             "label": "Nabd8lb",
@@ -438,7 +438,7 @@
         "topcinema": {
             "label": "TopCinema",
             "active": "True",
-            "url": "https://topcinema.cam/"
+            "url": "https://web3.topcinema.top/"
         },
         "topimdb": {
             "label": "Top IMDB",

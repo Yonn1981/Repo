@@ -81,14 +81,25 @@ class cHoster(iHoster):
                 sHost = 'https://aotcdn.com'
             if "12" in VidServ :
                 sHost = 'https://cdnvidme.com'
+            if "13" in VidServ :
+                sHost = 'https://yavidcdn1.com'
 
         sPattern = '"videoUrl":"([^"]+)'
         aResult = oParser.parse(sHtmlContent, sPattern)
 
         if aResult[0]:
             Url2 = aResult[1][0]
-            Url2 = sHost+Url2
-            api_call = Url2.replace('hls','down')
+            Url2 = 'https://vidhls.com'+Url2+'?s='+VidServ
+            s = requests.Session()            
+            headers = {'Referer':'https://vidhls.com/'}
+            r = s.get(Url2, headers=headers)
+            sHtmlContent = r.text
+            sPattern = 'RESOLUTION=(\d+x\d+)\s*(https.*?=)'
+            aResult = oParser.parse(sHtmlContent, sPattern)
+            if aResult[0]:
+                for aEntry in aResult[1]:
+                    Url2 = aEntry[1]
+                    api_call = Url2 +'|Referer=https://vidhls.com/'
 
         if api_call:
             return True, api_call

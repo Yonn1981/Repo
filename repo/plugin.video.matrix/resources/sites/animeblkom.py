@@ -243,6 +243,8 @@ def showHosters(oInputParameterHandler = False):
 	
     if aResult[0]:
        for aEntry in aResult[1]:
+           if 'brmj' in aEntry[1]:
+               continue
            sSub = aEntry[0].replace('active',"")
            sSub = sSub+' ترجمة'
            if aEntry[0]:
@@ -277,6 +279,8 @@ def showHosters(oInputParameterHandler = False):
 	
     if aResult[0]:
        for aEntry in aResult[1]:
+           if 'brmj' in aEntry[1]:
+               continue
            sSub = aEntry[0]            
            if aEntry[0]:
               oGui.addText(SITE_IDENTIFIER,'[COLOR coral]'+sSub+'[/COLOR]')        
