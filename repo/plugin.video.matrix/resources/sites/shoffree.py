@@ -141,7 +141,7 @@ def load():
 
 def main_function(sHtmlContent):
     oParser = cParser()
-    sPattern = '<meta property="og:url" content="([^"]+)'
+    sPattern = '<a class="naked" href="([^"]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)    
     if (aResult[0]):
         URL_MAIN = aResult[1][0]+'/'
@@ -787,12 +787,13 @@ def showHosters(oInputParameterHandler = False):
                sHtmlContent1 = oRequest.request()
 
                oParser = cParser()
-               sPattern = '<iframe.+?src="([^"]+)'
+               sPattern = 'name="iframe_a".+?src="([^"]+)'
                aResult = oParser.parse(sHtmlContent1, sPattern)
 
                if aResult[0]:
                     url = aResult[1][0]
-								            
+               if 'stream' in url:
+                   continue            
                sHosterUrl = url
                if 'userload' in sHosterUrl:
                   sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN

@@ -30,6 +30,9 @@ SERIE_ASIA = (URL_MAIN + 'category/series-9/مسلسلات-أسيوي/', 'showSe
 SERIE_TR = (URL_MAIN + 'category/series-9/مسلسلات-تركي/', 'showSeries')
 ANIM_NEWS = (URL_MAIN + 'category/anime-6/انمي-مترجم/', 'showSeries')
 
+DOC_NEWS = (URL_MAIN + 'genre/وثائقي/?filter=movies', 'showMovies')
+DOC_SERIES = (URL_MAIN + 'genre/وثائقي/?filter=serie', 'showSeries')
+
 SPORT_WWE = (URL_MAIN + '?s=wwe', 'showMovies')
 
 URL_SEARCH = (URL_MAIN + '?s=', 'showMovies')
@@ -61,7 +64,10 @@ def load():
        
     oOutputParameterHandler.addParameter('siteUrl', KID_MOVIES[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام كرتون', 'crtoon.png', oOutputParameterHandler)
-    
+
+    oOutputParameterHandler.addParameter('siteUrl', DOC_NEWS[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام وثائقية', 'doc.png', oOutputParameterHandler)
+
     oOutputParameterHandler.addParameter('siteUrl', SERIE_EN[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أجنبية', 'agnab.png', oOutputParameterHandler)
     
@@ -76,6 +82,9 @@ def load():
 
     oOutputParameterHandler.addParameter('siteUrl', SERIE_HEND[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات هندية', 'hend.png', oOutputParameterHandler)
+
+    oOutputParameterHandler.addParameter('siteUrl', DOC_SERIES[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات وثائقية', 'doc.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', SPORT_WWE[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'مصارعة', 'wwe.png', oOutputParameterHandler)

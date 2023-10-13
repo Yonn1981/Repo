@@ -328,17 +328,14 @@ def showHosters(oInputParameterHandler = False):
         sHtmlContent = oRequestHandler.request() 
 
     # (.+?) .+? ([^<]+)        	
-    sPattern = 'data-embed="(.+?)".+?<strong>(.+?)</strong>' 
+    sPattern = '<iframe src=["\']([^"\']+)["\']' 
     aResult = re.findall(sPattern, sHtmlContent)
 	
     if aResult:
         for aEntry in aResult:
             
-            url = aEntry[0]
-            url = url.split("src='")[1]
-            url = url.split("' scrolling")[0]
-            host  = aEntry[1]
-            sTitle = sMovieTitle
+            url = aEntry
+
             if url.startswith('//'):
                url = 'http:' + url
 				

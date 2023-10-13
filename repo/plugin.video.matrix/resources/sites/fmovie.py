@@ -31,6 +31,9 @@ SERIE_EN = (URL_MAIN + '/tv', 'showSeries')
 ANIM_NEWS = (URL_MAIN + '/filter?keyword=&type%5B%5D=tv&genre%5B%5D=10&sort=recently_updated', 'showSeries')
 SERIE_GENRES = (True, 'seriesGenres')
 
+DOC_NEWS = (URL_MAIN + '/filter?keyword=&type=movie&genre=131&sort=recently_added', 'showMovies')
+DOC_SERIES = (URL_MAIN + '/filter?keyword=&type=tv&genre=131&sort=recently_added', 'showSeries')
+
 URL_SEARCH_MOVIES = (URL_MAIN + '/filter?keyword=', 'showMovies')
 URL_SEARCH_SERIES = (URL_MAIN + '/filter?keyword=', 'showSeries')
 FUNCTION_SEARCH = 'showMovies'
@@ -58,6 +61,10 @@ def load():
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'الأفلام الرائجة', 'film.png', oOutputParameterHandler)	
 
     oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', DOC_NEWS[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام وثائقية', 'doc.png', oOutputParameterHandler)
+
+    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', SERIE_EN[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أجنبية', 'agnab.png', oOutputParameterHandler)
 
@@ -68,6 +75,10 @@ def load():
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/filter?keyword=&type%5B%5D=tv&sort=trending')
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'المسلسلات الرائجة', 'mslsl.png', oOutputParameterHandler)	
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', DOC_SERIES[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات وثائقية', 'doc.png', oOutputParameterHandler)
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', SERIE_GENRES[0])
@@ -614,7 +625,7 @@ def vrf_function2(query, action):
 
     reqURL = 'https://9anime.eltik.net/'+action+'?query='+query+'&apikey='+aniyomi
 
-    futoken = requests.get("https://vidstream.pro/futoken")
+    futoken = requests.get("https://vidplay.site/futoken")
     futoken = futoken.text
 
     rawSource = requests.post(reqURL, headers={"Content-Type": "application/x-www-form-urlencoded"}, data={"query": query, "futoken": futoken})

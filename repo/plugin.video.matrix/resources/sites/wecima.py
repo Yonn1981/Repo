@@ -191,7 +191,7 @@ def showPack():
             if 'المزيد' in aEntry[1]:
                 continue 
             sTitle = aEntry[1]
-            siteUrl = aEntry[0]
+            siteUrl = aEntry[0].replace((aEntry[0].split('watch/')[0]), URL_MAIN2)
             sDesc = ''
 			
 
@@ -243,7 +243,7 @@ def showMovies(sSearch = ''):
             sTitle = aEntry[1].replace("مشاهدة","").replace("مشاهده","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("برنامج","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("انمي","")
  
  
-            siteUrl = aEntry[0]
+            siteUrl = aEntry[0].replace((aEntry[0].split('watch/')[0]), URL_MAIN2)
             sDesc = ''
             sThumb = aEntry[2].replace("(","").replace(")","")
             sYear = ''
@@ -299,7 +299,6 @@ def showSeries(sSearch = ''):
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
-	
     if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -330,6 +329,7 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('sYear', sYear)
             oOutputParameterHandler.addParameter('sDesc', sDesc)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
+            oOutputParameterHandler.addParameter('URL_MAIN2', URL_MAIN2)
 
             oGui.addTV(SITE_IDENTIFIER, 'showSeasons', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
@@ -438,6 +438,7 @@ def showAnimes(sSearch = ''):
             oOutputParameterHandler.addParameter('sYear', sYear)
             oOutputParameterHandler.addParameter('sDesc', sDesc)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
+            oOutputParameterHandler.addParameter('URL_MAIN2', URL_MAIN2)
 
             oGui.addTV(SITE_IDENTIFIER, 'showSeasons', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
@@ -506,17 +507,10 @@ def showSeasons():
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
+    URL_MAIN2 = oInputParameterHandler.getValue('URL_MAIN2')
 
     oRequestHandler = cRequestHandler(sUrl)
-    oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
-    oRequestHandler.addHeaderEntry('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
-    oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
-    oRequestHandler.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
     sHtmlContent = oRequestHandler.request()
-
-    URL_MAIN2 = main_function(sHtmlContent)
-
-      # (.+?) ([^<]+) .+?
     sPattern = 'href="([^<]+)">موسم(.+?)</a>'
     aResult = re.findall(sPattern, sHtmlContent)
     
@@ -545,7 +539,7 @@ def showSeasons():
             oGui.addSeason(SITE_IDENTIFIER, 'showEps', sTitle1, '', sThumb, sDesc, oOutputParameterHandler)
     else: 
     # (.+?) .+? ([^<]+)   
-        sPattern = '<a class="hoverable activable.+?href="([^<]+)"><div class="Thumb"><span><i class="fa fa-play"></i></span></div><episodeArea><episodeTitle>([^<]+)</episodeTitle></episodeArea></a>'
+        sPattern = '<a class="hoverable activable.+?href="([^"]+)".+?<episodeArea><episodeTitle>([^<]+)</episodeTitle>'
         oParser = cParser()
         aResult = oParser.parse(sHtmlContent, sPattern)
     
@@ -571,7 +565,7 @@ def showSeasons():
                 oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
  
     # .+? ([^<]+)
-    sPattern = '<a title="([^<]+)" href="([^<]+)"><div class="Quality".+?</span></div><span>([^<]+)</span>'
+    sPattern = '<a title="([^<]+)" href="([^"]+)".+?class="Quality".+?</span></div><span>([^<]+)</span>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     
@@ -766,10 +760,6 @@ def showHosters(oInputParameterHandler = False):
     sThumb = oInputParameterHandler.getValue('sThumb')
 
     oRequestHandler = cRequestHandler(sUrl)
-    oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
-    oRequestHandler.addHeaderEntry('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
-    oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
-    oRequestHandler.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
     oRequestHandler.disableSSL()
     sHtmlContent = oRequestHandler.request()
 
@@ -801,7 +791,7 @@ def showHosters(oInputParameterHandler = False):
             oGui.addMisc(SITE_IDENTIFIER, 'showMovies', sTitle, 'film.png', '', '', oOutputParameterHandler)
 
 
-    sPattern = '<btn data-url="([^<]+)" class="hoverable activable">'
+    sPattern = 'data-url=["\']([^"\']+)["\']'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
@@ -826,7 +816,7 @@ def showHosters(oInputParameterHandler = False):
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 				
     # ([^<]+) .+?
-    sPattern = 'class="hoverable activable" target="_blank" href="([^<]+)"><quality>([^<]+)</quality><resolution><i class=".+?"></i>([^<]+)</resolution>'
+    sPattern = 'class="hoverable activable".+?href="([^"]+)"><quality>([^<]+)</quality><resolution><i class=".+?"></i>([^<]+)</resolution>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	

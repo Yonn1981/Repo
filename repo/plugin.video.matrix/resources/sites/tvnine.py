@@ -35,25 +35,19 @@ def load():
    
 def showMovies(sSearch = ''):
     oGui = cGui()
+
     if sSearch:
       sUrl = sSearch
     else:
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
- 
+
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  
-# ([^<]+) .+? (.+?)
-
     sPattern = '<div class="containerMatch"><a href="([^"]+)".+?<div style="font-weight: bold">(.+?)</div>.+?<div class="matchTime">(.+?)</div>.+?<div style="font-weight: bold">(.+?)</div>'
-
-
-
     oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
+    aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -95,7 +89,7 @@ def showLive():
     sHtmlContent = oRequestHandler.request()
     oParser = cParser()                   
     UA = 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1' 
-    # (.+?) # ([^<]+) .+? 
+
     if 'data-embed=' in sHtmlContent :
         sPattern = 'data-embed="(.+?)">(.+?)</li>'
         aResult = oParser.parse(sHtmlContent, sPattern)
@@ -248,6 +242,12 @@ def showLive():
                       url = url.split('?src=')[1]
                    if 'href.li' in url:
                       url = url.replace("https://href.li/?","") 
+                   if 'realbit' in url:
+                      url = getHosterIframe(url,sUrl) 
+                   if 'sportsonline' in url:
+                      url = getHosterIframe(url,sUrl) 
+                   if 'dinnn' in url:
+                      url = getHosterIframe(url,sUrl) 
                    if ".php" or ".html" in url:
                        oRequestHandler = cRequestHandler(url)
                        data = oRequestHandler.request() 
@@ -314,16 +314,13 @@ def showLive():
                                   oHoster.setDisplayName(sMovieTitle)
                                   oHoster.setFileName(sMovieTitle)
                                   cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb) 
-                   sHosterUrl = url.replace("https://tv.hd44.net/p/phone.html?src=","") 
+                   sHosterUrl = url
  
                    UA = 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1' 
                    sHosterUrl = sHosterUrl   
                    sMovieTitle = sTitle
             
-
                    oHoster = cHosterGui().checkHoster(sHosterUrl)
-                   if 'vimeo' in sHosterUrl:
-                       sHosterUrl = sHosterUrl + "|Referer=" + sUrl
                    if oHoster:
                        oHoster.setDisplayName(sMovieTitle)
                        oHoster.setFileName(sMovieTitle)
@@ -489,6 +486,8 @@ def showLive():
                                   sHosterUrl = sHosterUrl + "|Referer=" + sUrl
                               if 'sportsonline' in sHosterUrl:
                                 sHosterUrl = getHosterIframe(url2,url) 
+                                if 'planet' in sHosterUrl:
+                                    sHosterUrl = getHosterIframe(sHosterUrl,url2)
                                 sHosterUrl = sHosterUrl + "|Referer=" + url  
                               if 'dynamic' in url2:
                                 sHosterUrl = url2 + "|Referer=" + url 
@@ -811,4 +810,3 @@ def getHosterIframe(url, referer):
         return aResult[0] + '|referer=' + referer
 
     return False
-	

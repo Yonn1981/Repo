@@ -126,17 +126,26 @@ def showHosters(oInputParameterHandler = False):
                 sHosterUrl = url+ '|Referer=' + URL_MAIN
                 Referer = aEntry[0].split('live')[0]
   
-            if 'amazonaws.com'  in sHosterUrl:
+            if 'amazonaws.com'  in url:
                 sHosterUrl = url + '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" + '&Referer='+url
-            if 'vimeo' in sHosterUrl:
+            if 'vimeo' in url:
                 sHosterUrl = sHosterUrl + "|Referer=" + sUrl
             
             if 'sharecast' in url:
                 Referer =  "https://sharecast.ws/"
                 sHosterUrl = Hoster_ShareCast(url, Referer)
 
+            if ".php" or ".html" in url:
+                oRequestHandler = cRequestHandler(url)
+                oRequestHandler.addHeaderEntry('Referer', sUrl)
+                data = oRequestHandler.request() 
+                sPattern = "source:\s*'(.+?)',"
+                aResult = oParser.parse(data, sPattern)
+                if aResult[0]:
+                    for aEntry in aResult[1]:
+                        sHosterUrl = aEntry
             else:   
-                sHosterUrl = getHosterIframe(url, sUrl)      
+                sHosterUrl = getHosterIframe(url, sUrl)   
 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
@@ -205,17 +214,15 @@ def showHosters(oInputParameterHandler = False):
 
 def Hoster_ShareCast(url, referer):
     oRequestHandler = cRequestHandler(url)
-    oRequestHandler.addHeaderEntry('User-Agent', UA)
+    oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36 Edg/117.0.2045.60')
     oRequestHandler.addHeaderEntry('Referer', referer)
     sHtmlContent = oRequestHandler.request()
-
     sPattern = "new Player\(.+?player\",\"([^\"]+)\",{'([^\']+)"
     aResult = re.findall(sPattern, sHtmlContent)
-
     if aResult:
         site = 'https://' + aResult[0][1]
-        url = (site + '/hls/' + aResult[0][0]  + '/live.m3u8')
-        return True, url  + '|Referer=' + Quote(site)
+        url = (site + '/hls/' + aResult[0][0]  + '/live.m3u8') + '|Referer=' + Quote(site)
+        return url 
 
     return False, False
 

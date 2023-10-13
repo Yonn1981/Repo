@@ -138,7 +138,7 @@
         },
         "ciimalight": {
             "label": "CiimaLight",
-            "active": "True",
+            "active": "False",
             "url": "https://wwb.cimalight.vip/"
         },
         "cimaclub": {
@@ -220,7 +220,7 @@
         "egydead": {
             "label": "Egydead",
             "active": "True",
-            "url": "https://a62.egydead.live/"
+            "url": "https://egydead.space/"
         },
         "ehna": {
             "label": "Ehna",
@@ -320,7 +320,7 @@
         },
         "laroza": {
             "label": "Laroza",
-            "active": "True",
+            "active": "False",
             "url": "https://d.laroza.one/"
         },
         "linkbox": {
@@ -376,7 +376,7 @@
         },
         "s3uditv": {
             "label": "S3uditv",
-            "active": "True",
+            "active": "False",
             "url": "https://y.s3udi.tv/"
         },
         "soap": {
@@ -448,7 +448,7 @@
         "tuktukcinema": {
             "label": "Tuktukcinema",
             "active": "True",
-            "url": "https://tuktukcima.com/"
+            "url": "https://ww.tuktukcima.com/"
         },
         "tvfun": {
             "label": "Tvfun",
@@ -458,7 +458,7 @@
         "tvnine": {
             "label": "Tv96",
             "active": "True",
-            "url": "https://me.tv96.me/"
+            "url": "https://tv.s96.net/"
         },
         "watanflix": {
             "label": "Watanflix",
