@@ -101,6 +101,11 @@
             "active": "True",
             "url": "https://asiadtv.co/"
         },
+        "asharq": {
+            "label": "asharq",
+            "active": "True",
+            "url": "https://now.asharq.com"
+        },
         "awaan": {
             "label": "Awaan",
             "active": "True",

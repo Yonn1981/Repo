@@ -552,10 +552,11 @@ def showHosters():
         if ('mcloud' in sHosterUrl) or ('vidstream' in sHosterUrl) or ('vidplay' in sHosterUrl):
             if ('sub.info' in sHosterUrl):
                 SubTitle = sHosterUrl.split('sub.info=')[1]
+                sHosterUrl = sHosterUrl.split('&sub.info')[0]
             else:
                 SubTitle = ""
+                sHosterUrl = sHosterUrl
                                     
-            sHosterUrl = sHosterUrl
             if ('vidstream' in sHosterUrl) or ('vidplay' in sHosterUrl):
                 action = "rawVizcloud"
             else:

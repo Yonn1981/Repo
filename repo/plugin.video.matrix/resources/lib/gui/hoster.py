@@ -214,7 +214,7 @@ class cHosterGui:
 
                 
         supported_player = ['film77', 'hdup', 'streamable', 'stardima', 'filescdn', 'vidgot', 'videott', 'vidlo', 'sendit', 'thevid', 'vidmoly', 'fastplay', 'cloudy', 'hibridvod', 'arabveturk', 'extremenow', 'yourupload', 'vidspeeds', 'moshahda', 'voe', 'faselhd', 'streamz', 'streamax', 'gounlimited', 'xdrive', 'facebook', 'mixdrop', 'mixloads', 'vidoza',
-                            'rutube', 'megawatch', 'vidzi', 'filetrip', 'uptostream', 'speedvid', 'netu', 'letsupload',
+                            'rutube', 'megawatch', 'vidzi', 'filetrip', 'uptostream', 'speedvid', 'letsupload',
                             'onevideo', 'playreplay', 'prostream', 'vidfast', 'uqload', 'letwatch', 'wishfast',
                             'filepup', 'vimple', 'wstream', 'watchvideo', 'vidwatch', 'up2stream', 'tune', 'playtube',
                             'vidup', 'vidbull', 'vidlox', 'megaup', '33player' 'easyload', 'ninjastream', 'cloudhost',
@@ -224,7 +224,7 @@ class cHosterGui:
                             'pdj', 'rapidstream', 'jetload', 'dustreaming', 'viki', 'flix555', 'onlystream',
                             'upstream', 'pstream', 'vudeo', 'vidia', 'vidbem', 'uptobox', 'uplea', 'vido',
                             'sibnet', 'vidplayer', 'userload', 'aparat', 'evoload', 'vidshar', 'abcvideo', 'plynow', '33player', 'filerio', 'videoraj', 'brightcove', 'detectiveconanar',
-                            'myvi', '33player', 'videovard', 'viewsb', 'yourvid', 'vf-manga', 'oneupload']
+                            'myvi', '33player', 'videovard', 'viewsb', 'yourvid', 'vf-manga', 'oneupload', 'darkibox']
 
         val = next((x for x in supported_player if x in sHostName), None)
         if val:
@@ -259,6 +259,8 @@ class cHosterGui:
         if ('upstream' in sHosterUrl):
             return self.getHoster('upstream')
         if ('dooood' in sHostName):
+            return self.getHoster('dood')
+        if ('DoodStream' in sHostName) or ('flixeo' in sHostName):
             return self.getHoster('dood')
         if ('dood' in sHostName) or ('dood' in sHosterUrl):
             return self.getHoster('dood')
@@ -489,8 +491,8 @@ class cHosterGui:
         if ('linkbox' in sHostName) or ('sharezweb' in sHostName):
             return self.getHoster('resolver')
 
-        if ('vidoba' in sHostName) or ('vidroba' in sHostName):
-            return self.getHoster('vidoba')
+        if ('vido' in sHostName):
+            return self.getHoster('vudeo')
             
         if ('mediafire' in sHostName):
             return self.getHoster('mediafire')
@@ -741,6 +743,9 @@ class cHosterGui:
         if ('goo.gl' in sHostName) or ('bit.ly' in sHostName) or ('streamcrypt' in sHostName) or ('opsktp' in sHosterUrl):
             return self.getHoster('allow_redirects')
 
+        if ('netu' in sHostName) or ('waaw' in sHostName) or ('hqq' in sHostName) or ('doplay' in sHostName):
+            return self.getHoster('netu')
+
         # frenchvid et clone
         val = next((x for x in ['french-vid', 'diasfem', 'yggseries', 'fembed', 'fem.tohds', 'feurl', 'fsimg', 'core1player',
                                 'vfsplayer', 'gotochus', 'suzihaza', 'sendvid', "femax"] if x in sHostName), None)
@@ -771,7 +776,7 @@ class cHosterGui:
         if ('nitroflare' in sHostName or 'tubeload.' in sHostName or 'Facebook' in sHostName  or 'fastdrive' in sHostName or 'megaup.net' in sHostName  or 'openload' in sHostName):
             return False
 
-        if ('tuktuk' in sHosterUrl)  or ('volvovideo' in sHostName):
+        if ('tuktuk' in sHosterUrl) or ('volvovideo' in sHostName) or ('lumiawatch' in sHostName):
             return self.getHoster('tuktuk')
 
         # lien direct ?

@@ -31,12 +31,12 @@ SERIE_DUBBED = (URL_MAIN+'series-category/مسلسلات-اجنبي-مدبلجة
 SERIE_TR_AR = (URL_MAIN + 'series-category/مسلسلات-تركية-مدبلجة/', 'showSeries')
 
 DOC_SERIES = (URL_MAIN+'series-category/مسلسلات-وثائقية/', 'showSeries')
-DOC_NEWS = (URL_MAIN+'category/documentary-movies/', 'showMovies')
+DOC_NEWS = (URL_MAIN+'category/افلام-وثائقية/', 'showMovies')
 
-ANIM_MOVIES = (URL_MAIN+'category/anime-movies/', 'showMovies')
+ANIM_MOVIES = (URL_MAIN+'series-category/افلام-انمي/', 'showMovies')
 ANIM_NEWS = (URL_MAIN+'series-category/مسلسلات-انمي/', 'showSeries')
 REPLAYTV_PLAY = (URL_MAIN+'series-category/برامج-تلفزيونية/', 'showMovies')
-REPLAYTV_NEWS = (URL_MAIN+'category/shows/', 'showMovies')
+REPLAYTV_NEWS = (URL_MAIN+'category/عروض-وحفلات/', 'showMovies')
 SPORT_FOOT = (URL_MAIN+'tag/%d9%83%d8%a7%d8%b3-%d8%a7%d9%84%d8%b9%d8%a7%d9%84%d9%85-2022/', 'showMovies')
 
 URL_SEARCH = (URL_MAIN+'?s=', 'showMovies')
