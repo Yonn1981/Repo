@@ -11,7 +11,7 @@ from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
-from resources.lib.comaddon import progress, VSlog, siteManager
+from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.util import cUtil, Unquote
 from resources.sites.sflix import load, showSearch, showSeriesSearch, seriesGenres, moviesGenres, showMovies, showSeries, showSeasons, showEps, showLinks, showSeriesLinks
 

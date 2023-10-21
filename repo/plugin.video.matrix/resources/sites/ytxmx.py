@@ -11,9 +11,7 @@ from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
-from resources.lib.comaddon import progress, VSlog, siteManager
-from resources.lib.util import cUtil, Unquote
-
+from resources.lib.comaddon import progress, VSlog, siteManager, addon
 	
 SITE_IDENTIFIER = 'ytxmx'
 SITE_NAME = 'YTX.MX'
@@ -22,7 +20,6 @@ SITE_DESC = 'english vod'
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 UA = 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1'
-
 
 MOVIE_4k = (URL_MAIN + '/browse-movies/0/2160p/all/0/latest/0/all', 'showMovies')
 MOVIE_EN = (URL_MAIN + '/browse-movies/0/all/all/0/year/0/all', 'showMovies')
@@ -36,10 +33,11 @@ FUNCTION_SEARCH = 'showMovies'
 	
 def load():
     oGui = cGui()
+    addons = addon()
 
     oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Search Movies', 'search.png', oOutputParameterHandler)
+    oOutputParameterHandler.addParameter('siteUrl', URL_SEARCH[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showSearch', addons.VSlang(30078), 'search.png', oOutputParameterHandler)
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_4k[0])

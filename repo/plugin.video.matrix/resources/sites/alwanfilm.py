@@ -23,8 +23,7 @@ REPLAYTV_PLAY = ('https://alwanzman.com/genre/%D9%83%D9%88%D9%85%D9%8A%D8%AF%D9%
 
 MOVIE_ANNEES = (True, 'showYears')
 
-FUNCTION_SEARCH = 'showSearch'
- 
+
 def load():
     oGui = cGui()
 

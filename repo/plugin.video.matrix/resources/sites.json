@@ -353,12 +353,6 @@
             "active": "True",
             "url": "https://nabd8lb.net/"
         },
-        "nolly": {
-            "label": "Nolly",
-            "active": "True",
-            "cloudflare": "True",
-            "url": "https://www.nollyverse.com/"
-        },
         "pakistani": {
             "label": "Pakistani",
             "active": "True",
@@ -434,6 +428,11 @@
             "label": "Stardima",
             "active": "True",
             "url": "https://www.stardiima.sbs/watch/"
+        },
+        "tma": {
+            "label": "The Movie Archive",
+            "active": "True",
+            "url": "https://tma.lol/"
         },
         "themoviedb_org": {
             "label": "The Movie Database",
