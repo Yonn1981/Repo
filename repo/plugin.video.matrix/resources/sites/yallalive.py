@@ -46,7 +46,7 @@ def showMovies():
     sEnd = '<div id="tommorw"'
     sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
 
-    sPattern = 'class="AF_EvItem.+?href="([^"]+)".+?<div class="AF_MaskText.+?">(.+?)</div>.+?.+?class="AF_TeamName">(.+?)</div>.+?class="AF_EvTime">(.+?)</div>.+?<div class="AF_TeamName">(.+?)</div>'
+    sPattern = '<div class="AF_Match.+?class="AF_TeamName.+?>(.+?)</div>.+?class="AF_EvTime">(.+?)</div>.+?<div class="AF_TeamName.+?>(.+?)</div>.+?href="([^"]+)".+?<div class="AF_MaskText">(.+?)</div>'
     aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
         total = len(aResult[1])
@@ -57,10 +57,10 @@ def showMovies():
             if progress_.iscanceled():
                 break
  
-            sTitle =  aEntry[2] +' - '+ aEntry[4]
+            sTitle =  aEntry[0] +' - '+ aEntry[2]
             sThumb = ""
-            siteUrl =  aEntry[0]
-            sDesc = aEntry[3]+ " KSA" + " - " +aEntry[1]+ " "
+            siteUrl =  aEntry[3]
+            sDesc = aEntry[1]+ " KSA \n \n"+aEntry[4]
 			
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)

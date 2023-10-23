@@ -188,7 +188,7 @@ def showSeries(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-    sPattern = '<img class="img-responsive" src="([^<]+)" alt="([^<]+)" />.+?data-content="([^<]+)".+?<h3><a href="([^<]+)">'
+    sPattern = '<img class="img-responsive" src="([^"]+)" alt="([^"]+)".+?data-content="([^"]+)".+?redirectTo.+?["\']([^"\']+)["\']'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
@@ -201,7 +201,7 @@ def showSeries(sSearch = ''):
                 break
  
             sTitle = aEntry[1]
-            siteUrl = aEntry[3]
+            siteUrl = base64.b64decode(aEntry[3]).decode('utf8',errors='ignore')
             sThumb = re.sub(r'-\d+x\d{0,3}','', aEntry[0])  
             sDesc = aEntry[2]
             sYear = ''

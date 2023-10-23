@@ -29,7 +29,7 @@ tmdb_account = ''
 MOVIE_EN = ('movie/now_playing', 'showMovies')
 MOVIE_TOP = ('movie/top_rated', 'showMovies')
 MOVIE_POP = ('movie/popular', 'showMovies')
-MOVIE_GENRES = ('genre/movie/list', 'showMovies')
+MOVIE_GENRES = ('genre/movie/list', 'showGenreMovie')
 
 URL_SEARCH_MOVIES = ('https://api.themoviedb.org/3/search/movie?include_adult=false&query=', 'showMoviesSearch')
 FUNCTION_SEARCH = 'showMovies'

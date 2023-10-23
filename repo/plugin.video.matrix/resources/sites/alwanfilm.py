@@ -69,14 +69,14 @@ def showMovies(sSearch = ''):
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
- 
+            
+            siteUrl = aEntry[2]
             sTitle = aEntry[1].replace('"',"").replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
-            if 'movies/' not in aEntry[2]:
-                siteUrl =  f'{URL_MAIN}movies/{aEntry[2]}'
-            if '../../' in aEntry[2]:
-                siteUrl =  f'https://alwanzman.com/{aEntry[2]}'
-            else:
-                siteUrl = URL_MAIN + aEntry[2]
+            if "movies/" not in siteUrl:
+                siteUrl =  f'{URL_MAIN}movies/{siteUrl}'
+            if '../../' in siteUrl:
+                siteUrl =  f'https://alwanzman.com/{siteUrl}'
+
             sDesc = ''
             sYear = ''
             sThumb = aEntry[0]
