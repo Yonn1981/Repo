@@ -649,7 +649,7 @@ def vrf_function2(query, action):
         if 'vidstream' in url or 'vidplay' in url:
                 referer = 'https://vidplay.site/'
         else:
-                referer = "https://mcloud.to/"
+                referer = "https://mcloud.bz/"
         headers2 = {'Referer': referer
                     }
 

@@ -26,6 +26,12 @@ MOVIE_AR = (URL_MAIN + '/page/arabic-movies/', 'showMovies')
 SERIE_GENRES = (True, 'seriesGenres')
 MOVIE_GENRES = (True, 'moviesGenres')
 
+SERIE_EN = (URL_MAIN + '/watch=category/مسلسلات-اجنبي/', 'showSeries')
+SERIE_AR = (URL_MAIN + '/watch=category/مسلسلات-عربية/', 'showSeries')
+SERIE_TR = (URL_MAIN + '/watch=category/مسلسلات-تركية/', 'showSeries')
+SERIE_ASIA = (URL_MAIN + '/watch=category/مسلسلات-اسيوية/', 'showSeries')
+SERIE_HEND = (URL_MAIN + '/watch=category/مسلسلات-هندية/', 'showSeries')
+
 SPORT_WWE = (URL_MAIN + '/watch=category/مصارعة-حرة/', 'showMovies')
 
 URL_SEARCH = (URL_MAIN + '/?s=', 'showSeries')
@@ -51,6 +57,22 @@ def load():
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_AR[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام عربية', 'arab.png', oOutputParameterHandler)
+
+    oOutputParameterHandler.addParameter('siteUrl', SERIE_EN[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أجنبية', 'agnab.png', oOutputParameterHandler)
+
+    oOutputParameterHandler.addParameter('siteUrl', SERIE_AR[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات عربية', 'arab.png', oOutputParameterHandler)
+
+    oOutputParameterHandler.addParameter('siteUrl', SERIE_ASIA[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أسيوية', 'asia.png', oOutputParameterHandler)
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', SERIE_TR[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات تركية', 'turk.png', oOutputParameterHandler)
+
+    oOutputParameterHandler.addParameter('siteUrl', SERIE_HEND[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات هندية', 'hend.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', SPORT_WWE[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'مصارعة', 'wwe.png', oOutputParameterHandler)
@@ -226,12 +248,10 @@ def showSeries(sSearch = ''):
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
 
-
-
     oRequestHandler = cRequestHandler(sUrl)
     oRequestHandler.addHeaderEntry('User-Agent', UA)
     sHtmlContent = oRequestHandler.request()
-    # (.+?) .+? ([^<]+)   
+
     sPattern = '<div class="ItemBlock">.+?<a href="(.+?)".+?style="(.+?)"></div>.+?<h3>(.+?)</h3>'
 
     oParser = cParser()
@@ -259,7 +279,7 @@ def showSeries(sSearch = ''):
             sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("مشاهده","").replace("برنامج","").replace("مترجمة","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","")
             sThumb = aEntry[1].replace("background-image: url(","").replace(");","")
             sDesc = ''
-            sTitle = sTitle.split('موسم')[0].split('الحلقة')[0]
+            sTitle = sTitle.split('موسم')[0].split('الحلقة')[0].split('حلقة')[0]
             sYear = ''
             m = re.search('([0-9]{4})', sTitle)
             if m:
@@ -308,15 +328,11 @@ def showEpisodes():
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
 
-
-
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
     oParser = cParser()
-     # (.+?) ([^<]+) .+?
 
-    # (.+?) .+? ([^<]+)
     sPattern = '<a href="(.+?)" title=.+?class=.+?>(.+?)</a>' 
 
     oParser = cParser()
@@ -327,15 +343,16 @@ def showEpisodes():
         for aEntry in aResult[1]:
  
             sEp = aEntry[1].replace(" ","").replace("EP"," E")
-            Ss = aEntry[1].replace(" ","").split("|")[0]
-            sTitle = Ss+' '+sMovieTitle+' '+sEp
+            if "|" in aEntry[1]:
+                Ss = aEntry[1].replace(" ","").split("|")[0]
+            else:
+                Ss = "S1"
+            sTitle = Ss+' '+sEp+' '+sMovieTitle
             sTitle = sTitle.replace("|","")
             siteUrl = aEntry[0]
             sThumb = sThumb
             sDesc = ''
             sYear = ''
-			
-
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -360,23 +377,16 @@ def showHosters(oInputParameterHandler = False):
     sHtmlContent = oRequestHandler.request()
     oParser = cParser()
 
-    # (.+?) ([^<]+)
-
     oParser = cParser()   
     sPattern = '<a data-like="likeCount" data-id="([^"]+)'
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    #VSlog(aResult)
-    
+    aResult = oParser.parse(sHtmlContent, sPattern)   
     if aResult[0]:
         sId = aResult[1][0]
         sId = sId
-     # (.+?) ([^<]+) .+?
+
     oParser = cParser()
     sPattern = 'data-server="(.+?)"'
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    #VSlog(aResult)
-
-   
+    aResult = oParser.parse(sHtmlContent, sPattern)  
     if aResult[0]:
         for aEntry in aResult[1]:
 
@@ -390,7 +400,6 @@ def showHosters(oInputParameterHandler = False):
             sPattern =  '<iframe.+?src="([^"]+)"'
             oParser = cParser()
             aResult = oParser.parse(sHtmlContent, sPattern)
-            #VSlog(aResult)
             if aResult[0]:
                 for aEntry in aResult[1]:
             
@@ -412,7 +421,5 @@ def showHosters(oInputParameterHandler = False):
                        oHoster.setDisplayName(sDisplayTitle)
                        oHoster.setFileName(sMovieTitle)
                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
-				
-
-                
+				            
     oGui.setEndOfDirectory()

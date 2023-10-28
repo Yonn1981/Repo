@@ -26,4 +26,15 @@ class cHoster(iHoster):
         if api_call:
             return True, api_call
 
+        sPattern = 'file:"(.+?)"'
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        
+        api_call = False
+
+        if (aResult[0] == True):
+            api_call = aResult[1][0]
+
+            if (api_call):
+                return True, api_call
+
         return False, False

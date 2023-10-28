@@ -71,7 +71,7 @@ def showSeries(sSearch = ''):
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
-	
+    itemList = []
     if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -93,13 +93,14 @@ def showSeries(sSearch = ''):
                 sYear = str(m.group(0))
                 sTitle = sTitle.replace(sYear,'')
 
-			
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sYear', sYear)
-            oOutputParameterHandler.addParameter('sThumb', sThumb)
+            if sTitle not in itemList:
+                itemList.append(sTitle)				
+                oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+                oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+                oOutputParameterHandler.addParameter('sYear', sYear)
+                oOutputParameterHandler.addParameter('sThumb', sThumb)
 
-            oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+                oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
         
@@ -125,18 +126,21 @@ def showEpisodes():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-    sPattern = '<meta itemprop="position" content="2".+?<a href="([^"]+)'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    m3url=''
-    if aResult[0]:
-        m3url = aResult[1][0] 
-        if m3url.startswith('//'):
-           m3url = 'https:' + m3url
+    if 'list' in sUrl:
+        m3url = sUrl
+    else:
+        sPattern = '<meta itemprop="position" content="2".+?<a href="([^"]+)'
+        oParser = cParser()
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        m3url=''
+        if aResult[0]:
+            m3url = aResult[1][0] 
+            if m3url.startswith('//'):
+                m3url = 'https:' + m3url
 
-    oRequestHandler = cRequestHandler(m3url)
-    sHtmlContent = oRequestHandler.request()
-    # (.+?) .+? ([^<]+)   
+            oRequestHandler = cRequestHandler(m3url)
+            sHtmlContent = oRequestHandler.request()
+   
     sPattern = '<div class="thumb"><a href="(.+?)"><img src=".+?" alt="(.+?)" data-src="(.+?)" class='
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -173,7 +177,14 @@ def showEpisodes():
 
             oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
         progress_.VSclose(progress_)
-        
+
+        sNextPage = __checkForNextPage(sHtmlContent)
+        if sNextPage:
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
+            oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
+            oGui.addDir(SITE_IDENTIFIER, 'showEpisodes', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+
     oGui.setEndOfDirectory()
 
 def __checkForNextPage(sHtmlContent):

@@ -10,14 +10,14 @@ import re
 class cHoster(iHoster):
 
     def __init__(self):
-        iHoster.__init__(self, 'anafasts', 'anafasts')
+        iHoster.__init__(self, 'anafasts', 'Anafasts')
 
 
     def isDownloadable(self):
         return True
 
     def _getMediaLinkForGuest(self, autoPlay = False):
-        
+        self._url = self._url.replace('embed-','')
         oRequest = cRequestHandler(self._url)
         sHtmlContent = oRequest.request()
         VSlog(self._url)

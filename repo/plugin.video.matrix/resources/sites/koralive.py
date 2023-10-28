@@ -236,6 +236,44 @@ def showHosters(oInputParameterHandler = False):
                         oHoster.setFileName(sTitle)
                         cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
+            sPattern = '<video.+?src="([^"]+)'
+            aResult = oParser.parse(sHtmlContent, sPattern)
+            VSlog(aResult)
+            if aResult[0]:
+                for aEntry in aResult[1]:
+                    url = aEntry.replace("('","").replace("')","")
+                    sTitle = ('%s [COLOR coral](%s)[/COLOR]') % (sMovieTitle, sTitle)
+                    if url.startswith('//'):
+                        url = 'https:' + url
+            
+                
+                    sHosterUrl = url
+                    oHoster = cHosterGui().getHoster('lien_direct') 
+                    sHosterUrl = sHosterUrl + "|Referer=" + murl
+                    if oHoster:
+                        oHoster.setDisplayName(sTitle)
+                        oHoster.setFileName(sTitle)
+                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+
+            sPattern = 'var file = ["\']([^"\']+)["\']'
+            aResult = oParser.parse(sHtmlContent, sPattern)
+            VSlog(aResult)
+            if aResult[0]:
+                for aEntry in aResult[1]:
+                    url = aEntry.replace("('","").replace("')","")
+                    sTitle = ('%s [COLOR coral](%s)[/COLOR]') % (sMovieTitle, sTitle)
+                    if url.startswith('//'):
+                        url = 'https:' + url
+            
+                
+                    sHosterUrl = url 
+                    oHoster = cHosterGui().getHoster('lien_direct') 
+                    sHosterUrl = sHosterUrl + "|Referer=" + murl
+                    if oHoster:
+                        oHoster.setDisplayName(sTitle)
+                        oHoster.setFileName(sTitle)
+                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+
             sPattern = "<script>AlbaPlayerControl([^<]+)',"
             aResult = oParser.parse(sHtmlContent, sPattern)
             if aResult[0]: 
@@ -248,7 +286,10 @@ def showHosters(oInputParameterHandler = False):
 
                    if 'vimeo' in sHosterUrl:
                        sHosterUrl = sHosterUrl + "|Referer=" + murl
-                   oHoster = cHosterGui().checkHoster(sHosterUrl)
+                   if 'm3u8' in sHosterUrl:
+                       oHoster = cHosterGui().getHoster('lien_direct') 
+                   else:
+                       oHoster = cHosterGui().checkHoster(sHosterUrl)
                    if oHoster:
                        oHoster.setDisplayName(sTitle)
                        oHoster.setFileName(sTitle)
@@ -328,6 +369,17 @@ def showHosters(oInputParameterHandler = False):
                             oHoster.setFileName(sTitle)
                             cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
+                    if 'ok.ru' in aEntry:
+                        url = aEntry 
+                        sHosterUrl = url
+                        oHoster = cHosterGui().checkHoster(sHosterUrl)
+                        sHosterUrl = sHosterUrl
+                        if oHoster:
+                            oHoster.setDisplayName(sTitle)
+                            oHoster.setFileName(sTitle)
+                            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+
+
                     if '/albaplayer/ch' in aEntry:
                             import base64
                             if 'ch2cdn/' in aEntry:
@@ -373,7 +425,7 @@ def showHosters(oInputParameterHandler = False):
                                     oHoster.setFileName(sTitle)
                                     cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
                         except:
-                                url = aEntry
+                                url = getHosterIframe(aEntry,murl)
                                 sHosterUrl = url
                                 oHoster = cHosterGui().checkHoster(sHosterUrl)
                                 if 'm3u8' in sHosterUrl:
