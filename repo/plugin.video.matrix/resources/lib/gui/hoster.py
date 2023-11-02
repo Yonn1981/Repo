@@ -219,7 +219,7 @@ class cHosterGui:
                             'filepup', 'vimple', 'wstream', 'watchvideo', 'vidwatch', 'up2stream', 'tune', 'playtube',
                             'vidup', 'vidbull', 'vidlox', 'megaup', '33player' 'easyload', 'ninjastream', 'cloudhost',
                             'videobin', 'stagevu', 'gorillavid', 'daclips', 'hdvid', 'vshare', 'vidload',
-                            'giga', 'vidbom', 'upvid', 'cloudvid', 'megadrive', 'downace', 'clickopen', 'supervideo',
+                            'giga', 'vidbom', 'cloudvid', 'megadrive', 'downace', 'clickopen', 'supervideo',
                             'jawcloud', 'soundcloud', 'mixcloud', 'ddlfr', 'vupload', 'dwfull', 'vidzstore',
                             'pdj', 'rapidstream', 'jetload', 'dustreaming', 'viki', 'flix555', 'onlystream',
                             'upstream', 'pstream', 'vudeo', 'vidia', 'vidbem', 'uptobox', 'uplea', 'vido',
@@ -254,7 +254,7 @@ class cHosterGui:
             #mise a jour du nom
             f.setRealHost(sHostName)
             return f
-        if ('streamwish' in sHostName) or ('khadhnayad' in sHostName) or ('ajmidyad' in sHostName) or ('yadmalik' in sHostName) or ('kharabnah' in sHostName) or ('hayaatieadhab' in sHostName):
+        if ('streamwish' in sHostName) or ('khadhnayad' in sHostName) or ('ajmidyad' in sHostName) or ('yadmalik' in sHostName) or ('kharabnah' in sHostName) or ('hayaatieadhab' in sHostName) or ('sfastwish' in sHostName) or ('eghjrutf' in sHostName) or ('eghzrutw' in sHostName) or ('wishfast' in sHostName) or ('fviplions' in sHostName):
             return self.getHoster('streamwish')
         if ('upstream' in sHosterUrl):
             return self.getHoster('upstream')
@@ -731,6 +731,9 @@ class cHosterGui:
         if ('upvideo' in sHostName) or ('streamon' in sHostName):
             return self.getHoster('upvideo')
 
+        if ('upvid' in sHostName) or ('opvid' in sHostName):
+            return self.getHoster('upvid')
+
         if ('estream' in sHostName) and not ('widestream' in sHostName):
             return self.getHoster('estream')
 
@@ -776,12 +779,12 @@ class cHosterGui:
         if ('nitroflare' in sHostName or 'tubeload.' in sHostName or 'Facebook' in sHostName  or 'fastdrive' in sHostName or 'megaup.net' in sHostName  or 'openload' in sHostName):
             return False
 
-        if ('tuktuk' in sHosterUrl) or ('volvovideo' in sHostName) or ('lumiawatch' in sHostName):
-            return self.getHoster('tuktuk')
-
         # lien direct ?
         if any(sHosterUrl.endswith(x) for x in ['.mp4', '.avi', '.flv', '.m3u8', '.webm', '.mkv', '.mpd']):
             return self.getHoster('lien_direct')
+
+        if ('tuktuk' in sHosterUrl) or ('volvovideo' in sHostName) or ('lumiawatch' in sHostName):
+            return self.getHoster('tuktuk')
 
         if ('avideo.host' in sHosterUrl):
             return self.getHoster('avideo')

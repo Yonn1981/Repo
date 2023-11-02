@@ -357,7 +357,9 @@ def showEps():
     Ss = oInputParameterHandler.getValue('Ss')
     sSeriesTitle = oInputParameterHandler.getValue('sSeriesTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
-
+    if Ss is False:
+        Ss = sUrl.split("/")[5].split("+")[0]
+        SeasonTitle = ""
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 

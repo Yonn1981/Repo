@@ -22,12 +22,20 @@ UA = 'Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chr
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 MOVIE_AR = (URL_MAIN + 'category.php?cat=arabic-movies10', 'showMovies')
-MOVIE_EN = (URL_MAIN + 'category.php?cat=english-movies2', 'showMovies')
+MOVIE_EN = (URL_MAIN + 'category.php?cat=all_movies', 'showMovies')
+MOVIE_HI = (URL_MAIN + 'category.php?cat=indian-movies3', 'showMovies')
+MOVIE_ASIAN = (URL_MAIN + 'category.php?cat=asian-movies', 'showMovies')
+MOVIE_DUBBED = (URL_MAIN + 'category.php?cat=aflammdblgh', 'showMovies')
+KID_MOVIES = (URL_MAIN + 'category.php?cat=anime-movies', 'showMovies')
+
 RAMADAN_SERIES = (URL_MAIN + 'category.php?cat=ramadan-2023', 'showSeries')
 SERIE_EN = (URL_MAIN + 'category.php?cat=english-series3', 'showSeries')
 SERIE_AR = (URL_MAIN + 'category.php?cat=arabic-series22', 'showSeries')
 SERIE_HEND = (URL_MAIN + 'category.php?cat=4indian-series', 'showSeries')
 SERIE_TR = (URL_MAIN + 'category.php?cat=turkish-3isk-seriess21', 'showSeries')
+
+REPLAYTV_PLAY = (URL_MAIN+'category.php?cat=masrh1', 'showMovies')
+REPLAYTV_NEWS = (URL_MAIN + 'category.php?cat=tv-programs5', 'showSeries')
 
 URL_SEARCH = (URL_MAIN + '/search.php?keywords=', 'showSeries')
 URL_SEARCH_MOVIES = (URL_MAIN + '/search.php?keywords=', 'showMovies')
@@ -53,7 +61,23 @@ def load():
    
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_AR[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام عربية', 'arab.png', oOutputParameterHandler)
-	
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_ASIAN[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أسيوية', 'asia.png', oOutputParameterHandler)
+      
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', KID_MOVIES[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام كرتون', 'anim.png', oOutputParameterHandler)
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_DUBBED[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام مدبلجة', 'mdblg.png', oOutputParameterHandler)
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_HI[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام هندية', 'hend.png', oOutputParameterHandler)
+
     oOutputParameterHandler.addParameter('siteUrl', SERIE_AR[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات عربية', 'arab.png', oOutputParameterHandler)
 
@@ -66,7 +90,15 @@ def load():
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات هندية', 'hend.png', oOutputParameterHandler)
 
     oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'category.php?cat=8rmdan-2022')
+    oOutputParameterHandler.addParameter('siteUrl', REPLAYTV_PLAY[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'مسرحيات', 'msrh.png', oOutputParameterHandler)
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', REPLAYTV_NEWS[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'برامج تلفزيونية', 'brmg.png', oOutputParameterHandler)
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'category.php?cat=26ramadan-2022')
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'رمضان 2022', 'rmdn.png', oOutputParameterHandler)
 
     oGui.setEndOfDirectory()
@@ -189,7 +221,8 @@ def showSeries(sSearch = ''):
                 break
  
             siteUrl = aEntry[0]
-            
+            if 'حلقة' not in aEntry[1]: 
+                siteUrl = aEntry[0].replace("watch.php","play.php").replace("video.php","play.php")      
             sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("مشاهده","").replace("برنامج","").replace("مترجمة","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","")
             sThumb = aEntry[2]
             sDesc = ''
@@ -208,7 +241,10 @@ def showSeries(sSearch = ''):
                 oOutputParameterHandler.addParameter('sYear', sYear)
                 oOutputParameterHandler.addParameter('sThumb', sThumb)
 
-                oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+                if 'حلقة' not in aEntry[1]:
+                    oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+                else:
+                    oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
  
         sNextPage = __checkForNextPage(sHtmlContent)
         if sNextPage:
@@ -218,19 +254,15 @@ def showSeries(sSearch = ''):
 
         progress_.VSclose(progress_)
         
-  # ([^<]+) .+? (.+?)
- 
+
     if not sSearch:
         oGui.setEndOfDirectory()
  
-      # (.+?) ([^<]+) .+?
-	
 def __checkForNextPage(sHtmlContent):
     sPattern = '<li class="active">\s*<a href="#".+?<li class.+?href="([^"]+)"'
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    VSlog(aResult)
     if aResult[0] :
         
         return URL_MAIN+aResult[1][0]

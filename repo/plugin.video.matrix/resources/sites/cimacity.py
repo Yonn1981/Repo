@@ -37,9 +37,6 @@ SERIE_AR = (URL_MAIN + '/category.php?cat=moslslat-arabia', 'showSeries')
 RAMADAN_SERIES = (URL_MAIN + '/category.php?cat=ramdan-2023', 'showSeries')
 ANIM_NEWS = (URL_MAIN + '/category.php?cat=animation-series', 'showSeries')
 
-REPLAYTV_PLAY = (URL_MAIN + '/category.php?cat=tv-programs', 'showMovies')
-SPORT_WWE = (URL_MAIN + 'category.php?cat=mosaraa', 'showMovies')
-
 URL_SEARCH_MOVIES = (URL_MAIN + '/search.php?keywords=', 'showMovies')
 URL_SEARCH_SERIES = (URL_MAIN + '/search.php?keywords=', 'showSeries')
 FUNCTION_SEARCH = 'showMovies'
@@ -118,19 +115,7 @@ def load():
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', ANIM_NEWS[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات انمي', 'crtoon.png', oOutputParameterHandler)  
- 
-    oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', REPLAYTV_PLAY[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'مسرحيات', 'msrh.png', oOutputParameterHandler)
-
-    oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', SPORT_WWE[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'مصارعة', 'wwe.png', oOutputParameterHandler)
-    
-    oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/category.php?cat=netflix')
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات Netfilx', 'mslsl.png', oOutputParameterHandler)
-    
+     
     oGui.setEndOfDirectory()
 
 def showSearch():
@@ -170,7 +155,7 @@ def showMovies(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  # ([^<]+) .+? (.+?)
-    sPattern = '<div class="thumbnail">.+?<a href="([^<]+)" title="(.+?)">.+?data-echo="(.+?)" class='
+    sPattern = '<div class="thumbnail">.+?<a href="([^<]+)" title="(.+?)">.+?img src="(.+?)" alt='
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -188,7 +173,7 @@ def showMovies(sSearch = ''):
                continue
 
             sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[arabic]").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
-            siteUrl = aEntry[0].replace("/watch","/view")
+            siteUrl = aEntry[0]
             sThumb = aEntry[2]
             sDesc = ''
             sYear = ''
@@ -235,7 +220,7 @@ def showSeries(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  # ([^<]+) .+?
-    sPattern = '<div class="thumbnail">.+?<a href="([^<]+)" title="(.+?)">.+?data-echo="(.+?)" class='
+    sPattern = '<div class="thumbnail">.+?<a href="([^<]+)" title="(.+?)">.+?img src="(.+?)" alt='
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -253,7 +238,7 @@ def showSeries(sSearch = ''):
                continue
              
             sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[arabic]").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
-            siteUrl = aEntry[0].replace("/watch","/view")
+            siteUrl = aEntry[0]
             sThumb = aEntry[2]
             sTitle = sTitle.split('الحلقة')[0]
             sDesc = ''
@@ -283,68 +268,68 @@ def showSeries(sSearch = ''):
  
     if not sSearch:
         oGui.setEndOfDirectory()  
-def showSeasons(oInputParameterHandler = False):
-	oGui = cGui()
-    
-	oInputParameterHandler = cInputParameterHandler()
-	sUrl = oInputParameterHandler.getValue('siteUrl')
-	sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-	sThumb = oInputParameterHandler.getValue('sThumb')
+def showSeasons():
+    oGui = cGui()
+   
+    oInputParameterHandler = cInputParameterHandler()
+    sUrl = oInputParameterHandler.getValue('siteUrl')
+    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
+    sThumb = oInputParameterHandler.getValue('sThumb')
+
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request()
+
+    oParser = cParser()
+
+    sPattern =  '<h1 class="title">(.+?)</h1>' 
+    aResult = oParser.parse(sHtmlContent,sPattern)
+    if aResult[0] is True:
+        sTitleSeries = aResult[1][0]
+
+    sPattern = 'onclick=["\']openCity.+?["\'].+?>(.+?)</button>'    
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)  
+    if aResult[0]:
+        oOutputParameterHandler = cOutputParameterHandler()    
+        for aEntry in aResult[1]:
+            sID = aEntry.replace("الموسم ","")
+            sTitle = f'{sMovieTitle} {aEntry.replace("الموسم ","S")}'
+            siteUrl = sUrl
+            sDesc = ''
+            sThumb = sThumb
+            sYear = ''
  
-	oRequestHandler = cRequestHandler(sUrl)
-	sHtmlContent = oRequestHandler.request()
-    # .+? ([^<]+)
-	sPattern = '<a data-toggle="tab" href="([^<]+)">([^<]+)</a>'
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
+            oOutputParameterHandler.addParameter('SeasonID', sID)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
+            oOutputParameterHandler.addParameter('sYear', sYear) 
+            
+            oGui.addSeason(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
-	oParser = cParser()
-	aResult = oParser.parse(sHtmlContent, sPattern)
-		
-	if aResult[0]:
-		oOutputParameterHandler = cOutputParameterHandler()
-		for aEntry in aResult[1]:
- 
-			sTitle = sMovieTitle+aEntry[1].replace("الموسم"," S").replace("S "," S").replace("موسم"," S").replace("الأول"," S1")
-			siteUrl = sUrl+aEntry[0]
-			sThumb = sThumb
-			sDesc = ''
-			
-			oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-			oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-			oOutputParameterHandler.addParameter('sThumb', sThumb)
-			oGui.addSeason(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
-
-	else:
-		oParser = cParser()
-
-		sPattern = '<meta name="title" content="([^"]+)'
-		aResult = oParser.parse(sHtmlContent, sPattern)
-    
-		if (aResult[0]):
+    else:
+        oParser = cParser()
+        sPattern = '<meta name="title" content="([^"]+)'
+        aResult = oParser.parse(sHtmlContent, sPattern)    
+        if (aResult[0]):
                     sDesc = aResult[1][0]
-
-		sStart = '<div class="text-center servers_list">'
-		sEnd = '</div>'
-		sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
-
-		sPattern = '<a href="([^"]+)'
-		aResult = oParser.parse(sHtmlContent, sPattern)
-
-   
-		if aResult[0]:
-                    for aEntry in aResult[1]:
-
-                        siteUrl = aEntry
-			
-                        oRequestHandler = cRequestHandler(siteUrl)
-                        sData = oRequestHandler.request()
-   
-                        sPattern = '<iframe src="(.+?)" style=' 
-                        oParser = cParser()
-                        aResult = oParser.parse(sData, sPattern)
-	
-                        if aResult[0]:
-                            for aEntry in aResult[1]:
         
+        sPattern = '<a class="xtgo" href="([^"]+)'
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        if (aResult[0]):
+                    sRefer = aResult[1][0]
+
+        oRequestHandler = cRequestHandler(sRefer)
+        sHtmlContent = oRequestHandler.request()
+        
+        sStart = 'class="list_servers'
+        sEnd = '</div>'
+        sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
+        sPattern = 'iframe src=["\']([^"\']+)["\']'
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        if aResult[0]:
+                    for aEntry in aResult[1]:
+       
                                 url = aEntry
                                 url = url.replace("moshahda","ffsff")
                                 sTitle = sDesc
@@ -368,54 +353,43 @@ def showSeasons(oInputParameterHandler = False):
                                     oHoster.setDisplayName(sDisplayTitle)
                                     oHoster.setFileName(sMovieTitle)
                                     cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
-	oGui.setEndOfDirectory() 
+    oGui.setEndOfDirectory() 
     
-def showEps():
-    import requests
+def showEpisodes():
     oGui = cGui()
-   
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
-
-
-
+    SeasonID = oInputParameterHandler.getValue('SeasonID')
+ 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
     oParser = cParser()
-     # (.+?) ([^<]+) .+?
-    sStart = 'class="tab-pane fade  in active "'
-    sEnd = '</div>'
-    sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
-    # (.+?) .+? ([^<]+)
-    sPattern = 'href="([^<]+)".+?>([^<]+)</em>' 
+    SeasonID = str(int(SeasonID)-1)
 
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-    if aResult[0]:
-        oOutputParameterHandler = cOutputParameterHandler()    
+    sStart = f'id="Season{SeasonID}"'
+    sEnd = '</div>'
+    sHtmlContent2 = oParser.abParse(sHtmlContent, sStart, sEnd)
+
+    sPattern = 'href=["\']([^"\']+)["\'].+?>(.+?)</a>'
+    aResult = oParser.parse(sHtmlContent2, sPattern)
+    if aResult[0] :
+        oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
- 
-            sEp = "E"+aEntry[1]
-            sTitle = sMovieTitle+' '+sEp
-            siteUrl = aEntry[0].replace("/watch","/view")
-            siteUrl = siteUrl.replace("/watch","/view")
+            
+            sTitle = sMovieTitle+' E'+aEntry[1].replace('الحلقة ','')
+            siteUrl = aEntry[0]
             sThumb = sThumb
             sDesc = ''
-            sYear = ''
 			
-
-
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
-            oGui.addEpisode(SITE_IDENTIFIER, 'showServer', sTitle, sThumb, sThumb, sDesc, oOutputParameterHandler)
-               
-       
-    oGui.setEndOfDirectory() 
+            oGui.addEpisode(SITE_IDENTIFIER, 'showServer', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+           
+    oGui.setEndOfDirectory()
  
 	
 def showServer(oInputParameterHandler = False):
@@ -428,30 +402,27 @@ def showServer(oInputParameterHandler = False):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
     oParser = cParser()
-            
-    sStart = '<div class="text-center servers_list">'
+
+    sRefer = sUrl
+
+    sPattern =  '<a class="xtgo" href="([^"]+)' 
+    aResult = oParser.parse(sHtmlContent,sPattern)
+    if aResult[0]:
+        sRefer = aResult[1][0] 
+
+    oRequestHandler = cRequestHandler(sRefer)
+    sHtmlContent = oRequestHandler.request()
+
+    sStart = 'class="list_servers'
     sEnd = '</div>'
     sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
 
-    sPattern = '<a href="([^"]+)'
+    sPattern = 'iframe src=["\']([^"\']+)["\']'
     aResult = oParser.parse(sHtmlContent, sPattern)
 
-   
     if aResult[0]:
         for aEntry in aResult[1]:
-
-            siteUrl = aEntry
-			
-            oRequestHandler = cRequestHandler(siteUrl)
-            sData = oRequestHandler.request()
-   
-            sPattern = '<iframe src="(.+?)" style=' 
-            oParser = cParser()
-            aResult = oParser.parse(sData, sPattern)
-	
-            if aResult[0]:
-               for aEntry in aResult[1]:
-        
+      
                    url = aEntry
                    url = url.replace("moshahda","ffsff")
                    sTitle = " "
@@ -463,8 +434,6 @@ def showServer(oInputParameterHandler = False):
                    if 'nowvid' in sHosterUrl:
                        sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
                    if 'userload' in sHosterUrl:
-                       sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-                   if 'moshahda' in sHosterUrl:
                        sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
                    if 'mystream' in sHosterUrl:
                        sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  

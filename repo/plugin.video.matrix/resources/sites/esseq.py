@@ -160,6 +160,8 @@ def showSeries(sSearch = ''):
                 continue
  
             sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
+            if 'الموسم' not in aEntry[2]:
+                sTitle = sTitle + ' S1'
             siteUrl = aEntry[0]
             sThumb = aEntry[1].replace("(","").replace(")","")
             sDesc = ""
@@ -204,20 +206,21 @@ def showEps():
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    # (.+?) .+?  ([^<]+)
-    sPattern = '<article class="postEp">.+?<a href="([^"]+)".+?class="title">(.+?)</div>'
-    
 
+    sPattern = '<article class="postEp">.+?<a href="([^"]+)".+?</span>\s*<span>(.+?)</span>.+?class="title">(.+?)</div>'
     oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    
-   
+    aResult = oParser.parse(sHtmlContent, sPattern)   
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()  
         for aEntry in aResult[1]:
 
- 
-            sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("الموسم"," S").replace("S ","S").replace("الحلقة "," E").replace("حلقة "," E")
+            SerieTitle = aEntry[2].split('الحلقة ')[0].replace(' - ','')
+            m = re.search('([0-9]{1})', SerieTitle)
+            if m:
+               sS = str(m.group(0))
+               sTitle = 'S'+sS+' E'+aEntry[1]+' '+SerieTitle.replace(sS,'')
+            else:
+                sTitle = sMovieTitle+' E'+aEntry[1]
             siteUrl = aEntry[0] 
             import base64
             if '?url=' in siteUrl or '?post=' in siteUrl:
@@ -225,7 +228,6 @@ def showEps():
                 siteUrl = base64.b64decode(url_tmp).decode('utf8',errors='ignore')
             sThumb = sThumb
             sDesc = ''
- 
 
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)

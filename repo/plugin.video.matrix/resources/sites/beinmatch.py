@@ -107,8 +107,10 @@ def showLive(oInputParameterHandler = False):
             sMovieTitle = sMovieTitle
             if 'vimeo' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + mSite
-            if 'vimeo' not in sHosterUrl:
-                sHosterUrl = sHosterUrl + '|AUTH=TLS&verifypeer=false&Referer=' + mSite
+            if 'akamaized' in sHosterUrl:
+                sHosterUrl = sHosterUrl
+            else:
+                sHosterUrl = sHosterUrl + '|Referer=' + mSite
             if sHosterUrl.startswith('//'):
                 sHosterUrl = 'http:' + sHosterUrl            
 
@@ -183,7 +185,7 @@ def showLive(oInputParameterHandler = False):
 
                     if sHosterUrl.startswith('//'):
                         sHosterUrl = 'http:' + sHosterUrl            
-                    sHosterUrl = sHosterUrl + '|AUTH=TLS&verifypeer=false&Referer=' + mSite
+                    sHosterUrl = sHosterUrl + '|Referer=' + mSite
                     oHoster = cHosterGui().checkHoster(sHosterUrl)
                     if oHoster:
                         oHoster.setDisplayName(sDisplayTitle)
@@ -213,7 +215,7 @@ def showLive(oInputParameterHandler = False):
 
                     if sHosterUrl.startswith('//'):
                         sHosterUrl = 'http:' + sHosterUrl            
-                    sHosterUrl = sHosterUrl + '|AUTH=TLS&verifypeer=false&Referer=' + mSite
+                    sHosterUrl = sHosterUrl + '|Referer=' + mSite
                     oHoster = cHosterGui().checkHoster(sHosterUrl)
                     if oHoster:
                         oHoster.setDisplayName(sDisplayTitle)
@@ -231,7 +233,7 @@ def showLive(oInputParameterHandler = False):
 
                     if sHosterUrl.startswith('//'):
                         sHosterUrl = 'http:' + sHosterUrl            
-                    sHosterUrl = sHosterUrl + '|AUTH=TLS&verifypeer=false&Referer=' + mSite
+                    sHosterUrl = sHosterUrl + '|Referer=' + mSite
                     oHoster = cHosterGui().checkHoster(sHosterUrl)
                     if oHoster:
                         oHoster.setDisplayName(sDisplayTitle)
@@ -254,5 +256,19 @@ def showLive(oInputParameterHandler = False):
                     oHoster.setFileName(sMovieTitle)
                     cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
+        sPattern = 'itemprop="embedUrl" content="([^"]+)'
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        if aResult[0]:
+            for aEntry in aResult[1]:
+            
+                sHosterUrl = aEntry
+                if sHosterUrl.startswith('//'):
+                    sHosterUrl = 'http:' + sHosterUrl            
+
+                oHoster = cHosterGui().checkHoster(sHosterUrl)
+                if oHoster:
+                    oHoster.setDisplayName('شاهد الاهداف')
+                    oHoster.setFileName(sMovieTitle)
+                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
             
     oGui.setEndOfDirectory() 

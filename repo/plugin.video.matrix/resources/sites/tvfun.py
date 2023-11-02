@@ -108,6 +108,8 @@ def showSeries(sSearch = ''):
             siteUrl = aEntry[0]
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + siteUrl
+            if siteUrl.startswith('/'):
+                siteUrl = URL_MAIN + siteUrl
 
             sThumb = aEntry[2]
             sDesc = ''
@@ -215,11 +217,11 @@ def showSeriesSearch(sSearch = ''):
             siteUrl = aEntry[0]
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + siteUrl
+            if siteUrl.startswith('/'):
+                siteUrl = URL_MAIN + siteUrl
 
             sThumb = aEntry[2]
 			
-
-
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -346,11 +348,11 @@ def showEpisodes():
             siteUrl = aEntry[0]
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + siteUrl
+            if siteUrl.startswith('/'):
+                siteUrl = URL_MAIN + siteUrl
 
             sThumb = sThumb
 			
-
-
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)

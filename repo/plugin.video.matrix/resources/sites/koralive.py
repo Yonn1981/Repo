@@ -437,8 +437,6 @@ def showHosters(oInputParameterHandler = False):
                                     oHoster.setFileName(sTitle)
                                     cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
-
-
     oGui.setEndOfDirectory()    
 
 def Hoster_ShareCast(url, referer):

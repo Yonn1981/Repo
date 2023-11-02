@@ -16,7 +16,7 @@ UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101 Firefox/68.0'
 class cHoster(iHoster):
 
     def __init__(self):
-        iHoster.__init__(self, 'egybest', 'EgyBest')
+        iHoster.__init__(self, 'egybest', 'EgyBest', 'gold')
 
     def isDownloadable(self):
         return False
@@ -34,8 +34,7 @@ class cHoster(iHoster):
         oRequest.addHeaderEntry('user-agent',UA)
         oRequest.addHeaderEntry('Referer',sReferer)
         sHtmlContent = oRequest.request()
-
-        
+       
         oParser = cParser()
         
         sPattern = '(eval\(function\(p,a,c,k,e(?:.|\s)+?\))<\/script>'
@@ -43,7 +42,6 @@ class cHoster(iHoster):
         if aResult[0]:
             sHtmlContent = cPacker().unpack(aResult[1][0])
         
-            # (.+?) .+?
         sPattern = 'file:"(.+?)"'
         aResult = oParser.parse(sHtmlContent, sPattern)
         if aResult[0]:
@@ -65,7 +63,19 @@ class cHoster(iHoster):
                     if url:
                         api_call = api_call + dialog().VSselectqual(qua, url)
 
+        url=[]
+        qua=[]
+        sPattern = 'file:\s*"([^"]+)".+?label:\s*"([^"]+)'
+        aResult = oParser.parse(sHtmlContent,sPattern)
+        if aResult[0] is True:
+            for aEntry in aResult[1]:
+
+                url.append(aEntry[0])
+                qua.append(aEntry[1]) 
+            if url:
+                api_call = dialog().VSselectqual(qua,url)
+
         if api_call:
-            return True, api_call
+            return True, api_call.replace(' ','%20') 
 
         return False, False

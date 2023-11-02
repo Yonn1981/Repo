@@ -2,6 +2,8 @@
 #zombi https://github.com/zombiB/zombi-addons/
 
 import re
+import requests
+import json 
 	
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
@@ -286,39 +288,81 @@ def showLink():
     
     oParser = cParser()
     
-    #Recuperation infos
     sNote = ''
 
-    sPattern = 'قصة الفيلم:([^<]+)<br>'
+    sPattern = '<br>\s*قصة الفيلم:\s*<br>([^<]+)<br>'
     aResult = oParser.parse(sHtmlContent, sPattern)
     
     if (aResult[0]):
         sNote = aResult[1][0]
-    # (.+?) .+? ([^<]+)
-    sPattern = '<input type="hidden" name="([^<]+)" value="1">'
-    
+
+    sPattern = '<input type="hidden" name="([^<]+)" value="1">'   
     oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    
-   
+    aResult = oParser.parse(sHtmlContent, sPattern)  
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler() 
         for aEntry in aResult[1]:
- 
-            sTitle = aEntry
-            siteUrl = sUrl
-            sThumb = sThumb
             sDesc = sNote
- 
-            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
-            oOutputParameterHandler.addParameter('sThumb', sThumb)
-			
-            if 'download' in sTitle:
+ 		
+            if 'download' in aEntry:
                 oGui.addLink(SITE_IDENTIFIER, 'showServer', sTitle, sThumb, sDesc, oOutputParameterHandler)
             else:
-                oGui.addLink(SITE_IDENTIFIER, 'showServer2', sTitle, sThumb, sDesc, oOutputParameterHandler)
- 
+                s = requests.Session()            
+                headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0' }
+
+                data = {'watch':'1'}
+                r = s.post(sUrl,data=data,headers=headers)
+                sHtmlContent = r.content.decode('utf8')
+
+                sPattern = 'postid-(.+?)">'
+                aResult = oParser.parse(sHtmlContent, sPattern)
+                if (aResult[0]):
+                    sId = aResult[1][0]
+
+                sPattern = 'url: ["\']([^"\']+)["\']'
+                aResult = oParser.parse(sHtmlContent, sPattern)
+                if (aResult[0]):
+                    serverURL = aResult[1][0]
+
+                sPattern2 = '<li data-name="([^<]+)" data-type="free"'
+                oParser = cParser()
+                aResult = oParser.parse(sHtmlContent, sPattern2)
+                if aResult[0]:
+                    for aEntry in aResult[1]:
+                        nume = aEntry
+                        headers = {'User-Agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Mobile Safari/537.36',
+							'Accept': '*/*',
+							'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
+							'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+							'X-Requested-With': 'XMLHttpRequest',
+							'Connection': 'keep-alive'}
+                        data = {'id':sId,'name':nume,'type':'free'}
+                        r = s.post(serverURL, headers=headers, data = data)
+                        sHtmlContent = r.content.decode('utf8')         
+
+                        sPattern3 = '<iframe.+?src="([^"]+)'
+                        oParser = cParser()
+                        aResult = oParser.parse(sHtmlContent, sPattern3)
+                        if aResult[0]:
+                            for aEntry in aResult[1]:
+            
+                                url = aEntry
+                                sTitle = sMovieTitle
+                                if url.startswith('//'):
+                                    url = 'http:' + url
+						            
+                                sHosterUrl = url 
+                                if 'userload' in sHosterUrl:
+                                    sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                                if 'mystream' in sHosterUrl:
+                                    sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN   
+                                oHoster = cHosterGui().checkHoster(sHosterUrl)
+                                if oHoster:
+                                    sDisplayTitle = sTitle
+                                    oHoster.setDisplayName(sDisplayTitle)
+                                    oHoster.setFileName(sMovieTitle)
+                                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+
     oGui.setEndOfDirectory() 
 	 
 def showServer(oInputParameterHandler = False):
@@ -330,26 +374,18 @@ def showServer(oInputParameterHandler = False):
     sThumb = oInputParameterHandler.getValue('sThumb')
     sDesc = oInputParameterHandler.getValue('sDesc')
 
-
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-
    
     oParser = cParser()
-    
-    #Recuperation infos
     sId = ''
 
     sPattern = 'postid-(.+?)">'
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    
+    aResult = oParser.parse(sHtmlContent, sPattern)   
     if (aResult[0]):
         sId = aResult[1][0]
 
-    
-  # ([^<]+) .+?
-    headers = {'Host': 'ok.arbcinema.com',
-     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
+    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
      'Accept': '*/*',
      'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -357,17 +393,13 @@ def showServer(oInputParameterHandler = False):
      'Connection': 'keep-alive'}
     data = sId
     data = {'id':data,'key':'0','type':'normal'}
-    import requests
     s = requests.Session()
-    r = s.post('https://ok.arbcinema.com/wp-content/themes/takweed/functions/inc/single/server.php', headers=headers, data = data)
+    r = s.post(URL_MAIN+'wp-content/themes/takweed/functions/inc/single/server.php', headers=headers, data = data)
     sHtmlContent = r.content.decode('utf8') 
-    
-    # (.+?) .+? ([^<]+)        	
+          	
     sPattern = '<a href="([^<]+)" rel'
     oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-	
+    aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
         for aEntry in aResult[1]:
             
@@ -375,13 +407,9 @@ def showServer(oInputParameterHandler = False):
             sTitle = sMovieTitle
             if url.startswith('//'):
                url = 'http:' + url
-				
-					
-            
+				            
             sHosterUrl = url 
             if 'userload' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-            if 'moshahda' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
             if 'mystream' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
@@ -393,95 +421,6 @@ def showServer(oInputParameterHandler = False):
 				
        
     oGui.setEndOfDirectory()	 
-def showServer2(oInputParameterHandler = False):
-    oGui = cGui()
-   
-    oInputParameterHandler = cInputParameterHandler()
-    sUrl = oInputParameterHandler.getValue('siteUrl')
-    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumb = oInputParameterHandler.getValue('sThumb')
-    sDesc = oInputParameterHandler.getValue('sDesc')
-
-
-    oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
-
-   
-    oParser = cParser()
-    
-    #Recuperation infos
-    sId = ''
-     # (.+?) ([^<]+) .+?
-    sPattern = 'postid-(.+?)">'
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    
-    if (aResult[0]):
-        sId = aResult[1][0]
-
-    #print sId
-    
-        headers = {'Host': 'ok.arbcinema.com',
-					'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
-					'Accept': '*/*',
-					'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
-					'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-					'X-Requested-With': 'XMLHttpRequest',
-					'Referer': sUrl,
-					'Connection': 'keep-alive'}
-        data = {'watch':'1'}
-        import requests
-        s = requests.Session()
-        r = s.post(sUrl,data = data)
-        sHtmlContent = r.content.decode('utf8')  
-
-        sPattern2 = '<li data-name="([^<]+)" data-type="free"'
-        oParser = cParser()
-        aResult = oParser.parse(sHtmlContent, sPattern2)
-        if aResult[0]:
-           for aEntry in aResult[1]:
-               nume = aEntry
-               headers = {'Host': 'ok.arbcinema.com',
-							'User-Agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Mobile Safari/537.36',
-							'Accept': '*/*',
-							'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
-							'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-							'X-Requested-With': 'XMLHttpRequest',
-							'Connection': 'keep-alive'}
-               data = {'id':sId,'name':nume,'type':'free'}
-               s = requests.Session()
-               r = s.post( 'https://ok.arbcinema.com/wp-content/themes/takweed/functions/inc/single/server.php', headers=headers, data = data)
-               sHtmlContent = r.content.decode('utf8')         
-
-               sPattern3 = '<IFRAME.+?SRC="(.+?)".+?FRAMEBORDER='
-
-               oParser = cParser()
-               aResult = oParser.parse(sHtmlContent, sPattern3)
-               if aResult[0]:
-                  for aEntry in aResult[1]:
-            
-                      url = aEntry
-                      sTitle = sMovieTitle
-                      if url.startswith('//'):
-                         url = 'http:' + url
-						
-							
-            
-                      sHosterUrl = url 
-                      if 'userload' in sHosterUrl:
-                          sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-                      if 'moshahda' in sHosterUrl:
-                          sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-                      if 'mystream' in sHosterUrl:
-                          sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN   
-                      oHoster = cHosterGui().checkHoster(sHosterUrl)
-                      if oHoster:
-                         sDisplayTitle = sTitle
-                         oHoster.setDisplayName(sDisplayTitle)
-                         oHoster.setFileName(sMovieTitle)
-                         cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
-
-       
-    oGui.setEndOfDirectory()
  
  
 def __checkForNextPage(sHtmlContent):

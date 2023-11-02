@@ -28,8 +28,9 @@ class cHoster(iHoster):
         list_url = []
         
             # (.+?) .+?
-        sPattern = 'file:"(.+?)"'
+        sPattern = 'file:"([^"]+)'
         aResult = oParser.parse(sHtmlContent, sPattern)
+        VSlog(aResult)
         if aResult[0]:
             url2 = aResult[1][0]
             oRequestHandler = cRequestHandler(url2)

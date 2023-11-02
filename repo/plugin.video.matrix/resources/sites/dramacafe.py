@@ -2,6 +2,7 @@
 # zombi https://github.com/zombiB/zombi-addons/
 
 import re
+import base64
 from urllib import request
 from resources.lib.config import cConfig
 	
@@ -81,6 +82,10 @@ def load():
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام كرتون', 'anim.png', oOutputParameterHandler)
 
     oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_DUBBED[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام مدبلجة', 'mdblg.png', oOutputParameterHandler)
+
+    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_HI[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام هندية', 'hend.png', oOutputParameterHandler)
     
@@ -111,14 +116,9 @@ def load():
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', REPLAYTV_NEWS[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'برامج تلفزيونية', 'brmg.png', oOutputParameterHandler)
-	
-    
+	  
     oGui.setEndOfDirectory()
 
-
- 
-
- 
  
 def showSearch():
     oGui = cGui() 
@@ -298,7 +298,7 @@ def showEpisodes():
     sEnd = '</div>'
     sHtmlContent2 = oParser.abParse(sHtmlContent, sStart, sEnd)
 
-    sPattern = 'href="([^"]+)"><li><em>(.+?)</em>'
+    sPattern = 'href=["\']([^"\']+)["\']><li><em>(.+?)</em>'
     aResult = oParser.parse(sHtmlContent2, sPattern)
     if aResult[0] :
         oOutputParameterHandler = cOutputParameterHandler()
@@ -306,7 +306,6 @@ def showEpisodes():
             
             sTitle = sMovieTitle+' E'+aEntry[1]
             siteUrl = URL_MAIN+aEntry[0]
-            import base64
             if '?post=' in siteUrl:
                 url_tmp = siteUrl.split('?post=')[-1].replace('%3D','=')
                 siteUrl = base64.b64decode(url_tmp).decode('utf8',errors='ignore')
@@ -348,6 +347,31 @@ def showHosters(oInputParameterHandler = False):
         oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
         oRequestHandler.addHeaderEntry('referer', URL_MAIN)
         sHtmlContent = oRequestHandler.request() 
+
+
+    sPattern =  'name="isFormServs" value="([^"]+)' 
+    aResult = oParser.parse(sHtmlContent,sPattern)
+    if aResult[0] is True:
+        m3url = aResult[1][0]
+        sHtmlContent = base64.b64decode(m3url).decode('utf8',errors='ignore').replace('\\','')
+
+    sPattern = '"([^"]+)":"([^"]+)' 
+    aResult = re.findall(sPattern, sHtmlContent)
+	
+    if aResult:
+        for aEntry in aResult:
+            if 'home' in aEntry[0] or 'back' in aEntry[0]:
+                continue        
+            url = aEntry[1]
+            if url.startswith('//'):
+               url = 'http:' + url
+			           
+            sHosterUrl = url
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if oHoster != False:
+               oHoster.setDisplayName(sMovieTitle)
+               oHoster.setFileName(sMovieTitle)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
     sPattern = 'data-embed-url=["\']([^"\']+)["\']' 
     aResult = re.findall(sPattern, sHtmlContent)

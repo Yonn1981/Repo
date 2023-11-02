@@ -79,7 +79,7 @@
         "arbcinema": {
             "label": "Arbcinema",
             "active": "True",
-            "url": "https://ok.arbcinema.com/"
+            "url": "https://movi.arbcinema.com/"
         },
         "arblionz": {
             "label": "Arblionz",
@@ -154,7 +154,7 @@
         "cimacity": {
             "label": "CimaCity",
             "active": "True",
-            "url": "https://c1.cima-city.site/"
+            "url": "http://cima-city.xyz/"
         },
         "cimaking": {
             "label": "CimaKing",
@@ -320,12 +320,12 @@
         "koralive": {
             "label": "Koralive",
             "active": "True",
-            "url": "https://online.360kora-live.com/",
-            "url2": "https://www.alkoora-live.live/"
+            "url": "https://lives.360kora-live.com/",
+            "url2": "https://koora.alkoora-live.live/"
         },
         "laroza": {
             "label": "Laroza",
-            "active": "False",
+            "active": "True",
             "url": "https://d.laroza.one/"
         },
         "linkbox": {

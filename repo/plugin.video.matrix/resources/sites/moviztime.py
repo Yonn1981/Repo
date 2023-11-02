@@ -249,7 +249,7 @@ def showSeries(sSearch = ''):
             sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("مشاهده","").replace("برنامج","").replace("مترجمة","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","")
             sThumb = aEntry[2]
             sDesc = ''
-            sTitle = sTitle.replace('الموسم','S').replace('موسم','S').split('الحلقة')[0].replace('الأول','1').replace('الاول','1').replace('الثاني','2').replace('كامل','').replace('-','')
+            sTitle = sTitle.replace('الموسم','S').replace('موسم','S').split('الحلقة')[0].replace('الأول','1').replace('الاول','1').replace('الثاني عشر','12').replace('الثاني','2').replace('الثالث','3').replace('الرابع','4').replace('الخامس','5').replace('السادس','6').replace('السابع','7').replace('الثامن','8').replace('التاسع','9').replace('العاشر','10').replace('كامل','').replace('-','')
             sYear = ''
             m = re.search('([0-9]{4})', sTitle)
             if m:
