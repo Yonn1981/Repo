@@ -296,7 +296,7 @@ def showHosters(oInputParameterHandler = False):
     sEnd = 'class="videoWrapper'
     sHtmlContent1 = oParser.abParse(sHtmlContent, sStart, sEnd)
 
-    sPattern = "loadIfram.+?'([^']+)'.+?>([^<]+)"
+    sPattern = 'data-url=["\']([^"\']+)["\'].+?>([^<]+)</a'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent1, sPattern)
     if aResult[0]:
@@ -355,7 +355,7 @@ def showHosters(oInputParameterHandler = False):
             sQual = aEntry[0].replace("الخارقة ","").replace(" العالية","").replace("المتوسطة","").replace("الجودة","").replace('-','').replace(' ','')
             sHtmlContent1 = aEntry[1]
 
-            sPattern = 'href="([^"]+)'
+            sPattern = 'data-url="([^"]+)'
 
             oParser = cParser()
             aResult = oParser.parse(sHtmlContent1, sPattern)
