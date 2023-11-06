@@ -2,6 +2,7 @@
 # zombi https://github.com/zombiB/zombi-addons/
 
 import re
+import requests
 	
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
@@ -49,11 +50,8 @@ def showPack():
     sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
     sPattern = 'href="([^<]+)">([^<]+)</a>'
 
-
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
@@ -85,10 +83,8 @@ def showPackMovies(sSearch = ''):
    
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-	 # .+? ([^<]+) 
 
     sPattern = '<div class="categoryNewsCard">.+?<a href=([^<]+)>.+?data-original="([^<]+)" alt="([^<]+)" />'
-
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
@@ -123,10 +119,17 @@ def showMovies(sSearch = ''):
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
-   
+    nVIdeo = oInputParameterHandler.getValue('nVIdeo')
+    
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-	 # .+? ([^<]+) 
+
+    if nVIdeo:
+        s = requests.Session() 
+        headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0' }
+        data = {'VideoID':nVIdeo}
+        r = s.post(URL_MAIN+'video/LoadMore/70301',data=data,headers=headers)
+        sHtmlContent = r.content.decode('utf8').replace('\\','').replace('u003c','<').replace('u003e','>').replace('rn','')
 
     sPattern = '<div class="categoryNewsCard">.+?<a href=([^<]+)>.+?data-original="([^<]+)" alt="([^<]+)" />'
 
@@ -152,33 +155,15 @@ def showMovies(sSearch = ''):
 
         progress_.VSclose(progress_)
 
+        sNextPage = __checkForNextPage(sHtmlContent)
+        if sNextPage:
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
+            if 'LoadMore/' in sNextPage:
+                oOutputParameterHandler.addParameter('nVIdeo', sNextPage.split('LoadMore/')[1].replace('&cat=0',''))
+            oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
 
     sPattern = '<h1 class="title">([^<]+)</h1>.+?<a href="([^<]+)">.+?data-original="([^<]+)" alt='
-
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    if aResult[0]:
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        oOutputParameterHandler = cOutputParameterHandler()  
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
-            sUrl = aEntry[1]
-            sUrl = URL_MAIN+sUrl
-            sTitle = aEntry[0]
-            sDesc = ""
-            sThumb = aEntry[2]
-            oOutputParameterHandler.addParameter('siteUrl', sUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumb', sThumb)
-            oGui.addMisc(SITE_IDENTIFIER, 'showHosters', sTitle, 'doc.png', sThumb, sDesc, oOutputParameterHandler)
-
-        progress_.VSclose(progress_)
-
-    sPattern = '<h1 class="title">([^<]+)</h1>.+?<a href="([^<]+)">.+?<img src="([^<]+)" alt='
-
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
@@ -205,7 +190,11 @@ def showMovies(sSearch = ''):
         if sNextPage:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
+            if 'LoadMore/' in sNextPage:
+                oOutputParameterHandler.addParameter('nVIdeo', sNextPage.split('LoadMore/')[1].replace('&cat=0',''))
             oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+
+
 
     oGui.setEndOfDirectory()
 
@@ -214,13 +203,13 @@ def __checkForNextPage(sHtmlContent):
     sPattern = 'data-val="(.+?)"'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    
     if aResult[0]:
-        nPage = URL_MAIN+'video/LoadMore?VideoID='+aResult[1][0]+'&cat='
-        return nPage
+        for aEntry in reversed(aResult[1]):
+            nPage = int(aEntry)
+            nPage = f'{URL_MAIN}video/LoadMore/{nPage}&cat=0'
+            return nPage
 
-
-    sPattern = '<li class="active"><a>.+?<a href="(.+?)"'
+    sPattern = 'class="next-page"><a href="(.+?)"'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     
@@ -310,6 +299,13 @@ def showHosters(oInputParameterHandler = False):
                         oHoster.setDisplayName(sDisplayTitle)
                         oHoster.setFileName(sMovieTitle)
                         cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+
+    sPattern = '<h1>(.+?)</h1>'
+    aResult = oParser.parse(sHtmlContent2, sPattern)
+    if aResult[0]:
+        for aEntry in aResult[1]:
+            sDesc = aEntry
+            oGui.addText(SITE_IDENTIFIER, f'[COLOR orange] {sDesc} [/COLOR]')
 
                 
     oGui.setEndOfDirectory()    
