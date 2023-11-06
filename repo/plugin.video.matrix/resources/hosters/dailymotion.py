@@ -7,7 +7,7 @@ from resources.lib.comaddon import dialog, VSlog
 
 class cHoster(iHoster):
     def __init__(self):
-        iHoster.__init__(self, 'dailymotion', 'dailymotion')
+        iHoster.__init__(self, 'dailymotion', 'Dailymotion')
 
     def isDownloadable(self):
         return True

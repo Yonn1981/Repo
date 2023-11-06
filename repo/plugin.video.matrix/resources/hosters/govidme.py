@@ -10,7 +10,7 @@ UA = 'Android'
 class cHoster(iHoster):
 
     def __init__(self):
-        iHoster.__init__(self, 'govidme', 'govid')
+        iHoster.__init__(self, 'govidme', 'Govid')
 
     def isDownloadable(self):
         return True

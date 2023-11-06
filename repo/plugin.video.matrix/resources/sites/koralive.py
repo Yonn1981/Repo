@@ -238,7 +238,6 @@ def showHosters(oInputParameterHandler = False):
 
             sPattern = '<video.+?src="([^"]+)'
             aResult = oParser.parse(sHtmlContent, sPattern)
-            VSlog(aResult)
             if aResult[0]:
                 for aEntry in aResult[1]:
                     url = aEntry.replace("('","").replace("')","")
@@ -257,7 +256,6 @@ def showHosters(oInputParameterHandler = False):
 
             sPattern = 'var file = ["\']([^"\']+)["\']'
             aResult = oParser.parse(sHtmlContent, sPattern)
-            VSlog(aResult)
             if aResult[0]:
                 for aEntry in aResult[1]:
                     url = aEntry.replace("('","").replace("')","")
@@ -312,7 +310,6 @@ def showHosters(oInputParameterHandler = False):
 
             sPattern = '<iframe.+?src="([^"]+)'
             aResult = oParser.parse(sHtmlContent, sPattern)
-
             if aResult[0]:
                 for aEntry in aResult[1]:
                     if 'http' not in aEntry:
@@ -349,7 +346,7 @@ def showHosters(oInputParameterHandler = False):
                             oHoster.setFileName(sTitle)
                             cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
-                    if 'realbitsport' in aEntry or 'abolishstand' in aEntry:
+                    if 'realbitsport' in aEntry or 'abolishstand' in aEntry or 'yalla-shoot' in aEntry:
                         url = getHosterIframe(aEntry,murl)  
                         sHosterUrl = url
                         oHoster = cHosterGui().checkHoster(sHosterUrl)
@@ -483,15 +480,16 @@ def getHosterIframe(url, referer):
     aResult = re.findall(sPattern, sHtmlContent)
     if aResult:
         import base64
-        code = aResult[0]
-        try:
-            if isMatrix():
-                code = base64.b64decode(code).decode('ascii')
-            else:
-                code = base64.b64decode(code)
-            return code + '|Referer=' + referer
-        except Exception as e:
-            pass
+        for code in aResult:
+            try:
+                if isMatrix():
+                    code = base64.b64decode(code).decode('ascii')
+                else:
+                    code = base64.b64decode(code)
+                if '.m3u8' in code:
+                    return True, code + '|Referer=' + url
+            except Exception as e:
+                pass
     
     sPattern = '<iframe.+?src=["\']([^"\']+)["\']'
     aResult = re.findall(sPattern, sHtmlContent)
@@ -542,7 +540,10 @@ def getHosterIframe(url, referer):
     sPattern = 'file: *["\'](https.+?\.m3u8)["\']'
     aResult = re.findall(sPattern, sHtmlContent)
     if aResult:
-        return aResult[0] + '|referer=' + referer
+        oRequestHandler = cRequestHandler(aResult[0])
+        oRequestHandler.request()
+        sHosterUrl = oRequestHandler.getRealUrl()
+        return True, sHosterUrl + '|referer=' + referer
 
     sPattern = "onload=\"ThePlayerJS\('.+?','([^\']+)"
     aResult = re.findall(sPattern, sHtmlContent)

@@ -166,6 +166,11 @@
             "active": "True",
             "url": "https://cimaleek.to/"
         },
+        "cimalina": {
+            "label": "CimaLina",
+            "active": "True",
+            "url": "https://cimalina.cam/"
+        },
         "cimanow": {
             "label": "CimaNow",
             "active": "True",
@@ -269,7 +274,7 @@
         },
         "gateanime": {
             "label": "Gateanime",
-            "active": "True",
+            "active": "False",
             "url": "https://c.gateanime.com/"
         },
         "geoarabic": {
@@ -304,7 +309,7 @@
         },
         "katkoute": {
             "label": "Katkoute",
-            "active": "True",
+            "active": "False",
             "url": "https://www.katkoute.com/"
         },
         "karbala": {
@@ -332,6 +337,11 @@
             "label": "Telebox",
             "active": "True",
             "url": "https://www.linkbox.to"
+        },
+        "livetv": {
+            "label": "Live TV",
+            "active": "True",
+            "url": "https://livetv.sx/"
         },
         "lodynet": {
             "label": "Lodynet",
@@ -419,15 +429,10 @@
             "active": "True",
             "url": "https://solarmovie.pe"
         },
-        "solarone": {
-            "label": "SolarOne",
-            "active": "True",
-            "url": "https://wwv.solarmovie.one/"
-        },
         "stardima": {
             "label": "Stardima",
             "active": "True",
-            "url": "https://www.stardiima.sbs/watch/"
+            "url": "https://stardima.vip/watch/"
         },
         "tma": {
             "label": "The Movie Archive",

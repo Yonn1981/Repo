@@ -37,17 +37,16 @@ def showMovies(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  
-# ([^<]+) .+? (.+?)
     oParser = cParser()
     sPattern =  '<link rel="canonical" href="([^"]+)' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0]:
         mSite = aResult[1][0] 
 
-    sPattern = '<button class="btn" onclick="goToMatch(.+?),([^<]+);">(.+?)</button>'
+    sPattern = '<button class="btn" onclick="goToMatch\((.+?)\,["\']([^"\']+)["\']\);">(.+?)</button>'
+    sPattern += '.+?style="background-image: url\((.+?)\);".+?<td style.+?<td style.+?>([^<]+)<' 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-	
     if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -57,12 +56,16 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle =  aEntry[1].replace(')','').replace("'",'').replace('_',' ')
-            sThumb = ""
-            siteUrl = mSite+"bein/live/"+aEntry[0].replace('(','')
+            sTitle =  aEntry[1].replace('_',' ')
+            sThumb = ''
+            if aEntry[3]:
+                sThumb = aEntry[3]
+            siteUrl = mSite+"bein/live/"+aEntry[0]
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + aEntry[0]
             sDesc = aEntry[2]
+            if aEntry[4]:
+                sDesc = aEntry[2]+ "\n \nوقت المباراة: "+aEntry[4]
 			
 			
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)

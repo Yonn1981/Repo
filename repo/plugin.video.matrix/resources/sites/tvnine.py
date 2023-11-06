@@ -714,9 +714,8 @@ def getHosterIframe(url, referer):
     if not sHtmlContent:
         return False
 
-    referer = url
-    if 'channel' in referer:
-         referer = referer.split('channel')[0]
+    if 'channel' in url:
+         referer = url.split('channel')[0]
 
     sPattern = '(\s*eval\s*\(\s*function(?:.|\s)+?{}\)\))'
     aResult = re.findall(sPattern, sHtmlContent)
@@ -738,15 +737,16 @@ def getHosterIframe(url, referer):
     aResult = re.findall(sPattern, sHtmlContent)
     if aResult:
         import base64
-        code = aResult[0]
-        try:
-            if isMatrix():
-                code = base64.b64decode(code).decode('ascii')
-            else:
-                code = base64.b64decode(code)
-            return code + '|Referer=' + referer
-        except Exception as e:
-            pass
+        for code in aResult:
+            try:
+                if isMatrix():
+                    code = base64.b64decode(code).decode('ascii')
+                else:
+                    code = base64.b64decode(code)
+                if '.m3u8' in code:
+                    return True, code + '|Referer=' + url
+            except Exception as e:
+                pass
     
     sPattern = '<iframe.+?src=["\']([^"\']+)["\']'
     aResult = re.findall(sPattern, sHtmlContent)
@@ -797,7 +797,18 @@ def getHosterIframe(url, referer):
     sPattern = 'file: *["\'](https.+?\.m3u8)["\']'
     aResult = re.findall(sPattern, sHtmlContent)
     if aResult:
-        return aResult[0] + '|referer=' + referer
+        oRequestHandler = cRequestHandler(aResult[0])
+        oRequestHandler.request()
+        sHosterUrl = oRequestHandler.getRealUrl()
+        return True, sHosterUrl + '|referer=' + referer
+
+    sPattern = "onload=\"ThePlayerJS\('.+?','([^\']+)"
+    aResult = re.findall(sPattern, sHtmlContent)
+    if aResult:
+        url = 'https://sharecast.ws/player/' + aResult[0]
+        b, url = Hoster_ShareCast(url, referer)
+        if b:
+            return True, url
 
     sPattern = '[^/]source.+?["\'](https.+?)["\']'
     aResult = re.findall(sPattern, sHtmlContent)
@@ -810,3 +821,4 @@ def getHosterIframe(url, referer):
         return aResult[0] + '|referer=' + referer
 
     return False
+	
