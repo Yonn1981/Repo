@@ -128,7 +128,7 @@ def showMovies(sSearch = ''):
         s = requests.Session() 
         headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0' }
         data = {'VideoID':nVIdeo}
-        r = s.post(URL_MAIN+'video/LoadMore/70301',data=data,headers=headers)
+        r = s.post(URL_MAIN+'video/LoadMore/'+nVIdeo,data=data,headers=headers)
         sHtmlContent = r.content.decode('utf8').replace('\\','').replace('u003c','<').replace('u003e','>').replace('rn','')
 
     sPattern = '<div class="categoryNewsCard">.+?<a href=([^<]+)>.+?data-original="([^<]+)" alt="([^<]+)" />'
