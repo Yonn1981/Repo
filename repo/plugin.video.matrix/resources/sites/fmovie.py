@@ -14,7 +14,23 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
-from resources.lib.util import cUtil, Unquote
+
+
+import sys, os, re, json, base64
+if sys.version_info >= (3,0,0):
+# for Python 3
+    to_unicode = str
+    from resources.lib.cmf3 import parseDOM
+    from resources.lib.cmf3 import replaceHTMLCodes
+    from urllib.parse import unquote, parse_qs, parse_qsl, quote, urlencode, quote_plus
+
+else:
+    # for Python 2
+    to_unicode = unicode
+    from resources.lib.cmf2 import parseDOM
+    from resources.lib.cmf2 import replaceHTMLCodes
+    from urllib import unquote, quote, urlencode, quote_plus
+    from urlparse import parse_qsl, parse_qs
 
 SITE_IDENTIFIER = 'fmovie'
 SITE_NAME = 'FMovies'
@@ -312,7 +328,9 @@ def showSeasons():
 
             action = "fmovies-vrf"
 
-            vrf = vrf_function(sId, action)
+
+            vrf = getVerid(sId)
+
 
             sUrl = URL_MAIN + '/ajax/episode/list/' + sId + '?vrf=' + vrf
 
@@ -376,7 +394,7 @@ def showEps():
 
             action = "fmovies-vrf"
 
-            vrf = vrf_function(sId, action)
+            vrf = getVerid(sId)
 
             sUrl = URL_MAIN + '/ajax/episode/list/' + sId + '?vrf=' + vrf
 
@@ -413,7 +431,7 @@ def showEps():
 
                     action = "fmovies-vrf"
                     from urllib.parse import quote
-                    vrf = quote(vrf_function(sId, action))
+                    vrf = quote(getVerid(sId))
 
                     siteUrl = URL_MAIN + '/ajax/server/list/' + sId +'?vrf='+vrf
                     sThumb = sThumb
@@ -449,7 +467,7 @@ def showLinks(oInputParameterHandler = False):
 
             action = "fmovies-vrf"
 
-            vrf = vrf_function(sId, action)
+            vrf = getVerid(sId)
 
             sUrl = URL_MAIN + '/ajax/episode/list/' + sId +'?vrf='+vrf
 
@@ -465,7 +483,7 @@ def showLinks(oInputParameterHandler = False):
                     sId = aEntry[0]
                     nTitle = aEntry[1]
                     action = "fmovies-vrf"
-                    vrf = vrf_function(sId, action)
+                    vrf = getVerid(sId)
 
                     url = URL_MAIN + '/ajax/server/list/' + sId +'?vrf='+vrf
 
@@ -536,7 +554,7 @@ def showHosters():
     sThumb = oInputParameterHandler.getValue('sThumb')
 
     action = "fmovies-vrf"
-    vrf = vrf_function(sId, action)
+    vrf = getVerid(sId)
 
     url = URL_MAIN + '/ajax/server/' + sId +'?vrf='+vrf
     oRequestHandler = cRequestHandler(url)
@@ -548,10 +566,10 @@ def showHosters():
         sId = aResult[0]
                                      
         action = "fmovies-decrypt"
-        url = vrf_function(sId, action)
+        url = DecodeLink(sId)
 
         sHosterUrl = unquote(url)
-
+        SubTitle = ""
         if ('mcloud' in sHosterUrl) or ('vidstream' in sHosterUrl) or ('vidplay' in sHosterUrl):
             if ('sub.info' in sHosterUrl):
                 SubTitle = sHosterUrl.split('sub.info=')[1]
@@ -611,6 +629,64 @@ def __checkForNextPage(sHtmlContent):
 
     return False
 
+def DecodeLink(mainurl):
+	mainurl = mainurl.replace('_', '/').replace('-', '+')
+	#
+	ab=mainurl[0:6]   #23.09.21
+	ac2 = mainurl[6:]	#23.09.21
+	ac2 = mainurl#[6:]	#23.09.21
+	
+	
+	
+	#ab = 'DZmuZuXqa9O0z3b7'
+	ab= 'hlPeNwkncH0fq9so'
+	ab = '8z5Ag5wgagfsOuhz'
+	
+	ac= decode2(mainurl)
+	
+	link = dekoduj(ab,ac)
+	link = unquote(link)
+	return link
+
+def dekoduj(r,o):
+
+    t = []
+    e = []
+    n = 0
+    a = ""
+    for f in range(256): 
+        e.append(f)
+
+    for f in range(256):
+
+        n = (n + e[f] + ord(r[f % len(r)])) % 256
+        t = e[f]
+        e[f] = e[n]
+        e[n] = t
+
+    f = 0
+    n = 0
+    for h in range(len(o)):
+        f = f + 1
+        n = (n + e[f % 256]) % 256
+        if not f in e:
+            f = 0
+            t = e[f]
+            e[f] = e[n]
+            e[n] = t
+
+            a += chr(ord(o[h]) ^ e[(e[f] + e[n]) % 256])
+        else:
+            t = e[f]
+            e[f] = e[n]
+            e[n] = t
+            if sys.version_info >= (3,0,0):
+                a += chr((o[h]) ^ e[(e[f] + e[n]) % 256])
+            else:
+                a += chr(ord(o[h]) ^ e[(e[f] + e[n]) % 256])
+
+    return a
+
 def vrf_function(query, action):
     sUrl = 'https://9anime.eltik.net/'+action+'?query='+query+'&apikey='+aniyomi
 
@@ -669,3 +745,148 @@ def vrf_function2(query, action):
         return url
         
     return False, False
+
+try:
+	import string
+	STANDARD_ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+	#CUSTOM_ALPHABET =   "5uLKesbh0nkrpPq9VwMC6+tQBdomjJ4HNl/fWOSiREvAYagT8yIG7zx2D13UZFXc"   #23/05/22
+	CUSTOM_ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'#'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/='
+
+	ENCODE_TRANS = string.maketrans(STANDARD_ALPHABET, CUSTOM_ALPHABET)
+	DECODE_TRANS = string.maketrans(CUSTOM_ALPHABET, STANDARD_ALPHABET)
+except:
+	STANDARD_ALPHABET = b'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+	#CUSTOM_ALPHABET =   b"5uLKesbh0nkrpPq9VwMC6+tQBdomjJ4HNl/fWOSiREvAYagT8yIG7zx2D13UZFXc"  #23/05/22
+	CUSTOM_ALPHABET = b'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'#'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/='
+	
+	
+	ENCODE_TRANS = bytes.maketrans(STANDARD_ALPHABET, CUSTOM_ALPHABET)
+	DECODE_TRANS = bytes.maketrans(CUSTOM_ALPHABET, STANDARD_ALPHABET)
+
+def encode2(input):
+	return base64.b64encode(input).translate(ENCODE_TRANS)
+def decode2(input):
+	try:	
+		xx= input.translate(DECODE_TRANS)
+	except:
+		xx= str(input).translate(DECODE_TRANS)
+	return base64.b64decode(xx)
+
+	
+def endEN(t, n) :
+    return t + n;
+
+def rLMxL(t, n):
+    return t < n;
+
+def VHtgA (t, n) :
+    return t % n;
+
+def DxlFU(t, n) :
+    return rLMxL(t, n);
+
+def dec2(t, n) :
+    o=[]
+    s=[]
+    u=0
+    h=''
+    for e in range(256):
+        s.append(e)
+
+    for e in range(256):
+        u = endEN(u + s[e],ord(t[e % len(t)])) % 256
+        o = s[e];
+        s[e] = s[u];
+        s[u] = o;
+    e=0
+    u=0
+    c=0
+    for c in range(len(n)):
+        e = (e + 1) % 256
+        o = s[e]
+        u = VHtgA(u + s[e], 256)
+        s[e] = s[u];
+        s[u] = o;
+        try:
+            h += chr((n[c]) ^ s[(s[e] + s[u]) % 256]);
+        except:
+            h += chr(ord(n[c]) ^ s[(s[e] + s[u]) % 256]);
+    return h
+
+def getVerid(id):
+    def convert_func(matchobj):
+        m =  matchobj.group(0)
+
+        if m <= 'Z':
+            mx = 90
+        else:
+            mx = 122
+        mx2 = ord( m)+ 13  
+        if mx>=mx2:
+            mx = mx2
+        else:
+            mx = mx2-26
+        gg = chr(mx)
+        return gg
+
+    def but(t):
+        o=''
+        for s in range(len(t)):
+            u = ord(t[s]) 
+            if u==0:
+                u=0
+            else:
+                if (s % 5 == 1 or s % 5 == 4):
+                    u -= 2
+                else:
+                    if (s % 5 == 3):
+                        u += 5;
+                    else:
+                        if s % 5 == 0 :
+                            u -= 4;
+                        else:
+                            if s % 5 == 2 :
+                                u -= 6
+            o += chr(u) 
+			
+			
+			
+        if sys.version_info >= (3,0,0):
+            o=o.encode('Latin_1')
+
+        if sys.version_info >= (3,0,0):
+            o=(o.decode('utf-8'))
+
+        return o
+    ab = 'DZmuZuXqa9O0z3b7' #####stare
+    ab = 'MPPBJLgFwShfqIBx'
+    ab = 'rzyKmquwICPaYFkU'
+    ab = 'FWsfu0KQd9vxYGNB'
+    ac = id
+    hj = dec2(ab,ac) #
+
+    if sys.version_info >= (3,0,0):
+        hj=hj.encode('Latin_1')
+
+    hj2 = encode2(hj)   
+
+    if sys.version_info >= (3,0,0):
+        hj2=(hj2.decode('utf-8'))
+    hj2 = re.sub("[a-zA-Z]", convert_func, hj2) 
+    if sys.version_info >= (3,0,0):
+        hj2=hj2.encode('Latin_1')
+	
+	
+
+	
+	
+    hj2 = encode2(hj2)   
+    if sys.version_info >= (3,0,0):
+        hj2=(hj2.decode('utf-8'))
+		
+
+    xc= but(hj2) 
+
+    return xc
+		
+	

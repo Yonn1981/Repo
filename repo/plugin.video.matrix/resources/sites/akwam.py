@@ -10,7 +10,7 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
-from resources.lib import librecaptcha
+#from resources.lib import librecaptcha
 
 try:  # Python 2
     import urllib2
@@ -552,10 +552,12 @@ def showHosters(oInputParameterHandler = False):
             URL_MAIN =  aResult[1][0]
 
         import requests
+        from resources.lib import recaptcha_v2
         s = requests.Session() 
 
-        token = librecaptcha.get_token(api_key="6LdMb-QZAAAAAPpUMcYZSn9CpIgBqDVAfTx_SAao", site_url=sUrl, user_agent=UA,
-                                      gui=False, debug=False)
+        #token = librecaptcha.get_token(api_key="6LdMb-QZAAAAAPpUMcYZSn9CpIgBqDVAfTx_SAao", site_url=sUrl, user_agent=UA,
+        #                             gui=False, debug=False)
+        token = recaptcha_v2.UnCaptchaReCaptcha().processCaptcha("6LdMb-QZAAAAAPpUMcYZSn9CpIgBqDVAfTx_SAao", lang='en', Referer=URL_MAIN)
         data = {'g-recaptcha-response':token}
         url = URL_MAIN+'verify'
         headers = {'User-Agent': UA,

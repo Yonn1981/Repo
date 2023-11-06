@@ -43,8 +43,8 @@ def showMovies(sSearch = ''):
     if aResult[0]:
         mSite = aResult[1][0] 
 
-    sPattern = '<button class="btn" onclick="goToMatch\((.+?)\,["\']([^"\']+)["\']\);">(.+?)</button>'
-    sPattern += '.+?style="background-image: url\((.+?)\);".+?<td style.+?<td style.+?>([^<]+)<' 
+    sPattern = 'onclick="goToMatch\((.+?)\,["\']([^"\']+)["\']\);".+?<span class="matchTime">([^<]+)</span>'
+    sPattern += '.+?<img class="imgTeam" src=["\']([^"\']+)["\'].+?class="textMatch">(.+?)</div>' 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
