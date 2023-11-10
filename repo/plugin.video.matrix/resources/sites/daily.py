@@ -26,7 +26,6 @@ TV_TV = (True, 'showDailyList')
 def load():
     oGui = cGui()
 
-
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', URL_MAIN)
     oGui.addDir(SITE_IDENTIFIER, 'showDailyList', 'Latest list', 'tv.png', oOutputParameterHandler)
@@ -42,15 +41,12 @@ def showDailyList():
         sUrl = URL_WEB
 
 
+    oParser = cParser()
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
- # ([^<]+) .+?
-    sPattern = '<h2 class="entry-title".+?href="([^"]+)" rel="bookmark">(.+?)</a>'
 
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
+    sPattern = '<h2 class="entry-title".+?href="([^"]+)" rel="bookmark">(.+?)</a>'
+    aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -71,26 +67,23 @@ def showDailyList():
 
         progress_.VSclose(progress_)
 
-
     oGui.setEndOfDirectory()
-
 
 def showAllPlaylist():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
 
+    oParser = cParser()
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    oParser = cParser()
-     # (.+?) ([^<]+) .+?
+
     sStart = '<ul class="da-attachments-list">'
     sEnd = '</ul>'
     sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
     
     sPattern = '<a href="([^"]+)" title="([^"]+)" class='
     aResult = oParser.parse(sHtmlContent, sPattern)
-
     if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)

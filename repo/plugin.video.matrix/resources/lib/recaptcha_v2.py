@@ -40,7 +40,7 @@ addon_path = get_path()
 class cInputWindow(xbmcgui.WindowDialog):
 
     def __init__(self, *args, **kwargs):
-        bg_image = 'special://home/addons/plugin.video.matrix/resources/art/background.png'
+        bg_image = 'special://home/addons/plugin.video.matrix/resources/art/DialogBack.png'
         check_image = 'special://home/addons/plugin.video.matrix/resources/art/sel.png'
         button_fo = 'special://home/addons/plugin.video.matrix/resources/art/box_fi.png'
         button_nofo = 'special://home/addons/plugin.video.matrix/resources/art/box_tr.png' 

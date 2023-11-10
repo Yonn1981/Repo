@@ -1,8 +1,7 @@
 ﻿# -*- coding: utf-8 -*-
 # zombi https://github.com/zombiB/zombi-addons/
 
-import re	
-	
+import re		
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -34,7 +33,6 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
     oGui.addDir(SITE_IDENTIFIER, 'showSearch', addons.VSlang(30330), 'search.png', oOutputParameterHandler)
     
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', DOC_NEWS[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام وثائقية', 'doc.png', oOutputParameterHandler)
     
@@ -43,36 +41,28 @@ def load():
             
     oGui.setEndOfDirectory()
 
-
 def showGenres():
     oGui = cGui()
     
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
- 
+
+    oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-    oParser = cParser()
-
-
     sPattern = '<a href="([^"]+)"> <span aria-hidden="true" class="mega-links-default-icon"></span>(.+?)</a>'
-
-
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
+    aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
             if '#' in aEntry[0]:
                 continue 
+
             sTitle = cUtil().unescape(aEntry[1])
             siteUrl = aEntry[0]
             sDesc = ''
 			
-
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -80,8 +70,6 @@ def showGenres():
             oGui.addMisc(SITE_IDENTIFIER, 'showMovies', sTitle, 'doc.png', '', '', oOutputParameterHandler)
  
     oGui.setEndOfDirectory()
-
-	
 	
 def showSearch():
     oGui = cGui()
@@ -106,14 +94,10 @@ def showMovies(sSearch = ''):
         sUrl = oInputParameterHandler.getValue('siteUrl')
         oRequestHandler = cRequestHandler(sUrl)
         sHtmlContent = oRequestHandler.request()
- 
-# ([^<]+) .+? (.+?)
         sPattern = '<a aria-label="(.+?)" href="(.+?)" class="post-thumb">.+?data-breeze="(.+?)" width=.+?src.+?class="post-excerpt">([^<]+)</p>'
 
     oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
+    aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -131,8 +115,7 @@ def showMovies(sSearch = ''):
             sThumb = aEntry[2]
             siteUrl = aEntry[1]
             sDesc = aEntry[3]
-            sDesc = cUtil().unescape(sDesc)
-			
+            sDesc = cUtil().unescape(sDesc)			
 			
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -152,16 +135,13 @@ def showMovies(sSearch = ''):
         oGui.setEndOfDirectory()
  
 def __checkForNextPage(sHtmlContent):
-    sPattern = '<link rel="next" href="([^"]+)'
-	 #.+? ([^<]+)
     oParser = cParser()
+    sPattern = '<link rel="next" href="([^"]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)
- 
     if aResult[0]:
         return aResult[1][0]
 
     return False
-
 
 def showHosters(oInputParameterHandler = False):
     oGui = cGui()
@@ -169,25 +149,20 @@ def showHosters(oInputParameterHandler = False):
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
-    
+
+    oParser = cParser()    
     oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request();
-    # ([^<]+)          
+    sHtmlContent = oRequestHandler.request();      
 
     sPattern = 'src=(.+?) frameborder'
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-
-	
     if aResult[0]:
         for aEntry in aResult[1]:
             if ".api"  in aEntry or "image"  in aEntry:
                 continue            
             url = aEntry.replace('?rel=0','').replace('"','')
             if url.startswith('//'):
-                url = 'http:' + url
-				
-					
+                url = 'http:' + url					
             
             sHosterUrl = url 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
@@ -197,18 +172,13 @@ def showHosters(oInputParameterHandler = False):
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
     sPattern = 'https://www.youtube.com/embed/(.+?)"'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-	
+    aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
         for aEntry in aResult[1]:
             if ".api"  in aEntry or "image"  in aEntry:
                 continue                  
             url = 'https://www.youtube.com/embed/'+aEntry
-				
-					
-            
+				           
             sHosterUrl = url 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
@@ -216,19 +186,13 @@ def showHosters(oInputParameterHandler = False):
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 				          
-           
-
     sPattern = '<iframe.+?src="([^"]+)'
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-
     if aResult[0]:
         for aEntry in aResult[1]:
             url = aEntry.replace('?rel=0','').replace('"','')
             if url.startswith('//'):
-               url = 'http:' + url
-				
-					
+               url = 'http:' + url					
             
             sHosterUrl = url 
             oHoster = cHosterGui().checkHoster(sHosterUrl)

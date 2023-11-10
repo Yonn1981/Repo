@@ -5,7 +5,6 @@
 
 import re
 import base64
-	
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -110,13 +109,12 @@ def showMovies(sSearch = ''):
     else:
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
- 
+
+    oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)    
     sHtmlContent = oRequestHandler.request()
     
-
     sPattern = '<div class="movie">\s*<a href="([^"]+)".+?<img src="([^"]+)".+?class="dicr"><h3>(.+?)</h3>'
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0] :
         total = len(aResult[1])
@@ -142,7 +140,6 @@ def showMovies(sSearch = ''):
             if m:
                 sYear = str(m.group(0))
                 sTitle = sTitle.replace(sYear,'')
-
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -170,10 +167,10 @@ def showSeries(sSearch = ''):
     else:
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
- 
+
+    oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)    
     sHtmlContent = oRequestHandler.request()
-    oParser = cParser()
 
     sPattern = '<div class="movie">\s*<a href="([^"]+)".+?src="([^"]+)".+?class="dicr"><h3>(.+?)</h3>'
     aResult = oParser.parse(sHtmlContent, sPattern)	
@@ -215,6 +212,7 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+
     if not sSearch:
         oGui.setEndOfDirectory()
 
@@ -226,10 +224,10 @@ def showEps():
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
- 
+
+    oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    oParser = cParser()
 
     if 'selary/' not in sUrl:
         sPattern = 'مشاهدة و تحميل</button>.+?href="([^"]+)'	
@@ -244,8 +242,7 @@ def showEps():
     if aResult[0] :
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
- 
-            
+             
             sEp = aEntry[2].split("حلقة ")[1].split('مترجم')[0].split('مدبلج')[0]
             sTitle = f'{sMovieTitle} E{sEp}'
             siteUrl = aEntry[0]
@@ -264,12 +261,11 @@ def showEps():
             oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
             oGui.addDir(SITE_IDENTIFIER, 'showEps', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
 
-    oGui.setEndOfDirectory()
-	
+    oGui.setEndOfDirectory()	
 
 def __checkForNextPage(sHtmlContent):
-    sPattern = '<link rel="next" href="([^"]+)'	
     oParser = cParser()
+    sPattern = '<link rel="next" href="([^"]+)'	
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0] :        
         return aResult[1][0]
@@ -282,11 +278,10 @@ def showHosters(oInputParameterHandler = False):
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
-    
+
+    oParser = cParser()    
     oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
-            
-    oParser = cParser()           
+    sHtmlContent = oRequestHandler.request()      
 
     sPattern =  'name="servers" value="([^"]+)' 
     aResult = oParser.parse(sHtmlContent,sPattern)
@@ -302,7 +297,6 @@ def showHosters(oInputParameterHandler = False):
 
     sPattern = '"([^"]+)":"([^"]+)' 
     aResult = re.findall(sPattern, sHtmlContent1)
-	
     if aResult:
         for aEntry in aResult:
             if 'home' in aEntry[0] or 'back' in aEntry[0]:
@@ -321,8 +315,7 @@ def showHosters(oInputParameterHandler = False):
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
     sPattern = '"([^"]+)":"([^"]+)' 
-    aResult = re.findall(sPattern, sHtmlContent2)
-	
+    aResult = re.findall(sPattern, sHtmlContent2)	
     if aResult:
         for aEntry in aResult:
             if 'home' in aEntry[0] or 'back' in aEntry[0]:

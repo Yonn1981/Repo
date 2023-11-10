@@ -19,7 +19,6 @@ URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 MOVIE_ASIAN = (URL_MAIN + '/search/label/%D8%A3%D9%81%D9%84%D8%A7%D9%85', 'showMovies')
 SERIE_ASIA = (URL_MAIN + '/search/label/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA', 'showSeries')
 
-
 URL_SEARCH = (URL_MAIN + '/search?q=', 'showMovies')
 URL_SEARCH_SERIES = (URL_MAIN + '/search?q=', 'showSeries')
 URL_SEARCH_MOVIES = (URL_MAIN + '/search?q=', 'showMovies')
@@ -42,7 +41,6 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', SERIE_ASIA[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات', 'asia.png', oOutputParameterHandler)
     
-
     oGui.setEndOfDirectory()
  
 def showSearch():
@@ -72,17 +70,13 @@ def showMovies(sSearch = ''):
     else:
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
- 
+
+    oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  
- # ([^<]+) .+?
     sPattern = "<a class='Img-Holder thumb' href='([^<]+)' title='([^<]+)'>.+?rel='tag'>(.+?)</span>.+?class='post-thumb' data-src='([^<]+)' height"
-
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
     if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -106,7 +100,6 @@ def showMovies(sSearch = ''):
                 sYear = str(m.group(0))
                 sTitle = sTitle.replace(sYear,'')
 
-
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
@@ -115,13 +108,9 @@ def showMovies(sSearch = ''):
             oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
-  # ([^<]+) .+?
 
     sPattern = "href='([^<]+)' id='.+?' title='(.+?)'>"
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
     if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -135,12 +124,10 @@ def showMovies(sSearch = ''):
             if "google" in aEntry[1]:
                 continue
  
-            sTitle = aEntry[1]
-            
+            sTitle = aEntry[1]          
             sTitle =  "PAGE " + sTitle
             sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
             siteUrl = aEntry[0]
-
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
 			
@@ -158,17 +145,13 @@ def showSeries(sSearch = ''):
     else:
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
- 
+
+    oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  
- # ([^<]+) .+? (.+?)
     sPattern = "<a class='Img-Holder thumb' href='([^<]+)' title='([^<]+)'>.+?rel='tag'>(.+?)</span>.+?class='post-thumb' data-src='([^<]+)' height"
-
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
     if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -187,7 +170,6 @@ def showSeries(sSearch = ''):
             sThumb = aEntry[3]
             sDesc = aEntry[2]
 
-
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
@@ -195,13 +177,9 @@ def showSeries(sSearch = ''):
             oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
-  # ([^<]+) .+?
 
     sPattern = "href='([^<]+)' id='.+?' title='(.+?)'>"
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
     if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -215,12 +193,10 @@ def showSeries(sSearch = ''):
             if "google" in aEntry[1]:
                 continue
  
-            sTitle = aEntry[1]
-            
+            sTitle = aEntry[1]           
             sTitle =  "PAGE " + sTitle
             sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
             siteUrl = aEntry[0]
-
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
 			
@@ -239,31 +215,27 @@ def showEpisodes(oInputParameterHandler = False):
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
- 
+
+    oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-
-    oParser = cParser()       
+ 
     sPattern =  '<a href="(https://asia4arabs-fs.+?)"'
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0]:
         m3url =  aResult[1][0]
         oRequest = cRequestHandler(m3url)
         sHtmlContent = oRequest.request()
+
     sPattern =  '<a href="(https://www.asia4arabs.co.+?)" target'
     aResult = oParser.parse(sHtmlContent,sPattern)
-
     if aResult[0]:
         m3url =  aResult[1][0]
         oRequest = cRequestHandler(m3url)
         sHtmlContent = oRequest.request()
 
     sPattern = 'iframes([^<]+)=.+?width="100%" height="400" src="(.+?)" frameborder='
-
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-
-	
     if aResult[0]:
         for aEntry in aResult[1]:
             
@@ -281,10 +253,9 @@ def showEpisodes(oInputParameterHandler = False):
                 continue
             if 'userload' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-            if 'moshahda' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
             if 'mystream' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
                sTitle = sTitle+sMovieTitle
@@ -293,11 +264,7 @@ def showEpisodes(oInputParameterHandler = False):
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
     sPattern = '<a href="([^<]+)" target="_blank">(.+?)</a>'
-
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-
-	
     if aResult[0]:
         for aEntry in aResult[1]:
             
@@ -315,10 +282,9 @@ def showEpisodes(oInputParameterHandler = False):
                 continue
             if 'userload' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-            if 'moshahda' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
             if 'mystream' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
                sTitle = sTitle+sMovieTitle
@@ -327,11 +293,7 @@ def showEpisodes(oInputParameterHandler = False):
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
     sPattern = '<td><a href=["\']([^"\']+)["\']\s*target="iframe_a">(.+?)</a>'
-
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-	
+    aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
         for aEntry in aResult[1]:
             
@@ -349,10 +311,9 @@ def showEpisodes(oInputParameterHandler = False):
                 continue
             if 'userload' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-            if 'moshahda' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
             if 'mystream' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
                sTitle = sTitle+sMovieTitle
@@ -361,11 +322,7 @@ def showEpisodes(oInputParameterHandler = False):
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
     sPattern = '>الحلقة([^<]+)</span></span></h4><iframe allowfullscreen.+?src="(.+?)" width'
-
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-
-	
     if aResult[0]:
         for aEntry in aResult[1]:
             
@@ -383,32 +340,17 @@ def showEpisodes(oInputParameterHandler = False):
                 continue
             if 'userload' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-            if 'moshahda' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
             if 'mystream' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
                sTitle = sTitle+sMovieTitle
                oHoster.setDisplayName(sTitle)
                oHoster.setFileName(sTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
-	
        
     oGui.setEndOfDirectory()
- 
- # ([^<]+) .+?
-def __checkForNextPage(sHtmlContent):
-    sPattern = "href='([^<]+)' id='.+?' title='NextUrl'>"
-	
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
- 
-    if aResult[0]:
-        
-        return aResult[1][0]
-
-    return False
   
 def showHosters(oInputParameterHandler = False):
     oGui = cGui()
@@ -416,21 +358,13 @@ def showHosters(oInputParameterHandler = False):
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
- 
+
+    oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-
-   
-    oParser = cParser()
-    # (.+?) ([^<]+) .+?
-    # (.+?) 
-               
-        
+      
     sPattern = '<iframe.+?src="([^"]+)'
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-
-	
     if aResult[0]:
         for aEntry in aResult[1]:
             
@@ -453,10 +387,9 @@ def showHosters(oInputParameterHandler = False):
                 continue
             if 'userload' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-            if 'moshahda' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
             if 'mystream' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+                
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
                sDisplayTitle = sMovieTitle+sTitle
@@ -464,17 +397,12 @@ def showHosters(oInputParameterHandler = False):
                oHoster.setFileName(sMovieTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
                
-    oParser = cParser()
-     # (.+?) ([^<]+) .+?
     sStart = '>روابط التحميل</span>'
     sEnd = '</div>'
     sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
 
     sPattern = '<a href="([^<]+)" target="'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-	
+    aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
         for aEntry in aResult[1]:
             
@@ -497,10 +425,9 @@ def showHosters(oInputParameterHandler = False):
                 continue
             if 'userload' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-            if 'moshahda' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
             if 'mystream' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+                
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
                sDisplayTitle = sMovieTitle+sTitle

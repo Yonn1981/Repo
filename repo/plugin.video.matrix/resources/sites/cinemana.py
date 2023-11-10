@@ -1,10 +1,7 @@
 ﻿# -*- coding: utf-8 -*-
-#############################################################
 # Yonn1981 https://github.com/Yonn1981/Repo
-#############################################################
 
-import re
-	
+import re	
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -50,11 +47,9 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
     oGui.addDir(SITE_IDENTIFIER, 'showSeriesSearch', addons.VSlang(30079), 'search.png', oOutputParameterHandler)
 
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_EN[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أجنبية', 'agnab.png', oOutputParameterHandler)
    
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_AR[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام عربية', 'arab.png', oOutputParameterHandler)
 
@@ -67,7 +62,6 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', SERIE_ASIA[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أسيوية', 'asia.png', oOutputParameterHandler)
 
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', SERIE_TR[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات تركية', 'turk.png', oOutputParameterHandler)
 
@@ -77,11 +71,9 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', SPORT_WWE[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'مصارعة', 'wwe.png', oOutputParameterHandler)
 
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', SERIE_GENRES[0])
     oGui.addDir(SITE_IDENTIFIER, SERIE_GENRES[1], 'المسلسلات (الأنواع)', 'mslsl.png', oOutputParameterHandler)
 
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_GENRES[0])
     oGui.addDir(SITE_IDENTIFIER, MOVIE_GENRES[1], 'الأفلام (الأنواع)', 'film.png', oOutputParameterHandler)
 
@@ -177,16 +169,13 @@ def showMovies(sSearch = ''):
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
 
+    oParser = cParser()
     oRequestHandler = cRequestHandler(sUrl)
     oRequestHandler.addHeaderEntry('User-Agent', UA)
     sHtmlContent = oRequestHandler.request()
-      # (.+?) ([^<]+) .+?
-    sPattern = '<div class="ItemBlock">.+?<a href="(.+?)".+?style="(.+?)"></div>.+?<h3>(.+?)</h3>'
 
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
+    sPattern = '<div class="ItemBlock">.+?<a href="(.+?)".+?style="(.+?)"></div>.+?<h3>(.+?)</h3>'
+    aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0] :
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -204,8 +193,6 @@ def showMovies(sSearch = ''):
  
             
             sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("مشاهده","").replace("برنامج","").replace("مترجمة","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("مشاهدة","").replace("مشاهده","").replace("مترجم","").replace("فيلم","").replace("اونلاين","").replace("اون لاين","").replace("برنامج","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("انمي","")
- 
- 
             siteUrl = aEntry[0]
             sDesc = ""
             sThumb = aEntry[1].replace("background-image: url(","").replace(");","")
@@ -217,7 +204,6 @@ def showMovies(sSearch = ''):
                     sTitle = sTitle.replace('عرض','')
                 else:
                     sTitle = sTitle.replace(sYear,'')
-
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -248,15 +234,13 @@ def showSeries(sSearch = ''):
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
 
+    oParser = cParser()
     oRequestHandler = cRequestHandler(sUrl)
     oRequestHandler.addHeaderEntry('User-Agent', UA)
     sHtmlContent = oRequestHandler.request()
 
     sPattern = '<div class="ItemBlock">.+?<a href="(.+?)".+?style="(.+?)"></div>.+?<h3>(.+?)</h3>'
-
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-	
     itemList = []
     if aResult[0] :
         total = len(aResult[1])
@@ -274,8 +258,7 @@ def showSeries(sSearch = ''):
             if "movie"  in aEntry[2]:
                 continue
 
-            siteUrl = aEntry[0]
-            
+            siteUrl = aEntry[0]           
             sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("مشاهده","").replace("برنامج","").replace("مترجمة","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","")
             sThumb = aEntry[1].replace("background-image: url(","").replace(");","")
             sDesc = ''
@@ -303,12 +286,8 @@ def showSeries(sSearch = ''):
 
         progress_.VSclose(progress_)
         
-  # ([^<]+) .+? (.+?)
- 
     if not sSearch:
         oGui.setEndOfDirectory()
- 
-      # (.+?) ([^<]+) .+?
 	
 def __checkForNextPage(sHtmlContent):
     oParser = cParser()
@@ -328,16 +307,12 @@ def showEpisodes():
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
 
+    oParser = cParser()
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-    oParser = cParser()
-
     sPattern = '<a href="(.+?)" title=.+?class=.+?>(.+?)</a>' 
-
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-	
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()    
         for aEntry in aResult[1]:
@@ -368,23 +343,18 @@ def showHosters(oInputParameterHandler = False):
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
-    host = URL_MAIN.split('/')[2]
-    VSlog(host)
 
-
+    oParser = cParser()
     oRequestHandler = cRequestHandler(sUrl)
     oRequestHandler.addHeaderEntry('User-Agent', UA)
     sHtmlContent = oRequestHandler.request()
-    oParser = cParser()
-
-    oParser = cParser()   
+ 
     sPattern = '<a data-like="likeCount" data-id="([^"]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)   
     if aResult[0]:
         sId = aResult[1][0]
         sId = sId
 
-    oParser = cParser()
     sPattern = 'data-server="(.+?)"'
     aResult = oParser.parse(sHtmlContent, sPattern)  
     if aResult[0]:
@@ -397,8 +367,8 @@ def showHosters(oInputParameterHandler = False):
             St=requests.Session()
             sdata = St.post(siteUrl,headers=hdr,data=params)
             sHtmlContent = sdata.content
+
             sPattern =  '<iframe.+?src="([^"]+)"'
-            oParser = cParser()
             aResult = oParser.parse(sHtmlContent, sPattern)
             if aResult[0]:
                 for aEntry in aResult[1]:
@@ -410,8 +380,6 @@ def showHosters(oInputParameterHandler = False):
             
                     sHosterUrl = url
                     if 'userload' in sHosterUrl:
-                        sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-                    if 'moshahda' in sHosterUrl:
                         sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
                     if 'mystream' in sHosterUrl:
                         sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN   

@@ -3,7 +3,6 @@
 
 import re
 import requests	
-
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -25,7 +24,6 @@ SERIE_CN = (URL_MAIN + 'category/asian-drama/chinese-taiwanese/', 'showSeries')
 SERIE_JP = (URL_MAIN + 'category/asian-drama/japanese/', 'showSeries')
 SERIE_THAI = (URL_MAIN + 'category/asian-drama/thai/', 'showSeries')
 REPLAYTV_PLAY = (URL_MAIN + 'category/asian-drama/kshow/', 'showSeries')
-
 
 URL_SEARCH = (URL_MAIN + '?s=', 'showSeries')
 URL_SEARCH_MOVIES = (URL_MAIN + '?s=', 'showMovies')
@@ -93,7 +91,8 @@ def showMovies(sSearch = ''):
     else:
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
-    
+
+    oParser = cParser()    
     oRequestHandler = cRequestHandler(sUrl)
     oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36')
     oRequestHandler.addHeaderEntry('Referer', URL_MAIN)
@@ -101,11 +100,7 @@ def showMovies(sSearch = ''):
     
 
     sPattern = '<div class="box-item">.+?href="([^"]+)" title="([^"]+)'
-
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
     if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -118,13 +113,10 @@ def showMovies(sSearch = ''):
             siteUrl = aEntry[0]
             sTitle = aEntry[1].replace("فيلم","").replace("مترجم ","").replace("مترجم","").replace("مدبلج ","").replace("مدبلج","").strip()
             sTitle = re.sub('[^a-zA-Z]', ' ', sTitle)
-            sYear = ''
-        
-            sThumb = ''
-        
+            sYear = ''       
+            sThumb = ''      
             if sThumb.startswith('//'):
-                sThumb = 'https:' + sThumb
-           
+                sThumb = 'https:' + sThumb        
             sDesc = ''
 
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -151,18 +143,15 @@ def showSeries(sSearch = ''):
     else:
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
-        
+
+    oParser = cParser()        
     oRequestHandler = cRequestHandler(sUrl)
     oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36')
     oRequestHandler.addHeaderEntry('Referer', URL_MAIN)
     sHtmlContent = oRequestHandler.request()
     
     sPattern = '<div class="box-item">.+?href="([^"]+)" title="([^"]+)".+?src="([^"]+)'
-
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
     if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -175,12 +164,9 @@ def showSeries(sSearch = ''):
             siteUrl = aEntry[0]
             sTitle = aEntry[1].replace("فيلم","").replace("مترجم ","").replace("مترجم","").replace("مدبلج ","").replace("مدبلج","").strip()
             sYear = ''
-
             sThumb = aEntry[2]
-
             if sThumb.startswith('//'):
-                sThumb = 'https:' + sThumb
-           
+                sThumb = 'https:' + sThumb       
             sDesc = ''
 
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -199,7 +185,6 @@ def showSeries(sSearch = ''):
 
     if not sSearch:
         oGui.setEndOfDirectory()
-
  
 def showEpisodes():
     oGui = cGui()
@@ -210,19 +195,18 @@ def showEpisodes():
     sThumb = oInputParameterHandler.getValue('sThumb')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sYear = oInputParameterHandler.getValue('sYear')
-    
+
+    oParser = cParser()    
     oRequestHandler = cRequestHandler(sUrl)
     oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36')
     oRequestHandler.addHeaderEntry('Referer', URL_MAIN)
     sHtmlContent = oRequestHandler.request()
     
-    oParser = cParser()
     sStart = 'id="episode-list"'
     sEnd = '<div class="heading">'
     sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
 
     sPattern = '<a href="([^"]+)".+?class="titlepisode">(.+?)</div>'
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()    
@@ -247,11 +231,9 @@ def showEpisodes():
     oGui.setEndOfDirectory()	
     
 def __checkForNextPage(sHtmlContent):
-    sPattern = '<a class="next page-numbers" href="([^"]+)'
-	
     oParser = cParser()
+    sPattern = '<a class="next page-numbers" href="([^"]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)
- 
     if aResult[0]:
         return aResult[1][0]
 
@@ -264,12 +246,11 @@ def showHosters(oInputParameterHandler = False):
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
 
+    oParser = cParser()
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
     
-    ## Watch Servers
     sPattern = 'data-server="([^"]+)'
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
         for aEntry in aResult[1]:

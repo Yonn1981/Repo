@@ -3,7 +3,6 @@
 
 import re
 import requests
-	
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -33,24 +32,21 @@ def load():
 
     oGui.setEndOfDirectory() 
 
-
 def showPack():
     oGui = cGui()
     
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
- 
+
+    oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-    oParser = cParser()
-     # (.+?) ([^<]+) .+?
     sStart = '/video">فيديوهات</a>'
     sEnd = 'matches">مباريات</a></li>'
     sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
-    sPattern = 'href="([^<]+)">([^<]+)</a>'
 
-    oParser = cParser()
+    sPattern = 'href="([^<]+)">([^<]+)</a>'
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()
@@ -80,12 +76,12 @@ def showPackMovies(sSearch = ''):
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
-   
+
+    oParser = cParser()   
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
     sPattern = '<div class="categoryNewsCard">.+?<a href=([^<]+)>.+?data-original="([^<]+)" alt="([^<]+)" />'
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
         total = len(aResult[1])
@@ -120,7 +116,8 @@ def showMovies(sSearch = ''):
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     nVIdeo = oInputParameterHandler.getValue('nVIdeo')
-    
+
+    oParser = cParser()    
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
@@ -164,7 +161,6 @@ def showMovies(sSearch = ''):
             oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
 
     sPattern = '<h1 class="title">([^<]+)</h1>.+?<a href="([^<]+)">.+?data-original="([^<]+)" alt='
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
         total = len(aResult[1])
@@ -194,14 +190,11 @@ def showMovies(sSearch = ''):
                 oOutputParameterHandler.addParameter('nVIdeo', sNextPage.split('LoadMore/')[1].replace('&cat=0',''))
             oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
 
-
-
     oGui.setEndOfDirectory()
 
-
 def __checkForNextPage(sHtmlContent):
-    sPattern = 'data-val="(.+?)"'
     oParser = cParser()
+    sPattern = 'data-val="(.+?)"'
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
         for aEntry in reversed(aResult[1]):
@@ -210,9 +203,7 @@ def __checkForNextPage(sHtmlContent):
             return nPage
 
     sPattern = 'class="next-page"><a href="(.+?)"'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    
+    aResult = oParser.parse(sHtmlContent, sPattern)    
     if aResult[0]:
         nPage = aResult[1][0]
         return nPage
@@ -225,18 +216,17 @@ def showHosters(oInputParameterHandler = False):
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
-    
+
+    oParser = cParser()    
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    oParser = cParser()
 
     sPattern =  "'true' src='(.+?)'"
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0]:
         m3url = aResult[1][0] 
         oRequest = cRequestHandler(m3url)
-        sHtmlContent2 = oRequest.request()
-    
+        sHtmlContent2 = oRequest.request() 
  
     sPattern = ",src:{hls:'(.+?)'}" 
     aResult = oParser.parse(sHtmlContent2, sPattern)
@@ -250,9 +240,7 @@ def showHosters(oInputParameterHandler = False):
             sHtmlContent3 = oRequest.request()
             
             sPattern = 'RESOLUTION=(\d+x\d{0,3})(.+?.m3u8)'
-            oParser = cParser()
             aResult = oParser.parse(sHtmlContent3, sPattern)
-
             if aResult[0]:
                 for aEntry in aResult[1]:
 
@@ -281,9 +269,7 @@ def showHosters(oInputParameterHandler = False):
             sHtmlContent3 = oRequest.request()
             
             sPattern = 'RESOLUTION=(\d+x\d{0,3})(.+?.m3u8)'
-            oParser = cParser()
             aResult = oParser.parse(sHtmlContent3, sPattern)
-
             if aResult[0]:
                 for aEntry in aResult[1]:
 
@@ -306,6 +292,5 @@ def showHosters(oInputParameterHandler = False):
         for aEntry in aResult[1]:
             sDesc = aEntry
             oGui.addText(SITE_IDENTIFIER, f'[COLOR orange] {sDesc} [/COLOR]')
-
-                
+               
     oGui.setEndOfDirectory()    

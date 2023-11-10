@@ -156,7 +156,7 @@ class cHome:
         oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30113), self.addons.VSlang(30135)), 'wwe.png', oOutputParameterHandler)
 
         oOutputParameterHandler.addParameter('siteUrl', 'SPORT_GENRES')
-        oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30113), self.addons.VSlang(30105)), 'genres.png', oOutputParameterHandler)
+        oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30113), self.addons.VSlang(30105)), 'sport.png', oOutputParameterHandler)
 
         oGui.setEndOfDirectory()
 

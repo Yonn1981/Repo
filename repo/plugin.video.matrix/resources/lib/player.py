@@ -7,21 +7,10 @@ from resources.lib.gui.gui import cGui
 from resources.lib.upnext import UpNext
 from resources.lib.comaddon import addon, dialog, xbmc, isKrypton, VSlog, addonManager, isMatrix
 from resources.lib.db import cDb
-from resources.lib.util import cUtil, Unquote
+from resources.lib.util import cUtil, Unquote, urlHostName
 import xbmcplugin
 
-try:  # Python 2
-    from urlparse import urlparse
-except ImportError:  # Python 3
-    from urllib.parse import urlparse
-
 from os.path import splitext
-
-#pour les sous titres
-#https://github.com/amet/service.subtitles.demo/blob/master/service.subtitles.demo/service.py
-#player API
-#http://mirrors.xbmc.org/docs/python-docs/stable/xbmc.html#Player
-
 
 class cPlayer(xbmc.Player):
 
@@ -115,7 +104,7 @@ class cPlayer(xbmc.Player):
 
         player_conf = self.ADDON.getSetting('playerPlay')
         #Si lien dash, methode prioritaire
-        mpd = splitext(urlparse(sUrl).path)[-1] in [".mpd", ".m3u8"]
+        mpd = splitext(urlHostName(sUrl))[-1] in [".mpd", ".m3u8"]
         mpd |= '&ct=6&' in sUrl     # mpd venant de ok.ru, n'a pas d'extension
         if mpd:
             if isKrypton():

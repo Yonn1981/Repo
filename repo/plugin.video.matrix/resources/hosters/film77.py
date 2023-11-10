@@ -9,7 +9,7 @@ import re
 class cHoster(iHoster):
 
     def __init__(self):
-        iHoster.__init__(self, 'film77', 'film77')
+        iHoster.__init__(self, 'film77', 'Film77')
 			
     def isDownloadable(self):
         return True
@@ -35,7 +35,6 @@ class cHoster(iHoster):
 
             sPattern = 'file:"(.+?)",label:"(.+?)"'
             aResult = oParser.parse(sHtmlContent2, sPattern)
-            VSlog(aResult)
             if aResult[0]:
                 # initialisation des tableaux
                 url = []

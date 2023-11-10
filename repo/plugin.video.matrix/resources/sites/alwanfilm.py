@@ -2,7 +2,6 @@
 # zombi https://github.com/zombiB/zombi-addons/
 
 import re
-	
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -18,11 +17,8 @@ SITE_DESC = 'arabic vod'
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 MOVIE_CLASSIC = (URL_MAIN + 'movies/', 'showMovies')
-
 REPLAYTV_PLAY = ('https://alwanzman.com/genre/%D9%83%D9%88%D9%85%D9%8A%D8%AF%D9%8A%D8%A7/', 'showMovies')
-
 MOVIE_ANNEES = (True, 'showYears')
-
 
 def load():
     oGui = cGui()
@@ -34,8 +30,6 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', REPLAYTV_PLAY[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'مسرحيات', 'msrh.png', oOutputParameterHandler)
     
-
-            
     oGui.setEndOfDirectory()
 
 def showYears():
@@ -51,16 +45,13 @@ def showMovies(sSearch = ''):
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
- 
+
+    oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-  # .+? ([^<]+) (.+?) .+?
     sPattern = '<article.+?src="([^"]+)" alt="([^"]+)".+?href="([^"]+)'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
+    aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -91,7 +82,6 @@ def showMovies(sSearch = ''):
                 sTitle = sTitle.replace(sDub,'')
             sDisplayTitle = ('%s [%s]') % (sTitle, sDub)
 
-
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
@@ -110,13 +100,10 @@ def showMovies(sSearch = ''):
  
     oGui.setEndOfDirectory()
 
-  # .+? ([^<]+) 
 def __checkForNextPage(sHtmlContent, sUrl):
-    sPattern = '<link rel="next" href="([^<]+)" />'
-	
     oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
- 
+    sPattern = '<link rel="next" href="([^<]+)" />'
+    aResult = oParser.parse(sHtmlContent, sPattern) 
     if aResult[0]:
         
         return sUrl+ aResult[1][0]
@@ -132,13 +119,11 @@ def showServer(oInputParameterHandler = False):
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
 
+    oParser = cParser()
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-   
-    oParser = cParser()
       	
     sPattern = '"embed_url":["\']([^"\']+)["\']'
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
         for aEntry in aResult[1]:            
@@ -154,7 +139,6 @@ def showServer(oInputParameterHandler = False):
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
     sPattern = '<iframe.+?src=["\']([^"\']+)["\']'
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
         for aEntry in aResult[1]:            

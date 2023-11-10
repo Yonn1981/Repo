@@ -2,7 +2,6 @@
 # zombi https://github.com/zombiB/zombi-addons/
 
 import re
-	
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -18,7 +17,6 @@ SITE_DESC = 'arabic vod'
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 SPORT_LIVE = (URL_MAIN, 'showMovies')
-
  
 def load():
     oGui = cGui()
@@ -45,7 +43,6 @@ def showMovies(sSearch = ''):
 
     sPattern = 'onclick="goToMatch\((.+?)\,["\']([^"\']+)["\']\);".+?<span class="matchTime">([^<]+)</span>'
     sPattern += '.+?<img class="imgTeam" src=["\']([^"\']+)["\'].+?class="textMatch">(.+?)</div>' 
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
         total = len(aResult[1])
@@ -66,8 +63,7 @@ def showMovies(sSearch = ''):
             sDesc = aEntry[2]
             if aEntry[4]:
                 sDesc = aEntry[2]+ "\n \nوقت المباراة: "+aEntry[4]
-			
-			
+						
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
@@ -95,7 +91,6 @@ def showLive(oInputParameterHandler = False):
     if aResult[0]:
         mSite = aResult[1][0] 
 
-    oParser = cParser()
     sStart = '<div id="contentBody">'
     sEnd = '<div id="leftSide">'
     sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
@@ -165,19 +160,18 @@ def showLive(oInputParameterHandler = False):
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
     sPattern = 'onclick="goToLink(.+?), (.+?),'  
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
-
         for aEntry in aResult[1]:
             siteUrl = mSite+"bein/live/"+aEntry[0].replace("(","")
             siteUrl = siteUrl+'/'+aEntry[1]
             oRequestHandler = cRequestHandler(siteUrl)
             sHtmlContent0 = oRequestHandler.request()
-            oParser = cParser()
+
             sStart = '<div id="contentBody">'
             sEnd = '<div id="leftSide">'
             sHtmlContent0 = oParser.abParse(sHtmlContent0, sStart, sEnd)
+
             sPattern = '<iframe.+?src="([^"]+)'
             aResult = oParser.parse(sHtmlContent0, sPattern)
             if aResult[0]:
@@ -197,17 +191,15 @@ def showLive(oInputParameterHandler = False):
 
 
     sPattern = 'href="javascript:goToMatch(.+?), (.+?),.+?>(.+?)</a>'   
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
-
         for aEntry in aResult[1]:
             sTitle = aEntry[2]
             siteUrl = mSite+"bein/live/"+aEntry[0].replace("(","")
             siteUrl = siteUrl+'/'+aEntry[1]
             oRequestHandler = cRequestHandler(siteUrl)
             sHtmlContent2 = oRequestHandler.request()
-            oParser = cParser()
+
             sPattern = '<iframe.+?src="([^"]+)'
             aResult = oParser.parse(sHtmlContent2, sPattern)
             if aResult[0]:

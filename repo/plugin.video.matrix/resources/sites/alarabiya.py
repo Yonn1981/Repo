@@ -2,7 +2,6 @@
 # zombi https://github.com/zombiB/zombi-addons/
 
 import re
-	
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -17,9 +16,8 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
  
-DOC_NEWS = ('https://www.alarabiya.net/programs/documentaries', 'showMovies')
+DOC_NEWS = (URL_MAIN + 'programs/documentaries', 'showMovies')
 
- 
 def load():
     oGui = cGui()
 
@@ -33,17 +31,13 @@ def showMovies(sSearch = ''):
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
- 
+
+    oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  
-# ([^<]+) .+? (.+?)
     sPattern = '<a class="list-item-link" href="(.+?)" title="(.+?)">.+?<img src="(.+?)" width='
-
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
+    aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -56,8 +50,7 @@ def showMovies(sSearch = ''):
             sTitle = aEntry[1]
             sThumb = aEntry[2]
             siteUrl = URL_MAIN+aEntry[0]
-            sDesc = ''
-			
+            sDesc = ''			
 			
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -76,15 +69,11 @@ def showMovies(sSearch = ''):
     oGui.setEndOfDirectory()
  
 def __checkForNextPage(sHtmlContent):
-    sPattern = ' <li class="active">.+?href=.+?href="([^"]+)'
-	 # .+? ([^<]+) (.+?)
     oParser = cParser()
+    sPattern = ' <li class="active">.+?href=.+?href="([^"]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)
- 
-    if aResult[0]:
-        
+    if aResult[0]:       
         return URL_MAIN+aResult[1][0]
-
 
     return False
 
@@ -94,10 +83,10 @@ def showHosters(oInputParameterHandler = False):
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
-    
+
+    oParser = cParser()    
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    oParser = cParser()
  
     sPattern = ',"contentUrl": "(.+?)"'
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -112,6 +101,5 @@ def showHosters(oInputParameterHandler = False):
                 oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
-
-                
+           
     oGui.setEndOfDirectory() 

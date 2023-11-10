@@ -304,7 +304,7 @@ class cHosterGui:
         if ('updown' in sHostName):
             return self.getHoster('updown')
 
-        if ('vod540' in sHostName) or ('hd-cdn' in sHostName) or ('anyvid' in sHostName):
+        if ('vod540' in sHostName) or ('hd-cdn' in sHostName) or ('anyvid' in sHostName) or ('vod7' in sHostName):
             return self.getHoster('xvideo')
 
         if ('vidsrc' in sHostName):
@@ -490,10 +490,7 @@ class cHosterGui:
 
         if ('linkbox' in sHostName) or ('sharezweb' in sHostName):
             return self.getHoster('resolver')
-
-        if ('vido' in sHostName):
-            return self.getHoster('vudeo')
-            
+           
         if ('mediafire' in sHostName):
             return self.getHoster('mediafire')
 
@@ -512,10 +509,7 @@ class cHosterGui:
             return f
 
         if ('filemoon' in sHostName) or ('moonmov' in sHostName):
-            f = self.getHoster('resolver')
-            #mise a jour du nom
-            f.setRealHost('Filemoon')
-            return f
+            return self.getHoster('filemoon')
 
         if ('hexupload' in sHostName):
             f = self.getHoster('resolver')

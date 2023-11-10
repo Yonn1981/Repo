@@ -723,7 +723,7 @@ def vrf_function2(query, action):
     aResult = oParser.parse(sHtmlContent, sPattern)  
 
     if aResult[0]:
-        url = aResult[1][0]
+        url = aResult[1][0].replace('mcloud.to','mcloud.bz')
         if 'vidstream' in url or 'vidplay' in url:
                 referer = 'https://vidplay.site/'
         else:

@@ -35,30 +35,24 @@ def load():
 	oOutputParameterHandler.addParameter('siteUrl', URL_SEARCH[0])
 	oGui.addDir(SITE_IDENTIFIER, 'showSearch', addons.VSlang(30078), 'search.png', oOutputParameterHandler)
 
-	oOutputParameterHandler = cOutputParameterHandler()
 	oOutputParameterHandler.addParameter('siteUrl', MOVIE_EN[0])
 	oGui.addDir(SITE_IDENTIFIER, 'showLive', 'أفلام أجنبية', 'agnab.png', oOutputParameterHandler)
    
-	oOutputParameterHandler = cOutputParameterHandler()
 	oOutputParameterHandler.addParameter('siteUrl', MOVIE_AR[0])
 	oGui.addDir(SITE_IDENTIFIER, 'showLive', 'أفلام عربية', 'arab.png', oOutputParameterHandler)
  
-	oOutputParameterHandler = cOutputParameterHandler()
 	oOutputParameterHandler.addParameter('siteUrl', MOVIE_ASIAN[0])
 	oGui.addDir(SITE_IDENTIFIER, 'showLive', 'أفلام أسيوية', 'asia.png', oOutputParameterHandler)
    
-	oOutputParameterHandler = cOutputParameterHandler()
 	oOutputParameterHandler.addParameter('siteUrl', MOVIE_HI[0])
 	oGui.addDir(SITE_IDENTIFIER, 'showLive', 'أفلام هندية', 'hend.png', oOutputParameterHandler)
     
-	oOutputParameterHandler = cOutputParameterHandler()
 	oOutputParameterHandler.addParameter('siteUrl', KID_MOVIES[0])
 	oGui.addDir(SITE_IDENTIFIER, 'showLive', 'أفلام كرتون', 'anim.png', oOutputParameterHandler)
 
 	oOutputParameterHandler.addParameter('siteUrl', MOVIE_PACK[0])
 	oGui.addDir(SITE_IDENTIFIER, 'showPack', 'أقسام الموقع', 'film.png', oOutputParameterHandler)
 
-	oOutputParameterHandler = cOutputParameterHandler()
 	oOutputParameterHandler.addParameter('siteUrl', MOVIE_ANNEES[0])
 	oGui.addDir(SITE_IDENTIFIER, MOVIE_ANNEES[1], 'أفلام (بالسنوات)', 'annees.png', oOutputParameterHandler)
 
@@ -85,21 +79,18 @@ def showSearch():
    
 def showMoviesearch(sSearch = ''):
     oGui = cGui()
-    oParser = cParser()
     if sSearch:
       sUrl = sSearch
     else:
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
- 
+
+    oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  
-    # ([^<]+) .+? 
     sPattern = '<a href="([^<]+)"><div class="image"><img src="([^<]+)" alt="([^<]+)" /><span class="player"></span><span class="imdb"><b><b class="icon-star"></b></b>([^<]+)</span>'
-
-    aResult = oParser.parse(sHtmlContent, sPattern)
-		
+    aResult = oParser.parse(sHtmlContent, sPattern)		
     if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -118,8 +109,7 @@ def showMoviesearch(sSearch = ''):
                   sYear = str(m.group(0))
                   sTitle = sTitle.replace(sYear,'')
             sDesc = '' 
-			
-			
+						
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -146,18 +136,13 @@ def showPack(sSearch = ''):
     else:
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
- 
+
+    oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-#([^<]+) .+? 
 
     sPattern = 'style="font-size: large;"><a href="([^"]+)">([^<]+)</a>'
-
-
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
+    aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
@@ -166,7 +151,6 @@ def showPack(sSearch = ''):
             siteUrl = aEntry[0]+'/page/1'
             sDesc = ''
 			
-
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -183,10 +167,9 @@ def showPack(sSearch = ''):
     if not sSearch:
         oGui.setEndOfDirectory()
  
-      # (.+?) ([^<]+) .+?
 def __checkForNextPage(sHtmlContent):
-    sPattern = "href='([^<]+)'>.+?Next"
     oParser = cParser()
+    sPattern = "href='([^<]+)'>.+?Next"
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
         aResult = aResult[1][0]
@@ -201,16 +184,13 @@ def showLive():
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
- 
+
+    oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    # (.+?) ([^<]+) .+? 
+
     sPattern = '<a href="([^<]+)"><div class="image"><img src="([^<]+)" alt="([^<]+)" /><span class="player"></span><span class="imdb"><b><b class="icon-star"></b></b>([^<]+)</span>'
-    
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    
-   
+    aResult = oParser.parse(sHtmlContent, sPattern)  
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]: 
@@ -229,13 +209,8 @@ def showLive():
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oGui.addMovie(SITE_IDENTIFIER, 'showLive2', sTitle, '', sThumb, sDesc, oOutputParameterHandler)        
 
-    # (.+?) ([^<]+) .+? 
     sPattern = '<a href="([^<]+)"><div class="image"><img src="([^<]+)" alt="([^<]+)" /><span class="player"></span></div>'
-    
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    
-   
+    aResult = oParser.parse(sHtmlContent, sPattern)  
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
@@ -248,6 +223,7 @@ def showLive():
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oGui.addMovie(SITE_IDENTIFIER, 'showLive2', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+
     page = '1'      
     if 'page' in sUrl:   
         page = sUrl.split('/page/')[1]
@@ -273,18 +249,13 @@ def showLive2(oInputParameterHandler = False):
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
- 
+
+    oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
   
-    oParser = cParser()
-    # (.+?) ([^<]+) .+? 
     sPattern = '<div id="([^<]+)"> <IFRAME SRC="([^<]+)" webkitAllowFullScreen mozallowfullscreen'
-    
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    
-   
+    aResult = oParser.parse(sHtmlContent, sPattern)  
     if aResult[0]:
         for aEntry in aResult[1]:					
             sTitle = aEntry[0] 
@@ -298,7 +269,6 @@ def showLive2(oInputParameterHandler = False):
             sPattern = 'content="0; url=([^<]+)" />'
             aResult2 = re.findall(sPattern, sHtmlContent)
             aResult = aResult1 + aResult2
-
 	
             if aResult:
                for aEntry in aResult:       
@@ -306,12 +276,9 @@ def showLive2(oInputParameterHandler = False):
                    url = url.replace("scrolling=no","")
                    if url.startswith('//'):
                       url = 'http:' + url
-				
-				           
+								           
                    sHosterUrl = url 
                    if 'userload' in sHosterUrl:
-                      sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-                   if 'moshahda' in sHosterUrl:
                       sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
                    if 'mystream' in sHosterUrl:
                       sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
@@ -320,6 +287,5 @@ def showLive2(oInputParameterHandler = False):
                       oHoster.setDisplayName(sMovieTitle)
                       oHoster.setFileName(sMovieTitle)
                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
-
        
     oGui.setEndOfDirectory()

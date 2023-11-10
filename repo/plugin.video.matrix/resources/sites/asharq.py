@@ -2,7 +2,6 @@
 # zombi https://github.com/zombiB/zombi-addons/
 
 import re
-	
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -19,7 +18,6 @@ URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 DOC_NEWS = (URL_MAIN+'/doc', 'showMovies')
 DOC_SERIES = (URL_MAIN+'/doc', 'showMovies')
-
  
 def load():
     oGui = cGui()
@@ -27,7 +25,6 @@ def load():
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', DOC_NEWS[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام وثائقية', 'doc.png', oOutputParameterHandler)
-    
 
     oGui.setEndOfDirectory()
 
@@ -38,23 +35,21 @@ def showMovies(sSearch = ''):
     else:
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
+
+    oParser = cParser()
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-
     sPattern = 'class="imgContainer"><img src="([^<]+)" alt=.+?class="card-description">([^<]+)</p></div>.+?<a href="([^<]+)" class="card-title">(.+?)</a>'
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler() 
         for aEntry in aResult[1]:
- 
 
             sTitle = aEntry[3]
             sThumb = aEntry[0]
             siteUrl = URL_MAIN + aEntry[2]
             sDesc = aEntry[1]
-
 			
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -71,19 +66,18 @@ def showMoviesLinks(sSearch = ''):
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
     sDesc = oInputParameterHandler.getValue('sDesc')
- 
+
+    oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
     sPattern = 'class="d-flex mt-4"><a href="([^<]+)" class="btn btn-main btn-lg">'
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
  
-            sTitle = sMovieTitle
-            
+            sTitle = sMovieTitle          
             sThumb = sThumb
             siteUrl = URL_MAIN+aEntry
             sDesc = sDesc
@@ -95,25 +89,21 @@ def showMoviesLinks(sSearch = ''):
             oGui.addMisc(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
  
     sPattern = '<div class="imgContainer"><img src="(.+?)" alt=.+?<a href="(.+?)" class="card-title">(.+?)</a><p class="card-shortdescription">(.+?)</'
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
  
             sTitle = aEntry[2]
-            
             sThumb = aEntry[0]
             siteUrl = URL_MAIN+aEntry[1]
             sDesc = aEntry[3]
-			
-			
+				
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 
-            oGui.addMisc(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
-        
+            oGui.addMisc(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler) 
  
         sNextPage = __checkForNextPage(sHtmlContent)
         if sNextPage:
@@ -124,12 +114,10 @@ def showMoviesLinks(sSearch = ''):
     oGui.setEndOfDirectory()
  
 def __checkForNextPage(sHtmlContent):
-    sPattern = '<li >.+?<a href="(.+?)">'
     oParser = cParser()
+    sPattern = '<li >.+?<a href="(.+?)">'
     aResult = oParser.parse(sHtmlContent, sPattern)
- 
-    if aResult[0]:
-        
+    if aResult[0]:    
         return URL_MAIN+'/'+aResult[1][0]
 
     return False
@@ -140,14 +128,13 @@ def showHosters():
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
-    
+
+    oParser = cParser()    
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    oParser = cParser()
 
     sPattern =  ',"Link":.+?},"(.+?)","(.+?)",' 
     aResult = oParser.parse(sHtmlContent,sPattern)
-    VSlog(aResult)
     if aResult[0]:
        for aEntry in aResult[1]:
             if '/Manifest' in aEntry[0]:
@@ -160,10 +147,9 @@ def showHosters():
                 sTitle = ('%s  [COLOR coral]%s[/COLOR]') % (sMovieTitle, quality)
                 if url.startswith('//'):
                     url = 'http:' + url
-                sHosterUrl = url
-			
+                    
+                sHosterUrl = url			
                 oHoster = cHosterGui().checkHoster(sHosterUrl)
-
                 if oHoster:
                     oHoster.setDisplayName(sTitle)
                     oHoster.setFileName(sMovieTitle)

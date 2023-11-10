@@ -2,7 +2,6 @@
 # zombi https://github.com/zombiB/zombi-addons/
 
 import re
-
 from resources.lib.gui.hoster import cHosterGui	
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -17,15 +16,15 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
  
-URL_SERIE = URL_MAIN+'show/allprograms/30348/%D8%A7%D9%84%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA'
+URL_SERIE = URL_MAIN + 'show/allprograms/30348/%D8%A7%D9%84%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA'
 
-MOVIE_AR = (URL_MAIN+'movies?page=1', 'showMovies')
-SERIE_AR = (URL_MAIN+'series', 'showSeries')
-
+MOVIE_AR = (URL_MAIN + 'movies?page=1', 'showMovies')
+SERIE_AR = (URL_MAIN + 'series', 'showSeries')
 REPLAYTV_PLAY = (URL_MAIN+'show/205952/%D9%85%D8%B3%D8%B1%D8%AD%D9%8A%D8%A7%D8%AA-%D8%B2%D9%85%D8%A7%D9%86', 'showEps')
-ISLAM_SHOWS = (URL_MAIN+'programs/30349/إسلاميات', 'showSeries')
 
+ISLAM_SHOWS = (URL_MAIN+'programs/30349/إسلاميات', 'showSeries')
 ISLAM_QURAN = (URL_MAIN+'programs/208779/القرآن-الكريم', 'showSeries')
+
 URL_SEARCH = (URL_MAIN+'search_result?term=', 'showMovies')
 URL_SEARCH_MOVIES = (URL_MAIN+'search_result?term=', 'showMoviesSearch')
 URL_SEARCH_SERIES= (URL_MAIN+'search_result?term=', 'showSeriesSearch')
@@ -50,7 +49,6 @@ def load():
         oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
         oGui.addDir(SITE_IDENTIFIER, 'showSearch', addons.VSlang(30078), 'search.png', oOutputParameterHandler)
 
-        oOutputParameterHandler = cOutputParameterHandler()
         oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
         oGui.addDir(SITE_IDENTIFIER, 'showSearchSeries', addons.VSlang(30079), 'search.png', oOutputParameterHandler)
 
@@ -89,7 +87,8 @@ def showSearchSeries():
         sUrl = URL_MAIN+'search_result?term='+sSearchText+'&page=1'
         showSeriesSearch(sUrl)
         oGui.setEndOfDirectory()
-        return   
+        return  
+     
 def showMoviesSearch(sSearch = ''):
     oGui = cGui()
     if sSearch:
@@ -97,7 +96,8 @@ def showMoviesSearch(sSearch = ''):
     else:
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
- 
+
+    oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
     oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
     oRequestHandler.addHeaderEntry('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
@@ -107,7 +107,6 @@ def showMoviesSearch(sSearch = ''):
     sHtmlContent = sHtmlContent.encode("utf8",errors='ignore').decode("unicode_escape")
 
     sPattern = '<li class="show-item filter newcategory">.+?<a href="([^"]+)".+?data-src="([^"]+)".+?title="([^"]+)'               
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
         total = len(aResult[1])
@@ -118,8 +117,7 @@ def showMoviesSearch(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
-            
+            sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")   
             siteUrl = aEntry[0]
             sThumb = aEntry[1]
             sDesc = ''
@@ -142,7 +140,8 @@ def showSeriesSearch(sSearch = ''):
     else:
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
- 
+
+    oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
     oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
     oRequestHandler.addHeaderEntry('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
@@ -152,8 +151,6 @@ def showSeriesSearch(sSearch = ''):
     sHtmlContent = sHtmlContent.encode("utf8",errors='ignore').decode("unicode_escape")
 
     sPattern = '<div class="item info">.+?<a href="([^"]+)".+?data-src="([^"]+)".+?title="([^"]+)'
-              
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
         total = len(aResult[1])
@@ -169,7 +166,6 @@ def showSeriesSearch(sSearch = ''):
             sThumb = aEntry[1]
             sDesc = ''
 
-
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
@@ -180,6 +176,7 @@ def showSeriesSearch(sSearch = ''):
  
     if not sSearch:
         oGui.setEndOfDirectory()  
+
 def showMovies(sSearch = ''):
     oGui = cGui()
     if sSearch:
@@ -187,7 +184,8 @@ def showMovies(sSearch = ''):
     else:
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
- 
+
+    oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
     oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
     oRequestHandler.addHeaderEntry('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
@@ -196,9 +194,7 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
     sHtmlContent = sHtmlContent.encode("utf8",errors='ignore').decode("unicode_escape")
 
-
     sPattern = '<a class="img-wrappper no_effect" href="([^"]+)".+?data-src="([^"]+)".+?<h3>(.+?)</h3>'                
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
         total = len(aResult[1])
@@ -209,12 +205,10 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
-            
+            sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")            
             siteUrl = aEntry[0]
             sThumb = aEntry[1]
             sDesc = ''
-
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -223,6 +217,7 @@ def showMovies(sSearch = ''):
             oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
+
     sUrl = sUrl.replace("&page=","?page=")
     page = sUrl.split('?page=')[1]
     page = int(page)+1
@@ -260,7 +255,7 @@ def showSeries(sSearch = ''):
     else:
         sUrl = f'{sUrl}?page={sPage}'
 
-
+    oParser = cParser()
     oRequestHandler = cRequestHandler(sUrl)
     oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
     oRequestHandler.addHeaderEntry('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
@@ -270,7 +265,6 @@ def showSeries(sSearch = ''):
     sHtmlContent = sHtmlContent.encode("utf8",errors='ignore').decode("unicode_escape")
 
     sPattern = '<div class="item info">.+?href="([^"]+)".+?data-src="([^"]+)".+?<h3>(.+?)</h3>'
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
         total = len(aResult[1])
@@ -322,6 +316,7 @@ def showEps():
     aUser = addons.getSetting('hoster_awaan_username')
     aPass = addons.getSetting('hoster_awaan_password')
 
+    oParser = cParser()
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
     cook = oRequestHandler.GetCookies()
@@ -373,19 +368,13 @@ def showEps():
         r = St.get(f'{sUrl}?page={sPage}&season={sSeason}')
         sHtmlContent = r.text
 
-
     sPattern = '<div class="item info">.+?<a href="([^"]+)".+?data-src="([^"]+)".+?<h3>(.+?)</h3>'
-
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
+    aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()  
         for aEntry in aResult[1]:
 
-            sTitle = aEntry[2].replace("الحلقة "," E").replace("حلقة "," E").replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("برنامج","").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
-            
+            sTitle = aEntry[2].replace("الحلقة "," E").replace("حلقة "," E").replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("برنامج","").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")           
             siteUrl = aEntry[0]
             sThumb = aEntry[1]
             sDesc = ''
@@ -394,8 +383,7 @@ def showEps():
             if ':' in aEntry[2]:
                 sTitle = sMovieTitle+' '+sTitle.split(':')[1]
             else:
-                sTitle = sMovieTitle+' '+sTitle
-            
+                sTitle = sMovieTitle+' '+sTitle          
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -418,16 +406,13 @@ def showEps():
     oGui.setEndOfDirectory() 
 
 def __checkForNextPage(sHtmlContent):
-    sPattern = '"has_more":(.+?)'
-	
     oParser = cParser()
+    sPattern = '"has_more":(.+?)'
     aResult = oParser.parse(sHtmlContent, sPattern) 
     if aResult[0]:
         return aResult[1][0]
 
     sPattern = 'data-page="([^"]+)'
-	
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern) 
     if aResult[0]:
         return aResult[1][0]
@@ -441,15 +426,14 @@ def showHosters():
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
- 
+
+    oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
     cook = oRequestHandler.GetCookies()
 
     aUser = addons.getSetting('hoster_awaan_username')
     aPass = addons.getSetting('hoster_awaan_password')
-
-    oParser = cParser()
 
     import requests
     St=requests.Session()
@@ -492,9 +476,6 @@ def showHosters():
         r = St.post(f'{URL_MAIN}auth/select-profile?back_rel={URL_MAIN}', data=data,headers=headers)
         r = St.get(sLink)
         sHtmlContent = r.text
-
-
-    oParser = cParser()
             
     sPattern =  'id="iframe-tv".+?data-src="([^"]+)' 
     aResult = oParser.parse(sHtmlContent,sPattern)
@@ -508,11 +489,8 @@ def showHosters():
     headers = {'Referer': URL_MAIN}
     r = St.get(m3url, headers=headers)
     sHtmlContent = r.text
-
-    oParser = cParser()
        
     sPattern = 'var source =.+?src: "([^"]+)'
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()
@@ -538,7 +516,6 @@ def showLinks():
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
-
 
     sHosterUrl = sUrl
 

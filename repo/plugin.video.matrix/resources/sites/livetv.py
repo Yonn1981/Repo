@@ -22,13 +22,12 @@ except:
 
 SITE_IDENTIFIER = 'livetv'
 SITE_NAME = 'Live TV'
-SITE_DESC = 'Evénements sportifs en direct'
+SITE_DESC = 'Live sport events'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
-# URL_MAIN = dans sites.json
 
-SPORT_GENRES = (URL_MAIN + '/enx/allupcoming/', 'showMovies')  # Liste de diffusion des sports
-SPORT_LIVE = (URL_MAIN + '/enx/', 'showLive')  # streaming Actif
+SPORT_GENRES = (URL_MAIN + '/enx/allupcoming/', 'showMovies') 
+SPORT_LIVE = (URL_MAIN + '/enx/', 'showLive') 
 SPORT_SPORTS = (True, 'load')
 
 
@@ -37,13 +36,12 @@ def load():
     oOutputParameterHandler = cOutputParameterHandler()
 
     oOutputParameterHandler.addParameter('siteUrl', SPORT_GENRES[0])
-    oGui.addDir(SITE_IDENTIFIER, SPORT_GENRES[1], 'Les sports (Genres)', 'genres.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, SPORT_GENRES[1], 'الرياضة (حسب الصنف)', 'sport.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', SPORT_LIVE[0])
-    oGui.addDir(SITE_IDENTIFIER, SPORT_LIVE[1], 'Les sports (En direct)', 'news.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, SPORT_LIVE[1], 'رياضة (مباشر)', 'sport.png', oOutputParameterHandler)
 
     oGui.setEndOfDirectory()
-
 
 def showLive():
     oGui = cGui()
@@ -89,7 +87,6 @@ def showLive():
 
     oGui.setEndOfDirectory()
 
-
 def showMovies():  # affiche les catégories qui ont des lives'
     oGui = cGui()
 
@@ -124,10 +121,9 @@ def showMovies():  # affiche les catégories qui ont des lives'
 
             oOutputParameterHandler.addParameter('siteUrl2', sUrl2)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oGui.addDir(SITE_IDENTIFIER, 'showMovies2', sTitle, 'genres.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showMovies2', sTitle, 'sport.png', oOutputParameterHandler)
 
         oGui.setEndOfDirectory()
-
 
 def showMovies2():  # affiche les matchs en direct depuis la section showMovie
 
@@ -145,7 +141,7 @@ def showMovies2():  # affiche les matchs en direct depuis la section showMovie
     if not aResult[0]:
         oGui.addText(SITE_IDENTIFIER)
     else:
-        mois = ['filler', 'janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'aout', 'septembre', 'octobre', 'novembre', 'décembre']
+        mois = ['filler', 'january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december']
         total = len(aResult[1])
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
@@ -201,7 +197,6 @@ def showMovies2():  # affiche les matchs en direct depuis la section showMovie
 
     oGui.setEndOfDirectory()
 
-
 def showMovies3():  # affiche les videos disponible du live
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
@@ -243,7 +238,6 @@ def showMovies3():  # affiche les videos disponible du live
 
     oGui.setEndOfDirectory()
 
-
 def showHosters():  # affiche les videos disponible du live
     oGui = cGui()
     UA = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:56.0) Gecko/20100101 Firefox/56.0'
@@ -256,11 +250,8 @@ def showHosters():  # affiche les videos disponible du live
     sHtmlContent = oRequestHandler.request()
 
     oParser = cParser()
-#    sPattern = '<iframe.+?(?:allowFullScreen=|width).+?src="([^"]+)".+?</iframe>'
-    sPattern = '<iframe +(?:allowFullScreen|width).+?src="([^"]+)".+?<\/iframe>'
-    
+    sPattern = '<iframe +(?:allowFullScreen|width).+?src="([^"]+)".+?<\/iframe>'   
     aResult = oParser.parse(sHtmlContent, sPattern)
-
     if aResult[0]:
 
         sHosterUrl = ''
@@ -290,7 +281,6 @@ def showHosters():  # affiche les videos disponible du live
                         aResult = re.findall(sPattern, sHtmlContent2)
                         if aResult:
                             url = aResult[0] + idChannel
-
 
         if 'sportlevel' in url:
             oRequestHandler = cRequestHandler(url)
@@ -388,13 +378,6 @@ def showHosters():  # affiche les videos disponible du live
                         return
 
         if 'faraoni1' in url:
-            # type de chaine : eurosport
-            # plusieurs suivi  de liens  possibles 5 max vus
-            # ex :
-            # http://faraoni1.ru/1/10.html ,20.html 5 requetes
-            # LiveTV/live2/1.html 3 requetes
-            # etc
-
             nextlink = url
             for x in range(0, 6):  # 6 reqs max pour trouver lhost (normalement 5 )
                 oRequestHandler = cRequestHandler(nextlink)

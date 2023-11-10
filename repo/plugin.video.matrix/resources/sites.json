@@ -124,7 +124,7 @@
         "beinsports_net": {
             "label": "Beinsports",
             "active": "True",
-            "url": "https://www.beinsports.com/ar/"
+            "url": "https://www.beinsports.com/"
         },
         "btolat": {
             "label": "Btolat",
@@ -140,11 +140,6 @@
             "label": "Cdrama",
             "active": "True",
             "url": "https://cdrama.in/"
-        },
-        "ciimalight": {
-            "label": "CiimaLight",
-            "active": "False",
-            "url": "https://wwb.cimalight.vip/"
         },
         "cimaclub": {
             "label": "CimaClub",
@@ -164,7 +159,7 @@
         "cimalek": {
             "label": "Cimalek",
             "active": "True",
-            "url": "https://cimaleek.to/"
+            "url": "https://cimalek.art/"
         },
         "cimalina": {
             "label": "CimaLina",
@@ -272,11 +267,6 @@
             "active": "True",
             "url": "https://iptv-org.github.io/"
         },
-        "gateanime": {
-            "label": "Gateanime",
-            "active": "False",
-            "url": "https://c.gateanime.com/"
-        },
         "geoarabic": {
             "label": "Geoarabic",
             "active": "True",
@@ -306,11 +296,6 @@
             "label": "IPTV",
             "active": "True",
             "url": "http://ugeen.live/"
-        },
-        "katkoute": {
-            "label": "Katkoute",
-            "active": "False",
-            "url": "https://www.katkoute.com/"
         },
         "karbala": {
             "label": "KarbalaTV",
@@ -348,11 +333,6 @@
             "active": "True",
             "url": "https://lodynet.cloud/"
         },
-        "membed": {
-            "label": "mEmbed",
-            "active": "True",
-            "url": "https://movembed.cc/"
-        },
         "moviztime": {
             "label": "MovizTime",
             "active": "True",
@@ -382,11 +362,6 @@
             "label": "Rotana",
             "active": "True",
             "url": "https://rotana.net/"
-        },
-        "s3uditv": {
-            "label": "S3uditv",
-            "active": "False",
-            "url": "https://y.s3udi.tv/"
         },
         "soap": {
             "label": "Soap2day",

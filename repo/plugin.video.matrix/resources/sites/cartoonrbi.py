@@ -2,7 +2,6 @@
 # zombi https://github.com/zombiB/zombi-addons/
 
 import re
-	
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -17,8 +16,8 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
  
-KID_MOVIES = (URL_MAIN + '/films.html', 'showMovies')
-KID_CARTOON = (URL_MAIN + '/cats.html', 'showSeries')
+KID_MOVIES = (URL_MAIN + 'films.html', 'showMovies')
+KID_CARTOON = (URL_MAIN + 'cats.html', 'showSeries')
 
 MOVIE_PACK = (URL_MAIN , 'showPack')
  
@@ -36,28 +35,22 @@ def load():
     oGui.addDir(SITE_IDENTIFIER, 'showPack', 'جميع الكرتون', 'listes.png', oOutputParameterHandler)            
     oGui.setEndOfDirectory()
 
-
 def showPack():
     oGui = cGui()
     
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
- 
+
+    oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-    oParser = cParser()
-     # (.+?) ([^<]+) .+?
     sStart = '<ul id="sidebarmenu1">'
     sEnd = '</ul></li></ul>'
     sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
     sPattern = '<a href="([^<]+)">([^<]+)</a>'
 
-
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
+    aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
@@ -68,11 +61,9 @@ def showPack():
 
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-			
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)			
 
             oGui.addTV(SITE_IDENTIFIER, 'showEps', sTitle, 'crtoon.png', '', '', oOutputParameterHandler)
-
  
     oGui.setEndOfDirectory()
 
@@ -80,17 +71,13 @@ def showMovies(sSearch = ''):
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
- 
+
+    oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  
-#([^<]+)(.+?)
     sPattern = '<div class="cartoon_cat_pic"><a href="([^<]+)" title="([^<]+)"><img src="([^<]+)" alt'
-
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
+    aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -123,32 +110,27 @@ def showMovies(sSearch = ''):
         oGui.setEndOfDirectory()
 		
 def __checkForNextPage(sHtmlContent):
-    sPattern = '<a href="([^<]+)">«'
     oParser = cParser()
+    sPattern = '<a href="([^<]+)">«'
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
         aResult = URL_MAIN+'/'+aResult[1][0]
         return aResult
 
     return False	
-	
 
 def showSeries(sSearch = ''):
     oGui = cGui()
 
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
- 
+
+    oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
     
- 
     sPattern = '<div class="cartoon_cat_pic"><a href="([^<]+)" title="([^<]+)"><img src="([^<]+)" alt'
-
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
+    aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -163,8 +145,6 @@ def showSeries(sSearch = ''):
             sThumb = aEntry[2]
             sDesc = ""
 			
-
-
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
@@ -182,7 +162,6 @@ def showSeries(sSearch = ''):
     if not sSearch:
         oGui.setEndOfDirectory()
 
-
 def showEps():
     oGui = cGui()
    
@@ -190,16 +169,13 @@ def showEps():
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
- 
+
+    oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
     sPattern = '<div class="cartoon_eps_pic"><a href="(.+?)" title="(.+?)"><span class="copy_right"></span><span class="playtime">(.+?)</span><img src="(.+?)" alt'
-
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-   
+    aResult = oParser.parse(sHtmlContent, sPattern) 
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()  
         for aEntry in aResult[1]:
@@ -207,23 +183,17 @@ def showEps():
             sThumb = aEntry[3]
             sTitle = aEntry[1].replace("الموسم العاشر","S10").replace("الموسم الحادي عشر","S11").replace("الموسم الثاني عشر","S12").replace("الموسم الثالث عشر","S13").replace("الموسم الرابع عشر","S14").replace("الموسم الخامس عشر","S15").replace("الموسم السادس عشر","S16").replace("الموسم السابع عشر","S17").replace("الموسم الثامن عشر","S18").replace("الموسم التاسع عشر","S19").replace("الموسم العشرون","S20").replace("الموسم الحادي و العشرون","S21").replace("الموسم الثاني و العشرون","S22").replace("الموسم الثالث و العشرون","S23").replace("الموسم الرابع والعشرون","S24").replace("الموسم الخامس و العشرون","S25").replace("الموسم السادس والعشرون","S26").replace("الموسم السابع والعشرون","S27").replace("الموسم الثامن والعشرون","S28").replace("الموسم التاسع والعشرون","S29").replace("الموسم الثلاثون","S30").replace("الموسم الحادي و الثلاثون","S31").replace("الموسم الثاني والثلاثون","S32").replace("الموسم الاول","S1").replace("الموسم الثاني","S2").replace("الموسم الثالث","S3").replace("الموسم الثالث","S3").replace("الموسم الرابع","S4").replace("الموسم الخامس","S5").replace("الموسم السادس","S6").replace("الموسم السابع","S7").replace("الموسم الثامن","S8").replace("الموسم التاسع","S9").replace("الموسم","S").replace("موسم","S").replace("S ","S").replace("الحلقة "," E").replace("حلقة "," E")
 
- 
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
-
-            
-
  
-            oGui.addEpisode(SITE_IDENTIFIER, 'showLink', sTitle, '', sThumb, '', oOutputParameterHandler)
- 
+            oGui.addEpisode(SITE_IDENTIFIER, 'showLink', sTitle, '', sThumb, '', oOutputParameterHandler) 
  
         sNextPage = __checkForNextPage(sHtmlContent)
         if sNextPage:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showEps', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
-
 
         oGui.setEndOfDirectory()
        
@@ -235,29 +205,21 @@ def showLink(oInputParameterHandler = False):
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
     sUrl = sUrl.replace("cartoon","watch-")
- 
+
+    oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-    #Recuperation infos
     sname = '0'
-
     sPage='0'
-    oParser = cParser()
-    # (.+?) ([^<]+)
 
     sStart = '<div class="servers">'
     sEnd = '<div class="videoshow">'
     sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
 
     sPattern = "server_ch([^<]+),'(.+?)'"
-
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    
-   
+    aResult = oParser.parse(sHtmlContent, sPattern)  
     if aResult[0]:
-        oOutputParameterHandler = cOutputParameterHandler()  
         for aEntry in aResult[1]:
             sErver = aEntry[0].replace("(","")
             sPage = aEntry[1]
@@ -277,7 +239,6 @@ def showLink(oInputParameterHandler = False):
             if aResult[0]:
                for aEntry in aResult[1]:
                    url = str(aEntry).replace('preview?pli=1#t=1','').replace('https://docs.google.com','https://drive.google.com')  
-                   sTitle = " "
                    sThumb = sThumb
                    if '.m3u8' in url:
                       url2 = url.split('=') 
@@ -285,13 +246,11 @@ def showLink(oInputParameterHandler = False):
                    if url.startswith('//'):
                       url = 'http:' + url
                    if 'arteenz' in url:
-                      VSlog(url)
                       oRequestHandler = cRequestHandler(url)
                       sUrl0 = oRequestHandler.request()
+
                       sPattern = '<iframe.+?src="(.+?)"'
-                      oParser = cParser()
                       aResult = oParser.parse(sUrl0, sPattern)
-                      VSlog(sUrl0)
                       if aResult[0]:
                         for aEntry in aResult[1]:
                             url = aEntry
@@ -300,8 +259,6 @@ def showLink(oInputParameterHandler = False):
 								            
                    sHosterUrl = url
                    if 'userload' in sHosterUrl:
-                       sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-                   if 'moshahda' in sHosterUrl:
                        sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
                    if '.m3u8' in sHosterUrl:
                        sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
