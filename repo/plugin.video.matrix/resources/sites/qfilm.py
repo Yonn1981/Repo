@@ -1,10 +1,7 @@
 ﻿# -*- coding: utf-8 -*-
-#############################################################
 # Yonn1981 https://github.com/Yonn1981/Repo
-#############################################################
 
 import re
-	
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -22,7 +19,7 @@ UA = 'Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chr
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 MOVIE_EN = (URL_MAIN + 'category.php?cat=english-movies', 'showMovies')
-MOVIE_AR = ('https://arb.qfilm.tv/category.php?cat=arabic', 'showMovies')
+MOVIE_AR = (URL_MAIN + 'category.php?cat=arabic', 'showMovies')
 MOVIE_TURK = (URL_MAIN + 'category.php?cat=turkish-movies', 'showMovies')
 MOVIE_HI = (URL_MAIN + 'category.php?cat=indian-movies', 'showMovies')
 MOVIE_ASIAN = (URL_MAIN + 'category.php?cat=asian-movies', 'showMovies')
@@ -48,7 +45,6 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_AR[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام عربية', 'arab.png', oOutputParameterHandler)
 
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_HI[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام هندية', 'hend.png', oOutputParameterHandler)
 
@@ -61,16 +57,13 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', ANIM_MOVIES[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام انيميشن', 'anim.png', oOutputParameterHandler)
 
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'category.php?cat=adult-movies')
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'للكبار فقط +18', 'agnab.png', oOutputParameterHandler)
 
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_GENRES[0])
     oGui.addDir(SITE_IDENTIFIER, MOVIE_GENRES[1], 'الأفلام (الأنواع)', 'film.png', oOutputParameterHandler)
 
     oGui.setEndOfDirectory()
- 
  
 def showSearch():
     oGui = cGui()
@@ -121,16 +114,13 @@ def showMovies(sSearch = ''):
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
 
+    oParser = cParser()
     oRequestHandler = cRequestHandler(sUrl)
     oRequestHandler.addHeaderEntry('User-Agent', UA)
     sHtmlContent = oRequestHandler.request()
-      # (.+?) ([^<]+) .+?
-    sPattern = '<div class="thumbnail">.+?<a href=["\']([^"\']+)["\']\s*title=["\']([^"\']+)["\'].+?data-echo=["\']([^"\']+)'
 
-    oParser = cParser()
+    sPattern = '<div class="thumbnail">.+?<a href=["\']([^"\']+)["\']\s*title=["\']([^"\']+)["\'].+?data-echo=["\']([^"\']+)'
     aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
     if aResult[0] :
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -138,11 +128,9 @@ def showMovies(sSearch = ''):
         for aEntry in aResult[1]:
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
-                break
- 
+                break 
             
             sTitle = aEntry[1].replace("مشاهدة","").replace("كامل","").replace("مشاهده","").replace("مترجم","").replace("فيلم","").replace("اونلاين","").replace("اون لاين","").replace("برنامج","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("انمي","")
- 
             siteUrl = aEntry[0].replace("watch.php","view.php")
             sDesc = ""
             sThumb = aEntry[2]
@@ -151,7 +139,6 @@ def showMovies(sSearch = ''):
             if m:
                 sYear = str(m.group(0))
                 sTitle = sTitle.replace(sYear,'')
-
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -175,12 +162,10 @@ def showMovies(sSearch = ''):
         oGui.setEndOfDirectory()
 
 def __checkForNextPage(sHtmlContent):
-    sPattern = '<li class="active"><a href="#".+?<li class><a href="([^"]+)'
-	
     oParser = cParser()
+    sPattern = '<li class="active"><a href="#".+?<li class><a href="([^"]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)
-    if aResult[0] :
-        
+    if aResult[0] :      
         return URL_MAIN+aResult[1][0]
 
     return False
@@ -192,19 +177,17 @@ def showHosters(oInputParameterHandler = False):
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
 
+    oParser = cParser()
     oRequestHandler = cRequestHandler(sUrl)
     oRequestHandler.addHeaderEntry('User-Agent', UA)
-    sHtmlContent = oRequestHandler.request()
-    oParser = cParser()        
+    sHtmlContent = oRequestHandler.request()     
 
     sPattern = '<iframe src=["\']([^"\']+)["\']'
     aResult = oParser.parse(sHtmlContent, sPattern)
-	
     if aResult[0] :
         for aEntry in aResult[1]:
             
             sHosterUrl = aEntry
-            sTitle =  ""
             if sHosterUrl.startswith('//'):
                 sHosterUrl = 'http:' + sHosterUrl
             if 'userload' in sHosterUrl:

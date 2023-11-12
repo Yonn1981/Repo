@@ -2,7 +2,6 @@
 # zombi https://github.com/zombiB/zombi-addons/
 
 import base64
-	
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -86,16 +85,13 @@ def showSeries(sSearch = ''):
     else:
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
- 
+
+    oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-  # ([^<]+) .+? (.+?)
 
     sPattern = '<div class="serie-thumb">\s*<a href="(.+?)" title="(.+?)">\s*<img loading=".+?" src="(.+?)" alt'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
+    aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -115,7 +111,6 @@ def showSeries(sSearch = ''):
             sDesc = ''
             sYear = ''
 
-
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -128,21 +123,12 @@ def showSeries(sSearch = ''):
         progress_.VSclose(progress_)
 
     sPattern = '<ul class="pagination">(.+?)class="headline">'  
-    
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern) 
-     
-
     if aResult[0]:
         sHtmlContent = aResult[1][0]
-  # ([^<]+) .+?
 
     sPattern = '<li><a href="([^<]+)">([^<]+)</a></li>'
-
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
     if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -153,8 +139,7 @@ def showSeries(sSearch = ''):
             if 'موقع' in aEntry[1]:
                 continue
 
-            sTitle = aEntry[1]
-            
+            sTitle = aEntry[1]     
             sTitle =  "PAGE " + sTitle
             sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
             siteUrl = aEntry[0]
@@ -165,15 +150,12 @@ def showSeries(sSearch = ''):
             sThumb = ""
             sDesc = ""
 
-
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
 			
             oGui.addDir(SITE_IDENTIFIER, 'showSeries', sTitle, '', oOutputParameterHandler)
 
         progress_.VSclose(progress_)
- 
-
  
     if not sSearch:
         oGui.setEndOfDirectory()
@@ -186,25 +168,18 @@ def showSeriesSearch(sSearch = ''):
     else:
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
- 
+
+    oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
     sPattern = 'class="headline">(.+?)<div id="footer">'  
-    
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern) 
-     
-
     if aResult[0]:
         sHtmlContent2 = aResult[1][0]
-   # ([^<]+) .+? (.+?)
+
     sPattern = '<a href="(.+?)" title="(.+?)">.+?src="([^"]+)'
-	
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent2, sPattern)
-	
-	
+    aResult = oParser.parse(sHtmlContent2, sPattern)	
     if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -229,13 +204,9 @@ def showSeriesSearch(sSearch = ''):
             oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, '', oOutputParameterHandler)
         
         progress_.VSclose(progress_)
-   #([^<]+) .+?
-    sPattern = 'class="videocontainer">\s*<iframe src="([^<]+)" id="([^<]+)"'
 
-    oParser = cParser()
+    sPattern = 'class="videocontainer">\s*<iframe src="([^<]+)" id="([^<]+)"'
     aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
     if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -254,8 +225,6 @@ def showSeriesSearch(sSearch = ''):
                 siteUrl = URL_MAIN + siteUrl
             sThumb = sThumb
             sDesc = ""
-			
-
 
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -264,24 +233,14 @@ def showSeriesSearch(sSearch = ''):
             oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
-  #([^<]+) .+?
 
     sPattern = '<ul class="pagination">(.+?)class="headline">'  
-    
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern) 
-     
-
     if aResult[0]:
         sHtmlContent3 = aResult[1][0]
-  # ([^<]+) .+?
 
         sPattern = '<li><a href="([^<]+)">([^<]+)</a></li>'
-
-        oParser = cParser()
         aResult = oParser.parse(sHtmlContent3, sPattern)
-	
-	
         if aResult[0]:
             total = len(aResult[1])
             progress_ = progress().VScreate(SITE_NAME)
@@ -298,7 +257,6 @@ def showSeriesSearch(sSearch = ''):
                 siteUrl = aEntry[0]
                 sThumb = ""
                 sDesc = ""
-
 
                 oOutputParameterHandler = cOutputParameterHandler()
                 oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -317,25 +275,18 @@ def showEpisodes():
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
- 
+
+    oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
     sPattern = 'class="headline">(.+?)class="head-title"> أخر الحلقات </h3>'  
-    
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern) 
-     
-
     if aResult[0]:
         sHtmlContent = aResult[1][0]
-   # ([^<]+) .+? (.+?)
+
     sPattern = '<div class="video-thumb">\s*<a href="(.+?)" title="(.+?)">\s*<img loading="lazy" src="(.+?)" alt'
-	
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
     if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -360,13 +311,9 @@ def showEpisodes():
             oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, '', oOutputParameterHandler)
 
         progress_.VSclose(progress_)
-   #([^<]+) .+?
-    sPattern = 'class="videocontainer">\s*<iframe src="([^<]+)" id="([^<]+)"'
 
-    oParser = cParser()
+    sPattern = 'class="videocontainer">\s*<iframe src="([^<]+)" id="([^<]+)"'
     aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
     if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -384,8 +331,6 @@ def showEpisodes():
             sThumb = sThumb
             sDesc = ""
 			
-
-
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -395,21 +340,12 @@ def showEpisodes():
         progress_.VSclose(progress_)
 
     sPattern = '<ul class="pagination">(.+?)div id="footer">'  
-    
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern) 
-     
-
     if aResult[0]:
         sHtmlContent3 = aResult[1][0]
-  # ([^<]+) .+?
 
         sPattern = '<li><a href="([^<]+)">([^<]+)</a></li>'
-
-        oParser = cParser()
         aResult = oParser.parse(sHtmlContent3, sPattern)
-	
-	
         if aResult[0]:
             total = len(aResult[1])
             progress_ = progress().VScreate(SITE_NAME)
@@ -427,16 +363,13 @@ def showEpisodes():
                 sThumb = ""
                 sDesc = ""
 
-
                 oOutputParameterHandler = cOutputParameterHandler()
                 oOutputParameterHandler.addParameter('siteUrl',siteUrl)
 			
                 oGui.addDir(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', oOutputParameterHandler)
         
         progress_.VSclose(progress_)
- 
-
-       
+  
     oGui.setEndOfDirectory()
 
 def showHosters(oInputParameterHandler = False):
@@ -445,11 +378,10 @@ def showHosters(oInputParameterHandler = False):
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
-    
+
+    oParser = cParser()    
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request();
-
-    oParser = cParser()
 
     sPattern =  "PGlmcmFt(.+?)'"
     aResult = oParser.parse(sHtmlContent,sPattern)
@@ -457,10 +389,9 @@ def showHosters(oInputParameterHandler = False):
         for aEntry in aResult[1]:
             m3url = "PGlmcmFt" + aEntry
             sHtmlContent2 = base64.b64decode(m3url)
-    # (.+?)    .+?    
+   
             sPattern = 'src="(.+?)".+?allowfullscreen'
             aResult = oParser.parse(sHtmlContent2, sPattern)
-
             if aResult[0]:
                for aEntry in aResult[1]:
         
@@ -476,7 +407,5 @@ def showHosters(oInputParameterHandler = False):
                        oHoster.setDisplayName(sDisplayTitle)
                        oHoster.setFileName(sDisplayTitle)
                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
-				
-
                 
     oGui.setEndOfDirectory()

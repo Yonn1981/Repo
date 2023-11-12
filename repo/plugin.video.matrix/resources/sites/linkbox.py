@@ -1,18 +1,13 @@
 ﻿# -*- coding: utf-8 -*-
-#############################################################
 # Yonn1981 https://github.com/Yonn1981/Repo
-#############################################################
 # Thanks to TSIPlayer Creators
 
 import re
-	
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
-from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.parser import cParser
-from resources.lib.comaddon import progress,VSlog, siteManager, dialog, addon
+from resources.lib.comaddon import VSlog, siteManager, addon
 
 import json
 import requests
@@ -135,14 +130,12 @@ def showContent(sSearch = '',oInputParameterHandler = False):
     sUrl = oInputParameterHandler.getValue('siteUrl')
     spage = int(oInputParameterHandler.getValue('page'))   
     spid = oInputParameterHandler.getValue('spid')
-    
-    
+       
     nb_elm = 50
     shareToken = sUrl
 
     page = 1
     pid = spid
-
 
     if spage > 1:
         page = spage
@@ -275,7 +268,6 @@ def showGroupSearch(sSearchText = '', oInputParameterHandler = False):
     page = 1
     pid = spid
 
-
     if spage > 1:
         page = spage
     else:
@@ -352,14 +344,11 @@ def showGroupSearchNext(sSearchText = '', oInputParameterHandler = False):
     shareToken = sUrl
 
     page = 1
-    pid = spid
-
 
     if spage > 1:
         page = spage
     else:
         page = 1
-    VSlog(page)
 
     sUrl = URL_MAIN + '/api/file/share_out_list/?sortField=name&sortAsc=1&pageNo='+str(page)+'&pageSize='+str(nb_elm)+'&'+'shareToken='+shareToken+'&pid=0&needTpInfo=1&scene=singleGroup&name='+sSearchText+'&platform=web&pf=web&lan=en'
 

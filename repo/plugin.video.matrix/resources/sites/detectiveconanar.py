@@ -2,7 +2,6 @@
 # zombi https://github.com/zombiB/zombi-addons/
 
 import re
-	
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -18,7 +17,6 @@ SITE_DESC = 'arabic vod'
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 ANIM_NEWS = (URL_MAIN + 'episodes/', 'showSeries')
 ANIM_MOVIES = (URL_MAIN + 'movies/', 'showMovies')
-
  
 def load():
     oGui = cGui()
@@ -36,17 +34,13 @@ def showMovies(sSearch = ''):
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
- 
+
+    oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-  # .+? ([^<]+) (.+?) .+?
 
     sPattern = 'class="film-poster">\s*<img data-src="([^"]+)".+?alt="([^"]+)".+?<a href="([^"]+)'
-
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
+    aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -60,7 +54,6 @@ def showMovies(sSearch = ''):
             sDesc = '' 
             siteUrl = aEntry[2]
             sThumb = aEntry[0]
-
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -83,15 +76,13 @@ def showSeries(sSearch = ''):
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
- 
+
+    oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
- # ([^<]+) .+?
+
     sPattern = 'class="film-poster">.+?data-src="([^"]+)".+?alt="([^"]+)".+?<a href="([^"]+)'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
+    aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -120,29 +111,23 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
 
- 
     if not sSearch:
         oGui.setEndOfDirectory()
-  # .+? ([^<]+) 
+
 def __checkForNextPage(sHtmlContent):
-    sPattern = '<a title="التالي" class="page-link" href="([^"]+)'
-	
     oParser = cParser()
+    sPattern = '<a title="التالي" class="page-link" href="([^"]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)
- 
     if aResult[0]:
         return aResult[1][0]
+    
     else:
         sPattern = '<span class="current">.+?href=(.+?) class='
-	
-        oParser = cParser()
         aResult = oParser.parse(sHtmlContent, sPattern)
- 
         if aResult[0]:
             return aResult[1][0].replace("'","")
 
     return False
-
 
 def showHosters(oInputParameterHandler = False):
     oGui = cGui()
@@ -150,12 +135,12 @@ def showHosters(oInputParameterHandler = False):
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
-    
+
+    oParser = cParser()    
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()        
 
     sPattern = '<tr id="link.+?<a href="([^"]+)".+?<strong class="quality">(.+?)</strong>'
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
         for aEntry in aResult[1]:

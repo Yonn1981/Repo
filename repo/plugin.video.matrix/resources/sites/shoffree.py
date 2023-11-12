@@ -2,7 +2,6 @@
 # zombi https://github.com/zombiB/zombi-addons/
 
 import re
-	
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -55,86 +54,66 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
     oGui.addDir(SITE_IDENTIFIER, 'showSearchSeries', addons.VSlang(30079), 'search.png', oOutputParameterHandler)
 
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', RAMADAN_SERIES[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'رمضان', 'rmdn.png', oOutputParameterHandler)
 
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_EN[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أجنبية', 'agnab.png', oOutputParameterHandler)
 
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_AR[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام عربية', 'arab.png', oOutputParameterHandler)
 
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_ASIAN[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أسيوية', 'asia.png', oOutputParameterHandler)
    
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_TURK[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام تركية', 'turk.png', oOutputParameterHandler)
     
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_HI[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام هندية', 'hend.png', oOutputParameterHandler) 
  
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', KID_MOVIES[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام كرتون', 'crtoon.png', oOutputParameterHandler)
 
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'resent')
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'الأفلام المضاف حديثاً', 'film.png', oOutputParameterHandler)	
 
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', SERIE_EN[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أجنبية', 'agnab.png', oOutputParameterHandler)
 
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', SERIE_AR[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات عربية', 'arab.png', oOutputParameterHandler)
 
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', SERIE_ASIA[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أسيوية', 'asia.png', oOutputParameterHandler)
 
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', SERIE_TR[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات تركية', 'turk.png', oOutputParameterHandler)
 
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', SERIE_HEND[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات هندية', 'hend.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', ANIM_MOVIES[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'افلام انمي', 'anime.png', oOutputParameterHandler)
   
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', ANIM_NEWS[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات انمي', 'anime.png', oOutputParameterHandler)
 
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', SERIE_GENRES[0])
     oGui.addDir(SITE_IDENTIFIER, SERIE_GENRES[1], 'المسلسلات (الأنواع)', 'mslsl.png', oOutputParameterHandler)
 
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_GENRES[0])
     oGui.addDir(SITE_IDENTIFIER, MOVIE_GENRES[1], 'الأفلام (الأنواع)', 'film.png', oOutputParameterHandler)
 
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'movies')
     oGui.addDir(SITE_IDENTIFIER, 'showYears', 'أفلام (بالسنوات)', 'annees.png', oOutputParameterHandler)
 
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'series')
     oGui.addDir(SITE_IDENTIFIER, 'showSerieYears', 'مسلسلات (بالسنوات)', 'annees.png', oOutputParameterHandler)
 
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'movies')
     oGui.addDir(SITE_IDENTIFIER, 'showLang', 'أفلام (حسب اللغة)', 'film.png', oOutputParameterHandler)	
 
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'series')
     oGui.addDir(SITE_IDENTIFIER, 'showSerieLang', 'مسلسلات (حسب اللغة)', 'mslsl.png', oOutputParameterHandler)	
 
@@ -184,17 +163,12 @@ def showYears():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-    oParser = cParser()
-     # (.+?) ([^<]+) .+?
     sStart = '<option selected value> السنة </option>'
     sEnd = '</select>'
     sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
 
     sPattern = '<option value="([^"]+)"'
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-	
-
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()    
         for aEntry in reversed(aResult[1]):
@@ -202,6 +176,7 @@ def showYears():
             sYear = aEntry
             oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'movies?year=' + sYear) 
             oGui.addDir(SITE_IDENTIFIER, 'showMovies', sYear, 'annees.png', oOutputParameterHandler)
+
     oGui.setEndOfDirectory()
 
 def showSerieYears():
@@ -220,16 +195,12 @@ def showSerieYears():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-    oParser = cParser()
-     # (.+?) ([^<]+) .+?
     sStart = '<option selected value> السنة </option>'
     sEnd = '</select>'
     sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
 
     sPattern = '<option value="([^"]+)"'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
+    aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()    
         for aEntry in reversed(aResult[1]):
@@ -237,6 +208,7 @@ def showSerieYears():
             sYear = aEntry
             oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'series?year=' + sYear) 
             oGui.addDir(SITE_IDENTIFIER, 'showSeries', sYear, 'annees.png', oOutputParameterHandler)
+
     oGui.setEndOfDirectory()
 
 def showLang():
@@ -255,17 +227,12 @@ def showLang():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-    oParser = cParser()
-     # (.+?) ([^<]+) .+?
     sStart = '<option selected value> اللغة </option>'
     sEnd = '</select>'
     sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
 
     sPattern = '<option value="([^"]+)"'
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-	
-
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()    
         for aEntry in aResult[1]:
@@ -273,6 +240,7 @@ def showLang():
             sYear = aEntry
             oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'movies?lang=' + sYear) 
             oGui.addDir(SITE_IDENTIFIER, 'showMovies', sYear, 'annees.png', oOutputParameterHandler)
+
     oGui.setEndOfDirectory()
 
 def showSerieLang():
@@ -291,16 +259,12 @@ def showSerieLang():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-    oParser = cParser()
-     # (.+?) ([^<]+) .+?
     sStart = '<option selected value> اللغة </option>'
     sEnd = '</select>'
     sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
 
     sPattern = '<option value="([^"]+)"'
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-	
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()    
         for aEntry in aResult[1]:
@@ -308,6 +272,7 @@ def showSerieLang():
             sYear = aEntry
             oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'series?lang=' + sYear) 
             oGui.addDir(SITE_IDENTIFIER, 'showSeries', sYear, 'annees.png', oOutputParameterHandler)
+
     oGui.setEndOfDirectory()
 
 def seriesGenres():
@@ -389,11 +354,9 @@ def showMovies(sSearch = ''):
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-     # (.+?) ([^<]+) .+?
+
     sPattern = '<div class="BlockItem.+?<a href="(.+?)" title="(.+?)">.+?data-src="(.+?)" alt='
     aResult = oParser.parse(sHtmlContent, sPattern)
-
-	
     if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -414,8 +377,6 @@ def showMovies(sSearch = ''):
             if m:
                sYear = str(m.group(0))
                sTitle = sTitle.replace(sYear,'')
-            sDisplayTitle = ('%s (%s)') % (sTitle, sYear)
-
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -453,10 +414,9 @@ def showSeries(sSearch = ''):
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-     # (.+?) ([^<]+) .+?
+
     sPattern = '<div class="BlockItem.+?<a href="(.+?)" title="(.+?)">.+?data-src="(.+?)" alt='
     aResult = oParser.parse(sHtmlContent, sPattern)
-	
     itemList = []		
     if aResult[0] is True:
         total = len(aResult[1])
@@ -485,7 +445,6 @@ def showSeries(sSearch = ''):
 
         progress_.VSclose(progress_)
 
- 
         sNextPage = __checkForNextPage(sHtmlContent, sUrl)
         if sNextPage != False:
             oOutputParameterHandler = cOutputParameterHandler()
@@ -510,12 +469,9 @@ def showSeasons():
     sStart = '>المواسم</div>'
     sEnd = '<section class="text-center"'
     sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
-    # (.+?) .+? ([^<]+)
-    sPattern = '<a href="(.+?)" title="(.+?)">.+?data-src="(.+?)" alt='
 
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    
+    sPattern = '<a href="(.+?)" title="(.+?)">.+?data-src="(.+?)" alt='
+    aResult = oParser.parse(sHtmlContent, sPattern) 
     if aResult[0] is True:
         oOutputParameterHandler = cOutputParameterHandler() 
         for aEntry in aResult[1]:
@@ -539,16 +495,13 @@ def showEps():
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
-    oParser = cParser()
- 
-    oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
-    # (.+?) .+? ([^<]+)
-    sPattern = '<a class="sku" href="(.+?)" title=.+?data-src="(.+?)" alt.+?class="episode" style="display: inline;">.+?<i>(.+?)</i></span>'
 
     oParser = cParser()
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request()
+
+    sPattern = '<a class="sku" href="(.+?)" title=.+?data-src="(.+?)" alt.+?class="episode" style="display: inline;">.+?<i>(.+?)</i></span>'
     aResult = oParser.parse(sHtmlContent, sPattern)
-    
     if aResult[0] is True:
         oOutputParameterHandler = cOutputParameterHandler() 
         for aEntry in aResult[1]:
@@ -564,25 +517,19 @@ def showEps():
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sHost', sHost)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
-            
-
  
             oGui.addEpisode(SITE_IDENTIFIER, 'showHostersepisode', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
        
     oGui.setEndOfDirectory() 
-
  
 def __checkForNextPage(sHtmlContent, sUrl):
-    sPattern = '<a class="page-link" href="([^"]+)">التالي</a>'
-	
     oParser = cParser()
+    sPattern = '<a class="page-link" href="([^"]+)">التالي</a>'
     aResult = oParser.parse(sHtmlContent, sPattern)
- 
     if aResult[0]:
         return sUrl+'&'+aResult[1][0]
 
     return False
-
 
 def showHostersepisode(oInputParameterHandler = False):
     oGui = cGui()
@@ -591,14 +538,12 @@ def showHostersepisode(oInputParameterHandler = False):
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
 
-
+    oParser = cParser()
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
     URL_MAIN = main_function(sHtmlContent)
-
-    oParser = cParser()
-            
+          
     sPattern =  'name="codes" value="([^"]+)' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0]:
@@ -610,8 +555,7 @@ def showHostersepisode(oInputParameterHandler = False):
     if aResult[0]:
         mcode = aResult[1][0]
         ncode = 'code' 
-
-            
+       
     sPattern =  '<form action="(.+?)" method="post">' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0]:
@@ -619,18 +563,12 @@ def showHostersepisode(oInputParameterHandler = False):
 
         import requests
         s = requests.Session()            
-        headers = {'user-agent': 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1',
-							'origin': URL_MAIN,
-							'referer': murl2}
         data = {ncode:mcode, 'submit':'submit'}
         r = s.post(murl2,data = data)
         sHtmlContent = r.content.decode('utf8')
    
         sPattern = '"iframe_a" href="(.+?)"><div'
-        oParser = cParser()
-        aResult = oParser.parse(sHtmlContent, sPattern)
-
-	
+        aResult = oParser.parse(sHtmlContent, sPattern)	
         if aResult[0] is True:
            for aEntry in aResult[1]:
                if 'http' not in aEntry:
@@ -644,12 +582,11 @@ def showHostersepisode(oInputParameterHandler = False):
                oRequest.addHeaderEntry('Referer',URL_MAIN)
                sHtmlContent1 = oRequest.request()
 
-               oParser = cParser()
                sPattern = '<iframe.+?src="([^"]+)'
                aResult = oParser.parse(sHtmlContent1, sPattern)
-
                if aResult[0]:
-                    url = aResult[1][0]								            
+                    url = aResult[1][0]		
+
                sHosterUrl = url
                if 'userload' in sHosterUrl:
                   sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
@@ -664,10 +601,7 @@ def showHostersepisode(oInputParameterHandler = False):
                   cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
         sPattern = 'target="_blank" href="([^"]+)'
-        oParser = cParser()
-        aResult = oParser.parse(sHtmlContent, sPattern)
-
-	
+        aResult = oParser.parse(sHtmlContent, sPattern)	
         if aResult[0]:
            for aEntry in aResult[1]:
         
@@ -677,40 +611,36 @@ def showHostersepisode(oInputParameterHandler = False):
                 St=requests.Session()
 
                 sPattern = 'class="downloadiframe" src="([^"]+)'
-                oParser = cParser()
                 aResult = oParser.parse(sHtmlContent, sPattern)
-
                 if aResult[0]:
                     for aEntry in aResult[1]:
             
                         url = aEntry   
-                        
                         cook = oRequestHandler.GetCookies()
                         hdr = {'Sec-Fetch-Mode' : 'navigate','Cookie' : cook,'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.58','Referer' : URL_MAIN}
                         sHtmlContent = St.get(url,headers=hdr)
                         sHtmlContent = sHtmlContent.content.decode('utf8')
                
                         sPattern = '<li class="episodesengl"><a href="([^"]+)">(.+?)<em>(.+?)</em>'
-                        oParser = cParser()
                         aResult = oParser.parse(sHtmlContent, sPattern)
-
                         if aResult[0]:
-                                for aEntry in aResult[1]:
+                            for aEntry in aResult[1]:
             
-                                    url = aEntry[0]
-                                    dqual = aEntry[1]
-                                    qual = aEntry[2]
-                                    sHosterUrl = url
+                                url = aEntry[0]
+                                dqual = aEntry[1]
+                                qual = aEntry[2]
+                                sHosterUrl = url
 
-                                    sTitle = ('%s %s [COLOR coral](%s)[/COLOR]') % (sMovieTitle, dqual, qual)
-                                    oHoster = cHosterGui().checkHoster(sHosterUrl)
-                                    if oHoster:
-                                        sDisplayTitle = sTitle
-                                        oHoster.setDisplayName(sDisplayTitle)
-                                        oHoster.setFileName(sMovieTitle)
-                                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                                sTitle = ('%s %s [COLOR coral](%s)[/COLOR]') % (sMovieTitle, dqual, qual)
+                                oHoster = cHosterGui().checkHoster(sHosterUrl)
+                                if oHoster:
+                                    sDisplayTitle = sTitle
+                                    oHoster.setDisplayName(sDisplayTitle)
+                                    oHoster.setFileName(sMovieTitle)
+                                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
     oGui.setEndOfDirectory()
+
 def showHosters(oInputParameterHandler = False):
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
@@ -718,20 +648,17 @@ def showHosters(oInputParameterHandler = False):
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
 
-
+    oParser = cParser()
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
     URL_MAIN = main_function(sHtmlContent)
-
-    oParser = cParser()
-            
+          
     sPattern =  '<a href="/movie(.+?)">' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0] is True:
         murl = URL_MAIN+'movie'+aResult[1][0] 
     
-    oParser = cParser()
     import requests
     s = requests.Session()            
     headers = {'user-agent': 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1',
@@ -740,9 +667,7 @@ def showHosters(oInputParameterHandler = False):
     sHtmlContent = r.content.decode('utf8')
     oRequestHandler = cRequestHandler(murl)
     cook = oRequestHandler.GetCookies()
-
-    oParser = cParser()
-            
+          
     sPattern =  'name="codes" value="([^"]+)' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0]:
@@ -755,7 +680,6 @@ def showHosters(oInputParameterHandler = False):
         mcode = aResult[1][0]
         ncode = 'code' 
 
-            
     sPattern =  '<form action="(.+?)" method="post">' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0]:
@@ -771,10 +695,7 @@ def showHosters(oInputParameterHandler = False):
         sHtmlContent = r.content.decode('utf8')
    
         sPattern = '"iframe_a" href="(.+?)"><div'
-        oParser = cParser()
         aResult = oParser.parse(sHtmlContent, sPattern)
-
-	
         if aResult[0] is True:
            for aEntry in aResult[1]:
                if 'http' not in aEntry:
@@ -811,8 +732,6 @@ def showHosters(oInputParameterHandler = False):
         sPattern = 'target="_blank" href="([^"]+)'
         oParser = cParser()
         aResult = oParser.parse(sHtmlContent, sPattern)
-
-	
         if aResult[0]:
            for aEntry in aResult[1]:
         
@@ -822,9 +741,7 @@ def showHosters(oInputParameterHandler = False):
                 St=requests.Session()
 
                 sPattern = 'class="downloadiframe" src="([^"]+)'
-                oParser = cParser()
                 aResult = oParser.parse(sHtmlContent, sPattern)
-
                 if aResult[0]:
                     for aEntry in aResult[1]:
             
@@ -836,22 +753,21 @@ def showHosters(oInputParameterHandler = False):
                         sHtmlContent = sHtmlContent.content.decode('utf8')
                
                         sPattern = '<li class="episodesengl"><a href="([^"]+)">(.+?)<em>(.+?)</em>'
-                        oParser = cParser()
                         aResult = oParser.parse(sHtmlContent, sPattern)
-
                         if aResult[0]:
-                                for aEntry in aResult[1]:
+                            for aEntry in aResult[1]:
             
-                                    url = aEntry[0]
-                                    dqual = aEntry[1]
-                                    qual = aEntry[2]
-                                    sHosterUrl = url
+                                url = aEntry[0]
+                                dqual = aEntry[1]
+                                qual = aEntry[2]
+                                sHosterUrl = url
 
-                                    sTitle = ('%s %s [COLOR coral](%s)[/COLOR]') % (sMovieTitle, dqual, qual)
-                                    oHoster = cHosterGui().checkHoster(sHosterUrl)
-                                    if oHoster:
-                                        sDisplayTitle = sTitle
-                                        oHoster.setDisplayName(sDisplayTitle)
-                                        oHoster.setFileName(sMovieTitle)
-                                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                                sTitle = ('%s %s [COLOR coral](%s)[/COLOR]') % (sMovieTitle, dqual, qual)
+                                oHoster = cHosterGui().checkHoster(sHosterUrl)
+                                if oHoster:
+                                    sDisplayTitle = sTitle
+                                    oHoster.setDisplayName(sDisplayTitle)
+                                    oHoster.setFileName(sMovieTitle)
+                                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                                    
     oGui.setEndOfDirectory()

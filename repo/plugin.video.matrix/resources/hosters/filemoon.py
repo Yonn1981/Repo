@@ -5,6 +5,7 @@ from resources.hosters.hoster import iHoster
 from resources.lib.packer import cPacker
 from resources.lib.parser import cParser
 from resources.lib.comaddon import dialog, xbmcgui, VSlog
+from resources.lib.util import Unquote
 
 UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:39.0) Gecko/20100101 Firefox/39.0'
 
@@ -14,16 +15,17 @@ class cHoster(iHoster):
         iHoster.__init__(self, 'filemoon', 'Filemoon')
 
     def _getMediaLinkForGuest(self, autoPlay = False):
+        oParser = cParser()
+
         if ('sub.info' in self._url):
             SubTitle = self._url.split('sub.info=')[1]
             oRequest0 = cRequestHandler(SubTitle)
             sHtmlContent0 = oRequest0.request().replace('\\','')
-            oParser = cParser()
 
             sPattern = '"file":"([^"]+)".+?"label":"(.+?)"'
             aResult = oParser.parse(sHtmlContent0, sPattern)
             if aResult[0]:
-                # initialisation des tableaux
+
                 url = []
                 qua = []
                 for i in aResult[1]:
@@ -35,7 +37,7 @@ class cHoster(iHoster):
 
         oRequest = cRequestHandler(self._url)
         sHtmlContent = oRequest.request()
-        oParser = cParser()
+
         api_call = False
 
         sPattern = '(eval\(function\(p,a,c,k,e(?:.|\s)+?)</script>'
@@ -44,30 +46,31 @@ class cHoster(iHoster):
             for aEntry in aResult[1]:
                 url = aEntry
                 sHtmlContent = cPacker().unpack(url)
+
                 sPattern = 'file:"([^"]+)"'
                 aResult = oParser.parse(sHtmlContent, sPattern)
 
                 if aResult[0]:
-                    api_call = aResult[1][0]
+                    api_call = Unquote(aResult[1][0])
 
         else:
             sPattern = 'file:"([^"]+)",label:"[0-9]+"}'
             aResult = oParser.parse(sHtmlContent, sPattern)
             if aResult[0]:
-                # initialisation des tableaux
+
                 url = []
                 qua = []
                 for i in aResult[1]:
                     url.append(str(i[0]))
                     qua.append(str(i[1]))
 
-                api_call = dialog().VSselectqual(qua, url)
+                url = dialog().VSselectqual(qua, Unquote(url))
 
 
         if api_call:
             if ('http' in SubTitle):
-                return True, api_call, SubTitle
+                return True, api_call + '|User-Agent=' + UA + '&Referer=' + self._url, SubTitle
             else:
-                return True, api_call
+                return True, api_call + '|User-Agent=' + UA + '&Referer=' + self._url
 
         return False, False

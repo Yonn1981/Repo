@@ -2,7 +2,8 @@
 # zombi https://github.com/zombiB/zombi-addons/
 
 import re
-	
+import base64
+import requests
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -72,16 +73,13 @@ def showMoviesSearch(sSearch = ''):
     else:
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
- 
+
+    oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
- # ([^<]+) .+? (.+?)
-    sPattern = 'class="thumbnail.+?<a href=([^<]+)>.+?data-src=(.+?)alt="(.+?)"><span class=movies>'
 
-    oParser = cParser()
+    sPattern = 'class="thumbnail.+?<a href=([^<]+)>.+?data-src=(.+?)alt="(.+?)"><span class=movies>'
     aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
     if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -106,23 +104,19 @@ def showMoviesSearch(sSearch = ''):
 			
             oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
         progress_.VSclose(progress_)
-  # ([^<]+) .+?
 
     sPattern = "<a href='([^<]+)' class=inactive>"
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
  
-            sTitle = aEntry[1]
-            
+            sTitle = aEntry[1]  
             sTitle =  "PAGE " + sTitle
             sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
             siteUrl = aEntry[0].replace("'","")
             sThumb = ""
             sDesc = ""
-
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -140,15 +134,13 @@ def showSeriesSearch(sSearch = ''):
     else:
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
- 
+
+    oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
- # ([^<]+) .+? (.+?)
+
     sPattern = '<div class="thumbnail.+?"><a href="(.+?)"><img src="(.+?)" alt="(.+?)" /><span class="tvshows">'		
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
+    aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -173,23 +165,19 @@ def showSeriesSearch(sSearch = ''):
 			
             oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
         progress_.VSclose(progress_)
-  # ([^<]+) .+?
 
     sPattern = "<a href='([^<]+)' class=inactive>"
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
  
-            sTitle = aEntry[1]
-            
+            sTitle = aEntry[1]     
             sTitle =  "PAGE " + sTitle
             sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
             siteUrl = aEntry[0].replace("'","")
             sThumb = ""
             sDesc = ""
-
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -207,15 +195,13 @@ def showMovies(sSearch = ''):
     else:
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
- 
+
+    oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
- # ([^<]+) .+? (.+?)
+
     sPattern = '<article id="post-.+?" class=.+?data-src="([^<]+)" alt="([^<]+)"><noscript><img src=".+?" alt=".+?"></noscript>.+?<a href="([^<]+)"><div'
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
     if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -231,7 +217,6 @@ def showMovies(sSearch = ''):
             sThumb = re.sub(r'-\d*x\d*.','.', sThumb)
             sYear = ''
             sDesc = ''
-
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -259,14 +244,13 @@ def showSeries(sSearch = ''):
     else:
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
- 
+
+    oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
- # ([^<]+) .+? (.+?)
+
     sPattern = '<article id="post-.+?src="(https.+?jpg)" alt="(.+?)">.+?<a href="(.+?)"><div class'
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-	
     if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -282,7 +266,6 @@ def showSeries(sSearch = ''):
             sThumb = re.sub(r'-\d*x\d*.','.', sThumb)
             sYear = ''
             sDesc = ''
-
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -312,15 +295,11 @@ def showEpisodes():
     sThumb = oInputParameterHandler.getValue('sThumb')
     
     oParser = cParser()
- 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-     # (.+?) ([^<]+) .+?
+
     sPattern = '<img src=(.+?)></noscript>.+?numerando.+?>(.+?)</div>.+?episodiotitle.+?><a href=(.+?)>'
- 
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-	
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
@@ -348,17 +327,11 @@ def showEpisodes():
        
     oGui.setEndOfDirectory()
 	
-      # (.+?) ([^<]+) .+?
-	
 def __checkForNextPage(sHtmlContent):
-    sPattern = "<a class='arrow_pag' href=(.+?)><i id='nextpagination' class"
-	
     oParser = cParser()
+    sPattern = "<a class='arrow_pag' href=(.+?)><i id='nextpagination' class"
     aResult = oParser.parse(sHtmlContent, sPattern)
-    VSlog(aResult)
- 
-    if aResult[0]:
-        
+    if aResult[0]:   
         return aResult[1][0].replace('"',"")
 
     return False
@@ -370,11 +343,11 @@ def showHosters(oInputParameterHandler = False):
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
     oParser = cParser()
- 
+
+    oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-    hostName = ''
     shost = ''
     sPattern =  '"ajax_url":"([^"]+)' 
     aResult = oParser.parse(sHtmlContent,sPattern)
@@ -383,11 +356,8 @@ def showHosters(oInputParameterHandler = False):
         shost = hostAjax.split('/watch')[0]
             
     sPattern =  '/?download=([^<]+)&itag'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
+    aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
-       total = len(aResult[1])
        for aEntry in aResult[1]:       
            url = shost+'/watch/player/player.php?slug='+aEntry
 				
@@ -398,17 +368,16 @@ def showHosters(oInputParameterHandler = False):
                oHoster.setFileName(sMovieTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
                
-    cook = oRequestHandler.GetCookies()
-            
+    cook = oRequestHandler.GetCookies()      
     sPattern =  'data-type=["\']([^"\']+)["\'] data-post=["\']([^"\']+)["\'] data-nume=["\']([^"\']+)["\']'
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0]:
-       total = len(aResult[1])
        for aEntry in aResult[1]: 
+           
            m3url = aEntry[1]
            mtype = aEntry[0]
            mnume = aEntry[2]
-           import requests
+
            s = requests.Session()            
            headers = {'User-Agent': 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1',
 							'cookie': cook,
@@ -417,19 +386,13 @@ def showHosters(oInputParameterHandler = False):
 							'Referer': Quote(sUrl)}
            data = {'post':m3url,'action':'doo_player_ajax','nume':mnume,'type':mtype}
            r = s.post(hostAjax, headers=headers,data = data)
-           sHtmlContent = r.content.decode('utf8')
-    # (.+?) .+? ([^<]+)
- 
-           import base64              
+           sHtmlContent = r.content.decode('utf8')            
 
            sPattern =  '"embed_url":"(.+?)",'
-           oParser = cParser()
            aResult = oParser.parse(sHtmlContent, sPattern)
-
-	
            if aResult[0]:
-              total = len(aResult[1])
-              for aEntry in aResult[1]:       
+              for aEntry in aResult[1]: 
+                        
                   url = aEntry
                   url = base64.b64decode(url).decode("utf-8")
                   if '/?id=' in url:
@@ -443,6 +406,5 @@ def showHosters(oInputParameterHandler = False):
                       oHoster.setDisplayName(sMovieTitle)
                       oHoster.setFileName(sMovieTitle)
                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
-				
                 
     oGui.setEndOfDirectory()			

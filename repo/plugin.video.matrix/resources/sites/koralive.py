@@ -2,7 +2,6 @@
 # zombi https://github.com/zombiB/zombi-addons/
 
 import re
-
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -44,13 +43,12 @@ def showMovies():
     if URL_MAIN2 not in sUrl:
         oGui.addDir(SITE_IDENTIFIER, 'showMovies', ' بث مباشر اخر من كورة لايف', 'sites/kooralive.png', oOutputParameterHandler)
 
+    oParser = cParser()
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    oParser = cParser()
-	# (.+?) .+? 
+
     sPattern = '<div class="match-container">\s*<a href="([^"]+)".+?title="([^"]+)".+?id="result">(.+?)</div>.+?data-start=["\']([^"\']+)["\']'
     aResult = oParser.parse(sHtmlContent, sPattern)
-
     if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -93,6 +91,7 @@ def showHosters(oInputParameterHandler = False):
     sThumb = oInputParameterHandler.getValue('sThumb')
     oParser = cParser()   
 
+    oParser = cParser()
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
@@ -100,7 +99,6 @@ def showHosters(oInputParameterHandler = False):
         oOutputParameterHandler = cOutputParameterHandler()
         sTitle = ' نتيجة مباراة ' + sMovieTitle
         url = sUrl.split('src=')[1]
-
 
         sHosterUrl = url
         oHoster = cHosterGui().checkHoster(sHosterUrl)
@@ -120,17 +118,17 @@ def showHosters(oInputParameterHandler = False):
         for aEntry in aResult[1]:
             murl = aEntry + sUrl.split('src=')[1]
             if 'youtube' in murl or 'ok' in murl:
-                    sHosterUrl = murl
-                    sDisplayTitle = sMovieTitle
+                sHosterUrl = murl
+                sDisplayTitle = sMovieTitle
 
-                    if sHosterUrl.startswith('//'):
-                        sHosterUrl = 'http:' + sHosterUrl            
+                if sHosterUrl.startswith('//'):
+                    sHosterUrl = 'http:' + sHosterUrl            
 
-                    oHoster = cHosterGui().checkHoster(sHosterUrl)
-                    if oHoster:
-                        oHoster.setDisplayName(sDisplayTitle)
-                        oHoster.setFileName(sMovieTitle)
-                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                oHoster = cHosterGui().checkHoster(sHosterUrl)
+                if oHoster:
+                    oHoster.setDisplayName(sDisplayTitle)
+                    oHoster.setFileName(sMovieTitle)
+                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
             else:
                 oRequestHandler = cRequestHandler(murl)
                 sHtmlContent = oRequestHandler.request()
@@ -147,17 +145,17 @@ def showHosters(oInputParameterHandler = False):
 
     if 'class="albaplayer_name' not in sHtmlContent:
         if 'youtube' in murl or 'ok' in murl:
-                    sHosterUrl = murl
-                    sDisplayTitle = ('%s [COLOR coral](%s)[/COLOR]') % (sMovieTitle, sTitle)
+            sHosterUrl = murl
+            sDisplayTitle = ('%s [COLOR coral](%s)[/COLOR]') % (sMovieTitle, sTitle)
 
-                    if sHosterUrl.startswith('//'):
-                        sHosterUrl = 'http:' + sHosterUrl            
+            if sHosterUrl.startswith('//'):
+                sHosterUrl = 'http:' + sHosterUrl            
 
-                    oHoster = cHosterGui().checkHoster(sHosterUrl)
-                    if oHoster:
-                        oHoster.setDisplayName(sDisplayTitle)
-                        oHoster.setFileName(sMovieTitle)
-                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if oHoster:
+                oHoster.setDisplayName(sDisplayTitle)
+                oHoster.setFileName(sMovieTitle)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
         sPattern = '<iframe src=["\']([^"\']+)["\']'
         aResult = oParser.parse(sHtmlContent, sPattern)
@@ -168,12 +166,10 @@ def showHosters(oInputParameterHandler = False):
                 oRequestHandler = cRequestHandler(murl)
                 sHtmlContent = oRequestHandler.request()
 
-    oParser = cParser()
     sStart = 'class="albaplayer_name">'
     sEnd = 'class="albaplayer_server-body'
     sHtmlContent0 = oParser.abParse(sHtmlContent, sStart, sEnd)
 
-    oParser = cParser()
     sPattern = 'href="([^"]+)">(.+?)</a>'
     aResult = oParser.parse(sHtmlContent0, sPattern)
     if aResult[0]:
@@ -219,7 +215,6 @@ def showHosters(oInputParameterHandler = False):
 
             sPattern = 'loadSource(.+?);'
             aResult = oParser.parse(sHtmlContent, sPattern)
-
             if aResult[0]:
                 for aEntry in aResult[1]:
                     url = aEntry.replace("('","").replace("')","")
@@ -508,7 +503,6 @@ def getHosterIframe(url, referer):
 
     sPattern = 'src=["\']([^"\']+)["\']'
     aResult = re.findall(sPattern, sHtmlContent)
-
     if aResult:
         url = aResult[0]
         if '.m3u8' in url:

@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 # vStream https://github.com/Kodi-vStream/venom-xbmc-addons
 # Ovni-crea
+
 import base64
 import re
 import xbmc
-
 from resources.lib.comaddon import isMatrix, siteManager
 from resources.lib.gui.gui import cGui
 from resources.lib.gui.hoster import cHosterGui
@@ -29,7 +29,6 @@ URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 SPORT_GENRES = (URL_MAIN + '/enx/allupcoming/', 'showMovies') 
 SPORT_LIVE = (URL_MAIN + '/enx/', 'showLive') 
 SPORT_SPORTS = (True, 'load')
-
 
 def load():
     oGui = cGui()
@@ -59,7 +58,6 @@ def showLive():
         oGui.addText(SITE_IDENTIFIER)
 
     if aResult[0]:
-        total = len(aResult[1])
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
             sUrl3 = URL_MAIN + aEntry[0]
@@ -87,7 +85,7 @@ def showLive():
 
     oGui.setEndOfDirectory()
 
-def showMovies():  # affiche les catégories qui ont des lives'
+def showMovies(): 
     oGui = cGui()
 
     oInputParameterHandler = cInputParameterHandler()
@@ -125,7 +123,7 @@ def showMovies():  # affiche les catégories qui ont des lives'
 
         oGui.setEndOfDirectory()
 
-def showMovies2():  # affiche les matchs en direct depuis la section showMovie
+def showMovies2():  
 
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
@@ -197,7 +195,7 @@ def showMovies2():  # affiche les matchs en direct depuis la section showMovie
 
     oGui.setEndOfDirectory()
 
-def showMovies3():  # affiche les videos disponible du live
+def showMovies3(): 
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl3 = oInputParameterHandler.getValue('siteUrl3')
@@ -238,7 +236,7 @@ def showMovies3():  # affiche les videos disponible du live
 
     oGui.setEndOfDirectory()
 
-def showHosters():  # affiche les videos disponible du live
+def showHosters():  
     oGui = cGui()
     UA = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:56.0) Gecko/20100101 Firefox/56.0'
     oInputParameterHandler = cInputParameterHandler()

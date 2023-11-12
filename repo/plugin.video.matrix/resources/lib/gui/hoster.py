@@ -254,7 +254,7 @@ class cHosterGui:
             #mise a jour du nom
             f.setRealHost(sHostName)
             return f
-        if ('streamwish' in sHostName) or ('khadhnayad' in sHostName) or ('ajmidyad' in sHostName) or ('yadmalik' in sHostName) or ('kharabnah' in sHostName) or ('hayaatieadhab' in sHostName) or ('sfastwish' in sHostName) or ('eghjrutf' in sHostName) or ('eghzrutw' in sHostName) or ('wishfast' in sHostName) or ('fviplions' in sHostName):
+        if ('streamwish' in sHostName) or ('khadhnayad' in sHostName) or ('ajmidyad' in sHostName) or ('yadmalik' in sHostName) or ('kharabnah' in sHostName) or ('hayaatieadhab' in sHostName) or ('sfastwish' in sHostName) or ('eghjrutf' in sHostName) or ('eghzrutw' in sHostName) or ('wishfast' in sHostName) or ('fviplions' in sHostName) or ('egtpgrvh' in sHostName):
             return self.getHoster('streamwish')
         if ('upstream' in sHosterUrl):
             return self.getHoster('upstream')
@@ -266,9 +266,7 @@ class cHosterGui:
             return self.getHoster('dood')
         if ('film77' in sHostName):
             return self.getHoster('film77')
-        if ('vidguard' in sHostName) or ('fertoto' in sHostName) or ('vgembed' in sHostName) or ('vgfplay' in sHostName):
-            return self.getHoster('vidguard')
-        if ('filelions' in sHostName) or ('ajmidyadfihayh' in sHostName) or ('alhayabambi' in sHostName) or ('bazwatch' in sHostName) or ('cilootv' in sHostName) or ('motvy55' in sHostName):
+        if ('filelions' in sHostName) or ('ajmidyadfihayh' in sHostName) or ('alhayabambi' in sHostName) or ('bazwatch' in sHostName) or ('cilootv' in sHostName) or ('motvy55' in sHostName) or ('bazlions' in sHostName) or ('lylxan' in sHostName):
             return self.getHoster('filelions')
         if ('vidello' in sHostName):
             f = self.getHoster('resolver')
@@ -362,10 +360,7 @@ class cHosterGui:
             return f
 
         if ('streamtape' in sHostName):
-            f = self.getHoster('resolver')
-            #mise a jour du nom
-            f.setRealHost('Streamtape')
-            return f
+            return self.getHoster('streamtape')
 
         if ('sbhight' in sHostName):
             return self.getHoster('viewsb')
@@ -453,10 +448,7 @@ class cHosterGui:
             return self.getHoster('lien_direct')
             
         if ('vidbm' in sHostName) or ('vadbam' in sHostName) or ('vedbom' in sHostName) or ('vadbom' in sHostName) or ('vidbam' in sHostName):
-            f = self.getHoster('resolver')
-            #mise a jour du nom
-            f.setRealHost(sHostName)
-            return f
+            return self.getHoster('vidbom')
 				
         if ('mail.ru' in sHostName):
             f = self.getHoster('resolver')
@@ -497,16 +489,11 @@ class cHosterGui:
         if ('workupload' in sHostName):
             return self.getHoster('workupload')
 
-        if ('upbam' in sHostName) or ('uppom' in sHostName) or ('uppboom' in sHostName):
+        if ('upbaam' in sHostName) or ('upbam' in sHostName) or ('uppom' in sHostName) or ('uppboom' in sHostName) or ('uupbom' in sHostName) or ('upgobom' in sHostName):
             return self.getHoster('uppom')
 
         if ('allviid' in sHostName):
             return self.getHoster('filemoon')
-
-        if ('upbaam' in sHostName):
-            f = self.getHoster('resolver')
-            f.setRealHost('UpBaam')
-            return f
 
         if ('filemoon' in sHostName) or ('moonmov' in sHostName):
             return self.getHoster('filemoon')
@@ -522,6 +509,9 @@ class cHosterGui:
             #mise a jour du nom
             f.setRealHost(sHostName)
             return f
+
+        if ('vidguard' in sHostName) or ('fertoto' in sHostName) or ('vgembed' in sHostName) or ('vgfplay' in sHostName) or ('vembed' in sHostName):
+            return self.getHoster('vidguard')
 
         if ('rabbitstream' in sHostName) or ('dokicloud' in sHostName):
             return self.getHoster('streamrapid')

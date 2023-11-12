@@ -2,7 +2,6 @@
 # zombi https://github.com/zombiB/zombi-addons/
 
 import re
-	
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -62,15 +61,12 @@ def showSeries(sSearch = ''):
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
 
-
-
+    oParser = cParser()
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    # (.+?) .+? ([^<]+)   
+  
     sPattern = '<div class="thumb"><a href="([^"]+)"><img src=".+?" alt="([^"]+)" data-src="([^"]+)'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
+    aResult = oParser.parse(sHtmlContent, sPattern)	
     itemList = []
     if aResult[0]:
         total = len(aResult[1])
@@ -112,8 +108,6 @@ def showSeries(sSearch = ''):
  
     if not sSearch:
         oGui.setEndOfDirectory()
- 
-      # (.+?) ([^<]+) .+?
 	
 def showEpisodes():
     oGui = cGui()
@@ -122,7 +116,8 @@ def showEpisodes():
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
- 
+
+    oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
@@ -130,7 +125,6 @@ def showEpisodes():
         m3url = sUrl
     else:
         sPattern = '<meta itemprop="position" content="2".+?<a href="([^"]+)'
-        oParser = cParser()
         aResult = oParser.parse(sHtmlContent, sPattern)
         m3url=''
         if aResult[0]:
@@ -142,10 +136,7 @@ def showEpisodes():
             sHtmlContent = oRequestHandler.request()
    
     sPattern = '<div class="thumb"><a href="(.+?)"><img src=".+?" alt="(.+?)" data-src="(.+?)" class='
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
     if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -155,8 +146,7 @@ def showEpisodes():
             if progress_.iscanceled():
                 break
  
-            siteUrl = aEntry[0]
-            
+            siteUrl = aEntry[0]           
             sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("مشاهده","").replace("برنامج","").replace("مترجمة","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","")
             sThumb = aEntry[2]
             sDesc = ''
@@ -168,7 +158,6 @@ def showEpisodes():
                 sEp = str(m.group(0))
                 sEp = ' E'+sEp
                 sTitle = sMovieTitle+sEp
-
 			
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -188,11 +177,9 @@ def showEpisodes():
     oGui.setEndOfDirectory()
 
 def __checkForNextPage(sHtmlContent):
-    sPattern = '<link rel="next" href="([^"]+)'
-	
     oParser = cParser()
+    sPattern = '<link rel="next" href="([^"]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)
- 
     if aResult[0]:
         return aResult[1][0]
 
@@ -205,14 +192,12 @@ def showHosters(oInputParameterHandler = False):
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
 
-
+    oParser = cParser()
     oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request() 
-
-    oParser = cParser()         
+    sHtmlContent = oRequestHandler.request()    
 
     sURL_MAIN= URL_MAIN
-    # (.+?) ([^<]+)
+
     sPattern = 'class="logo">\s*<a href="(.+?)">'
     aResult = oParser.parse(sHtmlContent, sPattern)    
     if (aResult[0]):
@@ -235,10 +220,7 @@ def showHosters(oInputParameterHandler = False):
     sHtmlContent = r.content.decode('utf8')
                
     sPattern = '"src":"([^"]+)'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-	
+    aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
         for aEntry in aResult[1]:
             
@@ -250,7 +232,5 @@ def showHosters(oInputParameterHandler = False):
                 oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
-				
-
-                
+				               
     oGui.setEndOfDirectory()

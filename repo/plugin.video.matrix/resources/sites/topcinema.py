@@ -1,10 +1,8 @@
 ﻿# -*- coding: utf-8 -*-
-#############################################################
 # Yonn1981 https://github.com/Yonn1981/Repo
-#############################################################
 
 import re
-	
+import requests
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -152,7 +150,6 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
     
     oParser = cParser()
-
     sPattern = '<div class="Small--Box"><a href="([^"]+)" title="([^"]+)".+?data-src="([^"]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0] is True:
@@ -174,7 +171,6 @@ def showMovies(sSearch = ''):
                sYear = str(m.group(0))
                sTitle = sTitle.replace(sYear,'')
             sDisplayTitle = ('%s (%s)') % (sTitle, sYear)
-
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -239,7 +235,6 @@ def showassemblies():
                 sYear = str(m.group(0))
                 sTitle = sTitle.replace(sYear,'')
 
-
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
@@ -253,7 +248,9 @@ def showassemblies():
              oOutputParameterHandler = cOutputParameterHandler()
              oOutputParameterHandler.addParameter('siteUrl', sNextPage)
              oGui.addDir(SITE_IDENTIFIER, 'showassemblies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
-	oGui.setEndOfDirectory()
+
+        oGui.setEndOfDirectory()
+
 
 def showSeries(sSearch = ''):
     oGui = cGui()
@@ -264,16 +261,13 @@ def showSeries(sSearch = ''):
       sUrl = oInputParameterHandler.getValue('siteUrl')
       sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
       sThumb = oInputParameterHandler.getValue('sThumb')
- 
+
+    oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
- # ([^<]+) .+? (.+?)
-    sPattern = '<div class="Small--Box">.+?href="([^"]+)" title="([^"]+)".+?data-src="([^"]+)'
 
-    oParser = cParser()
+    sPattern = '<div class="Small--Box">.+?href="([^"]+)" title="([^"]+)".+?data-src="([^"]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
     if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -293,8 +287,6 @@ def showSeries(sSearch = ''):
             sThumb = aEntry[2]
             sDesc = ''
             sDisplayTitle = sTitle.replace("الموسم العاشر","").replace("الموسم الحادي عشر","").replace("الموسم الثاني عشر","").replace("الموسم الثالث عشر","").replace("الموسم الرابع عشر","").replace("الموسم الخامس عشر","").replace("الموسم السادس عشر","").replace("الموسم السابع عشر","").replace("الموسم الثامن عشر","").replace("الموسم التاسع عشر","").replace("الموسم العشرون","").replace("الموسم الحادي و العشرون","").replace("الموسم الثاني و العشرون","").replace("الموسم الثالث و العشرون","S23").replace("الموسم الرابع والعشرون","").replace("الموسم الخامس و العشرون","").replace("الموسم السادس والعشرون","").replace("الموسم السابع والعشرون","").replace("الموسم الثامن والعشرون","").replace("الموسم التاسع والعشرون","").replace("الموسم الثلاثون","").replace("الموسم الحادي و الثلاثون","").replace("الموسم الثاني والثلاثون","").replace("الموسم الاول","").replace("الموسم الثاني","").replace("الموسم الثالث","").replace("الموسم الثالث","").replace("الموسم الرابع","").replace("الموسم الخامس","").replace("الموسم السادس","").replace("الموسم السابع","").replace("الموسم الثامن","").replace("الموسم التاسع","").replace("الموسم","").replace("S ","").replace("الحلقة","").replace("1","").replace("2","").replace("3","").replace("4","").replace("5","").replace("6","").replace("7","").replace("8","").replace("9","").replace("10","").replace("11","").replace("12","").replace("13","").replace("14","").replace("15","").replace("16","").replace("17","").replace("18","").replace("19","").replace("20","").replace("21","").replace("22","").replace("23","").replace("24","").replace("25","").replace("26","").replace("27","").replace("28","").replace("29","").replace("30","").replace("0","").replace("season","")
-
-
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sDisplayTitle)
@@ -322,16 +314,14 @@ def showSeasons():
 	sUrl = oInputParameterHandler.getValue('siteUrl')
 	sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
 	sThumb = oInputParameterHandler.getValue('sThumb')
- 
-	oRequestHandler = cRequestHandler(sUrl)
-	sHtmlContent = oRequestHandler.request()
-    # .+? ([^<]+)
-	sPattern = '<div class="Small--Box Season">.+?href="([^"]+)" title.+?<span>الموسم</span>(.+?)</div>'
-	sPattern += '.+?data-src(.+?)</div>'
 
 	oParser = cParser()
-	aResult = oParser.parse(sHtmlContent, sPattern)
-		
+	oRequestHandler = cRequestHandler(sUrl)
+	sHtmlContent = oRequestHandler.request()
+
+	sPattern = '<div class="Small--Box Season">.+?href="([^"]+)" title.+?<span>الموسم</span>(.+?)</div>'
+	sPattern += '.+?data-src(.+?)</div>'
+	aResult = oParser.parse(sHtmlContent, sPattern)	
 	if aResult[0] is True:
 		oOutputParameterHandler = cOutputParameterHandler()
 		for aEntry in aResult[1]:
@@ -348,7 +338,6 @@ def showSeasons():
         
 	oGui.setEndOfDirectory()
 
-
 def showEpisodes():
 	oGui = cGui()
     
@@ -356,22 +345,17 @@ def showEpisodes():
 	sUrl = oInputParameterHandler.getValue('siteUrl')
 	sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
 	sThumb = oInputParameterHandler.getValue('sThumb')
- 
+
+	oParser = cParser() 
 	oRequestHandler = cRequestHandler(sUrl)
 	sHtmlContent = oRequestHandler.request()
-
-	oParser = cParser()
 
 	sStart = '<section class="tabContents">'
 	sEnd = '</section>'
 	sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)   
 
 	sPattern = 'href="([^"]+)".+?class="epnum">.+?<span>الحلقة</span>(.+?)</div>'
-
-	oParser = cParser()
 	aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
 	if aResult[0] is True:
 		oOutputParameterHandler = cOutputParameterHandler()
 		for aEntry in aResult[1]:
@@ -389,25 +373,22 @@ def showEpisodes():
         
 	oGui.setEndOfDirectory()
   
-     # (.+?)
 def __checkForNextPage(sHtmlContent):
+    oParser = cParser()    
     sPattern = '<li class="active"><a href=.+?<a href="(.+?)"'	
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
- 
     if aResult[0]:
         return aResult[1][0]
 
 def showLinks(oInputParameterHandler = False):
     oGui = cGui()
-    import requests
 
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
 
-    sUrl2 = sUrl.replace('/watch','/download')
+    oParser = cParser()
     oRequestHandler = cRequestHandler(sUrl)
     oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
     oRequestHandler.addHeaderEntry('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
@@ -416,16 +397,14 @@ def showLinks(oInputParameterHandler = False):
     sHtmlContent = oRequestHandler.request()
           
     sPattern = 'data-id="(.+?)" data-server="([^"]+)".+?<span>(.+?)</span>'
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()
-        for aEntry in aResult[1]:           
+        for aEntry in aResult[1]:  
+
             Serv = aEntry[1]
             Sid = aEntry[0]
             sHost = aEntry[2]
-
             sTitle = ('%s [COLOR coral]%s[/COLOR]') % (sMovieTitle, sHost)
 
             oOutputParameterHandler.addParameter('siteUrl', sUrl)
@@ -441,7 +420,6 @@ def showLinks(oInputParameterHandler = False):
 
 def showHosters():
     oGui = cGui()
-    import requests
 
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -450,13 +428,12 @@ def showHosters():
     Serv = oInputParameterHandler.getValue('Serv')
     Sid = oInputParameterHandler.getValue('Sid')
 
+    oParser = cParser()
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
     sPattern = '<a class="Logo--Area" href="([^"]+)'	
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
- 
     if aResult[0]:
         URL_MAIN = aResult[1][0]
 
@@ -474,7 +451,6 @@ def showHosters():
     sHtmlContent = r.content
 
     sPattern = '<iframe src="([^"]+)'
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult:
         sHosterUrl = aResult[1][0]

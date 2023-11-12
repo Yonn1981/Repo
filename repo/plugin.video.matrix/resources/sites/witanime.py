@@ -1,11 +1,8 @@
 ﻿# -*- coding: utf-8 -*-
-#############################################################
 # Yonn1981 https://github.com/Yonn1981/Repo
-#############################################################
 
 import re
 import base64
-	
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -43,15 +40,12 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', ANIM_MOVIES[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام انمي', 'anime.png', oOutputParameterHandler)
 
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/anime-status/%d9%8a%d8%b9%d8%b1%d8%b6-%d8%a7%d9%84%d8%a7%d9%86/')
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'يعرض الان', 'anime.png', oOutputParameterHandler) 
 
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/anime-season/%D8%B4%D8%AA%D8%A7%D8%A1-2023/')
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أنميات الموسم', 'anime.png', oOutputParameterHandler) 
 
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', ANIM_LIST[0])
     oGui.addDir(SITE_IDENTIFIER, ANIM_LIST[1], 'قائمة الأنمي', 'az.png', oOutputParameterHandler)
 
@@ -140,8 +134,6 @@ def showMovies(sSearch = ''):
 
     oParser = cParser()
     sPattern = '<img class="img-responsive" src="([^<]+)" alt="([^<]+)" />.+?data-content="([^<]+)".+?<h3><a href="([^<]+)">'
-
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)		
     if aResult[0]:
         total = len(aResult[1])
@@ -176,7 +168,6 @@ def showMovies(sSearch = ''):
     if not sSearch:
         oGui.setEndOfDirectory()
 
-
 def showSeries(sSearch = ''):
     oGui = cGui()
     if sSearch:
@@ -184,12 +175,12 @@ def showSeries(sSearch = ''):
     else:
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
+
     oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
     sPattern = '<img class="img-responsive" src="([^"]+)" alt="([^"]+)".+?data-content="([^"]+)".+?redirectTo.+?["\']([^"\']+)["\']'
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
         total = len(aResult[1])
@@ -239,13 +230,11 @@ def ShowEps():
     sHtmlContent = oRequestHandler.request() 
 
     oParser = cParser()
-
     sStart = '<div class="episodes-list-content">'
     sEnd = '<div class="space"></div>'
     sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
 
     sPattern = '<h3><a href=.+?onclick="(.+?)">([^<]+)</a></h3>.+?src="([^"]+)'
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)   
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()
@@ -271,10 +260,8 @@ def ShowEps():
 
 def __checkForNextPage(sHtmlContent):
     sPattern = '<link rel="next" href="([^<]+)" />'
-	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
- 
     if aResult[0]:        
         return aResult[1][0]
 
@@ -291,13 +278,11 @@ def showHosters(oInputParameterHandler = False):
     sHtmlContent = oRequestHandler.request()
     oParser = cParser()
 
-    oGui.addText(SITE_IDENTIFIER,'[COLOR olive]-----●★| Watch Links |★●-----[/COLOR]')
     sStart = 'id="episode-servers">'
     sEnd = 'class="videoWrapper'
     sHtmlContent1 = oParser.abParse(sHtmlContent, sStart, sEnd)
 
     sPattern = 'data-url=["\']([^"\']+)["\'].+?>([^<]+)</a'
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent1, sPattern)
     if aResult[0]:
         for aEntry in reversed(aResult[1]):
@@ -340,16 +325,12 @@ def showHosters(oInputParameterHandler = False):
                oHoster.setFileName(sMovieTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
-    oGui.addText(SITE_IDENTIFIER,'[COLOR olive]-----●★| Download Links |★●-----[/COLOR]')
-
     sStart = '<div class="content episode-download-container">'
     sEnd = '<div class="content">'
     sHtmlContent0 = oParser.abParse(sHtmlContent, sStart, sEnd)
 
     sPattern = '<li>(.+?)</li>(.+?)</div>'
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent0, sPattern)
-
     if aResult[0] :       
         for aEntry in reversed(aResult[1]):
             sQual = aEntry[0].replace("الخارقة ","").replace(" العالية","").replace("المتوسطة","").replace("الجودة","").replace('-','').replace(' ','')

@@ -1,7 +1,5 @@
 ﻿# -*- coding: utf-8 -*-
-#############################################################
 # Yonn1981 https://github.com/Yonn1981/Repo
-#############################################################
 
 import re
 	
@@ -12,7 +10,6 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
-from resources.lib.util import cUtil, Unquote
 from resources.sites.sflix import load, showSearch, showSeriesSearch, seriesGenres, moviesGenres, showMovies, showSeries, showSeasons, showEps, showLinks, showSeriesLinks
 
 SITE_IDENTIFIER = 'solar'

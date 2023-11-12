@@ -2,7 +2,6 @@
 # zombi https://github.com/zombiB/zombi-addons/
 
 import re
-	
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -26,7 +25,6 @@ URL_SEARCH = (URL_MAIN + '?s=', 'showMovies')
 URL_SEARCH_MOVIES = (URL_MAIN + '?s=', 'showMovies')
 FUNCTION_SEARCH = 'showMovies'
 
-
 def load():
     oGui = cGui()
     addons = addon()
@@ -35,11 +33,9 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', URL_SEARCH[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSearch', addons.VSlang(30078), 'search.png', oOutputParameterHandler)
 
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_EN[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أجنبية', 'agnab.png', oOutputParameterHandler)
    
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_FAM[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام عائلية', 'fam.png', oOutputParameterHandler)
 
@@ -76,30 +72,23 @@ def moviesGenres():
     
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
-      
+
+    oParser = cParser()      
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-    oParser = cParser()
-     # (.+?) ([^<]+) .+?
     sStart = '<a>حسب التصنيف</a>'
     sEnd = '</ul>'
     sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
     sPattern = 'href="([^<]+)">([^<]+)</a>'
 
-
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
 
             sTitle = aEntry[1]
-            siteUrl = aEntry[0]
-
-			
+            siteUrl = aEntry[0]			
 
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -117,17 +106,12 @@ def showMovies(sSearch = ''):
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
 
-
+    oParser = cParser()
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  
-     # (.+?) ([^<]+) .+?
     sPattern = '<li class="video-grid".+?<a href="([^"]+)" title="([^"]+)"><img src="([^"]+)'
-
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
+    aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -152,11 +136,9 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oOutputParameterHandler.addParameter('sYear', sYear)
             oOutputParameterHandler.addParameter('sDesc', sDesc)
-
  
             oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
             
-
         progress_.VSclose(progress_)
  
         sNextPage = __checkForNextPage(sHtmlContent)
@@ -167,13 +149,10 @@ def showMovies(sSearch = ''):
     if not sSearch:
         oGui.setEndOfDirectory()
 
-
-
 def __checkForNextPage(sHtmlContent):
-    sPattern = 'rel="next" href="([^"]+)'
     oParser = cParser()
+    sPattern = 'rel="next" href="([^"]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)
- 
     if aResult[0] :
         return aResult[1][0]
 
@@ -187,45 +166,40 @@ def showHosters(oInputParameterHandler = False):
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
-    
+
+    oParser = cParser()    
     oRequestHandler = cRequestHandler(sUrl)
     St=requests.Session()
     sHtmlContent1 = oRequestHandler.request()
 
-    oParser = cParser()
     sPattern = '</div><a href="([^"]+)'
-
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent1, sPattern)
-
     if aResult[0]:
-                    for aEntry in aResult[1]:
+        for aEntry in aResult[1]:
                                
-                            aurl = aEntry
-                            if aurl.startswith('//'):
-                                aurl = 'http:' + aurl
+            aurl = aEntry
+            if aurl.startswith('//'):
+                aurl = 'http:' + aurl
 
-                            cook = oRequestHandler.GetCookies()
-                            hdr = {'Sec-Fetch-Mode' : 'navigate','Cookie' : cook,'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.58','Referer' : sUrl}
-                            sHtmlContent = St.get(aurl,headers=hdr)
-                            sHtmlContent = sHtmlContent.content
+            cook = oRequestHandler.GetCookies()
+            hdr = {'Sec-Fetch-Mode' : 'navigate','Cookie' : cook,'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.58','Referer' : sUrl}
+            sHtmlContent = St.get(aurl,headers=hdr)
+            sHtmlContent = sHtmlContent.content
                             
-                            sPattern = 'data-src="([^"]+)'
-                            oParser = cParser()
-                            aResult = oParser.parse(sHtmlContent, sPattern)
-
-                            if aResult[0]:
-                                for aEntry in aResult[1]:
+            sPattern = 'data-src="([^"]+)'
+            aResult = oParser.parse(sHtmlContent, sPattern)
+            if aResult[0]:
+                for aEntry in aResult[1]:
             
-                                    url = aEntry
-                                    sHosterUrl = url
+                    url = aEntry
+                    sHosterUrl = url
 
-                                    sTitle = sMovieTitle
-                                    oHoster = cHosterGui().checkHoster(sHosterUrl)
-                                    if oHoster:
-                                        sDisplayTitle = sTitle
-                                        oHoster.setDisplayName(sDisplayTitle)
-                                        oHoster.setFileName(sMovieTitle)
-                                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                    sTitle = sMovieTitle
+                    oHoster = cHosterGui().checkHoster(sHosterUrl)
+                    if oHoster:
+                        sDisplayTitle = sTitle
+                        oHoster.setDisplayName(sDisplayTitle)
+                        oHoster.setFileName(sMovieTitle)
+                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
                 
     oGui.setEndOfDirectory()

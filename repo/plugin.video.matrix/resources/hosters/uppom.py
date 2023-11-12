@@ -1,78 +1,69 @@
 ﻿#-*- coding: utf-8 -*-
 #Vstream https://github.com/Kodi-vStream/venom-xbmc-addons
 #https://sama-share.com/embed-shsaa6s49l55-750x455.html
+
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.hosters.hoster import iHoster
 from resources.lib.parser import cParser
-from resources.lib.comaddon import dialog
 from resources.lib.comaddon import VSlog
+from resources.lib.util import Unquote
 import re,xbmc
 import requests
+
 UA = 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Mobile Safari/537.36'
-
-
 
 class cHoster(iHoster):
 
     def __init__(self):
-        iHoster.__init__(self, 'uppom', 'uppom')
+        iHoster.__init__(self, 'uppom', 'Uppom')
 
     def setUrl(self, sUrl):
+        self._url2 = sUrl
         self._url = str(sUrl).replace(".html","")
+
         if 'embed' in sUrl:
             self._url = self._url.replace("embed-","")
 
     def _getMediaLinkForGuest(self, autoPlay = False):
-        sUrl = self._url
-        VSlog(sUrl)
-        if 'https' in sUrl:
-           d = re.findall('https://(.*?)/([^<]+)',sUrl)
-        if 'http' in sUrl:
-           d = re.findall('http://(.*?)/([^<]+)',sUrl)
-        for aEntry1 in d:
-        	    sHost= aEntry1[0]
-        	    sID= aEntry1[1]
-        	    if '/' in sID:
-        	       sID = sID.split('/')[0]
-        	    sLink= 'https://'+aEntry1[0]+'/'+aEntry1[1]
-        	    VSlog(sHost)
-        	    VSlog(sID)
-        	    VSlog(sLink)
+         oParser = cParser() 
 
-        api_call = ''
+         if 'https' in self._url:
+            d = re.findall('https://(.*?)/([^<]+)',self._url)
 
-        oRequest = cRequestHandler(self._url)
-        sHtmlContent = oRequest.request()
-        _id = sID
-        VSlog(_id)
-        Sgn=requests.Session()
-        UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101 Firefox/68.0'
-        hdr = {'Host': sHost,
-        	'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:84.0) Gecko/20100101 Firefox/84.0',
-        	'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-        	'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
-        	'Accept-Encoding': 'gzip, deflate',
-        	'Content-Type': 'application/x-www-form-urlencoded',
-        	'Content-Length': '111',
-        	'Origin': 'https://'+sHost,
-        	'Connection': 'keep-alive',
-        	'Referer': self._url,
-        	'Upgrade-Insecure-Requests': '1'}
-        prm={
-                "op": "download2",
-                "id": _id,
-                "rand": "",
-                "referer": self._url}
-        _r = Sgn.post(sLink,headers=hdr,data=prm)
-        sHtmlContent = _r.content.decode('utf8',errors='ignore')
-        oParser = cParser() 
-     # (.+?) ([^<]+) .+?
-        sPattern = 'id="direct_link".+?href="(.+?)">'
-        aResult = oParser.parse(sHtmlContent,sPattern)
-        if aResult[0]:
-        	api_call = aResult[1][0] 
-                	
-        if api_call:
-        	   return True, api_call+ '|User-Agent=' + UA +'&verifypeer=false'+ '&Referer=' + 'https://'+sHost
+         else:
+            d = re.findall('http://(.*?)/([^<]+)',self._url)
 
-        return False, False
+         for aEntry in d:
+            sHost= aEntry[0]
+            sID= aEntry[1]
+            if '/' in sID:
+               sID = sID.split('/')[0]
+         sLink= 'http://'+sHost+'/'+sID     
+  
+         api_call = Unquote(self._url2)  
+
+         Sgn=requests.Session()
+         UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101 Firefox/68.0'
+         headers = {
+            'Origin': 'http://{0}'.format(sHost),
+            'Referer': sLink,
+            'User-Agent': UA
+         }
+         payload = {
+            'op': 'download2',
+            'id2': sID,
+            'rand': '',
+            'referer': sLink
+         }
+         _r = Sgn.post(sLink,headers=headers,data=payload)
+         sHtmlContent = _r.content.decode('utf8',errors='ignore')
+
+         sPattern = 'id="direct_link".+?href="([^"]+)'
+         aResult = oParser.parse(sHtmlContent,sPattern)
+         if aResult[0]:
+             api_call = aResult[1][0].replace(' ', '%20')
+         
+         if api_call:
+             return True, api_call
+
+         return False, False

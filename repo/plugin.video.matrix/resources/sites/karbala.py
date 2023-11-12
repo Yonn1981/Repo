@@ -1,10 +1,7 @@
 ﻿# -*- coding: utf-8 -*-
-#############################################################
 # Yonn1981 https://github.com/Yonn1981/Repo
-#############################################################
 
-import re
-	
+import re	
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -42,15 +39,13 @@ def load():
     oGui.addDir(SITE_IDENTIFIER, 'showGenres', 'أقسام المكتبة المرئية', 'islm.png', oOutputParameterHandler)
 
     oGui.setEndOfDirectory()
-
-			
+		
 def showGenres():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
  
-    liste = []
-	
+    liste = []	
     liste.append( ['ادعية و زيارات',URL_MAIN + '?partName=Pra_Vis'] )
     liste.append( ['برامج دينية',URL_MAIN + '?partName=religious'] )
     liste.append( ['برامج حسينية',URL_MAIN + '?partName=hussien'] )
@@ -66,7 +61,6 @@ def showGenres():
  
     oGui.setEndOfDirectory()
 
-
 def showSeries(sSearch = ''):
     oGui = cGui()
     if sSearch:
@@ -76,17 +70,14 @@ def showSeries(sSearch = ''):
       sUrl = oInputParameterHandler.getValue('siteUrl')
       sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
       sThumb = oInputParameterHandler.getValue('sThumb')
- 
+
+    oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
- # ([^<]+) .+? (.+?)
-    sPattern = '<div class="col-md-3 taa">.+?href="([^"]+)".+?style="background-image:.+?["\']([^"\']+)["\'].+?<h3 class=".+?">(.+?)</h3>'
 
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
-    if aResult[0] is True:
+    sPattern = '<div class="col-md-3 taa">.+?href="([^"]+)".+?style="background-image:.+?["\']([^"\']+)["\'].+?<h3 class=".+?">(.+?)</h3>'
+    aResult = oParser.parse(sHtmlContent, sPattern)	
+    if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()
@@ -100,7 +91,6 @@ def showSeries(sSearch = ''):
             siteUrl = URL_MAIN+aEntry[0]
             sThumb = URL_MAIN.split('/video')[0] + aEntry[1]
             sDesc = ''
-
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -128,19 +118,14 @@ def showEpisodes():
 	sUrl = oInputParameterHandler.getValue('siteUrl')
 	sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
 	sThumb = oInputParameterHandler.getValue('sThumb')
- 
+
+	oParser = cParser()
 	oRequestHandler = cRequestHandler(sUrl)
 	sHtmlContent = oRequestHandler.request()
 
-	oParser = cParser()
-
 	sPattern = '<div class="col-md-3 taa">.+?href="([^"]+)" title="([^"]+)".+?background:url(.+?);'
-
-	oParser = cParser()
 	aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
-	if aResult[0] is True:
+	if aResult[0]:
 		oOutputParameterHandler = cOutputParameterHandler()
 		for aEntry in aResult[1]:
  
@@ -161,33 +146,31 @@ def showEpisodes():
 			oOutputParameterHandler.addParameter('siteUrl', sNextPage)
 			oGui.addDir(SITE_IDENTIFIER, 'showEpisodes', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
 
-
 	oGui.setEndOfDirectory()
   
-     # (.+?)
 def __checkForNextPage(sHtmlContent):
-    sPattern = '<b class="current".+?href="(.+?)"'	
     oParser = cParser()
+    sPattern = '<b class="current".+?href="(.+?)"'	
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
         return URL_MAIN + aResult[1][0]
 
+    return False
+
 def showLinks(oInputParameterHandler = False):
     oGui = cGui()
-    import requests
 
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
 
+    oParser = cParser()
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
           
     sPattern = '<source src="([^"]+)'
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-
     if aResult[0]:
         for aEntry in aResult[1]:           
             sHosterUrl = URL_MAIN.split('/video')[0] + aEntry

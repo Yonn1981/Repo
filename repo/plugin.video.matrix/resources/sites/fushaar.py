@@ -2,7 +2,6 @@
 # zombi https://github.com/zombiB/zombi-addons/
 
 import re
-	
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -35,11 +34,9 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', URL_SEARCH[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSearch', addons.VSlang(30078), 'search.png', oOutputParameterHandler)
 
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_EN[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أجنبية', 'agnab.png', oOutputParameterHandler)
    
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', KID_MOVIES[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام كرتون', 'anim.png', oOutputParameterHandler)
 
@@ -63,7 +60,6 @@ def showSearch():
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
- 
 
 def showMovies(sSearch = ''):
     oGui = cGui()
@@ -73,17 +69,12 @@ def showMovies(sSearch = ''):
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
 
-
+    oParser = cParser()
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  
-     # (.+?) ([^<]+) .+?
     sPattern = '<article class="poster">.+?href="([^<]+)">.+?title="([^<]+)" data-lazy-src="([^<]+)"'
-
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
+    aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -109,9 +100,7 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('sYear', sYear)
             oOutputParameterHandler.addParameter('sDesc', sDesc)
 
- 
-            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
-            
+            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)            
 
         progress_.VSclose(progress_)
  
@@ -120,21 +109,18 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+
     if not sSearch:
         oGui.setEndOfDirectory()
 
-
-
 def __checkForNextPage(sHtmlContent):
-    sPattern = 'rel="next" href="([^<]+)"'
     oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
- 
+    sPattern = 'rel="next" href="([^<]+)"'
+    aResult = oParser.parse(sHtmlContent, sPattern) 
     if aResult[0] :
         return aResult[1][0]
 
     return False
-
 
 def showHosters(oInputParameterHandler = False):
     oGui = cGui()
@@ -142,20 +128,13 @@ def showHosters(oInputParameterHandler = False):
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
-    
+
+    oParser = cParser()    
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-
-    oParser = cParser()
-            
-
-# ([^<]+) .+? (.+?)
-    oParser = cParser()           
-    sPattern =  '<a class="watch-hd" href="([^<]+)" target="_blank" download>(.+?)</a>'
-	
-                                                                 
+                      
+    sPattern =  '<a class="watch-hd" href="([^<]+)" target="_blank" download>(.+?)</a>'                                                             
     aResult = oParser.parse(sHtmlContent,sPattern)
-
     if aResult[0]:
         for aEntry in aResult[1]:
             
@@ -165,8 +144,7 @@ def showHosters(oInputParameterHandler = False):
             sThumb = sThumb
             if url.startswith('//'):
                url = 'http:' + url
-				
-				            
+								            
             sHosterUrl = url 
             if 'fushaar' in sHosterUrl:
                 sHosterUrl = sHosterUrl 
@@ -176,16 +154,10 @@ def showHosters(oInputParameterHandler = False):
             if oHoster:
                oHoster.setDisplayName(sTitle)
                oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl + "|verifypeer=false", sThumb, oInputParameterHandler=oInputParameterHandler)
-            
-
-# ([^<]+) .+? (.+?)
-    oParser = cParser()           
-    sPattern =  'file: "(.+?)",.+?label: "(.+?)"'
-	
-                                                                 
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl + "|verifypeer=false", sThumb, oInputParameterHandler=oInputParameterHandler)           
+         
+    sPattern =  'file: "(.+?)",.+?label: "(.+?)"'                                                            
     aResult = oParser.parse(sHtmlContent,sPattern)
-
     if aResult[0]:
         for aEntry in aResult[1]:
             
@@ -194,8 +166,7 @@ def showHosters(oInputParameterHandler = False):
             sTitle = ('%s  [COLOR coral](%s)[/COLOR]') % (sMovieTitle, sHost) 
             sThumb = sThumb
             if url.startswith('//'):
-               url = 'http:' + url
-				
+               url = 'http:' + url				
 				            
             sHosterUrl = url 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
@@ -203,11 +174,9 @@ def showHosters(oInputParameterHandler = False):
                oHoster.setDisplayName(sTitle)
                oHoster.setFileName(sMovieTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl , sThumb, oInputParameterHandler=oInputParameterHandler)
-
-    oParser = cParser()           
+          
     sPattern =  '<IFRAME sandbox.+?data-lazy-src="([^"]+)'                                                                
     aResult = oParser.parse(sHtmlContent,sPattern)
-
     if aResult[0]:
         for aEntry in aResult[1]:
             if 'imgur' in aEntry:
@@ -218,19 +187,15 @@ def showHosters(oInputParameterHandler = False):
             sThumb = sThumb
             if url.startswith('//'):
                url = 'http:' + url
-				
-				            
+								            
             sHosterUrl = url 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
                oHoster.setDisplayName(sTitle)
                oHoster.setFileName(sMovieTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl , sThumb, oInputParameterHandler=oInputParameterHandler)
-
-    oParser = cParser()           
-    sPattern =  '</span><a href=.+?data-lazy-src="([^"]+)'
-	
-                                                                 
+          
+    sPattern =  '</span><a href=.+?data-lazy-src="([^"]+)'                                                                 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0]:
              

@@ -220,7 +220,7 @@
         "egyclub": {
             "label": "Egyclub",
             "active": "True",
-            "url": "https://w1.egy-club.com/"
+            "url": "https://my.egy-club.com/"
         },
         "egydead": {
             "label": "Egydead",
@@ -336,22 +336,17 @@
         "moviztime": {
             "label": "MovizTime",
             "active": "True",
-            "url": "https://movtime50.site/"
+            "url": "https://movtime71.site/"
         },
         "nabdhlb": {
             "label": "Nabd8lb",
             "active": "True",
             "url": "https://nabd8lb.net/"
         },
-        "pakistani": {
-            "label": "Pakistani",
-            "active": "True",
-            "url": "https://pakistani-live.net/"
-        },
         "prstej": {
             "label": "Prstej",
             "active": "True",
-            "url": "https://xy.brstej.com/"
+            "url": "https://wws.brstej.com/"
         },
         "qfilm": {
             "label": "QFilm",
@@ -377,7 +372,7 @@
             "label": "Shahid4u",
             "active": "True",
             "cloudflare": "True",
-            "url": "https://shahed4u5.cam/"
+            "url": "https://shahed2.cam/"
         },
         "shoffree": {
             "label": "Shoffree",
@@ -411,7 +406,7 @@
         },
         "tma": {
             "label": "The Movie Archive",
-            "active": "True",
+            "active": "False",
             "url": "https://tma.lol/"
         },
         "themoviedb_org": {

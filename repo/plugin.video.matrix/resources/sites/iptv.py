@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 # vStream https://github.com/Kodi-vStream/venom-xbmc-addons
+
 import re
 import string
-
 from resources.lib.comaddon import progress, addon, siteManager
 from resources.lib.gui.gui import cGui
 from resources.lib.gui.guiElement import cGuiElement
@@ -27,7 +27,6 @@ icon = 'tv.png'
 sRootArt = ''
 ADDON = addon()
 
-
 class track:
     def __init__(self, length, title, path, icon, data=''):
         self.length = length
@@ -35,7 +34,6 @@ class track:
         self.path = path
         self.icon = icon
         self.data = data
-
 
 def load():
     addons = addon()
@@ -105,7 +103,6 @@ def parseM3U(sUrl=None):
 
     return playlist
 
-
 def showWeb():
     oGui = cGui()
     addons = addon()
@@ -138,8 +135,6 @@ def showWeb():
             if not sThumb:
                 sThumb = 'https://raw.githubusercontent.com/Yonn1981/Repo/master/repo/plugin.video.matrix/resources/art/tv.png'
 
-
-            # les + ne peuvent pas passer
             url2 = track.path.replace('+', 'P_L_U_S')
 
             thumb = ''.join([sRootArt, sThumb])
@@ -168,7 +163,6 @@ def showWeb():
 
     oGui.setEndOfDirectory()
 
-
 def showAZ():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
@@ -186,7 +180,6 @@ def showAZ():
         oGui.addDir(SITE_IDENTIFIER, 'showTV', i, 'az.png', oOutputParameterHandler)
 
     oGui.setEndOfDirectory()
-
 
 def showTV():
     oGui = cGui()
@@ -237,7 +230,6 @@ def showTV():
         progress_.VSclose(progress_)
 
     oGui.setEndOfDirectory()
-
 
 def play__(): 
     addons = addon()
@@ -330,7 +322,6 @@ def getRealUrl(chain):
 
     return url
 
-
 def decodeNrj(d):
     oRequestHandler = cRequestHandler(d)
     sHtmlContent = oRequestHandler.request()
@@ -346,7 +337,6 @@ def decodeNrj(d):
     dataUrl = re.search('"contentUrl" content="([^"]+)"', sHtmlContent).group(1)
 
     return dataUrl
-
 
 def getBrightcoveKey(sUrl):
     oRequestHandler = cRequestHandler(sUrl)

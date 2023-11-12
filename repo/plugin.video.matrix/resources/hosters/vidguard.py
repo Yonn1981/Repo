@@ -5,12 +5,9 @@ from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
 from resources.lib.comaddon import dialog
 from resources.lib.aadecode import decodeAA
-from resources.lib.util import cUtil
-
 
 import binascii
 import base64
-
 
 class cHoster(iHoster):
 
