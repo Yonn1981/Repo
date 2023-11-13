@@ -53,6 +53,8 @@ class cGui:
         # dir ou link => CONTENT par défaut = files
         if Type != 'dir' and Type != 'link':
             cGui.CONTENT = Type
+        if sCat is not None:
+            oGuiElement.setCat(sCat)
         oGuiElement.setSiteName(sId)
         oGuiElement.setFunction(sFunction)
         oGuiElement.setTitle(sLabel)
@@ -65,9 +67,6 @@ class cGui:
             oGuiElement.setPoster(sThumbnail)
 
         oGuiElement.setDescription(sDesc)
-
-        if sCat is not None:
-            oGuiElement.setCat(sCat)
 
         # Pour addLink on recupere le sCat et sMeta precedent.
         if Type == 'link':

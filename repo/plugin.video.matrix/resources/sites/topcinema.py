@@ -249,7 +249,7 @@ def showassemblies():
              oOutputParameterHandler.addParameter('siteUrl', sNextPage)
              oGui.addDir(SITE_IDENTIFIER, 'showassemblies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
 
-        oGui.setEndOfDirectory()
+	oGui.setEndOfDirectory()
 
 
 def showSeries(sSearch = ''):

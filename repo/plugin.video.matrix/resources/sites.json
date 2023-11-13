@@ -404,10 +404,10 @@
             "active": "True",
             "url": "https://stardima.vip/watch/"
         },
-        "tma": {
-            "label": "The Movie Archive",
-            "active": "False",
-            "url": "https://tma.lol/"
+        "showb": {
+            "label": "ShowBox",
+            "active": "True",
+            "url": "https://www.showbox.media/"
         },
         "themoviedb_org": {
             "label": "The Movie Database",
