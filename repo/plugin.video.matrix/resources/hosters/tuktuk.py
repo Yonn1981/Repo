@@ -3,7 +3,7 @@
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
-#from resources.lib.comaddon import VSlog
+from resources.lib.comaddon import VSlog
 from resources.lib.packer import cPacker
 
 
@@ -13,7 +13,7 @@ class cHoster(iHoster):
         iHoster.__init__(self, 'tuktuk', 'TukTuk', 'gold')
 
     def _getMediaLinkForGuest(self, autoPlay = False):
-        self._url = self._url.replace('/f','/e')
+        self._url = self._url.replace('/f/','/e/').replace('/d/','/v/')
         oRequest = cRequestHandler(self._url)
         sHtmlContent = oRequest.request()
 
@@ -21,9 +21,8 @@ class cHoster(iHoster):
 
         oParser = cParser()
         
-        sPattern = '(\s*eval\s*\(\s*function\(p,a,c,k,e(?:.|\s)+?)<\/script>'
+        sPattern = '(eval\(function\(p,a,c,k,e(?:.|\s)+?\))<\/script>'
         aResult = oParser.parse(sHtmlContent, sPattern)
-
         if aResult[0] is True:
             sHtmlContent = cPacker().unpack(aResult[1][0])
         

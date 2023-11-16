@@ -2,9 +2,8 @@
 
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
-from resources.lib.comaddon import dialog
 from resources.hosters.hoster import iHoster
-from resources.lib.comaddon import VSlog
+from resources.lib.comaddon import dialog, VSlog
 import re
 
 class cHoster(iHoster):
@@ -12,12 +11,10 @@ class cHoster(iHoster):
     def __init__(self):
         iHoster.__init__(self, 'anafasts', 'Anafasts')
 
-
     def isDownloadable(self):
         return True
 
     def _getMediaLinkForGuest(self, autoPlay = False):
-        self._url = self._url.replace('embed-','')
         oRequest = cRequestHandler(self._url)
         sHtmlContent = oRequest.request()
         VSlog(self._url)
@@ -26,11 +23,10 @@ class cHoster(iHoster):
 
         list_q = []
         list_url = []
+        api_call = False
         
-            # (.+?) .+?
         sPattern = 'file:"([^"]+)'
         aResult = oParser.parse(sHtmlContent, sPattern)
-        VSlog(aResult)
         if aResult[0]:
             url2 = aResult[1][0]
             oRequestHandler = cRequestHandler(url2)
@@ -49,4 +45,3 @@ class cHoster(iHoster):
                 return True, api_call
 
         return False, False
-        

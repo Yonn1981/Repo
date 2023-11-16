@@ -2,16 +2,15 @@
 
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
-from resources.lib.comaddon import dialog
 from resources.hosters.hoster import iHoster
-from resources.lib.comaddon import VSlog
-import re
+from resources.lib.comaddon import dialog, VSlog
+
 UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101 Firefox/68.0'
 
 class cHoster(iHoster):
 
     def __init__(self):
-        iHoster.__init__(self, 'anavids', 'anavids')
+        iHoster.__init__(self, 'anavids', 'Anavids')
 
     def isDownloadable(self):
         return True
@@ -28,20 +27,15 @@ class cHoster(iHoster):
         VSlog(self._url)
         
         oParser = cParser()
-        
-            # (.+?) .+?
         sPattern = '{file:"(.+?)",label:"(.+?)"}'
         aResult = oParser.parse(sHtmlContent, sPattern)
-        
         api_call = False
 
         if aResult[0]:
             
-            #initialisation des tableaux
             url=[]
             qua=[]
             
-            #Replissage des tableaux
             for i in aResult[1]:
                 url.append(str(i[0]))
                 qua.append(str(i[1]))

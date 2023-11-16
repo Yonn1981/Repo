@@ -1,7 +1,6 @@
 ﻿# -*- coding: utf-8 -*-
 # zombi https://github.com/zombiB/zombi-addons/
 
-import re
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -17,7 +16,7 @@ SITE_DESC = 'arabic vod'
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 MOVIE_ASIAN = (URL_MAIN + 'category/%d8%a7%d9%84%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d9%84%d8%a2%d8%b3%d9%8a%d9%88%d9%8a%d8%a9/', 'showMovies')
-MOVIE_KR = (URL_MAIN + 'type/k-movies/?stat=فيلم', 'showMovies')
+MOVIE_KR = (URL_MAIN + 'type/k-movies/', 'showMovies')
 MOVIE_CN = (URL_MAIN  +'type/c-movies/', 'showMovies')
 MOVIE_JP = (URL_MAIN  +'type/j-movie/', 'showMovies')
 MOVIE_THAI = (URL_MAIN + 'type/t-movies/', 'showMovies')
@@ -106,7 +105,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = 'https://aradramatv.co/?s='+sSearchText
+        sUrl = URL_MAIN + '?s='+sSearchText
         showSerie(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -450,10 +449,11 @@ def showLink(oInputParameterHandler = False):
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler() 
         for aEntry in aResult[1]:
- 
-            siteUrl = aResult[1][0]
-            oRequestHandler = cRequestHandler(siteUrl)
-            sHtmlContent1 = oRequestHandler.request()
+            siteUrl = aResult[1][0].split('?')[1]
+            siteUrl = f'{URL_MAIN}?{siteUrl}'
+
+            oRequest = cRequestHandler(siteUrl)
+            sHtmlContent1 = oRequest.request()
 
     if sDesc:
         oGui.addLink(SITE_IDENTIFIER, 'showHosters','القصة', sThumb, sDesc, oOutputParameterHandler, oInputParameterHandler)

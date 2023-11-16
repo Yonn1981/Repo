@@ -372,7 +372,7 @@ def showSeasons():
 		oOutputParameterHandler = cOutputParameterHandler()
 		for aEntry in aResult[1]:
  
-			sTitle = sMovieTitle + aEntry[1].replace("الموسم","S").replace("S ","S").replace("S","Season ")
+			sTitle = sMovieTitle + aEntry[1].replace("الموسم","S").replace("S ","S")
 			siteUrl = aEntry[0]
 			sThumb = aEntry[2]
 			sDesc = ""
@@ -396,6 +396,10 @@ def showEpisodes():
 	oRequestHandler = cRequestHandler(sUrl)
 	sHtmlContent = oRequestHandler.request()
 
+	sStart = 'class="allepcont'
+	sEnd = 'class="otherser"'
+	sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
+
 	sPattern = '<a href="(.+?)" title=.+?<div class="epnum"><span>الحلقة</span>(.+?)</div></a>'
 	aResult = oParser.parse(sHtmlContent, sPattern)
 	if aResult[0] is True:
@@ -404,6 +408,7 @@ def showEpisodes():
  
 			sTitle = "E"+aEntry[1].replace("E ","E")
 			sTitle = sMovieTitle+sTitle
+			VSlog(sTitle)
 			siteUrl = aEntry[0]
 			sThumb = ""
 			sDesc = ""

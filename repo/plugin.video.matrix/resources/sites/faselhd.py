@@ -584,7 +584,7 @@ def showHosters(oInputParameterHandler = False):
 
     oParser = cParser()    
     oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request();
+    sHtmlContent = oRequestHandler.request()
 
     sPattern = 'name="player_iframe" src="([^<]+)" frameborde'
     aResult = oParser.parse(sHtmlContent, sPattern)	

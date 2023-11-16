@@ -15,7 +15,7 @@ UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101 Firefox/68.0'
 class cHoster(iHoster):
 
     def __init__(self):
-        iHoster.__init__(self, 'vidshare', 'vidshare')
+        iHoster.__init__(self, 'vidshare', 'Vidshare')
 
     def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
@@ -45,7 +45,4 @@ class cHoster(iHoster):
         if (api_call):
             return True, api_call
 					
-        if (api_call):
-            return True, api_call
-
         return False, False

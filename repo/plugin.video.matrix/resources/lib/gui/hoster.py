@@ -222,7 +222,7 @@ class cHosterGui:
                             'giga', 'vidbom', 'cloudvid', 'megadrive', 'downace', 'clickopen', 'supervideo', 'turbovid',
                             'jawcloud', 'soundcloud', 'mixcloud', 'ddlfr', 'vupload', 'dwfull', 'vidzstore',
                             'pdj', 'rapidstream', 'jetload', 'dustreaming', 'viki', 'flix555', 'onlystream',
-                            'upstream', 'pstream', 'vudeo', 'vidia', 'vidbem', 'uptobox', 'uplea', 'vido',
+                            'upstream', 'pstream', 'vudeo', 'vidia', 'vidbem', 'uptobox', 'uplea', 'vido', 'streamhub',
                             'sibnet', 'vidplayer', 'userload', 'aparat', 'evoload', 'vidshar', 'abcvideo', 'plynow', '33player', 'filerio', 'videoraj', 'brightcove', 'detectiveconanar',
                             'myvi', '33player', 'videovard', 'viewsb', 'yourvid', 'vf-manga', 'oneupload', 'darkibox']
 
@@ -231,11 +231,14 @@ class cHosterGui:
             return self.getHoster(val.replace('.', ''))
 
         # Gestion classique
-        if ('vadshar' in sHostName) or ('vidshar' in sHostName) or ('vedshaar' in sHostName) or ('vedsharr' in sHostName) or ('vedshar' in sHostName) or ('vidshare' in sHostName) or ('viidshar' in sHostName):
+        if ('vadshar' in sHostName) or ('vidshar' in sHostName) or ('vedshaar' in sHostName) or ('vedsharr' in sHostName) or ('vedshar' in sHostName) or ('vidshare' in sHostName) or ('viidshar' in sHostName) or ('vid1shar' in sHostName):
             return self.getHoster('vidshare')
 
         if ('gettyshare' in sHosterUrl):
             return self.getHoster('gettyshare')
+
+        if ('mixdroop' in sHosterUrl):
+            return self.getHoster('mixdrop')
 
         if ('.aflam' in sHosterUrl):
             return self.getHoster('mixloads')
@@ -254,15 +257,13 @@ class cHosterGui:
             #mise a jour du nom
             f.setRealHost(sHostName)
             return f
-        if ('streamwish' in sHostName) or ('khadhnayad' in sHostName) or ('ajmidyad' in sHostName) or ('yadmalik' in sHostName) or ('kharabnah' in sHostName) or ('hayaatieadhab' in sHostName) or ('sfastwish' in sHostName) or ('eghjrutf' in sHostName) or ('eghzrutw' in sHostName) or ('wishfast' in sHostName) or ('fviplions' in sHostName) or ('egtpgrvh' in sHostName):
+        if ('streamwish' in sHostName) or ('khadhnayad' in sHostName) or ('ajmidyad' in sHostName) or ('yadmalik' in sHostName) or ('kharabnah' in sHostName) or ('hayaatieadhab' in sHostName) or ('sfastwish' in sHostName) or ('eghjrutf' in sHostName) or ('eghzrutw' in sHostName) or ('wishfast' in sHostName) or ('fviplions' in sHostName) or ('egtpgrvh' in sHostName) or ('mdy48tn97' in sHostName) or ('embedwish' in sHostName):
             return self.getHoster('streamwish')
         if ('upstream' in sHosterUrl):
             return self.getHoster('upstream')
         if ('dooood' in sHostName):
             return self.getHoster('dood')
-        if ('DoodStream' in sHostName) or ('flixeo' in sHostName):
-            return self.getHoster('dood')
-        if ('dood' in sHostName) or ('dood' in sHosterUrl):
+        if ('DoodStream' in sHostName) or ('flixeo' in sHostName) or ('ds2play' in sHostName) or ('dood' in sHostName) or ('dood' in sHosterUrl):
             return self.getHoster('dood')
         if ('film77' in sHostName):
             return self.getHoster('film77')
@@ -359,7 +360,7 @@ class cHosterGui:
             f.setRealHost(sHostName)
             return f
 
-        if ('streamtape' in sHostName):
+        if ('streamtape' in sHostName) or ('streamnoads' in sHostName):
             return self.getHoster('streamtape')
 
         if ('sbhight' in sHostName):
@@ -447,7 +448,7 @@ class cHosterGui:
         if ('kingfoot' in sHostName):
             return self.getHoster('lien_direct')
             
-        if ('vidbm' in sHostName) or ('vadbam' in sHostName) or ('vedbom' in sHostName) or ('vadbom' in sHostName) or ('vidbam' in sHostName):
+        if ('vidbom' in sHostName) or ('vidbm' in sHostName) or ('vadbam' in sHostName) or ('vedbom' in sHostName) or ('vadbom' in sHostName) or ('vidbam' in sHostName) or ('vedbam' in sHostName) or ('viboom' in sHostName):
             return self.getHoster('vidbom')
 				
         if ('mail.ru' in sHostName):
@@ -618,9 +619,6 @@ class cHosterGui:
         if ('yandex' in sHostName) or ('yadi.sk' in sHostName):
             return self.getHoster('yadisk')
 
-        if ('vidbom' in sHostName):
-            return self.getHoster('vidbom')
-
         if ('vedpom' in sHostName) or ('vidbem' in sHostName):
             return self.getHoster('vidbem')
 
@@ -724,7 +722,7 @@ class cHosterGui:
         if ('clipwatching' in sHostName) or ('highstream' in sHostName):
             return self.getHoster('clipwatching')
 
-        if ('voe' in sHostName):
+        if ('voe' in sHostName) or ('kathleenmemberhistory' in sHostName) or ('timberwoodanotia' in sHostName):
             return self.getHoster('voe')
 
         if ('goo.gl' in sHostName) or ('bit.ly' in sHostName) or ('streamcrypt' in sHostName) or ('opsktp' in sHosterUrl):
