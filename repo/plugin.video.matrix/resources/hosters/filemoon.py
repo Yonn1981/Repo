@@ -16,6 +16,8 @@ class cHoster(iHoster):
 
     def _getMediaLinkForGuest(self, autoPlay = False):
         oParser = cParser()
+        # For a friend
+        self._url = self._url.replace('filemoon.sx','filemoon.in')
 
         if ('sub.info' in self._url):
             VSlog(self._url)
