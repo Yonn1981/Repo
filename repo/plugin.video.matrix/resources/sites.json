@@ -343,6 +343,11 @@
             "active": "True",
             "url": "https://nabd8lb.net/"
         },
+        "naqoos": {
+            "label": "Naqoos",
+            "active": "True",
+            "url": "https://naqoos.com/"
+        },
         "prstej": {
             "label": "Prstej",
             "active": "True",

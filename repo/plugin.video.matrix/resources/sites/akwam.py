@@ -502,7 +502,7 @@ def showHosters(oInputParameterHandler = False):
         oRequest.disableSSL()
         sHtmlContent = oRequest.request()
       
-    sPattern =  '<source\s*src="([^"]+)" type="video/mp4" size="([^"]+)'                                                                      
+    sPattern =  '<source\s*src="([^"]+)"\s*type="video/mp4"\s*size="([^"]+)'                                                                      
     aResult = oParser.parse(sHtmlContent,sPattern)       
     if aResult[0]:
             oOutputParameterHandler = cOutputParameterHandler()

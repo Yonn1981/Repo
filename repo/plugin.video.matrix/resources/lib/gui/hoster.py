@@ -217,7 +217,7 @@ class cHosterGui:
                             'rutube', 'megawatch', 'vidzi', 'filetrip', 'uptostream', 'speedvid', 'letsupload',
                             'onevideo', 'playreplay', 'prostream', 'vidfast', 'uqload', 'letwatch', 'wishfast',
                             'filepup', 'vimple', 'wstream', 'watchvideo', 'vidwatch', 'up2stream', 'tune', 'playtube',
-                            'vidup', 'vidbull', 'vidlox', 'megaup', '33player' 'easyload', 'ninjastream', 'cloudhost',
+                            'vidup', 'vidbull', 'vidlox', '33player' 'easyload', 'ninjastream', 'cloudhost',
                             'videobin', 'stagevu', 'gorillavid', 'daclips', 'hdvid', 'vshare', 'vidload',
                             'giga', 'vidbom', 'cloudvid', 'megadrive', 'downace', 'clickopen', 'supervideo', 'turbovid',
                             'jawcloud', 'soundcloud', 'mixcloud', 'ddlfr', 'vupload', 'dwfull', 'vidzstore',
@@ -236,6 +236,9 @@ class cHosterGui:
 
         if ('gettyshare' in sHosterUrl):
             return self.getHoster('gettyshare')
+
+        if ('naqoos' in sHosterUrl):
+            return self.getHoster('naqoos')
 
         if ('mixdroop' in sHosterUrl):
             return self.getHoster('mixdrop')
@@ -448,7 +451,7 @@ class cHosterGui:
         if ('kingfoot' in sHostName):
             return self.getHoster('lien_direct')
             
-        if ('vidbom' in sHostName) or ('vidbm' in sHostName) or ('vadbam' in sHostName) or ('vedbom' in sHostName) or ('vadbom' in sHostName) or ('vidbam' in sHostName) or ('vedbam' in sHostName) or ('viboom' in sHostName):
+        if ('vidbom' in sHostName) or ('vidbm' in sHostName) or ('vadbam' in sHostName) or ('vedbom' in sHostName) or ('vadbom' in sHostName) or ('vidbam' in sHostName) or ('vedbam' in sHostName) or ('viboom' in sHostName) or ('vid1bom' in sHostName):
             return self.getHoster('vidbom')
 				
         if ('mail.ru' in sHostName):
@@ -478,9 +481,6 @@ class cHosterGui:
         if ('vidspeed' in sHostName):
             return self.getHoster('vidspeeds')
 				
-        if ('megaup.' in sHostName):
-            return self.getHoster('megaup')
-
         if ('linkbox' in sHostName) or ('sharezweb' in sHostName):
             return self.getHoster('resolver')
            
