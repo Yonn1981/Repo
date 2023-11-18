@@ -20,8 +20,8 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
  
-MOVIE_EN = (URL_MAIN + 'cat_film/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a-%d9%85%d8%aa%d8%b1%d8%ac%d9%85%d8%a9/', 'showMovies')
-KID_MOVIES = (URL_MAIN + 'type/%d9%83%d8%b1%d8%aa%d9%88%d9%86/', 'showMovies')
+MOVIE_EN = (URL_MAIN + 'cat_film/افلام-اجنبي-مترجمة/', 'showMovies')
+KID_MOVIES = (URL_MAIN + 'type/كرتون/', 'showMovies')
 MOVIE_ASIAN = (URL_MAIN + 'country/مشاهدة-افلام-اسيوية-مترجمة-21/', 'showMovies')
 MOVIE_GENRES = (URL_MAIN, 'showGenres')
 
@@ -107,6 +107,8 @@ def showMovies(sSearch = ''):
     oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request() 
+    if 'cat_film/افلام-اجنبي-مترجمة/' in sUrl:
+        sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
 
     sPattern = '<li class="col-md-3"><a href="([^"]+)".+?<img src="([^"]+)".+?<h4 class="move-title">([^<]+)</h4>.+?.+?<div class="mov-typ">([^<]+)</div>'
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -119,7 +121,8 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[2].replace("مشاهدة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("كامل","").replace("برنامج","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","")
+            sTitle = str(aEntry[2].encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
+            sTitle = sTitle.replace("مشاهدة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("كامل","").replace("برنامج","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","")
             siteUrl = aEntry[0]
             sThumb = aEntry[1]
             sRes = f'{aEntry[3]}'
@@ -205,12 +208,13 @@ def showLink():
                 aResult = oParser.parse(sHtmlContent, sPattern2)
                 if aResult[0]:
                     for aEntry in aResult[1]:
-                        nume = aEntry + sMovieTitle
+                        nume = aEntry
+                        sTitle = aEntry + sMovieTitle
 						            
                         oOutputParameterHandler.addParameter('siteUrl', sUrl)
                         oOutputParameterHandler.addParameter('serverURL', serverURL)
                         oOutputParameterHandler.addParameter('sId', sId)
-                        oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
+                        oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
                         oOutputParameterHandler.addParameter('sThumb', sThumb)
                         oOutputParameterHandler.addParameter('nume', nume)
 

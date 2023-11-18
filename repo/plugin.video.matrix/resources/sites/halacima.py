@@ -1,6 +1,8 @@
 ﻿#-*- coding: utf-8 -*-
 #zombi https://github.com/zombiB/zombi-addons/
 
+import re 
+import requests
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -8,7 +10,6 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
-import re 
  
 SITE_IDENTIFIER = 'halacima'
 SITE_NAME = 'Halacima'
@@ -397,7 +398,9 @@ def showSeason():
             for aEntry in aResult[1]:
 
                 sTitles = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("كامله","").replace("بجودة عالية","").replace("كاملة","").replace("جودة عالية","").replace("كامل","").replace("اونلاين","").replace("اون لاين","").split('الموسم')[0] 
-                sTitle =  sTitles + aEntry[0].replace('الموسم','Season').replace('مدبلج','')
+                sTitle =  sTitles.split('الجزء')[0] + ' ' + aEntry[0].replace('الموسم','S').replace('مدبلج','').replace("كامل","")
+                if 'موسم' not in aEntry[0]:
+                    sTitle = f'{sTitle} S1'
                 siteUrl = aEntry[1]
                 sThumb = aEntry[3]
                 sDesc = ''
@@ -496,14 +499,48 @@ def showServers(oInputParameterHandler = False):
         aResult = oParser.parse(sHtmlContent1, sPattern)
         if aResult[0]:
            for aEntry in (aResult[1]):
-      
-                url = aEntry
-                sThumb = ''
-                if url.startswith('//'):
-                  url = 'http:' + url
+                if 'قريبا' in aEntry:
+                    continue
 
-                sHosterUrl = url
-  
+                sHosterUrl = aEntry
+                if sHosterUrl.startswith('//'):
+                  sHosterUrl = 'http:' + sHosterUrl
+
+                if 'megamax' in sHosterUrl:
+                    oRequestHandler = cRequestHandler(sHosterUrl)
+                    sHtmlContent = oRequestHandler.request()
+                    sHtmlContent = sHtmlContent.replace('&quot;','"')
+
+                    sVer = ''
+                    sPattern = '"version":"([^"]+)'
+                    aResult = oParser.parse(sHtmlContent, sPattern)
+                    if aResult[0]:
+                        for aEntry in (aResult[1]):
+                            sVer = aEntry
+
+                    s = requests.Session()            
+                    headers = {'Referer':sHosterUrl,
+                                'Sec-Fetch-Mode':'cors',
+                                'X-Inertia':'true',
+                                'X-Inertia-Partial-Component':'web/files/mirror/video',
+                                'X-Inertia-Partial-Data':'streams',
+                                'X-Inertia-Version':sVer}
+                    
+                    r = s.get(sHosterUrl, headers=headers).json()
+                    for key in r['props']['streams']['data']:
+                        sQual = key['label']
+                        for sLink in key['mirrors']:
+                            sHosterUrl = sLink['link']
+                            if sHosterUrl.startswith('//'):
+                                sHosterUrl = 'http:' + sHosterUrl
+
+                            sDisplayTitle = ('%s [COLOR coral] [%s] [/COLOR]') % (sMovieTitle, sQual)                           
+                            oHoster = cHosterGui().checkHoster(sHosterUrl)
+                            if oHoster != False:
+                                oHoster.setDisplayName(sDisplayTitle)
+                                oHoster.setFileName(sMovieTitle)
+                                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+
                 oHoster = cHosterGui().checkHoster(sHosterUrl)
                 if oHoster != False:
                     oHoster.setDisplayName(sMovieTitle)
