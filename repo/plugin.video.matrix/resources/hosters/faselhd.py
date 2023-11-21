@@ -74,7 +74,15 @@ class cHoster(iHoster):
                         if t_ch:
                         	nb = int(t_ch[0])+int(t_int[0])
                         	page = page + chr(nb)
-        	    t_url = re.findall('file":"(.*?)"', page, re.S)
+				
+        	    SrcFile = re.findall("videoSrc\s*=.+?'(.+?)'", page, re.S)
+		    if SrcFile:
+			t_url = SrcFile
+
+		    FIle = re.findall('file":"(.*?)"', page, re.S)
+		    if FIle:
+			t_url = FIle
+			    
         	    if t_url:
                 	api_call = t_url[0].replace('\\','').replace("['",'').replace("']",'')
                 	core = api_call
