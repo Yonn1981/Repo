@@ -388,11 +388,11 @@ def showServer(oInputParameterHandler = False):
     data = data.content.decode('utf8')  
 
     if 'adilbo' in data:
-        page = decode_page(data)
+        data = decode_page(data)
 
     sStart = '<li aria-label="quality">'
     sEnd = '<li aria-label="download">'
-    page0 = oParser.abParse(page, sStart, sEnd)
+    page0 = oParser.abParse(data, sStart, sEnd)
      	
     sPattern = '<a href="(.+?)".+?class="fas fa-cloud-download-alt"></i>(.+?)<p'
     aResult = oParser.parse(page0, sPattern)
@@ -415,7 +415,7 @@ def showServer(oInputParameterHandler = False):
             cHosterGui().showHoster(oGui, oHoster, sHosterUrl + "|Referer=" + URL_MAIN, sThumb, oInputParameterHandler=oInputParameterHandler)
 
     sPattern = '<iframe src="([^"]+)" scrolling'
-    aResult = oParser.parse(page, sPattern)	
+    aResult = oParser.parse(data, sPattern)	
     if aResult[0]:
         for aEntry in aResult[1]:
             url = aEntry
@@ -455,7 +455,7 @@ def showServer(oInputParameterHandler = False):
             cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
     sPattern = 'data-index="([^"]+)".+?data-id="([^"]+)"' 
-    aResult = oParser.parse(page, sPattern)
+    aResult = oParser.parse(data, sPattern)
     if aResult[0]:
         for aEntry in aResult[1]:
             sIndex = aEntry[0]
@@ -474,7 +474,7 @@ def showServer(oInputParameterHandler = False):
             if aResult[0]:
                 for aEntry in aResult[1]:
             
-                    url = aEntry.replace("cimanow","rrsrrs").replace("newcima","rrsrrs")
+                    url = aEntry.replace("cimanow","rrsrrs").replace("newcima","rrsrrsn")
                     sTitle = sMovieTitle
                     if url.startswith('//'):
                         url = 'http:' + url

@@ -358,7 +358,7 @@ def showLinks(oInputParameterHandler = False):
             sHosterID = ServerIDs.split(',')[0]
             serverId = ServerIDs.split(',')[1]
       
-            url = URL_MAIN + 'wp-content/themes/vo2022/temp/ajax/iframe2.php?id=' + sID + '&video=' + sHosterID + '&serverId=' + serverId
+            url = f'{URL_MAIN}wp-content/themes/vo2022/temp/ajax/iframe2.php?id={sID}&video={sHosterID}&serverId={serverId}'
             sHost = aEntry[1]
             sTitle = ('%s [COLOR coral]%s[/COLOR]') % (sMovieTitle, sHost)
 
@@ -404,13 +404,12 @@ def showHosters():
     oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36'.encode('utf-8'))
     oRequestHandler.addHeaderEntry('Referer', Referer.encode('utf-8'))
     oRequestHandler.addHeaderEntry('Cookie', cook.encode('utf-8'))
-    oRequestHandler.addHeaderEntry('authority', 'cinematy.online'.encode('utf-8'))
     oRequestHandler.addHeaderEntry('sec-fetch-dest', 'empty'.encode('utf-8'))
     oRequestHandler.addHeaderEntry('sec-fetch-mode', 'cors'.encode('utf-8'))
     oRequestHandler.addHeaderEntry('x-requested-with', 'XMLHttpRequest')
     sHtmlContent2 = oRequestHandler.request()
     
-    sPattern = 'iframe.+?src=\"(.+?)\"'
+    sPattern = 'iframe.+?src="([^"]+)'
     aResult = oParser.parse(sHtmlContent2.lower(), sPattern)
     if aResult[0]:
                 sHosterUrl = aResult[1][0]

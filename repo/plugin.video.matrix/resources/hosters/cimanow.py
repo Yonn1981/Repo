@@ -14,7 +14,7 @@ class cHoster(iHoster):
         iHoster.__init__(self, 'cimanow', 'CimaNow', 'gold')
 			
     def setUrl(self, sUrl):
-        self._url = str(sUrl).replace('rrsrrs','newcima')
+        self._url = str(sUrl).replace('rrsrrs','cimanow').replace('rrsrrsn','newcima')
 
     def _getMediaLinkForGuest(self, autoPlay = False):
         
@@ -28,8 +28,6 @@ class cHoster(iHoster):
         oRequest.disableSSL()
         sHtmlContent = oRequest.request()
         oParser = cParser()
-
-       # (.+?) .+? ([^<]+)
 
         sPattern =  '<source src="(.+?)" type="video/mp4" size="(.+?)">' 
         aResult = oParser.parse(sHtmlContent,sPattern)

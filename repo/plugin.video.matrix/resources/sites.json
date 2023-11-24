@@ -143,13 +143,13 @@
         },
         "cimaclub": {
             "label": "CimaClub",
-            "active": "True",
+            "active": "False",
             "url": "https://cima-club.vip/"
         },
         "cimacity": {
             "label": "CimaCity",
             "active": "True",
-            "url": "http://cima-city.xyz/"
+            "url": "https://web.cima-city.xyz/"
         },
         "cimaking": {
             "label": "CimaKing",
@@ -245,7 +245,7 @@
         "faselhd": {
             "label": "Faselhd",
             "active": "True",
-            "url": "https://www.faselhd.center/"
+            "url": "https://www.faselhd.express/"
         },
         "fnteam": {
             "label": "Fnteam",
@@ -310,8 +310,8 @@
         "koralive": {
             "label": "Koralive",
             "active": "True",
-            "url": "https://lives.360kora-live.com/",
-            "url2": "https://koora.alkoora-live.live/"
+            "url": "https://pro.360kora-live.com/",
+            "url2": "https://1koora.alkoora-live.live/"
         },
         "laroza": {
             "label": "Laroza",
@@ -466,7 +466,7 @@
         },
         "yalladrama": {
             "label": "Yalladrama",
-            "active": "True",
+            "active": "False",
             "url": "https://ww2.yalladrama.co/"
         },
         "yallalive": {

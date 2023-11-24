@@ -451,7 +451,7 @@ class cHosterGui:
         if ('kingfoot' in sHostName):
             return self.getHoster('lien_direct')
             
-        if ('vidbom' in sHostName) or ('vidbm' in sHostName) or ('vadbam' in sHostName) or ('vedbom' in sHostName) or ('vadbom' in sHostName) or ('vidbam' in sHostName) or ('vedbam' in sHostName) or ('viboom' in sHostName) or ('vid1bom' in sHostName):
+        if ('vidbom' in sHostName) or ('vidbm' in sHostName) or ('vadbam' in sHostName) or ('vedbom' in sHostName) or ('vadbom' in sHostName) or ('vidbam' in sHostName) or ('vedbam' in sHostName) or ('viboom' in sHostName) or ('vid1bom' in sHostName) or ('viid2beem' in sHostName) or ('viid1boom' in sHostName) or ('ved2om' in sHostName) or ('vid2bom' in sHostName) or ('viidboom' in sHostName):
             return self.getHoster('vidbom')
 				
         if ('mail.ru' in sHostName):
@@ -490,10 +490,10 @@ class cHosterGui:
         if ('workupload' in sHostName):
             return self.getHoster('workupload')
 
-        if ('upbaam' in sHostName) or ('upbam' in sHostName) or ('uppom' in sHostName) or ('uppboom' in sHostName) or ('uupbom' in sHostName) or ('upgobom' in sHostName):
+        if ('upbaam' in sHostName) or ('upbam' in sHostName) or ('uppom' in sHostName) or ('uppboom' in sHostName) or ('uupbom' in sHostName) or ('upgobom' in sHostName) or ('upptobom' in sHostName) or ('up2b9om' in sHostName) or ('up1bom' in sHostName)or ('up3bom' in sHostName):
             return self.getHoster('uppom')
 
-        if ('allviid' in sHostName):
+        if ('allviid' in sHostName) or ('all-vid' in sHostName):
             return self.getHoster('filemoon')
 
         if ('filemoon' in sHostName) or ('moonmov' in sHostName):
@@ -583,10 +583,10 @@ class cHosterGui:
         if ('fajer.live' in sHostName):
             return self.getHoster('fajerlive')
             
-        if ('govad' in sHostName) or ('govid.me' in sHostName) or ('goveed' in sHostName):
+        if ('govad' in sHostName) or ('govid.me' in sHostName) or ('goveed' in sHostName)  or ('go2ved' in sHosterUrl):
             return self.getHoster('govidme')
             
-        if ('govid' in sHostName) or ('drkvid' in sHosterUrl) or ('gvid.' in sHosterUrl) or ('govid.' in sHostName) or ('kopatube' in sHostName) or ('kobatube' in sHostName) or ('darkveed' in sHostName) or ('downvol' in sHosterUrl) or ('telvod' in sHosterUrl):
+        if ('govid' in sHostName) or ('drkvid' in sHosterUrl) or ('gvid.' in sHosterUrl) or ('govid.' in sHostName) or ('kopatube' in sHostName) or ('kobatube' in sHostName) or ('darkveed' in sHostName) or ('downvol' in sHosterUrl) or ('telvod' in sHosterUrl) or ('darkveed' in sHostName) or ('downvol' in sHosterUrl):
             return self.getHoster('govid')
             
         if ('vid4up' in sHostName):
@@ -637,7 +637,7 @@ class cHosterGui:
         if ('playvidto' in sHostName):
             return self.getHoster('vidto')
 
-        if ('liiivideo' in sHostName):
+        if ('liiivideo' in sHostName) or ('qfilm' in sHostName):
             return self.getHoster('qfilm')
 
         if ('hd-stream' in sHostName):

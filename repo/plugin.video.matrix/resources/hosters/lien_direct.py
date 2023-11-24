@@ -20,7 +20,7 @@ class cHoster(iHoster):
         api_call = self._url
         VSlog(self._url)
 
-        api_call = self._url.replace("rrsrr","cimanow")
+        api_call = self._url.replace("rrsrr","cimanow").replace('rrsrrsn','newcima')
  	   
         if 'ffsff' in api_call:
             api_call = self._url.replace("ffsff","moshahda")

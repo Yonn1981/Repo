@@ -475,78 +475,90 @@ def showServers(oInputParameterHandler = False):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-    sPattern =  '<form method="post" action="([^"]+)".+?name="watch" value="([^"]+)' 
+    sPattern =  '<a rel="nofollow" href="([^"]+)' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0]:
         for aEntry in aResult[1]:
-            wcode = aEntry[1]
-            sLink = aEntry[0]
+            sURL = aEntry
+            oRequestHandler = cRequestHandler(sURL)
+            sHtmlContent1 = oRequestHandler.request()
 
-        s = requests.Session()            
-        headers = {'user-agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Mobile Safari/537.36 Edg/115.0.1901.188',
-                  'origin': URL_MAIN,
-                  'referer': URL_MAIN,
-                  'sec-fetch-dest': 'document',
-                  'sec-fetch-mode': 'navigate',
-                  'sec-fetch-site': 'cross-site',
-                  'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7'}
+            sPattern =  'postID = "([^"]+)' 
+            aResult = oParser.parse(sHtmlContent1,sPattern)
+            if aResult[0]:
+                postID = aResult[1][0] 
 
-        data = {'watch':wcode,'submit':''}
-        r = s.post(sLink, headers=headers,data = data)
-        sHtmlContent1 = r.content.decode('utf8')
-
-        sPattern = 'data-server=["\']([^"\']+)["\']'
-        aResult = oParser.parse(sHtmlContent1, sPattern)
-        if aResult[0]:
-           for aEntry in (aResult[1]):
-                if 'قريبا' in aEntry:
-                    continue
-
-                sHosterUrl = aEntry
-                if sHosterUrl.startswith('//'):
-                  sHosterUrl = 'http:' + sHosterUrl
-
-                if 'megamax' in sHosterUrl:
-                    oRequestHandler = cRequestHandler(sHosterUrl)
-                    sHtmlContent = oRequestHandler.request()
-                    sHtmlContent = sHtmlContent.replace('&quot;','"')
-
-                    sVer = ''
-                    sPattern = '"version":"([^"]+)'
-                    aResult = oParser.parse(sHtmlContent, sPattern)
-                    if aResult[0]:
-                        for aEntry in (aResult[1]):
-                            sVer = aEntry
+            sPattern =  'onclick="([^"]+)' 
+            aResult = oParser.parse(sHtmlContent1,sPattern)
+            if aResult[0]:
+                for aEntry in aResult[1]:
+                    sServer = aEntry.replace("getPlayer('","").replace("')","")
 
                     s = requests.Session()            
-                    headers = {'Referer':sHosterUrl,
-                                'Sec-Fetch-Mode':'cors',
-                                'X-Inertia':'true',
-                                'X-Inertia-Partial-Component':'web/files/mirror/video',
-                                'X-Inertia-Partial-Data':'streams',
-                                'X-Inertia-Version':sVer}
-                    
-                    r = s.get(sHosterUrl, headers=headers).json()
-                    for key in r['props']['streams']['data']:
-                        sQual = key['label']
-                        for sLink in key['mirrors']:
-                            sHosterUrl = sLink['link']
+                    headers = {'user-agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Mobile Safari/537.36 Edg/115.0.1901.188',
+                        'origin': URL_MAIN,
+                        'referer': URL_MAIN,
+                        'sec-fetch-dest': 'empty',
+                        'sec-fetch-mode': 'cors',
+                        'sec-fetch-site': 'same-origin',
+                        'Accept': '*/*'}
+
+                    data = {'server':sServer,'postID':postID,'Ajax':'1'}
+                    r = s.post(f'{URL_MAIN}ajax/getPlayer', headers=headers,data = data)
+                    sHtmlContent1 = r.content.decode('utf8')
+
+                    sPattern = '<IFRAME.+?SRC=["\']([^"\']+)["\']'
+                    aResult = oParser.parse(sHtmlContent1, sPattern)
+                    if aResult[0]:
+                        for aEntry in (aResult[1]):
+                            if 'قريبا' in aEntry:
+                                continue
+
+                            sHosterUrl = aEntry
                             if sHosterUrl.startswith('//'):
                                 sHosterUrl = 'http:' + sHosterUrl
 
-                            sDisplayTitle = ('%s [COLOR coral] [%s] [/COLOR]') % (sMovieTitle, sQual)                           
+                            if 'megamax' in sHosterUrl:
+                                oRequestHandler = cRequestHandler(sHosterUrl)
+                                sHtmlContent = oRequestHandler.request()
+                                sHtmlContent = sHtmlContent.replace('&quot;','"')
+
+                                sVer = ''
+                                sPattern = '"version":"([^"]+)'
+                                aResult = oParser.parse(sHtmlContent, sPattern)
+                                if aResult[0]:
+                                    for aEntry in (aResult[1]):
+                                        sVer = aEntry
+
+                                s = requests.Session()            
+                                headers = {'Referer':sHosterUrl,
+                                            'Sec-Fetch-Mode':'cors',
+                                            'X-Inertia':'true',
+                                            'X-Inertia-Partial-Component':'web/files/mirror/video',
+                                            'X-Inertia-Partial-Data':'streams',
+                                            'X-Inertia-Version':sVer}
+                 
+                                r = s.get(sHosterUrl, headers=headers).json()
+                                for key in r['props']['streams']['data']:
+                                    sQual = key['label']
+                                    for sLink in key['mirrors']:
+                                        sHosterUrl = sLink['link']
+                                        if sHosterUrl.startswith('//'):
+                                            sHosterUrl = 'http:' + sHosterUrl
+
+                                        sDisplayTitle = ('%s [COLOR coral] [%s] [/COLOR]') % (sMovieTitle, sQual)                           
+                                        oHoster = cHosterGui().checkHoster(sHosterUrl)
+                                        if oHoster != False:
+                                            oHoster.setDisplayName(sDisplayTitle)
+                                            oHoster.setFileName(sMovieTitle)
+                                            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+
                             oHoster = cHosterGui().checkHoster(sHosterUrl)
                             if oHoster != False:
-                                oHoster.setDisplayName(sDisplayTitle)
+                                oHoster.setDisplayName(sMovieTitle)
                                 oHoster.setFileName(sMovieTitle)
                                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
-                oHoster = cHosterGui().checkHoster(sHosterUrl)
-                if oHoster != False:
-                    oHoster.setDisplayName(sMovieTitle)
-                    oHoster.setFileName(sMovieTitle)
-                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
-				
     sPattern = '<a target="_blank" href=["\']([^"\']+)["\']'
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
