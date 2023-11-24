@@ -5,6 +5,7 @@
 
 import re
 import base64
+import requests
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -301,13 +302,46 @@ def showHosters(oInputParameterHandler = False):
         for aEntry in aResult:
             if 'home' in aEntry[0] or 'back' in aEntry[0]:
                 continue        
-            url = aEntry[1]
-            if url.startswith('//'):
-               url = 'http:' + url
-            if 'streamnoads.' in url:
-                url = url.replace('streamnoads.','streamnoads.com')
-			           
-            sHosterUrl = url
+            sHosterUrl = aEntry[1]
+            if sHosterUrl.startswith('//'):
+               sHosterUrl = 'http:' + sHosterUrl
+            if 'streamnoads.' in sHosterUrl:
+                sHosterUrl = sHosterUrl.replace('streamnoads.','streamnoads.com')
+            if 'megamax' in sHosterUrl:
+                oRequestHandler = cRequestHandler(sHosterUrl)
+                sHtmlContent = oRequestHandler.request()
+                sHtmlContent = sHtmlContent.replace('&quot;','"')
+
+                sVer = ''
+                sPattern = '"version":"([^"]+)'
+                aResult = oParser.parse(sHtmlContent, sPattern)
+                if aResult[0]:
+                    for aEntry in (aResult[1]):
+                        sVer = aEntry
+
+                s = requests.Session()            
+                headers = {'Referer':sHosterUrl,
+                                'Sec-Fetch-Mode':'cors',
+                                'X-Inertia':'true',
+                                'X-Inertia-Partial-Component':'web/files/mirror/video',
+                                'X-Inertia-Partial-Data':'streams',
+                                'X-Inertia-Version':sVer}
+                    
+                r = s.get(sHosterUrl, headers=headers).json()
+                for key in r['props']['streams']['data']:
+                    sQual = key['label']
+                    for sLink in key['mirrors']:
+                        sHosterUrl = sLink['link']
+                        if sHosterUrl.startswith('//'):
+                            sHosterUrl = 'http:' + sHosterUrl
+
+                        sDisplayTitle = ('%s [COLOR coral] [%s] [/COLOR]') % (sMovieTitle, sQual)                           
+                        oHoster = cHosterGui().checkHoster(sHosterUrl)
+                        if oHoster != False:
+                            oHoster.setDisplayName(sDisplayTitle)
+                            oHoster.setFileName(sMovieTitle)
+                            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster != False:
                oHoster.setDisplayName(sMovieTitle)
@@ -325,6 +359,8 @@ def showHosters(oInputParameterHandler = False):
                url = 'http:' + url
             if 'streamnoads.' in url:
                 url = url.replace('streamnoads.','streamnoads.com')
+            if 'megamax' in url:
+                continue
 
             sHosterUrl = url
             oHoster = cHosterGui().checkHoster(sHosterUrl)

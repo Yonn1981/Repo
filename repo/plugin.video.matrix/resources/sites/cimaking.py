@@ -20,7 +20,7 @@ URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 UA = 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1'
 
-MOVIE_EN = (URL_MAIN + '/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D8%AC%D9%86%D8%A8%D9%89/page/0/', 'showMovies')
+MOVIE_EN = (URL_MAIN + '/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D8%AC%D9%86%D8%A8%D9%89/', 'showMovies')
 MOVIE_HI = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%87%d9%86%d8%af%d9%89/', 'showMovies')
 KID_MOVIES = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%83%d8%a7%d8%b1%d8%aa%d9%88%d9%86/', 'showMovies')
 
@@ -102,8 +102,20 @@ def showMovies(sSearch = ''):
         sUrl = oInputParameterHandler.getValue('siteUrl')
 
     oParser = cParser()
+    Offset = oInputParameterHandler.getValue('Offset')
+    sCat = oInputParameterHandler.getValue('sCat')
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    
+    if Offset is False:
+        Offset = 1
+
+    if sCat:
+        s = requests.Session() 
+        headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0' }
+        data = {'filter':sCat, 'offset':str(Offset), 'action':'MoreTab'}
+        r = s.post(URL_MAIN+'wp-admin/admin-ajax.php',data=data,headers=headers)
+        sHtmlContent = r.content.decode('utf8')
 
     sPattern = '<div class="BlockItem"><a href="([^<]+)">.+?data-src="([^"]+)".+?<h2>(.+?)</h2>'
     aResult = oParser.parse(sHtmlContent, sPattern)	
@@ -118,7 +130,7 @@ def showMovies(sSearch = ''):
             if 'مسلسل' in aEntry[2] or 'موسم' in aEntry[2]:
                continue
 
-            sTitle = aEntry[2].replace("تحميل و فيلم","").replace("تحميل ومشاهدة","").replace("ومشاهدة","").replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[arabic]").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("بجودة عالية","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","").replace("للعربية","").replace("وتحميل","").replace("مباشر","").replace("تحميل","").replace("الاجنبى","").replace("ال ","").replace("الاجنبي","").replace("الغموض والدراما","").replace("التشويق والحركة","").replace("الدراما","").replace("بجودة","").replace("الحركة والمخيف","")
+            sTitle = aEntry[2].split("فيلم ")[1].replace("تحميل و فيلم","").replace("تحميل ومشاهدة","").replace("ومشاهدة","").replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[arabic]").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("بجودة عالية","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","").replace("للعربية","").replace("وتحميل","").replace("مباشر","").replace("تحميل","").replace("الاجنبى","").replace("ال ","").replace("الاجنبي","").replace("الغموض والدراما","").replace("التشويق والحركة","").replace("الدراما","").replace("بجودة","").replace("الحركة والمخيف","")
             siteUrl = aEntry[0]
             sThumb = aEntry[1]
             sDesc = ''
@@ -139,10 +151,15 @@ def showMovies(sSearch = ''):
         progress_.VSclose(progress_)
  
         sNextPage = __checkForNextPage(sHtmlContent)
-        if sNextPage:
+        if sNextPage or sNextPage is False:
+            Offset = int(Offset) + 1
             oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+            oOutputParameterHandler.addParameter('siteUrl', sUrl)
+            oOutputParameterHandler.addParameter('Offset', Offset)
+            oOutputParameterHandler.addParameter('sCat', sNextPage)
+            if sNextPage is False:
+                oOutputParameterHandler.addParameter('sCat', sCat)
+            oGui.addDir(SITE_IDENTIFIER, 'showMovies', f'[COLOR teal]Next - Page({Offset}) >>>[/COLOR]', 'next.png', oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
@@ -160,8 +177,20 @@ def showSeries(sSearch = ''):
         sUrl = oInputParameterHandler.getValue('siteUrl')
 
     oParser = cParser()
+    Offset = oInputParameterHandler.getValue('Offset')
+    sCat = oInputParameterHandler.getValue('sCat')
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    
+    if Offset is False:
+        Offset = 1
+
+    if sCat:
+        s = requests.Session() 
+        headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0' }
+        data = {'filter':sCat, 'offset':str(Offset), 'action':'MoreTab'}
+        r = s.post(URL_MAIN+'wp-admin/admin-ajax.php',data=data,headers=headers)
+        sHtmlContent = r.content.decode('utf8')
 
     sPattern = '<div class="BlockItem"><a href="([^<]+)">.+?data-src="([^"]+)".+?<h2>(.+?)</h2>'
     aResult = oParser.parse(sHtmlContent, sPattern)	
@@ -176,7 +205,7 @@ def showSeries(sSearch = ''):
             if 'فيلم' in aEntry[2] :
                continue
              
-            sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("مسلسل","").replace("Web-dl","").replace("بجودة","").replace("اونلاين","").replace("بجوده","").replace("كامل","").replace("والأخيره","").replace("و الأخيرة","").replace("والأخيرة","").replace("والاخيرة","").replace("Full Episodes","").replace("وتحميل","").replace("شاهد","")
+            sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("مسلسل","").replace("Web-dl","").replace("بجودة","").replace("اونلاين","").replace("بجوده","").replace("كامل","").replace("والأخيره","").replace("و الأخيرة","").replace("والأخيرة","").replace("والاخيرة","").replace("Full Episodes","").replace("وتحميل","").replace("شاهد","").strip()
             siteUrl = aEntry[0]
             sThumb = aEntry[1]
             sTitle = sTitle.split('جميع حلقات :')[-1].replace("الموسم","S").replace("موسم","S").replace("S "," S")
@@ -195,10 +224,15 @@ def showSeries(sSearch = ''):
         progress_.VSclose(progress_)
   
         sNextPage = __checkForNextPage(sHtmlContent)
-        if sNextPage:
+        if sNextPage or sNextPage is False:
+            Offset = int(Offset) + 1
             oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+            oOutputParameterHandler.addParameter('siteUrl', sUrl)
+            oOutputParameterHandler.addParameter('Offset', Offset)
+            oOutputParameterHandler.addParameter('sCat', sNextPage)
+            if sNextPage is False:
+                oOutputParameterHandler.addParameter('sCat', sCat)
+            oGui.addDir(SITE_IDENTIFIER, 'showSeries', f'[COLOR teal]Next - Page({Offset}) >>>[/COLOR]', 'next.png', oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
@@ -320,7 +354,6 @@ def showServer(oInputParameterHandler = False):
         
             url = aEntry
             url = url.replace("moshahda","ffsff")
-            sTitle = " "
             sThumb = sThumb
             if url.startswith('//'):
                 url = 'http:' + url
@@ -335,7 +368,7 @@ def showServer(oInputParameterHandler = False):
                  
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
-                sDisplayTitle = sTitle
+                sDisplayTitle = sMovieTitle
                 oHoster.setDisplayName(sDisplayTitle)
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
@@ -368,7 +401,6 @@ def showServer(oInputParameterHandler = False):
                 for aEntry in aResult[1]:
             
                     url = aEntry
-                    sTitle = " "
                     if url.startswith('//'):
                        url = 'http:' + url
             
@@ -389,7 +421,7 @@ def showServer(oInputParameterHandler = False):
 
                     oHoster = cHosterGui().checkHoster(sHosterUrl)
                     if oHoster:
-                       sDisplayTitle = sTitle
+                       sDisplayTitle = sMovieTitle
                        oHoster.setDisplayName(sDisplayTitle)
                        oHoster.setFileName(sMovieTitle)
                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)       
@@ -398,25 +430,11 @@ def showServer(oInputParameterHandler = False):
 
 def __checkForNextPage(sHtmlContent):
     oParser = cParser()
-    sPattern = '<link rel="canonical" href="([^"]+)'
+    sPattern = '<div class="BTNMores" data-filter="([^"]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
         for aEntry in aResult[1]:
-            sLink = aEntry.split('/page')[0]
-            sPage = aEntry.split('/page/')[-1].replace('/','')
-            sNext = '2'
-            if '2' in sPage:
-                        sNext = '3'
-            if '3' in sPage:
-                        sNext = '4'
-            if '4' in sPage:
-                        sNext = '5'
-            if '5' in sPage:
-                        sNext = '6'
-            if '6' in sPage:
-                        sNext = '7'
-
-            NewLink = sLink+'/page/'+sNext+'/'
-        return NewLink
+            nCat = aEntry
+            return nCat
 
     return False

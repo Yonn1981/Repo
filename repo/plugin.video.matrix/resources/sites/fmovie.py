@@ -511,51 +511,23 @@ def showHosters():
 
         sHosterUrl = unquote(url)
         SubTitle = ""
-        if ('mcloud' in sHosterUrl) or ('vidstream' in sHosterUrl) or ('vidplay' in sHosterUrl):
-            if ('sub.info' in sHosterUrl):
-                SubTitle = sHosterUrl.split('sub.info=')[1]
-                sHosterUrl = sHosterUrl.split('&sub.info')[0]
+
+        if ('sub.info' in sHosterUrl):
+            SubTitle = sHosterUrl.split('sub.info=')[1]
+            sHosterUrl = sHosterUrl.split('&sub.info')[0]
+        oHoster = cHosterGui().checkHoster(sHosterUrl)
+        if oHoster:
+            if ('http' in SubTitle):
+                sHosterUrl = sHosterUrl+'?sub.info='+SubTitle
             else:
-                SubTitle = ""
                 sHosterUrl = sHosterUrl
-                                    
-            if ('vidstream' in sHosterUrl) or ('vidplay' in sHosterUrl):
-                action = "rawVizcloud"
+            if nTitle:
+                sDisplayTitle = nTitle+' '+sMovieTitle
             else:
-                action = "rawMcloud"
-            sHosterUrl1 = vrf_function2(sHosterUrl, action)
-
-            if 'm3u8' in sHosterUrl1:
-                oHoster = cHosterGui().getHoster('mcloud') 
-            else:
-                oHoster = cHosterGui().checkHoster(sHosterUrl1)
-            if oHoster:
                 sDisplayTitle = sMovieTitle
-                if ('http' in SubTitle):
-                    sHosterUrl1 = sHosterUrl1+'?sub.info='+SubTitle
-                else:
-                    sHosterUrl1 = sHosterUrl1
-                oHoster.setDisplayName(sDisplayTitle)
-                oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl1, sThumb, oInputParameterHandler=oInputParameterHandler)
-
-        else:
-            if ('sub.info' in sHosterUrl):
-                SubTitle = sHosterUrl.split('sub.info=')[1]
-                sHosterUrl = sHosterUrl.split('&sub.info')[0]
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if oHoster:
-                if ('http' in SubTitle):
-                    sHosterUrl = sHosterUrl+'?sub.info='+SubTitle
-                else:
-                    sHosterUrl = sHosterUrl
-                if nTitle:
-                    sDisplayTitle = nTitle+' '+sMovieTitle
-                else:
-                    sDisplayTitle = sMovieTitle
-                oHoster.setDisplayName(sDisplayTitle)
-                oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+            oHoster.setDisplayName(sDisplayTitle)
+            oHoster.setFileName(sMovieTitle)
+            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
 
     oGui.setEndOfDirectory()
