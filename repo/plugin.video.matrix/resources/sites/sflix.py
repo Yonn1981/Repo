@@ -149,8 +149,14 @@ def showHome():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
+    sStart = '>Trending</h2>'
+    sEnd = '</section>'
+    sHtmlContent0 = oParser.abParse(sHtmlContent, sStart, sEnd)
+
+    oGui.addText(SITE_IDENTIFIER, u'\u2193' + 'Trending', 'pop.png')
+
     sPattern = '<div class="film-poster">.+?<img data-src="([^"]+)".+?<a href="([^"]+)".+?title="([^"]+)'
-    aResult = oParser.parse(sHtmlContent, sPattern)
+    aResult = oParser.parse(sHtmlContent0, sPattern)
     if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -179,7 +185,75 @@ def showHome():
                 oGui.addTV(SITE_IDENTIFIER, 'showLinks', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
- 
+
+    sStart = '>Latest Movies</h2>'
+    sEnd = '</section>'
+    sHtmlContent0 = oParser.abParse(sHtmlContent, sStart, sEnd)
+
+    oGui.addText(SITE_IDENTIFIER, u'\u2193' + 'Latest Movies', 'film.png')
+
+    sPattern = '<div class="film-poster">.+?<img data-src="([^"]+)".+?<a href="([^"]+)".+?title="([^"]+)'
+    aResult = oParser.parse(sHtmlContent0, sPattern)
+    if aResult[0]:
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        oOutputParameterHandler = cOutputParameterHandler()    
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+            
+            sTitle = aEntry[2]
+            siteUrl = URL_MAIN+aEntry[1]
+            siteUrl = siteUrl.replace('movie','watch-movie')
+            sThumb = aEntry[0]
+            sDesc = ''
+            sYear = ''
+
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
+            oOutputParameterHandler.addParameter('sYear', sYear)
+            oOutputParameterHandler.addParameter('sDesc', sDesc)
+
+            oGui.addTV(SITE_IDENTIFIER, 'showLinks', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+
+        progress_.VSclose(progress_)
+
+    sStart = '>Latest TV Shows</h2>'
+    sEnd = '</section>'
+    sHtmlContent0 = oParser.abParse(sHtmlContent, sStart, sEnd)
+
+    oGui.addText(SITE_IDENTIFIER, u'\u2193' + 'Latest TV Shows', 'mslsl.png')
+
+    sPattern = '<div class="film-poster">.+?<img data-src="([^"]+)".+?<a href="([^"]+)".+?title="([^"]+)'
+    aResult = oParser.parse(sHtmlContent0, sPattern)
+    if aResult[0]:
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        oOutputParameterHandler = cOutputParameterHandler()    
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+            
+            sTitle = aEntry[2]
+            siteUrl = URL_MAIN+aEntry[1]
+            siteUrl = siteUrl.replace('movie','watch-movie')
+            sThumb = aEntry[0]
+            sDesc = ''
+            sYear = ''
+
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
+            oOutputParameterHandler.addParameter('sYear', sYear)
+            oOutputParameterHandler.addParameter('sDesc', sDesc)
+
+            oGui.addTV(SITE_IDENTIFIER, 'showSeasons', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+
+        progress_.VSclose(progress_)
+
         oGui.setEndOfDirectory()  
 
 def showMovies(sSearch = ''):
@@ -313,8 +387,8 @@ def showSeasons():
             if aResult[0]:
                 oOutputParameterHandler = cOutputParameterHandler()    
                 for aEntry in aResult[1]:
-
-                    sTitle = sMovieTitle+aEntry[2]
+                    sSeason = aEntry[2].replace('Season ','S')
+                    sTitle = f'{sMovieTitle} {sSeason}'
                     siteUrl = URL_MAIN+'/ajax/v2/season/episodes/'+aEntry[0]
                     sThumb = sThumb
                     sDesc = ''

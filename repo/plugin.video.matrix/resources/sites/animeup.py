@@ -2,6 +2,7 @@
 # zombi https://github.com/zombiB/zombi-addons/
 
 import re
+import requests
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -249,17 +250,54 @@ def showHosters(oInputParameterHandler = False):
     aResult1 = re.findall(sPattern, sHtmlContent)
     aResult = aResult1 	
     if aResult:
+        oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult:
             
             url = aEntry[0].replace('/d','/f')
             sTitle = ('%s  [COLOR coral](%s)[/COLOR]') % (sMovieTitle, aEntry[1])
 
             sHosterUrl = url
-            if '?download_' in sHosterUrl:
-                sHosterUrl = sHosterUrl.replace("moshahda","ffsff")
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
-            if 'mystream' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+            if 'megamax' in sHosterUrl:
+                try:
+                    sHosterUrl = aEntry[0].replace('download','iframe')
+                    oRequestHandler = cRequestHandler(sHosterUrl)
+                    sHtmlContent1 = oRequestHandler.request()
+                    sHtmlContent1 = sHtmlContent1.replace('&quot;','"')
+
+                    sVer = ''
+                    sPattern = '"version":"([^"]+)'
+                    aResult = oParser.parse(sHtmlContent1, sPattern)
+                    if aResult[0]:
+                        for aEntry in (aResult[1]):
+                            sVer = aEntry
+
+                    s = requests.Session()            
+                    headers = {'Referer':sHosterUrl,
+                                'Sec-Fetch-Mode':'cors',
+                                'X-Inertia':'true',
+                                'X-Inertia-Partial-Component':'web/files/mirror/video',
+                                'X-Inertia-Partial-Data':'streams',
+                                'X-Inertia-Version':sVer}
+                 
+                    r = s.get(sHosterUrl, headers=headers).json()
+                    for key in r['props']['streams']['data']:
+                        sQual = key['label'].replace(' (source)','')
+                        for sLink in key['mirrors']:
+                            sHosterUrl = sLink['link']
+                            sLabel = sLink['driver'].capitalize()
+                            if sHosterUrl.startswith('//'):
+                                sHosterUrl = 'http:' + sHosterUrl
+
+                            sDisplayTitle = ('%s [COLOR coral] [%s][/COLOR][COLOR orange] - %s[/COLOR]') % (sMovieTitle, sQual, sLabel)      
+                            oOutputParameterHandler.addParameter('sHosterUrl', sHosterUrl)
+                            oOutputParameterHandler.addParameter('sQual', sQual)
+                            oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
+                            oOutputParameterHandler.addParameter('sThumb', sThumb)
+
+                            oGui.addLink(SITE_IDENTIFIER, 'showLinks', sDisplayTitle, sThumb, '', oOutputParameterHandler, oInputParameterHandler)
+
+                except:
+                    continue
 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
@@ -296,3 +334,21 @@ def showHosters(oInputParameterHandler = False):
                         cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
     oGui.setEndOfDirectory()	
+
+def showLinks():
+    oGui = cGui()
+
+    oInputParameterHandler = cInputParameterHandler()
+    sHosterUrl = oInputParameterHandler.getValue('sHosterUrl')
+    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
+    sQual = oInputParameterHandler.getValue('sQual')
+    sThumb = oInputParameterHandler.getValue('sThumb')
+
+    sDisplayTitle = ('%s [COLOR coral] [%s] [/COLOR]') % (sMovieTitle, sQual)   
+    oHoster = cHosterGui().checkHoster(sHosterUrl)
+    if oHoster != False:
+        oHoster.setDisplayName(sDisplayTitle)
+        oHoster.setFileName(sMovieTitle)
+        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+
+    oGui.setEndOfDirectory()

@@ -15,6 +15,7 @@ class cHoster(iHoster):
         return True
 
     def _getMediaLinkForGuest(self, autoPlay = False):
+        self._url = self._url.replace('embed-','')
         oRequest = cRequestHandler(self._url)
         sHtmlContent = oRequest.request()
         VSlog(self._url)

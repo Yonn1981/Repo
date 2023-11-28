@@ -7,11 +7,10 @@ from resources.hosters.hoster import iHoster
 
 UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101 Firefox/68.0'
 
-
 class cHoster(iHoster):
 
     def __init__(self):
-        iHoster.__init__(self, 'vidmoly', 'vidmoly')
+        iHoster.__init__(self, 'vidmoly', 'Vidmoly')
 
     def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
@@ -37,9 +36,7 @@ class cHoster(iHoster):
         if aResult[0]:
             api_call = aResult[1][0]
 
-
         if api_call:
-            return True, api_call +'|User-Agent=' + UA  + '&Referer=' + self._url
-        
+            return True, api_call +'|User-Agent=' + UA  + '&Referer=' + self._url       
 
         return False, False 

@@ -12,7 +12,7 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
-from resources.sites.fmovie import showSeasons, showEps, showLinks, showSeriesLinks, showHosters, vrf_function, vrf_function2
+from resources.sites.fmovie import showSeasons, showEps, showLinks, showSeriesLinks, showHosters
 
 SITE_IDENTIFIER = 'soap'
 SITE_NAME = 'Soap2day'
