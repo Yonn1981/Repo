@@ -11,7 +11,7 @@ from resources.lib.comaddon import VSlog
 class cHoster(iHoster):
 
     def __init__(self):
-        iHoster.__init__(self, 'arabveturk', 'arabveturk')
+        iHoster.__init__(self, 'arabveturk', 'Arabveturk')
 
     def isDownloadable(self):
         return True

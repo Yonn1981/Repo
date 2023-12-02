@@ -14,7 +14,7 @@ import xbmcgui
 class cHoster(iHoster):
 
     def __init__(self):
-        iHoster.__init__(self, 'extremenow', 'extremenow')
+        iHoster.__init__(self, 'extremenow', 'ExtremeNow')
 			
     def isDownloadable(self):
         return True

@@ -451,7 +451,7 @@ class cHosterGui:
         if ('kingfoot' in sHostName):
             return self.getHoster('lien_direct')
             
-        if ('vidbom' in sHostName) or ('vidbm' in sHostName) or ('vadbam' in sHostName) or ('vedbom' in sHostName) or ('vadbom' in sHostName) or ('vidbam' in sHostName) or ('vedbam' in sHostName) or ('viboom' in sHostName) or ('vid1bom' in sHostName) or ('viid2beem' in sHostName) or ('viid1boom' in sHostName) or ('ved2om' in sHostName) or ('vid2bom' in sHostName) or ('viidboom' in sHostName) or ('vig1bm' in sHostName) or ('v3db1oom' in sHostName) or ('ved1om' in sHostName) or ('vvid1om' in sHostName) or ('vigom' in sHostName) or ('ve1dp3m' in sHostName):
+        if ('vidbom' in sHostName) or ('vidbm' in sHostName) or ('vadbam' in sHostName) or ('vedbom' in sHostName) or ('vadbom' in sHostName) or ('vidbam' in sHostName) or ('vedbam' in sHostName) or ('viboom' in sHostName) or ('vid1bom' in sHostName) or ('viid2beem' in sHostName) or ('viid1boom' in sHostName) or ('ved2om' in sHostName) or ('vid2bom' in sHostName) or ('viidboom' in sHostName) or ('vig1bm' in sHostName) or ('v3db1oom' in sHostName) or ('ved1om' in sHostName) or ('vvid1om' in sHostName) or ('vigom' in sHostName) or ('ve1dp3m' in sHostName) or ('vdp1em' in sHostName):
             return self.getHoster('vidbom')
 				
         if ('mail.ru' in sHostName):
@@ -490,7 +490,7 @@ class cHosterGui:
         if ('workupload' in sHostName):
             return self.getHoster('workupload')
 
-        if ('upbaam' in sHostName) or ('upbam' in sHostName) or ('uppom' in sHostName) or ('uppboom' in sHostName) or ('uupbom' in sHostName) or ('upgobom' in sHostName) or ('upptobom' in sHostName) or ('up2b9om' in sHostName) or ('up1bom' in sHostName) or ('up3bom' in sHostName) or ('u1pb3m' in sHostName) or ('u2pbemm' in sHostName) or ('up1beem' in sHostName):
+        if ('upbaam' in sHostName) or ('upbam' in sHostName) or ('uppom' in sHostName) or ('uppboom' in sHostName) or ('uupbom' in sHostName) or ('upgobom' in sHostName) or ('upptobom' in sHostName) or ('up2b9om' in sHostName) or ('up1bom' in sHostName) or ('up3bom' in sHostName) or ('u1pb3m' in sHostName) or ('u2pbemm' in sHostName) or ('up1beem' in sHostName)  or ('bmbm.shop' in sHostName):
             return self.getHoster('uppom')
 
         if ('allviid' in sHostName) or ('all-vid' in sHostName):
@@ -544,7 +544,7 @@ class cHosterGui:
         if (('anavids' in sHostName) or ('anavidz' in sHostName)):
             return self.getHoster('anavids')
 
-        if ('guccihide' in sHostName) or ('streamhide' in sHostName) or ('fanakishtuna' in sHostName) or ('ahvsh' in sHostName) or ('animezd' in sHostName) or ('anime7u' in sHostName):
+        if ('guccihide' in sHostName) or ('streamhide' in sHostName) or ('fanakishtuna' in sHostName) or ('ahvsh' in sHostName) or ('animezd' in sHostName) or ('anime7u' in sHostName) or ('vidroba' in sHostName):
             return self.getHoster('streamhide')
 
         if (('anonfile' in sHostName) or ('govid.xyz' in sHostName) or ('file.bz' in sHostName) or ('myfile.is' in sHostName) or ('upload.st' in sHostName)):

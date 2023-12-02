@@ -236,11 +236,16 @@ def showHosters(oInputParameterHandler = False):
     oParser = cParser()    
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-         
+
+    sPattern =  '<link rel=["\']shortlink["\'] href=["\']([^"\']+)["\']' 
+    aResult = oParser.parse(sHtmlContent,sPattern)
+    if aResult[0]:
+        URL_MAIN = aResult[1][0]
+
     sPattern =  '<div class="skipAd">.+?href="(.+?)">' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0]:
-        m3url = aResult[1][0]
+        m3url = aResult[1][0].split('?url=')[1]
         oRequestHandler = cRequestHandler(m3url)
         oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
         oRequestHandler.addHeaderEntry('referer', URL_MAIN)
@@ -269,7 +274,7 @@ def showHosters(oInputParameterHandler = False):
             if 'Pro HD' in host:
                url =  'https://segavid.com/embed-'+url+'.html'
             if 'Red HD' in host:
-               url =  'https://sbbrisk.com/e/'+ url
+               url =  'https://embedwish.com/e/'+ url
             if 'online' in host:
                url =  'https://player.vimeo.com/video/'+url+'?title=0&byline=0'
             if 'youtube' in host:
