@@ -267,6 +267,11 @@
             "active": "True",
             "url": "https://iptv-org.github.io/"
         },
+        "gateanime": {
+            "label": "GateAnime",
+            "active": "True",
+            "url": "https://e.gateanime.com/"
+        },
         "geoarabic": {
             "label": "Geoarabic",
             "active": "True",
@@ -336,7 +341,7 @@
         "moviztime": {
             "label": "MovizTime",
             "active": "True",
-            "url": "https://movtime71.site/"
+            "url": "https://movtime72.site/"
         },
         "nabdhlb": {
             "label": "Nabd8lb",
@@ -356,7 +361,7 @@
         "qfilm": {
             "label": "QFilm",
             "active": "True",
-            "url": "https://h.qfilm.tv/"
+            "url": "https://go.qfilm.tv/"
         },
         "rotana": {
             "label": "Rotana",
@@ -377,7 +382,7 @@
             "label": "Shahid4u",
             "active": "True",
             "cloudflare": "True",
-            "url": "https://fileved.cam/"
+            "url": "https://shaa.cam/"
         },
         "shoffree": {
             "label": "Shoffree",

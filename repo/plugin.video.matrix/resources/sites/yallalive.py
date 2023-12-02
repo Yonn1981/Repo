@@ -98,7 +98,7 @@ def showHosters(oInputParameterHandler = False):
     sHtmlContent = St.get(sUrl,headers=hdr).content.decode('utf-8')        
 
     sPattern = 'href="(.+?)" target="search_iframe">(.+?)</a>'
-    aResult = oParser.parse(sHtmlContent, sPattern)    
+    aResult = oParser.parse(sHtmlContent, sPattern)   
     if aResult[0]:
         for aEntry in aResult[1]:
             sTitle = sMovieTitle+' '+aEntry[1]
@@ -129,29 +129,26 @@ def showHosters(oInputParameterHandler = False):
             if 'amazonaws.com'  in url:
                 sHosterUrl = url + '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" + '&Referer='+url
             if 'vimeo' in url:
-                sHosterUrl = sHosterUrl + "|Referer=" + sUrl
-            
+                sHosterUrl = url + "|Referer=" + sUrl
+
             if 'sharecast' in url:
                 Referer =  "https://sharecast.ws/"
                 sHosterUrl = Hoster_ShareCast(url, Referer)
-
-            if ".php" or ".html" in url:
-                oRequestHandler = cRequestHandler(url)
-                oRequestHandler.addHeaderEntry('Referer', sUrl)
-                data = oRequestHandler.request() 
-                sPattern = "source:\s*'(.+?)',"
-                aResult = oParser.parse(data, sPattern)
-                if aResult[0]:
-                    for aEntry in aResult[1]:
-                        sHosterUrl = aEntry
-            else:   
-                sHosterUrl = getHosterIframe(url, sUrl)   
 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
                 oHoster.setDisplayName(sTitle)
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+
+            else:   
+                sHosterUrl = getHosterIframe(url, sUrl)   
+
+                oHoster = cHosterGui().checkHoster(sHosterUrl)
+                if oHoster:
+                    oHoster.setDisplayName(sTitle)
+                    oHoster.setFileName(sMovieTitle)
+                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
     sPattern = "'link': u'(.+?)',"
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -217,7 +214,7 @@ def Hoster_ShareCast(url, referer):
     oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36 Edg/117.0.2045.60')
     oRequestHandler.addHeaderEntry('Referer', referer)
     sHtmlContent = oRequestHandler.request()
-    sPattern = "new Player\(.+?player\",\"([^\"]+)\",{'([^\']+)"
+    sPattern = 'new Player\(.+?player","([^"]+)",{"([^"]+)'
     aResult = re.findall(sPattern, sHtmlContent)
     if aResult:
         site = 'https://' + aResult[0][1]
@@ -282,6 +279,14 @@ def getHosterIframe(url, referer):
             if url:
                 return url + "|Referer=" + referer2 
 
+    sPattern = "onload=\"ThePlayerJS\('.+?',\s*'([^\']+)"
+    aResult = re.findall(sPattern, sHtmlContent)
+    if aResult:
+        url2 = 'https://catastrophicfailure.dev/player/' + aResult[0]
+        url2 = Hoster_ShareCast(url2, url)
+        if url2:
+            return url2
+
     sPattern = 'src=["\']([^"\']+)["\']'
     aResult = re.findall(sPattern, sHtmlContent)
 
@@ -320,14 +325,6 @@ def getHosterIframe(url, referer):
         oRequestHandler.request()
         sHosterUrl = oRequestHandler.getRealUrl()
         return True, sHosterUrl + '|referer=' + referer
-
-    sPattern = "onload=\"ThePlayerJS\('.+?','([^\']+)"
-    aResult = re.findall(sPattern, sHtmlContent)
-    if aResult:
-        url = 'https://sharecast.ws/player/' + aResult[0]
-        b, url = Hoster_ShareCast(url, referer)
-        if b:
-            return True, url
 
     sPattern = '[^/]source.+?["\'](https.+?)["\']'
     aResult = re.findall(sPattern, sHtmlContent)

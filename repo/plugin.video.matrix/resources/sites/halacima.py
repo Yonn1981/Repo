@@ -183,7 +183,7 @@ def showMovies(sSearch = ''):
             sTitle = aEntry[1].replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("مترجمة","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","").replace("كامله","").replace("بجودة عالية","").replace("كاملة","").replace("جودة عالية","").replace("كامل","").replace("اونلاين","").replace("اون لاين","").replace("انمي","")            
             sTitle = sTitle
             sThumb = aEntry[2]
-            siteUrl = aEntry[0]
+            siteUrl = aEntry[0].replace("/movies/","/watch_movies/")
             sDesc = ''
             sYear = ''
             m = re.search('([0-9]{4})', sTitle)
@@ -326,7 +326,7 @@ def showSerie(sSearch = ''):
                 break
  
             sTitle = aEntry[1].split('الحلقه')[0].split('الحلقة')[0].split('الموسم')[0].replace("مشاهدة","").replace("مسلسل","").replace("أنمي","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("مدبلج","") 
-            siteUrl = aEntry[0]
+            siteUrl = aEntry[0].replace("/episodes/","/watch_episodes/")
             sThumb = aEntry[2]
             sDesc = ""
 
@@ -420,7 +420,7 @@ def showSeason():
  
                 sTitle = sMovieTitle + ' E'+ aEntry[3]
                 sThumb = sThumb
-                siteUrl = aEntry[0]
+                siteUrl = aEntry[0].replace("/episodes/","/watch_episodes/")
                 sDesc = ""
 
                 oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -451,7 +451,7 @@ def showEps():
  
             sTitle = sMovieTitle + ' E'+ aEntry[3]
             sThumb = sThumb
-            siteUrl = aEntry[0]
+            siteUrl = aEntry[0].replace("/episodes/","/watch_episodes/")
             sDesc = ""
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -475,23 +475,20 @@ def showServers(oInputParameterHandler = False):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-    sPattern =  '<a rel="nofollow" href="([^"]+)' 
+    sPattern =  "baseUrl = '([^']+)" 
+    aResult = oParser.parse(sHtmlContent,sPattern)
+    if aResult[0]:
+        URL_MAIN = aResult[1][0] 
+
+    sPattern =  'postID = "([^"]+)' 
+    aResult = oParser.parse(sHtmlContent,sPattern)
+    if aResult[0]:
+        postID = aResult[1][0] 
+
+    sPattern =  'onclick="([^"]+)' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0]:
         for aEntry in aResult[1]:
-            sURL = aEntry
-            oRequestHandler = cRequestHandler(sURL)
-            sHtmlContent1 = oRequestHandler.request()
-
-            sPattern =  'postID = "([^"]+)' 
-            aResult = oParser.parse(sHtmlContent1,sPattern)
-            if aResult[0]:
-                postID = aResult[1][0] 
-
-            sPattern =  'onclick="([^"]+)' 
-            aResult = oParser.parse(sHtmlContent1,sPattern)
-            if aResult[0]:
-                for aEntry in aResult[1]:
                     sServer = aEntry.replace("getPlayer('","").replace("')","")
 
                     s = requests.Session()            
