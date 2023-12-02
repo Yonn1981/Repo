@@ -403,7 +403,6 @@ def showServer(oInputParameterHandler = False):
             sTitle = aEntry[1].replace('</i>',"")
             sTitle = ('%s  [COLOR coral]%s[/COLOR]') % (sMovieTitle, sTitle)
             url = url.replace("cimanow","rrsrr")
-            sThumb = sThumb
             if url.startswith('//'):
                 url = 'http:' + url
 				           
@@ -416,26 +415,6 @@ def showServer(oInputParameterHandler = False):
 
     sPattern = '<iframe src="([^"]+)" scrolling'
     aResult = oParser.parse(data, sPattern)	
-    if aResult[0]:
-        for aEntry in aResult[1]:
-            url = aEntry
-            sTitle = sMovieTitle
-            if url.startswith('//'):
-                url = 'http:' + url
-				
-            sHosterUrl = url 
-            if 'userload' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-            if 'mystream' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if oHoster:
-                oHoster.setDisplayName(sTitle)
-                oHoster.setFileName(sMovieTitle)
-            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
-
-    sPattern = '<a href="([^"]+)"><i class="fa fa-download">'
-    aResult = oParser.parse(data, sPattern)
     if aResult[0]:
         for aEntry in aResult[1]:
             url = aEntry
@@ -490,7 +469,27 @@ def showServer(oInputParameterHandler = False):
                         oHoster.setDisplayName(sMovieTitle)
                         oHoster.setFileName(sMovieTitle)
                         cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
-               
+
+    sPattern = '<a href="([^"]+)"><i class="fa fa-download">'
+    aResult = oParser.parse(data, sPattern)
+    if aResult[0]:
+        for aEntry in aResult[1]:
+            url = aEntry
+            if url.startswith('//'):
+                url = 'http:' + url
+				
+            sHosterUrl = url
+            if 'userload' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+            if 'mystream' in sHosterUrl:
+                        sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
+
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if oHoster:
+                oHoster.setDisplayName(sMovieTitle)
+                oHoster.setFileName(sMovieTitle)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+
     oGui.setEndOfDirectory()
 
 def decode_page(data):

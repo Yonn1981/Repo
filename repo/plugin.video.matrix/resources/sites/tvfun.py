@@ -360,6 +360,10 @@ def showEpisodes():
                 sTitle =  "PAGE " + sTitle
                 sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
                 siteUrl = aEntry[0]
+                if siteUrl.startswith('/'):
+                    siteUrl = URL_MAIN + siteUrl
+                if siteUrl.startswith('//'):
+                    siteUrl = 'http:' + siteUrl
                 sThumb = ""
                 sDesc = ""
 
