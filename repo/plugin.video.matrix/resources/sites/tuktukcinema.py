@@ -454,11 +454,12 @@ def showHosters(oInputParameterHandler = False):
     oRequestHandler.addHeaderEntry('Referer',sUrl.split('watch/')[0])
     sHtmlContent = oRequestHandler.request()
              
-    sPattern = 'data-link="([^"]+)'
+    sPattern = 'data-link="([^"]+)".+?<span>(.+?)</span>'
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
         for aEntry in aResult[1]:           
-            url = aEntry
+            url = aEntry[0]
+            sServer = aEntry[1].replace('Govid','govid.me')
             sTitle = " " 
             if url.startswith('//'):
                url = 'http:' + url
@@ -470,7 +471,7 @@ def showHosters(oInputParameterHandler = False):
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
             if 'mystream' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            oHoster = cHosterGui().checkHoster(sServer)
             if oHoster:
                 oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)

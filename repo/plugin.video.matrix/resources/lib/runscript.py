@@ -270,6 +270,23 @@ class cClear:
 
             return
 
+        # Updates Hosters
+        elif (env == 'updatehosters'):
+            addons = addon()
+            sUrl = 'https://raw.githubusercontent.com/Yonn1981/Repo/master/repo/plugin.video.matrix/resources/lib/gui/hoster.py'
+            file_path = VSPath('special://home/addons/plugin.video.matrix/resources/lib/gui/hoster.py')
+            if self.DIALOG.VSyesno(self.ADDON.VSlang(30456)):
+                oRequestHandler = cRequestHandler(sUrl)
+                sHosts = oRequestHandler.request()
+                if sHosts == "":
+                    return
+                with open(file_path, 'w') as f:
+                    f.write(sHosts)
+
+                self.DIALOG.VSinfo(self.ADDON.VSlang(70021))
+
+                return
+
         # aciver/désactiver les sources
         elif (env == 'search'):
 

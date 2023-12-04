@@ -687,12 +687,13 @@ def showHosters(oInputParameterHandler = False):
 			
             oGui.addMisc(SITE_IDENTIFIER, 'showMovies', sTitle, 'film.png', '', '', oOutputParameterHandler)
 
-    sPattern = 'data-url=["\']([^"\']+)["\']'
+    sPattern = 'data-url=["\']([^"\']+)["\'].+?<strong>(.+?)</strong>'
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
         for aEntry in aResult[1]:
             
-            sHosterUrl = aEntry
+            sHosterUrl = aEntry[0]
+            sServer = aEntry[1].replace('سيرفر ماي سيما','/run/').replace('GoViD','govid.me')
 
             if sHosterUrl.startswith('//'):
                 sHosterUrl = 'http:' + sHosterUrl
@@ -700,7 +701,7 @@ def showHosters(oInputParameterHandler = False):
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
             if 'mystream' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN   
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            oHoster = cHosterGui().checkHoster(sServer)
             if oHoster:
                 oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)

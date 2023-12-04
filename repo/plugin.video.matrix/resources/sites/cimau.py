@@ -575,7 +575,7 @@ def showLinks(oInputParameterHandler = False):
     if aResult[0]:
         for aEntry in aResult[1]:
             sPage = aEntry[0]
-            sTitle = 'server '+':'+ aEntry[1]
+            sServer = aEntry[1].replace(' OK ','ok.ru').replace(' Goovid ','govid.me')
             serverUrl = m4url + 'structure/server.php?id='+sPage
             sDesc = sDesc
 
@@ -598,7 +598,7 @@ def showLinks(oInputParameterHandler = False):
                         sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
                     if 'mystream' in sHosterUrl:
                         sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN                           
-                    oHoster = cHosterGui().checkHoster(sHosterUrl)
+                    oHoster = cHosterGui().checkHoster(sServer)
                     if oHoster:
                        oHoster.setDisplayName(sMovieTitle)
                        oHoster.setFileName(sMovieTitle)

@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 # vStream https://github.com/Kodi-vStream/venom-xbmc-addons
 
+from resources.lib.parser import cParser
 from resources.lib.handler.requestHandler import cRequestHandler
 import re
+import requests
 
 UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0'
 
@@ -69,6 +71,46 @@ class cJheberg:
 
         return self.list
 
+class cMegamax:
+    def __init__(self):
+        self.id = ''
+        self.list = []
+        
+    def GetUrls(self, url):
+        sHosterUrl = url.replace('download','iframe')
+        oRequestHandler = cRequestHandler(sHosterUrl)
+        sHtmlContent = oRequestHandler.request()
+        sHtmlContent = sHtmlContent.replace('&quot;','"')
+        oParser = cParser()
+        
+        sVer = ''
+        sPattern = '"version":"([^"]+)'
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        if aResult[0]:
+            for aEntry in (aResult[1]):
+                sVer = aEntry
+
+        s = requests.Session()            
+        headers = {'Referer':sHosterUrl,
+                                'Sec-Fetch-Mode':'cors',
+                                'X-Inertia':'true',
+                                'X-Inertia-Partial-Component':'web/files/mirror/video',
+                                'X-Inertia-Partial-Data':'streams',
+                                'X-Inertia-Version':sVer}
+
+        r = s.get(sHosterUrl, headers=headers).json()
+        
+        for key in r['props']['streams']['data']:
+            sQual = key['label'].replace(' (source)','')
+            for sLink in key['mirrors']:
+                sHosterUrl = sLink['link']
+                sLabel = sLink['driver'].capitalize()
+                if sHosterUrl.startswith('//'):
+                    sHosterUrl = 'https:' + sHosterUrl
+        
+                self.list.append(f'url={sHosterUrl}, qual={sQual}, label={sLabel}')
+                                 
+        return self.list 
 
 # modif cloudflare
 def GetHtml(url, postdata=None):

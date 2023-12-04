@@ -2,7 +2,6 @@
 # zombi https://github.com/zombiB/zombi-addons/
 
 import re
-import requests
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -10,6 +9,7 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
+from resources.lib.multihost import cMegamax
  
 SITE_IDENTIFIER = 'animeup'
 SITE_NAME = 'Anime4up'
@@ -247,61 +247,33 @@ def showHosters(oInputParameterHandler = False):
     sHtmlContent = oRequestHandler.request()
      
     sPattern = '<a href="(.+?)" target="_blank"><i class="fa fa-star"></i><span>(.+?)</span><span>(.+?)</span></a>' 
-    aResult1 = re.findall(sPattern, sHtmlContent)
-    aResult = aResult1 	
+    aResult = re.findall(sPattern, sHtmlContent)
     if aResult:
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult:
+            if 'leech' in aEntry[0]:
+                continue
             
-            url = aEntry[0].replace('/d','/f')
-            sTitle = ('%s  [COLOR coral](%s)[/COLOR]') % (sMovieTitle, aEntry[1])
-
+            url = aEntry[0].replace('/d/','/f/')
             sHosterUrl = url
             if 'megamax' in sHosterUrl:
-                try:
-                    sHosterUrl = aEntry[0].replace('download','iframe')
-                    oRequestHandler = cRequestHandler(sHosterUrl)
-                    sHtmlContent1 = oRequestHandler.request()
-                    sHtmlContent1 = sHtmlContent1.replace('&quot;','"')
+                data = cMegamax().GetUrls(sHosterUrl)
+                for item in data:
+                    sHosterUrl = item.split(',')[0].split('=')[1]
+                    sQual = item.split(',')[1].split('=')[1]
+                    sLabel = item.split(',')[2].split('=')[1]
 
-                    sVer = ''
-                    sPattern = '"version":"([^"]+)'
-                    aResult = oParser.parse(sHtmlContent1, sPattern)
-                    if aResult[0]:
-                        for aEntry in (aResult[1]):
-                            sVer = aEntry
+                    sDisplayTitle = ('%s [COLOR coral] [%s][/COLOR][COLOR orange] - %s[/COLOR]') % (sMovieTitle, sQual, sLabel)      
+                    oOutputParameterHandler.addParameter('sHosterUrl', sHosterUrl)
+                    oOutputParameterHandler.addParameter('sQual', sQual)
+                    oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
+                    oOutputParameterHandler.addParameter('sThumb', sThumb)
 
-                    s = requests.Session()            
-                    headers = {'Referer':sHosterUrl,
-                                'Sec-Fetch-Mode':'cors',
-                                'X-Inertia':'true',
-                                'X-Inertia-Partial-Component':'web/files/mirror/video',
-                                'X-Inertia-Partial-Data':'streams',
-                                'X-Inertia-Version':sVer}
-                 
-                    r = s.get(sHosterUrl, headers=headers).json()
-                    for key in r['props']['streams']['data']:
-                        sQual = key['label'].replace(' (source)','')
-                        for sLink in key['mirrors']:
-                            sHosterUrl = sLink['link']
-                            sLabel = sLink['driver'].capitalize()
-                            if sHosterUrl.startswith('//'):
-                                sHosterUrl = 'http:' + sHosterUrl
-
-                            sDisplayTitle = ('%s [COLOR coral] [%s][/COLOR][COLOR orange] - %s[/COLOR]') % (sMovieTitle, sQual, sLabel)      
-                            oOutputParameterHandler.addParameter('sHosterUrl', sHosterUrl)
-                            oOutputParameterHandler.addParameter('sQual', sQual)
-                            oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
-                            oOutputParameterHandler.addParameter('sThumb', sThumb)
-
-                            oGui.addLink(SITE_IDENTIFIER, 'showLinks', sDisplayTitle, sThumb, '', oOutputParameterHandler, oInputParameterHandler)
-
-                except:
-                    continue
+                    oGui.addLink(SITE_IDENTIFIER, 'showLinks', sDisplayTitle, sThumb, '', oOutputParameterHandler, oInputParameterHandler)
 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
-                oHoster.setDisplayName(sTitle)
+                oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
@@ -316,19 +288,20 @@ def showHosters(oInputParameterHandler = False):
             sQual = aEntry[0].replace("الجودة المتوسطة","").replace("الجودة العالية","").replace("الجودة الخارقة","").strip()
             sHtmlContent = aEntry[1]
 
-            sPattern = 'href="(.+?)">(.+?)</a>'
+            sPattern = 'href="([^"]+)'
             aResult = oParser.parse(sHtmlContent, sPattern)
             if aResult[0] :
-                for aEntry in aResult[1]:            
-                    url = aEntry[0]
-                    sTitle = aEntry[1]
+                for aEntry in aResult[1]:   
+                    if 'mega.nz' in aEntry:
+                        continue         
+                    url = aEntry
                     if url.startswith('//'):
                         url = 'http:' + url
 
                     sHosterUrl = url
+                    sDisplayTitle = ('%s [COLOR coral] [%s] [/COLOR]') % (sMovieTitle, sQual) 
                     oHoster = cHosterGui().checkHoster(sHosterUrl)
-                    if oHoster:
-                        sDisplayTitle = ('[COLOR coral](%s)[/COLOR]') % (sQual)
+                    if oHoster:  
                         oHoster.setDisplayName(sDisplayTitle)
                         oHoster.setFileName(sMovieTitle)
                         cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)

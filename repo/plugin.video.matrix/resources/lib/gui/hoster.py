@@ -260,7 +260,7 @@ class cHosterGui:
             #mise a jour du nom
             f.setRealHost(sHostName)
             return f
-        if ('streamwish' in sHostName) or ('khadhnayad' in sHostName) or ('ajmidyad' in sHostName) or ('yadmalik' in sHostName) or ('kharabnah' in sHostName) or ('hayaatieadhab' in sHostName) or ('sfastwish' in sHostName) or ('eghjrutf' in sHostName) or ('eghzrutw' in sHostName) or ('wishfast' in sHostName) or ('fviplions' in sHostName) or ('egtpgrvh' in sHostName) or ('mdy48tn97' in sHostName) or ('embedwish' in sHostName) or ('fsdcmo.sbs'in sHostName) or ('anime4low' in sHostName) or ('cdnwish-down' in sHostName) or ('heavenlyvideo' in sHostName):
+        if ('streamwish' in sHostName) or ('khadhnayad' in sHostName) or ('ajmidyad' in sHostName) or ('yadmalik' in sHostName) or ('kharabnah' in sHostName) or ('hayaatieadhab' in sHostName) or ('sfastwish' in sHostName) or ('eghjrutf' in sHostName) or ('eghzrutw' in sHostName) or ('wishfast' in sHostName) or ('fviplions' in sHostName) or ('egtpgrvh' in sHostName) or ('mdy48tn97' in sHostName) or ('embedwish' in sHostName) or ('fsdcmo.sbs'in sHostName) or ('anime4low' in sHostName) or ('cdnwish-down' in sHostName) or ('heavenlyvideo' in sHostName) or ('flaswish' in sHostName):
             return self.getHoster('streamwish')
         if ('upstream' in sHosterUrl):
             return self.getHoster('upstream')

@@ -10,6 +10,7 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
+from resources.lib.multihost import cMegamax
 import re
 import requests
 
@@ -369,20 +370,56 @@ def showHosters(oInputParameterHandler = False):
 
         sPattern = 'data-src=["\']([^"\']+)["\']'
         aResult = oParser.parse(sHtmlContent, sPattern)
+        itemList = []
         if aResult[0]:
+           oOutputParameterHandler = cOutputParameterHandler()
            for aEntry in (aResult[1]):
-      
-                url = aEntry
-                sThumb = ''
-                if url.startswith('//'):
-                  url = 'http:' + url
+     
+                sHosterUrl = aEntry
+                if sHosterUrl not in itemList:
+                    itemList.append(sHosterUrl)
 
-                sHosterUrl = url
-  
-                oHoster = cHosterGui().checkHoster(sHosterUrl)
-                if oHoster != False:
-                    oHoster.setDisplayName(sMovieTitle)
-                    oHoster.setFileName(sMovieTitle)
-                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                    if 'leech' in aEntry:
+                        continue
+                    if sHosterUrl.startswith('//'):
+                        sHosterUrl = 'http:' + sHosterUrl
+                    if 'megamax' in sHosterUrl:
+                        data = cMegamax().GetUrls(sHosterUrl)
+                        for item in data:
+                            sHosterUrl = item.split(',')[0].split('=')[1]
+                            sQual = item.split(',')[1].split('=')[1]
+                            sLabel = item.split(',')[2].split('=')[1]
+
+                            sDisplayTitle = ('%s [COLOR coral] [%s][/COLOR][COLOR orange] - %s[/COLOR]') % (sMovieTitle, sQual, sLabel)      
+                            oOutputParameterHandler.addParameter('sHosterUrl', sHosterUrl)
+                            oOutputParameterHandler.addParameter('sQual', sQual)
+                            oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
+                            oOutputParameterHandler.addParameter('sThumb', sThumb)
+
+                            oGui.addLink(SITE_IDENTIFIER, 'showLinks', sDisplayTitle, sThumb, '', oOutputParameterHandler, oInputParameterHandler)
+ 
+                    oHoster = cHosterGui().checkHoster(sHosterUrl)
+                    if oHoster != False:
+                        oHoster.setDisplayName(sMovieTitle)
+                        oHoster.setFileName(sMovieTitle)
+                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+
+    oGui.setEndOfDirectory()
+
+def showLinks():
+    oGui = cGui()
+
+    oInputParameterHandler = cInputParameterHandler()
+    sHosterUrl = oInputParameterHandler.getValue('sHosterUrl')
+    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
+    sQual = oInputParameterHandler.getValue('sQual')
+    sThumb = oInputParameterHandler.getValue('sThumb')
+
+    sDisplayTitle = ('%s [COLOR coral] [%s] [/COLOR]') % (sMovieTitle, sQual)   
+    oHoster = cHosterGui().checkHoster(sHosterUrl)
+    if oHoster != False:
+        oHoster.setDisplayName(sDisplayTitle)
+        oHoster.setFileName(sMovieTitle)
+        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
     oGui.setEndOfDirectory()

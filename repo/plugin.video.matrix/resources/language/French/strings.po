@@ -1405,3 +1405,11 @@ msgstr "Langue des chaînes de télévision en direct"
 msgctxt "#70019"
 msgid "Update Sites Links"
 msgstr "Update Sites Links"
+
+msgctxt "#70020"
+msgid "Update Hosters"
+msgstr "Mettre à jour les hébergeurs"
+
+msgctxt "#70021"
+msgid "Update complete.. In case of error, update Matrix from repository"
+msgstr "Mise à jour terminée.. En cas d'erreur, mettez à jour Matrix depuis le référentiel"
