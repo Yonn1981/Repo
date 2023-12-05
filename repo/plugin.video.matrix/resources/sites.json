@@ -59,7 +59,7 @@
         "animezid": {
             "label": "Animezid",
             "active": "True",
-            "url": "https://eg.animezid.lol/"
+            "url": "https://ar.animezid.lol/"
         },
         "arabsciences": {
             "label": "Arabsciences",
@@ -174,7 +174,7 @@
         "cimau": {
             "label": "Cima4u",
             "active": "True",
-            "url": "https://cima4u-ngn.shop/"
+            "url": "https://cimaa-l47.shop/"
         },
         "cinemana": {
             "label": "Cinemana",
@@ -185,7 +185,7 @@
             "label": "Cinematy",
             "active": "True",
             "cloudflare": "False",
-            "url": "https://r1.cinematy.online/"
+            "url": "https://r3.cinematy.online/"
         },
         "daily": {
             "label": "Daily IPTV List",
@@ -210,7 +210,7 @@
         "dramacafe": {
             "label": "Dramacafe",
             "active": "True",
-            "url": "https://w15.dramacafe-tv.com/"
+            "url": "https://vvw.dramacafe-tv.com/"
         },
         "egybest": {
             "label": "EgyBest",
@@ -315,7 +315,7 @@
         "koralive": {
             "label": "Koralive",
             "active": "True",
-            "url": "https://pro.360kora-live.com/",
+            "url": "https://hd.360kora-live.com/",
             "url2": "https://1koora.alkoora-live.live/"
         },
         "laroza": {
@@ -447,7 +447,7 @@
         "tvnine": {
             "label": "Tv96",
             "active": "True",
-            "url": "https://tv.s96.net/"
+            "url": "https://www.s96.net/"
         },
         "watanflix": {
             "label": "Watanflix",
