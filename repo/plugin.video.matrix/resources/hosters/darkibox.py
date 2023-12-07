@@ -6,7 +6,7 @@
 from resources.hosters.hoster import iHoster
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
-
+from resources.lib.comaddon import VSlog
 
 class cHoster(iHoster):
 
@@ -20,6 +20,14 @@ class cHoster(iHoster):
         self._url = str(url)
 
     def _getMediaLinkForGuest(self, api_call=None, autoPlay = False):
+
+        oParser = cParser()
+        oRequest = cRequestHandler(self._url)
+        sHtmlContent = oRequest.request()
+        sPattern = 'sources: *\[{src: "([^"]+)"'#, *type: "video/mp4"'
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        if aResult[0] is True:
+            api_call = aResult[1][0]
 
         file_code = self._url.split('/')[-1].split('.')[0]
 
@@ -36,7 +44,6 @@ class cHoster(iHoster):
         oParser = cParser()
         sPattern = 'sources: *\[{src: "([^"]+)"'#, *type: "video/mp4"'
         aResult = oParser.parse(sHtmlContent, sPattern)
-
         if aResult[0] is True:
             api_call = aResult[1][0]
 

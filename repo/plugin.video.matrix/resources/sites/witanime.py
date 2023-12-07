@@ -312,7 +312,7 @@ def showHosters(oInputParameterHandler = False):
                             sHosterUrl = url
                             oHoster = cHosterGui().checkHoster(sHosterUrl)
                             if oHoster:
-                                sDisplayTitle = ('[COLOR coral] Yonaplay (%s)[/COLOR]') % (sQual)
+                                sDisplayTitle = ('%s) [COLOR coral] Yonaplay (%s)[/COLOR]') % (sMovieTitle, sQual)
                                 oHoster.setDisplayName(sDisplayTitle)
                                 oHoster.setFileName(sMovieTitle)
                                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)                 
@@ -320,7 +320,7 @@ def showHosters(oInputParameterHandler = False):
             sHosterUrl = url
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
-               sDisplayTitle = ('[COLOR coral](%s)[/COLOR]') % (sTitle)
+               sDisplayTitle = ('%s [COLOR coral](%s)[/COLOR]') % (sMovieTitle, sTitle)
                oHoster.setDisplayName(sDisplayTitle)
                oHoster.setFileName(sMovieTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
@@ -350,7 +350,7 @@ def showHosters(oInputParameterHandler = False):
                     sHosterUrl = url
                     oHoster = cHosterGui().checkHoster(sHosterUrl)
                     if oHoster:
-                        sDisplayTitle = ('[COLOR coral](%s)[/COLOR]') % (sQual)
+                        sDisplayTitle = ('%s [COLOR coral](%s)[/COLOR]') % (sMovieTitle, sQual)
                         oHoster.setDisplayName(sDisplayTitle)
                         oHoster.setFileName(sMovieTitle)
                         cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)	

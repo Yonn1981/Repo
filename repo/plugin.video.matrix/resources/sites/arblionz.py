@@ -441,10 +441,11 @@ def showHosters(oInputParameterHandler = False):
     oRequestHandler.addHeaderEntry('origin', "arlionztv.click")
     sHtmlContent = oRequestHandler.request()
 
-    sPattern = '<li data-i="([^<]+)" data-id="([^<]+)" class'
+    sPattern = '<li data-i="([^<]+)" data-id="([^<]+)" class.+?<em>(.+?)</em>'
     aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
         for aEntry in aResult[1]:
+            sServer = aEntry[2].replace('Goved','govid.me').replace('OK','ok.ru')
             link = URL_MAIN + '/Embedder/'+aEntry[1]+'/'+aEntry[0]
             oRequestHandler = cRequestHandler(link)
             cook = oRequestHandler.GetCookies()
@@ -468,7 +469,7 @@ def showHosters(oInputParameterHandler = False):
                    if 'mystream' in sHosterUrl:
                        sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
 
-                   oHoster = cHosterGui().checkHoster(sHosterUrl)
+                   oHoster = cHosterGui().checkHoster(sServer)
                    if oHoster:
                        oHoster.setDisplayName(sMovieTitle)
                        oHoster.setFileName(sMovieTitle)

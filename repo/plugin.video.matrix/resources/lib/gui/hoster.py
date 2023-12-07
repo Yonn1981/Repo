@@ -215,7 +215,7 @@ class cHosterGui:
                 
         supported_player = ['film77', 'hdup', 'streamable', 'stardima', 'filescdn', 'vidgot', 'videott', 'vidlo', 'sendit', 'thevid', 'vidmoly', 'fastplay', 'cloudy', 'hibridvod', 'arabveturk', 'extremenow', 'yourupload', 'vidspeeds', 'moshahda', 'voe', 'faselhd', 'streamz', 'streamax', 'gounlimited', 'xdrive', 'facebook', 'mixdrop', 'mixloads', 'vidoza',
                             'rutube', 'megawatch', 'vidzi', 'filetrip', 'uptostream', 'speedvid', 'letsupload', 'krakenfiles',
-                            'onevideo', 'playreplay', 'prostream', 'vidfast', 'uqload', 'letwatch', 'wishfast',
+                            'onevideo', 'playreplay', 'prostream', 'vidfast', 'uqload', 'letwatch', 'wishfast', 'mp4upload',
                             'filepup', 'vimple', 'wstream', 'watchvideo', 'vidwatch', 'up2stream', 'tune', 'playtube',
                             'vidup', 'vidbull', 'vidlox', '33player' 'easyload', 'ninjastream', 'cloudhost',
                             'videobin', 'stagevu', 'gorillavid', 'daclips', 'hdvid', 'vshare', 'vidload',
@@ -224,7 +224,7 @@ class cHosterGui:
                             'pdj', 'rapidstream', 'jetload', 'dustreaming', 'viki', 'flix555', 'onlystream',
                             'upstream', 'pstream', 'vudeo', 'vidia', 'vidbem', 'uptobox', 'uplea', 'vido', 'streamhub',
                             'sibnet', 'vidplayer', 'userload', 'aparat', 'evoload', 'vidshar', 'abcvideo', 'plynow', '33player', 'filerio', 'videoraj', 'brightcove', 'detectiveconanar',
-                            'myvi', '33player', 'videovard', 'viewsb', 'yourvid', 'vf-manga', 'oneupload', 'darkibox']
+                            'myvi', '33player', 'videovard', 'viewsb', 'yourvid', 'vf-manga', 'oneupload', 'darkibox', 'hexupload']
 
         val = next((x for x in supported_player if x in sHostName), None)
         if val:
@@ -451,7 +451,7 @@ class cHosterGui:
         if ('kingfoot' in sHostName):
             return self.getHoster('lien_direct')
             
-        if ('vidbom' in sHostName) or ('vidbm' in sHostName) or ('vadbam' in sHostName) or ('vedbom' in sHostName) or ('vadbom' in sHostName) or ('vidbam' in sHostName) or ('vedbam' in sHostName) or ('viboom' in sHostName) or ('vid1bom' in sHostName) or ('viid2beem' in sHostName) or ('viid1boom' in sHostName) or ('ved2om' in sHostName) or ('vid2bom' in sHostName) or ('viidboom' in sHostName) or ('vig1bm' in sHostName) or ('v3db1oom' in sHostName) or ('ved1om' in sHostName) or ('vvid1om' in sHostName) or ('vigom' in sHostName) or ('ve1dp3m' in sHostName) or ('vdp1em' in sHostName) or ('viid1bem' in sHostName) or ('vuidbeaam' in sHostName) or ('v2ddb3m' in sHostName):
+        if ('vidbom' in sHostName) or ('vidbm' in sHostName) or ('vadbam' in sHostName) or ('vedbom' in sHostName) or ('vadbom' in sHostName) or ('vidbam' in sHostName) or ('vedbam' in sHostName) or ('viboom' in sHostName) or ('vid1bom' in sHostName) or ('viid2beem' in sHostName) or ('viid1boom' in sHostName) or ('ved2om' in sHostName) or ('vid2bom' in sHostName) or ('viidboom' in sHostName) or ('vig1bm' in sHostName) or ('v3db1oom' in sHostName) or ('ved1om' in sHostName) or ('vvid1om' in sHostName) or ('vigom' in sHostName) or ('ve1dp3m' in sHostName) or ('vdp1em' in sHostName) or ('viid1bem' in sHostName) or ('vuidbeaam' in sHostName) or ('v2ddb3m' in sHostName) or ('2vbiim' in sHostName) or ('vdb123m' in sHostName):
             return self.getHoster('vidbom')
 				
         if ('mail.ru' in sHostName):
@@ -490,7 +490,7 @@ class cHosterGui:
         if ('workupload' in sHostName):
             return self.getHoster('workupload')
 
-        if ('upbaam' in sHostName) or ('upbam' in sHostName) or ('uppom' in sHostName) or ('uppboom' in sHostName) or ('uupbom' in sHostName) or ('upgobom' in sHostName) or ('upptobom' in sHostName) or ('up2b9om' in sHostName) or ('up1bom' in sHostName) or ('up3bom' in sHostName) or ('u1pb3m' in sHostName) or ('u2pbemm' in sHostName) or ('up1beem' in sHostName)  or ('bmbm.shop' in sHostName):
+        if ('upbaam' in sHostName) or ('upbam' in sHostName) or ('uppom' in sHostName) or ('uppboom' in sHostName) or ('uupbom' in sHostName) or ('upgobom' in sHostName) or ('upptobom' in sHostName) or ('up2b9om' in sHostName) or ('up1bom' in sHostName) or ('up3bom' in sHostName) or ('u1pb3m' in sHostName) or ('u2pbemm' in sHostName) or ('up1beem' in sHostName)  or ('bmbm.shop' in sHostName) or ('4bmto' in sHostName) or ('2bm.shop' in sHostName):
             return self.getHoster('uppom')
 
         if ('allviid' in sHostName) or ('all-vid' in sHostName):
@@ -583,7 +583,7 @@ class cHosterGui:
         if ('fajer.live' in sHostName):
             return self.getHoster('fajerlive')
             
-        if ('govad' in sHostName) or ('govid.me' in sHostName) or ('goveed' in sHostName) or ('go2ved' in sHosterUrl) or ('go1ved' in sHosterUrl) or ('go-veid' in sHosterUrl) or ('g1v3d' in sHosterUrl) or ('goo1vd' in sHostName) or ('g2ev4d' in sHostName) or ('ge1verd' in sHostName) or ('g1oov1d' in sHostName):
+        if ('govad' in sHostName) or ('govid.me' in sHostName) or ('goveed' in sHostName) or ('go2ved' in sHosterUrl) or ('go1ved' in sHosterUrl) or ('go-veid' in sHosterUrl) or ('g1v3d' in sHosterUrl) or ('goo1vd' in sHostName) or ('g2ev4d' in sHostName) or ('ge1verd' in sHostName) or ('g1oov1d' in sHostName) or ('ga1ov3d' in sHostName) or ('1gafv3d' in sHostName):
             return self.getHoster('govidme')
             
         if ('govid' in sHostName) or ('drkvid' in sHosterUrl) or ('gvid.' in sHosterUrl) or ('govid.' in sHostName) or ('kopatube' in sHostName) or ('kobatube' in sHostName) or ('darkveed' in sHostName) or ('downvol' in sHosterUrl) or ('telvod' in sHosterUrl):
@@ -591,10 +591,7 @@ class cHosterGui:
             
         if ('vid4up' in sHostName):
             return self.getHoster('vidforup')
-            
-        if ('mp4upload' in sHostName):
-            return self.getHoster('mpupload')
-            
+                       
         if ('fajer.video' in sHostName):
             return self.getHoster('fajer')
             
