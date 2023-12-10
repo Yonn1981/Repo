@@ -459,7 +459,7 @@ def showHosters(oInputParameterHandler = False):
     if aResult[0]:
         for aEntry in aResult[1]:           
             url = aEntry[0]
-            sServer = aEntry[1].replace('Govid','govid.me')
+            sServer = aEntry[1].replace('Govid','govid.me').replace('متعدد الجودات','tuktukmulti')
             sTitle = " " 
             if url.startswith('//'):
                url = 'http:' + url
