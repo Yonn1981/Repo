@@ -15,13 +15,12 @@ from resources.lib.util import cUtil, QuoteSafe
 
 
 class cGuiElement:
-
     DEFAULT_FOLDER_ICON = 'icon.png'
 
     def __init__(self):
 
         self.addons = addon()
-
+        
         # self.__sRootArt = cConfig().getRootArt()
         self.__sFunctionName = ''
         self.__sRootArt = 'special://home/addons/plugin.video.matrix/resources/art/'
@@ -60,7 +59,7 @@ class cGuiElement:
         self.__ImdbId = ''
         self.__Year = ''
 
-        self.__sRes = '' # resolution
+        self.__sRes = ''  # resolution
 
         self.__aItemValues = {}
         self.__aProperties = {}
@@ -119,11 +118,11 @@ class cGuiElement:
         return self.__Year
 
     def setRes(self, data):
-        if data.upper() in ('1080P', 'FHD', 'FULLHD'): 
+        if data.upper() in ('1080P', 'FHD', 'FULLHD'):
             data = '1080p'
-        elif data.upper() in ('720P', 'DVDRIP', 'DVDSCR', 'HD', 'HDLIGHT', 'HDRIP', 'BDRIP', 'BRRIP'): 
+        elif data.upper() in ('720P', 'DVDRIP', 'DVDSCR', 'HD', 'HDLIGHT', 'HDRIP', 'BDRIP', 'BRRIP'):
             data = '720p'
-        elif data.upper() in ('4K', 'UHD', '2160P'): 
+        elif data.upper() in ('4K', 'UHD', '2160P'):
             data = '2160p'
         
         self.__sRes = data
@@ -197,7 +196,6 @@ class cGuiElement:
 
     def TraiteTitre(self, sTitle):
         bMatrix = isMatrix()
-
         # convertion unicode ne fonctionne pas avec les accents
         try:
             # traitement du titre pour retirer le - quand c'est une Saison. Tiret, tiret moyen et cadratin
@@ -205,7 +203,7 @@ class cGuiElement:
             sTitle = sTitle.replace(' - saison', ' Season').replace(' – saison', ' Season')\
                            .replace(' — saison', ' Season')
             sTitle = sTitle.replace("مدبلج بالعربية","مدبلج").replace("مدبلج بالعربي","[COLOR yellow]مدبلج[/COLOR]").replace("مدبلج عربي","[COLOR yellow]مدبلج[/COLOR]").replace("مدبلجة","[COLOR yellow]مدبلجة[/COLOR]").replace("مدبلجه","[COLOR yellow]مدبلجة[/COLOR]").replace("مدبلج بالمصري","[COLOR yellow]مدبلج بالمصري[/COLOR]").replace("مدبلج مصري","[COLOR yellow]مدبلج بالمصري[/COLOR]").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[COLOR yellow]مدبلج[/COLOR]")
-           
+
             if not bMatrix:
                 sTitle = sTitle.decode('utf-8')
         except:
@@ -219,12 +217,10 @@ class cGuiElement:
         # enleve les crochets et les parentheses si elles sont vides
         sTitle = sTitle.replace('()', '').replace('[]', '').replace('- -', '-')
 
-        # vire espace et - a la fin (/!\ il y a 2 tirets differents meme si invisible a l'oeil nu et un est en unicode)
-        sTitle = re.sub('[- –]+$', '', sTitle)
+        # vire espace et - a la fin
+        sTitle = re.sub('[- –_\.\[]+$', '', sTitle)
         # et au debut
-        if sTitle.startswith(' '):
-            sTitle = sTitle[1:]
-
+        sTitle = re.sub('^[- –_\.]+', '', sTitle)
         """ Fin Nettoyage du titre """
 
         # recherche l'année, uniquement si entre caractere special a cause de 2001 odysse de l'espace ou k2000
@@ -244,9 +240,8 @@ class cGuiElement:
         # recherche les Tags restant : () ou [] sauf tag couleur
         sTitle = re.sub('([\(|\[](?!\/*COLOR)[^\)\(\]\[]+?[\]|\)])', '[COLOR ' + self.sDecoColor + ']\\1[/COLOR]', sTitle)
 
-        # Recherche saisons et episodes
+        # Recherche saisons et episodes si séries ou animes
         sa = ep = ''
-
         if self.__sCat in (2, 3, 4, 8, 9):
             m = re.search('(|S|season)(\s?|\.)(\d+)(\s?|\.)(E|Ep|x|\wpisode)(\s?|\.)(\d+)', sTitle, re.UNICODE)
             if m:
@@ -256,7 +251,6 @@ class cGuiElement:
                     sa = ep = ''
                 else:
                     sTitle = sTitle.replace(m.group(0), '')
-
             else:  # Juste l'épisode
                 m = re.search('(^|\s|\.)(E|Ep|\wpisode)(\s?|\.)(\d+)', sTitle, re.UNICODE)
                 if m:
@@ -280,13 +274,17 @@ class cGuiElement:
             if ep:
                 self.__Episode = ep
                 self.addItemValues('Episode', self.__Episode)
+
                 if not self.__Season:
                     self.__Season = 1   # forcer pour les séries sans saison
-
+			
         # on repasse en utf-8
         if not bMatrix:
-            sTitle = sTitle.encode('utf-8')
-				
+            try:
+                sTitle = sTitle.encode('utf-8')
+
+            except:
+                pass
         # on reformate SXXEXX Titre [tag] (Annee)
         sTitle2 = ''
         if self.__Season:
@@ -328,7 +326,7 @@ class cGuiElement:
     # Permet de forcer le titre sans aucun traitement
     def setRawTitle(self, sTitle):
         self.__sTitle = sTitle
-
+ 
     def setTitle(self, sTitle):
         # Nom en clair sans les langues, qualités, et autres décorations
         self.__sCleanTitle = re.sub('\[.*\]|\(.*\)', '', sTitle)
@@ -442,7 +440,7 @@ class cGuiElement:
         if not self.getTitleWatched():
             return 0
 
-        meta = {'title': self.getTitleWatched(),
+        meta = {'titleWatched': self.getTitleWatched(),
                 'site': self.getSiteUrl(),
                 'cat': self.getCat()
                 }

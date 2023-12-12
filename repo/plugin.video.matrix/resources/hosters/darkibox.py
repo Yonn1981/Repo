@@ -7,6 +7,7 @@ from resources.hosters.hoster import iHoster
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.lib.comaddon import VSlog
+import requests
 
 class cHoster(iHoster):
 
@@ -20,21 +21,27 @@ class cHoster(iHoster):
         self._url = str(url)
 
     def _getMediaLinkForGuest(self, api_call=None, autoPlay = False):
-
+        UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:39.0) Gecko/20100101 Firefox/39.0'
         oParser = cParser()
-        oRequest = cRequestHandler(self._url)
-        sHtmlContent = oRequest.request()
-        sPattern = 'sources: *\[{src: "([^"]+)"'#, *type: "video/mp4"'
+
+        headers = {'User-Agent': UA,
+                   'Origin': self._url.rsplit('/', 1)[0],
+                   'Referer': self._url
+                   }
+        s = requests.session()
+        sHtmlContent = s.get(self._url, headers=headers).text
+
+        api_call = ''
+        sPattern = 'sources: *\[{src: "([^"]+)"'
         aResult = oParser.parse(sHtmlContent, sPattern)
         if aResult[0] is True:
-            api_call = aResult[1][0]
+            api_call = aResult[1][0]  + '|User-Agent=' + UA + '&Referer=' + self._url
 
         file_code = self._url.split('/')[-1].split('.')[0]
 
         postdata = 'op=embed&auto=1&file_code=%s' % file_code
 
         oRequest = cRequestHandler("https://darkibox.com/dl")
-        UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:61.0) Gecko/20100101 Firefox/61.0'
         oRequest.setRequestType(1)
         oRequest.addHeaderEntry('User-Agent', UA)
         oRequest.addHeaderEntry('Referer', self._url)
@@ -45,6 +52,6 @@ class cHoster(iHoster):
         sPattern = 'sources: *\[{src: "([^"]+)"'#, *type: "video/mp4"'
         aResult = oParser.parse(sHtmlContent, sPattern)
         if aResult[0] is True:
-            api_call = aResult[1][0]
+            api_call = aResult[1][0]  + '|User-Agent=' + UA + '&Referer=' + self._url
 
         return api_call != None, api_call

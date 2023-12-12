@@ -40,7 +40,7 @@ class cRechercheHandler:
     def setCat(self, sCat):
         if not sCat:
             return False
-        self.__sCat = str(sCat)
+        self.__sCat = sCat
         return self.__sCat
 
     def getCat(self):
@@ -85,7 +85,7 @@ class cRechercheHandler:
         elif sCat == '5':
             sSearch = 'URL_SEARCH_MISC'
         elif sCat == '6':
-            sSearch = 'URL_SEARCH'
+            sSearch = 'URL_SEARCH_REPLAY'
         elif sCat == '7':
             sSearch = 'URL_SEARCH_MOVIES'
         elif sCat == '8':

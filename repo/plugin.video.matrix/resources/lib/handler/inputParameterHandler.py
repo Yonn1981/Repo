@@ -5,6 +5,7 @@ import sys
 
 from resources.lib.util import UnquotePlus, Unquote
 
+
 class cInputParameterHandler:
     def __init__(self):
         aParams = dict()

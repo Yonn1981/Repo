@@ -17,8 +17,10 @@ SITE_DESC = 'arabic vod'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-ANIM_NEWS = (URL_MAIN + '/anime-season/صيف-2023/', 'showSeries')
+ANIM_NEWS = (URL_MAIN + '/anime-season/خريف-2023/', 'showSeries')
 ANIM_MOVIES = (URL_MAIN + '/anime-type/movie-3/', 'showMovies')
+ANIM_SUB = (URL_MAIN + '/anime-category/%d8%a7%d9%84%d8%a7%d9%86%d9%85%d9%8a-%d8%a7%d9%84%d9%85%d8%aa%d8%b1%d8%ac%d9%85/', 'showSeries')
+ANIM_DUBBED = (URL_MAIN + '/anime-category/%d8%a7%d9%84%d8%a7%d9%86%d9%85%d9%8a-%d8%a7%d9%84%d9%85%d8%af%d8%a8%d9%84%d8%ac/', 'showSeries')
 
 URL_SEARCH = (URL_MAIN + '/?search_param=animes&s=', 'showMovies')
 URL_SEARCH_MOVIES = (URL_MAIN + '/?search_param=animes&s=', 'showMovies')
@@ -44,6 +46,12 @@ def load():
             
     oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/episode/')
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'يعرض الان', 'anime.png', oOutputParameterHandler)    
+
+    oOutputParameterHandler.addParameter('siteUrl', ANIM_DUBBED[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'انمي مدبلج', 'anime.png', oOutputParameterHandler)
+
+    oOutputParameterHandler.addParameter('siteUrl', ANIM_SUB[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'انمي مترجم', 'anime.png', oOutputParameterHandler)
 
     oGui.setEndOfDirectory()
              
@@ -185,8 +193,8 @@ def showEpisodes():
         oOutputParameterHandler = cOutputParameterHandler() 
         for aEntry in aResult[1]:
  
-            sTitle = aEntry[1].replace("الحلقة "," E").replace("حلقة "," E").replace("الأخيرة","")
-            sTitle = sMovieTitle+sTitle
+            sTitle = int(aEntry[1].replace("الحلقة ","").replace("حلقة ","").replace("الأخيرة",""))
+            sTitle = f'{sMovieTitle}E{sTitle}'
             siteUrl = aEntry[0]
             sThumb = sThumb
             sDesc = ""			
@@ -213,8 +221,8 @@ def showEpisodes():
             oOutputParameterHandler = cOutputParameterHandler() 
             for aEntry in aResult[1]:
  
-                sTitle = aEntry[1].replace("الحلقة "," E").replace("حلقة "," E").replace("الأخيرة","")
-                sTitle = sMovieTitle+sTitle
+                sTitle = int(aEntry[1].replace("الحلقة ","").replace("حلقة ","").replace("الأخيرة",""))
+                sTitle = f'{sMovieTitle}E{sTitle}'
                 siteUrl = aEntry[0]
                 sThumb = sThumb
                 sDesc = ""		

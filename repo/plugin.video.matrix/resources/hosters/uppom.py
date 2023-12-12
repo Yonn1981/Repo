@@ -2,11 +2,11 @@
 #Vstream https://github.com/Kodi-vStream/venom-xbmc-addons
 #https://sama-share.com/embed-shsaa6s49l55-750x455.html
 
-from resources.lib.handler.requestHandler import cRequestHandler
 from resources.hosters.hoster import iHoster
 from resources.lib.parser import cParser
 from resources.lib.comaddon import VSlog
 from resources.lib.util import Unquote
+from resources.lib.packer import cPacker
 import re,xbmc
 import requests
 
@@ -61,7 +61,23 @@ class cHoster(iHoster):
          sPattern = 'id="direct_link".+?href="([^"]+)'
          aResult = oParser.parse(sHtmlContent,sPattern)
          if aResult[0]:
-             api_call = aResult[1][0].replace(' ', '%20')
+            api_call = aResult[1][0].replace(' ', '%20')
+         
+         else:
+            sLink= 'http://'+sHost+'/embed-'+sID+'.html'
+
+            sHtmlContent = Sgn.get(sLink, headers=headers).text
+            sPattern = '(\s*eval\s*\(\s*function\(p,a,c,k,e(?:.|\s)+?)<\/script>'
+            aResult = oParser.parse(sHtmlContent, sPattern)
+
+            if aResult[0] is True:
+               sHtmlContent = cPacker().unpack(aResult[1][0])
+        
+            sPattern = 'file:["\']([^"\']+)'
+            aResult = oParser.parse(sHtmlContent, sPattern)
+
+            if aResult[0] is True:
+               api_call = aResult[1][0]
          
          if api_call:
              return True, api_call

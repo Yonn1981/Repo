@@ -95,10 +95,10 @@ def showSeriesSearch():
 def showMovies(sSearch = ''):
     import requests
     oGui = cGui()
+    oInputParameterHandler = cInputParameterHandler()
     if sSearch:
       sUrl = sSearch.replace(' ', '+')
     else:
-        oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
 
     oParser = cParser()
@@ -170,10 +170,10 @@ def showMovies(sSearch = ''):
 def showSeries(sSearch = ''):
     import requests
     oGui = cGui()
+    oInputParameterHandler = cInputParameterHandler()
     if sSearch:
       sUrl = sSearch.replace(' ', '+')
     else:
-        oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
 
     oParser = cParser()

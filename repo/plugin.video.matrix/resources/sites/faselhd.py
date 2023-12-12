@@ -462,12 +462,10 @@ def showEpisodes1():
 
     sNote = ''
 
-    sPattern = '<div class="epAll"(.+?)<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">'
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    aResult = oParser.parse(sHtmlContent, sPattern) 
-    if (aResult[0]):
-        sHtmlContent1 = aResult[1][0]
-	
+    sStart = '<div class="epAll" id="epAll">'
+    sEnd = '<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">'
+    sHtmlContent1 = oParser.abParse(sHtmlContent, sStart, sEnd)
+
     sPattern = '<a href="([^<]+)".+?>([^<]+)</a>'
     sPattern2 = '<a href="([^<]+)" class="active">([^<]+)</a>'
     aResult = oParser.parse(sHtmlContent1, sPattern)
