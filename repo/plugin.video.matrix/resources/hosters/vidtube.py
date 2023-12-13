@@ -18,8 +18,10 @@ class cHoster(iHoster):
     def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
         sReferer = ''
-        if '/d/' in self._url:
-            self._url = self._url.replace('/d/','/embed-')
+        if '/d/' in self._url or 'embed-' in self._url:
+            self._url = self._url.replace('/d/','/').replace('embed-','')
+            if '.html' not in self._url:
+                self._url = self._url + '.html'
         if '|Referer=' in self._url:
             sReferer = self._url.split('|Referer=')[1]            
             self._url = self._url.split('|Referer=')[0]

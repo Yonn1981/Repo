@@ -28,7 +28,7 @@
         },
         "alarabiya": {
             "label": "Alarabiya",
-            "active": "True",
+            "active": "False",
             "url": "https://www.alarabiya.net/"
         },
         "alfajertv": {
@@ -269,7 +269,7 @@
         },
         "gateanime": {
             "label": "GateAnime",
-            "active": "True",
+            "active": "False",
             "url": "https://e.gateanime.com/"
         },
         "geoarabic": {

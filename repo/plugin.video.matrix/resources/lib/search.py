@@ -48,23 +48,39 @@ class cSearch:
             oGui = cGui()
             oGui.addText('globalSearch', self.addons.VSlang(30081) % sSearchText, 'search.png')
 
-            count = 0
-            searchResults = cGui().getSearchResult()
-            for plugin in listPlugins:
-                pluginId = plugin['identifier']
-                if pluginId in searchResults.keys() and (len(searchResults[pluginId]) > 0): # Au moins un résultat
-                    count += 1
-
-                    # nom du site
-                    oGui.addText(pluginId, '%s. [COLOR olive]%s[/COLOR]' % (count, plugin['name']),
-                                 'sites/%s.png' % (pluginId))
-                    for result in searchResults[pluginId]:
-                        oGui.addFolder(result['guiElement'], result['params'])
-
-            if not count: # aucune source ne retourne de résultats
-                oGui.addText('globalSearch') # "Aucune information"
-
+            total = count = 0
+            searchResults = oGui.getSearchResult()
+            values = searchResults.values()
+            for result in values:
+                total += len(result)
             self._progressClose()
+
+            if total:
+                xbmc.sleep(500)    # Nécessaire pour enchainer deux progressBar
+                # Progress de chargement des metadata
+                progressMeta = progress().VScreate(self.addons.VSlang(30076) + ' - ' + sSearchText, large=total > 50)
+                for plugin in listPlugins:
+                    pluginId = plugin['identifier']
+                    if pluginId in searchResults.keys() and (len(searchResults[pluginId]) > 0):  # Au moins un résultat
+                        # nom du site
+                        count += 1
+                        oGui.addText(pluginId, '%s. [COLOR olive]%s[/COLOR]' % (count, plugin['name']),
+                                     'sites/%s.png' % pluginId)
+
+                        # résultats du site
+                        for result in searchResults[pluginId]:
+                            progressMeta.VSupdate(progressMeta, total)
+                            if progressMeta.iscanceled():
+                                break
+                            oGui.addFolder(result['guiElement'], result['params'])
+                        if progressMeta.iscanceled():
+                            break
+
+                progressMeta.VSclose(progressMeta)
+
+            else:  # aucune source ne retourne de résultat
+                oGui.addText('globalSearch')  # "Aucune information"
+
             cGui.CONTENT = 'files'
 
             oGui.setEndOfDirectory()

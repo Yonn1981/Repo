@@ -365,7 +365,10 @@ class cGuiElement:
         if isMatrix():
             try:
 
-                self.__sDescription = str(sDescription.encode('latin-1'),'utf-8')
+                if 'Ã' in sDescription or '\\xc' in sDescription:
+                    self.__sDescription = str(sDescription.encode('latin-1'), 'utf-8')
+                else:
+                    self.__sDescription = sDescription
 
 
             except:

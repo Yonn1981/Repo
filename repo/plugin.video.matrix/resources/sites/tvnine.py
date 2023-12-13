@@ -243,7 +243,8 @@ def showLive():
                       url = getHosterIframe(url,sUrl)
                    if 'sportsonline' in url:
                       url = getHosterIframe(url,sUrl) 
-
+                   if 'linecrystal' in url:
+                      url = getHosterIframe(url,sUrl) 
                    if ".php" or ".html" in url:
                        oRequestHandler = cRequestHandler(url)
                        data2 = oRequestHandler.request() 

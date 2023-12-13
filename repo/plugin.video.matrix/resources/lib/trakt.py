@@ -717,7 +717,11 @@ class cTrakt:
                 oRequestHandler.addHeaderEntry('Authorization', 'Bearer %s' % self.ADDON.getSetting('bstoken'))
                 sHtmlContent = oRequestHandler.request(jsonDecode=True)
 
-            title = next((title for title in sHtmlContent if title['language'].lower() == 'en'), item)['title']
+            for titleSearch in sHtmlContent:
+                if titleSearch['language'].lower() == 'ar':
+                    title = titleSearch['title']
+                if titleSearch['country'].lower() == 'bh':
+                    break
 
             if title is None:
                 return item['title']

@@ -148,7 +148,7 @@ def WindowsBoxes(sTitle, siteUrl, metaType, year, sSite, sFav, sCat):
             sType = 'tvshow'
         meta = cTMDb().get_meta(sType, sTitle, tmdb_id=tmdb_id, year=year, season=season, episode=episode)
     except:
-        DIALOG.VSok("Veuillez vider le cache des métadonnées Paramètre - outils - 'vider le cache de matrix'")
+        DIALOG.VSok("Please clear metadata cache Setting - tools - 'clear matrix cache'")
         pass
 
     # si rien ne marche
