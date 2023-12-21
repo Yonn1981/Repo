@@ -353,13 +353,12 @@ def showSeasons():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-    sPattern = '<div class="seasonDiv.+?onclick="([^<]+)".+?data-src="(.+?)".+?alt="(.+?)"/>.+?<div class="title">(.+?)</div>'
+    sPattern = '<div class="seasonDiv.+?window.location.href = ["\']([^"\']+)["\'].+?data-src="(.+?)".+?alt="(.+?)"/>.+?<div class="title">(.+?)</div>'
     aResult = oParser.parse(sHtmlContent, sPattern)    
     if (aResult[0]):
         oOutputParameterHandler = cOutputParameterHandler() 
         for aEntry in aResult[1]:
-            postid = aEntry[0].split("= '")[1]
-            postid = postid.replace("'","")
+            postid = aEntry[0]
             nume = aEntry[3].replace("موسم "," S")
             link = URL_MAIN+postid
  
@@ -392,7 +391,7 @@ def showEpisodes():
 
     sStart = '<div class="epAll" id="epAll">'
     sEnd = '<div class="postShare">'
-    sHtmlContent2 = oParser.abParse(sHtmlContent2, sStart, sEnd)
+    sHtmlContent2 = oParser.abParse(sHtmlContent2, sStart, sEnd).replace('class="active">', ">")
     
     import requests
 
@@ -434,9 +433,9 @@ def showEpisodes():
                 if "العضوية" in aEntry[1]:
                     continue
  
-                sTitle = aEntry[1].replace("الحلقة "," E")
+                sTitle = aEntry[1].strip().replace("الحلقة "," E")
                 sTitle = ('%s %s') % (sTitle, sMovieTitle)
-                siteUrl = aEntry[0].replace(' class="active"', "").replace('"', "") 
+                siteUrl = aEntry[0]
                 sThumb = sThumb
                 sDesc = ""
 
@@ -463,19 +462,18 @@ def showEpisodes1():
     sNote = ''
 
     sStart = '<div class="epAll" id="epAll">'
-    sEnd = '<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">'
-    sHtmlContent1 = oParser.abParse(sHtmlContent, sStart, sEnd)
+    sEnd = '<div class="postShare">'
+    sHtmlContent1 = oParser.abParse(sHtmlContent, sStart, sEnd).replace('class="active">', ">")
 
     sPattern = '<a href="([^<]+)".+?>([^<]+)</a>'
-    sPattern2 = '<a href="([^<]+)" class="active">([^<]+)</a>'
     aResult = oParser.parse(sHtmlContent1, sPattern)
     if aResult[0]:  
         oOutputParameterHandler = cOutputParameterHandler()                     
         for aEntry in aResult[1]:
  
-            sTitle = aEntry[1].replace("الحلقة "," E")
+            sTitle = aEntry[1].strip().replace("الحلقة "," E")
             sTitle = sMovieTitle+sTitle
-            siteUrl = aEntry[0].replace('" class="active',"")
+            siteUrl = aEntry[0]
             sThumb = sThumb
             sDesc = sNote
 			
@@ -483,22 +481,6 @@ def showEpisodes1():
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oGui.addEpisode(SITE_IDENTIFIER, 'showLink', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
-
-    aResult = oParser.parse(sHtmlContent1, sPattern2)	
-    if aResult[0]:  
-        oOutputParameterHandler = cOutputParameterHandler()                     
-        for aEntry in aResult[1]:
- 
-            sTitle = aEntry[1].replace("الحلقة "," E")
-            sTitle = sMovieTitle+sTitle
-            siteUrl = aEntry[0].replace('" class="active',"")
-            sThumb = sThumb
-            sDesc = sNote
-
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumb', sThumb)
-            oGui.addEpisode(SITE_IDENTIFIER, 'showLink', sTitle, '', sThumb, sDesc, oOutputParameterHandler)        
  
         sNextPage = __checkForNextPage(sHtmlContent)
         if sNextPage:

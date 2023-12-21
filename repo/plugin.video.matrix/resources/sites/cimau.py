@@ -2,6 +2,9 @@
 # zombi https://github.com/zombiB/zombi-addons/
 
 import re
+import base64
+import requests
+from requests.compat import urlparse
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -9,6 +12,7 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
+from resources.lib.multihost import cVidsrcto, cVidsrcnet
  
 SITE_IDENTIFIER = 'cimau'
 SITE_NAME = 'Cima4u'
@@ -585,19 +589,51 @@ def showLinks(oInputParameterHandler = False):
             sPattern2 = '<iframe.+?src="([^"]+)"'
             aResult = oParser.parse(sDomain, sPattern2)
             if aResult[0]:
+                oOutputParameterHandler = cOutputParameterHandler()
                 for aEntry in aResult[1]:
         
-                    url = aEntry
-                    if url.startswith('//'):
-                       url = 'http:' + url
-            
-                    sHosterUrl = url 
+                    sHosterUrl = aEntry
+
+                    if sHosterUrl.startswith('//'):
+                       sHosterUrl = 'http:' + sHosterUrl
+
+                    if 'vidsrc.to' in sHosterUrl:
+                        sLabel = 'Vidsrc.to'
+                        sDisplayTitle = ('%s [COLOR orange] [%s] [/COLOR]') % (sMovieTitle, sLabel)  
+                        oOutputParameterHandler.addParameter('sHosterUrl', sHosterUrl)
+                        oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
+                        oOutputParameterHandler.addParameter('sThumb', sThumb)
+                        
+                        oGui.addLink(SITE_IDENTIFIER, 'addHosters', sDisplayTitle, sThumb, '', oOutputParameterHandler, oInputParameterHandler)
+
+                    if 'vidnow' in sHosterUrl or 'vidsrc.net' in sHosterUrl:
+                        sLabel = 'Vidsrc.net'
+                        sDisplayTitle = ('%s [COLOR orange] [%s] [/COLOR]') % (sMovieTitle, sLabel)  
+                        oOutputParameterHandler.addParameter('sHosterUrl', sHosterUrl)
+                        oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
+                        oOutputParameterHandler.addParameter('sThumb', sThumb)
+
+                        oGui.addLink(SITE_IDENTIFIER, 'addHosters', sDisplayTitle, sThumb, '', oOutputParameterHandler, oInputParameterHandler)
+
+                    if 'autoembed' in sHosterUrl:
+                        sLabel = 'autoembed'
+                        sDisplayTitle = ('%s [COLOR orange] [%s] [/COLOR]') % (sMovieTitle, sLabel)  
+                        oOutputParameterHandler.addParameter('sHosterUrl', sHosterUrl)
+                        oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
+                        oOutputParameterHandler.addParameter('sThumb', sThumb)
+
+                        oGui.addLink(SITE_IDENTIFIER, 'addHosters', sDisplayTitle, sThumb, '', oOutputParameterHandler, oInputParameterHandler)
+
+                    if 'autoembed' in sHosterUrl or 'vidsrc.to' in sHosterUrl or 'vidsrc.net' in sHosterUrl:
+                        continue
+
                     if 'userload' in sHosterUrl:
                         sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
                     if 'streamtape' in sHosterUrl:
                         sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
                     if 'mystream' in sHosterUrl:
-                        sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN                           
+                        sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
+                                                 
                     oHoster = cHosterGui().checkHoster(sServer)
                     if oHoster:
                        oHoster.setDisplayName(sMovieTitle)
@@ -629,6 +665,57 @@ def showLinks(oInputParameterHandler = False):
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
      
     oGui.setEndOfDirectory()  
+
+def addHosters():
+    oGui = cGui()
+
+    oInputParameterHandler = cInputParameterHandler()
+    sHosterUrl = oInputParameterHandler.getValue('sHosterUrl')
+    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
+    sThumb = oInputParameterHandler.getValue('sThumb')
+
+    if 'vidsrc.to' in sHosterUrl:
+        aResult = cVidsrcto().GetUrls(sHosterUrl)
+        if (aResult):
+            for aEntry in aResult:
+                sHosterUrl = aEntry
+
+                sDisplayTitle = sMovieTitle
+                oHoster = cHosterGui().checkHoster(sHosterUrl)
+                if oHoster != False:
+                    oHoster.setDisplayName(sDisplayTitle)
+                    oHoster.setFileName(sMovieTitle)
+                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler) 
+
+    if 'vidnow' in sHosterUrl or 'vidsrc.net' in sHosterUrl:
+        aResult = cVidsrcnet().GetUrls(sHosterUrl)
+        if (aResult):
+            for aEntry in aResult:
+                sHosterUrl = aEntry
+
+                sDisplayTitle = sMovieTitle
+                oHoster = cHosterGui().checkHoster(sHosterUrl)
+                if oHoster != False:
+                    oHoster.setDisplayName(sDisplayTitle)
+                    oHoster.setFileName(sMovieTitle)
+                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)     
+
+    if "autoembed.to" in sHosterUrl:
+        aembed = requests.get(sHosterUrl, headers={"Referer": sHosterUrl})
+        aembed_list = re.findall(r'data-server="(.*?)"', aembed.text)
+        for aEntry in aembed_list:
+            aembed_list_decode = base64.b64decode(aEntry).decode('utf8',errors='ignore')
+            if '2embed.me' in aembed_list_decode  or 'remotestre.am' in aembed_list_decode:
+                sHosterUrl = aembed_list_decode
+
+                sDisplayTitle = sMovieTitle
+                oHoster = cHosterGui().checkHoster(sHosterUrl)
+                if oHoster != False:
+                    oHoster.setDisplayName(sDisplayTitle)
+                    oHoster.setFileName(sMovieTitle)
+                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)  
+
+    oGui.setEndOfDirectory()
 
 def __checkForNextPage(sHtmlContent):
     oParser = cParser()

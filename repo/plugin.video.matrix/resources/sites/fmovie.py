@@ -298,7 +298,6 @@ def showSeasons():
         for aEntry in aResult[1]:
             sId = aEntry
 
-            action = "fmovies-vrf"
             vrf = getVerid(sId)
             sUrl = URL_MAIN + '/ajax/episode/list/' + sId + '?vrf=' + vrf
 
@@ -351,7 +350,6 @@ def showEps():
         for aEntry in aResult[1]:
 
             sId = aEntry
-            action = "fmovies-vrf"
             vrf = getVerid(sId)
             sUrl = URL_MAIN + '/ajax/episode/list/' + sId + '?vrf=' + vrf
 
@@ -380,9 +378,6 @@ def showEps():
                     sDisplayTitle = SeasonTitle + ' - ' + episode + ' - ' + sTitle
 
                     sId =  aEntry[1].split('\\')[0]
-
-                    action = "fmovies-vrf"
-                    from urllib.parse import quote
                     vrf = quote(getVerid(sId))
 
                     siteUrl = URL_MAIN + '/ajax/server/list/' + sId +'?vrf='+vrf
@@ -413,8 +408,6 @@ def showLinks(oInputParameterHandler = False):
     if aResult[0]:
         for aEntry in aResult[1]:
             sId = aEntry
-
-            action = "fmovies-vrf"
             vrf = getVerid(sId)
             sUrl = URL_MAIN + '/ajax/episode/list/' + sId +'?vrf='+vrf
 
@@ -428,7 +421,6 @@ def showLinks(oInputParameterHandler = False):
 
                     sId = aEntry[0]
                     nTitle = aEntry[1]
-                    action = "fmovies-vrf"
                     vrf = getVerid(sId)
                     url = URL_MAIN + '/ajax/server/list/' + sId +'?vrf='+vrf
 
@@ -494,7 +486,6 @@ def showHosters():
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
 
-    action = "fmovies-vrf"
     vrf = getVerid(sId)
 
     url = URL_MAIN + '/ajax/server/' + sId +'?vrf='+vrf
@@ -506,7 +497,6 @@ def showHosters():
     if aResult:
 
         sId = aResult[0]                             
-        action = "fmovies-decrypt"
         url = DecodeLink(sId)
 
         sHosterUrl = unquote(url)
@@ -528,7 +518,6 @@ def showHosters():
             oHoster.setDisplayName(sDisplayTitle)
             oHoster.setFileName(sMovieTitle)
             cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
-
 
     oGui.setEndOfDirectory()
 
@@ -599,65 +588,6 @@ def dekoduj(r,o):
 
     return a
 
-def vrf_function(query, action):
-    sUrl = 'https://9anime.eltik.net/'+action+'?query='+query+'&apikey='+aniyomi
-
-    oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
-
-    sPattern = '"url":"(.+?)"'
-    aResult = re.findall(sPattern, sHtmlContent)
-    if aResult:
-        vrf = quote(aResult[0])
-        return vrf
-        
-    return False, False
-
-def vrf_function2(query, action):
-    if '?' in query:
-        SubTitle = query.split('?')[1]
-        query = query.split('/e/')[1].split('?')[0]
-
-    else:
-        SubTitle = ''
-        query = query.split('e/')[1]
-
-    reqURL = 'https://9anime.eltik.net/'+action+'?query='+query+'&apikey='+aniyomi
-
-    futoken = requests.get("https://vidplay.site/futoken")
-    futoken = futoken.text
-
-    rawSource = requests.post(reqURL, headers={"Content-Type": "application/x-www-form-urlencoded"}, data={"query": query, "futoken": futoken})
-    sHtmlContent = rawSource.content
-
-    sPattern = '"rawURL":"([^"]+)'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)  
-
-    if aResult[0]:
-        url = aResult[1][0].replace('mcloud.to','mcloud.bz')
-        if 'vidstream' in url or 'vidplay' in url:
-                referer = 'https://vidplay.site/'
-        else:
-                referer = "https://mcloud.bz/"
-        headers2 = {'Referer': referer
-                    }
-
-        url = url+'?'+SubTitle
-        req = requests.get(url ,headers=headers2)
-        response = str(req.content)
-
-        sPattern = '"file":"([^"]+)'
-        oParser = cParser()
-        aResult = oParser.parse(response, sPattern)
-        if aResult[0]:
-            url = aResult[1][0]
-            url = url.replace('\\','').replace('+','%2B')
-
-        return url
-        
-    return False, False
-
 try:
 	import string
 	STANDARD_ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
@@ -724,7 +654,7 @@ def dec2(t, n) :
         except:
             h += chr(ord(n[c]) ^ s[(s[e] + s[u]) % 256]);
     return h
-
+	
 def getVerid(id):
     def convert_func(matchobj):
         m =  matchobj.group(0)
@@ -760,9 +690,7 @@ def getVerid(id):
                             if s % 5 == 2 :
                                 u -= 6
             o += chr(u) 
-			
-			
-			
+						
         if sys.version_info >= (3,0,0):
             o=o.encode('Latin_1')
 
@@ -786,19 +714,13 @@ def getVerid(id):
         hj2=(hj2.decode('utf-8'))
     hj2 = re.sub("[a-zA-Z]", convert_func, hj2) 
     if sys.version_info >= (3,0,0):
-        hj2=hj2.encode('Latin_1')
-	
-	
-
-	
+        hj2=hj2.encode('Latin_1')	
 	
     hj2 = encode2(hj2)   
     if sys.version_info >= (3,0,0):
         hj2=(hj2.decode('utf-8'))
 		
-
     xc= but(hj2) 
 
     return xc
 		
-	

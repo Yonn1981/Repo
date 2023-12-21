@@ -193,8 +193,8 @@ def showEpisodes():
         oOutputParameterHandler = cOutputParameterHandler() 
         for aEntry in aResult[1]:
  
-            sTitle = int(aEntry[1].replace("الحلقة ","").replace("حلقة ","").replace("الأخيرة",""))
-            sTitle = f'{sMovieTitle}E{sTitle}'
+            sTitle = aEntry[1].replace("الحلقة ","").replace("حلقة ","").replace("الأخيرة","")
+            sTitle = f'{sMovieTitle} E{sTitle}'
             siteUrl = aEntry[0]
             sThumb = sThumb
             sDesc = ""			
@@ -221,8 +221,8 @@ def showEpisodes():
             oOutputParameterHandler = cOutputParameterHandler() 
             for aEntry in aResult[1]:
  
-                sTitle = int(aEntry[1].replace("الحلقة ","").replace("حلقة ","").replace("الأخيرة",""))
-                sTitle = f'{sMovieTitle}E{sTitle}'
+                sTitle = aEntry[1].replace("الحلقة ","").replace("حلقة ","").replace("الأخيرة","")
+                sTitle = f'{sMovieTitle} E{sTitle}'
                 siteUrl = aEntry[0]
                 sThumb = sThumb
                 sDesc = ""		
