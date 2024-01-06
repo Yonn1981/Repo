@@ -3,7 +3,8 @@
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
-
+import re
+import base64
 
 class cHoster(iHoster):
 
@@ -15,6 +16,13 @@ class cHoster(iHoster):
         sHtmlContent = oRequest.request()
 
         api_call = ''
+
+        r = re.search(r"let\s*wc0\s*=\s*'([^']+)", sHtmlContent)
+        if r:
+            import json
+            r = json.loads(base64.b64decode(r.group(1)).decode('utf8',errors='ignore'))
+            url = r.get('file')
+            return True, url
 
         oParser = cParser()
         sPattern = '["\']hls["\']:\s*["\']([^"\']+)["\']'

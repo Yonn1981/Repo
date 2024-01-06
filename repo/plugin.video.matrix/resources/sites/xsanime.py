@@ -61,12 +61,10 @@ def showMovies(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
- # ([^<]+) .+? (.+?)
-    sPattern = '<div class="itemtype_anime"><a href="([^<]+)" title="(.+?)"><div class="itemtype_anime_poster">.+?src="(.+?)" alt='
 
     oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-		
+    sPattern = 'class="block-post">.+?<a href="([^"]+)" title="([^"]+)".+?data-img="([^"]+)'
+    aResult = oParser.parse(sHtmlContent, sPattern)		
     if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -76,7 +74,7 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("برنامج","").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("بلوراي","").replace("الفيلم الوثائقي","").replace("اون لاين","")
+            sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("برنامج","").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("بلوراي","").replace("الفيلم الوثائقي","").replace("اون لاين","").replace("إكس إس أنمي","")
             siteUrl = aEntry[0]
             sThumb = aEntry[2]
             sDesc = ''
@@ -113,14 +111,10 @@ def showSeries(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
- # ([^<]+) .+?
-    sPattern = 'div class="itemtype_episode"><a href="([^<]+)" title="([^<]+)"><div class="itemtype_episode_poster"><img src="([^<]+)" alt='
-
 
     oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
+    sPattern = 'class="block-post">.+?<a href="([^"]+)" title="([^"]+)".+?data-img="([^"]+)'
+    aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -158,13 +152,15 @@ def showSeries(sSearch = ''):
         oGui.setEndOfDirectory()
  
 def __checkForNextPage(sHtmlContent):
-    sPattern = 'class="next page-numbers" href="([^<]+)">'
-	
+    sPattern = 'class="next page-numbers" href="([^"]+)'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
- 
     if aResult[0]:
-        return URL_MAIN + aResult[1][0]
+        sNext = aResult[1][0]
+        if 'http' not in sNext:
+            sNext = URL_MAIN + aResult[1][0]
+
+        return sNext
 
     return False
 
@@ -176,17 +172,12 @@ def ShowEps():
     sThumb = oInputParameterHandler.getValue('sThumb')
     sDesc = oInputParameterHandler.getValue('sDesc')
 
+    oParser = cParser()
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request() 
-				
-    # (.+?) .+? ([^<]+)
 
-    sPattern = 'href="([^<]+)">الحلقة<em>(.+?)</em></a>'
-
-    oParser = cParser()
+    sPattern = 'href="([^"]+)".+?<span>الحلقة</span>\s*<em>(.+?)</em>'
     aResult = oParser.parse(sHtmlContent, sPattern)
-    
-   
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
@@ -217,21 +208,39 @@ def showHosters(oInputParameterHandler = False):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request() 
     
-    # (.+?) .+? ([^<]+)        	
-    sPattern = 'href="([^<]+)" class="download--item">'
-    oParser = cParser()
+    oParser = cParser()    	
+
+    sPattern = 'data-embed="([^"]+)".+?<em>(.+?)</em>'
     aResult = oParser.parse(sHtmlContent, sPattern)
-	
     if aResult[0]:
         for aEntry in aResult[1]:       
-            url = aEntry
+            url = aEntry[0]
+            sQual = aEntry[1]
             if url.startswith('//'):
                 url = 'http:' + url
 								            
             sHosterUrl = url 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
-                oHoster.setDisplayName(sMovieTitle)
+                sDisplayTitle = ('%s [COLOR coral](%s)[/COLOR]') % (sMovieTitle, sQual)
+                oHoster.setDisplayName(sDisplayTitle)
+                oHoster.setFileName(sMovieTitle)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+
+    sPattern = '<h4 class="downTitle">.+?href="([^"]+)".+?</span><span>(.+?)</span>'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    if aResult[0]:
+        for aEntry in aResult[1]:       
+            url = aEntry[0]
+            sQual = aEntry[1]
+            if url.startswith('//'):
+                url = 'http:' + url
+								            
+            sHosterUrl = url 
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if oHoster:
+                sDisplayTitle = ('%s [COLOR coral](%s)[/COLOR]') % (sMovieTitle, sQual)
+                oHoster.setDisplayName(sDisplayTitle)
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 				

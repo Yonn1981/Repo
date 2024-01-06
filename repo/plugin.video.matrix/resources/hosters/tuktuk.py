@@ -3,7 +3,7 @@
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
-from resources.lib.comaddon import VSlog
+from resources.lib.comaddon import VSlog, dialog
 from resources.lib.packer import cPacker
 
 
@@ -25,7 +25,24 @@ class cHoster(iHoster):
         aResult = oParser.parse(sHtmlContent, sPattern)
         if aResult[0] is True:
             sHtmlContent = cPacker().unpack(aResult[1][0])
-        
+
+        sPattern = ',file:"(.+?)",thumbnails'
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        if aResult[0] :
+            for aEntry in aResult[1]:
+                sHtmlContent = aEntry
+
+            sPattern = '(.+?)(http.+?.mp4)'
+            aResult = oParser.parse(sHtmlContent, sPattern)
+            if aResult[0]:
+                url = []
+                qua = []
+                for i in aResult[1]:
+                    url.append(str(i[1]))                  
+                    qua.append(str(i[0].replace(',','')))
+
+                api_call = dialog().VSselectqual(qua, url) + '|Referer=' + self._url
+
         sPattern = 'sources:\s*\[{file:\s*["\']([^"\']+)'
         aResult = oParser.parse(sHtmlContent, sPattern)
 

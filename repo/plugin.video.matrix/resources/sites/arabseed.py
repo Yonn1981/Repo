@@ -659,9 +659,10 @@ def url_function(sHtmlContent):
 
 def main_function(sHtmlContent):
     oParser = cParser()
+    nURL = URL_MAIN
     sPattern = 'HomeURL = "(.+?)";'
     aResult = oParser.parse(sHtmlContent, sPattern)    
     if (aResult[0]):
-        URL_MAIN = aResult[1][0]
+        nURL = aResult[1][0]
         
-    return URL_MAIN
+    return nURL

@@ -2,6 +2,7 @@
 # zombi https://github.com/zombiB/zombi-addons/
 
 import re
+import requests
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -253,9 +254,41 @@ def showHosters(oInputParameterHandler = False):
     oParser = cParser()    
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-     
-    sPattern = '<a href="(.+?)" target="_blank"><i class="fa fa-star"></i><span>(.+?)</span><span>(.+?)</span></a>' 
-    aResult = re.findall(sPattern, sHtmlContent)
+
+    sPattern = 'method="post" action="([^"]+)' 
+    aResult = oParser.parse(sHtmlContent,sPattern)
+    if aResult[0]:
+        rURL = aResult[1][0]
+
+    sPattern = 'name="ur" value="([^"]+)' 
+    aResult = oParser.parse(sHtmlContent,sPattern)
+    if aResult[0]:
+        sRefer = aResult[1][0]
+
+    sPattern = 'name="wl" value="([^"]+)' 
+    aResult = oParser.parse(sHtmlContent,sPattern)
+    if aResult[0]:
+        sWatch = aResult[1][0]
+
+    sPattern = 'name="dl" value="([^"]+)' 
+    aResult = oParser.parse(sHtmlContent,sPattern)
+    if aResult[0]:
+        sDown = aResult[1][0]
+
+    s = requests.Session()  
+    headers = {'User-Agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36 Edg/120.0.0.0',
+				'Referer': URL_MAIN,
+                'Origin': URL_MAIN.rsplit('/', 1)[0],
+				'Sec-Fetch-Site': 'cross-site',
+				'Sec-Fetch-Dest': 'document',
+				'Sec-Fetch-Mode': 'navigate',
+                'Upgrade-Insecure-Requests':'1'}
+    data = {'ur':sRefer,'wl':sWatch,'dl':sDown,'submit':'submit'}
+    r = s.post(rURL, headers=headers, data = data)
+    sHtmlContent1 = r.content.decode('utf8') 
+
+    sPattern = 'data-ep-url="([^"]+)">(.+?)</a>' 
+    aResult = re.findall(sPattern, sHtmlContent1)
     if aResult:
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult:
@@ -263,6 +296,7 @@ def showHosters(oInputParameterHandler = False):
                 continue
             
             url = aEntry[0].replace('/d/','/f/')
+            sLabel = aEntry[1]
             sHosterUrl = url
             if 'megamax' in sHosterUrl:
                 data = cMegamax().GetUrls(sHosterUrl)
@@ -281,6 +315,7 @@ def showHosters(oInputParameterHandler = False):
 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
+                sDisplayTitle = ('%s [COLOR coral] [%s][/COLOR]') % (sMovieTitle, sLabel)   
                 oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
@@ -296,13 +331,13 @@ def showHosters(oInputParameterHandler = False):
             sQual = aEntry[0].replace("الجودة المتوسطة","").replace("الجودة العالية","").replace("الجودة الخارقة","").strip()
             sHtmlContent = aEntry[1]
 
-            sPattern = 'href="([^"]+)'
+            sPattern = 'href="([^"]+)">(.+?)</a>'
             aResult = oParser.parse(sHtmlContent, sPattern)
             if aResult[0] :
                 for aEntry in aResult[1]:   
                     if 'mega.nz' in aEntry:
                         continue         
-                    url = aEntry
+                    url = aEntry[0]
                     if url.startswith('//'):
                         url = 'http:' + url
 

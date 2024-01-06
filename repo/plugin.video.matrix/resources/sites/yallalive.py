@@ -135,6 +135,10 @@ def showHosters(oInputParameterHandler = False):
                 Referer =  "https://sharecast.ws/"
                 sHosterUrl = Hoster_ShareCast(url, Referer)
 
+            if 'tastyturbine' in url:
+                Referer =  url
+                sHosterUrl = Hoster_ShareCast(url, Referer)
+
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
                 oHoster.setDisplayName(sTitle)
@@ -294,6 +298,13 @@ def getHosterIframe(url, referer):
         url = aResult[0]
         if '.m3u8' in url:
             return url
+
+    sPattern = "new Player\(.+?player\",\"([^\"]+)\",{'([^\']+)"
+    aResult = re.findall(sPattern, sHtmlContent)
+    if aResult:
+        site = 'https://' + aResult[0][1]
+        url = (site + '/hls/' + aResult[0][0]  + '/live.m3u8') + '|Referer=' + Quote(site)
+        return url 
 
     sPattern = 'player.load\({source: (.+?)\('
     aResult = re.findall(sPattern, sHtmlContent)

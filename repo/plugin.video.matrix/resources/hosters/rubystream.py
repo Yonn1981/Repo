@@ -1,6 +1,5 @@
 #-*- coding: utf-8 -*-
 
-from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
 from resources.lib.packer import cPacker
 from resources.lib.comaddon import dialog, VSlog
@@ -16,7 +15,6 @@ class cHoster(iHoster):
 
     def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
-        oParser = cParser()
         
         if '/d/' in self._url:
             self._url = self._url.replace('/d/','/embed-') + '.html'

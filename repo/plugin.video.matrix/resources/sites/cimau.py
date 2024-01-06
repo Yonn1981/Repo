@@ -183,6 +183,10 @@ def showMovies(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
+    sStart = 'class="PageContent">'
+    sEnd = '<script'
+    sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd) 
+
     sPattern = '<li class="MovieBlock"><a href="([^<]+)"><div.+?image:url([^<]+);"></div>.+?</div></div>([^<]+)</div>'
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:

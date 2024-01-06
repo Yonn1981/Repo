@@ -294,12 +294,14 @@ def __checkForNextPage(sHtmlContent):
     sPattern = 'next page-numbers" href="([^"]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
-        return URL_MAIN + aResult[1][0]
+        sNext = aResult[1][0]
+        if 'http' not in sNext:
+            sNext = URL_MAIN + aResult[1][0]
+        return sNext
 
     return False
 	
 def showEpisodes():
-    import requests
     oGui = cGui()
    
     oInputParameterHandler = cInputParameterHandler()
@@ -374,7 +376,6 @@ def showHosters(oInputParameterHandler = False):
                 for aEntry in aResult[1]:
             
                     url = aEntry.split('\\')[0]
-                    sTitle = " "
                     if url.startswith('//'):
                        url = 'http:' + url
             
@@ -385,8 +386,7 @@ def showHosters(oInputParameterHandler = False):
                         sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN   
                     oHoster = cHosterGui().checkHoster(sHosterUrl)
                     if oHoster:
-                       sDisplayTitle = sTitle
-                       oHoster.setDisplayName(sDisplayTitle)
+                       oHoster.setDisplayName(sMovieTitle)
                        oHoster.setFileName(sMovieTitle)
                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 				            

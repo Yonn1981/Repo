@@ -19,7 +19,7 @@ SITE_DESC = 'arabic vod'
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 URL_MAIN2 = siteManager().getUrlMain2(SITE_IDENTIFIER)
 
-SPORT_LIVE = (URL_MAIN+'p/today-matches-koora360.html', 'showMovies')
+SPORT_LIVE = (URL_MAIN+'p/matches-today-live.html', 'showMovies')
 
 UA = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:56.0) Gecko/20100101 Firefox/56.0'
  
@@ -214,6 +214,53 @@ def showHosters(oInputParameterHandler = False):
                         cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
             sPattern = 'loadSource(.+?);'
+            aResult = oParser.parse(sHtmlContent, sPattern)
+            if aResult[0]:
+                for aEntry in aResult[1]:
+                    url = aEntry.replace("('","").replace("')","")
+                    sTitle = ('%s [COLOR coral](%s)[/COLOR]') % (sMovieTitle, sTitle)
+                    if url.startswith('//'):
+                        url = 'https:' + url
+
+
+                    sHosterUrl = url
+                    oHoster = cHosterGui().checkHoster(sHosterUrl)
+                    sHosterUrl = sHosterUrl + '|AUTH=TLS&verifypeer=false'
+                    if oHoster:
+                        oHoster.setDisplayName(sTitle)
+                        oHoster.setFileName(sTitle)
+                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)   	
+
+            sPattern = 'embeds =(.+?)",'
+            aResult = oParser.parse(sHtmlContent, sPattern)
+            if aResult[0]:
+                for aEntry in aResult[1]:
+                    url = aEntry.replace(' ["',"")
+                    if 'm3u8' in url:           
+                        sHosterUrl = url.split('=')[1]
+                    if '.php' in url:
+                        import requests    
+                        oRequestHandler = cRequestHandler(url)
+                        St=requests.Session()
+                        oRequestHandler = cRequestHandler(url)
+                        sHtmlContent2 = St.get(url).content.decode('utf-8') 
+                        oParser = cParser()
+                        sPattern =  "src='(.+?)' type="
+                        aResult = oParser.parse(sHtmlContent2,sPattern)
+                        if aResult[0]:
+                           for aEntry in aResult[1]:
+                               url = aEntry
+                               sTitle = ('%s [COLOR coral](%s)[/COLOR]') % (sMovieTitle, sTitle)
+                               if url.startswith('//'):
+                                   url = 'https:' + url
+                               sHosterUrl = url
+                               oHoster = cHosterGui().checkHoster(sHosterUrl)
+                               if oHoster:
+                                   oHoster.setDisplayName(sTitle)
+                                   oHoster.setFileName(sMovieTitle)
+                                   cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+
+            sPattern = '<iframe src="(.+?)" allowfullscreen'
             aResult = oParser.parse(sHtmlContent, sPattern)
             if aResult[0]:
                 for aEntry in aResult[1]:

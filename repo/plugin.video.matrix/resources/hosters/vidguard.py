@@ -5,7 +5,8 @@ from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
 from resources.lib.comaddon import dialog
 from resources.lib.aadecode import decodeAA
-
+import re
+import json
 import binascii
 import base64
 
@@ -27,35 +28,29 @@ class cHoster(iHoster):
 
         oParser = cParser()
         
-        sPattern = '<script\s*src="(/assets/videojs/ad/[^"]+)'
-        aResult = oParser.parse(sHtmlContent, sPattern)
-        
-        if aResult[0] is True:
-            url = self.__getHost() + aResult[1][0]
-            
-            oRequest = cRequestHandler(url)
-            oRequest.addHeaderEntry('Referer', self._url)
-            sHtmlContent = oRequest.request()
-            
-            sPattern = '(ﾟωﾟ.+?\(\'_\'\);)'
-            aResult = oParser.parse(sHtmlContent, sPattern)
+        r = re.search(r'eval\("window\.ADBLOCKER\s*=\s*false;\\n(.+?);"\);</script', sHtmlContent)
+        if r:
+            r = r.group(1).replace('\\u002b', '+')
+            r = r.replace('\\u0027', "'")
+            r = r.replace('\\u0022', '"')
+            r = r.replace('\\/', '/')
+            r = r.replace('\\\\', '\\')
+            r = r.replace('\\"', '"')
+            aa_decoded = decodeAA(r, True)
+            url = json.loads(aa_decoded[11:]).get('stream')
 
-            if aResult[0] is True:
-                sHtmlContent = decodeAA(aResult[1][0], True)
-                
-                sPattern = 'Label":"([^"]+)","URL":"([^"]+)"'
-                aResult = oParser.parse(sHtmlContent, sPattern)
-                if aResult[0]:
-                    # initialisation des tableaux
-                    url = []
-                    qua = []
-                    for i in aResult[1]:
-                        url2 = str(i[1])
-                        url2 = url2.encode().decode('unicode-escape')
-                        url.append(sig_decode(url2))
-                        qua.append(str(i[0]))
+            sPattern = "'Label': '([^']+)', 'URL': '([^']+)"
+            aResult = oParser.parse(url, sPattern)
+            if aResult[0]:
+                url = []
+                qua = []
+                for i in aResult[1]:
+                    url2 = str(i[1])
+                    url2 = url2.encode().decode('unicode-escape')
+                    url.append(sig_decode(url2))
+                    qua.append(str(i[0]))
 
-                    api_call = dialog().VSselectqual(qua, url) + '|Referer=' + self._url
+                api_call = dialog().VSselectqual(qua, url) + '|Referer=' + self._url
 
         if api_call:
             return True, api_call

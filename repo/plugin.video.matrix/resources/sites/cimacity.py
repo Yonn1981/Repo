@@ -386,7 +386,6 @@ def showServer(oInputParameterHandler = False):
       
             url = aEntry
             url = url.replace("moshahda","ffsff")
-            sTitle = " "
             sThumb = sThumb
             if url.startswith('//'):
                 url = 'http:' + url
@@ -401,8 +400,7 @@ def showServer(oInputParameterHandler = False):
                  
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
-                sDisplayTitle = sTitle
-                oHoster.setDisplayName(sDisplayTitle)
+                oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)     
       

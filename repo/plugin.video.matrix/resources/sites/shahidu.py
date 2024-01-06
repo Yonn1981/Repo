@@ -304,7 +304,7 @@ def showSeries(sSearch = ''):
             if "فيلم" in aEntry[2]:
                 continue
             
-            sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("مترجمة","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("كامل","")
+            sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("سلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("مترجمة","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("كامل","")
             if 'http' not in aEntry[1]:
                 sThumb = URL_MAIN+aEntry[1]
             else:
@@ -384,10 +384,6 @@ def showSeasons():
         progress_.VSclose(progress_)
 
     else:
-        sStart = '</i>\s*جميع الحلقات\s*</div>'
-        sEnd = '<i class'
-        sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
-
         sPattern = 'href="([^"]+)" class="epss.+?</span>.+?>(.+?)</span>'
         aResult = oParser.parse(sHtmlContent, sPattern)
         if aResult[0]:
@@ -428,12 +424,8 @@ def showEpisodes():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-    sStart = '</i>\s*جميع الحلقات\s*</div>'
-    sEnd = '<i class'
-    sHtmlContent0 = oParser.abParse(sHtmlContent, sStart, sEnd)
-
     sPattern = 'href="([^"]+)" class="epss.+?</span>.+?>(.+?)</span>'
-    aResult = oParser.parse(sHtmlContent0, sPattern)
+    aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:

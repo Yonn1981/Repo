@@ -315,8 +315,8 @@
         "koralive": {
             "label": "Koralive",
             "active": "True",
-            "url": "https://hd.360kora-live.com/",
-            "url2": "https://1koora.alkoora-live.live/"
+            "url": "https://2live.360kora.net/",
+            "url2": "https://koralive.alkoora-live.live/"
         },
         "laroza": {
             "label": "Laroza",
@@ -417,6 +417,7 @@
         "showb": {
             "label": "ShowBox",
             "active": "True",
+            "cloudflare": "True",
             "url": "https://www.showbox.media/"
         },
         "themoviedb_org": {

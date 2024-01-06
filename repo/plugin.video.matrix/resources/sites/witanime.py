@@ -255,7 +255,9 @@ def ShowEps():
             oOutputParameterHandler.addParameter('sYear', sYear)
             oOutputParameterHandler.addParameter('sDesc', sDesc)
             oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler) 
-       
+    else:
+        oGui.addText(SITE_IDENTIFIER, '[COLOR olive]لم يتم رفع حلقة الى الآن[/COLOR]')
+
     oGui.setEndOfDirectory()
 
 def __checkForNextPage(sHtmlContent):
@@ -282,7 +284,7 @@ def showHosters(oInputParameterHandler = False):
     sEnd = 'class="videoWrapper'
     sHtmlContent1 = oParser.abParse(sHtmlContent, sStart, sEnd)
 
-    sPattern = 'data-url=["\']([^"\']+)["\'].+?>([^<]+)</a'
+    sPattern = 'data-url=["\']([^"\']+)["\'].+?class="notice">(.+?)</span>'
     aResult = oParser.parse(sHtmlContent1, sPattern)
     if aResult[0]:
         for aEntry in reversed(aResult[1]):
