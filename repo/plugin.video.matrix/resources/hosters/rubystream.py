@@ -21,7 +21,8 @@ class cHoster(iHoster):
 
         headers = {'User-Agent': UA,
                    'Origin': self._url.rsplit('/', 1)[0],
-                   'Referer': self._url
+                   'Referer': self._url,
+                   'Accept-Language': 'en-US,en;q=0.5'
                    }
         s = requests.session()
         sHtmlContent = s.get(self._url, headers=headers).text

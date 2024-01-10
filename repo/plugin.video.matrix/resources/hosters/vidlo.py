@@ -13,7 +13,7 @@ UA = 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML,
 class cHoster(iHoster):
 
     def __init__(self):
-        iHoster.__init__(self, 'vidlo', 'vidlo')
+        iHoster.__init__(self, 'vidlo', 'Vidlo')
 
     def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)

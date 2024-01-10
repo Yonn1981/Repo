@@ -368,8 +368,29 @@ def showHosters(oInputParameterHandler = False):
         r = s.post(sLink, headers=headers,data = data)
         sHtmlContent = r.content.decode('utf8')
 
+    sPattern =  '<form method="post" action="([^"]+)".+?name="watch" value="([^"]+)' 
+    aResult = oParser.parse(sHtmlContent,sPattern)
+    if aResult[0]:
+        for aEntry in aResult[1]:
+            wcode = aEntry[1]
+            sLink = aEntry[0]
+
+        s = requests.Session()            
+        headers = {'user-agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Mobile Safari/537.36 Edg/115.0.1901.188',
+                  'origin': 'https://bazplay.cc',
+                  'referer': URL_MAIN,
+                  'sec-fetch-dest': 'document',
+                  'sec-fetch-mode': 'navigate',
+                  'sec-fetch-site': 'cross-site',
+                  'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7'}
+
+        data = {'watch':wcode,'submit':''}
+        r = s.post(sLink, headers=headers,data = data)
+        sHtmlContent = r.content.decode('utf8')
+
         sPattern = 'data-src=["\']([^"\']+)["\']'
         aResult = oParser.parse(sHtmlContent, sPattern)
+        VSlog(aResult)
         itemList = []
         if aResult[0]:
            oOutputParameterHandler = cOutputParameterHandler()

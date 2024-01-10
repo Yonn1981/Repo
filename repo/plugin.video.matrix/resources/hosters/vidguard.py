@@ -46,6 +46,8 @@ class cHoster(iHoster):
                 qua = []
                 for i in aResult[1]:
                     url2 = str(i[1])
+                    if not url2.startswith('https://'):
+                        url2 = re.sub(':/*', '://', url2)
                     url2 = url2.encode().decode('unicode-escape')
                     url.append(sig_decode(url2))
                     qua.append(str(i[0]))

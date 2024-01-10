@@ -50,6 +50,6 @@ class cHoster(iHoster):
             api_call = aResult[1][0]
 
         if api_call:
-            return True, api_call+ '|Referer=https://tuktukcinema.top/'
+            return True, api_call + '|Referer' + self._url 
 
         return False, False

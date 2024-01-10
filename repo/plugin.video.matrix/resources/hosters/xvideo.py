@@ -4,7 +4,7 @@ from resources.lib.comaddon import dialog, xbmcgui
 from resources.hosters.hoster import iHoster
 from resources.lib.packer import cPacker
 from resources.lib.comaddon import VSlog
-import re
+import unicodedata
 
 class cHoster(iHoster):
 
@@ -25,8 +25,6 @@ class cHoster(iHoster):
 
         sPattern = '(eval\(function\(p,a,c,k,e(?:.|\s)+?\))<\/script>'
         aResult = oParser.parse(sHtmlContent, sPattern)
-        from resources.lib.util import Quote
-        import unicodedata
 
         if aResult[0]:
             data = aResult[1][0]

@@ -46,7 +46,6 @@ class cHoster(iHoster):
             SubTitle = ''
 
         api_call = self._url
-        VSlog(api_call)
 
         if api_call:
             if ('http' in SubTitle):

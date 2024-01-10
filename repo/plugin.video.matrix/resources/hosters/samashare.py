@@ -13,7 +13,7 @@ UA = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:68.0) Gecko/20100101 Firefox/6
 class cHoster(iHoster):
 
     def __init__(self):
-        iHoster.__init__(self, 'samashare', 'Samashare')
+        iHoster.__init__(self, 'samashare', 'Vidpro')
 			
     def setUrl(self, sUrl):
         self._url = str(sUrl)

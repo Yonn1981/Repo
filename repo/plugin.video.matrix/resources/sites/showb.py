@@ -108,7 +108,7 @@ def showMovies(sSearch = ''):
 
             sTitle = aEntry[2]
             sQual = f'[{aEntry[0]}]'
-            siteUrl = showb_function(aEntry[3])
+            siteUrl = 'https://www.showbox.media' + aEntry[3]
             sThumb = aEntry[1]
             sDesc = ''
             sYear = ''
@@ -134,11 +134,13 @@ def showMovies(sSearch = ''):
  
 def showLinks(oInputParameterHandler = False):
     oGui = cGui()
-
+    oParser = cParser()
     oInputParameterHandler = cInputParameterHandler()
-    sUrl = oInputParameterHandler.getValue('siteUrl')
+    sURL = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
+
+    sUrl = showb_function(sURL)
 
     if 'share/' not in sUrl:
         sTitle = 'No resources Found'
@@ -146,25 +148,27 @@ def showLinks(oInputParameterHandler = False):
     else:
         Subtitle = subs_function(sMovieTitle)  
         share_key = sUrl.split('share/')[1]
-        streams = requests.get(f'https://febbox.com/file/file_share_list?share_key={share_key}&pwd=').json()
+        streams = f'https://febbox.com/file/file_share_list?share_key={share_key}&pwd='
+    
+        oRequestHandler = cRequestHandler(streams)
+        sHtmlContent = oRequestHandler.request()
+        streams = json.loads(sHtmlContent)
         show_data = max(streams['data']['file_list'], key=lambda x: x['file_size'])
-
+        
         quality_map = ['4k', '1080p%252B']
         for quality in quality_map:
             oOutputParameterHandler = cOutputParameterHandler()
             stream_url = f'https://febbox.com/hls/main/{show_data["oss_fid"]}.m3u8?q={quality}'
             sTitle = ('%s  [COLOR coral](%s)[/COLOR]') % (sMovieTitle, quality.replace('%252B',''))
-            m3u8_response = requests.get(stream_url)
-            if m3u8_response:
-                url = stream_url
+            url = stream_url
 
 
-                oOutputParameterHandler.addParameter('siteUrl', url)
-                oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-                oOutputParameterHandler.addParameter('sThumb', sThumb)
-                oOutputParameterHandler.addParameter('Subtitle', Subtitle)
+            oOutputParameterHandler.addParameter('siteUrl', url)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
+            oOutputParameterHandler.addParameter('Subtitle', Subtitle)
 
-                oGui.addLink(SITE_IDENTIFIER, 'showHosters', sTitle, sThumb, '', oOutputParameterHandler, oInputParameterHandler)
+            oGui.addLink(SITE_IDENTIFIER, 'showHosters', sTitle, sThumb, '', oOutputParameterHandler, oInputParameterHandler)
 
     oGui.setEndOfDirectory()
 
@@ -200,14 +204,27 @@ def __checkForNextPage(sHtmlContent):
     return False, 'none'
 
 def showb_function(sURL):
-    show_link = sURL
-    show_id = show_link.split('/')[3]
-    feb_box_result = requests.get(f'https://www.showbox.media/index/share_link?id={show_id}&type=1')
-    feb_box_data = feb_box_result.json()
-    feb_box_data = feb_box_data['data']['link']
+    oParser = cParser()
+    oRequestHandler = cRequestHandler(sURL)
+    sHtmlContent = oRequestHandler.request()
+
+    sPattern = 'class="heading-name"><a href="([^"]+)"'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    if aResult[0]:
+            show_link = aResult[1][0]
+            show_id = show_link.split('/')[3]
+
+    feb_box_url = f'https://www.showbox.media/index/share_link?id={show_id}&type=1'
+
+    oRequestHandler = cRequestHandler(feb_box_url)
+    sHtmlContent = oRequestHandler.request()
+    sPattern = '"link":\s*"([^"]+)"'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    if aResult[0]:
+            feb_box_data = aResult[1][0]
 
     if feb_box_data:
-        return feb_box_data
+        return feb_box_data.replace('\\','')
         
     return False, False
 

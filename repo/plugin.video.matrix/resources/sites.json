@@ -269,7 +269,7 @@
         },
         "gateanime": {
             "label": "GateAnime",
-            "active": "False",
+            "active": "True",
             "url": "https://e.gateanime.com/"
         },
         "geoarabic": {
@@ -416,7 +416,7 @@
         },
         "showb": {
             "label": "ShowBox",
-            "active": "True",
+            "active": "False",
             "cloudflare": "True",
             "url": "https://www.showbox.media/"
         },
