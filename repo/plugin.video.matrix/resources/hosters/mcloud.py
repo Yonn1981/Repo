@@ -139,7 +139,7 @@ def encode_id(id_):
 		return h
 		
 	
-	klucze = requests.get('https://raw.githubusercontent.com/matecky/bac/keys/keys.json', verify=False).json()
+	klucze = requests.get('https://raw.githubusercontent.com/Claudemirovsky/worstsource-keys/keys/keys.json', verify=False).json()
 	k1 = klucze[0]
 	k2 = klucze[1]
 	cbn = dec2(k1,id_)

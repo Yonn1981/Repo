@@ -331,7 +331,7 @@ class cHosterGui:
         if ('upstream' in sHosterUrl):
             return self.getHoster('upstream')
 
-        if ('DoodStream' in sHostName) or ('dooood' in sHostName) or ('flixeo' in sHostName) or ('ds2play' in sHostName) or ('dood' in sHostName) or ('dood' in sHosterUrl) or ('d0o0d' in sHostName):
+        if ('DoodStream' in sHostName) or ('dooood' in sHostName) or ('flixeo' in sHostName) or ('ds2play' in sHostName) or ('dood' in sHostName) or ('dood' in sHosterUrl) or ('d0o0d' in sHostName) or ('ds2video' in sHostName):
             return self.getHoster('dood')
        
         if ('hadara.ps' in sHostName):
