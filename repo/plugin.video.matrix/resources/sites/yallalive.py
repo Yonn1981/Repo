@@ -139,6 +139,10 @@ def showHosters(oInputParameterHandler = False):
                 Referer =  url
                 sHosterUrl = Hoster_ShareCast(url, Referer)
 
+            if 'elegantpelican' in url:
+                Referer =  url
+                sHosterUrl = Hoster_ShareCast(url, Referer)
+
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
                 oHoster.setDisplayName(sTitle)

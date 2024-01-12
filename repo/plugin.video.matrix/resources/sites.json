@@ -143,8 +143,8 @@
         },
         "cimaclub": {
             "label": "CimaClub",
-            "active": "False",
-            "url": "https://cima-club.vip/"
+            "active": "True",
+            "url": "https://cimaclub.skin/"
         },
         "cimacity": {
             "label": "CimaCity",
@@ -478,7 +478,7 @@
         "yallalive": {
             "label": "Yallalive",
             "active": "True",
-            "url": "https://yallalive.icu/"
+            "url": "https://yalla-live.sbs/"
         },
         "ytxmx": {
             "label": "YTXMS",

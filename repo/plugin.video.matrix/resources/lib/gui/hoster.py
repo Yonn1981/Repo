@@ -495,6 +495,9 @@ class cHosterGui:
 				
         if ('fajer.live' in sHostName):
             return self.getHoster('fajerlive')
+
+        if ('cimaclub' in sHostName):
+            return self.getHoster('cimaclub')
                        
         if ('govid' in sHostName) or ('drkvid' in sHosterUrl) or ('gvid.' in sHosterUrl) or ('govid.' in sHostName) or ('kopatube' in sHostName) or ('kobatube' in sHostName) or ('darkveed' in sHostName) or ('downvol' in sHosterUrl) or ('telvod' in sHosterUrl):
             return self.getHoster('govid')
