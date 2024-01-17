@@ -228,7 +228,7 @@ class cHosterGui:
         # Vidshare Clone
         vidshare = next((x for x in ['vadshar', 'vidshar', 'vedshaar', 'vedsharr', 'vedshar', 'vedshar', 'vidshare', 'viidshar', 'vid1shar', '2vid2cdnshar', 'v2d2shr', 
                             'v1d1shr', 'v3dsh1r', 'vds3r', 'v3dshr', 'vndsh1r', 'vd12s3r', 'v31dshr', 'vds1r', 'vdonlineshr', 'v4dshnr', 'vd1sher',
-                            'vd13r', 'vd1sr', 'v1dsr', 'vd2sr', 'v1d2sr', 'v2d3sr', 'vd4sr', 'vadsr'] if x in sHostName), None)
+                            'vd13r', 'vd1sr', 'v1dsr', 'vd2sr', 'v1d2sr', 'v2d3sr', 'vd4sr', 'vadsr', 'van1dsr', 'vv1dsr', 'viidhdr'] if x in sHostName), None)
         if vidshare:
             return self.getHoster('vidshare')
 
@@ -237,7 +237,7 @@ class cHosterGui:
                             'ved2om', 'vid2bom', 'viidboom', 'vig1bm', 'v3db1oom', 'ved1om', 'vvid1om', 'vigom', 've1dp3m', 'vdp1em', 'viid1bem', 'vuidbeaam',
                             'v2ddb3m', '2vbiim', 'vdb123m', 'vd123bm', 'v3dbeam', 'v3dbtom', 'v7d20bm', 'v7d20bm', 'vdtom', 'vendm', 'vandbm', 'vand1bm', 
                             'vrdb2m', 'vdbt3om', 'vd22tom', 'ven1dm', 'vrdtem', 'vrd1tem', 'v5db2m', 'vdb1m', 'vendbm', 'v6b3m', 'vd1bm', 'vdb2m', 'v1db2m', 
-                            'v2db3m', 'vd3bm', 'venb1m', 'v1enbm'] if x in sHostName), None)
+                            'v2db3m', 'vd3bm', 'venb1m', 'v1enbm', 'vndtom'] if x in sHostName), None)
         if vidbom:
             return self.getHoster('vidbom')
 
@@ -245,7 +245,7 @@ class cHosterGui:
         uppom = next((x for x in ['upbaam', 'upbam', 'uppom', 'uppboom', 'uupbom', 'upgobom', 'upptobom', 'up2b9om', 'up1bom', 'up3bom', 'u1pb3m', 
                             'u2pbemm', 'up1beem', 'bmbm.shop', '4bmto', '2bm.shop', 't0bm4.shop', '4bem2022', 'bm025', 'bm2024', 'b245m.shop', 'b2m1.shop',
                             'online20.shop', 'line50.shop', 'fo0.shop', 'online20stream', '4view.shop', 'team20.shop', 'travel15.shop', 'sigh15.shop', 
-                            'video15.shop', 'streaming15.shop', 'onlin12estream', 'tostream20', 'streaming200'] if x in sHostName), None)
+                            'video15.shop', 'streaming15.shop', 'onlin12estream', 'tostream20', 'streaming200', 'top15top'] if x in sHostName), None)
         if uppom:
             return self.getHoster('uppom')
 
@@ -296,10 +296,15 @@ class cHosterGui:
         if voe:
             return self.getHoster("voe")
 
-        #vidlo CLone
+        #vidlo Clone
         vidlo = next((x for x in ['vidlo', 'c13-look', '7c3-look'] if x in sHostName), None)
         if vidlo:    
             return self.getHoster('vidlo')
+
+        #dood Clone
+        vidlo = next((x for x in ['DoodStream', 'dooood', 'flixeo', 'ds2play', 'dood', 'd0o0d', 'ds2video', 'do0od'] if x in sHostName), None)
+        if vidlo:    
+            return self.getHoster('dood')
 
         if ('mcloud' in sHosterUrl) or ('vizcloud' in sHosterUrl) or ('vidstream' in sHosterUrl) or ('vidplay' in sHosterUrl):
             return self.getHoster('mcloud')
@@ -330,10 +335,7 @@ class cHosterGui:
 
         if ('upstream' in sHosterUrl):
             return self.getHoster('upstream')
-
-        if ('DoodStream' in sHostName) or ('dooood' in sHostName) or ('flixeo' in sHostName) or ('ds2play' in sHostName) or ('dood' in sHostName) or ('dood' in sHosterUrl) or ('d0o0d' in sHostName) or ('ds2video' in sHostName):
-            return self.getHoster('dood')
-       
+      
         if ('hadara.ps' in sHostName):
             return self.getHoster('lien_direct')  
               

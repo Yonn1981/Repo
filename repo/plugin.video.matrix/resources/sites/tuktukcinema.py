@@ -466,7 +466,7 @@ def showHosters(oInputParameterHandler = False):
                url = 'http:' + url
 								
             sHosterUrl = url 
-            if 'megamax' in sHosterUrl:
+            if 'megamax' in sHosterUrl or 'megamax' in sServer:
                 data = cMegamax().GetUrls(sHosterUrl)
                 for item in data:
                     sHosterUrl = item.split(',')[0].split('=')[1]

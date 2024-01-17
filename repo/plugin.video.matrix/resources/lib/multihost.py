@@ -127,7 +127,7 @@ class cMegamax:
         headers = {'Referer':sHosterUrl,
                                 'Sec-Fetch-Mode':'cors',
                                 'X-Inertia':'true',
-                                'X-Inertia-Partial-Component':'web/files/mirror/video',
+                                'X-Inertia-Partial-Component':'files/mirror/video',
                                 'X-Inertia-Partial-Data':'streams',
                                 'X-Inertia-Version':sVer}
 

@@ -64,7 +64,7 @@ def decodeVidstream(query):
 	ref = query
 	hd ={'user-agent':  UA,'Referer': ref}
 	domain = urlparse(query).netloc
-	domain = 'vidplay.site' if 'vidplay' in domain else domain
+	domain = 'vidplay.online' if 'vidplay' in domain else domain
 	futokenurl = 'https://'+domain+'/futoken'
 	futoken = requests.get(futokenurl, verify=False).text
 
@@ -138,8 +138,9 @@ def encode_id(id_):
 
 		return h
 		
-	
-	klucze = requests.get('https://raw.githubusercontent.com/Claudemirovsky/worstsource-keys/keys/keys.json', verify=False).json()
+	# Credits to @rawgimaster for providing key - Thanks
+	#klucze = requests.get('https://raw.githubusercontent.com/Claudemirovsky/worstsource-keys/keys/keys.json', verify=False).json()
+	klucze = requests.get('https://raw.githubusercontent.com/rawgimaster/worstsource-keys/keys/keys.json', verify=False).json()
 	k1 = klucze[0]
 	k2 = klucze[1]
 	cbn = dec2(k1,id_)
