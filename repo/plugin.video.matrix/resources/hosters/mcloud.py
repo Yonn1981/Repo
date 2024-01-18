@@ -138,9 +138,9 @@ def encode_id(id_):
 
 		return h
 		
-	# Credits to @rawgimaster for providing key - Thanks
+	# Credits to @KillerDogeEmpire for providing key - Thanks
 	#klucze = requests.get('https://raw.githubusercontent.com/Claudemirovsky/worstsource-keys/keys/keys.json', verify=False).json()
-	klucze = requests.get('https://raw.githubusercontent.com/rawgimaster/worstsource-keys/keys/keys.json', verify=False).json()
+	klucze = requests.get('https://raw.githubusercontent.com/KillerDogeEmpire/vidplay-keys/keys/keys.json', verify=False).json()
 	k1 = klucze[0]
 	k2 = klucze[1]
 	cbn = dec2(k1,id_)

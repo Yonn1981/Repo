@@ -21,7 +21,11 @@ class cHoster(iHoster):
                    }
         s = requests.session()
         sHtmlContent = s.get(self._url, headers=headers).text
-     
+
+        aResult = re.search(r'["\']file["\']: ["\']([^"\']+)["\']', sHtmlContent)
+        if aResult:
+            return True, aResult.group(1) + '|User-Agent=' + UA + '&Referer=' +referer
+
         aResult = re.search(r'file:["\']([^"\']+)["\']', sHtmlContent)
         if aResult:
             sSource = aResult.group(1)
@@ -45,6 +49,7 @@ class cHoster(iHoster):
                 url.append(str(aEntry[1]))
                 qua.append(str(aEntry[0].split(',FRAME-RATE')[0]))
             api_call = dialog().VSselectqual(qua, url)
+
 
         if api_call:
             return True, api_call + '|User-Agent=' + UA + '&Referer=' +referer

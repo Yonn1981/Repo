@@ -212,12 +212,12 @@ class cHosterGui:
         supported_player = ['film77', 'hdup', 'streamable', 'stardima', 'filescdn', 'vidgot', 'videott', 'vidlo', 'sendit', 'thevid', 'vidmoly', 'gettyshare',
                             'fastplay', 'cloudy', 'hibridvod', 'arabveturk', 'extremenow', 'yourupload', 'vidspeeds', 'moshahda', 'voe', 'faselhd', 'naqoos',
                             'streamax', 'gounlimited', 'xdrive', 'facebook', 'mixdrop', 'mixloads', 'vidoza', 'rutube', 'megawatch', 'vidzi', 'filetrip', 
-                            'uptostream', 'speedvid', 'letsupload', 'krakenfiles', 'onevideo', 'playreplay', 'prostream', 'vidfast', 'uqload', 
+                            'speedvid', 'letsupload', 'krakenfiles', 'onevideo', 'playreplay', 'prostream', 'vidfast', 'uqload', 
                             'letwatch', 'wishfast', 'mp4upload', 'filepup', 'vimple', 'wstream', 'watchvideo', 'vidwatch', 'up2stream', 'tune', 'playtube',
                             'vidup', 'vidbull', 'vidlox', '33player' 'easyload', 'ninjastream', 'cloudhost', 'videobin', 'stagevu', 'gorillavid', 
                             'daclips', 'hdvid', 'vshare', 'vidload', 'giga', 'vidbom', 'cloudvid', 'megadrive', 'downace', 'clickopen', 'supervideo', 
                             'turbovid', 'jawcloud', 'soundcloud', 'mixcloud', 'ddlfr', 'vupload', 'dwfull', 'vidzstore', 'pdj', 'rapidstream', 
-                            'dustreaming', 'viki', 'flix555', 'onlystream', 'upstream', 'pstream', 'vudeo', 'vidia', 'vidbem', 'uptobox', 'uplea', 'vido', 'streamhub',
+                            'dustreaming', 'viki', 'flix555', 'onlystream', 'upstream', 'pstream', 'vudeo', 'vidia', 'vidbem', 'uplea', 'vido', 'streamhub',
                             'sibnet', 'vidplayer', 'userload', 'aparat', 'evoload', 'abcvideo', 'plynow', '33player', 'filerio', 'videoraj', 'streamvid',
                             'brightcove', 'detectiveconanar', 'myvi', '33player', 'videovard', 'viewsb', 'yourvid', 'vf-manga', 'oneupload', 'darkibox', 'hexupload']
 
@@ -638,7 +638,7 @@ class cHosterGui:
         if ('torrent' in sHosterUrl) or ('magnet:' in sHosterUrl):
             return self.getHoster('torrent')
         
-        if ('nitroflare' in sHostName or 'tubeload.' in sHostName or 'Facebook' in sHostName  or 'fastdrive' in sHostName or 'megaup.net' in sHostName  or 'openload' in sHostName or 'vidhd' in sHostName or 'oktube' in sHostName or 'mdiaload' in sHostName or 'fikper' in sHostName or 'turbobit' in sHostName or '1fichier' in sHostName or 'mega.nz' in sHostName or 'rapidgator' in sHostName or 'ddownload' in sHostName or 'bowfile' in sHostName):
+        if ('nitroflare' in sHostName or 'tubeload.' in sHostName or 'Facebook' in sHostName  or 'fastdrive' in sHostName or 'megaup.net' in sHostName  or 'openload' in sHostName or 'vidhd' in sHostName or 'oktube' in sHostName or 'mdiaload' in sHostName or 'fikper' in sHostName or 'turbobit' in sHostName or '1fichier' in sHostName or 'mega.nz' in sHostName or 'rapidgator' in sHostName or 'ddownload' in sHostName or 'bowfile' in sHostName or 'uptobox' in sHostName or 'uptostream' in sHostName):
             return False
 
         # lien direct ?
