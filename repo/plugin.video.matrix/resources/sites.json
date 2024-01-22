@@ -210,7 +210,7 @@
         "dramacafe": {
             "label": "Dramacafe",
             "active": "True",
-            "url": "hhttps://wcw.dramacafe-tv.com/"
+            "url": "https://wcw.dramacafe-tv.com/"
         },
         "egybest": {
             "label": "EgyBest",
@@ -316,7 +316,7 @@
             "label": "Koralive",
             "active": "True",
             "url": "https://aa.360kora.net/",
-            "url2": "https://lives.alkoora-live.live/"
+            "url2": "https://koralives.alkoora-live.live/"
         },
         "laroza": {
             "label": "Laroza",
