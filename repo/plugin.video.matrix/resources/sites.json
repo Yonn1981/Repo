@@ -241,7 +241,7 @@
         "faselhd": {
             "label": "Faselhd",
             "active": "True",
-            "url": "https://www.faselhd.express/"
+            "url": "https://www.faselhd.link/"
         },
         "fnteam": {
             "label": "Fnteam",
@@ -311,8 +311,8 @@
         "koralive": {
             "label": "Koralive",
             "active": "True",
-            "url": "https://koralives.alkoora-live.live/",
-            "url2": "https://onlines.360kora.org/"
+            "url": "https://aa.360kora.net/",
+            "url2": "https://lives.alkoora-live.live/"
         },
         "laroza": {
             "label": "Laroza",
