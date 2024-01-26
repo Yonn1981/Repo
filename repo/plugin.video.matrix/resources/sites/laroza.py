@@ -14,7 +14,7 @@ SITE_IDENTIFIER = 'laroza'
 SITE_NAME = 'Laroza'
 SITE_DESC = 'arabic vod'
 
-UA = 'Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.5615.48 Mobile Safari/537.36'
+UA = 'Mozilla/5.0 (iPad; CPU OS 17_1_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.1 Mobile/15E148 Safari/604.1'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 

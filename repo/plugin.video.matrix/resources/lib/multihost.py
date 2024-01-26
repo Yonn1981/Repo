@@ -108,9 +108,9 @@ class cMegamax:
         self.list = []
         
     def GetUrls(self, url):
-        sHosterUrl = url.replace('download','iframe')
-        if 'leech' in sHosterUrl:
-            Exception
+        sHosterUrl = url.replace('download','iframe').replace(' ','')
+        if 'leech' in sHosterUrl or '/e/' in sHosterUrl:
+            return False
         oRequestHandler = cRequestHandler(sHosterUrl)
         sHtmlContent = oRequestHandler.request()
         sHtmlContent = sHtmlContent.replace('&quot;','"')

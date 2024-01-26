@@ -171,14 +171,10 @@
             "active": "True",
             "url": "https://cimanow.cc/"
         },
-        "cimau": {
-            "label": "Cima4u",
-            "active": "False",
-            "url": "https://cimaa-l47.shop/"
-        },
         "cinemana": {
             "label": "Cinemana",
             "active": "True",
+            "cloudflare": "True",
             "url": "https://cinemana.work/"
         },
         "cinematy": {
@@ -210,7 +206,7 @@
         "dramacafe": {
             "label": "Dramacafe",
             "active": "True",
-            "url": "hhttps://wcw.dramacafe-tv.com/"
+            "url": "https://wcw.dramacafe-tv.com/"
         },
         "egybest": {
             "label": "EgyBest",
@@ -315,13 +311,13 @@
         "koralive": {
             "label": "Koralive",
             "active": "True",
-            "url": "https://aa.360kora.net/",
-            "url2": "https://lives.alkoora-live.live/"
+            "url": "https://koralives.alkoora-live.live/",
+            "url2": "https://onlines.360kora.org/"
         },
         "laroza": {
             "label": "Laroza",
             "active": "True",
-            "url": "https://qw.laroza.top/"
+            "url": "https://m.laroza.top/"
         },
         "linkbox": {
             "label": "Telebox",
@@ -331,7 +327,7 @@
         "livetv": {
             "label": "Live TV",
             "active": "True",
-            "url": "https://livetv737.me/"
+            "url": "https://livetv753.me/"
         },
         "lodynet": {
             "label": "Lodynet",
@@ -419,6 +415,11 @@
             "active": "False",
             "cloudflare": "True",
             "url": "https://www.showbox.media/"
+        },
+        "taxielcima": {
+            "label": "TaxiElCima",
+            "active": "True",
+            "url": "https://twoupon.com/"
         },
         "themoviedb_org": {
             "label": "The Movie Database",

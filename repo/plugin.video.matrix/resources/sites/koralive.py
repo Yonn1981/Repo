@@ -19,7 +19,7 @@ SITE_DESC = 'arabic vod'
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 URL_MAIN2 = siteManager().getUrlMain2(SITE_IDENTIFIER)
 
-SPORT_LIVE = (URL_MAIN+'p/matches-today-live.html', 'showMovies')
+SPORT_LIVE = (URL_MAIN+'p/today-matches.html', 'showMovies')
 
 UA = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:56.0) Gecko/20100101 Firefox/56.0'
  
@@ -39,7 +39,7 @@ def showMovies():
     sUrl = oInputParameterHandler.getValue('siteUrl')
 
     oOutputParameterHandler = cOutputParameterHandler()    
-    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN2+'p/today-matches.html')
+    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN2)
     if URL_MAIN2 not in sUrl:
         oGui.addDir(SITE_IDENTIFIER, 'showMovies', ' بث مباشر اخر من كورة لايف', 'sites/kooralive.png', oOutputParameterHandler)
 

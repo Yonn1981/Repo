@@ -311,18 +311,19 @@ def showHosters(oInputParameterHandler = False):
                 sHosterUrl = sHosterUrl.replace('streamnoads.','streamnoads.com')
             if 'megamax' in sHosterUrl:
                 data = cMegamax().GetUrls(sHosterUrl)
-                for item in data:
-                    sHosterUrl = item.split(',')[0].split('=')[1]
-                    sQual = item.split(',')[1].split('=')[1]
-                    sLabel = item.split(',')[2].split('=')[1]
+                if data is not False:
+                    for item in data:
+                        sHosterUrl = item.split(',')[0].split('=')[1]
+                        sQual = item.split(',')[1].split('=')[1]
+                        sLabel = item.split(',')[2].split('=')[1]
 
-                    sDisplayTitle = ('%s [COLOR coral] [%s][/COLOR][COLOR orange] - %s[/COLOR]') % (sMovieTitle, sQual, sLabel)      
-                    oOutputParameterHandler.addParameter('sHosterUrl', sHosterUrl)
-                    oOutputParameterHandler.addParameter('sQual', sQual)
-                    oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
-                    oOutputParameterHandler.addParameter('sThumb', sThumb)
+                        sDisplayTitle = ('%s [COLOR coral] [%s][/COLOR][COLOR orange] - %s[/COLOR]') % (sMovieTitle, sQual, sLabel)      
+                        oOutputParameterHandler.addParameter('sHosterUrl', sHosterUrl)
+                        oOutputParameterHandler.addParameter('sQual', sQual)
+                        oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
+                        oOutputParameterHandler.addParameter('sThumb', sThumb)
 
-                    oGui.addLink(SITE_IDENTIFIER, 'showLinks', sDisplayTitle, sThumb, '', oOutputParameterHandler, oInputParameterHandler)
+                        oGui.addLink(SITE_IDENTIFIER, 'showLinks', sDisplayTitle, sThumb, '', oOutputParameterHandler, oInputParameterHandler)
 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster != False:
