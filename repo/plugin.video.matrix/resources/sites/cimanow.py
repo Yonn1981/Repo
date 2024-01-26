@@ -334,22 +334,19 @@ def showEps():
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
 
-    oParser = cParser()
-    oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
+    oParser = cParser()  
+    oRequest = cRequestHandler(sUrl)
+    oRequest.addHeaderEntry('User-Agent', UA)
+    page = oRequest.request()
+
+    if 'adilbo' in page:
+        page = decode_page(page)
 
     sStart = '<section aria-label="seasons">'
     sEnd = '<ul class="tabcontent" id="related">'
-    sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
-    
-    oRequest = cRequestHandler(sUrl)
-    oRequest.addHeaderEntry('User-Agent', UA)
-    data = oRequest.request()
+    page = oParser.abParse(page, sStart, sEnd)
 
-    if 'adilbo' in data:
-        page = decode_page(data)
-
-    sPattern = '<li><a href="(.+?)"><img  src="(.+?)" alt="logo" />.+?<em>(.+?)</em>'
+    sPattern = '<li><a href="([^"]+)".+?src="([^"]+)" alt="logo" />.+?<em>(.+?)</em>'
     aResult = oParser.parse(page, sPattern)
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()  
@@ -401,7 +398,7 @@ def showServer(oInputParameterHandler = False):
             
             url = aEntry[0]
             sTitle = aEntry[1].replace('</i>',"")
-            sTitle = ('%s  [COLOR coral]%s[/COLOR]') % (sMovieTitle, sTitle)
+            sTitle = ('%s  ([COLOR coral]%s[/COLOR])') % (sMovieTitle, sTitle)
             url = url.replace("cimanow","rrsrr")
             if url.startswith('//'):
                 url = 'http:' + url
