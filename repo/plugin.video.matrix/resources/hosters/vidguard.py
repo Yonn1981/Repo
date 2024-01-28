@@ -6,7 +6,6 @@ from resources.hosters.hoster import iHoster
 from resources.lib.comaddon import dialog
 from resources.lib.aadecode import decodeAA
 import re
-import json
 import binascii
 import base64
 
@@ -14,11 +13,6 @@ class cHoster(iHoster):
 
     def __init__(self):
         iHoster.__init__(self, 'vidguard', 'Vidguard')
-
-    def __getHost(self):
-        parts = self._url.split('//', 1)
-        host = parts[0] + '//' + parts[1].split('/', 1)[0]
-        return host
 
     def _getMediaLinkForGuest(self, autoPlay = False):
         oRequest = cRequestHandler(self._url)
@@ -36,23 +30,31 @@ class cHoster(iHoster):
             r = r.replace('\\/', '/')
             r = r.replace('\\\\', '\\')
             r = r.replace('\\"', '"')
-            aa_decoded = decodeAA(r, True)
-            url = json.loads(aa_decoded[11:]).get('stream')
+            sHtmlContent = decodeAA(r, True)
 
-            sPattern = "'Label': '([^']+)', 'URL': '([^']+)"
-            aResult = oParser.parse(url, sPattern)
+            sPattern = '"Label":"([^"]+)","URL":"([^"]+)"'
+            aResult = oParser.parse(sHtmlContent, sPattern)
             if aResult[0]:
                 url = []
                 qua = []
                 for i in aResult[1]:
                     url2 = str(i[1])
-                    if not url2.startswith('https://'):
+                    if not  url2 .startswith('https://'):
                         url2 = re.sub(':/*', '://', url2)
                     url2 = url2.encode().decode('unicode-escape')
                     url.append(sig_decode(url2))
                     qua.append(str(i[0]))
 
                 api_call = dialog().VSselectqual(qua, url) + '|Referer=' + self._url
+                
+            sPattern = '"stream":"(.*?)"'
+            aResult = oParser.parse(sHtmlContent, sPattern)
+            if aResult[0]:
+                url = str(aResult[1][0])
+                if not url.startswith('https://'):
+                    url= re.sub(':/*', '://', url)
+                url = url.encode().decode('unicode-escape')
+                api_call = sig_decode(url) + '|Referer=' + self._url
 
         if api_call:
             return True, api_call

@@ -336,7 +336,10 @@ class cHosterGui:
 
         if ('upstream' in sHosterUrl):
             return self.getHoster('upstream')
-      
+
+        if ('wolfstream' in sHosterUrl):
+            return self.getHoster('aparat')
+
         if ('hadara.ps' in sHostName):
             return self.getHoster('lien_direct')  
               
@@ -349,7 +352,7 @@ class cHosterGui:
         if ('updown' in sHostName):
             return self.getHoster('updown')
 
-        if ('vod540' in sHostName) or ('hd-cdn' in sHostName) or ('anyvid' in sHostName) or ('vod7' in sHostName) or ('segavid' in sHostName):
+        if ('vod540' in sHostName) or ('hd-cdn' in sHostName) or ('anyvid' in sHostName) or ('vod7' in sHostName) or ('segavid' in sHostName) or ('vidblue' in sHostName):
             return self.getHoster('xvideo')
 
         if ('diasfem' in sHosterUrl):

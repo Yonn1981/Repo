@@ -59,7 +59,7 @@ class cHoster(iHoster):
             if aResult[0]:
                 resultId = aResult[1][0][0]
                 resultHash = aResult[1][0][1]
-                url = 'https://aparat.cam/dl?op=download_orig&id=' + resultId + \
+                url = 'https://wolfstream.tv/dl?op=download_orig&id=' + resultId + \
                     '&mode=0&hash=' + resultHash  # + '&embed=1&adb=0'
                 data = 'op=download_orig&id=' + resultId + '&mode=n&hash=' + resultHash
                 oRequestHandler = cRequestHandler(url)

@@ -283,6 +283,11 @@
             "active": "True",
             "url": "https://hidaya.tn/"
         },
+        "hkyturk": {
+            "label": "HkyahTurkiya",
+            "active": "True",
+            "url": "https://hkyturk.com/"
+        },
         "honadrama": {
             "label": "Honadrama",
             "active": "True",

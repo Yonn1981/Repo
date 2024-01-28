@@ -39,6 +39,13 @@ class cHoster(iHoster):
         if aResult[0]:
             api_call = aResult[1][0]
 
+
+        sPattern = 'file:\s*["\']([^"\']+)'
+        aResult = oParser.parse(sHtmlContent, sPattern)
+
+        if aResult[0]:
+            api_call = aResult[1][0]
+
         if api_call:
             return True, api_call +'|AUTH=TLS&verifypeer=false'
 
