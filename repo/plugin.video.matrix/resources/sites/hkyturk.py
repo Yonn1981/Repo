@@ -111,6 +111,7 @@ def showMovies(sSearch = ''):
             oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
+
     if not sSearch: 
         sStart = '<div class="pagination">'
         sEnd = '<div class="footer"'
@@ -145,7 +146,7 @@ def showMovies(sSearch = ''):
 			
                 oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle, '', oOutputParameterHandler) 
 
-    oGui.setEndOfDirectory()
+        oGui.setEndOfDirectory()
 
 def showSeries2(sSearch = ''):
     oGui = cGui()
@@ -297,7 +298,7 @@ def showSeries(sSearch = ''):
 			
                 oGui.addDir(SITE_IDENTIFIER, 'showSeries', sTitle, '', oOutputParameterHandler) 
 
-    oGui.setEndOfDirectory()
+        oGui.setEndOfDirectory()
  
 def showSeasons():
     oGui = cGui()

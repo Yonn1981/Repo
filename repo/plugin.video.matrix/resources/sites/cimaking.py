@@ -109,8 +109,9 @@ def showMovies(sSearch = ''):
     
     if Offset is False:
         Offset = 1
-
-    if sCat:
+    if '?s=' in sUrl:
+        sCat = False
+    if sCat is not False:
         s = requests.Session() 
         headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0' }
         data = {'filter':sCat, 'offset':str(Offset), 'action':'MoreTab'}
@@ -149,7 +150,8 @@ def showMovies(sSearch = ''):
             oGui.addTV(SITE_IDENTIFIER, 'showServer', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
- 
+
+    if not sSearch: 
         sNextPage = __checkForNextPage(sHtmlContent)
         if sNextPage or sNextPage is False:
             Offset = int(Offset) + 1
@@ -160,11 +162,7 @@ def showMovies(sSearch = ''):
             if sNextPage is False:
                 oOutputParameterHandler.addParameter('sCat', sCat)
             oGui.addDir(SITE_IDENTIFIER, 'showMovies', f'[COLOR teal]Next - Page({Offset}) >>>[/COLOR]', 'next.png', oOutputParameterHandler)
-
-        progress_.VSclose(progress_)
  
-    if not sSearch:
-
         oGui.setEndOfDirectory()  
  
 def showSeries(sSearch = ''):
@@ -185,7 +183,9 @@ def showSeries(sSearch = ''):
     if Offset is False:
         Offset = 1
 
-    if sCat:
+    if '?s=' in sUrl:
+        sCat = False
+    if sCat is not False:
         s = requests.Session() 
         headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0' }
         data = {'filter':sCat, 'offset':str(Offset), 'action':'MoreTab'}
@@ -222,7 +222,8 @@ def showSeries(sSearch = ''):
             oGui.addTV(SITE_IDENTIFIER, 'showSeasons', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
-  
+
+    if not sSearch:  
         sNextPage = __checkForNextPage(sHtmlContent)
         if sNextPage or sNextPage is False:
             Offset = int(Offset) + 1
@@ -233,10 +234,6 @@ def showSeries(sSearch = ''):
             if sNextPage is False:
                 oOutputParameterHandler.addParameter('sCat', sCat)
             oGui.addDir(SITE_IDENTIFIER, 'showSeries', f'[COLOR teal]Next - Page({Offset}) >>>[/COLOR]', 'next.png', oOutputParameterHandler)
-
-        progress_.VSclose(progress_)
- 
-    if not sSearch:
 
         oGui.setEndOfDirectory()  
 
