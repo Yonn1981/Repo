@@ -3,7 +3,7 @@
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
-from resources.lib.comaddon import dialog
+from resources.lib.comaddon import dialog, VSlog
 from resources.lib.aadecode import decodeAA
 import re
 import binascii
@@ -15,7 +15,8 @@ class cHoster(iHoster):
         iHoster.__init__(self, 'vidguard', 'Vidguard')
 
     def _getMediaLinkForGuest(self, autoPlay = False):
-        oRequest = cRequestHandler(self._url)
+        sURL = getHost(self._url)
+        oRequest = cRequestHandler(sURL)
         sHtmlContent = oRequest.request()
 
         api_call = ''
@@ -45,7 +46,7 @@ class cHoster(iHoster):
                     url.append(sig_decode(url2))
                     qua.append(str(i[0]))
 
-                api_call = dialog().VSselectqual(qua, url) + '|Referer=' + self._url
+                api_call = dialog().VSselectqual(qua, url) + '|Referer=' + sURL
                 
             sPattern = '"stream":"(.*?)"'
             aResult = oParser.parse(sHtmlContent, sPattern)
@@ -54,13 +55,18 @@ class cHoster(iHoster):
                 if not url.startswith('https://'):
                     url= re.sub(':/*', '://', url)
                 url = url.encode().decode('unicode-escape')
-                api_call = sig_decode(url) + '|Referer=' + self._url
+                api_call = sig_decode(url) + '|Referer=' + sURL
 
         if api_call:
             return True, api_call
 
         return False, False
 
+def getHost(self):
+    parts = self.rsplit("/", 2)
+    host = parts[0] 
+    media_id = parts[2] 
+    return f'{host}/e/{media_id}'
 
 # Adapted from PHP code by vb6rocod
 # Copyright (c) 2019 vb6rocod

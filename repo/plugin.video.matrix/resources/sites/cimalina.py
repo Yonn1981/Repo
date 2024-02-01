@@ -285,72 +285,70 @@ def showHosters(oInputParameterHandler = False):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()      
 
-    sPattern =  'name="servers" value="([^"]+)' 
+    sPattern =  '<link itemprop="embedURL" href="([^"]+)' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0]:
-        ServUrl = aResult[1][0]
-        sHtmlContent1 = base64.b64decode(ServUrl).decode('utf8',errors='ignore').replace('\\','')
-
-    sPattern =  'name="downloads" value="([^"]+)' 
-    aResult = oParser.parse(sHtmlContent,sPattern)
+        murl =  aResult[1][0]
+        oRequest = cRequestHandler(murl)
+        sHtmlContent = oRequest.request()
+  
+    sPattern = 'data-server="([^<]+)" data-q="([^"]+)' 
+    aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
-        DownUrl = aResult[1][0]
-        sHtmlContent2 = base64.b64decode(DownUrl).decode('utf8',errors='ignore').replace('\\','')
+        for aEntry in aResult[1]:
 
-    sPattern = '"([^"]+)":"([^"]+)' 
-    aResult = re.findall(sPattern, sHtmlContent1)
-    if aResult:
-        oOutputParameterHandler = cOutputParameterHandler()
-        for aEntry in aResult:
-            if 'home' in aEntry[0] or 'back' in aEntry[0]:
-                continue        
-            sHosterUrl = aEntry[1]
-            if sHosterUrl.startswith('//'):
-               sHosterUrl = 'http:' + sHosterUrl
-            if 'streamnoads.' in sHosterUrl:
-                sHosterUrl = sHosterUrl.replace('streamnoads.','streamnoads.com')
-            if 'megamax' in sHosterUrl:
-                data = cMegamax().GetUrls(sHosterUrl)
-                if data is not False:
-                    for item in data:
-                        sHosterUrl = item.split(',')[0].split('=')[1]
-                        sQual = item.split(',')[1].split('=')[1]
-                        sLabel = item.split(',')[2].split('=')[1]
+            sId = URL_MAIN + '/wp-admin/admin-ajax.php?action=serverPost&server='+aEntry[0]+'&q='+aEntry[1]
+            siteUrl = sId
+			
+            oRequestHandler = cRequestHandler(siteUrl)
+            oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
+            oRequestHandler.addHeaderEntry('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
+            oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
+            oRequestHandler.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
+            sData = oRequestHandler.request()
+   
+            sPattern = '<iframe.+?src="([^"]+)' 
+            aResult = oParser.parse(sData, sPattern)	
+            if aResult[0]:
+               oOutputParameterHandler = cOutputParameterHandler()
+               for aEntry in aResult[1]:
+        
+                    url = aEntry
+                    sThumb = sThumb
+                    if 'govid' in url:
+                      url = url.replace("play","down").replace("embed-","")
+                    if url.startswith('//'):
+                      url = 'http:' + url
+								            
+                    sHosterUrl = url
 
-                        sDisplayTitle = ('%s [COLOR coral] [%s][/COLOR][COLOR orange] - %s[/COLOR]') % (sMovieTitle, sQual, sLabel)      
-                        oOutputParameterHandler.addParameter('sHosterUrl', sHosterUrl)
-                        oOutputParameterHandler.addParameter('sQual', sQual)
-                        oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
-                        oOutputParameterHandler.addParameter('sThumb', sThumb)
+                    if 'megamax' in sHosterUrl:
+                        data = cMegamax().GetUrls(sHosterUrl)
+                        if data is not False:
+                            for item in data:
+                                sHosterUrl = item.split(',')[0].split('=')[1]
+                                sQual = item.split(',')[1].split('=')[1]
+                                sLabel = item.split(',')[2].split('=')[1]
 
-                        oGui.addLink(SITE_IDENTIFIER, 'showLinks', sDisplayTitle, sThumb, '', oOutputParameterHandler, oInputParameterHandler)
+                                sDisplayTitle = ('%s [COLOR coral] [%s][/COLOR][COLOR orange] - %s[/COLOR]') % (sMovieTitle, sQual, sLabel)      
+                                oOutputParameterHandler.addParameter('sHosterUrl', sHosterUrl)
+                                oOutputParameterHandler.addParameter('sQual', sQual)
+                                oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
+                                oOutputParameterHandler.addParameter('sThumb', sThumb)
 
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if oHoster != False:
-               oHoster.setDisplayName(sMovieTitle)
-               oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
-
-    sPattern = '"([^"]+)":"([^"]+)' 
-    aResult = re.findall(sPattern, sHtmlContent2)	
-    if aResult:
-        for aEntry in aResult:
-            if 'home' in aEntry[0] or 'back' in aEntry[0]:
-                continue        
-            url = aEntry[1]
-            if url.startswith('//'):
-               url = 'http:' + url
-            if 'streamnoads.' in url:
-                url = url.replace('streamnoads.','streamnoads.com')
-            if 'megamax' in url:
-                continue
-
-            sHosterUrl = url
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if oHoster != False:
-               oHoster.setDisplayName(sMovieTitle)
-               oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                                oGui.addLink(SITE_IDENTIFIER, 'showLinks', sDisplayTitle, sThumb, '', oOutputParameterHandler, oInputParameterHandler)
+                    if 'nowvid' in sHosterUrl:
+                       sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+                    if 'userload' in sHosterUrl:
+                       sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                    if 'mystream' in sHosterUrl:
+                       sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN    
+                    oHoster = cHosterGui().checkHoster(sHosterUrl)
+                    if oHoster:
+                      sDisplayTitle = sMovieTitle
+                      oHoster.setDisplayName(sDisplayTitle)
+                      oHoster.setFileName(sMovieTitle)
+                      cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
     oGui.setEndOfDirectory()
                 

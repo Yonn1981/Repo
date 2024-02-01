@@ -622,9 +622,7 @@ def showHosters(oInputParameterHandler = False):
                 sHtmlContent = sHtmlContent.content
                             
                 sPattern = '<source src="([^"]+)".+?size="([^"]+)'
-                oParser = cParser()
                 aResult = oParser.parse(sHtmlContent, sPattern)
-
                 if aResult[0]:
                     for aEntry in aResult[1]:
             
@@ -641,6 +639,14 @@ def showHosters(oInputParameterHandler = False):
                             oHoster.setDisplayName(sDisplayTitle)
                             oHoster.setFileName(sMovieTitle)
                             cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+
+            else:
+                sHosterUrl = aEntry
+                oHoster = cHosterGui().checkHoster(sHosterUrl)
+                if oHoster:
+                    oHoster.setDisplayName(sMovieTitle)
+                    oHoster.setFileName(sMovieTitle)
+                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
     sPattern =  'name="codes" value="([^"]+)' 
     aResult = oParser.parse(sHtmlContent1,sPattern)
