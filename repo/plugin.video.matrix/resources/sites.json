@@ -420,6 +420,11 @@
             "active": "True",
             "url": "https://stardima.vip/watch/"
         },
+        "studiotv": {
+            "label": "Studio2TV",
+            "active": "True",
+            "url": "https://www.studio2tv.tn/"
+        },
         "showb": {
             "label": "ShowBox",
             "active": "False",

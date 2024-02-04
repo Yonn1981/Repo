@@ -89,7 +89,7 @@ def showPackMovies():
         r = s.post(URL_MAIN+'video/LoadMore/'+nVIdeo,data=data,headers=headers)
         sHtmlContent = r.content.decode('utf8').replace('\\','').replace('u003c','<').replace('u003e','>').replace('rn','')
 
-    sPattern = '<div class="categoryNewsCard">.+?<a href=([^<]+)>.+?data-original="([^<]+)" alt="([^<]+)" />'
+    sPattern = '<div class="categoryNewsCard.+?<a href=["\']([^"\']+)["\'].+?data-original="([^"]+)" alt="([^"]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
         total = len(aResult[1])
@@ -138,7 +138,7 @@ def showMovies():
         r = s.post(URL_MAIN+'video/LoadMore/'+nVIdeo,data=data,headers=headers)
         sHtmlContent = r.content.decode('utf8').replace('\\','').replace('u003c','<').replace('u003e','>').replace('rn','')
 
-    sPattern = '<h3 class="title">([^<]+)</h3>.+?<a href="([^"]+)".+?data-original="([^"]+)'
+    sPattern = '<div class="categoryNewsCard.+?<a href=["\']([^"\']+)["\'].+?data-original="([^"]+)" alt="([^"]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
         total = len(aResult[1])
@@ -148,11 +148,11 @@ def showMovies():
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
-            sUrl = aEntry[1]
+            sUrl = aEntry[0].replace("'","")
             sUrl = URL_MAIN+sUrl
-            sTitle = aEntry[0]
+            sTitle = aEntry[2]
             sDesc = ""
-            sThumb = aEntry[2]
+            sThumb = aEntry[1]
             oOutputParameterHandler.addParameter('siteUrl', sUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
