@@ -1,10 +1,11 @@
 ﻿from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
-from resources.lib.comaddon import dialog, xbmcgui
 from resources.hosters.hoster import iHoster
 from resources.lib.packer import cPacker
 from resources.lib.comaddon import VSlog
 import unicodedata
+
+UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:39.0) Gecko/20100101 Firefox/39.0'
 
 class cHoster(iHoster):
 
@@ -43,6 +44,6 @@ class cHoster(iHoster):
                 api_call = 'http:' + api_call
 
         if api_call:
-            return True, api_call
+            return True, api_call + '|User-Agent=' + UA + '&Referer=' + self._url
 
         return False, False

@@ -341,8 +341,7 @@ def showSeries(sSearch = ''):
     r = s.post(sUrl, headers=headers)
     sHtmlContent = r.content.decode('utf8')
 
-    if sSearch:
-       s = requests.Session()            
+    if sSearch:    
        headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
 							'Referer': Quote(sUrl)}
        psearch = sUrl.rsplit('?find=', 1)[1]
@@ -410,7 +409,7 @@ def showSeasons():
             sSeason = sMovieTitle+" S"+sSeason
             pseason = aEntry[1]
             post = aEntry[0]
-            import requests
+
             s = requests.Session()            
             headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0'}
             data = {'post_id':post,'season':pseason}
@@ -450,7 +449,7 @@ def showSeasons():
                 
                 siteUrl = aEntry[0]
                 
-                sThumb = ''
+                sThumb = sThumb
                 sDesc = ''
                 sHost = ''
 
@@ -465,7 +464,6 @@ def showSeasons():
     oGui.setEndOfDirectory() 
  
 def showEps():
-    import requests
     oGui = cGui()
    
     oInputParameterHandler = cInputParameterHandler()

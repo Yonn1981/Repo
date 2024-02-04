@@ -312,6 +312,8 @@ def showHosters(oInputParameterHandler = False):
                             sQual = aEntry[1].replace('-','').replace(' ','')
 
                             sHosterUrl = url
+                            if 'soraplay' in sHosterUrl:
+                                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
                             oHoster = cHosterGui().checkHoster(sHosterUrl)
                             if oHoster:
                                 sDisplayTitle = ('%s) [COLOR coral] Yonaplay (%s)[/COLOR]') % (sMovieTitle, sQual)

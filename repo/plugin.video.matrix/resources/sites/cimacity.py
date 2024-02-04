@@ -26,13 +26,15 @@ MOVIE_ASIAN = (URL_MAIN + 'category.php?cat=asian-movies', 'showMovies')
 MOVIE_TURK = (URL_MAIN + 'category.php?cat=turkey-movies', 'showMovies')
 KID_MOVIES = (URL_MAIN + 'category.php?cat=animation-movies', 'showMovies')
 
+DOC_NEWS = (URL_MAIN + 'category.php?cat=aflam-wthaaeqe', 'showMovies')
+
 SERIE_TR = (URL_MAIN + 'category.php?cat=moslslat-turkya', 'showSeries')
 SERIE_DUBBED = (URL_MAIN + 'category.php?cat=modablaja-series', 'showSeries')
 SERIE_ASIA = (URL_MAIN + 'category.php?cat=asia-series', 'showSeries')
 SERIE_HEND = (URL_MAIN + 'category.php?cat=hindia-series', 'showSeries')
 SERIE_EN = (URL_MAIN + 'category.php?cat=moslslat-agnabya', 'showSeries')
 SERIE_AR = (URL_MAIN + 'category.php?cat=moslslat-arabia', 'showSeries')
-RAMADAN_SERIES = (URL_MAIN + 'category.php?cat=ramdan-2023', 'showSeries')
+RAMADAN_SERIES = (URL_MAIN + 'category.php?cat=ramadan-2023', 'showSeries')
 ANIM_NEWS = (URL_MAIN + 'category.php?cat=animation-series', 'showSeries')
 
 URL_SEARCH_MOVIES = (URL_MAIN + 'search.php?keywords=', 'showMovies')
@@ -76,6 +78,9 @@ def load():
     
     oOutputParameterHandler.addParameter('siteUrl', KID_MOVIES[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام كرتون', 'anim.png', oOutputParameterHandler)
+
+    oOutputParameterHandler.addParameter('siteUrl', DOC_NEWS[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام وثائقية', 'doc.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', SERIE_EN[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أجنبية', 'agnab.png', oOutputParameterHandler)
@@ -373,6 +378,8 @@ def showServer(oInputParameterHandler = False):
         sRefer = aResult[1][0] 
 
     oRequestHandler = cRequestHandler(sRefer)
+    oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Mobile Safari/537.36 Edg/121.0.0.0')
+    oRequestHandler.addHeaderEntry('referer', URL_MAIN)
     sHtmlContent = oRequestHandler.request().replace("&#39;","'")
 
     sStart = 'class="list_servers'

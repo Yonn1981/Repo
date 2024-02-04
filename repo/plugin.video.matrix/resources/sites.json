@@ -288,6 +288,11 @@
             "active": "True",
             "url": "https://hkyturk.com/"
         },
+        "hwnaturkya": {
+            "label": "HwnaTurkya",
+            "active": "True",
+            "url": "https://hwnaturkya.com/"
+        },
         "honadrama": {
             "label": "Honadrama",
             "active": "True",
@@ -342,7 +347,7 @@
         "moviztime": {
             "label": "MovizTime",
             "active": "True",
-            "url": "https://movtime72.site/"
+            "url": "https://movtime93.homes/"
         },
         "nabdhlb": {
             "label": "Nabd8lb",

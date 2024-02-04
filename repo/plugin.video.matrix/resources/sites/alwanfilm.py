@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 # zombi https://github.com/zombiB/zombi-addons/
 
 import re
@@ -45,12 +45,12 @@ def showMovies(sSearch = ''):
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
-
+    
     oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-    sPattern = '<article.+?src="([^"]+)" alt="([^"]+)".+?href="([^"]+)'
+    sPattern = '<article.+?src="([^"]+)".+?href="([^"]+)".+?class="title">(.+?)</'
     aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
         total = len(aResult[1])
@@ -61,8 +61,8 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
             
-            siteUrl = aEntry[2]
-            sTitle = aEntry[1].replace('"',"").replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
+            siteUrl = aEntry[1]
+            sTitle = aEntry[2].replace('</h4>',"").replace('<h4>',"").replace('"',"").replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
             if "movies/" not in siteUrl:
                 siteUrl =  f'{URL_MAIN}movies/{siteUrl}'
             if '../../' in siteUrl:
@@ -105,7 +105,11 @@ def __checkForNextPage(sHtmlContent, sUrl):
     sPattern = '<link rel="next" href="([^<]+)" />'
     aResult = oParser.parse(sHtmlContent, sPattern) 
     if aResult[0]:
-        
+        return sUrl+ aResult[1][0]
+
+    sPattern = 'class="arrow_pag" href="([^"]+)'
+    aResult = oParser.parse(sHtmlContent, sPattern) 
+    if aResult[0]:
         return sUrl+ aResult[1][0]
 
     return False

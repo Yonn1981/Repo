@@ -24,7 +24,7 @@ MOVIE_ASIAN = (URL_MAIN + 'category/أفلام-آسيوية-مترجمة/', 'sho
 MOVIE_TURK = (URL_MAIN + 'category/أفلام-تركية/', 'showMovies')
 MOVIE_GENRES = (True, 'moviesGenres')
 
-SERIE_EN = (URL_MAIN + 'category/مسلسلات-أجنبية-مترجمة-d/', 'showSeries')
+#SERIE_EN = (URL_MAIN + 'category/مسلسلات-أجنبية-مترجمة-d/', 'showSeries')
 SERIE_ASIA = (URL_MAIN + 'category/مسلسلات-كورية/', 'showSeries')
 SERIE_GENRES = (True, 'seriesGenres')
 
@@ -64,8 +64,8 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_TURK[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام تركية', 'turk.png', oOutputParameterHandler)
 
-    oOutputParameterHandler.addParameter('siteUrl', SERIE_EN[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أجنبية', 'agnab.png', oOutputParameterHandler)
+    #oOutputParameterHandler.addParameter('siteUrl', SERIE_EN[0])
+    #oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أجنبية', 'agnab.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', ANIM_NEWS[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات انمي', 'anime.png', oOutputParameterHandler)

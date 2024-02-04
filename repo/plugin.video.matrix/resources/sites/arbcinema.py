@@ -243,14 +243,14 @@ def showHosters():
     r = s.post(serverURL, headers=headers, data = data)
     sHtmlContent = r.content.decode('utf8')         
 
-    sPattern3 = '<iframe.+?src="([^"]+)'
+    sPattern3 = '<iframe.+?src=["\']([^"\']+)["\']'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern3)
     if aResult[0]:
         for aEntry in aResult[1]:
             
             url = aEntry
-            sTitle = sMovieTitle
+
             if url.startswith('//'):
                 url = 'http:' + url
             sHosterUrl = url
@@ -302,7 +302,7 @@ def showServer(oInputParameterHandler = False):
         for aEntry in aResult[1]:
             
             url = aEntry
-            sTitle = sMovieTitle
+
             if url.startswith('//'):
                url = 'http:' + url
 				            

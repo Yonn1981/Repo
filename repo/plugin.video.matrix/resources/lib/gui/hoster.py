@@ -214,9 +214,9 @@ class cHosterGui:
                             'streamax', 'gounlimited', 'xdrive', 'facebook', 'mixdrop', 'mixloads', 'vidoza', 'rutube', 'megawatch', 'vidzi', 'filetrip', 
                             'speedvid', 'letsupload', 'krakenfiles', 'onevideo', 'playreplay', 'prostream', 'vidfast', 'uqload', 
                             'letwatch', 'wishfast', 'mp4upload', 'filepup', 'vimple', 'wstream', 'watchvideo', 'vidwatch', 'up2stream', 'tune', 'playtube',
-                            'vidup', 'vidbull', 'vidlox', '33player' 'easyload', 'ninjastream', 'cloudhost', 'videobin', 'stagevu', 'gorillavid', 
+                            'vidup', 'vidbull', 'vidlox', '33player' 'easyload', 'ninjastream', 'cloudhost', 'videobin', 'stagevu', 'gorillavid', 'soraplay',
                             'daclips', 'hdvid', 'vshare', 'vidload', 'giga', 'vidbom', 'cloudvid', 'megadrive', 'downace', 'clickopen', 'supervideo', 
-                            'turbovid', 'jawcloud', 'soundcloud', 'mixcloud', 'ddlfr', 'vupload', 'dwfull', 'vidzstore', 'pdj', 'rapidstream', 
+                            'turbovid', 'jawcloud', 'soundcloud', 'mixcloud', 'ddlfr', 'vupload', 'dwfull', 'vidzstore', 'pdj', 'rapidstream', 'vidyard',
                             'dustreaming', 'viki', 'flix555', 'onlystream', 'upstream', 'pstream', 'vudeo', 'vidia', 'vidbem', 'uplea', 'vido', 'streamhub',
                             'sibnet', 'vidplayer', 'userload', 'aparat', 'evoload', 'abcvideo', 'plynow', '33player', 'filerio', 'videoraj', 'streamvid',
                             'brightcove', 'detectiveconanar', 'myvi', '33player', 'videovard', 'viewsb', 'yourvid', 'vf-manga', 'oneupload', 'darkibox', 'hexupload']
@@ -260,7 +260,7 @@ class cHosterGui:
         # Streamwish Clone
         streamwish = next((x for x in ['streamwish', 'khadhnayad', 'ajmidyad', 'yadmalik', 'kharabnah', 'hayaatieadhab', 'sfastwish', 'eghjrutf', 'eghzrutw',
                             'wishfast', 'fviplions', 'egtpgrvh', 'mdy48tn97', 'embedwish', 'fsdcmo.sbs', 'anime4low', 'cdnwish-down', 'heavenlyvideo',
-                            'flaswish', 'streamzid', 'cimawish', 'egopxutd', 'obeywish', 'trgsfjll', 'mdbekjwqa', 'uqloads'] if x in sHostName), None)
+                            'flaswish', 'streamzid', 'cimawish', 'egopxutd', 'obeywish', 'trgsfjll', 'mdbekjwqa', 'uqloads', 'm3lomatik', 'cdnwish'] if x in sHostName), None)
         if streamwish:
             return self.getHoster('streamwish')
 
@@ -303,7 +303,7 @@ class cHosterGui:
             return self.getHoster('vidlo')
 
         #dood Clone
-        vidlo = next((x for x in ['DoodStream', 'dooood', 'flixeo', 'ds2play', 'dood', 'd0o0d', 'ds2video', 'do0od'] if x in sHostName), None)
+        vidlo = next((x for x in ['DoodStream', 'dooood', 'flixeo', 'ds2play', 'dood', 'd0o0d', 'ds2video', 'do0od', 'd0000d'] if x in sHostName), None)
         if vidlo:    
             return self.getHoster('dood')
 
@@ -325,7 +325,7 @@ class cHosterGui:
         if ('remotestre.am' in sHostName):
             return self.getHoster('remotestream')
 
-        if ('mixdroop' in sHosterUrl) or ('mdfx9dc8n' in sHosterUrl):
+        if ('mixdroop' in sHosterUrl) or ('mdfx9dc8n' in sHosterUrl) or ('mdzsmutpcvykb' in sHosterUrl):
             return self.getHoster('mixdrop')
 
         if ('.aflam' in sHosterUrl):
@@ -642,7 +642,7 @@ class cHosterGui:
         if ('torrent' in sHosterUrl) or ('magnet:' in sHosterUrl):
             return self.getHoster('torrent')
         
-        if ('nitroflare' in sHostName or 'tubeload.' in sHostName or 'Facebook' in sHostName  or 'fastdrive' in sHostName or 'megaup.net' in sHostName  or 'openload' in sHostName or 'vidhd' in sHostName or 'oktube' in sHostName or 'mdiaload' in sHostName or 'fikper' in sHostName or 'turbobit' in sHostName or '1fichier' in sHostName or 'mega.nz' in sHostName or 'rapidgator' in sHostName or 'ddownload' in sHostName or 'bowfile' in sHostName or 'uptobox' in sHostName or 'uptostream' in sHostName):
+        if ('nitroflare' in sHostName or 'tubeload.' in sHostName or 'Facebook' in sHostName  or 'fastdrive' in sHostName or 'megaup.net' in sHostName  or 'openload' in sHostName or 'vidhd' in sHostName or 'oktube' in sHostName or 'mdiaload' in sHostName or 'fikper' in sHostName or 'turbobit' in sHostName or '1fichier' in sHostName or 'mega.nz' in sHostName or 'rapidgator' in sHostName or 'ddownload' in sHostName or 'bowfile' in sHostName or 'uptobox' in sHostName or 'uptostream' in sHostName or 'wahmi' in sHostName):
             return False
 
         # lien direct ?
