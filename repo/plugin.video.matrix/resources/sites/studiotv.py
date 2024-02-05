@@ -9,13 +9,10 @@ from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import VSlog, siteManager, addon
+from resources.lib.comaddon import VSlog, siteManager, isMatrix
 from resources.lib.parser import cParser
 from resources.lib.packer import cPacker
 from resources.lib.util import Quote
-
-ADDON = addon()
-icons = ADDON.getSetting('defaultIcons')
 
 SITE_IDENTIFIER = 'studiotv'
 SITE_NAME = 'Studio2TV'
@@ -32,7 +29,7 @@ def load():
 
     oOutputParameterHandler = cOutputParameterHandler()    
     oOutputParameterHandler.addParameter('siteUrl', SPORT_LIVE[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'بث مباشر', icons + '/Sport.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'بث مباشر', 'foot.png', oOutputParameterHandler)
    
     oGui.setEndOfDirectory()
 	
@@ -336,6 +333,9 @@ def showHosters():
 
                     if 'youtube' in url:
                             url = url  
+
+                    if 'ok.ru' in aEntry:
+                            url = aEntry 
 
                     if 'javascript' in url:
                             url = ''

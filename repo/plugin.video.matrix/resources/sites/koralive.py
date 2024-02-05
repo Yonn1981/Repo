@@ -19,7 +19,7 @@ SITE_DESC = 'arabic vod'
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 URL_MAIN2 = siteManager().getUrlMain2(SITE_IDENTIFIER)
 
-SPORT_LIVE = (URL_MAIN+'p/matches-today-live.html', 'showMovies')
+SPORT_LIVE = (URL_MAIN, 'showMovies')
 
 UA = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:56.0) Gecko/20100101 Firefox/56.0'
  
@@ -394,6 +394,9 @@ def showHosters(oInputParameterHandler = False):
 
                     if 'youtube' in url:
                             url = url  
+
+                    if 'ok.ru' in aEntry:
+                            url = aEntry 
 
                     if 'javascript' in url:
                             url = ''
