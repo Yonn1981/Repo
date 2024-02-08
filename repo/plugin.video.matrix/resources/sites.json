@@ -181,7 +181,7 @@
             "label": "Cinematy",
             "active": "True",
             "cloudflare": "False",
-            "url": "https://r4.cinematy.online/"
+            "url": "https://niimaty.store/"
         },
         "daily": {
             "label": "Daily IPTV List",
@@ -206,7 +206,7 @@
         "dramacafe": {
             "label": "Dramacafe",
             "active": "True",
-            "url": "https://w10.dramacafe-tv.net/"
+            "url": "https://tag.dramacafe-tv.com/"
         },
         "egybest": {
             "label": "EgyBest",
@@ -321,8 +321,8 @@
         "koralive": {
             "label": "Koralive",
             "active": "True",
-            "url": "https://yalla.360kora-live.com/",
-            "url2": "https://koralives.alkoora-live.live/"
+            "url": "https://shoots.360kora.net/",
+            "url2": "https://stad.alkoora-live.live/"
         },
         "laroza": {
             "label": "Laroza",

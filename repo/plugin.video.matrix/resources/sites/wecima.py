@@ -232,7 +232,7 @@ def showMovies(sSearch = ''):
             sTitle = aEntry[1].replace("مشاهدة","").replace("مشاهده","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("برنامج","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("انمي","")
             siteUrl = aEntry[0].replace((aEntry[0].split('watch/')[0]), URL_MAIN2)
             sDesc = ''
-            sThumb = aEntry[2].replace("(","").replace(")","")
+            sThumb = URL_MAIN2 + 'wp-content' + aEntry[2].replace("(","").replace(")","").split('wp-content')[1]
             sYear = ''
             m = re.search('([0-9]{4})', sTitle)
             if m:
@@ -298,7 +298,7 @@ def showSeries(sSearch = ''):
             if 'gocimago.shop' in siteUrl:
                 siteUrl = siteUrl.replace("https://gocimago.shop/",URL_MAIN)
             sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("مشاهده","").replace("برنامج","").replace("مترجمة","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","")
-            sThumb = aEntry[2].replace("(","").replace(")","")
+            sThumb = URL_MAIN2 + 'wp-content' + aEntry[2].replace("(","").replace(")","").split('wp-content')[1]
             sDesc = ''
             sTitle = sTitle.split('موسم')[0].split('حلقة')[0]
             sYear = ''
@@ -391,7 +391,7 @@ def showAnimes(sSearch = ''):
  
             siteUrl = aEntry[0]    
             sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("مشاهده","").replace("برنامج","").replace("مترجمة","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","")
-            sThumb = aEntry[2].replace("(","").replace(")","")
+            sThumb = URL_MAIN2 + 'wp-content' + aEntry[2].replace("(","").replace(")","").split('wp-content')[1]
             sDesc = ''
             sTitle = sTitle.split('موسم')[0].split('حلقة')[0]
             sYear = ''

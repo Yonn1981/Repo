@@ -98,10 +98,20 @@ def showHosters():
     else:
         sPattern = '<iframe.+?src=["\']([^"\']+)["\']'
         aResult = oParser.parse(sHtmlContent, sPattern)
-        VSlog(aResult)
         if aResult[0]:
+            oOutputParameterHandler = cOutputParameterHandler()
             for aEntry in aResult[1]:
                 murl = aEntry
+                
+        if '.mp4' in murl or '.m3u8' in murl:
+            sHosterUrl = murl
+            sTitle = sMovieTitle
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            sHosterUrl = sHosterUrl 
+            if oHoster:
+                oHoster.setDisplayName(sTitle)
+                oHoster.setFileName(sTitle)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oOutputParameterHandler)
 
     oRequestHandler = cRequestHandler(murl)
     sHtmlContent = oRequestHandler.request()
@@ -416,21 +426,7 @@ def getHosterIframe(url, referer):
         if not sstr.endswith(';'):
             sstr = sstr + ';'
         sHtmlContent = cPacker().unpack(sstr)
-
-    sPattern = '.atob\("(.+?)"'
-    aResult = re.findall(sPattern, sHtmlContent)
-    if aResult:
-        import base64
-        code = aResult[0]
-        try:
-            if isMatrix():
-                code = base64.b64decode(code).decode('ascii')
-            else:
-                code = base64.b64decode(code)
-            return code + '|Referer=' + referer
-        except Exception as e:
-            pass
-    
+   
     sPattern = '<iframe.+?src=["\']([^"\']+)["\']'
     aResult = re.findall(sPattern, sHtmlContent)
     if aResult:
@@ -498,6 +494,20 @@ def getHosterIframe(url, referer):
     aResult = re.findall(sPattern, sHtmlContent)
     if aResult:
         return aResult[0] + '|referer=' + referer
+
+    sPattern = '.atob\("(.+?)"'
+    aResult = re.findall(sPattern, sHtmlContent)
+    if aResult:
+        import base64
+        code = aResult[0]
+        try:
+            if isMatrix():
+                code = base64.b64decode(code).decode('ascii')
+            else:
+                code = base64.b64decode(code)
+            return code + '|Referer=' + referer
+        except Exception as e:
+            pass
 
     return False
 	

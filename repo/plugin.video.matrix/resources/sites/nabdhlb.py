@@ -415,7 +415,7 @@ def showHosters(oInputParameterHandler = False):
             sHtmlContent2 = oRequestHandler.request()
     
             sPattern = 'iframe.+?src=\"(.+?)\"'
-            aResult = oParser.parse(sHtmlContent2.lower(), sPattern)
+            aResult = oParser.parse(sHtmlContent2, sPattern)
             if aResult[0]:
                 sHosterUrl = aResult[1][0]
 

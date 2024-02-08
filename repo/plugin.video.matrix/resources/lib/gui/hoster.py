@@ -273,7 +273,7 @@ class cHosterGui:
         # Filelions Clone
         filelions = next((x for x in ['filelions', 'ajmidyadfihayh', 'alhayabambi', 'bazwatch', 'cilootv', 'motvy55', 'bazlions', 'lylxan',
                                 'fdewsdc.sbs', '5drama.vip', 'cdnlion-down', 'demonvideo', 'zidlions', 'vidhide', 'streamfile', 'vidnow', 'tuktukcinema29.buzz',
-                                'gsfomqu'] if x in sHostName), None)
+                                'gsfomqu', 'codeda'] if x in sHostName), None)
         if filelions:
             return self.getHoster("filelions")
 

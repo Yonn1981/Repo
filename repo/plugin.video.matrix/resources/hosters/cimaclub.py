@@ -34,7 +34,7 @@ class cHoster(iHoster):
         if aResult:
             sSource = aResult.group(1)
             sSource = base64.b64decode(sSource).decode('utf8',errors='ignore')
-            sSource = re.findall('(https://master.+?.m3u8)', sSource)
+            sSource = re.findall('.*,(https://.+?.m3u8)', sSource)
             sSource = str(sSource).replace('[', '').replace(']', '').replace("'", '')
 
         sHtmlContent = s.get(sSource, headers=headers).text
