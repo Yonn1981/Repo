@@ -1,19 +1,9 @@
 ==============================================================
-version="5.8.*"
-- Addon base updates
-- New Sites
-- Many sites fixes
-- If errors encountered ->uninstall and reinstall addon as new
-==============================================================
-==============================================================
-version="5.2.0"
--mycima fix show all episodes in some +30 episodes series
--familymoviz  Scrapes all download links in the movies page
-==============================================================
-==============================================================
-version="5.1.9"
--animezid new link update
--akwam : use of shorten link
--egybest fix episode & season titles
--fasel new movie docuentary section link
+Version: "6.3.*"
+- Updates to the addon base
+- Introduction of new sites
+- Numerous fixes for existing sites
+- Addition of many new hosters and fixes for existing ones
+- If you encounter errors, consider uninstalling and reinstalling 
+  the addon as if it were new.
 ==============================================================

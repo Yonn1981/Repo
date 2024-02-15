@@ -11,6 +11,7 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
+from resources.lib.multihost import cVidsrcto, cVidsrcnet
 
 SITE_IDENTIFIER = 'askmovie'
 SITE_NAME = 'Ask4Movie'
@@ -18,13 +19,13 @@ SITE_DESC = 'english vod'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-MOVIE_EN = (URL_MAIN + '/recently-added/', 'showMovies')
+MOVIE_EN = (URL_MAIN + 'recently-added/', 'showMovies')
 MOVIE_GENRES = (True, 'moviesGenres')
-SERIE_EN = (URL_MAIN + '/channel_cat/tv-series/', 'showSeries')
+SERIE_EN = (URL_MAIN + 'channel_cat/tv-series/', 'showSeries')
 SERIE_GENRES = (True, 'seriesGenres')
 
-URL_SEARCH_MOVIES = (URL_MAIN + '/?s=', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + '/?s=', 'showSeries')
+URL_SEARCH_MOVIES = (URL_MAIN + '?s=', 'showMovies')
+URL_SEARCH_SERIES = (URL_MAIN + '?s=', 'showSeries')
 FUNCTION_SEARCH = 'showMovies'
 	
 def load():
@@ -44,13 +45,13 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', SERIE_EN[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أجنبية', 'agnab.png', oOutputParameterHandler)
 
-    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/channel_cat/miniseries/')
+    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'channel_cat/miniseries/')
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات سلسلة صغيرة', 'mslsl.png', oOutputParameterHandler)
 
-    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/netflix-originals/')
+    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'netflix-originals/')
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام Netfilx', 'agnab.png', oOutputParameterHandler)
 
-    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/channel_cat/netflix/')
+    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'channel_cat/netflix/')
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات Netfilx', 'mslsl.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', SERIE_GENRES[0])
@@ -192,7 +193,6 @@ def showMovies(sSearch = ''):
         oGui.setEndOfDirectory()  
 
 def showSearchSeries(sSearch = ''):
-    import requests
     oGui = cGui()
     if sSearch:
       sUrl = sSearch
@@ -252,7 +252,6 @@ def showSearchSeries(sSearch = ''):
         oGui.setEndOfDirectory()  
  
 def showSeries(sSearch = ''):
-    import requests
     oGui = cGui()
     if sSearch:
       sUrl = sSearch
@@ -264,7 +263,7 @@ def showSeries(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-    sPattern = '<a href="([^"]+)" title="([^"]+)"><img width="150" height="150" src="([^"]+)'
+    sPattern = '<a href="([^"]+)" title="([^"]+)".+?src="([^"]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
         total = len(aResult[1])
@@ -317,7 +316,7 @@ def showSeasons():
 		oOutputParameterHandler = cOutputParameterHandler()
 		for aEntry in aResult[1]:
  
-			sTitle = aEntry[2]
+			sTitle = aEntry[2].replace('(Season ','S').replace(')','')
 			siteUrl = aEntry[0]
 			sThumb = ''
 			sDesc = ''
@@ -330,7 +329,6 @@ def showSeasons():
 	oGui.setEndOfDirectory()
     
 def showEps():
-    import requests
     oGui = cGui()
    
     oInputParameterHandler = cInputParameterHandler()
@@ -353,21 +351,53 @@ def showEps():
         for aEntry in aResult[1]:
  
             sEp = "E"+aEntry[1]
-            sTitle = sEp
+            sTitle = sMovieTitle + sEp
             siteUrl = aEntry[0]
             sThumb = sThumb
             sDesc = ''
             sYear = ''
 
             sHosterUrl = siteUrl 
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if oHoster:
-                sDisplayTitle = sTitle
-                oHoster.setDisplayName(sDisplayTitle)
-                oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, sDesc, oInputParameterHandler=oInputParameterHandler)
+            if 'vidsrc.to' in sHosterUrl:
+                sLabel = 'Vidsrc.to'
+                sDisplayTitle = ('%s [COLOR orange] [%s] [/COLOR]') % (sTitle, sLabel)  
+                oOutputParameterHandler.addParameter('sHosterUrl', sHosterUrl)
+                oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+                oOutputParameterHandler.addParameter('sThumb', sThumb)
+                        
+                oGui.addLink(SITE_IDENTIFIER, 'showSeriesLinks', sDisplayTitle, sThumb, '', oOutputParameterHandler, oInputParameterHandler)
+            
+            else:
+                oHoster = cHosterGui().checkHoster(sHosterUrl)
+                if oHoster:
+                    sDisplayTitle = sTitle
+                    oHoster.setDisplayName(sDisplayTitle)
+                    oHoster.setFileName(sMovieTitle)
+                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, sDesc, oInputParameterHandler=oInputParameterHandler)
                
     oGui.setEndOfDirectory() 
+
+def showSeriesLinks():
+    oGui = cGui()
+
+    oInputParameterHandler = cInputParameterHandler()
+    sHosterUrl = oInputParameterHandler.getValue('sHosterUrl')
+    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
+    sThumb = oInputParameterHandler.getValue('sThumb')
+
+    aResult = cVidsrcto().GetUrls(sHosterUrl)
+    if (aResult):
+        for aEntry in aResult:
+            sHosterUrl = aEntry
+
+            sDisplayTitle = sMovieTitle
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if oHoster != False:
+                oHoster.setDisplayName(sDisplayTitle)
+                oHoster.setFileName(sMovieTitle)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler) 
+
+    oGui.setEndOfDirectory()
 
 def showLinks(oInputParameterHandler = False):
     oGui = cGui()
@@ -391,12 +421,26 @@ def showLinks(oInputParameterHandler = False):
                 url = 'http:' + url
 				    
             sHosterUrl = url 
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if oHoster:
-                sDisplayTitle = sTitle
-                oHoster.setDisplayName(sDisplayTitle)
-                oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+            if 'vidsrc.to' in sHosterUrl:
+                sHosterUrl = cVidsrcto().GetUrls(sHosterUrl)
+                if (sHosterUrl):
+                    for aEntry in sHosterUrl:
+                        sHosterUrl = aEntry
+
+                        sDisplayTitle = sMovieTitle
+                        oHoster = cHosterGui().checkHoster(sHosterUrl)
+                        if oHoster != False:
+                            oHoster.setDisplayName(sDisplayTitle)
+                            oHoster.setFileName(sMovieTitle)
+                            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler) 
+
+            else:
+                oHoster = cHosterGui().checkHoster(sHosterUrl)
+                if oHoster:
+                    sDisplayTitle = sTitle
+                    oHoster.setDisplayName(sDisplayTitle)
+                    oHoster.setFileName(sMovieTitle)
+                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
     oGui.setEndOfDirectory()
 

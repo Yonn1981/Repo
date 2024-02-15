@@ -335,7 +335,17 @@ def showEpisodes():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-    SeasonID = str(int(SeasonID)-1)
+    sPattern =  'id="Season(.+?)"' 
+    aResult = oParser.parse(sHtmlContent,sPattern)
+    if aResult[0]:
+        SID = aResult[1][0] 
+
+
+    if len(SID) == 1:
+        SeasonID = SID
+            
+    elif len(SID) > 1:
+        SeasonID = str(int(SeasonID)-1)
 
     sStart = f'id="Season{SeasonID}"'
     sEnd = '</div>'

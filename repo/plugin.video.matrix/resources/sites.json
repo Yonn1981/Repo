@@ -14,7 +14,7 @@
             "label": "Ask4movie",
             "active": "True",
             "cloudflare": "True",
-            "url": "https://ask4movie.nl/"
+            "url": "https://ask4movie.li/"
         },
         "akoam": {
             "label": "Akoam",
@@ -99,7 +99,7 @@
         "asiadtv": {
             "label": "AsiaDramaTV",
             "active": "True",
-            "url": "https://asiadtv.co/"
+            "url": "https://asiatv.one/"
         },
         "asharq": {
             "label": "asharq",
@@ -149,7 +149,7 @@
         "cimacity": {
             "label": "CimaCity",
             "active": "True",
-            "url": "https://web.cima-city.xyz/"
+            "url": "https://vip.cima-city.xyz/"
         },
         "cimaking": {
             "label": "CimaKing",
@@ -206,7 +206,7 @@
         "dramacafe": {
             "label": "Dramacafe",
             "active": "True",
-            "url": "https://tag.dramacafe-tv.com/"
+            "url": "https://cc.dramacafe-tv.net/"
         },
         "egybest": {
             "label": "EgyBest",
@@ -316,12 +316,12 @@
         "kporama": {
             "label": "Kporama",
             "active": "True",
-            "url": "https://asia.kporama.net/"
+            "url": "https://kporama.com/"
         },
         "koralive": {
             "label": "Koralive",
             "active": "True",
-            "url": "https://shoots.360kora.net/",
+            "url": "https://lives.360kora.org/",
             "url2": "https://stad.alkoora-live.live/"
         },
         "laroza": {
@@ -337,7 +337,7 @@
         "livetv": {
             "label": "Live TV",
             "active": "True",
-            "url": "https://livetv753.me/"
+            "url": "https://livetv759.me/"
         },
         "lodynet": {
             "label": "Lodynet",
@@ -362,12 +362,12 @@
         "prstej": {
             "label": "Prstej",
             "active": "True",
-            "url": "https://wws.brstej.com/"
+            "url": "https://ser.brstej.com/"
         },
         "qfilm": {
             "label": "QFilm",
             "active": "True",
-            "url": "https://go.qfilm.tv/"
+            "url": "https://wwa.qfilm.tv/"
         },
         "rotana": {
             "label": "Rotana",
@@ -479,7 +479,7 @@
         "witanime": {
             "label": "WitAnime",
             "active": "True",
-            "url": "https://witanime.pics/"
+            "url": "https://witanime.one/"
         },
         "xsanime": {
             "label": "Xsanime",

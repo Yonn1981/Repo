@@ -128,6 +128,18 @@ def showHosters():
             oHoster.setFileName(sMovieTitle)
             cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oOutputParameterHandler)
 
+    sPattern = 'file : ["\']([^"\']+)["\']'
+    aResult = re.findall(sPattern, sHtmlContent)
+    if aResult:
+        oOutputParameterHandler = cOutputParameterHandler()
+        sHosterUrl = aResult[0]
+        oHoster = cHosterGui().checkHoster(sHosterUrl)
+        sHosterUrl = sHosterUrl + '|referer=' + murl
+        if oHoster:
+            oHoster.setDisplayName(sMovieTitle)
+            oHoster.setFileName(sMovieTitle)
+            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oOutputParameterHandler)
+
     if 'class="albaplayer_name' not in sHtmlContent:
         sPattern = '<iframe.+?id=["\']iframe["\'].+?src=["\']([^"\']+)["\']'
         aResult = oParser.parse(sHtmlContent, sPattern)

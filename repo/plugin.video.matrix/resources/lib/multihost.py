@@ -19,27 +19,24 @@ class cMultiup:
 
     def GetUrls(self, url):
         sHtmlContent = GetHtml(url)
-        sPattern = '<form action="(.+?)" method="post"'
+        sPattern = '<form action="([^"]+)'
         result = re.findall(sPattern, sHtmlContent)
         if result:
-           url = 'https://multiup.org' + ''.join(result[0])
-
-        NewUrl = url.replace('https://www.multiup.org/fr/download', 'https://www.multiup.org/fr/mirror')\
-                    .replace('https://www.multiup.eu/fr/download', 'https://www.multiup.org/fr/mirror')\
-                    .replace('https://www.multiup.org/download', 'https://www.multiup.org/fr/mirror')
+           NewUrl = f'https://multiup.io{result[0]}'.replace('/fr/download', '/en/mirror').replace('/en/download', '/en/mirror').replace('/download', '/en/mirror')
 
         sHtmlContent = GetHtml(NewUrl)
 
-        sPattern = 'nameHost="([^"]+)".+?link="([^"]+)".+?class="([^"]+)"'
-        r = re.findall(sPattern, sHtmlContent, re.DOTALL)
-
+        sPattern = 'nameHost="([^"]+)"\s*link="([^"]+)'
+        r = re.findall(sPattern, sHtmlContent)
         if not r:
             return False
 
-        for item in r:
-
-            if 'bounce-to-right' in str(item[2]) and not 'download-fast' in item[1]:
-                self.list.append(item[1])
+        for aEntry in r:
+            if 'UseNext' in aEntry[0] or 'doodrive' in aEntry[0] or 'fikper' in aEntry[0] or 'ddownload' in aEntry[0] or 'rapidgator' in aEntry[0] or '1fichier' in aEntry[0]:
+                  continue
+            sHosterUrl = aEntry[1]
+            sLabel = 'Multiup - ' + aEntry[0]
+            self.list.append(f'url={sHosterUrl}, label={sLabel}')
 
         return self.list
 

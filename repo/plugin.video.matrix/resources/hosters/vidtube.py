@@ -19,13 +19,14 @@ class cHoster(iHoster):
         VSlog(self._url)
         sReferer = ''
         if '/d/' in self._url or 'embed-' in self._url:
-            self._url = self._url.replace('/d/','/').replace('embed-','')
+            self._url = self._url.replace('/d/','/embed-')
             if '.html' not in self._url:
                 self._url = self._url + '.html'
         if '|Referer=' in self._url:
             sReferer = self._url.split('|Referer=')[1]            
             self._url = self._url.split('|Referer=')[0]
 
+        VSlog(self._url)
         api_call = ''
 
         UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:39.0) Gecko/20100101 Firefox/39.0'

@@ -7,16 +7,13 @@
 import json
 import re
 import requests
+import base64
 from six.moves import urllib_parse
 
-from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
-from resources.lib.packer import cPacker
 from resources.lib.comaddon import dialog, VSlog
-
 from resolveurl.lib.pyaes import openssl_aes
-
 
 class cHoster(iHoster):
 
@@ -31,7 +28,6 @@ class cHoster(iHoster):
         headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101 Firefox/68.0',
                    'Referer': referer}
         
-        import requests
         s = requests.Session()  
    
         headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101 Firefox/68.0',
@@ -47,11 +43,6 @@ class cHoster(iHoster):
             surl = aResult[1][0]
             surl = referer + surl
 
-        import requests
-        scriptJs = requests.get("https://rabbitstream.net/js/player/prod/e4-player.min.js").text
-
-        decryptionKey = extractKey(scriptJs)
-
         host = mainurl.split("/e")[0]
         host = host.split("//")[1]
         mid = mainurl.split('?')[0]
@@ -59,8 +50,6 @@ class cHoster(iHoster):
         mid = mid.replace('/', '/getSources?id=')
         aurl = 'https://'+host+'/ajax/embed-4'+mid
 
-        import requests
-        s = requests.Session()  
         headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101 Firefox/68.0',
                    'Referer': referer, 'X-Requested-With': 'XMLHttpRequest'}
         r = s.get(aurl, headers=headers)
@@ -72,20 +61,17 @@ class cHoster(iHoster):
 
         if aResult[0]:
             sources = aResult[1][0]
-            
-        # Working?
-        extractedKey = ""
+
+        response = requests.get('https://keys4.fun')
+        keys = response.json()["rabbitstream"]["keys"]
+
+        key_bytes = bytes(keys)
+        key_string = base64.b64encode(key_bytes).decode('utf-8')
+
         strippedSources = sources
-        totalledOffset = 0
-        for a, b in decryptionKey:
-            start = a + totalledOffset
-            end = start + b
-            extractedKey += sources[start:end]
-            strippedSources = strippedSources.replace(sources[start:end], "")
-            totalledOffset += b
 
         OpenSSL_AES = openssl_aes.AESCipher()
-        sources = json.loads(OpenSSL_AES.decrypt(strippedSources, extractedKey))
+        sources = json.loads(OpenSSL_AES.decrypt(strippedSources, key_string))
 
         sPattern = "'file': '(.+?)',"
         aResult = oParser.parse(sources, sPattern)
