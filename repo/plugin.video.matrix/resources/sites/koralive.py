@@ -20,6 +20,7 @@ URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 URL_MAIN2 = siteManager().getUrlMain2(SITE_IDENTIFIER)
 
 SPORT_LIVE = (URL_MAIN, 'showMovies')
+SPORT_FOOT = (URL_MAIN + 'p/videos.html', 'showVideos')
 
 UA = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:56.0) Gecko/20100101 Firefox/56.0'
  
@@ -29,7 +30,10 @@ def load():
     oOutputParameterHandler = cOutputParameterHandler()    
     oOutputParameterHandler.addParameter('siteUrl', SPORT_LIVE[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'بث مباشر', 'foot.png', oOutputParameterHandler)
-   
+
+    oOutputParameterHandler.addParameter('siteUrl', SPORT_FOOT[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showVideos', 'أهداف و ملخصات ', 'sport.png', oOutputParameterHandler)
+
     oGui.setEndOfDirectory()
 	
     
@@ -47,7 +51,7 @@ def showMovies():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-    sPattern = '<div class="match-container.+?href="([^"]+)".+?title="([^"]+)".+?id="result">(.+?)</div>.+?data-start=["\']([^"\']+)["\']'
+    sPattern = '<div class="match-container">\s*<a href="([^"]+)" title="([^"]+)".+?id="result">(.+?)</div>.+?data-start=["\']([^"\']+)["\']'
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
         total = len(aResult[1])
@@ -81,7 +85,90 @@ def showMovies():
  
  
     oGui.setEndOfDirectory()
-  	
+
+def showVideos():
+    oGui = cGui()
+    oInputParameterHandler = cInputParameterHandler()
+    sUrl = oInputParameterHandler.getValue('siteUrl')
+
+    oParser = cParser()
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request()
+
+    sPattern = '<div class="match-container">\s*<a href="([^"]+)" target="_blank" title="([^"]+)".+?id="result">(.+?)</div>'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    if aResult[0]:
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        oOutputParameterHandler = cOutputParameterHandler() 
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+ 
+            sTitle =  aEntry[1].replace('بث مباشر اليوم','')
+            if 'مباراة' in sTitle:
+                sTitle = sTitle.split('مباراة')[1]
+                if 'كورة' in sTitle:
+                    sTitle = sTitle.split('كورة')[0]
+            sThumb = ''
+            siteUrl =  aEntry[0]
+            sDesc = f'النتيجة \n {aEntry[2]}'
+			
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
+
+            oGui.addMovie(SITE_IDENTIFIER, 'showLinks', sTitle, 'foot.png', '', sDesc, oOutputParameterHandler)
+        
+        progress_.VSclose(progress_)
+
+    sStart = "<ul class='goals-tabs'>"
+    sEnd = '</ul></div>'
+    sHtmlContent2 = oParser.abParse(sHtmlContent, sStart, sEnd)
+
+    sPattern = "href='([^']+)'.+?<strong>(.+?)</strong>"
+    aResult = oParser.parse(sHtmlContent2, sPattern)
+    if aResult[0]:
+        for aEntry in aResult[1]:
+            sTitle = aEntry[1]
+            
+            sTitle =  "PAGE " + sTitle
+            sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
+            siteUrl = URL_MAIN + aEntry[0]
+
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+			
+            oGui.addDir(SITE_IDENTIFIER, 'showVideos', sTitle, 'next.png', oOutputParameterHandler)
+
+    oGui.setEndOfDirectory()
+
+def showLinks(oInputParameterHandler = False):
+    oGui = cGui()
+    oInputParameterHandler = cInputParameterHandler()
+    sUrl = oInputParameterHandler.getValue('siteUrl')
+    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
+    sThumb = oInputParameterHandler.getValue('sThumb')
+    oOutputParameterHandler = cOutputParameterHandler()
+
+
+    sHosterUrl = sUrl.split('?src=')[1]
+
+    if '.mp4' in sHosterUrl:
+        sHosterUrl = sHosterUrl
+    else:
+        sHosterUrl = 'https://www.youtube.com/watch?v=' +  sHosterUrl
+
+    oHoster = cHosterGui().checkHoster(sHosterUrl)
+    sHosterUrl = sHosterUrl 
+    if oHoster:
+        oHoster.setDisplayName(sMovieTitle)
+        oHoster.setFileName(sMovieTitle)
+        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oOutputParameterHandler)
+
+    oGui.setEndOfDirectory()    
+
 def showHosters(oInputParameterHandler = False):
     oGui = cGui()
     import requests
@@ -89,7 +176,6 @@ def showHosters(oInputParameterHandler = False):
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
-    oParser = cParser()   
 
     oParser = cParser()
     oRequestHandler = cRequestHandler(sUrl)

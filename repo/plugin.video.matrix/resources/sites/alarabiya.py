@@ -86,6 +86,8 @@ def showHosters(oInputParameterHandler = False):
 
     oParser = cParser()    
     oRequestHandler = cRequestHandler(sUrl)
+    cook = oRequestHandler.GetCookies()
+    oRequestHandler.addHeaderEntry('cookie', cook.encode('utf-8'))
     sHtmlContent = oRequestHandler.request()
  
     sPattern = ',"contentUrl": "(.+?)"'

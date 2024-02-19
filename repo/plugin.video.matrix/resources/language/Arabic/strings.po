@@ -1245,6 +1245,10 @@ msgctxt "#31000"
 msgid "Multimedia folder URL (Optional)"
 msgstr "مجلد الوسائط المتعددة (اختياري)"
 
+msgctxt "#31004"
+msgid "Cloudflare Bypass"
+msgstr "تجاوز Cloudflare"
+
 msgctxt "#31101"
 msgid "Url"
 msgstr "Url"
@@ -1290,8 +1294,8 @@ msgid "Display"
 msgstr "عرض"
 
 msgctxt "#31206"
-msgid "Use FlareSolverr"
-msgstr "Flaresolverr استخدام"
+msgid "Use Cloudbypass during Search"
+msgstr "حاول تخطي الحماية اثناء البحث"
 
 msgctxt "#31207"
 msgid "Display file infos"

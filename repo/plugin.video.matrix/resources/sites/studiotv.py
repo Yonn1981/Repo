@@ -150,6 +150,22 @@ def showHosters():
                 oRequestHandler = cRequestHandler(murl)
                 sHtmlContent = oRequestHandler.request()
 
+        sPattern = '<iframe.+?src="([^"]+)" width='
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        if aResult[0]:
+            for aEntry in aResult[1]:
+                murl2 = aEntry    
+
+                if '.mp4' in murl2 or '.m3u8' in murl2 or 'voodc' in murl2:
+                    sHosterUrl = murl2
+                    sTitle = sMovieTitle
+                    oHoster = cHosterGui().checkHoster(sHosterUrl)
+                    sHosterUrl = sHosterUrl 
+                    if oHoster:
+                        oHoster.setDisplayName(sTitle)
+                        oHoster.setFileName(sTitle)
+                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oOutputParameterHandler)
+
     oParser = cParser()
     sStart = 'class="albaplayer_name">'
     sEnd = 'class="albaplayer_server-body'

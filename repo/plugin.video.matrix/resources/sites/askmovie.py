@@ -11,7 +11,7 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
-from resources.lib.multihost import cVidsrcto, cVidsrcnet
+from resources.lib.multihost import cVidsrcto
 
 SITE_IDENTIFIER = 'askmovie'
 SITE_NAME = 'Ask4Movie'
@@ -143,7 +143,6 @@ def moviesGenres():
     oGui.setEndOfDirectory()
 
 def showMovies(sSearch = ''):
-    import requests
     oGui = cGui()
     if sSearch:
       sUrl = sSearch

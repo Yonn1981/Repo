@@ -131,14 +131,15 @@ class cRechercheHandler:
 
         sitesManager = siteManager()
 
-        use_flaresolverr = addon().getSetting("use_flaresolverr") == 'true'   # Utiliser FlareSolverrr
+        
+        use_cloudbypass = addon().getSetting("use_cloudbypass") == 'true'   # Utiliser Cloudbypass
 
         aPlugins = []
         aFileNames = self.__getFileNamesFromFolder(sFolder)
         for sFileName in aFileNames:
             if sitesManager.isEnable(sFileName):
                 if sitesManager.isActive(sFileName):
-                    if use_flaresolverr or not sitesManager.isCloudFlare(sFileName):
+                    if use_cloudbypass or not sitesManager.isCloudFlare(sFileName):
                         aPlugin = self.importPlugin(sFileName, sCat)
                         if aPlugin:
                             aPlugins.append(aPlugin)

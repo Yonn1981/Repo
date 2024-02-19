@@ -1273,6 +1273,10 @@ msgctxt "#31000"
 msgid "Multimedia folder URL (Optional)"
 msgstr ""
 
+msgctxt "#31004"
+msgid "Cloudflare Bypass"
+msgstr ""
+
 msgctxt "#31101"
 msgid "Url"
 msgstr ""
@@ -1318,7 +1322,7 @@ msgid "Display"
 msgstr ""
 
 msgctxt "#31206"
-msgid "Use FlareSolverr"
+msgid "Use Cloudbypass during Search"
 msgstr ""
 
 msgctxt "#31207"

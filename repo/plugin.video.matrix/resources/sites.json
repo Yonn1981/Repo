@@ -28,7 +28,7 @@
         },
         "alarabiya": {
             "label": "Alarabiya",
-            "active": "False",
+            "active": "True",
             "url": "https://www.alarabiya.net/"
         },
         "alfajertv": {
@@ -140,6 +140,11 @@
             "label": "Cdrama",
             "active": "True",
             "url": "https://cdrama.in/"
+        },
+        "cimau": {
+            "label": "Cima4u",
+            "active": "True",
+            "url": "https://fe-w4-c4.shop/"
         },
         "cimaclub": {
             "label": "CimaClub",

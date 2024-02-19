@@ -70,8 +70,12 @@ c'est le changelog de la beta !        <setting label="30036" type="action" acti
 
         <setting id="history-view" type="bool" label="30016" default="true"/>
         <setting type="sep"/>
-        <setting id="use_flaresolverr" type="bool" label="31206" default="false"/>
-        <setting label="31203" type="ipaddress" id="ipaddress" default="127.0.0.1" enable="eq(-1,true)"/>
+        <setting id="use_cloudbypass" type="bool" label="31206" default="true"/>
+        <setting id="cloudbypass" type="enum" values="flaresolverr|zenrows|scrapeninja|pulffy" label="31004" default="0"/>
+        <setting type="sep"/>
+        <setting label="31203" type="ipaddress" id="ipaddress" default="127.0.0.1" enable="true"/>
+        <setting type="sep"/>
+        <setting label="RapidAPI" type="text" id="rapidapi" default="d049abd94bmshe0fbd8644ee43d0p1cbebbjsne4a03858c3bb" enable="true"/>
 
         <!--parametres invisibles -->
         <setting id="ZT" type="text" label="" default="" visible="false"/>

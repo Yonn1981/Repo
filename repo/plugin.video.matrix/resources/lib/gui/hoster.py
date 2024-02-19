@@ -550,6 +550,9 @@ class cHosterGui:
         if ('vk.com' in sHostName) or ('vkontakte' in sHostName) or ('vkcom' in sHostName) or ('vk.ru' in sHostName):
             return self.getHoster('vk')
 
+        if ('megaup.net' in sHostName):
+            return self.getHoster('megaup')
+
         if ('playvidto' in sHostName):
             return self.getHoster('vidto')
 
