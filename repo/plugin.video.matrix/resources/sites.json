@@ -320,13 +320,13 @@
         },
         "kporama": {
             "label": "Kporama",
-            "active": "True",
+            "active": "False",
             "url": "https://kporama.com/"
         },
         "koralive": {
             "label": "Koralive",
             "active": "True",
-            "url": "https://lives.360kora.org/",
+            "url": "https://2online.360kora.org/",
             "url2": "https://stad.alkoora-live.live/"
         },
         "laroza": {
@@ -342,12 +342,12 @@
         "livetv": {
             "label": "Live TV",
             "active": "True",
-            "url": "https://livetv759.me/"
+            "url": "https://livetv760.me/"
         },
         "lodynet": {
             "label": "Lodynet",
             "active": "True",
-            "url": "https://lodynet.cloud/"
+            "url": "https://lodynet.cfd/"
         },
         "moviztime": {
             "label": "MovizTime",
@@ -403,7 +403,7 @@
         "shooflive": {
             "label": "Shooflive",
             "active": "True",
-            "url": "https://r.shooflive.co/"
+            "url": "https://tv.shooflive.art/"
         },
         "shoofvod": {
             "label": "Shoofvod",
