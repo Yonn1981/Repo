@@ -446,7 +446,6 @@ def __checkForNextPage(sHtmlContent):
 
 def showHosters(oInputParameterHandler = False):
     oGui = cGui()
-    oHosterGui = cHosterGui()
 
     if not oInputParameterHandler:
         oInputParameterHandler = cInputParameterHandler()
@@ -492,6 +491,7 @@ def showHosters(oInputParameterHandler = False):
         r = s.post(url,data=data,headers=headers)
         rt = s.get(murl)
         sHtmlContent = rt.text
+        s.close()
 
     sPattern =  '>Click here</span>.+?<a href="([^"]+)' 
     aResult = oParser.parse(sHtmlContent,sPattern)    

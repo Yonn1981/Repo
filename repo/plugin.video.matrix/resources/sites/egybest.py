@@ -122,8 +122,8 @@ def main_function(sHtmlContent):
     sPattern = '<meta property="og:url" content="([^"]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)    
     if (aResult[0]):
-        URL_MAIN = aResult[1][0]+'/'
-    return URL_MAIN
+        sURL_MAIN = aResult[1][0]+'/'
+    return sURL_MAIN
 	
 def showSearch():
     oGui = cGui()
@@ -570,8 +570,6 @@ def __checkForNextPage(sHtmlContent, sUrl):
 
 def showHosters(oInputParameterHandler = False):
     oGui = cGui()
-    import base64
-    import requests
 
     oParser = cParser()
     oInputParameterHandler = cInputParameterHandler()
@@ -658,7 +656,6 @@ def showHosters(oInputParameterHandler = False):
     if aResult[0] is True:
         murl2 = aResult[1][0] 
 
-        import requests
         s = requests.Session()            
         data = {'codes':mcode}
         r = s.post(murl2,data = data)

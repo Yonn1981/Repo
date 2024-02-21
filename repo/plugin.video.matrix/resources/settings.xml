@@ -70,7 +70,7 @@ c'est le changelog de la beta !        <setting label="30036" type="action" acti
 
         <setting id="history-view" type="bool" label="30016" default="true"/>
         <setting type="sep"/>
-        <setting id="use_cloudbypass" type="bool" label="31206" default="true"/>
+        <setting id="use_cloudbypass" type="bool" label="31206" default="false"/>
         <setting id="cloudbypass" type="enum" values="flaresolverr|zenrows|scrapeninja|pulffy" label="31004" default="0"/>
         <setting type="sep"/>
         <setting label="31203" type="ipaddress" id="ipaddress" default="127.0.0.1" enable="true"/>

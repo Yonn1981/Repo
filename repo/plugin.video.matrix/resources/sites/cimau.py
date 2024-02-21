@@ -2,8 +2,6 @@
 # Yonn1981 https://github.com/Yonn1981/Repo
 
 import re
-import base64
-import json
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -11,6 +9,8 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
+
+UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36 Edg/121.0.0.0'
 
 SITE_IDENTIFIER = 'cimau'
 SITE_NAME = 'Cima4u'
@@ -531,38 +531,59 @@ def showLinks(oInputParameterHandler = False):
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
-    sDesc = ''
 
-    oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    
-    sPattern = 'name="mov_url" value="([^"]+)'
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    if (aResult[0]):
-        murl = base64.b64decode(aResult[1][0]).decode('utf8',errors='ignore')
+
+    mov_name_match = re.search(r'name="mov_name" value="(.*?)"', sHtmlContent)
+    mov_url_match = re.search(r'name="mov_url" value="(.*?)"', sHtmlContent)
+    submit_match = re.search(r'type="submit" value="(.*?)"', sHtmlContent)
+    action_url_match = re.search(r'<form action="(.*?)"', sHtmlContent)
+
+    if mov_name_match:
+        mov_name = mov_name_match.group(1)
+
+    if mov_url_match:
+        mov_url = mov_url_match.group(1)
+
+    if submit_match:
+        submit = submit_match.group(1)
+
+    if action_url_match:
+        murl = action_url_match.group(1)
 
     oRequestHandler = cRequestHandler(murl)
+    oRequestHandler.setRequestType(1)
     oRequestHandler.addHeaderEntry('Referer', sUrl.encode('utf-8'))
+    oRequestHandler.addHeaderEntry('Origin', getHost(sUrl))
+    oRequestHandler.addHeaderEntry('Accept', '*/*')
+    oRequestHandler.addHeaderEntry('accept-language', 'en-US,en;q=0.9,ar;q=0.8')
+    oRequestHandler.addParameters('mov_name', mov_name)
+    oRequestHandler.addParameters('mov_url', mov_url)
+    oRequestHandler.addParameters('submit', submit)
     sHtmlContent = oRequestHandler.request()
 
-    sLinks = json.loads(sHtmlContent)
+    sLinks = re.findall(r'data-value="(.*?)"', sHtmlContent)
+    for link in sLinks:
+        sHosterUrl = link
+        sDisplayTitle = sMovieTitle + get_resolution_label(link) 
 
-    for sLink in sLinks['watch']:    
-            sHosterUrl = sLink
-            sDisplayTitle = sMovieTitle + get_resolution_label(sLink) 
-
-            if 'userload' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-            if 'streamtape' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
-            if 'mystream' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+        if 'userload' in sHosterUrl:
+            sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+        if 'streamtape' in sHosterUrl:
+            sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
+        if 'mystream' in sHosterUrl:
+            sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+        
+        if 'mp4' in sHosterUrl:
+            sHosterUrl = sHosterUrl + '|User-Agent=' + UA + '&Referer=' + sUrl
+            oHoster = cHosterGui().getHoster('lien_direct')
+        else:
             oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if oHoster:
-               oHoster.setDisplayName(sDisplayTitle)
-               oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+        if oHoster:
+            oHoster.setDisplayName(sDisplayTitle)
+            oHoster.setFileName(sMovieTitle)
+            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
      
     oGui.setEndOfDirectory()  
 
@@ -593,3 +614,8 @@ def __checkForNextPage(sHtmlContent):
         return aResult[1][0]
 
     return False
+
+def getHost(url):
+    parts = url.split('//', 1)
+    host = parts[0] + '//' + parts[1].split('/', 1)[0]
+    return host

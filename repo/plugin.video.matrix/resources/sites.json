@@ -111,6 +111,11 @@
             "active": "True",
             "url": "https://www.awaan.ae/"
         },
+        "bahyfilm": {
+            "label": "BahyFilm",
+            "active": "True",
+            "url": "https://bahyfilm.com/"
+        },
         "bazplay": {
             "label": "BazPlay",
             "active": "True",
@@ -326,7 +331,7 @@
         "koralive": {
             "label": "Koralive",
             "active": "True",
-            "url": "https://2online.360kora.org/",
+            "url": "https://online.360kora.org/",
             "url2": "https://stad.alkoora-live.live/"
         },
         "laroza": {

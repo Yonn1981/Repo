@@ -328,7 +328,8 @@ class cRequestHandler:
                             url = "https://scrapeninja.p.rapidapi.com/scrape"
 
                             payload = {
-	                            "url": self.__sUrl
+	                            "url": self.__sUrl,
+                                "geo": "us"
                             }
                             headers = {
 	                            "content-type": "application/json",
