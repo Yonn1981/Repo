@@ -2,6 +2,7 @@
 # Yonn1981 https://github.com/Yonn1981/Repo
 
 import re
+import base64
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -193,7 +194,7 @@ def showLinks(oInputParameterHandler = False):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-    movie_id = sUrl.split('?id=')[1]
+    movie_id = base64.b64decode(sUrl.split('?id=')[1]).decode('utf8',errors='ignore')
 
     oRequestHandler = cRequestHandler(URL_MAIN + 'getlinks.php')
     oRequestHandler.addHeaderEntry('Accept', '*/*')
