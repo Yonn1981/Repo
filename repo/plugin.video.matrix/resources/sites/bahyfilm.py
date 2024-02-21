@@ -173,7 +173,7 @@ def showMovies(sSearch = ''):
         oOutputParameterHandler = cOutputParameterHandler()  
         sTitle = "PAGE " + name
         sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
-        siteUrl = URL_MAIN + link
+        siteUrl = URL_MAIN + 'section.php' + link
 
         oOutputParameterHandler.addParameter('siteUrl',siteUrl)
         oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle, 'next.png', oOutputParameterHandler)

@@ -123,7 +123,9 @@ def main_function(sHtmlContent):
     aResult = oParser.parse(sHtmlContent, sPattern)    
     if (aResult[0]):
         sURL_MAIN = aResult[1][0]+'/'
-    return sURL_MAIN
+        return sURL_MAIN
+    else:
+        return URL_MAIN
 	
 def showSearch():
     oGui = cGui()
