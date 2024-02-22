@@ -16,6 +16,13 @@ SITE_NAME = 'Wecima'
 SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
+URL_MAIN2 = siteManager().getUrlMain2(SITE_IDENTIFIER)
+
+response = requests.head(URL_MAIN)
+if response.status_code == 200 or response.status_code == 302:
+    URL_MAIN = URL_MAIN
+else:
+    URL_MAIN = URL_MAIN2
 
 MOVIE_TOP = (URL_MAIN + '/movies/best/', 'showMovies')
 MOVIE_POP = (URL_MAIN + '/movies/top/', 'showMovies')
@@ -166,9 +173,6 @@ def showPack():
     oParser = cParser()
     oRequestHandler = cRequestHandler(URL_MAIN)
     sHtmlContent = oRequestHandler.request()
-    URL_MAIN2 = main_function(sHtmlContent)
-
-    sUrl = sUrl.replace(URL_MAIN, URL_MAIN2)
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -186,7 +190,7 @@ def showPack():
                 continue 
 
             sTitle = aEntry[1]
-            siteUrl = aEntry[0].replace((aEntry[0].split('watch/')[0]), URL_MAIN2)
+            siteUrl = aEntry[0].replace((aEntry[0].split('watch/')[0]), URL_MAIN)
 			
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -210,9 +214,6 @@ def showMovies(sSearch = ''):
     oParser = cParser()
     oRequestHandler = cRequestHandler(URL_MAIN)
     sHtmlContent = oRequestHandler.request()
-    URL_MAIN2 = main_function(sHtmlContent)
-
-    sUrl = sUrl.replace(URL_MAIN, URL_MAIN2)
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -230,9 +231,9 @@ def showMovies(sSearch = ''):
  
             
             sTitle = aEntry[1].replace("مشاهدة","").replace("مشاهده","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("برنامج","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("انمي","")
-            siteUrl = aEntry[0].replace((aEntry[0].split('watch/')[0]), URL_MAIN2)
+            siteUrl = aEntry[0].replace((aEntry[0].split('watch/')[0]), URL_MAIN)
             sDesc = ''
-            sThumb = URL_MAIN2 + 'wp-content' + aEntry[2].replace("(","").replace(")","").split('wp-content')[1]
+            sThumb = URL_MAIN + 'wp-content' + aEntry[2].replace("(","").replace(")","").split('wp-content')[1]
             sYear = ''
             m = re.search('([0-9]{4})', sTitle)
             if m:
@@ -269,9 +270,6 @@ def showSeries(sSearch = ''):
     oParser = cParser()
     oRequestHandler = cRequestHandler(URL_MAIN)
     sHtmlContent = oRequestHandler.request()
-    URL_MAIN2 = main_function(sHtmlContent)
-
-    sUrl = sUrl.replace(URL_MAIN, URL_MAIN2)
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -298,7 +296,7 @@ def showSeries(sSearch = ''):
             if 'gocimago.shop' in siteUrl:
                 siteUrl = siteUrl.replace("https://gocimago.shop/",URL_MAIN)
             sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("مشاهده","").replace("برنامج","").replace("مترجمة","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","")
-            sThumb = URL_MAIN2 + 'wp-content' + aEntry[2].replace("(","").replace(")","").split('wp-content')[1]
+            sThumb = URL_MAIN + 'wp-content' + aEntry[2].replace("(","").replace(")","").split('wp-content')[1]
             sDesc = ''
             sTitle = sTitle.split('موسم')[0].split('حلقة')[0]
             sYear = ''
@@ -312,7 +310,6 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('sYear', sYear)
             oOutputParameterHandler.addParameter('sDesc', sDesc)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
-            oOutputParameterHandler.addParameter('URL_MAIN2', URL_MAIN2)
 
             oGui.addTV(SITE_IDENTIFIER, 'showSeasons', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
@@ -364,9 +361,6 @@ def showAnimes(sSearch = ''):
     oParser = cParser()
     oRequestHandler = cRequestHandler(URL_MAIN)
     sHtmlContent = oRequestHandler.request()
-    URL_MAIN2 = main_function(sHtmlContent)
-
-    sUrl = sUrl.replace(URL_MAIN, URL_MAIN2)
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -391,7 +385,7 @@ def showAnimes(sSearch = ''):
  
             siteUrl = aEntry[0]    
             sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("مشاهده","").replace("برنامج","").replace("مترجمة","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","")
-            sThumb = URL_MAIN2 + 'wp-content' + aEntry[2].replace("(","").replace(")","").split('wp-content')[1]
+            sThumb = URL_MAIN + 'wp-content' + aEntry[2].replace("(","").replace(")","").split('wp-content')[1]
             sDesc = ''
             sTitle = sTitle.split('موسم')[0].split('حلقة')[0]
             sYear = ''
@@ -405,7 +399,6 @@ def showAnimes(sSearch = ''):
             oOutputParameterHandler.addParameter('sYear', sYear)
             oOutputParameterHandler.addParameter('sDesc', sDesc)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
-            oOutputParameterHandler.addParameter('URL_MAIN2', URL_MAIN2)
 
             oGui.addTV(SITE_IDENTIFIER, 'showSeasons', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
@@ -463,7 +456,6 @@ def showSeasons():
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
-    URL_MAIN2 = oInputParameterHandler.getValue('URL_MAIN2')
 
     oParser = cParser()
     oRequestHandler = cRequestHandler(sUrl)
@@ -541,9 +533,9 @@ def showSeasons():
             s = requests.Session()            
             headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0'}
             data = aEntry
-            r1 = s.get(URL_MAIN2+'/AjaxCenter/MoreEpisodes/'+data+'/30/', headers=headers)
+            r1 = s.get(URL_MAIN+'/AjaxCenter/MoreEpisodes/'+data+'/30/', headers=headers)
             sHtmlContent1 = r1.content.decode('utf8').replace("\\","")
-            r2 = s.get(URL_MAIN2+'/AjaxCenter/MoreEpisodes/'+data+'/70/', headers=headers)
+            r2 = s.get(URL_MAIN+'/AjaxCenter/MoreEpisodes/'+data+'/70/', headers=headers)
             sHtmlContent2 = r2.content.decode('utf8').replace("\\","")
             sHtmlContent = sHtmlContent1+sHtmlContent2
 	

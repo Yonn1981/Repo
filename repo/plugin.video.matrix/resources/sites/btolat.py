@@ -172,7 +172,7 @@ def showMovies():
 
 def __checkForNextPage(sHtmlContent):
     oParser = cParser()
-    sPattern = 'data-val="(.+?)"'
+    sPattern = 'data-val=["\']([^"\']+)["\']'
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
         for aEntry in reversed(aResult[1]):
@@ -180,7 +180,7 @@ def __checkForNextPage(sHtmlContent):
             nPage = f'{URL_MAIN}video/LoadMore/{nPage}&cat=0'
             return nPage
 
-    sPattern = 'class="next-page"><a href="(.+?)"'
+    sPattern = 'class="next-page"><a href=["\']([^"\']+)["\']'
     aResult = oParser.parse(sHtmlContent, sPattern)    
     if aResult[0]:
         nPage = aResult[1][0]
@@ -199,14 +199,14 @@ def showHosters(oInputParameterHandler = False):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-    sPattern =  "'true' src='(.+?)'"
+    sPattern =  '["\']true["\'] src=["\']([^"\']+)["\']'
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0]:
         m3url = aResult[1][0] 
         oRequest = cRequestHandler(m3url)
         sHtmlContent2 = oRequest.request() 
  
-    sPattern = ",src:{hls:'(.+?)'}" 
+    sPattern = ',src:{hls:["\']([^"\']+)["\']}'
     aResult = oParser.parse(sHtmlContent2, sPattern)
     if aResult[0]:
         for aEntry in aResult[1]:
