@@ -55,7 +55,7 @@ def load():
     oGui.addDir(SITE_IDENTIFIER, 'showPack', 'أقسام الموقع', 'listes.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_ANNEES[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showPack', 'أفلام بالسنة', 'listes.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showYears', 'أفلام بالسنة', 'listes.png', oOutputParameterHandler)
 
     oGui.setEndOfDirectory()
  
@@ -166,7 +166,7 @@ def showMovies(sSearch = ''):
         oRequestHandler.addHeaderEntry('Origin', getHost(sUrl))
         sHtmlContent = oRequestHandler.request()
 
-        sPattern = '<div class="card"><a href="([^"]+)".+?data-src="([^"]+)".+?alt="([^"]+)'
+        sPattern = '<div class="card">\s*<a href="([^"]+)".+?data-src="([^"]+)".+?alt="([^"]+)'
 
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
@@ -199,12 +199,11 @@ def showMovies(sSearch = ''):
 
         progress_.VSclose(progress_)
 
-    sStart = '<a class="current-page"'
+    sStart = "<a class='current-page'"
     sEnd = '</div>'
     sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
 
-    page_links = re.findall(r'class="page-link" href="(.*?)"', sHtmlContent)
-    page_names = re.findall(r'>(\d+)<', sHtmlContent)
+    page_links = re.findall(r"class='page-link' href='(.*?)'", sHtmlContent)
 
     for link in (page_links[:2] + page_links[-2:]):
         oOutputParameterHandler = cOutputParameterHandler()  
