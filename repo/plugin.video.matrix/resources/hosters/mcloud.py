@@ -138,11 +138,12 @@ def encode_id(id_):
 
 		return h
 		
-	# Credits to @KillerDogeEmpire for providing key - Thanks
-	#klucze = requests.get('https://raw.githubusercontent.com/Claudemirovsky/worstsource-keys/keys/keys.json', verify=False).json()
-	klucze = requests.get('https://raw.githubusercontent.com/Ciarands/vidsrc-keys/main/keys.json', verify=False).json()
-	k1 = klucze[0]
-	k2 = klucze[1]
+	# Credits to @matecky for providing key - Thanks
+	klucze = requests.get('https://github.com/matecky/bac/blob/keys/keys.json')
+					   
+	matches = re.search(r"\"rawLines\":\s*\[\"(.+)\"\]", klucze.text)
+	k1, k2 = json.loads(matches.group(1).replace("\\", ""))
+
 	cbn = dec2(k1,id_)
 	cbn = cbn.encode('Latin_1')
 	cbn = dec2(k2,cbn)

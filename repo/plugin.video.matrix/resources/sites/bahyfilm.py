@@ -23,8 +23,9 @@ MOVIE_EN = (URL_MAIN + 'section.php?sidebarID=11', 'showMovies')
 MOVIE_ASIAN = (URL_MAIN + 'section.php?sidebarID=15', 'showMovies')
 MOVIE_HI = (URL_MAIN + 'section.php?sidebarID=12', 'showMovies')
 KID_MOVIES = (URL_MAIN + 'section.php?sidebarID=8', 'showMovies')
+MOVIE_TOP = (URL_MAIN + 'section.php?sidebarID=11', 'showMovies')
 MOVIE_PACK = (URL_MAIN , 'showPack')
-
+MOVIE_ANNEES = (URL_MAIN , 'showYears')
 
 URL_SEARCH = (URL_MAIN + '/?s=', 'showMovies')
 URL_SEARCH_MOVIES = (URL_MAIN + '/?s=', 'showMovies')
@@ -53,6 +54,9 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_PACK[0])
     oGui.addDir(SITE_IDENTIFIER, 'showPack', 'أقسام الموقع', 'listes.png', oOutputParameterHandler)
 
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_ANNEES[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showPack', 'أفلام بالسنة', 'listes.png', oOutputParameterHandler)
+
     oGui.setEndOfDirectory()
  
 def showSearch():
@@ -63,7 +67,39 @@ def showSearch():
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
+
+def showYears():
+    oGui = cGui()
+    
+    oInputParameterHandler = cInputParameterHandler()
+    sUrl = oInputParameterHandler.getValue('siteUrl')
+
+    oParser = cParser() 
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request()
+
+    sStart = '<ul class="menu"'
+    sEnd = '<button class'
+    sHtmlContent1 = oParser.abParse(sHtmlContent, sStart, sEnd)
+
+    sPattern = '<a href="([^"]+)".+?<li>(.+?)</li>'
+    aResult = oParser.parse(sHtmlContent1, sPattern)	
+    if aResult[0]:
+        oOutputParameterHandler = cOutputParameterHandler()
+        for aEntry in aResult[1]:
+            if 'soon' in aEntry[0] or 'alt=' in aEntry[1]:
+                continue 
+            sTitle = aEntry[1]
+            siteUrl = URL_MAIN + aEntry[0]
+			
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+			
+            oGui.addMisc(SITE_IDENTIFIER, 'showMovies', sTitle, 'annees.png', '', '', oOutputParameterHandler)
  
+    oGui.setEndOfDirectory()
+
 def showPack():
     oGui = cGui()
     
@@ -163,16 +199,16 @@ def showMovies(sSearch = ''):
 
         progress_.VSclose(progress_)
 
-    sStart = '<div class="pagination-container">'
+    sStart = '<a class="current-page"'
     sEnd = '</div>'
     sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
 
     page_links = re.findall(r'class="page-link" href="(.*?)"', sHtmlContent)
     page_names = re.findall(r'>(\d+)<', sHtmlContent)
 
-    for link, name in zip(page_links[:2] + page_links[-2:], page_names[:2] + page_names[-2:]):
+    for link in (page_links[:2] + page_links[-2:]):
         oOutputParameterHandler = cOutputParameterHandler()  
-        sTitle = "PAGE " + name
+        sTitle = "PAGE " + link.split('page=')[1]
         sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
         siteUrl = URL_MAIN + 'section.php' + link
 
@@ -181,7 +217,6 @@ def showMovies(sSearch = ''):
 
     if not sSearch:
         oGui.setEndOfDirectory()
-
 
 def showLinks(oInputParameterHandler = False):
     oGui = cGui()
@@ -221,7 +256,7 @@ def showLinks(oInputParameterHandler = False):
                oHoster.setDisplayName(sDisplayTitle)
                oHoster.setFileName(sMovieTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
-     
+
     oGui.setEndOfDirectory()  
 
 def getHost(url):
