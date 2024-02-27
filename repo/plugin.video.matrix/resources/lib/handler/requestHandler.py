@@ -267,7 +267,6 @@ class cRequestHandler:
                             from resources.lib.flaresolverr import FlareSolverrManager
 
                             if addon().getSetting('ipaddress') == "127.0.0.1":
-                                flaresolverr = FlareSolverrManager("https://cf.jmdkh.eu.org/v1")  
                                 CLOUDPROXY_ENDPOINT="https://cf.jmdkh.eu.org/v1"
                                 data = {"cmd": "request.get", "url": self.__sUrl, "maxTimeout": 60000}
                                 json_response = False

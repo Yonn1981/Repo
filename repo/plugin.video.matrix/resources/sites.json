@@ -446,6 +446,11 @@
             "active": "True",
             "url": "https://twoupon.com/"
         },
+        "tma": {
+            "label": "tma",
+            "active": "True",
+            "url": "https://api.themoviedb.org/"
+        },
         "themoviedb_org": {
             "label": "The Movie Database",
             "active": "True",

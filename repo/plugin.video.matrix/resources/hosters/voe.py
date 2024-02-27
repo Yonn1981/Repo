@@ -24,9 +24,9 @@ class cHoster(iHoster):
         r = re.search(r"let\s*(?:wc0|[0-9a-f]+)\s*=\s*'([^']+)", sHtmlContent)
         if r:
             import json
-            r = json.loads(base64.b64decode(r.group(1)).decode('utf8',errors='ignore'))
+            r = json.loads(base64.b64decode(r.group(1))[::-1].decode('utf8',errors='ignore'))
             url = r.get('file') 
-            return True, url + '|User-Agent=' + UA + '&Referer=' + self._url + '&Origin=' + self._url.rsplit('/', 2)[0]
+            return True, url + '|Referer=' + self._url + '&Origin=' + self._url.rsplit('/', 2)[0]
 
         oParser = cParser()
         sPattern = '["\']hls["\']:\s*["\']([^"\']+)["\']'

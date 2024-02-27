@@ -1,18 +1,12 @@
 #-*- coding: utf-8 -*-
-#Vstream https://github.com/Kodi-vStream/venom-xbmc-addons
-#############################################################
 # Yonn1981 https://github.com/Yonn1981/Repo
-#############################################################
 
-import re
+import base64
 import requests
-
-from resources.lib.handler.requestHandler import cRequestHandler
 from resources.hosters.hoster import iHoster
-from resources.lib.comaddon import dialog, VSlog
-from resources.lib.parser import cParser
-from resources.lib.util import urlEncode, Quote
-UA = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:68.0) Gecko/20100101 Firefox/68.0'
+from resources.lib.comaddon import VSlog
+
+UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36'
 
 class cHoster(iHoster):
 
@@ -23,25 +17,39 @@ class cHoster(iHoster):
         self._url = str(url).replace('+', '%2B').split('#')[0]
 
     def _getMediaLinkForGuest(self, autoPlay = False):
-        api_call = self._url
+        api_call = ''
+        sMain = base64.b64decode('aHR0cHM6Ly93d3cuYnJhZmxpeC52aWRlbw==').decode('utf8',errors='ignore')
+        sMain2 = base64.b64decode('aHR0cHM6Ly92aWRzcmMuYnJhZmxpeC52aWRlby92aWRzcmMv').decode('utf8',errors='ignore')
+
         SubTitle = ''
         if ('sub.info' in self._url):
-            SubTitle = self._url.split('sub.info=')[1]
-            api_call = self._url.split('?sub.info=')[0]
-            
-            oRequest = cRequestHandler(SubTitle)
-            data = oRequest.request().replace('\\','')
-            SubTitle = ''
-            oParser = cParser()
-            sPattern = '["\']language["\']:\s*["\']([^"\']+)["\'],\s*["\']url["\']:\s*["\']([^"\']+)["\']'
-            aResult = oParser.parse(data, sPattern)
-            if aResult[0]:
-                url = []
-                slang = []
-                for i in aResult[1]:
-                    url.append(str(i[1]))
-                    slang.append(str(i[0]))
-                SubTitle = dialog().VSselectsub(slang, url)
+            sID = self._url.split('sub.info=')[1]
+            api_call = self._url.split('?sub.info=')[0] + '|User-Agent=' + UA + '&Referer=' + sMain + '/' + '&Origin=' + sMain
+        
+        headers = {
+        'sec-ch-ua':'"Not A(Brand";v="99", "Google Chrome";v="121", "Chromium";v="121"',
+        'sec-ch-ua-mobile':'?0',
+        'user-agent':UA,
+        'sec-ch-ua-platform':'"Windows"',
+        'accept':'*/*',
+        'origin':sMain,
+        'sec-fetch-site':'same-site',
+        'sec-fetch-mode':'cors',
+        'sec-fetch-dest':'empty',
+        'referer':sMain + '/',
+        'accept-encoding':'gzip, deflate, br',
+        'accept-language':'en-US,en;q=0.9'}
+        payload=None
+
+        subs = requests.request("GET", f'{sMain2}{sID}', headers=headers, data=payload).json()
+
+        if subs:
+            arabic_subtitles = [sub for sub in subs[0]['data']['sub'] if sub['lang'] == 'Arabic']
+            if arabic_subtitles:
+                for subtitle in arabic_subtitles:
+                    SubTitle = subtitle['file']
+            else:
+                SubTitle = ''
 
         if api_call:
             if ('http' in SubTitle):

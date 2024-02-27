@@ -75,7 +75,7 @@ class cTMDb:
         self.debug = debug
         self.lang = self.ADDON.getSetting('tmdb_lang')
         if not self.lang:
-            self.lang = 'ar'
+            self.lang = 'en'
         self.poster = 'https://image.tmdb.org/t/p/%s' % self.ADDON.getSetting('poster_tmdb')
         self.fanart = 'https://image.tmdb.org/t/p/%s' % self.ADDON.getSetting('backdrop_tmdb')
 

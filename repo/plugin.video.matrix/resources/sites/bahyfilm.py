@@ -199,11 +199,11 @@ def showMovies(sSearch = ''):
 
         progress_.VSclose(progress_)
 
-    sStart = "<a class='current-page'"
+    sStart = '<a class="current-page"'
     sEnd = '</div>'
     sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
 
-    page_links = re.findall(r"class='page-link' href='(.*?)'", sHtmlContent)
+    page_links = re.findall(r'class="page-link" href=["\']([^"\']+)', sHtmlContent)
 
     for link in (page_links[:2] + page_links[-2:]):
         oOutputParameterHandler = cOutputParameterHandler()  
