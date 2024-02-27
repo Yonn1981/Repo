@@ -537,7 +537,7 @@ def showHosters(oInputParameterHandler = False):
     if aResult[0]:
         dPost = aResult[1][0]
 
-    for server in ('0', '1', '2', '3'):
+    for server in ('0', '1', '2', '3', '4', '5'):
         oOutputParameterHandler = cOutputParameterHandler()
 
         sServer = server
@@ -549,6 +549,10 @@ def showHosters(oInputParameterHandler = False):
             sName = 'Server 2'
         if server == '3':
             sName = 'Server 3'
+        if server == '4':
+            sName = 'Server 4'
+        if server == '5':
+            sName = 'Server 5'
 
         sDisplayTitle = ('%s [COLOR orange] - %s[/COLOR]') % (sMovieTitle, sName)      
         oOutputParameterHandler.addParameter('sServer', sServer)
@@ -604,6 +608,9 @@ def showLinks():
                     oHoster.setDisplayName(sDisplayTitle)
                     oHoster.setFileName(sMovieTitle)
                     cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+        
+        else:
+            oGui.addText(SITE_IDENTIFIER, '[COLOR red]تعذر الحصول على روابط[/COLOR]')
 
     oGui.setEndOfDirectory()
 
