@@ -157,8 +157,8 @@ def showYears():
     oRequestHandler = cRequestHandler(URL_MAIN)
     sHtmlContent = oRequestHandler.request()
     URL_MAIN2 = main_function(sHtmlContent)
-
-    sUrl = sUrl.replace(URL_MAIN, URL_MAIN2)
+    if URL_MAIN2:
+        sUrl = sUrl.replace(URL_MAIN, URL_MAIN2)
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -189,7 +189,8 @@ def showSerieYears():
     sHtmlContent = oRequestHandler.request()
     URL_MAIN2 = main_function(sHtmlContent)
 
-    sUrl = sUrl.replace(URL_MAIN, URL_MAIN2)
+    if URL_MAIN2:
+        sUrl = sUrl.replace(URL_MAIN, URL_MAIN2)
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -221,7 +222,8 @@ def showLang():
     sHtmlContent = oRequestHandler.request()
     URL_MAIN2 = main_function(sHtmlContent)
 
-    sUrl = sUrl.replace(URL_MAIN, URL_MAIN2)
+    if URL_MAIN2:
+        sUrl = sUrl.replace(URL_MAIN, URL_MAIN2)
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -253,7 +255,8 @@ def showSerieLang():
     sHtmlContent = oRequestHandler.request()
     URL_MAIN2 = main_function(sHtmlContent)
 
-    sUrl = sUrl.replace(URL_MAIN, URL_MAIN2)
+    if URL_MAIN2:
+        sUrl = sUrl.replace(URL_MAIN, URL_MAIN2)
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -349,7 +352,8 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
     URL_MAIN2 = main_function(sHtmlContent)
 
-    sUrl = sUrl.replace(URL_MAIN, URL_MAIN2)
+    if URL_MAIN2:
+        sUrl = sUrl.replace(URL_MAIN, URL_MAIN2)
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -412,7 +416,8 @@ def showSeries(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
     URL_MAIN2 = main_function(sHtmlContent)
 
-    sUrl = sUrl.replace(URL_MAIN, URL_MAIN2)
+    if URL_MAIN2:
+        sUrl = sUrl.replace(URL_MAIN, URL_MAIN2)
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -589,7 +594,9 @@ def showHosters(oInputParameterHandler = False):
     St=requests.Session()
     sHtmlContent1 = oRequestHandler.request()
 
-    URL_MAIN = main_function(sHtmlContent1)
+    sMain = main_function(sHtmlContent1)
+    if sMain:
+        URL_MAIN = sMain
 
     sPattern = '<iframe.+?src="([^"]+)'
     aResult = oParser.parse(sHtmlContent1, sPattern)

@@ -174,12 +174,18 @@
         "cimalina": {
             "label": "CimaLina",
             "active": "True",
-            "url": "https://cimalina.cam/"
+            "url": "https://cimalina.live/"
         },
         "cimanow": {
             "label": "CimaNow",
             "active": "True",
             "url": "https://cimanow.cc/"
+        },
+        "cinema": {
+            "label": "CinemaAllYear",
+            "active": "True",
+            "cloudflare": "True",
+            "url": "L3dvaHMucmE1NjMvLzpzcHR0aA=="
         },
         "cinemana": {
             "label": "Cinemana",
@@ -192,6 +198,12 @@
             "active": "True",
             "cloudflare": "False",
             "url": "https://niimaty.store/"
+        },
+        "coolcima": {
+            "label": "CoolCima",
+            "active": "True",
+            "cloudflare": "False",
+            "url": "https://cooolman.store/"
         },
         "daily": {
             "label": "Daily IPTV List",
@@ -216,7 +228,7 @@
         "dramacafe": {
             "label": "Dramacafe",
             "active": "True",
-            "url": "https://cc.dramacafe-tv.net/"
+            "url": "https://ww2.dramacafe-tv.com/"
         },
         "egybest": {
             "label": "EgyBest",
@@ -260,7 +272,7 @@
         },
         "fmovie": {
             "label": "FMovies",
-            "active": "True",
+            "active": "False",
             "url": "https://fmoviesz.to"
         },
         "fushaar": {
@@ -275,7 +287,7 @@
         },
         "gateanime": {
             "label": "GateAnime",
-            "active": "False",
+            "active": "True",
             "url": "https://e.gateanime.com/"
         },
         "geoarabic": {
@@ -347,7 +359,7 @@
         "livetv": {
             "label": "Live TV",
             "active": "True",
-            "url": "https://livetv763.me/"
+            "url": "https://livetv765.me/"
         },
         "lodynet": {
             "label": "Lodynet",
@@ -384,14 +396,9 @@
             "active": "True",
             "url": "https://rotana.net/"
         },
-        "soap": {
-            "label": "Soap2day",
-            "active": "True",
-            "url": "https://soap2dayx.to/"
-        },
         "sflix": {
             "label": "sFlix",
-            "active": "True",
+            "active": "False",
             "url": "https://sflix.to"
         },
         "shahidu": {
@@ -420,11 +427,6 @@
             "active": "True",
             "url": "https://spacepowerfan.com/"
         },
-        "solar": {
-            "label": "Solar",
-            "active": "True",
-            "url": "https://solarmovie.pe"
-        },
         "stardima": {
             "label": "Stardima",
             "active": "True",
@@ -434,12 +436,6 @@
             "label": "Studio2TV",
             "active": "True",
             "url": "https://www.studio2tv.tn/"
-        },
-        "showb": {
-            "label": "ShowBox",
-            "active": "False",
-            "cloudflare": "True",
-            "url": "https://www.showbox.media/"
         },
         "taxielcima": {
             "label": "TaxiElCima",
@@ -501,11 +497,6 @@
             "label": "Xsanime",
             "active": "True",
             "url": "https://xsaniime.com/"
-        },
-        "yalladrama": {
-            "label": "Yalladrama",
-            "active": "False",
-            "url": "https://ww2.yalladrama.co/"
         },
         "yallalive": {
             "label": "Yallalive",

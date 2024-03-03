@@ -34,7 +34,7 @@ SERIE_ASIA = (URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%
 SERIE_HEND = (URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%87%d9%86%d8%af%d9%8a%d8%a9/', 'showSeries')
 SERIE_EN = (URL_MAIN + '/category/foreign-series/', 'showSeries')
 SERIE_AR = (URL_MAIN + '/category/arabic-series/', 'showSeries')
-RAMADAN_SERIES = (URL_MAIN + '/category/ramadan-series-2023/', 'showSeries')
+RAMADAN_SERIES = (URL_MAIN + '/category/ramadan-series-2024/', 'showSeries')
 
 SPORT_WWE = (URL_MAIN + '/category/wwe-shows/', 'showMovies')
 ANIM_NEWS = (URL_MAIN + '/category/cartoon-series/', 'showSeries')
@@ -113,11 +113,11 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/category/netfilx/%d8%a7%d9%81%d9%84%d8%a7%d9%85-netfilx/')
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'افلام Netfilx', 'agnab.png', oOutputParameterHandler)
 
+    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b1%d9%85%d8%b6%d8%a7%d9%86-2023/')
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'رمضان 2023', 'rmdn.png', oOutputParameterHandler)
+
     oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b1%d9%85%d8%b6%d8%a7%d9%86-2022/')
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'رمضان 2022', 'rmdn.png', oOutputParameterHandler)
-
-    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b1%d9%85%d8%b6%d8%a7%d9%86-2021/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'رمضان 2021', 'rmdn.png', oOutputParameterHandler)
 
     oGui.setEndOfDirectory()
 
@@ -537,7 +537,8 @@ def showHosters(oInputParameterHandler = False):
     if aResult[0]:
         dPost = aResult[1][0]
 
-    for server in ('0', '1', '2', '3', '4', '5'):
+    # PLEASE DON'T REQUEST ALL LINKS TOGETHER - YOU'LL BE REQUESTING THE SITE (8*4=32) TIMES - REQUEST BY SERVER OR QUALITY
+    for server in ('0', '1', '2', '3', '4', '5', '6', '7', '8'):
         oOutputParameterHandler = cOutputParameterHandler()
 
         sServer = server
@@ -553,6 +554,12 @@ def showHosters(oInputParameterHandler = False):
             sName = 'Server 4'
         if server == '5':
             sName = 'Server 5'
+        if server == '6':
+            sName = 'Server 6'
+        if server == '7':
+            sName = 'Server 7'
+        if server == '8':
+            sName = 'Server 8'
 
         sDisplayTitle = ('%s [COLOR orange] - %s[/COLOR]') % (sMovieTitle, sName)      
         oOutputParameterHandler.addParameter('sServer', sServer)
@@ -578,40 +585,69 @@ def showLinks():
     sMain = oInputParameterHandler.getValue('sMain')
     sThumb = oInputParameterHandler.getValue('sThumb')
 
-    for sQual in ('1080', '720', '480'):
+    sQual ='old'
 
-        headers = {
+    headers = {
             'x-requested-with':'XMLHttpRequest',
             'user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
             'origin':sMain,
             'referer':sMain+'/'}
         
-        payload= {'post_id':dPost,
+    payload= {'post_id':dPost,
             'server':sServer,
             'qu':sQual}
         
-        response = requests.request("POST", sMain + "/wp-content/themes/Elshaikh2021/Ajaxat/Single/Server.php", headers=headers, data=payload)
-        sHtmlContent = response.text
+    response = requests.request("POST", sMain + "/wp-content/themes/Elshaikh2021/Ajaxat/Single/Server.php", headers=headers, data=payload)
+    sHtmlContent = response.text
 
-        sPattern = '<iframe src="([^"]+)'
-        aResult = oParser.parse(sHtmlContent, sPattern)
-        if aResult[0]:
-            for aEntry in aResult[1]:
+    sPattern = 'src="([^"]+)'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    if aResult[0]:
+        for aEntry in aResult[1]:
         
-                sHosterUrl = aEntry
-                if sHosterUrl.startswith('//'):
-                    sHosterUrl = 'http:' + sHosterUrl
+            sHosterUrl = aEntry
+            if sHosterUrl.startswith('//'):
+                sHosterUrl = 'http:' + sHosterUrl
                                   
-                oHoster = cHosterGui().checkHoster(sHosterUrl)
-                sDisplayTitle = ('%s [COLOR coral] [%s][/COLOR][COLOR orange] - %s[/COLOR]') % (sMovieTitle, sQual, sName)      
-                if oHoster:
-                    oHoster.setDisplayName(sDisplayTitle)
-                    oHoster.setFileName(sMovieTitle)
-                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
-        
-        else:
-            oGui.addText(SITE_IDENTIFIER, '[COLOR red]تعذر الحصول على روابط[/COLOR]')
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            sDisplayTitle = ('%s [COLOR coral] [%s][/COLOR][COLOR orange] - %s[/COLOR]') % (sMovieTitle, sQual, sName)      
+            if oHoster:
+                oHoster.setDisplayName(sDisplayTitle)
+                oHoster.setFileName(sMovieTitle)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
+    else:
+        for sQual in ('1080', '720', '480'):
+
+            headers = {
+                'x-requested-with':'XMLHttpRequest',
+                'user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
+                'origin':sMain,
+                'referer':sMain+'/'}
+        
+            payload= {'post_id':dPost,
+                'server':sServer,
+                'qu':sQual}
+        
+            response = requests.request("POST", sMain + "/wp-content/themes/Elshaikh2021/Ajaxat/Single/Server.php", headers=headers, data=payload)
+            sHtmlContent = response.text
+
+            sPattern = 'src="([^"]+)'
+            aResult = oParser.parse(sHtmlContent, sPattern)
+            if aResult[0]:
+                for aEntry in aResult[1]:
+        
+                    sHosterUrl = aEntry
+                    if sHosterUrl.startswith('//'):
+                        sHosterUrl = 'http:' + sHosterUrl
+                                  
+                    oHoster = cHosterGui().checkHoster(sHosterUrl)
+                    sDisplayTitle = ('%s [COLOR coral] [%s][/COLOR][COLOR orange] - %s[/COLOR]') % (sMovieTitle, sQual, sName)      
+                    if oHoster:
+                        oHoster.setDisplayName(sDisplayTitle)
+                        oHoster.setFileName(sMovieTitle)
+                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+    
     oGui.setEndOfDirectory()
 
 def main_function(sHtmlContent):

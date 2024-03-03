@@ -27,7 +27,7 @@ MOVIE_TURK = (URL_MAIN + 'category.php?cat=Turkish-Movies', 'showMovies')
 MOVIE_DUBBED = (URL_MAIN + 'category.php?cat=Dubbed-Movies', 'showMovies')
 KID_MOVIES = (URL_MAIN + 'category.php?cat=aflam-cartoon', 'showMovies')
 
-RAMADAN_SERIES = (URL_MAIN + 'category.php?cat=ramadan-2023', 'showSeries')
+RAMADAN_SERIES = (URL_MAIN + 'category.php?cat=ramadan-2024', 'showSeries')
 SERIE_EN = (URL_MAIN + 'category.php?cat=moslslat-agnaby', 'showSeries')
 SERIE_AR = (URL_MAIN + 'category.php?cat=moslslat-arabia', 'showSeries')
 SERIE_HEND = (URL_MAIN + 'category.php?cat=moslslat-hindia', 'showSeries')

@@ -267,59 +267,38 @@ class cRequestHandler:
                             from resources.lib.flaresolverr import FlareSolverrManager
 
                             if addon().getSetting('ipaddress') == "127.0.0.1":
-                                CLOUDPROXY_ENDPOINT="https://cf.jmdkh.eu.org/v1"
-                                data = {"cmd": "request.get", "url": self.__sUrl, "maxTimeout": 60000}
-                                json_response = False
-                                try:
+                                if addon().getSetting('Public_Flaresolverr') == "true":
+                                    CLOUDPROXY_ENDPOINT="https://cf.jmdkh.eu.org/v1"
+                                    data = {"cmd": "request.get", "url": self.__sUrl, "maxTimeout": 60000}
+                                    json_response = False
+                                    try:
 
-                                    json_response = post(CLOUDPROXY_ENDPOINT, headers={"Content-Type": "application/json"}, json=data)
-                                except:
-                                    dialog().VSerror("%s (%s)" % ("Page protegee par Cloudflare, essayez FlareSolverr", urlHostName(self.__sUrl)))
+                                        json_response = post(CLOUDPROXY_ENDPOINT, headers={"Content-Type": "application/json"}, json=data)
+                                    except:
+                                        dialog().VSerror("%s (%s)" % ("Page protegee par Cloudflare, essayez FlareSolverr", urlHostName(self.__sUrl)))
                                 
-                                if json_response:
-                                    response = json_response.json()
-                                    if 'solution' in response:
-                                        if self.__sUrl != response['solution']['url']:
-                                            self.__sRealUrl = response['solution']['url']
+                                    if json_response:
+                                        response = json_response.json()
+                                        if 'solution' in response:
+                                            if self.__sUrl != response['solution']['url']:
+                                                self.__sRealUrl = response['solution']['url']
     
-                                        sContent = response['solution']['response']
-                            else:                      
-                                flaresolverr = FlareSolverrManager('http://' + addon().getSetting('ipaddress') + ':8191/v1')
+                                            sContent = response['solution']['response']
+                                else:                      
+                                    flaresolverr = FlareSolverrManager('http://' + addon().getSetting('ipaddress') + ':8191/v1')
 
-                                listjson = flaresolverr.request(self.__sUrl).json()
-                                solution = listjson['solution']
-                                if solution['status'] != 200:
-                                    raise
+                                    listjson = flaresolverr.request(self.__sUrl).json()
+                                    solution = listjson['solution']
+                                    if solution['status'] != 200:
+                                        raise
 
-                                sContent = listjson['solution']['response']
+                                    sContent = listjson['solution']['response']
 
                         except:
-                            dialog().VSerror("%s (%s)" % ("ZenRows أو  ScrapeNinja جرب استخدام ، (Cloudflare) الصفحة ربما محمية بواسطة ", urlHostName(self.__sUrl)))
-
-                    # Try by ZenRows (limited)
-                    if bypass == '1':
-                                            
-                        json_response = False
-                        try:
-                            # We make a request.
-                            url = "https://zenrows1.p.rapidapi.com/"
-
-                            querystring = {"apikey":"37f56c55e4e487adba745d7970b9d321fa8306ff","url":self.__sUrl,"js_render":"true","premium_proxy":"false"}
-                            headers = {
-	                                "X-RapidAPI-Key": RapidApi_Key,
-	                                "X-RapidAPI-Host": "zenrows1.p.rapidapi.com"
-                                    }
-
-                            json_response = get(url, headers=headers, params=querystring)
-                        except:
-                            dialog().VSerror("%s (%s)" % ("ScrapeNinja أو  FlareSolverr جرب استخدام ، (Cloudflare) الصفحة ربما محمية بواسطة ", urlHostName(self.__sUrl)))
-
-                        if json_response:
-                            response = json_response.text
-                            sContent = response
+                            dialog().VSerror("%s (%s)" % ("ScrapeNinja جرب استخدام ، (Cloudflare) الصفحة ربما محمية بواسطة ", urlHostName(self.__sUrl)))
 
                     # Try by ScrapeNinja (limited)
-                    if bypass == '2':
+                    if bypass == '1':
                                             
                         json_response = False
                         try:
@@ -338,7 +317,7 @@ class cRequestHandler:
 
                             json_response = post(url, json=payload, headers=headers)
                         except:
-                            dialog().VSerror("%s (%s)" % ("ZenRows أو  FlareSolverr جرب استخدام ، (Cloudflare) الصفحة ربما محمية بواسطة ", urlHostName(self.__sUrl)))
+                            dialog().VSerror("%s (%s)" % ("FlareSolverr جرب استخدام ، (Cloudflare) الصفحة ربما محمية بواسطة ", urlHostName(self.__sUrl)))
 
                         if json_response:
                             response = json_response.json()
@@ -346,7 +325,7 @@ class cRequestHandler:
                                 sContent = response['body']
 
                     # Try by Puffy (limited))
-                    if bypass == '3':
+                    if bypass == '2':
                                             
                         json_response = False
                         try:
@@ -367,7 +346,7 @@ class cRequestHandler:
                                 dialog().VSerror("%s (%s)" % ("You have exceeded the 10 MONTHLY quota for Requests on your free plan", "Pulffy"))                                
 
                         except:
-                            dialog().VSerror("%s (%s)" % ("DripCrawler أو  FlareSolverr جرب استخدام ، (Cloudflare) الصفحة ربما محمية بواسطة ", urlHostName(self.__sUrl)))
+                            dialog().VSerror("%s (%s)" % ("FlareSolverr جرب استخدام ، (Cloudflare) الصفحة ربما محمية بواسطة ", urlHostName(self.__sUrl)))
 
                         if json_response:
                             sContent = json_response

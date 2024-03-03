@@ -16,26 +16,26 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-MOVIE_EN = (URL_MAIN + '/genre/english-movies/', 'showMovies')
-MOVIE_AR = (URL_MAIN + '/genre/arabic-movies/', 'showMovies')
-MOVIE_FAM = (URL_MAIN + '/genre/family/', 'showMovies')
-MOVIE_HI = (URL_MAIN + '/genre/indian-movies/', 'showMovies')
-MOVIE_TOP = (URL_MAIN + '/imdb/', 'showTopMovies')
-MOVIE_TURK = (URL_MAIN + '/genre/turkish-movies/', 'showMovies')
-KID_MOVIES = (URL_MAIN + '/genre/animation/', 'showMovies')
+MOVIE_EN = (URL_MAIN + 'genre/english-movies/', 'showMovies')
+MOVIE_AR = (URL_MAIN + 'genre/arabic-movies/', 'showMovies')
+MOVIE_FAM = (URL_MAIN + 'genre/family/', 'showMovies')
+MOVIE_HI = (URL_MAIN + 'genre/indian-movies/', 'showMovies')
+MOVIE_TOP = (URL_MAIN + 'imdb/', 'showTopMovies')
+MOVIE_TURK = (URL_MAIN + 'genre/turkish-movies/', 'showMovies')
+KID_MOVIES = (URL_MAIN + 'genre/animation/', 'showMovies')
 MOVIE_GENRES = (URL_MAIN, 'moviesGenres')
 
-SERIE_TR = (URL_MAIN + '/genre/turkish-series/', 'showSeries')
-SERIE_EN = (URL_MAIN + '/genre/english-series/', 'showSeries')
-SERIE_AR = (URL_MAIN + '/genre/arabic-series/', 'showSeries')
-RAMADAN_SERIES = (URL_MAIN + '/genre/ramadan2023/', 'showSeries')
+SERIE_TR = (URL_MAIN + 'genre/turkish-series/', 'showSeries')
+SERIE_EN = (URL_MAIN + 'genre/english-series/', 'showSeries')
+SERIE_AR = (URL_MAIN + 'genre/arabic-series/', 'showSeries')
+RAMADAN_SERIES = (URL_MAIN + 'genre/ramadan2024', 'showSeries')
 SERIE_GENRES = (URL_MAIN, 'seriesGenres')
 
-REPLAYTV_PLAY = (URL_MAIN + '/genre/plays/', 'showMovies')
+REPLAYTV_PLAY = (URL_MAIN + 'genre/plays/', 'showMovies')
 
-URL_SEARCH = (URL_MAIN + '/?s=', 'showMoviesSearch')
-URL_SEARCH_MOVIES = (URL_MAIN + '/?s=', 'showMoviesSearch')
-URL_SEARCH_SERIES = (URL_MAIN + '/?s=', 'showSeriesSearch')
+URL_SEARCH = (URL_MAIN + '?s=', 'showMoviesSearch')
+URL_SEARCH_MOVIES = (URL_MAIN + '?s=', 'showMoviesSearch')
+URL_SEARCH_SERIES = (URL_MAIN + '?s=', 'showSeriesSearch')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():

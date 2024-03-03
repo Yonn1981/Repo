@@ -124,8 +124,8 @@ def main_function(sHtmlContent):
     sPattern = '<a class="naked" href="([^"]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)    
     if (aResult[0]):
-        URL_MAIN = aResult[1][0]+'/'
-    return URL_MAIN
+        sMain = aResult[1][0]+'/'
+    return sMain
  
 def showSearch():
     oGui = cGui()
@@ -158,7 +158,8 @@ def showYears():
     sHtmlContent = oRequestHandler.request()
     URL_MAIN2 = main_function(sHtmlContent)
 
-    sUrl = sUrl.replace(URL_MAIN, URL_MAIN2)
+    if URL_MAIN2:
+        sUrl = sUrl.replace(URL_MAIN, URL_MAIN2)
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -190,7 +191,8 @@ def showSerieYears():
     sHtmlContent = oRequestHandler.request()
     URL_MAIN2 = main_function(sHtmlContent)
 
-    sUrl = sUrl.replace(URL_MAIN, URL_MAIN2)
+    if URL_MAIN2:
+        sUrl = sUrl.replace(URL_MAIN, URL_MAIN2)
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -222,7 +224,8 @@ def showLang():
     sHtmlContent = oRequestHandler.request()
     URL_MAIN2 = main_function(sHtmlContent)
 
-    sUrl = sUrl.replace(URL_MAIN, URL_MAIN2)
+    if URL_MAIN2:
+        sUrl = sUrl.replace(URL_MAIN, URL_MAIN2)
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -254,7 +257,8 @@ def showSerieLang():
     sHtmlContent = oRequestHandler.request()
     URL_MAIN2 = main_function(sHtmlContent)
 
-    sUrl = sUrl.replace(URL_MAIN, URL_MAIN2)
+    if URL_MAIN2:
+        sUrl = sUrl.replace(URL_MAIN, URL_MAIN2)
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -350,7 +354,8 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
     URL_MAIN2 = main_function(sHtmlContent)
 
-    sUrl = sUrl.replace(URL_MAIN, URL_MAIN2)
+    if URL_MAIN2:
+        sUrl = sUrl.replace(URL_MAIN, URL_MAIN2)
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -410,7 +415,8 @@ def showSeries(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
     URL_MAIN2 = main_function(sHtmlContent)
 
-    sUrl = sUrl.replace(URL_MAIN, URL_MAIN2)
+    if URL_MAIN2:
+        sUrl = sUrl.replace(URL_MAIN, URL_MAIN2)
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -542,7 +548,9 @@ def showHostersepisode(oInputParameterHandler = False):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-    URL_MAIN = main_function(sHtmlContent)
+    sMain = main_function(sHtmlContent)
+    if sMain:
+        URL_MAIN = sMain
           
     sPattern =  'name="codes" value="([^"]+)' 
     aResult = oParser.parse(sHtmlContent,sPattern)
@@ -652,8 +660,10 @@ def showHosters(oInputParameterHandler = False):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-    URL_MAIN = main_function(sHtmlContent)
-          
+    sMain = main_function(sHtmlContent)
+    if sMain:
+        URL_MAIN = sMain
+
     sPattern =  '<a href="/movie(.+?)">' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0] is True:

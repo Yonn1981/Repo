@@ -18,7 +18,7 @@ UA = 'Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chr
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-RAMADAN_SERIES = (URL_MAIN + 'category102.php?cat=ramdan2023', 'showSeries')
+RAMADAN_SERIES = (URL_MAIN + 'category102.php?cat=ramdan2024', 'showSeries')
 MOVIE_AR = (URL_MAIN + 'category102.php?cat=movies2023', 'showMovies')
 MOVIE_TURK = (URL_MAIN + '/category102.php?cat=turkish-movies2023', 'showMovies')
 SERIE_AR = (URL_MAIN + '/category102.php?cat=arab2023', 'showSeries')

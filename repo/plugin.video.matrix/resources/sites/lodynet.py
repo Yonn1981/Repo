@@ -468,7 +468,11 @@ def showHosters(oInputParameterHandler = False):
                oHoster.setDisplayName(sDisplayTitle)
                oHoster.setFileName(sMovieTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
-				                     
+
+    sStart = '<div class="DownloadLinks">'
+    sEnd = '</div></div>'
+    sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
+
     sPattern = '<a href="(.+?)" target='
     aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
