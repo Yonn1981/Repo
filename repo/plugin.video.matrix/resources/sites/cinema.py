@@ -177,7 +177,7 @@ def showMovies(sSearch = ''):
 
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', nUrl)
-            oGui.addDir(SITE_IDENTIFIER, 'showSeries', f'[COLOR teal]{sTitle} >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showMovies', f'[COLOR teal]{sTitle} >>>[/COLOR]', 'next.png', oOutputParameterHandler)
 
     oGui.setEndOfDirectory()
  

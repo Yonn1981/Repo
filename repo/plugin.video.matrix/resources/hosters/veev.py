@@ -33,12 +33,14 @@ class cHoster(iHoster):
                 'op': 'player_api',
                 'cmd': 'gi',
                 'file_code': media_id,
-                'ch': ch
+                'ch': ch,
+                'ie': 1
             }
             durl = urllib_parse.urljoin(self._url, '/dl') + '?' + urllib_parse.urlencode(params)
             jresp = s.get(durl, headers=headers).content
             jresp = json.loads(jresp).get('file')
-            api_call = decode_url(veev_decode(jresp.get('dv')[0].get('s')), build_array(ch)[0])
+            if jresp.get('file_status') == 'OK':
+                api_call = decode_url(veev_decode(jresp.get('dv')[0].get('s')), build_array(ch)[0])
 
         if api_call:
             return True, api_call + '|User-Agent=' + UA + '&Referer=' + self._url

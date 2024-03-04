@@ -272,7 +272,7 @@
         },
         "fmovie": {
             "label": "FMovies",
-            "active": "False",
+            "active": "True",
             "url": "https://fmoviesz.to"
         },
         "fushaar": {

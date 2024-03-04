@@ -11,6 +11,7 @@ from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
 from resources.lib.util import Unquote
+from resources.lib.multihost import cVidsrcto, cVidsrcnet
  
 SITE_IDENTIFIER = 'naqoos'
 SITE_NAME = 'Naqoos'
@@ -315,6 +316,21 @@ def showHosters():
             sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
         if 'updown' in sHosterUrl:
             sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+        if 'vidsrc.to' in sHosterUrl:
+            aResult = cVidsrcto().GetUrls(sHosterUrl)
+            if (aResult):
+                for aEntry in aResult:
+                    sHosterUrl = aEntry
+
+                    sDisplayTitle = sMovieTitle
+                    oHoster = cHosterGui().checkHoster(sHosterUrl)
+                    if oHoster != False:
+                        oHoster.setDisplayName(sDisplayTitle)
+                        oHoster.setFileName(sMovieTitle)
+                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler) 
+
+        if 'vidnow' in sHosterUrl or 'vidsrc.in' in sHosterUrl:
+            sHosterUrl = ''  
 
         oHoster = cHosterGui().checkHoster(sHosterUrl)
         if oHoster:

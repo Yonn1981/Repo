@@ -402,6 +402,9 @@ class cHosterGui:
         if ('.googleusercontent.com' in sHostName):
             return self.getHoster('lien_direct')
 
+        if ('download.gg' in sHostName):
+            return self.getHoster('downloadgg')
+
         if ('archive.org/download' in sHostName):
             return self.getHoster('lien_direct')
 

@@ -3,8 +3,6 @@
 
 import re
 import base64
-import requests
-from urllib.parse import unquote, quote
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -13,18 +11,16 @@ from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 
-
-import sys, os, re, json, base64
+import sys, re, base64
 if sys.version_info >= (3,0,0):
 # for Python 3
     to_unicode = str
-    from urllib.parse import unquote, parse_qs, parse_qsl, quote, urlencode, quote_plus
+    from urllib.parse import unquote, quote
 
 else:
     # for Python 2
     to_unicode = unicode
-    from urllib import unquote, quote, urlencode, quote_plus
-    from urlparse import parse_qsl, parse_qs
+    from urllib import unquote, quote
 
 SITE_IDENTIFIER = 'fmovie'
 SITE_NAME = 'FMovies'
@@ -656,9 +652,10 @@ def dec2(t, n) :
     return h
 	
 def getVerid(id):
+###### 12.07.23     
     def convert_func(matchobj):
         m =  matchobj.group(0)
-
+    
         if m <= 'Z':
             mx = 90
         else:
@@ -670,57 +667,100 @@ def getVerid(id):
             mx = mx2-26
         gg = chr(mx)
         return gg
-
-    def but(t):
+    
+    
+    def butxx(t):
         o=''
         for s in range(len(t)):
             u = ord(t[s]) 
             if u==0:
                 u=0
             else:
-                if (s % 5 == 1 or s % 5 == 4):
+                if (s % 6 == 1):
+                    u += 5
+                else:
+                    if (s % 6 == 5):
+                        u -= 6
+                    else:
+                        if (s % 6 == 0 or s % 6 == 4):
+                            u += 6
+                        else:
+                            if not (s % 6 != 3 and s % 6 != 2):
+                                u -= 5
+            o += chr(u) 
+            
+    def but(t):
+    
+        o=''
+        for s in range(len(t)):
+            u = ord(t[s]) 
+            if u==0:
+                u=0
+            else:
+                if s%8 ==2:
                     u -= 2
                 else:
-                    if (s % 5 == 3):
-                        u += 5;
+                    if (s % 8 == 4 or s % 8 == 7):
+                        u += 2;
                     else:
-                        if s % 5 == 0 :
-                            u -= 4;
+                        if s % 8 == 0 :
+                            u += 4;
                         else:
-                            if s % 5 == 2 :
-                                u -= 6
-            o += chr(u) 
-						
+                            if (s % 8 == 5 or s % 8 == 6):
+                                u -= 4
+                            else:
+                                if (s % 8 == 1):
+                                    u += 3
+                                else:
+                                    if (s % 8 == 3):
+                                        u += 5
+    
+            o += chr(u)
+                    
+    
+    
         if sys.version_info >= (3,0,0):
             o=o.encode('Latin_1')
-
+    
         if sys.version_info >= (3,0,0):
             o=(o.decode('utf-8'))
-
+    
         return o
     ab = 'DZmuZuXqa9O0z3b7' #####stare
     ab = 'MPPBJLgFwShfqIBx'
     ab = 'rzyKmquwICPaYFkU'
     ab = 'FWsfu0KQd9vxYGNB'
-    ac = id
-    hj = dec2(ab,ac) #
+    
+    ab = 'Ij4aiaQXgluXQRs6'
+
+    hj = dec2(ab,id) 
+    if sys.version_info >= (3,0,0):
+        hj=hj.encode('Latin_1')  
+    id = encode2(hj)
+    
+    if sys.version_info >= (3,0,0):
+        id = id.decode('utf-8')
+    id = id.replace('/','_').replace('+','-')
+    
+    if sys.version_info >= (3,0,0):
+        id = id.encode('Latin_1')  
+        
+    id = encode2(id)    
+    if sys.version_info >= (3,0,0):
+        id = id.decode('utf-8')
+    id = id.replace('/','_').replace('+','-')   
 
     if sys.version_info >= (3,0,0):
-        hj=hj.encode('Latin_1')
-
-    hj2 = encode2(hj)   
-
+        id=(''.join(reversed(id)))
+        id = id.encode('Latin_1') 
+    else:
+        id=(''.join((id)[::-1]))
+    id = encode2(id)
     if sys.version_info >= (3,0,0):
-        hj2=(hj2.decode('utf-8'))
-    hj2 = re.sub("[a-zA-Z]", convert_func, hj2) 
-    if sys.version_info >= (3,0,0):
-        hj2=hj2.encode('Latin_1')	
-	
-    hj2 = encode2(hj2)   
-    if sys.version_info >= (3,0,0):
-        hj2=(hj2.decode('utf-8'))
-		
-    xc= but(hj2) 
-
+        id = id.decode('utf-8')
+    id = id.replace('/','_').replace('+','-')
+    
+    
+    xc= but(id) 
+    
     return xc
-		

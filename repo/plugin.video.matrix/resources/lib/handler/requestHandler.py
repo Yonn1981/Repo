@@ -267,32 +267,33 @@ class cRequestHandler:
                             from resources.lib.flaresolverr import FlareSolverrManager
 
                             if addon().getSetting('ipaddress') == "127.0.0.1":
+                                CLOUDPROXY_ENDPOINT='http://' + addon().getSetting('ipaddress') + ':8191/v1'
                                 if addon().getSetting('Public_Flaresolverr') == "true":
                                     CLOUDPROXY_ENDPOINT="https://cf.jmdkh.eu.org/v1"
-                                    data = {"cmd": "request.get", "url": self.__sUrl, "maxTimeout": 60000}
-                                    json_response = False
-                                    try:
+                                data = {"cmd": "request.get", "url": self.__sUrl, "maxTimeout": 60000}
+                                json_response = False
+                                try:
 
-                                        json_response = post(CLOUDPROXY_ENDPOINT, headers={"Content-Type": "application/json"}, json=data)
-                                    except:
-                                        dialog().VSerror("%s (%s)" % ("Page protegee par Cloudflare, essayez FlareSolverr", urlHostName(self.__sUrl)))
+                                    json_response = post(CLOUDPROXY_ENDPOINT, headers={"Content-Type": "application/json"}, json=data)
+                                except:
+                                    dialog().VSerror("%s (%s)" % ("Page protegee par Cloudflare, essayez FlareSolverr", urlHostName(self.__sUrl)))
                                 
-                                    if json_response:
-                                        response = json_response.json()
-                                        if 'solution' in response:
-                                            if self.__sUrl != response['solution']['url']:
-                                                self.__sRealUrl = response['solution']['url']
+                                if json_response:
+                                    response = json_response.json()
+                                    if 'solution' in response:
+                                        if self.__sUrl != response['solution']['url']:
+                                            self.__sRealUrl = response['solution']['url']
     
-                                            sContent = response['solution']['response']
-                                else:                      
-                                    flaresolverr = FlareSolverrManager('http://' + addon().getSetting('ipaddress') + ':8191/v1')
+                                        sContent = response['solution']['response']
+                            else:                      
+                                flaresolverr = FlareSolverrManager('http://' + addon().getSetting('ipaddress') + ':8191/v1')
 
-                                    listjson = flaresolverr.request(self.__sUrl).json()
-                                    solution = listjson['solution']
-                                    if solution['status'] != 200:
-                                        raise
+                                listjson = flaresolverr.request(self.__sUrl).json()
+                                solution = listjson['solution']
+                                if solution['status'] != 200:
+                                    raise
 
-                                    sContent = listjson['solution']['response']
+                                sContent = listjson['solution']['response']
 
                         except:
                             dialog().VSerror("%s (%s)" % ("ScrapeNinja جرب استخدام ، (Cloudflare) الصفحة ربما محمية بواسطة ", urlHostName(self.__sUrl)))
