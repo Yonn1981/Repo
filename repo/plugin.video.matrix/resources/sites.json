@@ -24,7 +24,7 @@
         "akwam": {
             "label": "Akwam",
             "active": "True",
-            "url": "https://akwam.cz/"
+            "url": "https://ak.sv/"
         },
         "alarabiya": {
             "label": "Alarabiya",
@@ -149,7 +149,7 @@
         "cimau": {
             "label": "Cima4u",
             "active": "True",
-            "url": "https://fe-w4-c4.shop/"
+            "url": "https://fe-w4-c4.shop/watch/"
         },
         "cimaclub": {
             "label": "CimaClub",
@@ -404,8 +404,8 @@
         "shahidu": {
             "label": "Shahid4u",
             "active": "True",
-            "cloudflare": "True",
-            "url": "https://shahee4u.cam/"
+            "cloudflare": "False",
+            "url": "https://shii4u.cam/"
         },
         "shoffree": {
             "label": "Shoffree",

@@ -21,22 +21,19 @@ class cHoster(iHoster):
 
     def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
-        sUrl = self._url
 
         oRequest = cRequestHandler(self._url)
         sHtmlContent = oRequest.request()
         oParser = cParser()
-            # (.+?) .+?
+
+        api_call = False
         sPattern = '<source src="([^"]+)'
         aResult = oParser.parse(sHtmlContent, sPattern)
-        
-        api_call = False
-
         if aResult[0]:
             api_call = aResult[1][0]
-
+           
         if api_call:
-            return True, api_call+ '|Referer=https://send.cm/'
+            return True, api_call + '|Referer=https://send.cm/'
 
         return False, False
         

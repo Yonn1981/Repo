@@ -24,7 +24,7 @@ MOVIE_TURK = (URL_MAIN + 'category/movies/افلام-تركية/page/0/', 'showM
 MOVIE_HI = (URL_MAIN + 'category/movies/افلام-هندية/page/0/', 'showMovies')
 KID_MOVIES = (URL_MAIN + 'category/movies/افلام-انمي/page/0/', 'showMovies')
 
-RAMADAN_SERIES = (URL_MAIN + '/category/%d8%b1%d9%85%d8%b6%d8%a7%d9%86-2023/', 'showSeries')
+RAMADAN_SERIES = (URL_MAIN + '/category/رمضان-2024/', 'showSeries')
 SERIE_DUBBED = (URL_MAIN + 'category/مسلسلات/?sercat=المسلسلات-المدبلجة', 'showSeries')
 SERIE_AR = (URL_MAIN + 'category/مسلسلات/?sercat=المسلسلات-العربية', 'showSeries')
 SERIE_EN = (URL_MAIN + 'category/مسلسلات/?sercat=المسلسلات-الاجنبية', 'showSeries')

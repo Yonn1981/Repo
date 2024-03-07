@@ -23,7 +23,7 @@ MOVIE_TURK = (URL_MAIN + '/Cat-48-1', 'showMovies')
 MOVIE_ANIME = (URL_MAIN + '/Cat-57-1', 'showMovies')
 DOC_NEWS = (URL_MAIN + '/Cat-23-1', 'showMovies')
 
-RAMADAN_SERIES = (URL_MAIN + '/Cat-144-1', 'showSeries')
+RAMADAN_SERIES = (URL_MAIN + '/Cat-145-1', 'showSeries')
 SERIE_DUBBED = (URL_MAIN + '/Cat-129-1', 'showSeries')
 SERIE_AR = (URL_MAIN + '/Cat-98-1', 'showSeries')
 SERIE_TR = (URL_MAIN + '/Cat-128-1', 'showSeries')

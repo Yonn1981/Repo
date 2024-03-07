@@ -199,7 +199,7 @@ def showMovies(sSearch=''):
 
                 if not isMatrix():
                     sTitle = sTitle.encode("utf-8")
-                sDisplayTitle = sTitle.replace(' ','%2520')
+                sDisplayTitle = sTitle.replace(' ','%2520').replace('%20','%2520')
                 siteUrl = base64.b64decode('aHR0cHM6Ly9hcGkuYnJhZmxpeC52aWRlby9mZWJib3gvc291cmNlcy13aXRoLXRpdGxlPw==').decode('utf8',errors='ignore')
                 siteUrl = f'{siteUrl}title={sDisplayTitle}&year={sYear}&mediaType=movie&episodeId=1&seasonId=1&tmdbId={sId}&imdbId={simdb_id}'
                 oOutputParameterHandler = cOutputParameterHandler()
@@ -235,6 +235,16 @@ def showHosters():
     sThumb = oInputParameterHandler.getValue('sThumb')
     sId = oInputParameterHandler.getValue('sId')
 
+    simdb_id = sUrl.split('imdbId=')[1]
+    if simdb_id == '':
+        addons = addon()
+        API_Key = addons.getSetting('api_tmdb')
+        sApi = f'https://api.themoviedb.org/3/movie/{sId}?api_key={API_Key}'
+        sResponse = requests.request("GET", sApi, headers=None, data=None)
+        data = json.loads(sResponse.text)
+        simdb_id = data["imdb_id"]
+        sUrl = sUrl + simdb_id
+
     sMain = base64.b64decode('aHR0cHM6Ly93d3cuYnJhZmxpeC52aWRlbw==').decode('utf8',errors='ignore')
     headers = {
     'sec-ch-ua':'"Not A(Brand";v="99", "Google Chrome";v="121", "Chromium";v="121"',
@@ -255,9 +265,26 @@ def showHosters():
     data = json.loads(sResponse.text)
 
     if data:
-        if 'ERR_BAD_REQUEST' in sResponse.text:
-            oGui.addText(SITE_IDENTIFIER, '[COLOR red]فشل الاتصال بالموقع ، حاول مرة أخرى[/COLOR]')
-            time.sleep(10)
+        if 'ERR_BAD_REQUEST' in sResponse.text or '"statusCode":500' in sResponse.text:
+            try:
+                oGui.addText(SITE_IDENTIFIER, '[COLOR red]فشل الاتصال بموقع جودة البلوراي ، يوجد روابط بديلة[/COLOR]')
+                from resources.lib.multihost import cVidsrcto
+                sHosterUrl = f'https://vidsrc.to/embed/movie/{simdb_id}'
+                aResult = cVidsrcto().GetUrls(sHosterUrl)
+                if (aResult):
+                    for aEntry in aResult:
+                        sHosterUrl = aEntry
+
+                        sDisplayTitle = sMovieTitle
+                        oHoster = cHosterGui().checkHoster(sHosterUrl)
+                        if oHoster != False:
+                            oHoster.setDisplayName(sDisplayTitle)
+                            oHoster.setFileName(sMovieTitle)
+                            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler) 
+
+            except:
+                oGui.addText(SITE_IDENTIFIER, '[COLOR red]فشل الاتصال بالموقع ، حاول مرة أخرى[/COLOR]')
+                time.sleep(5)
         else:
             for source in data['sources']:
                 url = source['url']

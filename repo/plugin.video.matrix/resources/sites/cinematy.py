@@ -29,6 +29,7 @@ SERIE_ASIA = (URL_MAIN + '/category/مسلسلات-اسيوية/', 'showSeries')
 SERIE_HEND = (URL_MAIN + '/category/مسلسلات-هندى/', 'showSeries')
 SERIE_EN = (URL_MAIN + '/category/مسلسلات-اجنبي/', 'showSeries')
 SERIE_AR = (URL_MAIN + '/category/مسلسلات-عربي/', 'showSeries')
+RAMADAN_SERIES = (URL_MAIN + '/category/مسلسلات-رمضان-2024/', 'showSeries')
 KID_CARTOON = (URL_MAIN+'/category/مسلسلات-كرتون/', 'showSeries')
 
 SPORT_WWE = (URL_MAIN + '/category/عروض-مصارعة/', 'showMovies')

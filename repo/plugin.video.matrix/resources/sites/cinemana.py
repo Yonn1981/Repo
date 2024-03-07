@@ -28,6 +28,7 @@ SERIE_AR = (URL_MAIN + '/watch=category/مسلسلات-عربية/', 'showSeries
 SERIE_TR = (URL_MAIN + '/watch=category/مسلسلات-تركية/', 'showSeries')
 SERIE_ASIA = (URL_MAIN + '/watch=category/مسلسلات-اسيوية/', 'showSeries')
 SERIE_HEND = (URL_MAIN + '/watch=category/مسلسلات-هندية/', 'showSeries')
+RAMADAN_SERIES = (URL_MAIN + 'watch=category/مسلسلات-رمضان-2024/', 'showSeries')
 
 SPORT_WWE = (URL_MAIN + '/watch=category/مصارعة-حرة/', 'showMovies')
 

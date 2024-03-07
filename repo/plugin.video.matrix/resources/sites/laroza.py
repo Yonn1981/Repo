@@ -25,7 +25,7 @@ MOVIE_ASIAN = (URL_MAIN + 'category.php?cat=asian-movies', 'showMovies')
 MOVIE_DUBBED = (URL_MAIN + 'category.php?cat=aflammdblgh', 'showMovies')
 KID_MOVIES = (URL_MAIN + 'category.php?cat=anime-movies', 'showMovies')
 
-RAMADAN_SERIES = (URL_MAIN + 'category.php?cat=ramadan-2023', 'showSeries')
+RAMADAN_SERIES = (URL_MAIN + 'category.php?cat=ramadan-2024', 'showSeries')
 SERIE_EN = (URL_MAIN + 'category.php?cat=english-series3', 'showSeries')
 SERIE_AR = (URL_MAIN + 'category.php?cat=arabic-series28', 'showSeries')
 SERIE_HEND = (URL_MAIN + 'category.php?cat=4indian-series', 'showSeries')
@@ -86,8 +86,8 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', REPLAYTV_NEWS[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'برامج تلفزيونية', 'brmg.png', oOutputParameterHandler)
 
-    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'category.php?cat=26ramadan-2022')
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'رمضان 2022', 'rmdn.png', oOutputParameterHandler)
+    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'category.php?cat=ramadan-2023')
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'رمضان 2023', 'rmdn.png', oOutputParameterHandler)
 
     oGui.setEndOfDirectory()
  
