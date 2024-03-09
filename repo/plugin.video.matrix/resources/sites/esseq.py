@@ -14,7 +14,9 @@ import base64
 SITE_IDENTIFIER = 'esseq'
 SITE_NAME = 'Esseq'
 SITE_DESC = 'arabic vod'
- 
+
+UA = "Mozilla/5.0 (iPhone; CPU iPhone OS 16_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 Mobile/15E148 Safari/604.1"
+
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 SERIE_TR = (URL_MAIN + '/all-series/', 'showSeries')
@@ -77,6 +79,7 @@ def showMovies(sSearch = ''):
 
     oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
+    oRequestHandler.addHeaderEntry('User-Agent', UA)
     sHtmlContent = oRequestHandler.request()
 
     sPattern = 'class="block-post">.+?href="([^"]+)".+?style="background-image:url\((.*?)\).+?class="title">(.+?)</div>'
@@ -133,6 +136,7 @@ def showSeries(sSearch = ''):
 
     oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
+    oRequestHandler.addHeaderEntry('User-Agent', UA)
     sHtmlContent = oRequestHandler.request()
 
     sPattern = 'class="block-post">.+?href="([^"]+)".+?style="background-image:url\((.*?)\).+?class="title">(.+?)</div>'
@@ -190,6 +194,7 @@ def showSeries2(sSearch = ''):
 
     oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
+    oRequestHandler.addHeaderEntry('User-Agent', UA)
     sHtmlContent = oRequestHandler.request()
 
     sPattern = 'class="block-post">.+?href="([^"]+)".+?style="background-image:url\((.*?)\).+?class="title">(.+?)</div>'
@@ -242,6 +247,7 @@ def showEps():
 
     oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
+    oRequestHandler.addHeaderEntry('User-Agent', UA)
     sHtmlContent = oRequestHandler.request()
 
     sPattern = '<article class="postEp">.+?<a href="([^"]+)".+?</span>\s*<span>(.+?)</span>.+?class="title">(.+?)</div>'
@@ -288,6 +294,7 @@ def showHosters(oInputParameterHandler = False):
 
     oParser = cParser()    
     oRequestHandler = cRequestHandler(sUrl)
+    oRequestHandler.addHeaderEntry('User-Agent', UA)
     sHtmlContent = oRequestHandler.request()
 
     sPattern =  '<link rel=["\']shortlink["\'] href=["\']([^"\']+)["\']' 
@@ -300,7 +307,7 @@ def showHosters(oInputParameterHandler = False):
     if aResult[0]:
         m3url = aResult[1][0].split('?url=')[1]
         oRequestHandler = cRequestHandler(m3url)
-        oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
+        oRequestHandler.addHeaderEntry('User-Agent', UA)
         oRequestHandler.addHeaderEntry('referer', URL_MAIN)
         sHtmlContent = oRequestHandler.request() 
       	
