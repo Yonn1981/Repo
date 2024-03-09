@@ -267,8 +267,6 @@ def showLinks(oInputParameterHandler = False):
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:  
-            if 'short.ink' in aEntry[3]:
-                continue
             
             sType = aEntry[0]
             sPost = aEntry[1]

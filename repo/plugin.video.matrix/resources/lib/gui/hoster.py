@@ -324,6 +324,9 @@ class cHosterGui:
         if ('2embed.me' in sHostName):
             return self.getHoster('2embedme')
 
+        if ('short.ink' in sHostName):
+            return self.getHoster('shortlink')
+
         if ('remotestre.am' in sHostName):
             return self.getHoster('remotestream')
 
@@ -650,7 +653,7 @@ class cHosterGui:
         if ('torrent' in sHosterUrl) or ('magnet:' in sHosterUrl):
             return self.getHoster('torrent')
         
-        if ('nitroflare' in sHostName or 'tubeload.' in sHostName or 'Facebook' in sHostName  or 'fastdrive' in sHostName or 'megaup.net' in sHostName  or 'openload' in sHostName or 'vidhd' in sHostName or 'oktube' in sHostName or 'mdiaload' in sHostName or 'fikper' in sHostName or 'turbobit' in sHostName or '1fichier' in sHostName or 'mega.nz' in sHostName or 'rapidgator' in sHostName or 'ddownload' in sHostName or 'bowfile' in sHostName or 'uptobox' in sHostName or 'uptostream' in sHostName or 'wahmi' in sHostName or 'doodrive' in sHostName or 'highload' in sHostName):
+        if ('nitroflare' in sHostName or 'tubeload.' in sHostName or 'Facebook' in sHostName  or 'fastdrive' in sHostName or 'megaup.net' in sHostName  or 'openload' in sHostName or 'vidhd' in sHostName or 'oktube' in sHostName or 'mdiaload' in sHostName or 'fikper' in sHostName or 'turbobit' in sHostName or '1fichier' in sHostName or 'mega.nz' in sHostName or 'rapidgator' in sHostName or 'ddownload' in sHostName or 'bowfile' in sHostName or 'uptobox' in sHostName or 'uptostream' in sHostName or 'wahmi' in sHostName or 'doodrive' in sHostName or 'highload' in sHostName or 'anonfiles' in sHostName):
             return False
 
         # lien direct ?

@@ -16,7 +16,7 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-RAMADAN_SERIES = (URL_MAIN + '/ts/mosalsalat-ramadan-2023/', 'showSeries')
+RAMADAN_SERIES = (URL_MAIN + '/ts/mosalsalat-ramadan-2024/', 'showSeries')
 SERIE_TR = (URL_MAIN + '/cat/mosalsalat-torkia,3/', 'showSeries')
 SERIE_DUBBED = (URL_MAIN + '/ts/mosalsalat-modablaja/', 'showSeries')
 SERIE_HEND = (URL_MAIN + '/cat/mosalsalat-hindia/', 'showSeries')

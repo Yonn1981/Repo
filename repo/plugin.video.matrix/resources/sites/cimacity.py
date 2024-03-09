@@ -34,7 +34,7 @@ SERIE_ASIA = (URL_MAIN + 'category.php?cat=asia-series', 'showSeries')
 SERIE_HEND = (URL_MAIN + 'category.php?cat=hindia-series', 'showSeries')
 SERIE_EN = (URL_MAIN + 'category.php?cat=moslslat-agnabya', 'showSeries')
 SERIE_AR = (URL_MAIN + 'category.php?cat=moslslat-arabia', 'showSeries')
-RAMADAN_SERIES = (URL_MAIN + 'category.php?cat=ramadan-2023', 'showSeries')
+RAMADAN_SERIES = (URL_MAIN + 'category.php?cat=mslslat-rmdtan-2024', 'showSeries')
 ANIM_NEWS = (URL_MAIN + 'category.php?cat=animation-series', 'showSeries')
 
 URL_SEARCH_MOVIES = (URL_MAIN + 'search.php?keywords=', 'showMovies')

@@ -270,7 +270,7 @@ class cRequestHandler:
                                 CLOUDPROXY_ENDPOINT='http://' + addon().getSetting('ipaddress') + ':8191/v1'
                                 if addon().getSetting('Public_Flaresolverr') == "true":
                                     CLOUDPROXY_ENDPOINT="https://cf.jmdkh.eu.org/v1"
-                                data = {"cmd": "request.get", "url": self.__sUrl, "maxTimeout": 60000}
+                                data = {"cmd": 'request.%s' % method.lower(), "url": self.__sUrl, "maxTimeout": 60000}
                                 json_response = False
                                 try:
 
