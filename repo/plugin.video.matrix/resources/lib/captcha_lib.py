@@ -26,8 +26,8 @@ import base64
 import time
 import six
 from kodi_six import xbmc, xbmcgui, xbmcaddon, xbmcvfs
-from resolveurl.lib import recaptcha_v2
-from resolveurl.lib import helpers
+from resources.lib import recaptcha_v2
+from resources.lib import helpers
 from resources.lib.comaddon import VSlog
 
 addon = xbmcaddon.Addon('plugin.video.matrix')

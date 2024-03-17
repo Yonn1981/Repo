@@ -442,7 +442,7 @@ def showSeries(sSearch = ''):
             siteUrl = aEntry[0]
             sThumb = aEntry[2].replace('/w342','/w500')
             sDesc = ''
-            sTitle = sTitle.replace("الموسم العاشر","S10").replace("الموسم الحادي عشر","S11").replace("الموسم الثاني عشر","S12").replace("الموسم الثالث عشر","S13").replace("الموسم الرابع عشر","S14").replace("الموسم الخامس عشر","S15").replace("الموسم السادس عشر","S16").replace("الموسم السابع عشر","S17").replace("الموسم الثامن عشر","S18").replace("الموسم التاسع عشر","S19").replace("الموسم العشرون","S20").replace("الموسم الحادي و العشرون","S21").replace("الموسم الثاني و العشرون","S22").replace("الموسم الثالث و العشرون","S23").replace("الموسم الرابع والعشرون","S24").replace("الموسم الخامس و العشرون","S25").replace("الموسم السادس والعشرون","S26").replace("الموسم السابع والعشرون","S27").replace("الموسم الثامن والعشرون","S28").replace("الموسم التاسع والعشرون","S29").replace("الموسم الثلاثون","S30").replace("الموسم الحادي و الثلاثون","S31").replace("الموسم الثاني والثلاثون","S32").replace("الموسم الاول","S1").replace("الموسم الثاني","S2").replace("الموسم الثالث","S3").replace("الموسم الثالث","S3").replace("الموسم الرابع","S4").replace("الموسم الخامس","S5").replace("الموسم السادس","S6").replace("الموسم السابع","S7").replace("الموسم الثامن","S8").replace("الموسم التاسع","S9").replace("الموسم","S").replace("موسم","S").replace("S ","S").split('الحلقة')[0]
+            sTitle = sTitle.replace("الموسم العاشر","S10").replace("الموسم الحادي عشر","S11").replace("الموسم الثاني عشر","S12").replace("الموسم الثالث عشر","S13").replace("الموسم الرابع عشر","S14").replace("الموسم الخامس عشر","S15").replace("الموسم السادس عشر","S16").replace("الموسم السابع عشر","S17").replace("الموسم الثامن عشر","S18").replace("الموسم التاسع عشر","S19").replace("الموسم العشرون","S20").replace("الموسم الحادي و العشرون","S21").replace("الموسم الثاني و العشرون","S22").replace("الموسم الثالث و العشرون","S23").replace("الموسم الرابع والعشرون","S24").replace("الموسم الخامس و العشرون","S25").replace("الموسم السادس والعشرون","S26").replace("الموسم السابع والعشرون","S27").replace("الموسم الثامن والعشرون","S28").replace("الموسم التاسع والعشرون","S29").replace("الموسم الثلاثون","S30").replace("الموسم الحادي و الثلاثون","S31").replace("الموسم الثاني والثلاثون","S32").replace("الموسم الأول","S1").replace("الموسم الاول","S1").replace("الموسم الثانى","S2").replace("الموسم الثاني","S2").replace("الموسم الثالث","S3").replace("الموسم الثالث","S3").replace("الموسم الرابع","S4").replace("الموسم الخامس","S5").replace("الموسم السادس","S6").replace("الموسم السابع","S7").replace("الموسم الثامن","S8").replace("الموسم التاسع","S9").replace("الموسم","S").replace("موسم","S").replace("S ","S").split('الحلقة')[0]
 
             if sTitle not in itemList:
                 itemList.append(sTitle)	
@@ -477,10 +477,10 @@ def showSeasons():
 
     sStart = '>المواسم</div>'
     sEnd = '<section class="text-center"'
-    sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
+    sHtmlContent1 = oParser.abParse(sHtmlContent, sStart, sEnd)
 
     sPattern = '<a href="(.+?)" title="(.+?)">.+?data-src="(.+?)" alt='
-    aResult = oParser.parse(sHtmlContent, sPattern) 
+    aResult = oParser.parse(sHtmlContent1, sPattern) 
     if aResult[0] is True:
         oOutputParameterHandler = cOutputParameterHandler() 
         for aEntry in aResult[1]:
@@ -494,7 +494,28 @@ def showSeasons():
             oOutputParameterHandler.addParameter('sMovieUrl', sUrl)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oGui.addSeason(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
-       
+
+    else:
+        sPattern = '<a class="sku" href="(.+?)" title=.+?data-src="(.+?)" alt.+?class="episode" style="display: inline;">.+?<i>(.+?)</i></span>'
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        if aResult[0] is True:
+            oOutputParameterHandler = cOutputParameterHandler() 
+            for aEntry in aResult[1]:
+
+                sEp =  "E"+aEntry[2].replace(" ","")
+                sTitle = sMovieTitle+sEp
+                siteUrl = aEntry[0]
+                sThumb = aEntry[1].replace('/w342','/w500')
+                sDesc = ''
+                sHost = ''
+
+                oOutputParameterHandler.addParameter('siteUrl', siteUrl)
+                oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+                oOutputParameterHandler.addParameter('sHost', sHost)
+                oOutputParameterHandler.addParameter('sThumb', sThumb)
+ 
+                oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+
     oGui.setEndOfDirectory() 
  
 def showEps():
@@ -590,7 +611,10 @@ def showHosters(oInputParameterHandler = False):
             url = aEntry
             if 'role/' in url:
                 xcode = url.rsplit("/",2)[1]
-                url = f'https://r.site-panel.click/stream/{xcode}/episode?role=' + "|Referer=" + URL_MAIN
+                if 'movie/' in sUrl:
+                    url = f'https://r.site-panel.click/stream/{xcode}/movie?role=' + "|Referer=" + URL_MAIN
+                else:
+                    url = f'https://r.site-panel.click/stream/{xcode}/episode?role=' + "|Referer=" + URL_MAIN
 
             sHosterUrl = url
             if 'userload' in sHosterUrl:
