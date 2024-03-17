@@ -2,12 +2,10 @@
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
-from resources.lib.comaddon import dialog
-from resources.lib.comaddon import progress, VSlog
-import re
-import base64
+from resources.lib.comaddon import dialog, VSlog
+from resources.lib import random_ua
 
-UA = 'Mozilla/5.0 (iPad; CPU OS 17_1_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.1 Mobile/15E148 Safari/604.1'
+UA = random_ua.get_phone_ua()
 
 class cHoster(iHoster):
 

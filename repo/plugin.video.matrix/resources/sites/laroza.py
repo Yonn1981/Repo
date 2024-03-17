@@ -25,9 +25,9 @@ MOVIE_ASIAN = (URL_MAIN + 'category.php?cat=asian-movies', 'showMovies')
 MOVIE_DUBBED = (URL_MAIN + 'category.php?cat=aflammdblgh', 'showMovies')
 KID_MOVIES = (URL_MAIN + 'category.php?cat=anime-movies', 'showMovies')
 
-RAMADAN_SERIES = (URL_MAIN + 'category.php?cat=ramadan-2024', 'showSeries')
+RAMADAN_SERIES = (URL_MAIN + 'category.php?cat=1-ramadan-2024', 'showSeries')
 SERIE_EN = (URL_MAIN + 'category.php?cat=english-series3', 'showSeries')
-SERIE_AR = (URL_MAIN + 'category.php?cat=arabic-series28', 'showSeries')
+SERIE_AR = (URL_MAIN + 'category.php?cat=arabic-series29', 'showSeries')
 SERIE_HEND = (URL_MAIN + 'category.php?cat=4indian-series', 'showSeries')
 SERIE_TR = (URL_MAIN + 'category.php?cat=turkish-3isk-seriess29', 'showSeries')
 
@@ -73,6 +73,9 @@ def load():
 
     oOutputParameterHandler.addParameter('siteUrl', SERIE_AR[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات عربية', 'arab.png', oOutputParameterHandler)
+
+    oOutputParameterHandler.addParameter('siteUrl', SERIE_EN[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أجنبية', 'turk.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', SERIE_TR[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات تركية', 'turk.png', oOutputParameterHandler)

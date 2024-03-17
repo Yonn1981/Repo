@@ -90,7 +90,7 @@ def showSeries(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-    sPattern = '<div class="serie-thumb">\s*<a href="(.+?)" title="(.+?)">\s*<img loading=".+?" src="(.+?)" alt'
+    sPattern = '<div class="serie-thumb">\s*<a href="([^"]+)".+?src="(.+?)" alt="([^"]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
         total = len(aResult[1])
@@ -100,14 +100,14 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1].replace("مشاهدة وتحميل","").replace("اون لاين","").replace("مترجمة","").replace("مترجم","")
+            sTitle = aEntry[2].replace("مشاهدة وتحميل","").replace("اون لاين","").replace("مترجمة","").replace("مترجم","")
             siteUrl = aEntry[0]
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + siteUrl
             if siteUrl.startswith('/'):
                 siteUrl = URL_MAIN + siteUrl
 
-            sThumb = aEntry[2]
+            sThumb = aEntry[1]
             sDesc = ''
             sYear = ''
 
@@ -285,7 +285,7 @@ def showEpisodes():
     if aResult[0]:
         sHtmlContent = aResult[1][0]
 
-    sPattern = '<div class="video-thumb">\s*<a href="(.+?)" title="(.+?)">\s*<img loading="lazy" src="(.+?)" alt'
+    sPattern = '<div class="video-thumb">\s*<a href="([^"]+)".+?src="(.+?)" alt="([^"]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
         total = len(aResult[1])
@@ -295,14 +295,14 @@ def showEpisodes():
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1].replace("الحلقة "," E").replace("حلقة "," E").replace("مدبلج للعربية","مدبلج").replace("مشاهدة وتحميل","").replace("اون لاين","")
+            sTitle = aEntry[2].replace("الحلقة "," E").replace("حلقة "," E").replace("مدبلج للعربية","مدبلج").replace("مشاهدة وتحميل","").replace("اون لاين","")
             siteUrl = aEntry[0]
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + siteUrl
             if siteUrl.startswith('/'):
                 siteUrl = URL_MAIN + siteUrl
 
-            sThumb = sThumb
+            sThumb = aEntry[1]
 			
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)

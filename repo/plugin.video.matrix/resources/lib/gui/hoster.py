@@ -210,9 +210,9 @@ class cHosterGui:
 
                 
         supported_player = ['film77', 'hdup', 'streamable', 'stardima', 'filescdn', 'vidgot', 'videott', 'vidlo', 'sendit', 'thevid', 'vidmoly', 'gettyshare',
-                            'fastplay', 'cloudy', 'hibridvod', 'arabveturk', 'extremenow', 'yourupload', 'vidspeeds', 'moshahda', 'voe', 'faselhd', 'naqoos',
+                            'fastplay', 'cloudy', 'hibridvod', 'extremenow', 'yourupload', 'vidspeeds', 'moshahda', 'voe', 'faselhd', 'naqoos', 'frdl',
                             'streamax', 'gounlimited', 'xdrive', 'facebook', 'mixdrop', 'mixloads', 'vidoza', 'rutube', 'megawatch', 'vidzi', 'filetrip', 
-                            'speedvid', 'letsupload', 'krakenfiles', 'onevideo', 'playreplay', 'prostream', 'vidfast', 'uqload', 'qiwi', 'gofile',
+                            'speedvid', 'letsupload', 'krakenfiles', 'onevideo', 'playreplay', 'prostream', 'vidfast', 'uqload', 'qiwi', 'gofile', 'mail.ru',
                             'letwatch', 'wishfast', 'mp4upload', 'filepup', 'vimple', 'wstream', 'watchvideo', 'vidwatch', 'up2stream', 'tune', 'playtube',
                             'vidup', 'vidbull', 'vidlox', '33player' 'easyload', 'ninjastream', 'cloudhost', 'videobin', 'stagevu', 'gorillavid', 'soraplay',
                             'daclips', 'hdvid', 'vshare', 'vidload', 'giga', 'vidbom', 'cloudvid', 'megadrive', 'downace', 'clickopen', 'supervideo', 'veev',
@@ -262,7 +262,7 @@ class cHosterGui:
         streamwish = next((x for x in ['streamwish', 'khadhnayad', 'ajmidyad', 'yadmalik', 'kharabnah', 'hayaatieadhab', 'sfastwish', 'eghjrutf', 'eghzrutw',
                             'wishfast', 'fviplions', 'egtpgrvh', 'mdy48tn97', 'embedwish', 'fsdcmo.sbs', 'anime4low', 'cdnwish-down', 'heavenlyvideo',
                             'flaswish', 'streamzid', 'cimawish', 'egopxutd', 'obeywish', 'trgsfjll', 'mdbekjwqa', 'uqloads', 'm3lomatik', 'cdnwish', 'ma2d',
-                            'mohahhda'] if x in sHostName), None)
+                            'mohahhda', 'asnwish'] if x in sHostName), None)
         if streamwish:
             return self.getHoster('streamwish')
 
@@ -290,7 +290,7 @@ class cHosterGui:
             return self.getHoster('vidtodo')
 
         # Filemoon Clone
-        filemoon = next((x for x in ['filemoon', 'moonmov', 'allviid', 'all-vid', 'techradar', 'albrq'] if x in sHostName), None)
+        filemoon = next((x for x in ['filemoon', 'moonmov', 'allviid', 'all-vid', 'techradar', 'albrq', 'kerapoxy', 'kerapoxy'] if x in sHostName), None)
         if filemoon:
             return self.getHoster("filemoon")
 
@@ -309,7 +309,7 @@ class cHosterGui:
         if vidlo:    
             return self.getHoster('dood')
 
-        if ('mcloud' in sHosterUrl) or ('vizcloud' in sHosterUrl) or ('vidstream' in sHosterUrl) or ('vidplay' in sHosterUrl):
+        if ('mcloud' in sHosterUrl) or ('vizcloud' in sHosterUrl) or ('vidstream' in sHosterUrl) or ('vidplay' in sHosterUrl) or ('55a0716b8c' in sHosterUrl):
             return self.getHoster('mcloud')
 
         if ('vidsrc.stream' in sHostName):
@@ -317,6 +317,9 @@ class cHosterGui:
 
         if ('multiembed' in sHostName):
             return self.getHoster('multiembed')
+
+        if ('cimacafe' in sHostName):
+            return self.getHoster('cimacafe')
 
         if ('hexload' in sHostName):
             return self.getHoster('hexupload')
@@ -357,7 +360,7 @@ class cHosterGui:
         if ('updown' in sHostName):
             return self.getHoster('updown')
 
-        if ('vod540' in sHostName) or ('hd-cdn' in sHostName) or ('anyvid' in sHostName) or ('vod7' in sHostName) or ('segavid' in sHostName) or ('vidblue' in sHostName):
+        if ('vod540' in sHostName) or ('hd-cdn' in sHostName) or ('anyvid' in sHostName) or ('vod7' in sHostName) or ('segavid' in sHostName) or ('vidblue' in sHostName) or ('arabveturk' in sHostName):
             return self.getHoster('xvideo')
 
         if ('diasfem' in sHosterUrl):
@@ -471,7 +474,7 @@ class cHosterGui:
         if ('send.cm' in sHosterUrl):
             return self.getHoster('sendme')
 
-        if ('shoffree' in sHostName) or ('egy-best' in sHostName):
+        if ('shoffree' in sHostName) or ('egy-best' in sHostName) or ('site-panel.click' in sHostName):
             return self.getHoster('shoffree')
 
         if ('streamsforu' in sHostName or 'ylass' in sHostName or 'rsc.cdn' in sHostName or 'btolat' in sHostName):

@@ -31,23 +31,32 @@ class cHoster(iHoster):
         sHtmlContent = oRequest.request()
 
         oParser = cParser()
-        
+        api_call = False        
         sPattern = '(eval\(function\(p,a,c,k,e(?:.|\s)+?\))<\/script>'
         aResult = oParser.parse(sHtmlContent, sPattern)
         if aResult[0]:
             sHtmlContent = cPacker().unpack(aResult[1][0])
-        
-            # (.+?) .+?
-        sPattern = 'file:"(.+?)"'
-        aResult = oParser.parse(sHtmlContent, sPattern)
-        
-        api_call = False
-
-        if aResult[0]:
-            api_call = aResult[1][0]
+            sPattern = 'file:"(.+?)"'
+            aResult = oParser.parse(sHtmlContent, sPattern) 
+            if aResult[0]:
+                api_call = aResult[1][0]
  
-            if api_call:
-                return True, api_call + '|User-Agent=' + UA + '&Referer=' + sReferer
+                if api_call:
+                    return True, api_call + '|User-Agent=' + UA + '&Referer=' + sReferer
+        url=[]
+        qua=[]
+        sPattern = 'file:\s*"([^"]+)",\s*label:\s*"([^"]+)'
+        aResult = oParser.parse(sHtmlContent,sPattern)
+        if aResult[0] is True:
+            for aEntry in aResult[1]:
+
+                url.append(aEntry[0])
+                qua.append(aEntry[1]) 
+            if url:
+                api_call = dialog().VSselectqual(qua,url)
+
+        if api_call:
+            return True, api_call.replace(' ','%20') 
 
         sPattern = '<source src="(.+?)" type='
         aResult = oParser.parse(sHtmlContent, sPattern)

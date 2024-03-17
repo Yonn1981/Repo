@@ -1,10 +1,12 @@
 ﻿from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
-from resources.lib.comaddon import dialog, xbmcgui
+from resources.lib.comaddon import dialog
 from resources.hosters.hoster import iHoster
 from resources.lib.packer import cPacker
 from resources.lib.comaddon import VSlog
-import re
+import unicodedata
+
+UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101 Firefox/68.0'
 
 class cHoster(iHoster):
 
@@ -25,9 +27,6 @@ class cHoster(iHoster):
 
         sPattern = '(eval\(function\(p,a,c,k,e(?:.|\s)+?\))<\/script>'
         aResult = oParser.parse(sHtmlContent, sPattern)
-        from resources.lib.util import Quote
-        import unicodedata
-
         if aResult[0]:
             data = aResult[1][0]
             data = unicodedata.normalize('NFD', data).encode('ascii', 'ignore').decode('unicode_escape')
@@ -36,7 +35,6 @@ class cHoster(iHoster):
             sPattern = 'file:"(.+?)",label:"(.+?)"'
             aResult = oParser.parse(sHtmlContent2, sPattern)
             if aResult[0]:
-                # initialisation des tableaux
                 url = []
                 qua = []
                 for i in aResult[1]:
@@ -46,6 +44,6 @@ class cHoster(iHoster):
                 api_call = dialog().VSselectqual(qua, url)
 
         if api_call:
-            return True, api_call
+            return True, api_call+'|AUTH=TLS&verifypeer=false'  + '&User-Agent=' + UA + '&Referer=' + self._url
 
         return False, False

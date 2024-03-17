@@ -29,7 +29,7 @@ tmdb_account = ''
 MOVIE_EN = ('movie/now_playing', 'showMovies')
 MOVIE_TOP = ('movie/top_rated', 'showMovies')
 MOVIE_POP = ('movie/popular', 'showMovies')
-MOVIE_4k = ('movie/popular', 'showMovies')
+#MOVIE_4k = ('movie/popular', 'showMovies')
 MOVIE_GENRES = ('genre/movie/list', 'showGenreMovie')
 
 URL_SEARCH_MOVIES = ('https://api.themoviedb.org/3/search/movie?include_adult=false&query=', 'showMoviesSearch')
@@ -46,8 +46,8 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_POP[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', addons.VSlang(30425), 'pop.png', oOutputParameterHandler)
 
-    oOutputParameterHandler.addParameter('siteUrl', MOVIE_4k[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', ' 4k أفلام', 'pop.png', oOutputParameterHandler)
+    #oOutputParameterHandler.addParameter('siteUrl', MOVIE_4k[0])
+    #oGui.addDir(SITE_IDENTIFIER, 'showMovies', ' 4k أفلام', 'pop.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_EN[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', addons.VSlang(30426), 'agnab.png', oOutputParameterHandler)
@@ -245,62 +245,24 @@ def showHosters():
         simdb_id = data["imdb_id"]
         sUrl = sUrl + simdb_id
 
-    sMain = base64.b64decode('aHR0cHM6Ly93d3cuYnJhZmxpeC52aWRlbw==').decode('utf8',errors='ignore')
-    headers = {
-    'sec-ch-ua':'"Not A(Brand";v="99", "Google Chrome";v="121", "Chromium";v="121"',
-    'sec-ch-ua-mobile':'?0',
-    'user-agent':UA,
-    'sec-ch-ua-platform':'"Windows"',
-    'accept':'*/*',
-    'origin':sMain,
-    'sec-fetch-site':'same-site',
-    'sec-fetch-mode':'cors',
-    'sec-fetch-dest':'empty',
-    'referer':sMain + '/',
-    'accept-encoding':'gzip, deflate, br',
-    'accept-language':'en-US,en;q=0.9'}
-    payload=None
+    from resources.lib.multihost import cVidsrcto
+    try:
+        sHosterUrl = f'https://vidsrc.to/embed/movie/{simdb_id}'
+        aResult = cVidsrcto().GetUrls(sHosterUrl)
+        if (aResult):
+            for aEntry in aResult:
+                sHosterUrl = aEntry
+                VSlog(sHosterUrl)
 
-    sResponse = requests.request("GET", sUrl, headers=headers, data=payload)
-    data = json.loads(sResponse.text)
-
-    if data:
-        if 'ERR_BAD_REQUEST' in sResponse.text or '"statusCode":500' in sResponse.text:
-            try:
-                oGui.addText(SITE_IDENTIFIER, '[COLOR red]فشل الاتصال بموقع جودة البلوراي ، يوجد روابط بديلة[/COLOR]')
-                from resources.lib.multihost import cVidsrcto
-                sHosterUrl = f'https://vidsrc.to/embed/movie/{simdb_id}'
-                aResult = cVidsrcto().GetUrls(sHosterUrl)
-                if (aResult):
-                    for aEntry in aResult:
-                        sHosterUrl = aEntry
-
-                        sDisplayTitle = sMovieTitle
-                        oHoster = cHosterGui().checkHoster(sHosterUrl)
-                        if oHoster != False:
-                            oHoster.setDisplayName(sDisplayTitle)
-                            oHoster.setFileName(sMovieTitle)
-                            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler) 
-
-            except:
-                oGui.addText(SITE_IDENTIFIER, '[COLOR red]فشل الاتصال بالموقع ، حاول مرة أخرى[/COLOR]')
-                time.sleep(5)
-        else:
-            for source in data['sources']:
-                url = source['url']
-                sQual = source['quality']
-                sThumb = sThumb
-                sTitle = ('%s  [COLOR coral](%s)[/COLOR]') % (sMovieTitle, sQual)  
-
-                sHosterUrl = f'{url}?sub.info={sId}'
-                oHoster = cHosterGui().getHoster('tma') 
-
-                if oHoster:
-                    sDisplayTitle = sTitle
+                sDisplayTitle = sMovieTitle
+                oHoster = cHosterGui().checkHoster(sHosterUrl)
+                if oHoster != False:
                     oHoster.setDisplayName(sDisplayTitle)
                     oHoster.setFileName(sMovieTitle)
-                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
-    else:
-        oGui.addText(SITE_IDENTIFIER, '[COLOR red]تعذر الحصول على روابط[/COLOR]')
+                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler) 
+
+    except:
+        oGui.addText(SITE_IDENTIFIER, '[COLOR red]فشل الاتصال بالموقع ، حاول مرة أخرى[/COLOR]')
+        time.sleep(5)
 
     oGui.setEndOfDirectory()

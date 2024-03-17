@@ -4,12 +4,13 @@
 from requests import post, get, Session, Request, RequestException, ConnectionError
 from resources.lib.comaddon import addon, dialog, VSlog, VSPath, isMatrix
 from resources.lib.util import urlHostName
+from resources.lib import random_ua
 
 import requests.packages.urllib3.util.connection as urllib3_cn
 from six.moves import (http_cookiejar)
 import socket
 
-UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36 Edg/121.0.0.0'
+UA = random_ua.get_ua()
 
 class cRequestHandler:
     REQUEST_TYPE_GET = 0
@@ -263,38 +264,27 @@ class cRequestHandler:
                     if bypass == '0':
                     
                         json_response = False
+                        CLOUDPROXY_ENDPOINT='http://' + addon().getSetting('ipaddress') + ':8191/v1'
+                        if addon().getSetting('Public_Flaresolverr') == "true":
+                            CLOUDPROXY_ENDPOINT="https://cf.jmdkh.eu.org/v1"
+                        if method == 'GET':
+                            data = {"cmd": 'request.%s' % method.lower(), "url": self.__sUrl, "maxTimeout": 60000}
+                        else:    
+                            data = {"cmd": 'request.%s' % method.lower(), "url": self.__sUrl, "postData": _request.data, "maxTimeout": 60000}
+                        json_response = False
                         try:
-                            from resources.lib.flaresolverr import FlareSolverrManager
-
-                            if addon().getSetting('ipaddress') == "127.0.0.1":
-                                CLOUDPROXY_ENDPOINT='http://' + addon().getSetting('ipaddress') + ':8191/v1'
-                                if addon().getSetting('Public_Flaresolverr') == "true":
-                                    CLOUDPROXY_ENDPOINT="https://cf.jmdkh.eu.org/v1"
-                                data = {"cmd": 'request.%s' % method.lower(), "url": self.__sUrl, "maxTimeout": 60000}
-                                json_response = False
-                                try:
-
-                                    json_response = post(CLOUDPROXY_ENDPOINT, headers={"Content-Type": "application/json"}, json=data)
-                                except:
-                                    dialog().VSerror("%s (%s)" % ("Page protegee par Cloudflare, essayez FlareSolverr", urlHostName(self.__sUrl)))
+                            json_response = post(CLOUDPROXY_ENDPOINT, headers={"Content-Type": "application/json"}, json=data)
                                 
-                                if json_response:
-                                    response = json_response.json()
-                                    if 'solution' in response:
-                                        if self.__sUrl != response['solution']['url']:
-                                            self.__sRealUrl = response['solution']['url']
+                            if json_response:
+                                response = json_response.json()
+                                if 'solution' in response:
+                                    if self.__sUrl != response['solution']['url']:
+                                        self.__sRealUrl = response['solution']['url']
     
-                                        sContent = response['solution']['response']
-                            else:                      
-                                flaresolverr = FlareSolverrManager('http://' + addon().getSetting('ipaddress') + ':8191/v1')
-
-                                listjson = flaresolverr.request(self.__sUrl).json()
-                                solution = listjson['solution']
-                                if solution['status'] != 200:
-                                    raise
-
-                                sContent = listjson['solution']['response']
-
+                                    sContent = response['solution']['response']
+                                    UA = response['solution']['userAgent']
+                                    random_ua.set_ua(UA)
+                                        
                         except:
                             dialog().VSerror("%s (%s)" % ("ScrapeNinja جرب استخدام ، (Cloudflare) الصفحة ربما محمية بواسطة ", urlHostName(self.__sUrl)))
 
@@ -333,7 +323,7 @@ class cRequestHandler:
                             # We make a request.
                             url = "https://pulffy-cloudflare-bypass1.p.rapidapi.com/scrape"
 
-                            querystring = {"url":"https://www.alarabiya.net/programs/documentaries"}
+                            querystring = {"url":self.__sUrl}
 
                             headers = {
 	                            "Cookie": "cookie1=value;cookie2=value",

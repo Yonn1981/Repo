@@ -10,11 +10,14 @@ from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
 from resources.lib.util import Quote
+from resources.lib import random_ua
  
 SITE_IDENTIFIER = 'shoffree'
 SITE_NAME = 'Shoffree'
 SITE_DESC = 'arabic vod'
- 
+
+UA = random_ua.get_ua()
+
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 MOVIE_EN = (URL_MAIN + 'movies?lang=الإنجليزية', 'showMovies')
@@ -524,7 +527,7 @@ def showEps():
             oOutputParameterHandler.addParameter('sHost', sHost)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
  
-            oGui.addEpisode(SITE_IDENTIFIER, 'showHostersepisode', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
        
     oGui.setEndOfDirectory() 
  
@@ -537,118 +540,6 @@ def __checkForNextPage(sHtmlContent, sUrl):
 
     return False
 
-def showHostersepisode(oInputParameterHandler = False):
-    oGui = cGui()
-    oInputParameterHandler = cInputParameterHandler()
-    sUrl = oInputParameterHandler.getValue('siteUrl')
-    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumb = oInputParameterHandler.getValue('sThumb')
-
-    oParser = cParser()
-    oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
-
-    sMain = main_function(sHtmlContent)
-    if sMain:
-        URL_MAIN = sMain
-          
-    sPattern =  'name="codes" value="([^"]+)' 
-    aResult = oParser.parse(sHtmlContent,sPattern)
-    if aResult[0]:
-        mcode = aResult[1][0] 
-        ncode = 'codes'
-
-    sPattern =  'name="code" value="([^"]+)' 
-    aResult = oParser.parse(sHtmlContent,sPattern)
-    if aResult[0]:
-        mcode = aResult[1][0]
-        ncode = 'code' 
-       
-    sPattern =  '<form action="(.+?)" method="post">' 
-    aResult = oParser.parse(sHtmlContent,sPattern)
-    if aResult[0]:
-        murl2 = aResult[1][0] 
-
-        import requests
-        s = requests.Session()            
-        data = {ncode:mcode, 'submit':'submit'}
-        r = s.post(murl2,data = data)
-        sHtmlContent = r.content.decode('utf8')
-   
-        sPattern = '"iframe_a" href="(.+?)"><div'
-        aResult = oParser.parse(sHtmlContent, sPattern)	
-        if aResult[0] is True:
-           for aEntry in aResult[1]:
-               if 'http' not in aEntry:
-                    continue         
-               url = aEntry
-               sThumb = sThumb
-               if url.startswith('//'):
-                  url = 'http:' + url
-
-               oRequest = cRequestHandler(url)
-               oRequest.addHeaderEntry('Referer',URL_MAIN)
-               sHtmlContent1 = oRequest.request()
-
-               sPattern = '<iframe.+?src="([^"]+)'
-               aResult = oParser.parse(sHtmlContent1, sPattern)
-               if aResult[0]:
-                    url = aResult[1][0]		
-
-               sHosterUrl = url
-               if 'userload' in sHosterUrl:
-                  sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-               if 'shoffree' in sHosterUrl:
-                  sHosterUrl = sHosterUrl + "|Referer=" + murl2
-               if 'mystream' in sHosterUrl:
-                  sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN    
-               oHoster = cHosterGui().checkHoster(sHosterUrl)
-               if oHoster != False:
-                  oHoster.setDisplayName(sMovieTitle)
-                  oHoster.setFileName(sMovieTitle)
-                  cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
-
-        sPattern = 'target="_blank" href="([^"]+)'
-        aResult = oParser.parse(sHtmlContent, sPattern)	
-        if aResult[0]:
-           for aEntry in aResult[1]:
-        
-                url = aEntry
-                oRequestHandler = cRequestHandler(url)
-                sHtmlContent = oRequestHandler.request()
-                St=requests.Session()
-
-                sPattern = 'class="downloadiframe" src="([^"]+)'
-                aResult = oParser.parse(sHtmlContent, sPattern)
-                if aResult[0]:
-                    for aEntry in aResult[1]:
-            
-                        url = aEntry   
-                        cook = oRequestHandler.GetCookies()
-                        hdr = {'Sec-Fetch-Mode' : 'navigate','Cookie' : cook,'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.58','Referer' : URL_MAIN}
-                        sHtmlContent = St.get(url,headers=hdr)
-                        sHtmlContent = sHtmlContent.content.decode('utf8')
-               
-                        sPattern = '<li class="episodesengl"><a href="([^"]+)">(.+?)<em>(.+?)</em>'
-                        aResult = oParser.parse(sHtmlContent, sPattern)
-                        if aResult[0]:
-                            for aEntry in aResult[1]:
-            
-                                url = aEntry[0]
-                                dqual = aEntry[1]
-                                qual = aEntry[2]
-                                sHosterUrl = url
-
-                                sTitle = ('%s %s [COLOR coral](%s)[/COLOR]') % (sMovieTitle, dqual, qual)
-                                oHoster = cHosterGui().checkHoster(sHosterUrl)
-                                if oHoster:
-                                    sDisplayTitle = sTitle
-                                    oHoster.setDisplayName(sDisplayTitle)
-                                    oHoster.setFileName(sMovieTitle)
-                                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
-
-    oGui.setEndOfDirectory()
-
 def showHosters(oInputParameterHandler = False):
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
@@ -656,6 +547,8 @@ def showHosters(oInputParameterHandler = False):
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
 
+    if 'movie' in sUrl:
+        sUrl = sUrl.rsplit("/",1)[0] + '/single-movie?watch=1'
     oParser = cParser()
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -664,120 +557,52 @@ def showHosters(oInputParameterHandler = False):
     if sMain:
         URL_MAIN = sMain
 
-    sPattern =  '<a href="/movie(.+?)">' 
-    aResult = oParser.parse(sHtmlContent,sPattern)
-    if aResult[0] is True:
-        murl = URL_MAIN+'movie'+aResult[1][0] 
-    
-    import requests
-    s = requests.Session()            
-    headers = {'user-agent': 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1',
-							'referer': Quote(murl)}
-    r = s.get(murl, headers=headers)
-    sHtmlContent = r.content.decode('utf8')
-    oRequestHandler = cRequestHandler(murl)
-    cook = oRequestHandler.GetCookies()
-          
-    sPattern =  'name="codes" value="([^"]+)' 
+    sPattern =  '<span id="loader" class="loader hidden">.+?href="([^"]+)' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0]:
-        mcode = aResult[1][0] 
-        ncode = 'codes'
+        mshort = aResult[1][0] 
 
-    sPattern =  'name="code" value="([^"]+)' 
+    oRequestHandler = cRequestHandler(mshort)
+    oRequestHandler.addHeaderEntry('User-Agent', UA)
+    oRequestHandler.addHeaderEntry('Referer', sUrl.encode("utf-8"))
+    oRequestHandler.addHeaderEntry('Host', "shoffree.net")
+    sHtmlContent = oRequestHandler.request()
+
+    sPattern =  'name="key" value="([^"]+)' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0]:
-        mcode = aResult[1][0]
-        ncode = 'code' 
+        mkey = aResult[1][0]
 
-    sPattern =  '<form action="(.+?)" method="post">' 
-    aResult = oParser.parse(sHtmlContent,sPattern)
+    oRequestHandler = cRequestHandler(sUrl.encode("utf-8"))
+    oRequestHandler.addHeaderEntry('User-Agent', UA)
+    oRequestHandler.addHeaderEntry('Referer', mshort)
+    oRequestHandler.addHeaderEntry('Host', "shoffree.net")
+    oRequestHandler.addParameters('key', mkey)
+    oRequestHandler.setRequestType(1)
+    sHtmlContent = oRequestHandler.request()
+
+    sPattern = 'data-embed="([^"]+)'
+    aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
-        murl2 = aResult[1][0] 
+        for aEntry in aResult[1]:
+            if 'http' not in aEntry:
+                continue          
+            url = aEntry
+            if 'role/' in url:
+                xcode = url.rsplit("/",2)[1]
+                url = f'https://r.site-panel.click/stream/{xcode}/episode?role=' + "|Referer=" + URL_MAIN
 
-        import requests
-        s = requests.Session()            
-        headers = {'user-agent': 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1',
-							'origin': URL_MAIN,
-							'referer': murl}
-        data = {ncode:mcode, 'submit':'submit'}
-        r = s.post(murl2,data = data)
-        sHtmlContent = r.content.decode('utf8')
-   
-        sPattern = '"iframe_a" href="(.+?)"><div'
-        aResult = oParser.parse(sHtmlContent, sPattern)
-        if aResult[0] is True:
-           for aEntry in aResult[1]:
-               if 'http' not in aEntry:
-                    continue          
-               url = aEntry
-               sThumb = sThumb
-               if url.startswith('//'):
-                  url = 'http:' + url
-               oRequest = cRequestHandler(url)
-               oRequest.addHeaderEntry('Referer',URL_MAIN)
-               sHtmlContent1 = oRequest.request()
+            sHosterUrl = url
+            if 'userload' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+            if 'shoffree' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + sUrl
+            if 'mystream' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN    
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if oHoster != False:
+                oHoster.setDisplayName(sMovieTitle)
+                oHoster.setFileName(sMovieTitle)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
-               oParser = cParser()
-               sPattern = 'name="iframe_a".+?src="([^"]+)'
-               aResult = oParser.parse(sHtmlContent1, sPattern)
-
-               if aResult[0]:
-                    url = aResult[1][0]
-               if 'stream' in url:
-                   continue            
-               sHosterUrl = url
-               if 'userload' in sHosterUrl:
-                  sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-               if 'shoffree' in sHosterUrl:
-                  sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-               if 'mystream' in sHosterUrl:
-                  sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN    
-               oHoster = cHosterGui().checkHoster(sHosterUrl)
-               if oHoster != False:
-                  oHoster.setDisplayName(sMovieTitle)
-                  oHoster.setFileName(sMovieTitle)
-                  cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
-
-        sPattern = 'target="_blank" href="([^"]+)'
-        oParser = cParser()
-        aResult = oParser.parse(sHtmlContent, sPattern)
-        if aResult[0]:
-           for aEntry in aResult[1]:
-        
-                url = aEntry
-                oRequestHandler = cRequestHandler(url)
-                sHtmlContent = oRequestHandler.request()
-                St=requests.Session()
-
-                sPattern = 'class="downloadiframe" src="([^"]+)'
-                aResult = oParser.parse(sHtmlContent, sPattern)
-                if aResult[0]:
-                    for aEntry in aResult[1]:
-            
-                        url = aEntry   
-                        
-                        cook = oRequestHandler.GetCookies()
-                        hdr = {'Sec-Fetch-Mode' : 'navigate','Cookie' : cook,'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.58','Referer' : URL_MAIN}
-                        sHtmlContent = St.get(url,headers=hdr)
-                        sHtmlContent = sHtmlContent.content.decode('utf8')
-               
-                        sPattern = '<li class="episodesengl"><a href="([^"]+)">(.+?)<em>(.+?)</em>'
-                        aResult = oParser.parse(sHtmlContent, sPattern)
-                        if aResult[0]:
-                            for aEntry in aResult[1]:
-            
-                                url = aEntry[0]
-                                dqual = aEntry[1]
-                                qual = aEntry[2]
-                                sHosterUrl = url
-
-                                sTitle = ('%s %s [COLOR coral](%s)[/COLOR]') % (sMovieTitle, dqual, qual)
-                                oHoster = cHosterGui().checkHoster(sHosterUrl)
-                                if oHoster:
-                                    sDisplayTitle = sTitle
-                                    oHoster.setDisplayName(sDisplayTitle)
-                                    oHoster.setFileName(sMovieTitle)
-                                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
-                                    
     oGui.setEndOfDirectory()

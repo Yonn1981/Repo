@@ -4,7 +4,6 @@
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.hosters.hoster import iHoster
 from resources.lib.comaddon import VSlog
-from resources.lib.util import Unquote
 import re
 import requests
 import base64
@@ -41,8 +40,6 @@ class cHoster(iHoster):
                   if '/' in sID:
                      sID = sID.split('/')[0]
                sLink= 'https://'+sHost+'/'+sID     
-  
-               api_call = Unquote(self._url2)  
 
                Sgn=requests.Session()
                headers = {

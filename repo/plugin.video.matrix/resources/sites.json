@@ -19,7 +19,7 @@
         "akoam": {
             "label": "Akoam",
             "active": "True",
-            "url": "https://akw.to/old/"
+            "url": "https://akw.sv/old/"
         },
         "akwam": {
             "label": "Akwam",
@@ -163,7 +163,7 @@
         },
         "cimaking": {
             "label": "CimaKing",
-            "active": "True",
+            "active": "False",
             "url": "https://cimaking.com/"
         },
         "cimalek": {
@@ -343,13 +343,13 @@
         "koralive": {
             "label": "Koralive",
             "active": "True",
-            "url": "https://online.360kora.org/",
-            "url2": "https://stad.alkoora-live.live/"
+            "url": "https://1online.360kora.org/",
+            "url2": "https://ww.alkoora-live.live/"
         },
         "laroza": {
             "label": "Laroza",
             "active": "True",
-            "url": "https://wwv.laroza.co/"
+            "url": "https://g.laroza.net/"
         },
         "linkbox": {
             "label": "Telebox",
@@ -359,7 +359,7 @@
         "livetv": {
             "label": "Live TV",
             "active": "True",
-            "url": "https://livetv765.me/"
+            "url": "https://livetv767.me/"
         },
         "lodynet": {
             "label": "Lodynet",
@@ -410,7 +410,7 @@
         "shoffree": {
             "label": "Shoffree",
             "active": "True",
-            "url": "https://shoffree.top/"
+            "url": "https://shoffree.net/"
         },
         "shooflive": {
             "label": "Shooflive",

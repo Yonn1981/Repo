@@ -9,12 +9,13 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
+from resources.lib import random_ua
  
 SITE_IDENTIFIER = 'cinemana'
 SITE_NAME = 'Cinemana'
 SITE_DESC = 'arabic vod'
 
-UA = 'Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.5615.48 Mobile Safari/537.36'
+UA = random_ua.get_ua()
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
@@ -351,7 +352,7 @@ def showHosters(oInputParameterHandler = False):
     oRequestHandler = cRequestHandler(sUrl)
     oRequestHandler.addHeaderEntry('User-Agent', UA)
     sHtmlContent = oRequestHandler.request()
- 
+    
     sPattern = '<a data-like="likeCount" data-id="([^"]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)   
     if aResult[0]:
@@ -363,13 +364,15 @@ def showHosters(oInputParameterHandler = False):
     if aResult[0]:
         for aEntry in aResult[1]:
 
-            sTitle = 'server '
-            siteUrl = URL_MAIN + 'wp-content/themes/EEE/Inc/Ajax/Single/Server.php'
-            hdr = {'User-Agent' : 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:66.0) Gecko/20100101 Firefox/66.0','referer' : URL_MAIN}
-            params = {'post_id':sId,'server':aEntry}
-            St=requests.Session()
-            sdata = St.post(siteUrl,headers=hdr,data=params)
-            sHtmlContent = sdata.content
+            cook = oRequestHandler.GetCookies()
+            oRequestHandler = cRequestHandler(URL_MAIN + 'wp-content/themes/EEE/Inc/Ajax/Single/Server.php')
+            oRequestHandler.addHeaderEntry('User-Agent', UA)
+            oRequestHandler.addHeaderEntry('Referer', URL_MAIN)
+            oRequestHandler.addHeaderEntry('cookie', cook)
+            oRequestHandler.addParameters('post_id', sId)
+            oRequestHandler.addParameters('server', aEntry)
+            oRequestHandler.setRequestType(1)
+            sHtmlContent = oRequestHandler.request()
 
             sPattern =  '<iframe.+?src="([^"]+)"'
             aResult = oParser.parse(sHtmlContent, sPattern)
