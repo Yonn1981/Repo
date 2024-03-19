@@ -2,7 +2,6 @@
 # zombi https://github.com/zombiB/zombi-addons/
 
 import re
-import requests
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -12,7 +11,10 @@ from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
 from resources.lib.util import Quote
 from resources.lib.comaddon import progress, siteManager
- 
+from resources.lib import random_ua
+
+UA = random_ua.get_ua()
+
 SITE_IDENTIFIER = 'arabseed'
 SITE_NAME = 'Arabseed'
 SITE_DESC = 'arabic vod'
@@ -142,7 +144,6 @@ def showSeriesSearch():
         return
 			
 def showMovies(sSearch = ''):
-    import requests
     oGui = cGui()
 
     oParser = cParser()
@@ -161,20 +162,21 @@ def showMovies(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-    s = requests.Session()            
-    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
-							'Referer': Quote(sUrl)}
-    r = s.post(sUrl, headers=headers)
-    sHtmlContent = r.content.decode('utf8')
-    
+    oRequestHandler = cRequestHandler(sUrl)
+    oRequestHandler.addHeaderEntry('User-Agent', UA)
+    oRequestHandler.addHeaderEntry('Referer', Quote(sUrl))
+    oRequestHandler.setRequestType(1)
+    sHtmlContent = oRequestHandler.request()
+  
     if sSearch:
-       s = requests.Session()            
-       headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
-							'Referer': Quote(sUrl)}
-       psearch = sUrl.split('?find=')[1]
-       data = {'search':psearch,'type':'movies'}
-       r = s.post(URL_MAIN2 + '/wp-content/themes/Elshaikh2021/Ajaxat/SearchingTwo.php', headers=headers,data = data)
-       sHtmlContent = r.content.decode('utf8')
+        psearch = sUrl.split('?find=')[1]
+        oRequestHandler = cRequestHandler(URL_MAIN2 + '/wp-content/themes/Elshaikh2021/Ajaxat/SearchingTwo.php')
+        oRequestHandler.addHeaderEntry('User-Agent', UA)
+        oRequestHandler.addHeaderEntry('Referer', Quote(sUrl))
+        oRequestHandler.addParameters('search', psearch)
+        oRequestHandler.addParameters('type', 'movies')
+        oRequestHandler.setRequestType(1)
+        sHtmlContent = oRequestHandler.request()
 
     sPattern = '</div><a href="(.+?)">.+?data-src="([^"]+)".+?alt="(.+?)">'
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -335,23 +337,25 @@ def showSeries(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-    s = requests.Session()            
-    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
-							'Referer': Quote(sUrl)}
-    r = s.post(sUrl, headers=headers)
-    sHtmlContent = r.content.decode('utf8')
+    oRequestHandler = cRequestHandler(sUrl)
+    oRequestHandler.addHeaderEntry('User-Agent', UA)
+    oRequestHandler.addHeaderEntry('Referer', Quote(sUrl))
+    oRequestHandler.setRequestType(1)
+    sHtmlContent = oRequestHandler.request()
+  
+    if sSearch:
+        psearch = sUrl.split('?find=')[1]
+        oRequestHandler = cRequestHandler(URL_MAIN2 + '/wp-content/themes/Elshaikh2021/Ajaxat/SearchingTwo.php')
+        oRequestHandler.addHeaderEntry('User-Agent', UA)
+        oRequestHandler.addHeaderEntry('Referer', Quote(sUrl))
+        oRequestHandler.addParameters('search', psearch)
+        oRequestHandler.addParameters('type', 'series')
+        oRequestHandler.setRequestType(1)
+        sHtmlContent = oRequestHandler.request()
 
-    if sSearch:    
-       headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
-							'Referer': Quote(sUrl)}
-       psearch = sUrl.rsplit('?find=', 1)[1]
-       data = {'search':psearch,'type':'series'}
-       r = s.post(URL_MAIN2 + '/wp-content/themes/Elshaikh2021/Ajaxat/SearchingTwo.php', headers=headers,data = data)
-       sHtmlContent = r.content.decode('utf8',errors='ignore')
-
-       sPattern = '<div class="Movie.+?">.+?<a href="([^<]+)">.+?data-image="([^<]+)" alt="([^<]+)">'
+        sPattern = '<div class="Movie.+?">.+?<a href="([^<]+)">.+?data-image="([^<]+)" alt="([^<]+)">'
     else:
-       sPattern = '</div><a href="(.+?)">.+?data-src="([^"]+)".+?alt="(.+?)">'
+        sPattern = '</div><a href="(.+?)">.+?data-src="([^"]+)".+?alt="(.+?)">'
 
     aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
@@ -410,11 +414,13 @@ def showSeasons():
             pseason = aEntry[1]
             post = aEntry[0]
 
-            s = requests.Session()            
-            headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0'}
-            data = {'post_id':post,'season':pseason}
-            r = s.post(URL_MAIN + '/wp-content/themes/Elshaikh2021/Ajaxat/Single/Episodes.php', headers=headers,data = data)
-            sHtmlContent = r.content.decode('utf8',errors='ignore')
+            oRequestHandler = cRequestHandler(URL_MAIN + '/wp-content/themes/Elshaikh2021/Ajaxat/Single/Episodes.php')
+            oRequestHandler.addHeaderEntry('User-Agent', UA)
+            oRequestHandler.addParameters('post_id', post)
+            oRequestHandler.addParameters('season', pseason)
+            oRequestHandler.setRequestType(1)
+            sHtmlContent = oRequestHandler.request()
+
             sPattern = 'href="([^<]+)">([^<]+)<em>([^<]+)</em>'
             aResult = oParser.parse(sHtmlContent, sPattern)
             if aResult[0] is True:
@@ -587,18 +593,16 @@ def showLinks():
 
     sQual ='old'
 
-    headers = {
-            'x-requested-with':'XMLHttpRequest',
-            'user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
-            'origin':sMain,
-            'referer':sMain+'/'}
-        
-    payload= {'post_id':dPost,
-            'server':sServer,
-            'qu':sQual}
-        
-    response = requests.request("POST", sMain + "/wp-content/themes/Elshaikh2021/Ajaxat/Single/Server.php", headers=headers, data=payload)
-    sHtmlContent = response.text
+    oRequestHandler = cRequestHandler(sMain + "/wp-content/themes/Elshaikh2021/Ajaxat/Single/Server.php")
+    oRequestHandler.addHeaderEntry('x-requested-with', 'XMLHttpRequest')
+    oRequestHandler.addHeaderEntry('User-Agent', UA)
+    oRequestHandler.addHeaderEntry('Referer', sMain+'/')
+    oRequestHandler.addHeaderEntry('Origin', sMain)
+    oRequestHandler.addParameters('post_id', dPost)
+    oRequestHandler.addParameters('server', sServer)
+    oRequestHandler.addParameters('qu', sQual)
+    oRequestHandler.setRequestType(1)
+    sHtmlContent = oRequestHandler.request()
 
     sPattern = 'src="([^"]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -619,18 +623,16 @@ def showLinks():
     else:
         for sQual in ('1080', '720', '480'):
 
-            headers = {
-                'x-requested-with':'XMLHttpRequest',
-                'user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
-                'origin':sMain,
-                'referer':sMain+'/'}
-        
-            payload= {'post_id':dPost,
-                'server':sServer,
-                'qu':sQual}
-        
-            response = requests.request("POST", sMain + "/wp-content/themes/Elshaikh2021/Ajaxat/Single/Server.php", headers=headers, data=payload)
-            sHtmlContent = response.text
+            oRequestHandler = cRequestHandler(sMain + "/wp-content/themes/Elshaikh2021/Ajaxat/Single/Server.php")
+            oRequestHandler.addHeaderEntry('x-requested-with', 'XMLHttpRequest')
+            oRequestHandler.addHeaderEntry('User-Agent', UA)
+            oRequestHandler.addHeaderEntry('Referer', sMain+'/')
+            oRequestHandler.addHeaderEntry('Origin', sMain)
+            oRequestHandler.addParameters('post_id', dPost)
+            oRequestHandler.addParameters('server', sServer)
+            oRequestHandler.addParameters('qu', sQual)
+            oRequestHandler.setRequestType(1)
+            sHtmlContent = oRequestHandler.request()
 
             sPattern = 'src="([^"]+)'
             aResult = oParser.parse(sHtmlContent, sPattern)

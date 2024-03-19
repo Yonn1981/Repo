@@ -1,10 +1,10 @@
 ﻿# -*- coding: utf-8 -*-
 # zombi https://github.com/zombiB/zombi-addons/
 # Yonn1981 https://github.com/Yonn1981/Repo
-# big thx to Rgysoft for this code
-# From this url https://gitlab.com/Rgysoft/iptv-host-e2iplayer/-/blob/master/IPTVPlayer/tsiplayer/host_faselhd.py
-#############################################################
-	
+# big thx to Rgysoft
+
+import re
+import base64	
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -12,14 +12,13 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
-import re
-import base64
+from resources.lib import random_ua
+
+UA = random_ua.get_phone_ua()
 
 SITE_IDENTIFIER = 'cimanow'
 SITE_NAME = 'CimaNow'
 SITE_DESC = 'arabic vod'
-
-UA = 'Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.5615.48 Mobile Safari/537.36'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
@@ -439,7 +438,7 @@ def showServer(oInputParameterHandler = False):
 
             sTitle = 'server '
             siteUrl = URL_MAIN + '/wp-content/themes/Cima%20Now%20New/core.php?action=switch&index='+sIndex+'&id='+sId
-            hdr = {'User-Agent' : 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:66.0) Gecko/20100101 Firefox/66.0','referer' : URL_MAIN}
+            hdr = {'User-Agent' : UA,'referer' : URL_MAIN}
             params = {'action':'switch','index':sIndex,'id':sId}                
             St=requests.Session()
             sHtmlContent = St.get(siteUrl,headers=hdr,params=params)

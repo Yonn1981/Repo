@@ -10,7 +10,10 @@ from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
 from resources.lib.util import Quote
- 
+from resources.lib import random_ua
+
+UA = random_ua.get_ua()
+
 SITE_IDENTIFIER = 'arblionz'
 SITE_NAME = 'Arblionz'
 SITE_DESC = 'arabic vod'
@@ -385,7 +388,7 @@ def showEps():
     oRequestHandler = cRequestHandler(sUrl)
     cook = oRequestHandler.GetCookies()
     oRequestHandler.setRequestType(1)
-    oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
+    oRequestHandler.addHeaderEntry('User-Agent', UA)
     oRequestHandler.addHeaderEntry('Cookie', cook)
     oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
     oRequestHandler.addHeaderEntry('origin', "arlionztv.click")
@@ -434,7 +437,7 @@ def showHosters(oInputParameterHandler = False):
     oRequestHandler = cRequestHandler(siteUrl)
     cook = oRequestHandler.GetCookies()
     oRequestHandler.setRequestType(1)
-    oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
+    oRequestHandler.addHeaderEntry('User-Agent', UA)
     oRequestHandler.addHeaderEntry('Cookie', cook)
     oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
     oRequestHandler.addHeaderEntry('Referer', Quote(sUrl))
@@ -450,7 +453,7 @@ def showHosters(oInputParameterHandler = False):
             oRequestHandler = cRequestHandler(link)
             cook = oRequestHandler.GetCookies()
             oRequestHandler.setRequestType(1)
-            oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
+            oRequestHandler.addHeaderEntry('User-Agent', UA)
             oRequestHandler.addHeaderEntry('origin', "arlionztv.click")
             oRequestHandler.addHeaderEntry('Cookie', cook)
             oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
@@ -479,7 +482,7 @@ def showHosters(oInputParameterHandler = False):
     oRequestHandler = cRequestHandler(siteUrl)
     cook = oRequestHandler.GetCookies()
     oRequestHandler.setRequestType(1)
-    oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
+    oRequestHandler.addHeaderEntry('User-Agent', UA)
     oRequestHandler.addHeaderEntry('Cookie', cook)
     oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
     oRequestHandler.addHeaderEntry('Referer', Quote(sUrl))

@@ -1,6 +1,6 @@
 ﻿# -*- coding: utf-8 -*-
 
-import re, requests
+import re
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -8,6 +8,9 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
+from resources.lib import random_ua
+
+UA = random_ua.get_ua()
 
 SITE_IDENTIFIER = 'cimaclub'
 SITE_NAME = 'CimaClub'
@@ -34,8 +37,6 @@ URL_SEARCH_MOVIES = (URL_MAIN + 'search?s=%D9%81%D9%8A%D9%84%D9%85+', 'showMovie
 URL_SEARCH_SERIES = (URL_MAIN + 'search?s=', 'showSerie')
 URL_SEARCH_MISC = (URL_MAIN + 'search?s=', 'showSerie')
 FUNCTION_SEARCH = 'showMovies'
-
-UA = 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36 Edg/120.0.0.0'
 
 def load():
     oGui = cGui()
@@ -315,14 +316,15 @@ def showEpisodes():
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
 
-    s = requests.Session()            
-    headers = {'user-agent': UA,
-                        'referer': URL_MAIN,
-                        'Accept': '*/*'}
-
-    data = {'_action':'GetSeasonEp','_season':sSeason,'_S':dataS,'_B':dataB}
-    r = s.get(f'{URL_MAIN}ajaxCenter?_action=GetSeasonEp&_season={sSeason}&_S={dataS}&_B={dataB}', headers=headers,data = data)
-    sHtmlContent = r.text
+    oRequestHandler = cRequestHandler(f'{URL_MAIN}ajaxCenter?_action=GetSeasonEp&_season={sSeason}&_S={dataS}&_B={dataB}')
+    oRequestHandler.addHeaderEntry('Accept', '*/*')
+    oRequestHandler.addHeaderEntry('User-Agent', UA)
+    oRequestHandler.addHeaderEntry('Referer', sUrl.encode('utf-8'))
+    oRequestHandler.addParameters('_action', 'GetSeasonEp')
+    oRequestHandler.addParameters('_season', sSeason)
+    oRequestHandler.addParameters('_S', dataS)
+    oRequestHandler.addParameters('_B', dataB)
+    sHtmlContent = oRequestHandler.request()
 
     aResult = re.findall('href="([^<]+)" title.+?<em>(.+?)</em>', sHtmlContent)
     if aResult:
@@ -367,7 +369,7 @@ def showServers(oInputParameterHandler = False):
 
     oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
-    oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
+    oRequestHandler.addHeaderEntry('User-Agent', UA)
     oRequestHandler.addHeaderEntry('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
     oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
     sHtmlContent = oRequestHandler.request()

@@ -9,6 +9,9 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
+from resources.lib import random_ua
+
+UA = random_ua.get_ua()
 
 SITE_IDENTIFIER = 'alfajertv'
 SITE_NAME = 'Alfajertv'
@@ -490,7 +493,6 @@ def showServer(oInputParameterHandler = False):
            nume = aEntry[2]
            dtype= aEntry[0]
            pdata = 'action=doo_player_ajax&post='+post+'&nume='+nume+'&type='+dtype
-           UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0"
 
            oRequest = cRequestHandler(pUrl)
            oRequest.setRequestType(1)
@@ -509,7 +511,7 @@ def showServer(oInputParameterHandler = False):
                for aEntry in aResult[1]:            
                    url = aEntry.replace("%2F","/").replace("%3A",":").replace("https://show.alfajertv.com/jwplayer/?source=","").replace("&type=mp4","").split("&id")[0]
                    if 'hadara.ps' in aEntry :
-                      url = url + "|Referer=" + aEntry + "&User-Agent= Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36&verifypeer=false"
+                      url = url + "|Referer=" + aEntry + "&User-Agent=" + UA + "&verifypeer=false"
                    if url.startswith('//'):
                       url = 'http:' + url
             

@@ -393,16 +393,11 @@ def showEpisodes():
     sStart = '<div class="epAll" id="epAll">'
     sEnd = '<div class="postShare">'
     sHtmlContent2 = oParser.abParse(sHtmlContent2, sStart, sEnd).replace('class="active">', ">")
-    
-    import requests
 
-    postdata = {'seasonID':postid}
-    link = URL_MAIN + '/series-ajax/?_action=get_season_list&_post_id='+postid
-    s = requests.Session() 	
-    r = s.post(link,data = postdata)
-    sHtmlContent = r.content 
-    if isMatrix(): 
-       sHtmlContent = sHtmlContent.decode('utf8',errors='ignore') 
+    oRequestHandler = cRequestHandler(URL_MAIN + '/series-ajax/?_action=get_season_list&_post_id='+postid)
+    oRequestHandler.addParameters('seasonID', postid)
+    oRequestHandler.setRequestType(1)
+    sHtmlContent = oRequestHandler.request()
 
     if sHtmlContent:
        sPattern = '<a href="([^<]+)>([^<]+)</a>' 

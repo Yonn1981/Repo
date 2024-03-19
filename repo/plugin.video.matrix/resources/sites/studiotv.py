@@ -3,7 +3,6 @@
 
 import re
 import base64
-import requests
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -13,6 +12,9 @@ from resources.lib.comaddon import VSlog, siteManager, isMatrix
 from resources.lib.parser import cParser
 from resources.lib.packer import cPacker
 from resources.lib.util import Quote
+from resources.lib import random_ua
+
+UA = random_ua.get_pc_ua()
 
 SITE_IDENTIFIER = 'studiotv'
 SITE_NAME = 'Studio2TV'
@@ -22,8 +24,6 @@ URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 SPORT_LIVE = (URL_MAIN , 'showMovies')
 
-UA = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:56.0) Gecko/20100101 Firefox/56.0'
- 
 def load():
     oGui = cGui()
 
@@ -273,9 +273,7 @@ def showHosters():
                             sHosterUrl = url.split('=')[1]
                         if '.php' in url:
                             oRequestHandler = cRequestHandler(url)
-                            St=requests.Session()
-                            oRequestHandler = cRequestHandler(url)
-                            sHtmlContent2 = St.get(url).content.decode('utf-8') 
+                            sHtmlContent2 = oRequestHandler.request()
 
                             sPattern =  "src='(.+?)' type="
                             aResult = oParser.parse(sHtmlContent2,sPattern)
@@ -333,7 +331,7 @@ def showHosters():
                         url_tmp = aEntry.replace("'","").replace('"','')
                         url = base64.b64decode(url_tmp).decode('utf8',errors='ignore')
                         sTitle = ('%s [COLOR coral](%s)[/COLOR]') % (sMovieTitle, sTitle)
-                        sHosterUrl = url+ '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" + '&Referer='+ murl
+                        sHosterUrl = url+ '|User-Agent=' + UA + '&Referer='+ murl
 
                         if 'vimeo' in sHosterUrl:
                             sHosterUrl = sHosterUrl + "|Referer=" + sUrl
@@ -348,7 +346,7 @@ def showHosters():
                 if aResult[0]:
                     for aEntry in aResult[1]:
                         url = aEntry.replace("('","").replace("')","")
-                        sHosterUrl = url+ '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" +'&Referer='+ murl 
+                        sHosterUrl = url+ '|User-Agent=' + UA +'&Referer='+ murl 
                         sMovieTitle = sMovieTitle
                         if 'vimeo' in sHosterUrl:
                             sHosterUrl = sHosterUrl + "|Referer=" + sUrl

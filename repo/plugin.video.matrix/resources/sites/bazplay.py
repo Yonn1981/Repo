@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
-#############################################################
 # Yonn1981 https://github.com/Yonn1981/Repo
-#############################################################
 
+import re
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -11,8 +10,9 @@ from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
 from resources.lib.multihost import cMegamax
-import re
-import requests
+from resources.lib import random_ua
+
+UA = random_ua.get_ua()
 
 SITE_IDENTIFIER = 'bazplay'
 SITE_NAME = 'BazPlay'
@@ -302,20 +302,20 @@ def showEps():
     sUrl0 = oInputParameterHandler.getValue('siteUrl0')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
-    St=requests.Session()
+
     oRequestHandler = cRequestHandler(sUrl0)
     sHtmlContent = oRequestHandler.request()
     oParser = cParser()
 
-    siteUrl = str(sUrl).split('?')[0]
-
     sCode = sUrl.split('seriesID=')[1]
-    cook = oRequestHandler.GetCookies()
-    hdr = {'x-requested-with' : 'XMLHttpRequest','accept' : '*/*','Authority' : 'bazplay.cc','Cookie' : cook}
-    params = {'seriesID':sCode}                
 
-    sHtmlContent = St.get(siteUrl,headers=hdr,params=params)
-    sHtmlContent = sHtmlContent.content
+    oRequestHandler = cRequestHandler(sUrl)
+    oRequestHandler.addHeaderEntry('Accept', '*/*')
+    oRequestHandler.addHeaderEntry('x-requested-with', 'XMLHttpRequest')
+    oRequestHandler.addHeaderEntry('User-Agent', UA)
+    oRequestHandler.addHeaderEntry('Referer', sUrl0.encode('utf8'))
+    oRequestHandler.addParameters('seriesID', sCode)
+    sHtmlContent = oRequestHandler.request()
 
     sPattern = 'href="([^"]+)".+?<span>(.+?)</span>'
     aResult = oParser.parse(sHtmlContent, sPattern)  
@@ -355,18 +355,14 @@ def showHosters(oInputParameterHandler = False):
             wcode = aEntry[1]
             sLink = aEntry[0]
 
-        s = requests.Session()            
-        headers = {'user-agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Mobile Safari/537.36 Edg/115.0.1901.188',
-                  'origin': 'https://bazplay.cc',
-                  'referer': URL_MAIN,
-                  'sec-fetch-dest': 'document',
-                  'sec-fetch-mode': 'navigate',
-                  'sec-fetch-site': 'cross-site',
-                  'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7'}
-
-        data = {'watch':wcode,'submit':''}
-        r = s.post(sLink, headers=headers,data = data)
-        sHtmlContent = r.content.decode('utf8')
+            oRequestHandler = cRequestHandler(sLink)
+            oRequestHandler.addHeaderEntry('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7')
+            oRequestHandler.addHeaderEntry('Referer', URL_MAIN)
+            oRequestHandler.addHeaderEntry('Origin', 'https://bazplay.cc')
+            oRequestHandler.addParameters('watch', wcode)
+            oRequestHandler.addParameters('submit', '')
+            oRequestHandler.setRequestType(1)
+            sHtmlContent = oRequestHandler.request()
 
     sPattern =  '<form method="post" action="([^"]+)".+?name="watch" value="([^"]+)' 
     aResult = oParser.parse(sHtmlContent,sPattern)
@@ -375,55 +371,51 @@ def showHosters(oInputParameterHandler = False):
             wcode = aEntry[1]
             sLink = aEntry[0]
 
-        s = requests.Session()            
-        headers = {'user-agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Mobile Safari/537.36 Edg/115.0.1901.188',
-                  'origin': 'https://bazplay.cc',
-                  'referer': URL_MAIN,
-                  'sec-fetch-dest': 'document',
-                  'sec-fetch-mode': 'navigate',
-                  'sec-fetch-site': 'cross-site',
-                  'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7'}
+            oRequestHandler = cRequestHandler(sLink)
+            oRequestHandler.addHeaderEntry('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7')
+            oRequestHandler.addHeaderEntry('Referer', URL_MAIN)
+            oRequestHandler.addHeaderEntry('Origin', 'https://bazplay.cc')
+            oRequestHandler.addParameters('watch', wcode)
+            oRequestHandler.addParameters('submit', '')
+            oRequestHandler.setRequestType(1)
+            sHtmlContent = oRequestHandler.request()
 
-        data = {'watch':wcode,'submit':''}
-        r = s.post(sLink, headers=headers,data = data)
-        sHtmlContent = r.content.decode('utf8')
-
-        sPattern = 'data-src=["\']([^"\']+)["\']'
-        aResult = oParser.parse(sHtmlContent, sPattern)
-        itemList = []
-        if aResult[0]:
-           oOutputParameterHandler = cOutputParameterHandler()
-           for aEntry in (aResult[1]):
+            sPattern = 'data-src=["\']([^"\']+)["\']'
+            aResult = oParser.parse(sHtmlContent, sPattern)
+            itemList = []
+            if aResult[0]:
+                oOutputParameterHandler = cOutputParameterHandler()
+                for aEntry in (aResult[1]):
      
-                sHosterUrl = aEntry
-                if sHosterUrl not in itemList:
-                    itemList.append(sHosterUrl)
+                    sHosterUrl = aEntry
+                    if sHosterUrl not in itemList:
+                        itemList.append(sHosterUrl)
 
-                    if 'leech' in aEntry:
-                        continue
-                    if sHosterUrl.startswith('//'):
-                        sHosterUrl = 'http:' + sHosterUrl
-                    if 'megamax' in sHosterUrl:
-                        data = cMegamax().GetUrls(sHosterUrl)
-                        if data is not False:
-                            for item in data:
-                                sHosterUrl = item.split(',')[0].split('=')[1]
-                                sQual = item.split(',')[1].split('=')[1]
-                                sLabel = item.split(',')[2].split('=')[1]
+                        if 'leech' in aEntry:
+                            continue
+                        if sHosterUrl.startswith('//'):
+                            sHosterUrl = 'http:' + sHosterUrl
+                        if 'megamax' in sHosterUrl:
+                            data = cMegamax().GetUrls(sHosterUrl)
+                            if data is not False:
+                                for item in data:
+                                    sHosterUrl = item.split(',')[0].split('=')[1]
+                                    sQual = item.split(',')[1].split('=')[1]
+                                    sLabel = item.split(',')[2].split('=')[1]
 
-                                sDisplayTitle = ('%s [COLOR coral] [%s][/COLOR][COLOR orange] - %s[/COLOR]') % (sMovieTitle, sQual, sLabel)      
-                                oOutputParameterHandler.addParameter('sHosterUrl', sHosterUrl)
-                                oOutputParameterHandler.addParameter('sQual', sQual)
-                                oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
-                                oOutputParameterHandler.addParameter('sThumb', sThumb)
+                                    sDisplayTitle = ('%s [COLOR coral] [%s][/COLOR][COLOR orange] - %s[/COLOR]') % (sMovieTitle, sQual, sLabel)      
+                                    oOutputParameterHandler.addParameter('sHosterUrl', sHosterUrl)
+                                    oOutputParameterHandler.addParameter('sQual', sQual)
+                                    oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
+                                    oOutputParameterHandler.addParameter('sThumb', sThumb)
 
-                                oGui.addLink(SITE_IDENTIFIER, 'showLinks', sDisplayTitle, sThumb, '', oOutputParameterHandler, oInputParameterHandler)
+                                    oGui.addLink(SITE_IDENTIFIER, 'showLinks', sDisplayTitle, sThumb, '', oOutputParameterHandler, oInputParameterHandler)
  
-                    oHoster = cHosterGui().checkHoster(sHosterUrl)
-                    if oHoster != False:
-                        oHoster.setDisplayName(sMovieTitle)
-                        oHoster.setFileName(sMovieTitle)
-                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                        oHoster = cHosterGui().checkHoster(sHosterUrl)
+                        if oHoster != False:
+                            oHoster.setDisplayName(sMovieTitle)
+                            oHoster.setFileName(sMovieTitle)
+                            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
     oGui.setEndOfDirectory()
 

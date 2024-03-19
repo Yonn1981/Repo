@@ -382,9 +382,6 @@ def showSeasons():
         else:
             sPage = sPage
 
-
-        St=requests.Session()
-
         sPattern =  'var selected_season = ["\']([^"\']+)["\']'
         aResult = oParser.parse(sHtmlContent,sPattern)
         if aResult[0]:
@@ -395,32 +392,41 @@ def showSeasons():
         if aResult[0]:
             _token = aResult[1][0]
 
-            data = {'_token':_token,
-                'back_rel':f'{sUrl}',
-                'username':aUser,
-                'password':aPass}
-            url = URL_MAIN+'auth/login'
-            headers = {'User-Agent': UA,
-                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
-                    'Accept-Language': 'en-US,en;q=0.9,ar;q=0.8',
-                    'Accept-Encoding': 'gzip, deflate, br',
-                    'Referer': URL_MAIN,
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'Cookie':cook}
-            r = St.post(url,data=data,headers=headers)
-            r = St.get(f'{URL_MAIN}auth/manage-profiles?back_rel={URL_MAIN}')
-            sHtmlContent = r.text
+            oRequestHandler = cRequestHandler(URL_MAIN+'auth/login')
+            oRequestHandler.addHeaderEntry('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7')
+            oRequestHandler.addHeaderEntry('accept-language', 'en-US,en;q=0.9,ar;q=0.8')
+            oRequestHandler.addHeaderEntry('User-Agent', UA)
+            oRequestHandler.addHeaderEntry('Referer', sUrl)
+            oRequestHandler.addParameters('_token', _token)
+            oRequestHandler.addParameters('back_rel', f'{sUrl}')
+            oRequestHandler.addParameters('username', aUser)
+            oRequestHandler.addParameters('password', aPass)
+            oRequestHandler.setRequestType(1)
+            sHtmlContent = oRequestHandler.request()
+
+            oRequestHandler = cRequestHandler(f'{URL_MAIN}auth/manage-profiles?back_rel={URL_MAIN}')
+            oRequestHandler.addHeaderEntry('User-Agent', UA)
+            sHtmlContent = oRequestHandler.request()
+
             sPattern =  'data-profile-id="([^"]+)' 
             aResult = oParser.parse(sHtmlContent,sPattern)
             if aResult[0]:
                 sprofile = aResult[1][0]
-            data = {'_token':_token,
-                'profile_id':sprofile,
-                'back_rel':URL_MAIN}
-            headers = {'User-Agent': UA}
-            r = St.post(f'{URL_MAIN}auth/select-profile?back_rel={URL_MAIN}', data=data,headers=headers)
-            r = St.get(f'{sUrl}?page={sPage}&season={sSeason}')
-            sHtmlContent = r.text
+            
+            oRequestHandler = cRequestHandler(f'{URL_MAIN}auth/select-profile?back_rel={URL_MAIN}')
+            oRequestHandler.addHeaderEntry('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7')
+            oRequestHandler.addHeaderEntry('accept-language', 'en-US,en;q=0.9,ar;q=0.8')
+            oRequestHandler.addHeaderEntry('User-Agent', UA)
+            oRequestHandler.addHeaderEntry('Referer', sUrl)
+            oRequestHandler.addParameters('_token', _token)
+            oRequestHandler.addParameters('profile_id', sprofile)
+            oRequestHandler.addParameters('back_rel', URL_MAIN)
+            oRequestHandler.setRequestType(1)
+            sHtmlContent = oRequestHandler.request()
+
+            oRequestHandler = cRequestHandler(f'{sUrl}?page={sPage}&season={sSeason}')
+            oRequestHandler.addHeaderEntry('User-Agent', UA)
+            sHtmlContent = oRequestHandler.request()
 
         sPattern = '<div class="item info">.+?<a href="([^"]+)".+?data-src="([^"]+)".+?<h3>(.+?)</h3>'
         aResult = oParser.parse(sHtmlContent, sPattern)	
@@ -460,7 +466,6 @@ def showSeasons():
 
 def showEps():
     oGui = cGui()
-    addons = addon()
    
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -468,59 +473,10 @@ def showEps():
     sThumb = oInputParameterHandler.getValue('sThumb')
     sPage = oInputParameterHandler.getValue('sPage')
 
-    aUser = addons.getSetting('hoster_awaan_username')
-    aPass = addons.getSetting('hoster_awaan_password')
-
     oParser = cParser()
     oRequestHandler = cRequestHandler(sUrl)
+    oRequestHandler.addHeaderEntry('User-Agent', UA)
     sHtmlContent = oRequestHandler.request()
-    cook = oRequestHandler.GetCookies()
-
-
-    if sPage is False:
-        sPage = '1'
-    else:
-        sPage = sPage
-
-
-    St=requests.Session()
-
-    sPattern =  'var selected_season = ["\']([^"\']+)["\']'
-    aResult = oParser.parse(sHtmlContent,sPattern)
-    if aResult[0]:
-        sSeason = aResult[1][0]
-
-    sPattern =  '_token: ["\']([^"\']+)["\']'
-    aResult = oParser.parse(sHtmlContent,sPattern)
-    if aResult[0]:
-        _token = aResult[1][0]
-
-        data = {'_token':_token,
-                'back_rel':f'{sUrl}',
-                'username':aUser,
-                'password':aPass}
-        url = URL_MAIN+'auth/login'
-        headers = {'User-Agent': UA,
-                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
-                    'Accept-Language': 'en-US,en;q=0.9,ar;q=0.8',
-                    'Accept-Encoding': 'gzip, deflate, br',
-                    'Referer': URL_MAIN,
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'Cookie':cook}
-        r = St.post(url,data=data,headers=headers)
-        r = St.get(f'{URL_MAIN}auth/manage-profiles?back_rel={URL_MAIN}')
-        sHtmlContent = r.text
-        sPattern =  'data-profile-id="([^"]+)' 
-        aResult = oParser.parse(sHtmlContent,sPattern)
-        if aResult[0]:
-                sprofile = aResult[1][0]
-        data = {'_token':_token,
-                'profile_id':sprofile,
-                'back_rel':URL_MAIN}
-        headers = {'User-Agent': UA}
-        r = St.post(f'{URL_MAIN}auth/select-profile?back_rel={URL_MAIN}', data=data,headers=headers)
-        r = St.get(f'{sUrl}?page={sPage}&season={sSeason}')
-        sHtmlContent = r.text
 
     sPattern = '<div class="item info">.+?<a href="([^"]+)".+?data-src="([^"]+)".+?<h3>(.+?)</h3>'
     aResult = oParser.parse(sHtmlContent, sPattern)	
@@ -588,7 +544,6 @@ def showHosters():
     aUser = addons.getSetting('hoster_awaan_username')
     aPass = addons.getSetting('hoster_awaan_password')
 
-    import requests
     St=requests.Session()
 
     sPattern =  '<div class="show_bottom_row">.+?<a href="([^"]+)" class="btn watch-now play">'
@@ -603,32 +558,33 @@ def showHosters():
     if aResult[0]:
         _token = aResult[1][0]
 
-        data = {'_token':_token,
+        if _token:
+            data = {'_token':_token,
                 'back_rel':f'{sUrl}',
                 'username':aUser,
                 'password':aPass}
-        url = URL_MAIN+'auth/login'
-        headers = {'User-Agent': UA,
+            url = URL_MAIN+'auth/login'
+            headers = {'User-Agent': UA,
                     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
                     'Accept-Language': 'en-US,en;q=0.9,ar;q=0.8',
                     'Accept-Encoding': 'gzip, deflate, br',
                     'Referer': URL_MAIN,
                     'Content-Type': 'application/x-www-form-urlencoded',
                     'Cookie':cook}
-        r = St.post(url,data=data,headers=headers)
-        r = St.get(f'{URL_MAIN}auth/manage-profiles?back_rel={URL_MAIN}')
-        sHtmlContent = r.text
-        sPattern =  'data-profile-id="([^"]+)' 
-        aResult = oParser.parse(sHtmlContent,sPattern)
-        if aResult[0]:
-            sprofile = aResult[1][0]
-        data = {'_token':_token,
+            r = St.post(url,data=data,headers=headers)
+            r = St.get(f'{URL_MAIN}auth/manage-profiles?back_rel={URL_MAIN}')
+            sHtmlContent = r.text
+            sPattern =  'data-profile-id="([^"]+)' 
+            aResult = oParser.parse(sHtmlContent,sPattern)
+            if aResult[0]:
+                sprofile = aResult[1][0]
+            data = {'_token':_token,
                 'profile_id':sprofile,
                 'back_rel':URL_MAIN}
-        headers = {'User-Agent': UA}
-        r = St.post(f'{URL_MAIN}auth/select-profile?back_rel={URL_MAIN}', data=data,headers=headers)
-        r = St.get(sLink)
-        sHtmlContent = r.text
+            headers = {'User-Agent': UA}
+            r = St.post(f'{URL_MAIN}auth/select-profile?back_rel={URL_MAIN}', data=data,headers=headers)
+            r = St.get(sLink)
+            sHtmlContent = r.text
             
     sPattern =  'id="iframe-tv".+?data-src="([^"]+)' 
     aResult = oParser.parse(sHtmlContent,sPattern)
@@ -639,9 +595,10 @@ def showHosters():
                 m3url = 'http:' + m3url 	
             if 'player' not in m3url:
                 continue
-    headers = {'Referer': URL_MAIN}
-    r = St.get(m3url, headers=headers)
-    sHtmlContent = r.text
+
+            headers = {'Referer': URL_MAIN}
+            r = St.get(m3url, headers=headers)
+            sHtmlContent = r.text
        
     sPattern = 'var source =.+?src: "([^"]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)

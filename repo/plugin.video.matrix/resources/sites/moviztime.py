@@ -9,12 +9,13 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
- 
+from resources.lib import random_ua
+
+UA = random_ua.get_ua()
+
 SITE_IDENTIFIER = 'moviztime'
 SITE_NAME = 'MovizTime'
 SITE_DESC = 'arabic vod'
-
-UA = 'Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.5615.48 Mobile Safari/537.36'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
@@ -302,7 +303,6 @@ def showEpisodes(oInputParameterHandler = False):
     oGui.setEndOfDirectory() 
 	 
 def showHosters2(oInputParameterHandler = False):
-    import requests
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -328,10 +328,11 @@ def showHosters2(oInputParameterHandler = False):
                 url = 'http:' + url
             if 'vidhls' in url:
                 url = url+'|Referer='+sRefer
-            import requests
             if 'hamml' in url:
-                response = requests.get(url, headers={'referer': sRefer})
-                url = response.url +'|Referer='+sRefer
+                oRequestHandler = cRequestHandler(url)
+                oRequestHandler.request()
+                sRealUrl = oRequestHandler.getRealUrl()
+                url = sRealUrl
 
             sHosterUrl = url  
             oHoster = cHosterGui().checkHoster(sHosterUrl)

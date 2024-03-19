@@ -9,7 +9,10 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
- 
+from resources.lib import random_ua
+
+UA = random_ua.get_ua()
+
 SITE_IDENTIFIER = 'daktna'
 SITE_NAME = 'Daktna'
 SITE_DESC = 'arabic vod'
@@ -209,16 +212,13 @@ def showHosters(oInputParameterHandler = False):
     if aResult[0]:
         postid = aResult[1][0] 
 
-    import requests
-    s = requests.Session()            
-    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
-							'Referer': sURL_MAIN }
-    data = {'action': 'video_info',
-			'post_id': postid }
-    m3url = sURL_MAIN+'wp-admin/admin-ajax.php?action=video_info&post_id='+postid
-    r = s.get(m3url, data=data, headers=headers)
-    sHtmlContent = r.content.decode('utf8')
-               
+    oRequestHandler = cRequestHandler(sURL_MAIN+'wp-admin/admin-ajax.php?action=video_info&post_id='+postid)
+    oRequestHandler.addHeaderEntry('User-Agent', UA)
+    oRequestHandler.addHeaderEntry('Referer', sURL_MAIN)
+    oRequestHandler.addParameters('action', 'video_info')
+    oRequestHandler.addParameters('post_id', postid)
+    sHtmlContent = oRequestHandler.request()
+             
     sPattern = '"src":"([^"]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:

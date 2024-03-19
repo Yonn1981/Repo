@@ -2,7 +2,6 @@
 # Yonn1981 https://github.com/Yonn1981/Repo
 
 import re
-import requests
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -10,7 +9,10 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
- 
+from resources.lib import random_ua
+
+UA = random_ua.get_ua()
+
 SITE_IDENTIFIER = 'topcinema'
 SITE_NAME = 'TopCinema'
 SITE_DESC = 'arabic vod'
@@ -390,7 +392,7 @@ def showLinks(oInputParameterHandler = False):
 
     oParser = cParser()
     oRequestHandler = cRequestHandler(sUrl)
-    oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
+    oRequestHandler.addHeaderEntry('User-Agent', UA)
     oRequestHandler.addHeaderEntry('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
     oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
     oRequestHandler.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
@@ -437,18 +439,18 @@ def showHosters():
     if aResult[0]:
         URL_MAIN = aResult[1][0]
 
-    s = requests.Session()            
-    headers = {'user-agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Mobile Safari/537.36 Edg/115.0.1901.203',
-    'origin': URL_MAIN,
-    'referer': URL_MAIN,
-    'Sec-Fetch-Mode':'cors',
-    'X-Requested-With':'XMLHttpRequest',
-    'Sec-Fetch-Dest':'empty',
-    'Sec-Fetch-Site':'same-origin'}
-
-    data = {'id':Sid,'i':Serv}
-    r = s.post((URL_MAIN+'/wp-content/themes/movies2023/Ajaxat/Single/Server.php'),data=data,headers=headers)
-    sHtmlContent = r.content
+    oRequestHandler = cRequestHandler(URL_MAIN+'/wp-content/themes/movies2023/Ajaxat/Single/Server.php')
+    oRequestHandler.addHeaderEntry('Sec-Fetch-Mode', 'cors')
+    oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
+    oRequestHandler.addHeaderEntry('Sec-Fetch-Dest', 'empty')
+    oRequestHandler.addHeaderEntry('Sec-Fetch-Site', 'same-origin')
+    oRequestHandler.addHeaderEntry('User-Agent', UA)
+    oRequestHandler.addHeaderEntry('Referer', URL_MAIN)
+    oRequestHandler.addHeaderEntry('Origin', URL_MAIN)
+    oRequestHandler.addParameters('id', Sid)
+    oRequestHandler.addParameters('i', Serv)
+    oRequestHandler.setRequestType(1)
+    sHtmlContent = oRequestHandler.request()
 
     sPattern = '<iframe src="([^"]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)

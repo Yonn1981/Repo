@@ -10,7 +10,10 @@ from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
 from resources.lib.multihost import cMegamax
- 
+from resources.lib import random_ua
+
+UA = random_ua.get_ua()
+
 SITE_IDENTIFIER = 'tuktukcinema'
 SITE_NAME = 'Tuktukcinema'
 SITE_DESC = 'arabic vod'
@@ -410,7 +413,6 @@ def showEpisodes():
  
 			sTitle = "E"+aEntry[1].replace("E ","E")
 			sTitle = sMovieTitle+sTitle
-			VSlog(sTitle)
 			siteUrl = aEntry[0]
 			sThumb = ""
 			sDesc = ""
@@ -446,7 +448,7 @@ def showHosters(oInputParameterHandler = False):
     aResult = oParser.parse(sHtmlContent, sPattern)
     if (aResult[0]):
         sUrl = aResult[1][0]
-
+    
     oRequestHandler = cRequestHandler(sUrl)
     oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
     oRequestHandler.addHeaderEntry('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7')

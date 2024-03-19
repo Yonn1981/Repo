@@ -3,7 +3,6 @@
 
 import re
 import base64
-	
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -11,7 +10,9 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
+from resources.lib import random_ua
 
+UA = random_ua.get_ua()
 	
 SITE_IDENTIFIER = 'dramacafe'
 SITE_NAME = 'Dramacafe'
@@ -317,7 +318,7 @@ def showHosters(oInputParameterHandler = False):
     if aResult[0] is True:
         m3url = aResult[1][0]
         oRequestHandler = cRequestHandler(m3url)
-        oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
+        oRequestHandler.addHeaderEntry('User-Agent', UA)
         oRequestHandler.addHeaderEntry('referer', URL_MAIN)
         sHtmlContent = oRequestHandler.request() 
 

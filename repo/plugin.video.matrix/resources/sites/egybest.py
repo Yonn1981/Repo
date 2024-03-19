@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Yonn1981 https://github.com/Yonn1981/Repo
 
-import requests, re
+import re
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -9,6 +9,9 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
+from resources.lib import random_ua
+
+UA = random_ua.get_ua()
 
 SITE_IDENTIFIER = 'egybest'
 SITE_NAME = 'EgyBest'
@@ -591,7 +594,6 @@ def showHosters(oInputParameterHandler = False):
         rUrl = sUrl.replace(rUrl1, '')
 
     oRequestHandler = cRequestHandler(sUrl)
-    St=requests.Session()
     sHtmlContent1 = oRequestHandler.request()
 
     sMain = main_function(sHtmlContent1)
@@ -624,10 +626,13 @@ def showHosters(oInputParameterHandler = False):
                 aurl = aEntry
 
                 cook = oRequestHandler.GetCookies()
-                hdr = {'Sec-Fetch-Mode' : 'navigate','Cookie' : cook,'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.58','Referer' : rUrl}
-                sHtmlContent = St.get(aurl,headers=hdr)
-                sHtmlContent = sHtmlContent.content
-                            
+                oRequestHandler = cRequestHandler(aurl)
+                oRequestHandler.addHeaderEntry('Sec-Fetch-Mode', 'navigate')
+                oRequestHandler.addHeaderEntry('User-Agent', UA)
+                oRequestHandler.addHeaderEntry('Referer', rUrl)
+                oRequestHandler.addHeaderEntry('Cookie', cook)
+                sHtmlContent = oRequestHandler.request()
+                           
                 sPattern = '<source src="([^"]+)".+?size="([^"]+)'
                 aResult = oParser.parse(sHtmlContent, sPattern)
                 if aResult[0]:
@@ -665,11 +670,11 @@ def showHosters(oInputParameterHandler = False):
     if aResult[0] is True:
         murl2 = aResult[1][0] 
 
-        s = requests.Session()            
-        data = {'codes':mcode}
-        r = s.post(murl2,data = data)
-        sHtmlContent = r.content.decode('utf8')
-   
+        oRequestHandler = cRequestHandler(murl2)
+        oRequestHandler.addParameters('codes', mcode)
+        oRequestHandler.setRequestType(1)
+        sHtmlContent = oRequestHandler.request()
+ 
         sPattern = '"iframe_a" href="([^"]+)'
         aResult = oParser.parse(sHtmlContent, sPattern)
         if aResult[0]:
@@ -707,7 +712,6 @@ def showHosters(oInputParameterHandler = False):
                 qual = aEntry[0].split('p')[0]
                 oRequestHandler = cRequestHandler(url)
                 sHtmlContent = oRequestHandler.request()
-                St=requests.Session()
 
                 sPattern = '<iframe.+?src="([^"]+)'
                 aResult = oParser.parse(sHtmlContent, sPattern)
@@ -717,10 +721,13 @@ def showHosters(oInputParameterHandler = False):
                         url = aEntry   
                         
                         cook = oRequestHandler.GetCookies()
-                        hdr = {'Sec-Fetch-Mode' : 'navigate','Cookie' : cook,'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Mobile Safari/537.36 Edg/114.0.1823.67','Referer' : refer}
-                        sHtmlContent = St.get(url,headers=hdr)
-                        sHtmlContent = sHtmlContent.content.decode('utf8')
-               
+                        oRequestHandler = cRequestHandler(url)
+                        oRequestHandler.addHeaderEntry('Sec-Fetch-Mode', 'navigate')
+                        oRequestHandler.addHeaderEntry('User-Agent', UA)
+                        oRequestHandler.addHeaderEntry('Referer', refer)
+                        oRequestHandler.addHeaderEntry('Cookie', cook)
+                        sHtmlContent = oRequestHandler.request()
+              
                         sPattern = '<a href="([^"]+)'
                         aResult = oParser.parse(sHtmlContent, sPattern)
                         if aResult[0]:

@@ -11,7 +11,9 @@ from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, isMatrix
 from resources.lib.parser import cParser
 from resources.lib.packer import cPacker
-from resources.lib.util import cUtil
+from resources.lib import random_ua
+
+UA = random_ua.get_random_ua()
  
 SITE_IDENTIFIER = 'tvnine'
 SITE_NAME = 'Tv96'
@@ -88,7 +90,6 @@ def showLive():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
     oParser = cParser()                   
-    UA = 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1' 
 
     if 'data-embed=' in sHtmlContent :
         sPattern = 'data-embed="(.+?)">(.+?)</li>'
@@ -103,7 +104,7 @@ def showLive():
             siteUrl = aEntry[0].replace("'","")
             oRequestHandler = cRequestHandler(siteUrl)
             oRequestHandler.addHeaderEntry('Referer', sUrl)
-            oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1')
+            oRequestHandler.addHeaderEntry('User-Agent', UA)
             data = oRequestHandler.request()
 
             sPattern = 'source: "(.+?)",'
@@ -403,7 +404,6 @@ def showLive():
 
             sPattern = '<iframe src=".+?stream_url=(.+?)" height'
             aResult = oParser.parse(data, sPattern)
-            UA = 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Mobile Safari/537.36'
             if aResult[0]:
                for aEntry in aResult[1]:
             

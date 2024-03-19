@@ -11,7 +11,10 @@ from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
 from resources.lib.multihost import cMegamax
- 
+from resources.lib import random_ua
+
+UA = random_ua.get_random_ua()
+
 SITE_IDENTIFIER = 'animeup'
 SITE_NAME = 'Anime4up'
 SITE_DESC = 'arabic vod'
@@ -276,7 +279,7 @@ def showHosters(oInputParameterHandler = False):
         sDown = aResult[1][0]
 
     s = requests.Session()  
-    headers = {'User-Agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36 Edg/120.0.0.0',
+    headers = {'User-Agent': UA,
 				'Referer': URL_MAIN,
                 'Origin': URL_MAIN.rsplit('/', 1)[0],
 				'Sec-Fetch-Site': 'cross-site',

@@ -1,8 +1,6 @@
 ﻿# -*- coding: utf-8 -*-
 # zombi https://github.com/zombiB/zombi-addons/
 
-import re
-import requests
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -10,6 +8,9 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.lib.comaddon import progress, siteManager, VSlog
+from resources.lib import random_ua
+
+UA = random_ua.get_ua()
 
 SITE_IDENTIFIER = 'btolat'
 SITE_NAME = 'Btolat'
@@ -83,11 +84,11 @@ def showPackMovies():
     sHtmlContent = oRequestHandler.request()
 
     if nVIdeo:
-        s = requests.Session() 
-        headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0' }
-        data = {'VideoID':nVIdeo}
-        r = s.post(URL_MAIN+'video/LoadMore/'+nVIdeo,data=data,headers=headers)
-        sHtmlContent = r.content.decode('utf8').replace('\\','').replace('u003c','<').replace('u003e','>').replace('rn','')
+        oRequestHandler = cRequestHandler(URL_MAIN+'video/LoadMore/'+nVIdeo)
+        oRequestHandler.addHeaderEntry('User-Agent', UA)
+        oRequestHandler.addParameters('VideoID', nVIdeo)
+        oRequestHandler.setRequestType(1)
+        sHtmlContent = oRequestHandler.request().replace('\\','').replace('u003c','<').replace('u003e','>').replace('rn','').replace('u0027','"')
 
     sPattern = '<div class="categoryNewsCard.+?<a href=["\']([^"\']+)["\'].+?data-original="([^"]+)" alt="([^"]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -132,11 +133,11 @@ def showMovies():
     sHtmlContent = oRequestHandler.request()
 
     if nVIdeo:
-        s = requests.Session() 
-        headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0' }
-        data = {'VideoID':nVIdeo}
-        r = s.post(URL_MAIN+'api/video/LoadMore/'+nVIdeo,data=data,headers=headers)
-        sHtmlContent = r.content.decode('utf8').replace('\\','').replace('u003c','<').replace('u003e','>').replace('rn','').replace('u0027','"')
+        oRequestHandler = cRequestHandler(URL_MAIN+'api/video/LoadMore/'+nVIdeo)
+        oRequestHandler.addHeaderEntry('User-Agent', UA)
+        oRequestHandler.addParameters('VideoID', nVIdeo)
+        oRequestHandler.setRequestType(1)
+        sHtmlContent = oRequestHandler.request().replace('\\','').replace('u003c','<').replace('u003e','>').replace('rn','').replace('u0027','"')
 
     sPattern = '<div class="categoryNewsCard.+?<a href=["\']([^"\']+)["\'].+?data-original="([^"]+)" alt="([^"]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)

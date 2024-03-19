@@ -2,7 +2,6 @@
 # zombi https://github.com/zombiB/zombi-addons/
 
 import re	
-from resources.lib.util import Quote
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -10,6 +9,9 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
+from resources.lib import random_ua
+
+UA = random_ua.get_ua()
 
 SITE_IDENTIFIER = 'ehna'
 SITE_NAME = 'Ehna [COLOR orange]- Aflam Top -[/COLOR]'
@@ -372,7 +374,6 @@ def showMovies(sSearch = ''):
         oGui.setEndOfDirectory()
 
 def showSeries(sSearch = ''):
-    import requests
     oGui = cGui()
     if sSearch:
       sUrl = sSearch
@@ -425,7 +426,6 @@ def showSeries(sSearch = ''):
         oGui.setEndOfDirectory()  
     
 def showEps():
-    import requests
     oGui = cGui()
    
     oInputParameterHandler = cInputParameterHandler()
@@ -463,7 +463,6 @@ def showEps():
 			
 def showServer(oInputParameterHandler = False):
     oGui = cGui()
-    import requests
    
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -471,11 +470,12 @@ def showServer(oInputParameterHandler = False):
     sThumb = oInputParameterHandler.getValue('sThumb')
 
     oParser = cParser()
-    data = {'wtchBtn':''}
-    s = requests.Session()
-    r = s.post(sUrl,data = data)
-    sHtmlContent = r.content.decode('utf8') 
-  
+
+    oRequestHandler = cRequestHandler(sUrl)
+    oRequestHandler.addParameters('wtchBtn', '')
+    oRequestHandler.setRequestType(1)
+    sHtmlContent = oRequestHandler.request()
+ 
     sPattern = '<div id="embedCode">.+?<iframe.+?src="([^"]+)" frameborder='
     aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
@@ -528,7 +528,7 @@ def showServers(oInputParameterHandler = False):
 
     oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
-    oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
+    oRequestHandler.addHeaderEntry('User-Agent', UA)
     oRequestHandler.addHeaderEntry('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
     oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
     oRequestHandler.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
@@ -543,7 +543,7 @@ def showServers(oInputParameterHandler = False):
             siteUrl = sId+'&serverid='+aEntry[0]
 			
             oRequestHandler = cRequestHandler(siteUrl)
-            oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
+            oRequestHandler.addHeaderEntry('User-Agent', UA)
             oRequestHandler.addHeaderEntry('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
             oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
             oRequestHandler.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')

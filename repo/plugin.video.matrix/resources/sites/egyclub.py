@@ -1,6 +1,7 @@
 ﻿#-*- coding: utf-8 -*-
 #zombi https://github.com/zombiB/zombi-addons/
 
+import re
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -8,8 +9,9 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
-import re
-import requests
+from resources.lib import random_ua
+
+UA = random_ua.get_ua()
  
 SITE_IDENTIFIER = 'egyclub'
 SITE_NAME = 'Egyclub'
@@ -274,12 +276,13 @@ def showServers(oInputParameterHandler = False):
     if aResult[0]:
         for aEntry in aResult[1]:
 
-            siteUrl = URL_MAIN + 'wp-content/themes/Elshaikh/Inc/Ajax/Single/Server.php'
-            hdr = {'User-Agent' : 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:66.0) Gecko/20100101 Firefox/66.0','referer' : URL_MAIN}
-            params = {'id':aEntry[1],'i':aEntry[0]}
-            St=requests.Session()
-            sHtmlContent2 = St.post(siteUrl,headers=hdr,data=params)
-            sHtmlContent2 = sHtmlContent2.content
+            oRequestHandler = cRequestHandler(URL_MAIN + 'wp-content/themes/Elshaikh/Inc/Ajax/Single/Server.php')
+            oRequestHandler.addHeaderEntry('User-Agent', UA)
+            oRequestHandler.addHeaderEntry('Referer', URL_MAIN)
+            oRequestHandler.addParameters('id', aEntry[1])
+            oRequestHandler.addParameters('i', aEntry[0])
+            oRequestHandler.setRequestType(1)
+            sHtmlContent2 = oRequestHandler.request()
 
             sPattern = 'src="([^"]+)'
             aResult = oParser.parse(sHtmlContent2, sPattern)

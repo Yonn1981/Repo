@@ -1,5 +1,6 @@
-﻿import re
-import requests	
+﻿# -*- coding: utf-8 -*-
+
+import re
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -7,6 +8,9 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.lib.comaddon import progress,VSlog, siteManager, addon
+from resources.lib import random_ua
+
+UA = random_ua.get_ua()
 
 SITE_IDENTIFIER = 'nabdhlb'
 SITE_NAME = 'Nabd8lb'
@@ -143,7 +147,7 @@ def showMovies(sSearch = ''):
     oParser = cParser()      
     oRequestHandler = cRequestHandler(sUrl)
     cook = oRequestHandler.GetCookies()
-    oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36'.encode('utf-8'))
+    oRequestHandler.addHeaderEntry('User-Agent', UA)
     oRequestHandler.addHeaderEntry('Referer', sUrl.encode('utf-8'))
     oRequestHandler.addHeaderEntry('Cookie', cook.encode('utf-8'))
     oRequestHandler.addHeaderEntry('authority', 'nabd8lb.net'.encode('utf-8'))
@@ -210,7 +214,7 @@ def showSeries(sSearch = ''):
     oParser = cParser()    
     oRequestHandler = cRequestHandler(sUrl)
     cook = oRequestHandler.GetCookies()
-    oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36'.encode('utf-8'))
+    oRequestHandler.addHeaderEntry('User-Agent', UA)
     oRequestHandler.addHeaderEntry('Referer', sUrl.encode('utf-8'))
     oRequestHandler.addHeaderEntry('Cookie', cook.encode('utf-8'))
     oRequestHandler.addHeaderEntry('authority', 'nabd8lb.net'.encode('utf-8'))
@@ -279,7 +283,7 @@ def showSeasons(sSearch=''):
     oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
     cook = oRequestHandler.GetCookies()
-    oRequestHandler.addHeaderEntry('user-agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36'.encode('utf-8'))
+    oRequestHandler.addHeaderEntry('user-agent', UA)
     oRequestHandler.addHeaderEntry('cookie', cook.encode('utf-8'))
     oRequestHandler.addHeaderEntry('authority', 'nabd8lb.net'.encode('utf-8'))
     oRequestHandler.addHeaderEntry('upgrade-insecure-requests', '1')
@@ -335,7 +339,7 @@ def showEpisodes(sSearch=''):
     oParser = cParser()        
     oRequestHandler = cRequestHandler(sUrl)
     cook = oRequestHandler.GetCookies()
-    oRequestHandler.addHeaderEntry('user-agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36'.encode('utf-8'))
+    oRequestHandler.addHeaderEntry('user-agent', UA)
     oRequestHandler.addHeaderEntry('referer', Referer.encode('utf-8'))
     oRequestHandler.addHeaderEntry('cookie', cook.encode('utf-8'))
     oRequestHandler.addHeaderEntry('authority', 'nabd8lb.net'.encode('utf-8'))
@@ -405,7 +409,7 @@ def showHosters(oInputParameterHandler = False):
             url = URL_MAIN + 'wp-content/themes/vo2022/temp/ajax/iframe2.php?id=' + sID + '&video=' + sHosterID + '&serverId=' + serverId
             oRequestHandler = cRequestHandler(url)
             cook = oRequestHandler.GetCookies()
-            oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36'.encode('utf-8'))
+            oRequestHandler.addHeaderEntry('User-Agent', UA)
             oRequestHandler.addHeaderEntry('Referer', Referer.encode('utf-8'))
             oRequestHandler.addHeaderEntry('Cookie', cook.encode('utf-8'))
             oRequestHandler.addHeaderEntry('authority', 'nabd8lb.net'.encode('utf-8'))

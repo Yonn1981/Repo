@@ -11,6 +11,9 @@ from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
+from resources.lib import random_ua
+
+UA = random_ua.get_pc_ua()
 
 SITE_IDENTIFIER = 'iptv'
 SITE_NAME = '[COLOR orange]Premium IPTV[/COLOR]'
@@ -20,8 +23,6 @@ URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 URL_WEB = 'http://ugeen.live:8080/get.php?username=ugeenname&password=ugeenpassword&type=m3u_plus'
 
 TV_TV = (True, 'showMenuTV')
-
-UA = 'Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/48.0.2564.116 Chrome/48.0.2564.116 Safari/537.36'
 
 icon = 'tv.png'
 sRootArt = ''

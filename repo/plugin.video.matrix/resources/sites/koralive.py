@@ -11,7 +11,10 @@ from resources.lib.comaddon import progress, VSlog, siteManager, isMatrix
 from resources.lib.parser import cParser
 from resources.lib.packer import cPacker
 from resources.lib.util import Quote
- 
+from resources.lib import random_ua
+
+UA = random_ua.get_random_ua()
+
 SITE_IDENTIFIER = 'koralive'
 SITE_NAME = 'Koralive'
 SITE_DESC = 'arabic vod'
@@ -22,8 +25,6 @@ URL_MAIN2 = siteManager().getUrlMain2(SITE_IDENTIFIER)
 SPORT_LIVE = (URL_MAIN, 'showMovies')
 SPORT_FOOT = (URL_MAIN + 'p/videos.html', 'showVideos')
 
-UA = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:56.0) Gecko/20100101 Firefox/56.0'
- 
 def load():
     oGui = cGui()
 
@@ -325,12 +326,9 @@ def showHosters(oInputParameterHandler = False):
                     if 'm3u8' in url:           
                         sHosterUrl = url.split('=')[1]
                     if '.php' in url:
-                        import requests    
                         oRequestHandler = cRequestHandler(url)
-                        St=requests.Session()
-                        oRequestHandler = cRequestHandler(url)
-                        sHtmlContent2 = St.get(url).content.decode('utf-8') 
-                        oParser = cParser()
+                        sHtmlContent2 = oRequestHandler.request()
+
                         sPattern =  "src='(.+?)' type="
                         aResult = oParser.parse(sHtmlContent2,sPattern)
                         if aResult[0]:
@@ -426,7 +424,7 @@ def showHosters(oInputParameterHandler = False):
             if aResult[0]:
                for aEntry in aResult[1]:
                    url = aEntry.replace("('","").replace("')","")
-                   sHosterUrl = url+ '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" +'&Referer='+ murl 
+                   sHosterUrl = url+ '|User-Agent=' + UA +'&Referer='+ murl 
                    sMovieTitle = sMovieTitle
                    if 'vimeo' in sHosterUrl:
                        sHosterUrl = sHosterUrl + "|Referer=" + url
@@ -525,7 +523,7 @@ def showHosters(oInputParameterHandler = False):
 
 def Hoster_ShareCast(url, referer):
     oRequestHandler = cRequestHandler(url)
-    oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36 Edg/117.0.2045.60')
+    oRequestHandler.addHeaderEntry('User-Agent', UA)
     oRequestHandler.addHeaderEntry('Referer', referer)
     sHtmlContent = oRequestHandler.request()
     sPattern = "new Player\(.+?player\",\"([^\"]+)\",{'([^\']+)"

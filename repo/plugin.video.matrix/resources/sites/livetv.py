@@ -14,6 +14,9 @@ from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.packer import cPacker
 from resources.lib.parser import cParser
 from resources.lib.util import cUtil, Unquote
+from resources.lib import random_ua
+
+UA = random_ua.get_pc_ua()
 
 try:
     import json
@@ -238,7 +241,7 @@ def showMovies3():
 
 def showHosters():  
     oGui = cGui()
-    UA = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:56.0) Gecko/20100101 Firefox/56.0'
+
     oInputParameterHandler = cInputParameterHandler()
     sUrl4 = oInputParameterHandler.getValue('siteUrl4')
     sMovieTitle2 = oInputParameterHandler.getValue('sMovieTitle2')

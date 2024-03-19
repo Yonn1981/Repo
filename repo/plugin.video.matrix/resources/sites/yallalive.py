@@ -2,7 +2,6 @@
 # zombi https://github.com/zombiB/zombi-addons/
 
 import re
-
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -12,7 +11,10 @@ from resources.lib.comaddon import progress, VSlog, siteManager, isMatrix
 from resources.lib.parser import cParser
 from resources.lib.packer import cPacker
 from resources.lib.util import Quote
- 
+from resources.lib import random_ua
+
+UA = random_ua.get_pc_ua()
+
 SITE_IDENTIFIER = 'yallalive'
 SITE_NAME = 'Yallalive'
 SITE_DESC = 'arabic vod'
@@ -20,8 +22,6 @@ SITE_DESC = 'arabic vod'
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 SPORT_LIVE = (URL_MAIN, 'showMovies')
-
-UA = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:56.0) Gecko/20100101 Firefox/56.0'
 
 def load():
     oGui = cGui()
@@ -72,7 +72,6 @@ def showMovies():
     oGui.setEndOfDirectory()
 			
 def showHosters(oInputParameterHandler = False):
-    import requests
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -93,9 +92,10 @@ def showHosters(oInputParameterHandler = False):
         sUrl = aResult[1][0]
 
     oRequestHandler = cRequestHandler(sUrl)
-    hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Mobile Safari/537.36','Origin' : 'yallalive.id','Referer' : 'https://yallalive.id/'}
-    St=requests.Session()              
-    sHtmlContent = St.get(sUrl,headers=hdr).content.decode('utf-8')        
+    oRequestHandler.addHeaderEntry('User-Agent', UA)
+    oRequestHandler.addHeaderEntry('Referer', 'https://yallalive.id/')
+    oRequestHandler.addHeaderEntry('Origin', 'yallalive.id')
+    sHtmlContent = oRequestHandler.request()    
 
     sPattern = 'href="(.+?)" target="search_iframe">(.+?)</a>'
     aResult = oParser.parse(sHtmlContent, sPattern)   
@@ -127,7 +127,7 @@ def showHosters(oInputParameterHandler = False):
                 Referer = aEntry[0].split('live')[0]
   
             if 'amazonaws.com'  in url:
-                sHosterUrl = url + '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" + '&Referer='+url
+                sHosterUrl = url + '|User-Agent=' + UA + '&Referer='+url
             if 'vimeo' in url:
                 sHosterUrl = url + "|Referer=" + sUrl
 
@@ -204,7 +204,7 @@ def showHosters(oInputParameterHandler = False):
                    a = a.replace('\\','')
                    b = var[0][1]
                    url = 'https://video-a-sjc.xx.fbcdn.net/hvideo-ash66'+a
-            sHosterUrl = url+ '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" + '&Referer=' + URL_MAIN
+            sHosterUrl = url+ '|User-Agent=' + UA + '&Referer=' + URL_MAIN
             sMovieTitle = 'link'
             if 'vimeo' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + sUrl
@@ -219,7 +219,7 @@ def showHosters(oInputParameterHandler = False):
 
 def Hoster_ShareCast(url, referer):
     oRequestHandler = cRequestHandler(url)
-    oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36 Edg/117.0.2045.60')
+    oRequestHandler.addHeaderEntry('User-Agent', UA)
     oRequestHandler.addHeaderEntry('Referer', referer)
     sHtmlContent = oRequestHandler.request()
     sPattern = 'new Player\(.+?player","([^"]+)",{"([^"]+)'

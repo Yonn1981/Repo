@@ -9,12 +9,13 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
- 
+from resources.lib import random_ua
+
+UA = random_ua.get_phone_ua()
+
 SITE_IDENTIFIER = 'laroza'
 SITE_NAME = 'Laroza'
 SITE_DESC = 'arabic vod'
-
-UA = 'Mozilla/5.0 (iPad; CPU OS 17_1_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.1 Mobile/15E148 Safari/604.1'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 

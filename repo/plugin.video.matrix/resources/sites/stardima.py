@@ -3,7 +3,6 @@
 
 import re
 import base64
-import requests
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -12,7 +11,10 @@ from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
 from resources.lib.util import Quote
- 
+from resources.lib import random_ua
+
+UA = random_ua.get_ua()
+
 SITE_IDENTIFIER = 'stardima'
 SITE_NAME = 'Stardima'
 SITE_DESC = 'arabic vod'
@@ -76,6 +78,7 @@ def showMoviesSearch(sSearch = ''):
 
     oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
+    oRequestHandler.addHeaderEntry('User-Agent', UA)
     sHtmlContent = oRequestHandler.request()
 
     sPattern = 'class="thumbnail.+?<a href=([^<]+)>.+?data-src=(.+?)alt="(.+?)"><span class=movies>'
@@ -137,6 +140,7 @@ def showSeriesSearch(sSearch = ''):
 
     oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
+    oRequestHandler.addHeaderEntry('User-Agent', UA)
     sHtmlContent = oRequestHandler.request()
 
     sPattern = '<div class="thumbnail.+?"><a href="(.+?)"><img src="(.+?)" alt="(.+?)" /><span class="tvshows">'		
@@ -198,6 +202,7 @@ def showMovies(sSearch = ''):
 
     oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
+    oRequestHandler.addHeaderEntry('User-Agent', UA)
     sHtmlContent = oRequestHandler.request()
 
     sPattern = '<article id="post-.+?" class=.+?data-src="([^<]+)" alt="([^<]+)"><noscript><img src=".+?" alt=".+?"></noscript>.+?<a href="([^<]+)"><div'
@@ -247,6 +252,7 @@ def showSeries(sSearch = ''):
 
     oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
+    oRequestHandler.addHeaderEntry('User-Agent', UA)
     sHtmlContent = oRequestHandler.request()
 
     sPattern = '<article id="post-.+?src="(https.+?jpg)" alt="(.+?)">.+?<a href="(.+?)"><div class'
@@ -296,6 +302,7 @@ def showEpisodes():
     
     oParser = cParser()
     oRequestHandler = cRequestHandler(sUrl)
+    oRequestHandler.addHeaderEntry('User-Agent', UA)
     sHtmlContent = oRequestHandler.request()
 
     sPattern = '<img src=(.+?)></noscript>.+?numerando.+?>(.+?)</div>.+?episodiotitle.+?><a href=(.+?)>'
@@ -346,6 +353,7 @@ def showHosters(oInputParameterHandler = False):
 
     oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
+    oRequestHandler.addHeaderEntry('User-Agent', UA)
     sHtmlContent = oRequestHandler.request()
 
     shost = ''
@@ -374,37 +382,40 @@ def showHosters(oInputParameterHandler = False):
     if aResult[0]:
        for aEntry in aResult[1]: 
            
-           m3url = aEntry[1]
-           mtype = aEntry[0]
-           mnume = aEntry[2]
+            m3url = aEntry[1]
+            mtype = aEntry[0]
+            mnume = aEntry[2]
 
-           s = requests.Session()            
-           headers = {'User-Agent': 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1',
-							'cookie': cook,
-							'host': shost.split('//')[1],
-							'origin': shost,
-							'Referer': Quote(sUrl)}
-           data = {'post':m3url,'action':'doo_player_ajax','nume':mnume,'type':mtype}
-           r = s.post(hostAjax, headers=headers,data = data)
-           sHtmlContent = r.content.decode('utf8')            
+            oRequestHandler = cRequestHandler(hostAjax)
+            oRequestHandler.addHeaderEntry('cookie', cook)
+            oRequestHandler.addHeaderEntry('host', shost.split('//')[1])
+            oRequestHandler.addHeaderEntry('User-Agent', UA)
+            oRequestHandler.addHeaderEntry('Referer', Quote(sUrl))
+            oRequestHandler.addHeaderEntry('Origin', shost)
+            oRequestHandler.addParameters('post', m3url)
+            oRequestHandler.addParameters('action', 'doo_player_ajax')
+            oRequestHandler.addParameters('nume', mnume)
+            oRequestHandler.addParameters('type', mtype)
+            oRequestHandler.setRequestType(1)
+            sHtmlContent = oRequestHandler.request()          
 
-           sPattern =  '"embed_url":"(.+?)",'
-           aResult = oParser.parse(sHtmlContent, sPattern)
-           if aResult[0]:
-              for aEntry in aResult[1]: 
+            sPattern =  '"embed_url":"(.+?)",'
+            aResult = oParser.parse(sHtmlContent, sPattern)
+            if aResult[0]:
+                for aEntry in aResult[1]: 
                         
-                  url = aEntry
-                  url = base64.b64decode(url).decode("utf-8")
-                  if '/?id=' in url:
-                     url = url.split('/?id=', 1)[1]
-                  if url.startswith('//'):
-                     url = 'https:' + url
+                    url = aEntry
+                    url = base64.b64decode(url).decode("utf-8")
+                    if '/?id=' in url:
+                        url = url.split('/?id=', 1)[1]
+                    if url.startswith('//'):
+                        url = 'https:' + url
 				            
-                  sHosterUrl = url
-                  oHoster = cHosterGui().checkHoster(sHosterUrl)
-                  if oHoster:
-                      oHoster.setDisplayName(sMovieTitle)
-                      oHoster.setFileName(sMovieTitle)
-                      cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                    sHosterUrl = url
+                    oHoster = cHosterGui().checkHoster(sHosterUrl)
+                    if oHoster:
+                        oHoster.setDisplayName(sMovieTitle)
+                        oHoster.setFileName(sMovieTitle)
+                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
                 
     oGui.setEndOfDirectory()			

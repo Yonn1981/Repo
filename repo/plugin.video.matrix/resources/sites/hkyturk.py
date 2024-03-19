@@ -1,6 +1,7 @@
 ﻿# -*- coding: utf-8 -*-
 # Yonn1981 https://github.com/Yonn1981/Repo
 
+import re
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -8,8 +9,9 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
-import re
-import requests
+from resources.lib import random_ua
+
+UA = random_ua.get_ua()
 
 SITE_IDENTIFIER = 'hkyturk'
 SITE_NAME = 'HkyahTurkiya'
@@ -374,7 +376,7 @@ def showEps():
     sUrl0 = oInputParameterHandler.getValue('siteUrl0')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
-    St=requests.Session()
+
     oRequestHandler = cRequestHandler(sUrl0)
     sHtmlContent = oRequestHandler.request()
     oParser = cParser()
@@ -383,11 +385,14 @@ def showEps():
 
     sCode = sUrl.split('seriesID=')[1]
     cook = oRequestHandler.GetCookies()
-    hdr = {'x-requested-with' : 'XMLHttpRequest','accept' : '*/*','referer' : sUrl0.encode('utf-8'),'Cookie' : cook}
-    params = {'seriesID':sCode}                
-
-    sHtmlContent = St.get(siteUrl,headers=hdr,params=params)
-    sHtmlContent = sHtmlContent.content
+    oRequestHandler = cRequestHandler(sUrl)
+    oRequestHandler.addHeaderEntry('Accept', '*/*')
+    oRequestHandler.addHeaderEntry('x-requested-with', 'XMLHttpRequest')
+    oRequestHandler.addHeaderEntry('User-Agent', UA)
+    oRequestHandler.addHeaderEntry('Referer', sUrl0.encode('utf-8'))
+    oRequestHandler.addHeaderEntry('Cookie', cook)
+    oRequestHandler.addParameters('seriesID', sCode)
+    sHtmlContent = oRequestHandler.request()
 
     sPattern = 'href="([^"]+)".+?<span>(.+?)</span>'
     aResult = oParser.parse(sHtmlContent, sPattern)  

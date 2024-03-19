@@ -341,7 +341,6 @@ def showEpisodes():
     oGui.setEndOfDirectory() 
 	 
 def showHosters(oInputParameterHandler = False):
-    import requests
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')

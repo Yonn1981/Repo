@@ -19,7 +19,7 @@
         "akoam": {
             "label": "Akoam",
             "active": "True",
-            "url": "https://akw.sv/old/"
+            "url": "https://ak.sv/old/"
         },
         "akwam": {
             "label": "Akwam",
@@ -149,7 +149,7 @@
         "cimau": {
             "label": "Cima4u",
             "active": "True",
-            "url": "https://fe-w4-c4.shop/"
+            "url": "https://cima4u-cdn.c4u.ink/"
         },
         "cimaclub": {
             "label": "CimaClub",
@@ -485,8 +485,8 @@
         "wecima": {
             "label": "Wecima",
             "active": "True",
-            "url": "https://xn------nzebcaa6hd5qde3bpjch.myciima-weciima.shop/",
-            "url2": "https://weciimaa.online/"  
+            "cloudflare": "True",
+            "url": "https://wecima.in/" 
         },
         "witanime": {
             "label": "WitAnime",

@@ -296,7 +296,7 @@ def showEpisodes():
                 break
  
             sTitle = aEntry[2].replace("الحلقة "," E").replace("حلقة "," E").replace("مدبلج للعربية","مدبلج").replace("مشاهدة وتحميل","").replace("اون لاين","")
-            siteUrl = aEntry[0]
+            siteUrl = aEntry[0].replace('video/','watch/')
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + siteUrl
             if siteUrl.startswith('/'):
@@ -385,14 +385,17 @@ def showHosters(oInputParameterHandler = False):
 
     oParser = cParser()    
     oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request();
+    sHtmlContent = oRequestHandler.request()
 
-    sPattern =  "PGlmcmFt(.+?)'"
+    sPattern =  'onclick="setVideo(.+?);'
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0]:
         for aEntry in aResult[1]:
-            m3url = "PGlmcmFt" + aEntry
-            sHtmlContent2 = base64.b64decode(m3url)
+            m3url = aEntry.replace("('","").replace("')","")
+            # Try to fix string to make it decodable:
+            m3url = m3url[2:]
+
+            sHtmlContent2 = base64.b64decode(m3url).decode('ascii',errors='ignore')
    
             sPattern = 'src="(.+?)".+?allowfullscreen'
             aResult = oParser.parse(sHtmlContent2, sPattern)

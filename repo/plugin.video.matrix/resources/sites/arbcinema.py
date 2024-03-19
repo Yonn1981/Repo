@@ -11,8 +11,10 @@ from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
-from resources.lib.comaddon import progress, VSlog, isMatrix, siteManager, addon
+from resources.lib.comaddon import progress, VSlog, siteManager, addon
+from resources.lib import random_ua
 
+UA = random_ua.get_random_ua()
  
 SITE_IDENTIFIER = 'arbcinema'
 SITE_NAME = 'Arbcinema'
@@ -187,7 +189,7 @@ def showLink():
                 oGui.addLink(SITE_IDENTIFIER, 'showServer', sMovieTitle, sThumb, sDesc, oOutputParameterHandler)
             else:
                 s = requests.Session()            
-                headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0' }
+                headers = {'User-Agent': UA}
 
                 data = {'watch':'1'}
                 r = s.post(sUrl,data=data,headers=headers)
@@ -233,7 +235,7 @@ def showHosters():
     nume = oInputParameterHandler.getValue('nume')
 
     s = requests.Session()  
-    headers = {'User-Agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Mobile Safari/537.36',
+    headers = {'User-Agent': UA,
 							'Accept': '*/*',
 							'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
 							'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -283,7 +285,7 @@ def showServer(oInputParameterHandler = False):
     if (aResult[0]):
         sId = aResult[1][0]
 
-    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
+    headers = {'User-Agent': UA,
      'Accept': '*/*',
      'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',

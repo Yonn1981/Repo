@@ -1,6 +1,7 @@
 ﻿# -*- coding: utf-8 -*-
 # Yonn1981 https://github.com/Yonn1981/Repo
 
+import re
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -9,8 +10,9 @@ from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
 from resources.lib.multihost import cMegamax
-import re
-import requests
+from resources.lib import random_ua
+
+UA = random_ua.get_ua()
 
 SITE_IDENTIFIER = 'hwnaturkya'
 SITE_NAME = 'HwnaTurkya'
@@ -343,18 +345,19 @@ def showHosters(oInputParameterHandler = False):
         for aEntry in aResult[1]:
                     sServer = aEntry.replace("getPlayer('","").replace("')","")
 
-                    s = requests.Session()            
-                    headers = {'user-agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Mobile Safari/537.36 Edg/115.0.1901.188',
-                        'origin': URL_MAIN,
-                        'referer': URL_MAIN,
-                        'sec-fetch-dest': 'empty',
-                        'sec-fetch-mode': 'cors',
-                        'sec-fetch-site': 'same-origin',
-                        'Accept': '*/*'}
-
-                    data = {'server':sServer,'postID':postID,'Ajax':'1'}
-                    r = s.post(f'{URL_MAIN}ajax/getPlayer', headers=headers,data = data)
-                    sHtmlContent1 = r.content.decode('utf8')
+                    oRequestHandler = cRequestHandler(f'{URL_MAIN}ajax/getPlayer')
+                    oRequestHandler.addHeaderEntry('Accept', '*/*')
+                    oRequestHandler.addHeaderEntry('User-Agent', UA)
+                    oRequestHandler.addHeaderEntry('Referer', URL_MAIN)
+                    oRequestHandler.addHeaderEntry('Origin', URL_MAIN)
+                    oRequestHandler.addHeaderEntry('sec-fetch-dest', 'empty')
+                    oRequestHandler.addHeaderEntry('sec-fetch-mode', 'cors')
+                    oRequestHandler.addHeaderEntry('sec-fetch-site', 'same-origin')
+                    oRequestHandler.addParameters('server', sServer)
+                    oRequestHandler.addParameters('postID', postID)
+                    oRequestHandler.addParameters('Ajax', '1')
+                    oRequestHandler.setRequestType(1)
+                    sHtmlContent1 = oRequestHandler.request()
 
                     sPattern = '<IFRAME.+?SRC=["\']([^"\']+)["\']'
                     aResult = oParser.parse(sHtmlContent1, sPattern)

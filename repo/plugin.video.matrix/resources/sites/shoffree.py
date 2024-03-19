@@ -9,14 +9,13 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
-from resources.lib.util import Quote
 from resources.lib import random_ua
- 
+
+UA = random_ua.get_ua()
+
 SITE_IDENTIFIER = 'shoffree'
 SITE_NAME = 'Shoffree'
 SITE_DESC = 'arabic vod'
-
-UA = random_ua.get_ua()
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 

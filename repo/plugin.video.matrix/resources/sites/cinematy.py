@@ -9,6 +9,9 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
+from resources.lib import random_ua
+
+UA = random_ua.get_ua()
 
 SITE_IDENTIFIER = 'cinematy'
 SITE_NAME = 'Cinematy'
@@ -410,7 +413,7 @@ def showHosters():
     oParser = cParser()
     oRequestHandler = cRequestHandler(siteUrl)
     cook = oRequestHandler.GetCookies()
-    oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36'.encode('utf-8'))
+    oRequestHandler.addHeaderEntry('User-Agent', UA)
     oRequestHandler.addHeaderEntry('Referer', Referer.encode('utf-8'))
     oRequestHandler.addHeaderEntry('Cookie', cook.encode('utf-8'))
     oRequestHandler.addHeaderEntry('sec-fetch-dest', 'empty'.encode('utf-8'))

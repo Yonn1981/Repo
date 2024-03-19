@@ -2,7 +2,6 @@
 # zombi https://github.com/zombiB/zombi-addons/
 
 import re
-import requests	
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -11,6 +10,9 @@ from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, siteManager, VSlog, addon
 from resources.lib.parser import cParser
 from resources.lib.multihost import cMegamax
+from resources.lib import random_ua
+
+UA = random_ua.get_ua()
 
 SITE_IDENTIFIER = 'cimalek'
 SITE_NAME = 'Cimalek'
@@ -292,20 +294,20 @@ def showLinks(oInputParameterHandler = False):
             sHosterUrl = aEntry
 
             if 'megamax' in sHosterUrl:
-                                data = cMegamax().GetUrls(sHosterUrl)
-                                if data is not False:
-                                    for item in data:
-                                        sHosterUrl = item.split(',')[0].split('=')[1]
-                                        sQual = item.split(',')[1].split('=')[1]
-                                        sLabel = item.split(',')[2].split('=')[1]
+                data = cMegamax().GetUrls(sHosterUrl)
+                if data is not False:
+                    for item in data:
+                        sHosterUrl = item.split(',')[0].split('=')[1]
+                        sQual = item.split(',')[1].split('=')[1]
+                        sLabel = item.split(',')[2].split('=')[1]
 
-                                        sDisplayTitle = ('%s [COLOR coral] [%s][/COLOR][COLOR orange] - %s[/COLOR]') % (sMovieTitle, sQual, sLabel)      
-                                        oOutputParameterHandler.addParameter('sHosterUrl', sHosterUrl)
-                                        oOutputParameterHandler.addParameter('sQual', sQual)
-                                        oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
-                                        oOutputParameterHandler.addParameter('sThumb', sThumb)
+                        sDisplayTitle = ('%s [COLOR coral] [%s][/COLOR][COLOR orange] - %s[/COLOR]') % (sMovieTitle, sQual, sLabel)      
+                        oOutputParameterHandler.addParameter('sHosterUrl', sHosterUrl)
+                        oOutputParameterHandler.addParameter('sQual', sQual)
+                        oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
+                        oOutputParameterHandler.addParameter('sThumb', sThumb)
 
-                                        oGui.addLink(SITE_IDENTIFIER, 'showLinks2', sDisplayTitle, sThumb, '', oOutputParameterHandler, oInputParameterHandler)
+                        oGui.addLink(SITE_IDENTIFIER, 'showLinks2', sDisplayTitle, sThumb, '', oOutputParameterHandler, oInputParameterHandler)
 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
@@ -354,7 +356,7 @@ def showHosters():
                 url = 'http:' + url
 
             oRequestHandler = cRequestHandler(url)
-            oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
+            oRequestHandler.addHeaderEntry('User-Agent', UA)
             oRequestHandler.addHeaderEntry('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
             oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
             oRequestHandler.addHeaderEntry('Referer', URL_MAIN)

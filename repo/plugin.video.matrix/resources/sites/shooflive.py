@@ -2,7 +2,6 @@
 # zombi https://github.com/zombiB/zombi-addons/
 
 import re
-import requests
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -10,7 +9,10 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
- 
+from resources.lib import random_ua
+
+UA = random_ua.get_ua()
+
 SITE_IDENTIFIER = 'shooflive'
 SITE_NAME = 'Shooflive'
 SITE_DESC = 'arabic vod'
@@ -412,12 +414,13 @@ def showHosters(oInputParameterHandler = False):
     if aResult[0]:
         mId = aResult[1][0] 
 
-    s = requests.Session()            
-    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0'}
-    data = {'id':mId,'action':'getpostServers'}
-    r = s.post(sURL_MAIN +'/wp-admin/admin-ajax.php', headers=headers,data = data)
-    sHtmlContent = r.content.decode('utf8')
-            
+    oRequestHandler = cRequestHandler(sURL_MAIN +'/wp-admin/admin-ajax.php')
+    oRequestHandler.addHeaderEntry('User-Agent', UA)
+    oRequestHandler.addParameters('id', mId)
+    oRequestHandler.addParameters('action', 'getpostServers')
+    oRequestHandler.setRequestType(1)
+    sHtmlContent = oRequestHandler.request()
+           
     sPattern =  '<a class="watchNow" href="([^"]+)' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     m3url=''
@@ -425,12 +428,12 @@ def showHosters(oInputParameterHandler = False):
         m3url = aResult[1][0] 
         if m3url.startswith('//'):
            m3url = 'https:' + m3url
-       
-    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
-							'Referer': sURL_MAIN }
-    r = s.get(m3url, headers=headers)
-    sHtmlContent = r.content.decode('utf8')
-               
+
+    oRequestHandler = cRequestHandler(m3url)
+    oRequestHandler.addHeaderEntry('User-Agent', UA)
+    oRequestHandler.addHeaderEntry('Referer', sURL_MAIN)
+    sHtmlContent = oRequestHandler.request()
+              
     sPattern = 'data-src="([^"]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:

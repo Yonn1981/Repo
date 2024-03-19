@@ -10,6 +10,9 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
+from resources.lib import random_ua
+
+UA = random_ua.get_ua()
 
 SITE_IDENTIFIER = 'witanime'
 SITE_NAME = 'WitAnime'
@@ -295,7 +298,7 @@ def showHosters(oInputParameterHandler = False):
                url = 'http:' + url
             if 'yona' in url:
                     oRequestHandler = cRequestHandler(url)
-                    oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
+                    oRequestHandler.addHeaderEntry('User-Agent', UA)
                     oRequestHandler.addHeaderEntry('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
                     oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
                     oRequestHandler.addHeaderEntry('Referer', URL_MAIN)

@@ -2,7 +2,6 @@
 # zombi https://github.com/zombiB/zombi-addons/
 
 import re
-import requests
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -10,47 +9,43 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, siteManager, VSlog, addon
 from resources.lib.parser import cParser
+from resources.lib import random_ua
+
+UA = random_ua.get_ua()
  
 SITE_IDENTIFIER = 'wecima'
 SITE_NAME = 'Wecima'
 SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
-URL_MAIN2 = siteManager().getUrlMain2(SITE_IDENTIFIER)
 
-response = requests.head(URL_MAIN)
-if response.status_code == 200 or response.status_code == 302:
-    URL_MAIN = URL_MAIN
-else:
-    URL_MAIN = URL_MAIN2
-
-MOVIE_TOP = (URL_MAIN + '/movies/best/', 'showMovies')
-MOVIE_POP = (URL_MAIN + '/movies/top/', 'showMovies')
-MOVIE_CLASSIC = (URL_MAIN + '/movies/old/', 'showMovies')
-MOVIE_FAM = (URL_MAIN + '/mpaa/pg/', 'showMovies')
-MOVIE_EN = (URL_MAIN + '/category/افلام/10-movies-english-افلام-اجنبي/', 'showMovies')
+MOVIE_TOP = (URL_MAIN + 'movies/best/', 'showMovies')
+MOVIE_POP = (URL_MAIN + 'movies/top/', 'showMovies')
+MOVIE_CLASSIC = (URL_MAIN + 'movies/old/', 'showMovies')
+MOVIE_FAM = (URL_MAIN + 'mpaa/pg/', 'showMovies')
+MOVIE_EN = (URL_MAIN + 'category/افلام-movies-english-افلام-اجنبي', 'showMovies')
 MOVIE_PACK = (URL_MAIN , 'showPack')
-MOVIE_AR = (URL_MAIN + '/category/افلام/افلام-عربي-arabic-movies/', 'showMovies')
-MOVIE_TURK = (URL_MAIN + '/category/افلام/افلام-تركى-turkish-films/', 'showMovies')
-MOVIE_HI = (URL_MAIN + '/category/افلام/افلام-هندي-indian-movies/', 'showMovies')
-KID_MOVIES = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%83%d8%b1%d8%aa%d9%88%d9%86/', 'showMovies')
+MOVIE_AR = (URL_MAIN + 'category/افلام-arabic-movies-افلام-عربي', 'showMovies')
+MOVIE_TURK = (URL_MAIN + 'category/افلام/افلام-تركى-turkish-films/', 'showMovies')
+MOVIE_HI = (URL_MAIN + 'category/افلام-indian-movies-افلام-هندي', 'showMovies')
+KID_MOVIES = (URL_MAIN + 'category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%83%d8%b1%d8%aa%d9%88%d9%86/', 'showMovies')
 
-RAMADAN_SERIES = (URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b1%d9%85%d8%b6%d8%a7%d9%86-2023-series-ramadan-2023/list/', 'showSeries')
+RAMADAN_SERIES = (URL_MAIN + 'category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b1%d9%85%d8%b6%d8%a7%d9%86-2023-series-ramadan-2023/list/', 'showSeries')
 
-SERIE_AR = (URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/13-%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b9%d8%b1%d8%a8%d9%8a%d9%87-arabic-series/list/', 'showSeries')
-SERIE_EN = (URL_MAIN + '/category/مسلسلات/5-series-english-مسلسلات-اجنبي/list/', 'showSeries')
-SERIE_HEND = (URL_MAIN + '/category/مسلسلات/9-series-indian-مسلسلات-هندية/list/', 'showSeries')
-ANIM_NEWS = (URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%83%d8%b1%d8%aa%d9%88%d9%86/list/', 'showSeries')
-SERIE_ASIA = (URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a7%d8%b3%d9%8a%d9%88%d9%8a%d8%a9/list/', 'showSeries')
-SERIE_TR = (URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/8-%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%aa%d8%b1%d9%83%d9%8a%d8%a9-turkish-series/list/', 'showSeries')
+SERIE_AR = (URL_MAIN + 'category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/13-%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b9%d8%b1%d8%a8%d9%8a%d9%87-arabic-series/list/', 'showSeries')
+SERIE_EN = (URL_MAIN + 'category/مسلسلات/5-series-english-مسلسلات-اجنبي/list/', 'showSeries')
+SERIE_HEND = (URL_MAIN + 'category/مسلسلات/9-series-indian-مسلسلات-هندية/list/', 'showSeries')
+ANIM_NEWS = (URL_MAIN + 'category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%83%d8%b1%d8%aa%d9%88%d9%86/list/', 'showSeries')
+SERIE_ASIA = (URL_MAIN + 'category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a7%d8%b3%d9%8a%d9%88%d9%8a%d8%a9/list/', 'showSeries')
+SERIE_TR = (URL_MAIN + 'category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/8-%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%aa%d8%b1%d9%83%d9%8a%d8%a9-turkish-series/list/', 'showSeries')
 
-DOC_SERIES = (URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%88%d8%ab%d8%a7%d8%a6%d9%82%d9%8a%d8%a9-documentary-series/list/', 'showSeries')
-DOC_NEWS = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%88%d8%ab%d8%a7%d8%a6%d9%82%d9%8a%d8%a9-documentary-films/', 'showMovies')
+DOC_SERIES = (URL_MAIN + 'category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%88%d8%ab%d8%a7%d8%a6%d9%82%d9%8a%d8%a9-documentary-series/list/', 'showSeries')
+DOC_NEWS = (URL_MAIN + 'category/%d8%a7%d9%81%d9%84%d8%a7%d9%85/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%88%d8%ab%d8%a7%d8%a6%d9%82%d9%8a%d8%a9-documentary-films/', 'showMovies')
 
-URL_SEARCH = (URL_MAIN + '/search/', 'showSeries')
-URL_SEARCH_MOVIES = (URL_MAIN + '/search/', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + '/search/', 'showSeries')
-URL_SEARCH_ANIMS = (URL_MAIN + '/search/', 'showAnimes')
+URL_SEARCH = (URL_MAIN + 'search/', 'showSeries')
+URL_SEARCH_MOVIES = (URL_MAIN + 'search/', 'showMovies')
+URL_SEARCH_SERIES = (URL_MAIN + 'search/', 'showSeries')
+URL_SEARCH_ANIMS = (URL_MAIN + 'search/', 'showAnimes')
 FUNCTION_SEARCH = 'showSearch'
  
 def load():
@@ -139,7 +134,7 @@ def showSeriesSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/search/'+sSearchText
+        sUrl = URL_MAIN + 'search/'+sSearchText
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -149,7 +144,7 @@ def showAnimesSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/search/'+sSearchText
+        sUrl = URL_MAIN + 'search/'+sSearchText
         showAnimes(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -159,7 +154,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/search/'+sSearchText
+        sUrl = URL_MAIN + 'search/'+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -233,7 +228,7 @@ def showMovies(sSearch = ''):
             sTitle = aEntry[1].replace("مشاهدة","").replace("مشاهده","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("برنامج","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("انمي","")
             siteUrl = aEntry[0].replace((aEntry[0].split('watch/')[0]), URL_MAIN)
             sDesc = ''
-            sThumb = URL_MAIN + 'wp-content' + aEntry[2].replace("(","").replace(")","").split('wp-content')[1]
+            sThumb = aEntry[2].replace("(","").replace(")","")
             sYear = ''
             m = re.search('([0-9]{4})', sTitle)
             if m:
@@ -296,7 +291,7 @@ def showSeries(sSearch = ''):
             if 'gocimago.shop' in siteUrl:
                 siteUrl = siteUrl.replace("https://gocimago.shop/",URL_MAIN)
             sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("مشاهده","").replace("برنامج","").replace("مترجمة","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","")
-            sThumb = URL_MAIN + 'wp-content' + aEntry[2].replace("(","").replace(")","").split('wp-content')[1]
+            sThumb = aEntry[2].replace("(","").replace(")","")
             sDesc = ''
             sTitle = sTitle.split('موسم')[0].split('حلقة')[0]
             sYear = ''
@@ -385,7 +380,7 @@ def showAnimes(sSearch = ''):
  
             siteUrl = aEntry[0]    
             sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("مشاهده","").replace("برنامج","").replace("مترجمة","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","")
-            sThumb = URL_MAIN + 'wp-content' + aEntry[2].replace("(","").replace(")","").split('wp-content')[1]
+            sThumb = aEntry[2].replace("(","").replace(")","")
             sDesc = ''
             sTitle = sTitle.split('موسم')[0].split('حلقة')[0]
             sYear = ''
@@ -529,16 +524,22 @@ def showSeasons():
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()  
         for aEntry in aResult[1]:
-
-            s = requests.Session()            
-            headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0'}
+            
             data = aEntry
-            r1 = s.get(URL_MAIN+'/AjaxCenter/MoreEpisodes/'+data+'/30/', headers=headers)
+            oRequestHandler = cRequestHandler(URL_MAIN+'/AjaxCenter/MoreEpisodes/'+data+'/30/')
+            oRequestHandler.addHeaderEntry('User-Agent', UA)
+            r1 = oRequestHandler.request()
             sHtmlContent1 = r1.content.decode('utf8').replace("\\","")
-            r2 = s.get(URL_MAIN+'/AjaxCenter/MoreEpisodes/'+data+'/70/', headers=headers)
+            oRequestHandler = cRequestHandler(URL_MAIN+'/AjaxCenter/MoreEpisodes/'+data+'/70/')
+            oRequestHandler.addHeaderEntry('User-Agent', UA)
+            r2 = oRequestHandler.request()
             sHtmlContent2 = r2.content.decode('utf8').replace("\\","")
-            sHtmlContent = sHtmlContent1+sHtmlContent2
-	
+            oRequestHandler = cRequestHandler(URL_MAIN+'/AjaxCenter/MoreEpisodes/'+data+'/110/')
+            oRequestHandler.addHeaderEntry('User-Agent', UA)
+            r3 = oRequestHandler.request()
+            sHtmlContent3 = r3.content.decode('utf8').replace("\\","")
+            sHtmlContent = sHtmlContent1+sHtmlContent2+sHtmlContent3
+
             sPattern = 'href=([^<]+)"><div.+?<episodeTitle>([^<]+)<'
             aResult = oParser.parse(sHtmlContent, sPattern)
             if aResult[0]:
@@ -569,7 +570,7 @@ def showEps():
 
     oParser = cParser()
     oRequestHandler = cRequestHandler(sUrl)
-    oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
+    oRequestHandler.addHeaderEntry('User-Agent', UA)
     oRequestHandler.addHeaderEntry('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
     oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
     oRequestHandler.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
@@ -619,14 +620,18 @@ def showEps():
         oOutputParameterHandler = cOutputParameterHandler()  
         for aEntry in aResult[1]:
 
-            s = requests.Session()            
-            headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0'}
             data = aEntry
-            r1 = s.get('https://mycima.biz/AjaxCenter/MoreEpisodes/'+data+'/30/', headers=headers)
+            oRequestHandler = cRequestHandler(URL_MAIN+'/AjaxCenter/MoreEpisodes/'+data+'/30/')
+            oRequestHandler.addHeaderEntry('User-Agent', UA)
+            r1 = oRequestHandler.request()
             sHtmlContent1 = r1.content.decode('utf8').replace("\\","")
-            r2 = s.get('https://mycima.biz/AjaxCenter/MoreEpisodes/'+data+'/70/', headers=headers)
+            oRequestHandler = cRequestHandler(URL_MAIN+'/AjaxCenter/MoreEpisodes/'+data+'/70/')
+            oRequestHandler.addHeaderEntry('User-Agent', UA)
+            r2 = oRequestHandler.request()
             sHtmlContent2 = r2.content.decode('utf8').replace("\\","")
-            r3 = s.get('https://mycima.biz/AjaxCenter/MoreEpisodes/'+data+'/110/', headers=headers)
+            oRequestHandler = cRequestHandler(URL_MAIN+'/AjaxCenter/MoreEpisodes/'+data+'/110/')
+            oRequestHandler.addHeaderEntry('User-Agent', UA)
+            r3 = oRequestHandler.request()
             sHtmlContent3 = r3.content.decode('utf8').replace("\\","")
             sHtmlContent = sHtmlContent1+sHtmlContent2+sHtmlContent3
 
@@ -658,7 +663,6 @@ def showHosters(oInputParameterHandler = False):
 
     oParser = cParser()
     oRequestHandler = cRequestHandler(sUrl)
-    oRequestHandler.disableSSL()
     sHtmlContent = oRequestHandler.request()
 
     sStart = '<singlerelated class="hasdivider">'

@@ -9,6 +9,9 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
+from resources.lib import random_ua
+
+UA = random_ua.get_ua()
 
 SITE_IDENTIFIER = 'honadrama'
 SITE_NAME = 'HonaDrama'
@@ -246,69 +249,7 @@ def showEps():
             oGui.addEpisode(SITE_IDENTIFIER, 'showServer', sTitle, sThumb, sThumb, sDesc, oOutputParameterHandler)              
        
     oGui.setEndOfDirectory() 
- 
-def showHosters(oInputParameterHandler = False):
-    import requests
-    oGui = cGui()
-    oInputParameterHandler = cInputParameterHandler()
-    sUrl = oInputParameterHandler.getValue('siteUrl')
-    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumb = oInputParameterHandler.getValue('sThumb')
-
-    oParser = cParser()
-    oRequestHandler = cRequestHandler(sUrl)
-    cook = oRequestHandler.GetCookies()
-    oRequestHandler.setRequestType(1)
-    oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
-    oRequestHandler.addHeaderEntry('origin', 'www.arblionz.org')
-    oRequestHandler.addHeaderEntry('Cookie', cook)
-    oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
-    oRequestHandler.addHeaderEntry('Referer', f'{sUrl}')
-    sHtmlContent = oRequestHandler.request() 
-
-    sPattern = 'data-src="(.+?)"'
-    aResult = oParser.parse(sHtmlContent, sPattern)	
-    if aResult[0]:
-        for aEntry in aResult[1]:
-            
-            url = aEntry
-            if url.startswith('//'):
-                url = 'http:' + url
-            
-            sHosterUrl = url 
-            if 'userload' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-            if 'mystream' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if oHoster:
-                oHoster.setDisplayName(sMovieTitle)
-                oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)   
-
-    sPattern = 'href="([^<]+)" target'
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    if aResult[0]:
-        for aEntry in aResult[1]:
-            
-            url = aEntry
-            url = url.replace("moshahda","ffsff")
-            if url.startswith('//'):
-                url = 'http:' + url
-            
-            sHosterUrl = url 
-            if 'userload' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-            if 'mystream' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if oHoster:
-                oHoster.setDisplayName(sMovieTitle)
-                oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
-				
-    oGui.setEndOfDirectory() 
-			
+ 		
 def showServer(oInputParameterHandler = False):
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
@@ -336,7 +277,7 @@ def showServer(oInputParameterHandler = False):
             siteUrl = sId
 			
             oRequestHandler = cRequestHandler(siteUrl)
-            oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
+            oRequestHandler.addHeaderEntry('User-Agent', UA)
             oRequestHandler.addHeaderEntry('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
             oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
             oRequestHandler.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
