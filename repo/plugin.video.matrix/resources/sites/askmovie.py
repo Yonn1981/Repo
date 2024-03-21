@@ -3,7 +3,6 @@
 # Yonn1981 https://github.com/Yonn1981/Repo
 #############################################################
 
-import re
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -12,6 +11,9 @@ from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.multihost import cVidsrcto
+from resources.lib import random_ua
+
+UA = random_ua.get_ua()
 
 SITE_IDENTIFIER = 'askmovie'
 SITE_NAME = 'Ask4Movie'
@@ -304,9 +306,10 @@ def showSeasons():
 	sUrl = oInputParameterHandler.getValue('siteUrl')
 	sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
 	sThumb = oInputParameterHandler.getValue('sThumb')
- 
+
 	oParser = cParser()
 	oRequestHandler = cRequestHandler(sUrl)
+	oRequestHandler.addHeaderEntry('User-Agent', UA)
 	sHtmlContent = oRequestHandler.request()
 
 	sPattern = '<a class="btn-play-nf btn-play-nf-sm" href="([^"]+)"></a></div><div class="main-item"><div class="description"><p><a href="([^"]+)">(.+?)</a>'

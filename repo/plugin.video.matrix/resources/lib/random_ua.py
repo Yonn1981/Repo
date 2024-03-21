@@ -5,6 +5,8 @@ import random
 import time
 import six
 from kodi_six import xbmcaddon
+from resources.lib.comaddon import VSlog
+from six.moves import (http_cookiejar)
 
 addon = xbmcaddon.Addon()
 
@@ -92,3 +94,9 @@ def force_ua():
 def set_ua(ua):
     set_setting('current_ua', ua)
     set_setting('last_ua_create', str(int(time.time())))
+
+def savecookies(flarejson):
+    clean_cookies_dict = {cookie['name']: cookie['value'] for cookie in flarejson}
+
+    VSlog(clean_cookies_dict)
+    set_setting('current_cook', clean_cookies_dict)

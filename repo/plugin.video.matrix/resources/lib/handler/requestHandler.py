@@ -7,7 +7,6 @@ from resources.lib.util import urlHostName
 from resources.lib import random_ua
 
 import requests.packages.urllib3.util.connection as urllib3_cn
-from six.moves import (http_cookiejar)
 import socket
 
 UA = random_ua.get_ua()
@@ -268,9 +267,9 @@ class cRequestHandler:
                         if addon().getSetting('Public_Flaresolverr') == "true":
                             CLOUDPROXY_ENDPOINT="https://cf.jmdkh.eu.org/v1"
                         if method == 'GET':
-                            data = {"cmd": 'request.%s' % method.lower(), "url": self.__sUrl, "maxTimeout": 60000}
+                            data = {"cmd": 'request.%s' % method.lower(), "url": self.__sUrl, "maxTimeout": 40000}
                         else:    
-                            data = {"cmd": 'request.%s' % method.lower(), "url": self.__sUrl, "postData": _request.data, "maxTimeout": 60000}
+                            data = {"cmd": 'request.%s' % method.lower(), "url": self.__sUrl, "postData": _request.data, "maxTimeout": 40000}
                         json_response = False
                         try:
                             json_response = post(CLOUDPROXY_ENDPOINT, headers={"Content-Type": "application/json"}, json=data)
@@ -283,7 +282,9 @@ class cRequestHandler:
     
                                     sContent = response['solution']['response']
                                     UA = response['solution']['userAgent']
+                                    cookie = response['solution']['cookies']
                                     random_ua.set_ua(UA)
+                                    random_ua.savecookies(cookie)
                                         
                         except:
                             dialog().VSerror("%s (%s)" % ("ScrapeNinja جرب استخدام ، (Cloudflare) الصفحة ربما محمية بواسطة ", urlHostName(self.__sUrl)))

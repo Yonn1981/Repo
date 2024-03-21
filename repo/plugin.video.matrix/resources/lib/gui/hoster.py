@@ -324,6 +324,9 @@ class cHosterGui:
         if ('hexload' in sHostName):
             return self.getHoster('hexupload')
 
+        if ('extreamnow' in sHostName):
+            return self.getHoster('extremenow')
+
         if ('2embed.me' in sHostName):
             return self.getHoster('2embedme')
 

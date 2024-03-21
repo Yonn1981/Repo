@@ -323,15 +323,15 @@ def showHosters(oInputParameterHandler = False):
             host  = aEntry[0]
 
             if 'ok' in host:
-               url =  'https://www.ok.ru/videoembed/'+ url
+               url =  'https://ok.ru/videoembed/'+ url
             if 'tune' in host:
                url =  'https://tune.pk/js/open/embed.js?vid='+url+'&userid=827492&_=1601112672793'
             if 'estream' in host:
-               url =  'https://arabveturk.com/embed-'+url+'.html'
+               url =  'https://arabveturk.sbs/embed-'+url+'.html'
             if 'now' in host:
-               url =  'https://extremenow.net/embed-'+url+'.html'
+               url =  'https://extreamnow.org/embed-'+url+'.html'
             if 'box' in host:
-               url =  'https://youdboox.com/embed-'+url+'.html'
+               url =  'https://youdbox.site/embed-'+url+'.html'
             if 'Pro HD' in host:
                url =  'https://segavid.com/embed-'+url+'.html'
             if 'Red HD' in host:
@@ -346,8 +346,11 @@ def showHosters(oInputParameterHandler = False):
             sHosterUrl = url
             if 'userload' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+            if 'extreamnow' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + m3url
             if 'mystream' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN    
+            VSlog(sHosterUrl)
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
                oHoster.setDisplayName(sMovieTitle)

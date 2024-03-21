@@ -107,7 +107,7 @@ def showHosters(oInputParameterHandler = False):
                 sHosterUrl = url.split('=')[1] 
             if 'embed' in url:
                 oRequestHandler = cRequestHandler(url)
-                sHtmlContent2 = St.get(url).content
+                sHtmlContent2 = oRequestHandler.request()  
                 oParser = cParser()
                 sPattern =  'src="(.+?)" scrolling="no">'
                 aResult = oParser.parse(sHtmlContent2,sPattern)
@@ -115,7 +115,7 @@ def showHosters(oInputParameterHandler = False):
                    sHosterUrl = aResult[1][0]
             if '/dash/' in url:
                 oRequestHandler = cRequestHandler(url)
-                sHtmlContent4 = St.get(url).content
+                sHtmlContent4 = oRequestHandler.request()  
                 regx = '''var s = '(.+?)';.+?url="(.+?)".+?s;'''
                 var = re.findall(regx,sHtmlContent4,re.S)
                 if var:
@@ -166,7 +166,7 @@ def showHosters(oInputParameterHandler = False):
             url = aEntry
             if '.php?' in url:
                 oRequestHandler = cRequestHandler(url)
-                sHtmlContent2 = St.get(url).content
+                sHtmlContent2 = oRequestHandler.request()  
                 oParser = cParser()
                 sPattern =  'source: "(.+?)",'
                 aResult = oParser.parse(sHtmlContent2,sPattern)
@@ -174,7 +174,7 @@ def showHosters(oInputParameterHandler = False):
                    url = aResult[1][0]
             if 'embed' in url:
                 oRequestHandler = cRequestHandler(url)
-                sHtmlContent2 = St.get(url).content
+                sHtmlContent2 = oRequestHandler.request()  
                 oParser = cParser()
                 sPattern =  'src="(.+?)" scrolling="no">'
                 aResult = oParser.parse(sHtmlContent2,sPattern)
@@ -185,7 +185,7 @@ def showHosters(oInputParameterHandler = False):
                 live = url2[1].replace("&ch","")
                 ch = url2[2]
                 oRequestHandler = cRequestHandler(url)
-                sHtmlContent2 = St.get(url).content
+                sHtmlContent2 = oRequestHandler.request()  
                 oParser = cParser()
                 sPattern =  "var src = (.+?),"
                 aResult = oParser.parse(sHtmlContent2,sPattern)
@@ -196,7 +196,7 @@ def showHosters(oInputParameterHandler = False):
                     url = url2+live+'/'+ch+'.m3u8'
             if '/dash/' in url:
                 oRequestHandler = cRequestHandler(url)
-                sHtmlContent4 = St.get(url).content
+                sHtmlContent4 = oRequestHandler.request()  
                 regx = '''var s = '(.+?)';.+?url="(.+?)".+?s;'''
                 var = re.findall(regx,sHtmlContent4,re.S)
                 if var:

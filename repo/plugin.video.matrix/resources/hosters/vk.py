@@ -3,6 +3,7 @@
 from six.moves import urllib_parse
 from resources.lib.comaddon import dialog, VSlog 
 from resources.hosters.hoster import iHoster
+from resources.lib import helpers
 import re, requests, json
 
 UA = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:72.0) Gecko/20100101 Firefox/72.0'
@@ -31,24 +32,22 @@ class cHoster(iHoster):
         except:
             oid, video_id = re.findall('video(.*)_(.*)', media_id)[0]
         
-
         sources = self.__get_sources(oid, video_id, headers)
         if sources:
             sources.sort(key=lambda x: int(x[0]), reverse=True)
-        
-        if len(sources) == 1:
-            api_call = sources[0][1]
-            
-        elif len(sources) > 1:
-            url=[]
-            qua=[]
-            for aEntry in sources:
-                url.append(str(aEntry[1]))
-                qua.append(str(aEntry[0]))
-            api_call = dialog().VSselectqual(qua, url)
-
-        if api_call:
-            return True, api_call + '|User-Agent=' + UA + '&Referer=' + self._url
+            source = helpers.pick_source(sources)
+            if source:
+                headers.pop('X-Requested-With')
+                return True, source + helpers.append_headers(headers)
+        else:
+            html = requests.get(self.get_url(media_id), headers=headers).content
+            jd = re.search(r'var\s*playerParams\s*=\s*(.+?});', html)
+            if jd:
+                jd = json.loads(jd.group(1))
+                source = jd.get('params')[0].get('hls')
+                if source:
+                    headers.pop('X-Requested-With')
+                    return True, source + helpers.append_headers(headers)
 
         return False, False
 
@@ -78,5 +77,10 @@ class cHoster(iHoster):
                 if item.startswith('url'):
                     sources.append((item[3:], js_data.get(item)))
             if not sources:
-                sources = [('360', js_data.get('hls'))]
-            return sources
+                str_url = js_data.get('hls')
+                if str_url:
+                    sources = [('360', str_url)]
+        return sources
+
+    def get_url(self, media_id):
+        return 'https://vk.com/video_ext.php?%s' % (media_id)

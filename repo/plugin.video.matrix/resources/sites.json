@@ -485,8 +485,8 @@
         "wecima": {
             "label": "Wecima",
             "active": "True",
-            "cloudflare": "True",
-            "url": "https://wecima.in/" 
+            "cloudflare": "False",
+            "url": "https://wecima.media/" 
         },
         "witanime": {
             "label": "WitAnime",
