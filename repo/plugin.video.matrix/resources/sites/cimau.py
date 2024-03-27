@@ -19,27 +19,27 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-MOVIE_EN = (URL_MAIN + 'category/movies/افلام-اجنبي/', 'showMovies')
-MOVIE_AR = (URL_MAIN + 'category/movies/افلام-عربى/', 'showMovies')
-MOVIE_HI = (URL_MAIN + 'category/movies/افلام-هندى/', 'showMovies')
-MOVIE_TURK = (URL_MAIN + 'category/movies/افلام-تركى/', 'showMovies')
-KID_MOVIES = (URL_MAIN + 'category/movies/افلام-كرتون/', 'showMovies')
+MOVIE_EN = (URL_MAIN + 'category/movies-1/افلام-اجنبي-2/', 'showMovies')
+MOVIE_AR = (URL_MAIN + 'category/movies-1/افلام-عربى-2/', 'showMovies')
+MOVIE_HI = (URL_MAIN + 'category/movies-1/افلام-هندى-2/', 'showMovies')
+MOVIE_TURK = (URL_MAIN + 'category/movies-1/افلام-تركى-2/', 'showMovies')
+KID_MOVIES = (URL_MAIN + 'category/movies-1/افلام-كرتون-2/', 'showMovies')
 MOVIE_PACK = (URL_MAIN , 'showPack')
 
-RAMADAN_SERIES = (URL_MAIN + 'category/مسلسلات-رمضان-2024/', 'showSeries')
-SERIE_TR = (URL_MAIN + 'category/series/مسلسلات-تركية/', 'showSeries')
-SERIE_EN = (URL_MAIN + 'category/series/مسلسلات-اجنبي/', 'showSeries')
-SERIE_AR = (URL_MAIN + 'category/series/مسلسلات-عربية/', 'showSeries')
-SERIE_HEND = (URL_MAIN + 'category/series/مسلسلات-هندية/', 'showSeries')
-SERIE_ASIA = (URL_MAIN + 'category/series/مسلسلات-اسيوية/', 'showSeries')
+RAMADAN_SERIES = (URL_MAIN + 'category/مسلسلات-رمضان-2024-2/', 'showSeries')
+SERIE_TR = (URL_MAIN + 'category/series-1/مسلسلات-تركية-2/', 'showSeries')
+SERIE_EN = (URL_MAIN + 'category/series-1/مسلسلات-اجنبي-2/', 'showSeries')
+SERIE_AR = (URL_MAIN + 'category/series-1/مسلسلات-عربية-2/', 'showSeries')
+SERIE_HEND = (URL_MAIN + 'category/series-1/مسلسلات-هندية-2/', 'showSeries')
+SERIE_ASIA = (URL_MAIN + 'category/series-1/مسلسلات-اسيوية-2/', 'showSeries')
 
-ANIM_NEWS = (URL_MAIN + 'category/series/مسلسلات-كرتون/', 'showSeries')
-REPLAYTV_NEWS = (URL_MAIN + 'category/other/برامج-تليفزيونية/', 'showSeries')
-WWE = (URL_MAIN + 'category/other/مصارعة-حرة/', 'showMovies')
+ANIM_NEWS = (URL_MAIN + 'category/series-1/مسلسلات-كرتون-2/', 'showSeries')
+REPLAYTV_NEWS = (URL_MAIN + 'category/other/برامج-تليفزيونية-2/', 'showSeries')
+WWE = (URL_MAIN + 'category/other/مصارعة-حرة-2/', 'showMovies')
 
-URL_SEARCH = (URL_MAIN + '/?s=', 'showMovies')
-URL_SEARCH_MOVIES = (URL_MAIN + '/?s=%D9%81%D9%8A%D9%84%D9%85+', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + '/?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSeries')
+URL_SEARCH = (URL_MAIN + '?s=', 'showMovies')
+URL_SEARCH_MOVIES = (URL_MAIN + '?s=%D9%81%D9%8A%D9%84%D9%85+', 'showMovies')
+URL_SEARCH_SERIES = (URL_MAIN + '?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSeries')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -104,7 +104,7 @@ def showSearch():
     oGui = cGui()
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/?s=%D9%81%D9%8A%D9%84%D9%85+'+sSearchText
+        sUrl = URL_MAIN + '?s=%D9%81%D9%8A%D9%84%D9%85+'+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -113,7 +113,7 @@ def showSeriesSearch():
     oGui = cGui()
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+'+sSearchText
+        sUrl = URL_MAIN + '?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+'+sSearchText
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return

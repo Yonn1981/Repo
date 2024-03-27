@@ -62,6 +62,8 @@ def showMovies():
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
+            if "free Games" in aEntry[1]:
+                continue
             if "#" in aEntry[0]:
                 sCondition = "لا توجد روابط للمباراة \n \n"
             else:

@@ -16,6 +16,9 @@ class cHoster(iHoster):
     def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
         referer = self._url
+        if 'm3u8' in self._url:
+            return True, self._url
+        
         if '?Referer=' in self._url:
             referer = self._url.split('?Referer=')[1]
             self._url = self._url.split('?Referer=')[0]

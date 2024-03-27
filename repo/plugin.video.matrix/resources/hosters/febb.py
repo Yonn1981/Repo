@@ -13,7 +13,7 @@ from resources.lib.parser import cParser
 class cHoster(iHoster):
 
     def __init__(self):
-        iHoster.__init__(self, 'febb', 'Febbox')
+        iHoster.__init__(self, 'febb', 'Direct Link', 'gold')
 
     def setUrl(self, url):
         self._url = str(url).replace('+', '%2B').split('?sub.info=')[0]
@@ -28,22 +28,24 @@ class cHoster(iHoster):
                 SubTitle = SubTitle.split('&t=')[0]
             else:
                 SubTitle = SubTitle
-            oRequest0 = cRequestHandler(SubTitle)
-            sHtmlContent0 = oRequest0.request().replace('\\','')
-            oParser = cParser()
 
-            sPattern = '"file":"([^"]+)".+?"label":"(.+?)"'
-            aResult = oParser.parse(sHtmlContent0, sPattern)
+            if SubTitle == False:
+                SubTitle = ''
+            else:
+                oRequest0 = cRequestHandler(SubTitle)
+                sHtmlContent0 = oRequest0.request().replace('\\','')
+                oParser = cParser()
 
-            if aResult[0]:
-                url = []
-                qua = []
-                for i in aResult[1]:
-                    url.append(str(i[0]))
-                    qua.append(str(i[1]))
-                SubTitle = dialog().VSselectsub(qua, url)
-        else:
-            SubTitle = ''
+                sPattern = '"file":"([^"]+)".+?"label":"(.+?)"'
+                aResult = oParser.parse(sHtmlContent0, sPattern)
+
+                if aResult[0]:
+                    url = []
+                    qua = []
+                    for i in aResult[1]:
+                        url.append(str(i[0]))
+                        qua.append(str(i[1]))
+                    SubTitle = dialog().VSselectsub(qua, url)
 
         api_call = self._url
 

@@ -280,7 +280,7 @@ class cHosterGui:
             return self.getHoster("filelions")
 
         # Vidguard Clone
-        vidguard = next((x for x in ['vidguard', 'fertoto', 'vgembed', 'vgfplay', 'vembed', 'vid-guard', 'jetload', 'embedv', 'fslinks'] if x in sHostName), None)
+        vidguard = next((x for x in ['vidguard', 'fertoto', 'vgembed', 'vgfplay', 'vembed', 'vid-guard', 'jetload', 'embedv', 'fslinks', 'bembed'] if x in sHostName), None)
         if vidguard:
             return self.getHoster("vidguard")
 
@@ -318,7 +318,7 @@ class cHosterGui:
         if ('multiembed' in sHostName):
             return self.getHoster('multiembed')
 
-        if ('cimacafe' in sHostName):
+        if ('cimacafe' in sHostName) or ('egbist' in sHostName):
             return self.getHoster('cimacafe')
 
         if ('hexload' in sHostName):
