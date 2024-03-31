@@ -6,6 +6,7 @@ from resources.lib.handler.requestHandler import cRequestHandler
 from resources.hosters.hoster import iHoster
 from resources.lib.comaddon import dialog, VSlog
 from resources.lib.parser import cParser
+import requests
 
 class cHoster(iHoster):
 
@@ -28,19 +29,23 @@ class cHoster(iHoster):
                 SubTitle = ''
             else:
                 if 'http' in SubTitle:
-                    oRequest0 = cRequestHandler(SubTitle)
-                    sHtmlContent0 = oRequest0.request().replace('\\','')
-                    oParser = cParser()
+                    if '.txt' in SubTitle:
+                        SubTitle = requests.get(SubTitle).url
+                    else:
+                        oRequest0 = cRequestHandler(SubTitle)
+                        sHtmlContent0 = oRequest0.request().replace('\\','')
+                        oParser = cParser()
 
-                    sPattern = '"file":"([^"]+)".+?"label":"(.+?)"'
-                    aResult = oParser.parse(sHtmlContent0, sPattern)
-                    if aResult[0]:
-                        url = []
-                        qua = []
-                        for i in aResult[1]:
-                            url.append(str(i[0]))
-                            qua.append(str(i[1]))
-                        SubTitle = dialog().VSselectsub(qua, url)
+                        sPattern = '"file":"([^"]+)".+?"label":"(.+?)"'
+                        aResult = oParser.parse(sHtmlContent0, sPattern)
+                        if aResult[0]:
+                            url = []
+                            qua = []
+                            for i in aResult[1]:
+                                url.append(str(i[0]))
+                                qua.append(str(i[1]))
+                            SubTitle = dialog().VSselectsub(qua, url)
+
         api_call = self._url
 
         if api_call:
