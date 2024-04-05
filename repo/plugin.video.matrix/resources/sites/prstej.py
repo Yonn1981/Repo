@@ -19,20 +19,19 @@ SITE_DESC = 'arabic vod'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-RAMADAN_SERIES = (URL_MAIN + 'category102.php?cat=ramdan2024', 'showSeries')
-MOVIE_AR = (URL_MAIN + 'category102.php?cat=movies2023', 'showMovies')
-MOVIE_TURK = (URL_MAIN + '/category102.php?cat=turkish-movies2023', 'showMovies')
-SERIE_AR = (URL_MAIN + '/category102.php?cat=arab2023', 'showSeries')
-SERIE_EN = (URL_MAIN + '/category102.php?cat=english2023', 'showSeries')
-SERIE_TR = (URL_MAIN + '/category102.php?cat=ty-2023', 'showSeries')
-SERIE_ASIA = (URL_MAIN + '/category102.php?cat=asia', 'showSeries')
-SERIE_HEND = (URL_MAIN + '/category102.php?cat=indeasreses2022', 'showSeries')
+RAMADAN_SERIES = (URL_MAIN + 'category102.php?cat=rammdan2024', 'showSeries')
+MOVIE_AR = (URL_MAIN + 'category102.php?cat=movies2024', 'showMovies')
+MOVIE_TURK = (URL_MAIN + 'category102.php?cat=turkish-movies2024', 'showMovies')
+SERIE_AR = (URL_MAIN + 'category102.php?cat=arab2024', 'showSeries')
+SERIE_EN = (URL_MAIN + 'category102.php?cat=english2024', 'showSeries')
+SERIE_TR = (URL_MAIN + 'category102.php?cat=tyyy1-2024', 'showSeries')
+SERIE_ASIA = (URL_MAIN + 'category102.php?cat=asia', 'showSeries')
 
-ANIM_NEWS = (URL_MAIN + '/category102.php?cat=anmei', 'showSeries')
+ANIM_NEWS = (URL_MAIN + 'category102.php?cat=anmei', 'showSeries')
 
-URL_SEARCH = (URL_MAIN + '/search.php?keywords=', 'showSeries')
-URL_SEARCH_MOVIES = (URL_MAIN + '/search.php?keywords=', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + '/search.php?keywords=', 'showSeries')
+URL_SEARCH = (URL_MAIN + 'search.php?keywords=', 'showSeries')
+URL_SEARCH_MOVIES = (URL_MAIN + 'search.php?keywords=', 'showMovies')
+URL_SEARCH_SERIES = (URL_MAIN + 'search.php?keywords=', 'showSeries')
 FUNCTION_SEARCH = 'showSearch'
  
 def load():
@@ -66,9 +65,6 @@ def load():
 
     oOutputParameterHandler.addParameter('siteUrl', SERIE_TR[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات تركية', 'turk.png', oOutputParameterHandler)
-
-    oOutputParameterHandler.addParameter('siteUrl', SERIE_HEND[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات هندية', 'hend.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', ANIM_NEWS[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات إنمي', 'anime.png', oOutputParameterHandler)  

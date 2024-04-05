@@ -20,6 +20,11 @@ class cHoster(iHoster):
         api_call = self._url
         VSlog(self._url)
 
+        SubTitle = ''
+        if ('sub.info' in self._url):
+            SubTitle = self._url.split('sub.info=')[1]
+            self._url = self._url.replace('+', '%2B').split('?sub.info=')[0]
+
         api_call = self._url.replace("rrsrr","cimanow").replace('rrsrrsn','newcima')
  	   
         if 'ffsff' in api_call:
@@ -109,6 +114,9 @@ class cHoster(iHoster):
                 "@" + urlEncode(headers)
 
         if api_call:
-            return True, api_call
+            if ('http' in SubTitle):
+                return True, api_call, SubTitle
+            else:
+                return True, api_call
 
         return False, False

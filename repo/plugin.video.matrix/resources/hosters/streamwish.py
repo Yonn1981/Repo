@@ -3,9 +3,10 @@ from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
 from resources.lib.packer import cPacker
 from resources.lib.comaddon import VSlog
+from resources.lib import random_ua
 import unicodedata
 
-UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:39.0) Gecko/20100101 Firefox/39.0'
+UA = random_ua.get_pc_ua()
 
 class cHoster(iHoster):
 
@@ -18,9 +19,15 @@ class cHoster(iHoster):
     def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
         self._url = self._url.replace('/f/','/e/').replace('/d/','/v/')
+        sReferer = self._url
+        if '|Referer=' in self._url:
+            sReferer = self._url.split('|Referer=')[1]            
+            self._url = self._url.split('|Referer=')[0]
         api_call = ''
 
         oRequest = cRequestHandler(self._url)
+        oRequest.addHeaderEntry('user-agent', UA)
+        oRequest.addHeaderEntry('Referer', sReferer)
         sHtmlContent = oRequest.request()
         oParser = cParser()
        

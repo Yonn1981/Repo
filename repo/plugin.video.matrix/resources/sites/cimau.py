@@ -35,7 +35,7 @@ SERIE_ASIA = (URL_MAIN + 'category/series-1/مسلسلات-اسيوية-2/', 'sh
 
 ANIM_NEWS = (URL_MAIN + 'category/series-1/مسلسلات-كرتون-2/', 'showSeries')
 REPLAYTV_NEWS = (URL_MAIN + 'category/other/برامج-تليفزيونية-2/', 'showSeries')
-WWE = (URL_MAIN + 'category/other/مصارعة-حرة-2/', 'showMovies')
+SPORT_WWE = (URL_MAIN + 'category/other/مصارعة-حرة-2/', 'showMovies')
 
 URL_SEARCH = (URL_MAIN + '?s=', 'showMovies')
 URL_SEARCH_MOVIES = (URL_MAIN + '?s=%D9%81%D9%8A%D9%84%D9%85+', 'showMovies')
@@ -92,7 +92,7 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', REPLAYTV_NEWS[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'برامج تلفزيون', 'brmg.png', oOutputParameterHandler)
 
-    oOutputParameterHandler.addParameter('siteUrl', WWE[0])
+    oOutputParameterHandler.addParameter('siteUrl', SPORT_WWE[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'مصارعة', 'wwe.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_PACK[0])
@@ -243,11 +243,11 @@ def showMovies(sSearch = ''):
             sTitle = aEntry[1]           
             sTitle =  "PAGE " + sTitle
             sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
-            siteUrl = aEntry[0]
+            siteUrl = aEntry[0].replace('"',"").replace('/page/',"/?page=")
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
 			
-            oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle, '', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle, 'next.png', oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
@@ -363,11 +363,11 @@ def showTag():
             sTitle = aEntry[1]            
             sTitle =  "PAGE " + sTitle
             sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
-            siteUrl = aEntry[0].replace('"',"")
+            siteUrl = aEntry[0].replace('"',"").replace('/page/',"/?page=")
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
 			
-            oGui.addDir(SITE_IDENTIFIER, 'showTag', sTitle, '', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showTag', sTitle, 'next.png', oOutputParameterHandler)
 
         progress_.VSclose(progress_)
 		
@@ -384,9 +384,13 @@ def showSeries(sSearch = ''):
     oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
- 
+
+    sStart = '<div class="PageContent">'
+    sEnd = '</ul>'
+    sHtmlContent1 = oParser.abParse(sHtmlContent, sStart, sEnd)
+
     sPattern = '<li class="MovieBlock">\s*<a href="([^"]+)".+?data-image="([^"]+)".+?class="Category">.+?</div>([^<]+)</div>'
-    aResult = oParser.parse(sHtmlContent, sPattern)  
+    aResult = oParser.parse(sHtmlContent1, sPattern)  
     itemList = []
     if aResult[0]:
         total = len(aResult[1])
@@ -418,7 +422,7 @@ def showSeries(sSearch = ''):
 
     else:
         sPattern = '<li class="MovieBlock">\s*<a href="([^"]+)".+?<div.+?image:url([^<]+);">.+?class="Category">.+?</div>\s*</div>([^<]+)</div>'
-        aResult = oParser.parse(sHtmlContent, sPattern)
+        aResult = oParser.parse(sHtmlContent1, sPattern)
         if aResult[0]:
             oOutputParameterHandler = cOutputParameterHandler()    
             for aEntry in aResult[1]:
@@ -454,11 +458,11 @@ def showSeries(sSearch = ''):
             sTitle = aEntry[1]           
             sTitle =  "PAGE " + sTitle
             sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
-            siteUrl = aEntry[0].replace('"',"")
+            siteUrl = aEntry[0].replace('"',"").replace('/page/',"/?page=")
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
 			
-            oGui.addDir(SITE_IDENTIFIER, 'showSeries', sTitle, '', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showSeries', sTitle, 'next.png', oOutputParameterHandler)
 
         progress_.VSclose(progress_)
 		

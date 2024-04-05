@@ -1,7 +1,5 @@
 ﻿# -*- coding: utf-8 -*-
-#############################################################
 # Yonn1981 https://github.com/Yonn1981/Repo
-#############################################################
 
 import re	
 from resources.lib.gui.hoster import cHosterGui
@@ -11,6 +9,9 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
+from resources.lib import random_ua
+
+UA = random_ua.get_pc_ua()
 
 SITE_IDENTIFIER = 'cimacity'
 SITE_NAME = 'CimaCity'
@@ -388,11 +389,11 @@ def showServer(oInputParameterHandler = False):
         sRefer = aResult[1][0] 
 
     oRequestHandler = cRequestHandler(sRefer)
-    oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Mobile Safari/537.36 Edg/121.0.0.0')
+    oRequestHandler.addHeaderEntry('User-Agent', UA)
     oRequestHandler.addHeaderEntry('referer', URL_MAIN)
     sHtmlContent = oRequestHandler.request().replace("&#39;","'")
 
-    sStart = 'class="list_servers'
+    sStart = 'class="serversList">'
     sEnd = '</div>'
     sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
 

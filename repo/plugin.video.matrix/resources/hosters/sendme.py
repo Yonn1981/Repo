@@ -1,12 +1,12 @@
 ﻿#-*- coding: utf-8 -*-
 
-from resources.lib.handler.requestHandler import cRequestHandler
+import requests
 from resources.lib.parser import cParser
-from resources.lib.comaddon import dialog
 from resources.hosters.hoster import iHoster
 from resources.lib.comaddon import VSlog
+from resources.lib import random_ua
 
-UA = 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Mobile Safari/537.36'
+UA = random_ua.get_pc_ua()
 
 class cHoster(iHoster):
 
@@ -22,8 +22,12 @@ class cHoster(iHoster):
     def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
 
-        oRequest = cRequestHandler(self._url)
-        sHtmlContent = oRequest.request()
+        headers = {
+        "Referer":self._url,
+        "User-Agent": UA
+        }
+
+        sHtmlContent = requests.get(self._url, headers=headers, verify=False).text
         oParser = cParser()
 
         api_call = False

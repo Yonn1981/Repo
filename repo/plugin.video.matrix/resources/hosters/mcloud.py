@@ -69,7 +69,7 @@ def decodeVidstream(query):
 	futoken = requests.get(futokenurl, verify=False).text
 
 	k=re.findall("k='([^']+)'",futoken,re.DOTALL)[0]
-	if 'vidplay' in query or '55a0716b8c' in query:
+	if 'vidplay' in query or '55a0716b8c' in query or 'e69975b881' in query:
 		query = query.split('/e/')[1].split('?')
 	else:
 		query = query.split('e/')[1].split('?')

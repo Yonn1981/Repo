@@ -21,6 +21,7 @@ class cHoster(iHoster):
 
 
     def _getMediaLinkForGuest(self, autoPlay = False):
+        VSlog(self._url)
         self._url0 = str(self._url)
 
         if ('sub.info' in self._url0):

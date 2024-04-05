@@ -133,7 +133,14 @@ class cPlayer(xbmc.Player):
             # Temporary Workaround
             import xbmcgui
             import requests, sys
-            response = requests.get(sUrl).text
+            if 'Origin' in sUrl:
+                Origin = sUrl.split('Origin=')[1]
+                sUrl = sUrl.split('Origin=')[0]
+            else:
+                Origin = sUrl.rsplit("/",3)[0]
+            headers = {"Referer": Origin + '/',
+                        "Origin": Origin}
+            response = requests.get(sUrl, headers=headers).text
             sUrl = VSPath('special://home/addons/plugin.video.matrix/resources/extra/v.m3u8')
             with open(sUrl, 'w') as f:
                 f.write(response)

@@ -352,6 +352,11 @@ def showLinks(oInputParameterHandler = False):
     if aResult[0]:
         sID = aResult[1][0] 
 
+    sPattern =  '<a rel="nofollow" href="([^"]+)' 
+    aResult = oParser.parse(sHtmlContent,sPattern)
+    if aResult[0]:
+        sReferme = aResult[1][0] 
+
     sPattern = 'id="s_.+?onClick="([^"]+)".+?class="server">(.+?)</i>'
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0]:
@@ -370,6 +375,7 @@ def showLinks(oInputParameterHandler = False):
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oOutputParameterHandler.addParameter('sHost', sHost)
             oOutputParameterHandler.addParameter('Referer', Referer)
+            oOutputParameterHandler.addParameter('sReferme', sReferme)
 
             oGui.addLink(SITE_IDENTIFIER, 'showHosters', sTitle, sThumb, '', oOutputParameterHandler, oInputParameterHandler)
                        
@@ -409,6 +415,7 @@ def showHosters():
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
     Referer = oInputParameterHandler.getValue('Referer')
+    sReferme = oInputParameterHandler.getValue('sReferme')
 
     oParser = cParser()
     oRequestHandler = cRequestHandler(siteUrl)
@@ -428,6 +435,8 @@ def showHosters():
 
                 if 'mystream' in sHosterUrl:
                     sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN    
+                if 'ma2d' in sHosterUrl:
+                    sHosterUrl = sHosterUrl + "|Referer=" + sReferme  
                 oHoster = cHosterGui().checkHoster(sHosterUrl)
                 if oHoster != False:
                     oHoster.setDisplayName(sMovieTitle)

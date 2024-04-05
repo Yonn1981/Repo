@@ -309,7 +309,7 @@ class cHosterGui:
         if vidlo:    
             return self.getHoster('dood')
 
-        if ('mcloud' in sHosterUrl) or ('vizcloud' in sHosterUrl) or ('vidstream' in sHosterUrl) or ('vidplay' in sHosterUrl) or ('55a0716b8c' in sHosterUrl):
+        if ('mcloud' in sHosterUrl) or ('vizcloud' in sHosterUrl) or ('vidstream' in sHosterUrl) or ('vidplay' in sHosterUrl) or ('55a0716b8c' in sHosterUrl) or ('e69975b881' in sHosterUrl):
             return self.getHoster('mcloud')
 
         if ('vidsrc.stream' in sHostName):
@@ -390,7 +390,7 @@ class cHosterGui:
         if ('vimeo' in sHostName):
             return self.getHoster('vimeo')
 
-        if ('rrsrrs' in sHostName):
+        if ('rrsrrs' in sHostName) or ('cimanow.net' in sHosterUrl):
             return self.getHoster('cimanow')
 
         if ('embed.scdn.' in sHostName):

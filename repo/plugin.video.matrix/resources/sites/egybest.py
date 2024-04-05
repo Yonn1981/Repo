@@ -622,7 +622,7 @@ def showHosters(oInputParameterHandler = False):
                         else:
                             cHosterGui().showHoster(oGui, oHoster, sHosterUrl + "|Referer=" + rUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
                                 
-            if "stream/" in aEntry:
+            if "role/" in aEntry:
                 aurl = aEntry
 
                 cook = oRequestHandler.GetCookies()
@@ -651,6 +651,15 @@ def showHosters(oInputParameterHandler = False):
                             oHoster.setDisplayName(sDisplayTitle)
                             oHoster.setFileName(sMovieTitle)
                             cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                else:
+                    sHosterUrl= oRequestHandler.getRealUrl()
+                    sTitle = sMovieTitle
+                    oHoster = cHosterGui().checkHoster(sHosterUrl)
+                    if oHoster:
+                        sDisplayTitle = sTitle
+                        oHoster.setDisplayName(sDisplayTitle)
+                        oHoster.setFileName(sMovieTitle)
+                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl + "|Referer=" + rUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
             else:
                 sHosterUrl = aEntry

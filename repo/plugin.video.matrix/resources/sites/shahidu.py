@@ -450,7 +450,6 @@ def showEpisodes():
  
 def showHosters(oInputParameterHandler = False):
     oGui = cGui()
-    import requests
    
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -466,7 +465,7 @@ def showHosters(oInputParameterHandler = False):
     aResult = oParser.parse(sHtmlContent1, sPattern)
     if aResult[0]:
         for aEntry in aResult[1]:            
-            url = aEntry
+            url = aEntry.replace('\\','')
 
             sTitle = sMovieTitle
             if url.startswith('//'):

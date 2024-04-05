@@ -195,7 +195,7 @@ class cVidsrcto:
         return bytearray(binary_data)
     
     def decode(self, str) -> bytearray:
-        key_bytes = bytes('8z5Ag5wgagfsOuhz', 'utf-8')
+        key_bytes = bytes('WXrUARXb1aDLaZjI', 'utf-8')
         j = 0
         s = bytearray(range(256))
 

@@ -5,8 +5,9 @@ from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
 from resources.lib.comaddon import VSlog
+from resources.lib import random_ua
 
-UA = 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1'
+UA = random_ua.get_pc_ua()
 
 class cHoster(iHoster):
 
@@ -17,8 +18,13 @@ class cHoster(iHoster):
         VSlog(self._url)
         api_call = ''
         oParser = cParser()
+        sReferer = self._url 
 
         oRequest = cRequestHandler(self._url)
+        oRequest.addHeaderEntry('user-agent', UA)
+        oRequest.addHeaderEntry('Referer', sReferer)
+        oRequest.addHeaderEntry('x-requested-with', 'XMLHttpRequest')
+        oRequest.addHeaderEntry('accept', '*/*')
         sHtmlContent = oRequest.request()
 
         sPattern = 'sources: *\[{file:"([^"]+)"'
@@ -27,6 +33,6 @@ class cHoster(iHoster):
             api_call = aResult[1][0]
 
         if api_call:
-            return True, api_call+ '|User-Agent=' + UA + '&Referer='+self._url 
+            return True, api_call+ '|User-Agent=' + UA + '&Referer='+sReferer
 
         return False, False

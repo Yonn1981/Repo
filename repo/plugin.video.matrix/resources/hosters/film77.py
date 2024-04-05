@@ -19,6 +19,7 @@ class cHoster(iHoster):
     def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
         api_call = ''
+        sReferer = f'https://{self._url.split("/")[2]}'
 
         oRequest = cRequestHandler(self._url)
         sHtmlContent = oRequest.request()
@@ -42,8 +43,9 @@ class cHoster(iHoster):
                     qua.append(str(i[1]))
 
                 api_call = dialog().VSselectqual(qua, url)
+                sHost = api_call.split("/")[2]
 
         if api_call:
-            return True, api_call+'|AUTH=TLS&verifypeer=false'  + '&User-Agent=' + UA + '&Referer=' + self._url
+            return True, api_call+ '|User-Agent=' + UA + '&Referer=' + sReferer + '&Host=' + sHost
 
         return False, False
