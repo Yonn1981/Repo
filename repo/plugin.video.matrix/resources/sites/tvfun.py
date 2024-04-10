@@ -90,7 +90,7 @@ def showSeries(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-    sPattern = '<div class="thumb">.+?href="([^"]+)".+?src="([^"]+)".+?<h3>(.+?)</h3>'
+    sPattern = '<div class="thumb">.+?href="([^"]+)".+?src="([^"]+)".+?<br>(.+?)</a>'
     aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
         total = len(aResult[1])

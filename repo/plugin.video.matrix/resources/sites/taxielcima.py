@@ -130,7 +130,7 @@ def showMovies(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
     
-    sPattern = '<div class="SMallBloca".+?<a href="([^"]+)" title="([^"]+)".+?src="([^"]+)'
+    sPattern = '<div class="content-box">\s*<a href="([^"]+)" title="([^"]+)".+?data-image="([^"]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
         total = len(aResult[1])
@@ -199,7 +199,7 @@ def showSeries(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-    sPattern = '<div class="SMallBloca".+?<a href="([^"]+)" title="([^"]+)".+?src="([^"]+)'
+    sPattern = '<div class="content-box">\s*<a href="([^"]+)" title="([^"]+)".+?data-image="([^"]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)
     itemList = []		
     if aResult[0]:
@@ -270,8 +270,8 @@ def showSeasons():
 	oRequestHandler = cRequestHandler(sUrl)
 	sHtmlContent = oRequestHandler.request()
 
-	sStart = '<ul class="Seasons">'
-	sEnd = '<div class="container">'
+	sStart = 'class="tab-class" id="seasons">'
+	sEnd = 'class="container">'
 	sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
 
 	sPattern = 'href="([^"]+)" title="([^"]+)'
@@ -304,15 +304,19 @@ def showEpisodes():
 	oRequestHandler = cRequestHandler(sUrl)
 	sHtmlContent = oRequestHandler.request()
 
-	sPattern = '<div class="SMallBloca".+?href="([^"]+)".+?<em>حلقة</em><span>(.+?)</span>.+?src="([^"]+)'
+	sStart = 'class="tab-class" id="episodes">'
+	sEnd = '<div class="tab-class"'
+	sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
+
+	sPattern = '<div class="episode-block.+?href="([^"]+)".+?data-image="([^"]+)".+?<em>(.+?)</em>'
 	aResult = oParser.parse(sHtmlContent, sPattern)
 	if aResult[0] is True:
 		oOutputParameterHandler = cOutputParameterHandler()
 		for aEntry in aResult[1]:
  
-			sTitle = f'{sMovieTitle} E{aEntry[1]}'
+			sTitle = f'{sMovieTitle} E{aEntry[2]}'
 			siteUrl = aEntry[0] + 'watch/'
-			sThumb = aEntry[2]
+			sThumb = aEntry[1]
 			sDesc = ""
 			
 			oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -341,7 +345,7 @@ def showHosters(oInputParameterHandler = False):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
              
-    sPattern = 'data-url="([^"]+)'
+    sPattern = 'data-link="([^"]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()
@@ -383,7 +387,6 @@ def showHosters(oInputParameterHandler = False):
 
     sPattern = 'class="serverA" href="([^"]+)">.+?class="fa fa-desktop"></i>(.+?)</span>'
     aResult = oParser.parse(sHtmlContent, sPattern)
-    VSlog(aResult)
     if aResult[0]:
         for aEntry in aResult[1]:           
             url = aEntry[0]

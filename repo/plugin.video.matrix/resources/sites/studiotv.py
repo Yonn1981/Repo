@@ -10,7 +10,7 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import VSlog, siteManager, isMatrix
 from resources.lib.parser import cParser
-from resources.lib.packer import cPacker
+from resources.lib import helpers
 from resources.lib.util import Quote
 from resources.lib import random_ua
 
@@ -165,7 +165,7 @@ def showHosters():
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oOutputParameterHandler)
 
-        if 'class="albaplayer_name' not in sHtmlContent:
+        if 'class="albaplayer' not in sHtmlContent:
             sPattern = '<iframe.+?id=["\']iframe["\'].+?src=["\']([^"\']+)["\']'
             aResult = oParser.parse(sHtmlContent, sPattern)
             if aResult[0]:
@@ -201,10 +201,9 @@ def showHosters():
                             cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oOutputParameterHandler)
 
 
-        sStart = 'class="albaplayer_name">'
-        sEnd = 'class="albaplayer_server-body'
+        sStart = 'class="albaplayer'
+        sEnd = 'class="albaplayer'
         sHtmlContent0 = oParser.abParse(sHtmlContent, sStart, sEnd)
-
 
         sPattern = 'href="([^"]+)">(.+?)</a>'
         aResult = oParser.parse(sHtmlContent0, sPattern)
@@ -217,9 +216,22 @@ def showHosters():
                 oRequestHandler = cRequestHandler(url)
                 sHtmlContent = oRequestHandler.request()
 
-                sPattern = 'source:\s*["\']([^"\']+)["\']'
-                aResult = oParser.parse(sHtmlContent, sPattern)
-                if aResult[0]:
+        sPattern = '<iframe.+?src="([^"]+)'
+        aResult = oParser.parse(sHtmlContent0, sPattern)
+        if aResult[0]:
+            for aEntry in aResult[1]:
+                if 'http' not in aEntry:
+                    continue
+                if 'javascript' in aEntry:
+                    continue
+                url = aEntry
+                sTitle = sMovieTitle
+                oRequestHandler = cRequestHandler(url)
+                sHtmlContent = oRequestHandler.request()
+
+        sPattern = 'source:\s*["\']([^"\']+)["\']'
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        if aResult[0]:
                     for aEntry in aResult[1]:
                         url = aEntry
                         if 'm3u8' not in url:
@@ -246,10 +258,9 @@ def showHosters():
                             oHoster.setFileName(sTitle)
                             cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oOutputParameterHandler)
 
-                sPattern = 'loadSource(.+?);'
-                aResult = oParser.parse(sHtmlContent, sPattern)
-
-                if aResult[0]:
+        sPattern = 'loadSource(.+?);'
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        if aResult[0]:
                     for aEntry in aResult[1]:
                         url = aEntry.replace("('","").replace("')","")
                         sTitle = ('%s [COLOR coral](%s)[/COLOR]') % (sMovieTitle, sTitle)
@@ -264,9 +275,9 @@ def showHosters():
                             oHoster.setFileName(sTitle)
                             cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oOutputParameterHandler)   	
 
-                sPattern = 'embeds =(.+?)",'
-                aResult = oParser.parse(sHtmlContent, sPattern)
-                if aResult[0]:
+        sPattern = 'embeds =(.+?)",'
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        if aResult[0]:
                     for aEntry in aResult[1]:
                         url = aEntry.replace(' ["',"")
                         if 'm3u8' in url:           
@@ -290,9 +301,9 @@ def showHosters():
                                         oHoster.setFileName(sMovieTitle)
                                         cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oOutputParameterHandler)
 
-                sPattern = '<iframe src="(.+?)" allowfullscreen'
-                aResult = oParser.parse(sHtmlContent, sPattern)
-                if aResult[0]:
+        sPattern = '<iframe src="(.+?)" allowfullscreen'
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        if aResult[0]:
                     for aEntry in aResult[1]:
                         url = aEntry.replace("('","").replace("')","")
                         sTitle = ('%s [COLOR coral](%s)[/COLOR]') % (sMovieTitle, sTitle)
@@ -307,9 +318,9 @@ def showHosters():
                             oHoster.setFileName(sTitle)
                             cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oOutputParameterHandler)
 
-                sPattern = 'var file = ["\']([^"\']+)["\']'
-                aResult = oParser.parse(sHtmlContent, sPattern)
-                if aResult[0]:
+        sPattern = 'var file = ["\']([^"\']+)["\']'
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        if aResult[0]:
                     for aEntry in aResult[1]:
                         url = aEntry
                         sTitle = ('%s [COLOR coral](%s)[/COLOR]') % (sMovieTitle, sTitle)
@@ -324,9 +335,9 @@ def showHosters():
                             oHoster.setFileName(sTitle)
                             cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oOutputParameterHandler)
 
-                sPattern = "<script>AlbaPlayerControl\((.+?)\,"
-                aResult = oParser.parse(sHtmlContent, sPattern)
-                if aResult[0]: 
+        sPattern = "<script>AlbaPlayerControl\((.+?)\,"
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        if aResult[0]: 
                     for aEntry in aResult[1]:
                         url_tmp = aEntry.replace("'","").replace('"','')
                         url = base64.b64decode(url_tmp).decode('utf8',errors='ignore')
@@ -341,9 +352,9 @@ def showHosters():
                             oHoster.setFileName(sTitle)
                             cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oOutputParameterHandler)	
 
-                sPattern = "<source src='(.+?)' type='application/x-mpegURL'"
-                aResult = oParser.parse(sHtmlContent, sPattern)
-                if aResult[0]:
+        sPattern = "<source src='(.+?)' type='application/x-mpegURL'"
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        if aResult[0]:
                     for aEntry in aResult[1]:
                         url = aEntry.replace("('","").replace("')","")
                         sHosterUrl = url+ '|User-Agent=' + UA +'&Referer='+ murl 
@@ -356,9 +367,9 @@ def showHosters():
                             oHoster.setFileName(sMovieTitle)
                             cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oOutputParameterHandler)
 
-                sPattern = '<iframe.+?src="([^"]+)'
-                aResult = oParser.parse(sHtmlContent, sPattern)
-                if aResult[0]:
+        sPattern = '<iframe.+?src="([^"]+)'
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        if aResult[0]:
                     for aEntry in aResult[1]:
                         if 'http' not in aEntry:
                             continue
@@ -429,7 +440,7 @@ def showHosters():
                                     oHoster.setDisplayName(sTitle)
                                     oHoster.setFileName(sTitle)
                                     cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
-                        elif '.php' in url or 'stream' in url:
+                        elif '.php' in url or 'stream' in url or 'embed' in url:
                             url2 = getHosterIframe(url,url) 
                             url = url2   
 
@@ -469,21 +480,7 @@ def getHosterIframe(url, referer):
     if 'channel' in referer:
          referer = referer.split('channel')[0]
 
-    sPattern = '(\s*eval\s*\(\s*function(?:.|\s)+?{}\)\))'
-    aResult = re.findall(sPattern, sHtmlContent)
-    if aResult:
-        sstr = aResult[0]
-        if not sstr.endswith(';'):
-            sstr = sstr + ';'
-        sHtmlContent = cPacker().unpack(sstr)
-
-    sPattern = '(\s*eval\s*\(\s*function\(p,a,c,k,e(?:.|\s)+?)<\/script>'
-    aResult = re.findall(sPattern, sHtmlContent)
-    if aResult:
-        sstr = aResult[0]
-        if not sstr.endswith(';'):
-            sstr = sstr + ';'
-        sHtmlContent = cPacker().unpack(sstr)
+    sHtmlContent = helpers.get_packed_data(sHtmlContent)
    
     sPattern = '<iframe.+?src=["\']([^"\']+)["\']'
     aResult = re.findall(sPattern, sHtmlContent)

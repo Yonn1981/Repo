@@ -207,69 +207,82 @@ def showHosters(oInputParameterHandler = False):
         oRequest = cRequestHandler(m3url)
         sHtmlContent2 = oRequest.request() 
  
-    sPattern = ',src:{hls:["\']([^"\']+)["\']}'
-    aResult = oParser.parse(sHtmlContent2, sPattern)
-    if aResult[0]:
-        for aEntry in aResult[1]:
+        sPattern = ',src:{hls:["\']([^"\']+)["\']}'
+        aResult = oParser.parse(sHtmlContent2, sPattern)
+        if aResult[0]:
+            for aEntry in aResult[1]:
 
-            url = aEntry
-            if url.startswith('//'):
-                url = 'http:' + url
-            oRequest = cRequestHandler(url)
-            sHtmlContent3 = oRequest.request()
+                url = aEntry
+                if url.startswith('//'):
+                    url = 'http:' + url
+                oRequest = cRequestHandler(url)
+                sHtmlContent3 = oRequest.request()
             
-            sPattern = 'RESOLUTION=(\d+x\d{0,3})(.+?.m3u8)'
-            aResult = oParser.parse(sHtmlContent3, sPattern)
-            if aResult[0]:
-                for aEntry in aResult[1]:
+                sPattern = 'RESOLUTION=(\d+x\d{0,3})(.+?.m3u8)'
+                aResult = oParser.parse(sHtmlContent3, sPattern)
+                if aResult[0]:
+                    for aEntry in aResult[1]:
 
-                    url2 = url.split('0.m3u8')[0]+ aEntry[1]
-                    url2 = url2.replace(' ','') 
-                    qua = aEntry[1].split('.m3u8')[0]
+                        url2 = url.split('0.m3u8')[0]+ aEntry[1]
+                        url2 = url2.replace(' ','') 
+                        qua = aEntry[1].split('.m3u8')[0]
 
-                    sHosterUrl = url2
-                    sTitle = ('%s  [COLOR coral](%s)[/COLOR]') % (sMovieTitle, qua)
-                    oHoster = cHosterGui().checkHoster(sHosterUrl)
-                    sDisplayTitle = sTitle
-                    if oHoster:
-                        oHoster.setDisplayName(sDisplayTitle)
-                        oHoster.setFileName(sMovieTitle)
-                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                        sHosterUrl = url2
+                        sTitle = ('%s  [COLOR coral](%s)[/COLOR]') % (sMovieTitle, qua)
+                        oHoster = cHosterGui().checkHoster(sHosterUrl)
+                        sDisplayTitle = sTitle
+                        if oHoster:
+                            oHoster.setDisplayName(sDisplayTitle)
+                            oHoster.setFileName(sMovieTitle)
+                            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
-    sPattern = 'source:["\']([^"\']+)["\']'
-    aResult = oParser.parse(sHtmlContent2, sPattern)
-    if aResult[0]:
-        for aEntry in aResult[1]:
+        sPattern = 'source:["\']([^"\']+)["\']'
+        aResult = oParser.parse(sHtmlContent2, sPattern)
+        if aResult[0]:
+            for aEntry in aResult[1]:
 
-            url = aEntry
-            if url.startswith('//'):
-                url = 'http:' + url
-            oRequest = cRequestHandler(url)
-            sHtmlContent3 = oRequest.request()
+                url = aEntry
+                if url.startswith('//'):
+                    url = 'http:' + url
+                oRequest = cRequestHandler(url)
+                sHtmlContent3 = oRequest.request()
             
-            sPattern = 'RESOLUTION=(\d+x\d{0,3})(.+?.m3u8)'
-            aResult = oParser.parse(sHtmlContent3, sPattern)
-            if aResult[0]:
-                for aEntry in aResult[1]:
+                sPattern = 'RESOLUTION=(\d+x\d{0,3})(.+?.m3u8)'
+                aResult = oParser.parse(sHtmlContent3, sPattern)
+                if aResult[0]:
+                    for aEntry in aResult[1]:
 
-                    url2 = url.split('0.m3u8')[0]+ aEntry[1]
-                    url2 = url2.replace(' ','') 
-                    qua = aEntry[1].split('.m3u8')[0]
+                        url2 = url.split('0.m3u8')[0]+ aEntry[1]
+                        url2 = url2.replace(' ','') 
+                        qua = aEntry[1].split('.m3u8')[0]
 
-                    sHosterUrl = url2
-                    sTitle = ('%s  [COLOR coral](%s)[/COLOR]') % (sMovieTitle, qua)
-                    oHoster = cHosterGui().checkHoster(sHosterUrl)
-                    sDisplayTitle = sTitle
-                    if oHoster:
-                        oHoster.setDisplayName(sDisplayTitle)
-                        oHoster.setFileName(sMovieTitle)
-                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                        sHosterUrl = url2
+                        sTitle = ('%s  [COLOR coral](%s)[/COLOR]') % (sMovieTitle, qua)
+                        oHoster = cHosterGui().checkHoster(sHosterUrl)
+                        sDisplayTitle = sTitle
+                        if oHoster:
+                            oHoster.setDisplayName(sDisplayTitle)
+                            oHoster.setFileName(sMovieTitle)
+                            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
-    sPattern = '<h1>(.+?)</h1>'
-    aResult = oParser.parse(sHtmlContent2, sPattern)
+        sPattern = '<h1>(.+?)</h1>'
+        aResult = oParser.parse(sHtmlContent2, sPattern)
+        if aResult[0]:
+            for aEntry in aResult[1]:
+                sDesc = aEntry
+                oGui.addText(SITE_IDENTIFIER, f'[COLOR orange] {sDesc} [/COLOR]')
+
+    sPattern = '<iframe.+?src="([^"]+)" title='
+    aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
         for aEntry in aResult[1]:
-            sDesc = aEntry
-            oGui.addText(SITE_IDENTIFIER, f'[COLOR orange] {sDesc} [/COLOR]')
+            url = aEntry
+
+            sHosterUrl = url
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if oHoster:
+                oHoster.setDisplayName(sMovieTitle)
+                oHoster.setFileName(sMovieTitle)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
                
     oGui.setEndOfDirectory()    

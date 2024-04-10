@@ -5,6 +5,7 @@
 
 import re
 import base64	
+import requests
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -122,10 +123,10 @@ def showMovies(sSearch = ''):
     oParser = cParser()    
     oRequest = cRequestHandler(sUrl)
     oRequest.addHeaderEntry('User-Agent', UA)
-    data = oRequest.request()
+    page = oRequest.request()
 
-    if 'adilbo' in data:
-        page = decode_page(data)
+    if 'adilbo' in page:
+        page = decode_page(page)
 
     sPattern = '<article aria-label="post"><a href="([^"]+).+?<li aria-label="year">(.+?)</li>.+?<li aria-label="title">([^<]+)<em>.+?data-src="(.+?)" width'
     aResult = oParser.parse(page, sPattern)
@@ -139,9 +140,13 @@ def showMovies(sSearch = ''):
                 break
  
             sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
-            sTitle = str(sTitle.encode('latin-1'),'utf-8')
+            try:
+                sTitle = str(sTitle.encode('latin-1'),'utf-8')
+                sThumb = str(aEntry[3].encode('latin-1'),'utf-8')
+            except:
+                sTitle = str(sTitle)
+                sThumb = str(aEntry[3])
             siteUrl = aEntry[0] + '/watching/'
-            sThumb = str(aEntry[3].encode('latin-1'),'utf-8')
             if sThumb.startswith('//'):
                 sThumb = 'http:' + sThumb
             sYear = aEntry[1]
@@ -201,10 +206,10 @@ def showSeries(sSearch = ''):
     oParser = cParser() 
     oRequest = cRequestHandler(sUrl)
     oRequest.addHeaderEntry('User-Agent', UA)
-    data = oRequest.request()
+    page = oRequest.request()
 
-    if 'adilbo' in data:
-        page = decode_page(data)
+    if 'adilbo' in page:
+        page = decode_page(page)
 
     sPattern = '<article aria-label="post"><a href="([^<]+)">.+?<li aria-label="year">(.+?)</li>.+?<li aria-label="title">([^<]+)<em>.+?data-src="(.+?)" width'
     aResult = oParser.parse(page, sPattern)
@@ -222,9 +227,13 @@ def showSeries(sSearch = ''):
                 continue
  
             sTitle = aEntry[2]
-            sTitle = str(sTitle.encode('latin-1'),'utf-8')
+            try:
+                sTitle = str(sTitle.encode('latin-1'),'utf-8')
+                sThumb = str(aEntry[3].encode('latin-1'),'utf-8')
+            except:
+                sTitle = str(sTitle)
+                sThumb = str(aEntry[3])
             siteUrl = aEntry[0]
-            sThumb = str(aEntry[3].encode('latin-1'),'utf-8')
             if sThumb.startswith('//'):
                 sThumb = 'http:' + sThumb
             sDesc = ''
@@ -292,18 +301,21 @@ def showSeasons():
 
     oRequest = cRequestHandler(sUrl)
     oRequest.addHeaderEntry('User-Agent', UA)
-    data = oRequest.request()
+    page = oRequest.request()
 
-    if 'adilbo' in data:
-        page = decode_page(data)
+    if 'adilbo' in page:
+        page = decode_page(page)
 
     sPattern = '<a href="([^<]+)">([^<]+)<em>'
     aResult = oParser.parse(page, sPattern)
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()  
         for aEntry in aResult[1]:
-
-            sSeason = str(aEntry[1].encode('latin-1'),'utf-8')
+            
+            try:
+                sSeason = str(aEntry[1].encode('latin-1'),'utf-8')
+            except:
+                sSeason = str(aEntry[1])
             sTitle = sMovieTitle+sSeason.replace("الموسم"," S").replace("S ","S")
             siteUrl = aEntry[0]
             sThumb = sThumb
@@ -353,7 +365,10 @@ def showEps():
 
             sTitle = sMovieTitle+' E'+aEntry[2] 
             siteUrl = aEntry[0] + 'watching/'
-            sThumb = str(aEntry[1].encode('latin-1'),'utf-8')
+            try:
+                sThumb = str(aEntry[1].encode('latin-1'),'utf-8')
+            except:
+                sThumb = str(aEntry[1])
             sDesc = ""
 
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
@@ -365,7 +380,6 @@ def showEps():
     oGui.setEndOfDirectory() 
  
 def showServer(oInputParameterHandler = False):
-    import requests
     oGui = cGui()
    
     oInputParameterHandler = cInputParameterHandler()

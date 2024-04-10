@@ -262,7 +262,7 @@ class cHosterGui:
         streamwish = next((x for x in ['streamwish', 'khadhnayad', 'ajmidyad', 'yadmalik', 'kharabnah', 'hayaatieadhab', 'sfastwish', 'eghjrutf', 'eghzrutw',
                             'wishfast', 'fviplions', 'egtpgrvh', 'mdy48tn97', 'embedwish', 'fsdcmo.sbs', 'anime4low', 'cdnwish-down', 'heavenlyvideo',
                             'flaswish', 'streamzid', 'cimawish', 'egopxutd', 'obeywish', 'trgsfjll', 'mdbekjwqa', 'uqloads', 'm3lomatik', 'cdnwish', 'ma2d',
-                            'mohahhda', 'asnwish'] if x in sHostName), None)
+                            'mohahhda', 'asnwish', 'jodwish'] if x in sHostName), None)
         if streamwish:
             return self.getHoster('streamwish')
 
@@ -309,7 +309,7 @@ class cHosterGui:
         if vidlo:    
             return self.getHoster('dood')
 
-        if ('mcloud' in sHosterUrl) or ('vizcloud' in sHosterUrl) or ('vidstream' in sHosterUrl) or ('vidplay' in sHosterUrl) or ('55a0716b8c' in sHosterUrl) or ('e69975b881' in sHosterUrl):
+        if ('mcloud' in sHosterUrl) or ('vizcloud' in sHosterUrl) or ('vidstream' in sHosterUrl) or ('vidplay' in sHosterUrl) or ('55a0716b8c' in sHosterUrl) or ('e69975b881' in sHosterUrl) or ('c8365730d4' in sHosterUrl):
             return self.getHoster('mcloud')
 
         if ('vidsrc.stream' in sHostName):
@@ -477,7 +477,7 @@ class cHosterGui:
         if ('send.cm' in sHosterUrl):
             return self.getHoster('sendme')
 
-        if ('shoffree' in sHostName) or ('egy-best' in sHostName) or ('site-panel.click' in sHostName):
+        if ('shoffree' in sHostName) or ('egy-best' in sHostName) or ('site-panel.click' in sHostName) or ('anime4up' in sHostName):
             return self.getHoster('shoffree')
 
         if ('streamsforu' in sHostName or 'ylass' in sHostName or 'rsc.cdn' in sHostName or 'btolat' in sHostName):
@@ -507,7 +507,7 @@ class cHosterGui:
         if ('skyvid' in sHostName) or ('gvadz' in sHostName):
             return self.getHoster('skyvid')
                        
-        if ('reviewtech' in sHosterUrl) or ('reviewrate' in sHosterUrl) or ('seeeed' in sHosterUrl) or ('techinsider' in sHosterUrl):
+        if ('reviewtech' in sHosterUrl) or ('reviewrate' in sHosterUrl) or ('seeeed' in sHosterUrl) or ('techinsider' in sHosterUrl) or ('gamezone.cam' in sHosterUrl):
             return self.getHoster('arabseed')
 
         if ('4shared' in sHostName):

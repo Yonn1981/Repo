@@ -527,130 +527,139 @@ def showHosters(oInputParameterHandler = False):
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
+    URL_MAIN = oInputParameterHandler.getValue('URL_MAIN')    
 
     oParser = cParser()
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-
-    sPattern = 'HomeURL = "(.+?)";'
-    aResult = oParser.parse(sHtmlContent, sPattern)    
-    if (aResult[0]):
-        sMain = aResult[1][0]
-
-    sPattern =  '<div data-post="([^"]+)'
+    sPattern =  '<a href="([^<]+)" class="watchBTn">'
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0]:
-        dPost = aResult[1][0]
+        m3url = aResult[1][0].replace(' ','')
+        oRequestHandler = cRequestHandler(m3url)
+        oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
+        oRequestHandler.addHeaderEntry('referer', URL_MAIN+'/')
+        sHtmlContent = oRequestHandler.request() 
 
-    # PLEASE DON'T REQUEST ALL LINKS TOGETHER - YOU'LL BE REQUESTING THE SITE (8*4=32) TIMES - REQUEST BY SERVER OR QUALITY
-    for server in ('0', '1', '2', '3', '4', '5', '6', '7', '8'):
-        oOutputParameterHandler = cOutputParameterHandler()
-
-        sServer = server
-        if server == '0':
-            sName = '[COLOR gold]Arabseed[/COLOR]'
-        if server == '1':
-            sName = 'Server 1'
-        if server == '2':
-            sName = 'Server 2'
-        if server == '3':
-            sName = 'Server 3'
-        if server == '4':
-            sName = 'Server 4'
-        if server == '5':
-            sName = 'Server 5'
-        if server == '6':
-            sName = 'Server 6'
-        if server == '7':
-            sName = 'Server 7'
-        if server == '8':
-            sName = 'Server 8'
-
-        sDisplayTitle = ('%s [COLOR orange] - %s[/COLOR]') % (sMovieTitle, sName)      
-        oOutputParameterHandler.addParameter('sServer', sServer)
-        oOutputParameterHandler.addParameter('sName', sName)
-        oOutputParameterHandler.addParameter('dPost', dPost)
-        oOutputParameterHandler.addParameter('sMain', sMain)
-        oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
-        oOutputParameterHandler.addParameter('sThumb', sThumb)
-
-        oGui.addLink(SITE_IDENTIFIER, 'showLinks', sDisplayTitle, sThumb, '', oOutputParameterHandler, oInputParameterHandler)
-
-    oGui.setEndOfDirectory()
-
-def showLinks():
-    oGui = cGui()
-    oParser = cParser()
-
-    oInputParameterHandler = cInputParameterHandler()
-    sServer = oInputParameterHandler.getValue('sServer')
-    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sName = oInputParameterHandler.getValue('sName')
-    dPost = oInputParameterHandler.getValue('dPost')
-    sMain = oInputParameterHandler.getValue('sMain')
-    sThumb = oInputParameterHandler.getValue('sThumb')
-
-    sQual ='old'
-
-    oRequestHandler = cRequestHandler(sMain + "/wp-content/themes/Elshaikh2021/Ajaxat/Single/Server.php")
-    oRequestHandler.addHeaderEntry('x-requested-with', 'XMLHttpRequest')
-    oRequestHandler.addHeaderEntry('User-Agent', UA)
-    oRequestHandler.addHeaderEntry('Referer', sMain+'/')
-    oRequestHandler.addHeaderEntry('Origin', sMain)
-    oRequestHandler.addParameters('post_id', dPost)
-    oRequestHandler.addParameters('server', sServer)
-    oRequestHandler.addParameters('qu', sQual)
-    oRequestHandler.setRequestType(1)
-    sHtmlContent = oRequestHandler.request()
-
-    sPattern = 'src="([^"]+)'
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    if aResult[0]:
+    sStart = '<div class="containerServers">'
+    sEnd = '<div class="containerIframe">'
+    sHtmlContent0 = oParser.abParse(sHtmlContent, sStart, sEnd)
+    	
+    sPattern = '<h3>(.+?)</h3>(.+?)</i>'
+    aResult = oParser.parse(sHtmlContent0, sPattern)
+    if aResult[0] :
+       
         for aEntry in aResult[1]:
-        
-            sHosterUrl = aEntry
-            if sHosterUrl.startswith('//'):
-                sHosterUrl = 'http:' + sHosterUrl
-                                  
+            sQual = aEntry[0].replace("مشاهدة","").replace(' ','')
+            sHtmlContent = aEntry[1]
+
+            sHosterUrl = url_function(sHtmlContent)
             oHoster = cHosterGui().checkHoster(sHosterUrl)
-            sDisplayTitle = ('%s [COLOR coral] [%s][/COLOR][COLOR orange] - %s[/COLOR]') % (sMovieTitle, sQual, sName)      
             if oHoster:
+                sDisplayTitle = ('%s [COLOR coral](%sp)[/COLOR]') % (sMovieTitle, sQual)
                 oHoster.setDisplayName(sDisplayTitle)
-                oHoster.setFileName(sMovieTitle)
+                oHoster.setFileName(sDisplayTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
-    else:
-        for sQual in ('1080', '720', '480'):
+    sPattern = '<h3>(.+?)</h3>(.+?)</i>(.+?)</i>'
+    aResult = oParser.parse(sHtmlContent0, sPattern)
+    if aResult[0] :
+       
+        for aEntry in aResult[1]:
+            sQual = aEntry[0].replace("مشاهدة","").replace(' ','')
+            sHtmlContent = aEntry[2]
+		         
+            sHosterUrl = url_function(sHtmlContent)
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if oHoster:
+                sDisplayTitle = ('%s [COLOR coral](%sp)[/COLOR]') % (sMovieTitle, sQual)
+                oHoster.setDisplayName(sDisplayTitle)
+                oHoster.setFileName(sDisplayTitle)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
-            oRequestHandler = cRequestHandler(sMain + "/wp-content/themes/Elshaikh2021/Ajaxat/Single/Server.php")
-            oRequestHandler.addHeaderEntry('x-requested-with', 'XMLHttpRequest')
-            oRequestHandler.addHeaderEntry('User-Agent', UA)
-            oRequestHandler.addHeaderEntry('Referer', sMain+'/')
-            oRequestHandler.addHeaderEntry('Origin', sMain)
-            oRequestHandler.addParameters('post_id', dPost)
-            oRequestHandler.addParameters('server', sServer)
-            oRequestHandler.addParameters('qu', sQual)
-            oRequestHandler.setRequestType(1)
-            sHtmlContent = oRequestHandler.request()
+    sPattern = '<h3>(.+?)</h3>(.+?)</i>(.+?)</i>(.+?)</i>'
+    aResult = oParser.parse(sHtmlContent0, sPattern)
+    if aResult[0] :
+       
+        for aEntry in aResult[1]:
+            sQual = aEntry[0].replace("مشاهدة","").replace(' ','')
+            sHtmlContent = aEntry[3]
+		         
+            sHosterUrl = url_function(sHtmlContent)
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if oHoster:
+                sDisplayTitle = ('%s [COLOR coral](%sp)[/COLOR]') % (sMovieTitle, sQual)
+                oHoster.setDisplayName(sDisplayTitle)
+                oHoster.setFileName(sDisplayTitle)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
-            sPattern = 'src="([^"]+)'
-            aResult = oParser.parse(sHtmlContent, sPattern)
-            if aResult[0]:
-                for aEntry in aResult[1]:
-        
-                    sHosterUrl = aEntry
-                    if sHosterUrl.startswith('//'):
-                        sHosterUrl = 'http:' + sHosterUrl
-                                  
-                    oHoster = cHosterGui().checkHoster(sHosterUrl)
-                    sDisplayTitle = ('%s [COLOR coral] [%sp][/COLOR][COLOR orange] - %s[/COLOR]') % (sMovieTitle, sQual, sName)      
-                    if oHoster:
-                        oHoster.setDisplayName(sDisplayTitle)
-                        oHoster.setFileName(sMovieTitle)
-                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+    sPattern = '<h3>(.+?)</h3>(.+?)</i>(.+?)</i>(.+?)</i>(.+?)</i>'
+    aResult = oParser.parse(sHtmlContent0, sPattern)
+    if aResult[0] :
+       
+        for aEntry in aResult[1]:
+            sQual = aEntry[0].replace("مشاهدة","").replace(' ','')
+            sHtmlContent = aEntry[4]
+		         
+            sHosterUrl = url_function(sHtmlContent)
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if oHoster:
+                sDisplayTitle = ('%s [COLOR coral](%sp)[/COLOR]') % (sMovieTitle, sQual)
+                oHoster.setDisplayName(sDisplayTitle)
+                oHoster.setFileName(sDisplayTitle)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+
+    sPattern = '<h3>(.+?)</h3>(.+?)</i>(.+?)</i>(.+?)</i>(.+?)</i>(.+?)</i>'
+    aResult = oParser.parse(sHtmlContent0, sPattern)
+    if aResult[0] :
+       
+        for aEntry in aResult[1]:
+            sQual = aEntry[0].replace("مشاهدة","").replace(' ','')
+            sHtmlContent = aEntry[5]
+		         
+            sHosterUrl = url_function(sHtmlContent)
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if oHoster:
+                sDisplayTitle = ('%s [COLOR coral](%sp)[/COLOR]') % (sMovieTitle, sQual)
+                oHoster.setDisplayName(sDisplayTitle)
+                oHoster.setFileName(sDisplayTitle)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
     
+    else:
+        sPattern = 'data-link="(.+?)" class'
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        if aResult[0]:
+            for aEntry in aResult[1]:
+            
+                url = aEntry
+                if 'vtbe' in url:
+                    url = url +'|Referer='+URL_MAIN
+                if url.startswith('//'):
+                    url = 'http:' + url
+				           
+                sHosterUrl = url 
+                oHoster = cHosterGui().checkHoster(sHosterUrl)
+                if oHoster:
+                    sDisplayTitle = sMovieTitle
+                    oHoster.setDisplayName(sDisplayTitle)
+                    oHoster.setFileName(sDisplayTitle)
+                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+
     oGui.setEndOfDirectory()
+
+def url_function(sHtmlContent):
+    oParser = cParser()
+    sPattern = 'data-link="(.+?)"'
+    aResult = oParser.parse(sHtmlContent, sPattern)	
+    if aResult[0] :
+        for aEntry in aResult[1]:            
+            url = aEntry
+            if 'vtbe' in url:
+                url = url +'|Referer='+URL_MAIN
+            if url.startswith('//'):
+                url = 'http:' + url
+    return url
 
 def main_function(sHtmlContent):
     oParser = cParser()

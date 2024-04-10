@@ -207,7 +207,7 @@
         },
         "daily": {
             "label": "Daily IPTV List",
-            "active": "True",
+            "active": "False",
             "url": "https://d.tousecurity.com/"
         },
         "daktna": {
@@ -343,7 +343,7 @@
         "koralive": {
             "label": "Koralive",
             "active": "True",
-            "url": "https://7online.360kora.org/",
+            "url": "https://livez.360kora.org/",
             "url2": "https://ww.alkoora-live.live/"
         },
         "laroza": {
@@ -359,7 +359,7 @@
         "livetv": {
             "label": "Live TV",
             "active": "True",
-            "url": "https://livetv774.me/"
+            "url": "https://livetv775.me/"
         },
         "lodynet": {
             "label": "Lodynet",

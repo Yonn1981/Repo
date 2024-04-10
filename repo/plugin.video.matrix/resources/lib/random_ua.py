@@ -98,5 +98,4 @@ def set_ua(ua):
 def savecookies(flarejson):
     clean_cookies_dict = {cookie['name']: cookie['value'] for cookie in flarejson}
 
-    VSlog(clean_cookies_dict)
     set_setting('current_cook', clean_cookies_dict)

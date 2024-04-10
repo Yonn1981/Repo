@@ -501,7 +501,7 @@ def showSeasons():
  
             sTitle = aEntry[1]
             sTitle = '[COLOR cyan]'+sTitle+'[/COLOR]'
-            siteUrl = aEntry[0]
+            siteUrl = aEntry[0].replace(aEntry[0].split("/")[2], 'ak.sv/old')
             sThumb = sThumb
             sDesc = ''
  

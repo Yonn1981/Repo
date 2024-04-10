@@ -251,13 +251,20 @@ def showEps():
     oRequestHandler.addHeaderEntry('User-Agent', UA)
     sHtmlContent = oRequestHandler.request()
 
-    sPattern = '<article class="postEp">.+?<a href="([^"]+)".+?</span>\s*<span>(.+?)</span>.+?class="title">(.+?)</div>'
-    aResult = oParser.parse(sHtmlContent, sPattern)   
+    sDesc = ''
+    sPattern = 'class="story">(.+?)</div>'
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)  
+    if aResult[0]:       
+        sDesc = aResult[1][0]
+
+    sPattern = '<article class="postEp">.+?<a href="([^"]+)".+?</span>\s*<span>(.+?)</span>.+?background-image:url\((.*?)\);.+?class="title">(.+?)</div>'
+    aResult = oParser.parse(sHtmlContent, sPattern) 
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()  
         for aEntry in aResult[1]:
 
-            SerieTitle = aEntry[2].split('الحلقة ')[0].replace(' - ','')
+            SerieTitle = aEntry[3].split('الحلقة ')[0].replace(' - ','')
             m = re.search('([0-9]{1})', SerieTitle)
             if m:
                sS = str(m.group(0))
@@ -268,8 +275,7 @@ def showEps():
             if '?url=' in siteUrl or '?post=' in siteUrl:
                 url_tmp = siteUrl.split('?url=')[-1].replace('%3D','=')
                 siteUrl = base64.b64decode(url_tmp).decode('utf8',errors='ignore')
-            sThumb = sThumb
-            sDesc = ''
+            sThumb = aEntry[2]
 
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -278,7 +284,6 @@ def showEps():
             oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
     sPattern = '<h3>(.+?)</h3>'
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)  
     if aResult[0]:       
         sTitle = aResult[1][0]

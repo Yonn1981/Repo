@@ -31,7 +31,7 @@ MOVIE_TURK = (URL_MAIN + 'category/أفلام-تركي-مترجمة', 'showMovie
 
 SERIE_ASIA = (URL_MAIN + 'category/مسلسلات-أسيوية', 'showSeries')
 SERIE_TR_AR = (URL_MAIN + 'category/مسلسلات-تركية-مدبلجة', 'showSeries')
-SERIE_TR = (URL_MAIN + 'category/مسلسلات-تركية-كاملة', 'showSeries')
+SERIE_TR = (URL_MAIN + 'category/مسلسلات-تركية-مترجمة', 'showSeries')
 SERIE_EN = (URL_MAIN + 'category/مسلسلات-أجنبية', 'showSeries')
 SERIE_DUBBED = (URL_MAIN + 'category/مسلسلات-مدبلجة', 'showSeries')
 SERIE_KR = (URL_MAIN + 'category/مسلسلات-كورية-مترجمة', 'showSeries')
