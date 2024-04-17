@@ -32,7 +32,7 @@ def load():
     oGui.addDir(SITE_IDENTIFIER, 'showSearch', addons.VSlang(30330), 'search.png', oOutputParameterHandler)
 
     sList = [
-            ('AflamHQ','bNA04cJ','sites/aflaam.png'),
+            ('2024 اشهر واقوى المسلسلات والافلام','nLw3cuO','sites/linkbox.png'),
             ('مكتبة المسلسلات والأفلام Movies and Series Library with 4k','_ig_gOEnWNM_2543983_3648','sites/linkbox.png'),
             ('Anime Box','app01e2f1adf1aca0a1a1a4a7a2a0adf2aca0a1a1a4a7a2a0','sites/linkbox.png'),
             ('Htm.Animes','app01e2f1adf2acaeafa1a3a1a0a0adf1acaeafa1a3a1a0a0','sites/linkbox.png'),
@@ -41,17 +41,13 @@ def load():
             ('Cinema-Club (مسلسلات)','app01e2f1adf1aca4a1afaea4a5a1adf2aca4a1afaea4a5a1','sites/cimaclub.png'),
             ('Cinema-Club (أفلام و مسلسلات الأنمي)','app01e2f1adf1aca4a3a5aea3aea0adf2aca4a3a5aea3aea0','sites/cimaclub.png'),
             ('Cinema Crown','app01e2f1adf1aca7a4a5a3a1a3aeadf2aca7a4a5a3a1a3ae','sites/linkbox.png'),
-            ('Cinema mix','app01e2f1adf1aca5aea7afa0a6a5adf2aca5aea7afa0a6a5','sites/linkbox.png'),
             ('Cimaabdo','_ig_esEuECt_609855_299a','sites/linkbox.png'),
-            ('Dopanime Movies','_ig_app01e2f1adf0f2acf0e6a5e6faf9a6a6a7afa5e2_9389145_6e86','sites/linkbox.png'),
             ('Egybest','xgLMOew','sites/egybest.png'),
             ('EGY-BEST','app01e2f1adf2aca7a3a6a0a1a1a5adf1aca7a3a6a0a1a1a5','sites/egybest.png'),
             ('ايجي بست EgyBest','_ig_app01e2f1adf0f2acf0e6a5fbf9e5a6a6a6eefdf8_3589656_8ed8','sites/egybest.png'),
             ('MARVEL MOROCCO','SD9p5bO','sites/linkbox.png'),
             ('Movies Plus - أفلام','app01e2f1adf1aca0a2a3a1a0a6adf2aca0a2a3a1a0a6','sites/linkbox.png'),
-            ('Movies Time','U9eySIc','sites/moviztime.png'),
             ('Netflix','_ig_app01e2f1adf0f2acf0e6a5fda0aea6a6a6f3afe0_2674587_0ddd','sites/netflix.png'),
-            ('افلام و مسلسلات netflix','_ig_2z1IFpK_4702801_f98c','sites/netflix.png'),
             ('Netfilx (2022) أفلام ومسلسلات متنوعة','app01e2f1adf2acaea1aea1afa0adf1acaea1aea1afa0','sites/netflix.png'),
             ('New Q','_ig_app01e2f1adf0f2acf0e6a5fafae5a6a6f4f2aff4_4606358_e7ba','sites/linkbox.png'),
             ('ONE Cima TV','app01e2f1adf1aca7a5a2a5a5a4a2adf2aca7a5a2a5a5a4a2','sites/linkbox.png'),
@@ -59,7 +55,6 @@ def load():
             ('Showtime Movies','app01e2f1adf1aca2a4a7afa5afa7adf2aca2a4a7afa5afa7','sites/linkbox.png'),
             ('The Movie Night','app01e2f1adf2acaeafa3a3afa3adf1acaeafa3a3afa3','sites/linkbox.png'),
             ('English Films - افلام اجنبي','_ig_app01e2f1adf0f2acf0e6a5f1e2a6a6a6a5a6efe3_752951_b7af','sites/linkbox.png'),
-            ('The Movies','app01e2f1adf2aca5a5a2a3a3a4aeadf1aca5a5a2a3a3a4ae','sites/linkbox.png'),
             ('THROW LOB (رياضة)','NZKr9gl','sites/linkbox.png'),
             ('The Movie Muse','ZmM9DaP','sites/linkbox.png'),
             ('Yalla Anime','app01e2f1adf2aca4afa3a5a1a5aeadf1aca4afa3a5a1a5ae','sites/linkbox.png'),
@@ -84,7 +79,6 @@ def load():
             ('الربيعي موفيز','app01e2f1adf2aca3a5a5a4a1a0a1adf1aca3a5a5a4a1a0a1','sites/linkbox.png'),
             ('أفلام مجان نت','app01e2f1adf2aca4a7a5a7a0aeafadf1aca4a7a5a7a0aeaf','sites/linkbox.png'),
             ('مسلسلات وأفلام (2023)','app01e2f1adf2aca5aea1a5aea0a2adf1aca5aea1a5aea0a2','sites/linkbox.png'),
-            ('أفلام ومسلسلات نتفليكس','vhOWCrx','sites/netflix.png'),
             ('كيدراما (الأسيوية)','app01e2f1adf1aca4a3a6afa0a6adf2aca4a3a6afa0a6','sites/linkbox.png'),
             ('مسلسلات وأفلام أسيوية','app01e2f1adf2aca0a0a0afa0aeadf1aca0a0a0afa0ae','sites/linkbox.png'),
             ('إستراحة المنوعات','app01e2f1adf2aca5a4afa7a7aea6adf1aca5a4afa7a7aea6','sites/linkbox.png'),
@@ -155,6 +149,7 @@ def showContent(sSearch = '',oInputParameterHandler = False):
 
     for elm in data:
                 sTitle = elm.get('name','')
+                sTitle = re.sub(r"[^\w\s]", "", sTitle).replace('mp4','')
                 type_ = elm.get('type','')
 
                 pid   = elm.get('id','')
@@ -190,7 +185,7 @@ def showContent(sSearch = '',oInputParameterHandler = False):
                     icon  = elm.get('cover','')
                     if '&x-image-process' in icon: 
                          icon = icon.split('&x-image-process',1)[0]
-                    sHosterUrl = link
+                    sHosterUrl = link.replace('<nil>','')
                     sDisplayTitle = sTitle + '  [COLOR yellow]('+str(size) + 'MB)[/COLOR]'
                     oHoster = cHosterGui().getHoster('lien_direct')        
                     if oHoster:
@@ -224,6 +219,7 @@ def GetSearch(sSearch = ''):
     elm_count = 0
     for elm in data:
                 sTitle = 'Search Result for: ' + elm.get('name','').replace('<em>','').replace('</em>','')
+                sTitle = re.sub(r"[^\w\s]", "", sTitle).replace('mp4','')
                 type_ = elm.get('type','')
 
                 pid   = elm.get('id','')
@@ -282,6 +278,7 @@ def showGroupSearch(sSearchText = '', oInputParameterHandler = False):
     elm_count = 0
     for elm in data:
                 sTitle = elm.get('name','')
+                sTitle = re.sub(r"[^\w\s]", "", sTitle).replace('mp4','')
                 type_ = elm.get('type','')
 
                 pid   = elm.get('id','')
@@ -319,7 +316,7 @@ def showGroupSearch(sSearchText = '', oInputParameterHandler = False):
                     if '&x-image-process' in icon: 
                          icon = icon.split('&x-image-process',1)[0]
 
-                    sHosterUrl = url
+                    sHosterUrl = url.replace('<nil>','')
                     sDisplayTitle = sTitle + '  [COLOR yellow]('+str(size) + 'MB)[/COLOR]'
                     oHoster = cHosterGui().getHoster('lien_direct')        
                     if oHoster:
@@ -359,6 +356,7 @@ def showGroupSearchNext(sSearchText = '', oInputParameterHandler = False):
     elm_count = 0
     for elm in data:
                 sTitle = elm.get('name','')
+                sTitle = re.sub(r"[^\w\s]", "", sTitle).replace('mp4','')
                 type_ = elm.get('type','')
 
                 spid = 0
@@ -388,7 +386,7 @@ def showGroupSearchNext(sSearchText = '', oInputParameterHandler = False):
                     if '&x-image-process' in icon: 
                          icon = icon.split('&x-image-process',1)[0]
 
-                    sHosterUrl = url
+                    sHosterUrl = url.replace('<nil>','')
                     sDisplayTitle = sTitle + '  [COLOR yellow]('+str(size) + 'MB)[/COLOR]'
                     oHoster = cHosterGui().getHoster('lien_direct')        
                     if oHoster:

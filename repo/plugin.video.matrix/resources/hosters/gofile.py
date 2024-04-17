@@ -17,28 +17,36 @@ class cHoster(iHoster):
 
         headers = {'User-Agent': UA,
                    'Origin': self._url.rsplit('/', 1)[0],
-                   'Referer': self._url
+                   'Referer': self._url,
+                   "Accept-Encoding": "gzip, deflate, br",
+                   "Accept": "*/*",
+                   "Connection": "keep-alive",
                    }
         host = self._url.rsplit("/")[2]
+        
         media_id = self._url.rsplit("/",1)[1]
+        
         base_api = 'https://api.gofile.io'
         s = requests.session()
-        sHtmlContent = s.get('{}/createAccount'.format(base_api), headers=headers)
+        sHtmlContent = s.post('{}/accounts'.format(base_api), headers=headers)
         token = json.loads(sHtmlContent.content).get('data').get('token')
-
+        
         sHtmlContent = s.get('https://{}/dist/js/alljs.js'.format(host), headers=headers).text
-        wtoken = re.search(r'fetchData\.wt\s*=\s*"([^"]+)', sHtmlContent)
-
-        content_url = '{}/getContent?contentId={}&token={}&wt={}'.format(base_api, media_id, token, wtoken.group(1))
+        
+        wtoken = re.search(r'fetchData\s*=\s*{\s*wt:\s*"([^"]+)', sHtmlContent)
+        
+        headers.update({"Authorization": "Bearer" + " " + token})
+        content_url = '{}/contents/{}?wt={}&cache=true'.format(base_api, media_id, wtoken.group(1))
         sHtmlContent = s.get(content_url, headers=headers).content
-        data = json.loads(sHtmlContent).get('data').get('contents')
-
-        headers.update({'Cookie': 'accountToken={}'.format(token)})
+        
+        data = json.loads(sHtmlContent).get('data').get('children')
+        
+        
         sources = [(data[x].get('size'), data[x].get('link')) for x in data]
 
         if len(sources) == 1:
             api_call = sources[0][1]
-            
+
         elif len(sources) > 1:
             url=[]
             qua=[]

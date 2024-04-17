@@ -234,6 +234,26 @@ def showEpisodes(oInputParameterHandler = False):
         oRequest = cRequestHandler(m3url)
         sHtmlContent = oRequest.request()
 
+    sPattern = '<a class="button" href="([^<]+)" id=".+?">(.+?)</a>'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    if aResult[0]:
+        for aEntry in aResult[1]:
+
+            url = aEntry[1]
+            sTitle = aEntry[0]
+            if url.startswith('//'):
+               url = 'http:' + url
+
+            sHosterUrl = url
+            if "youtube" in sHosterUrl:
+                continue
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if oHoster:
+               sTitle = sTitle+sMovieTitle
+               oHoster.setDisplayName(sTitle)
+               oHoster.setFileName(sTitle)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+
     sPattern = 'iframes([^<]+)=.+?width="100%" height="400" src="(.+?)" frameborder='
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:

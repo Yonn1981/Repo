@@ -9,6 +9,7 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
+from resources.lib.util import Quote
 from resources.lib import random_ua
 
 UA = random_ua.get_ua()
@@ -577,55 +578,53 @@ def showHosters(oInputParameterHandler = False):
     if sMain:
         URL_MAIN = sMain
 
-    sPattern =  '<span id="loader" class="loader hidden">.+?href="([^"]+)' 
+    sPattern =  '<form action="([^"]+)' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0]:
-        mshort = aResult[1][0] 
+        maction = aResult[1][0] 
 
-    oRequestHandler = cRequestHandler(mshort)
-    oRequestHandler.addHeaderEntry('User-Agent', UA)
-    oRequestHandler.addHeaderEntry('Referer', sUrl.encode("utf-8"))
-    oRequestHandler.addHeaderEntry('Host', "shoffree.net")
-    sHtmlContent = oRequestHandler.request()
-
-    sPattern =  'name="key" value="([^"]+)' 
+    sPattern =  'name="url" value="([^"]+)' 
     aResult = oParser.parse(sHtmlContent,sPattern)
-    if aResult[0]:
-        mkey = aResult[1][0]
-
-    oRequestHandler = cRequestHandler(sUrl.encode("utf-8"))
-    oRequestHandler.addHeaderEntry('User-Agent', UA)
-    oRequestHandler.addHeaderEntry('Referer', mshort)
-    oRequestHandler.addHeaderEntry('Host', "shoffree.net")
-    oRequestHandler.addParameters('key', mkey)
-    oRequestHandler.setRequestType(1)
-    sHtmlContent = oRequestHandler.request()
-
-    sPattern = 'data-embed="([^"]+)'
-    aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
         for aEntry in aResult[1]:
-            if 'http' not in aEntry:
-                continue          
-            url = aEntry
-            if 'role/' in url:
-                xcode = url.rsplit("/",2)[1]
-                if 'movie/' in sUrl:
-                    url = f'https://r.site-panel.click/stream/{xcode}/movie?role=' + "|Referer=" + URL_MAIN
-                else:
-                    url = f'https://r.site-panel.click/stream/{xcode}/episode?role=' + "|Referer=" + URL_MAIN
+            murl = aEntry
 
-            sHosterUrl = url
-            if 'userload' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-            if 'shoffree' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + sUrl
-            if 'mystream' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN    
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if oHoster != False:
-                oHoster.setDisplayName(sMovieTitle)
-                oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+            oRequestHandler = cRequestHandler(maction)
+            oRequestHandler.addHeaderEntry('User-Agent', UA)
+            oRequestHandler.addHeaderEntry('Referer', sUrl)
+            oRequestHandler.addHeaderEntry('Host', "shoffree.net")
+            oRequestHandler.addParameters('url', murl)
+            oRequestHandler.setRequestType(1)
+            sHtmlContent = oRequestHandler.request()
+
+            sPattern =  "window.open\('(.*?)'" 
+            aResult = oParser.parse(sHtmlContent,sPattern)
+            if aResult[0]:
+                url = aResult[1][0] 
+                if 'shoffree' in url:
+                    oRequestHandler = cRequestHandler(url)
+                    oRequestHandler.addHeaderEntry('User-Agent', UA)
+                    oRequestHandler.addHeaderEntry('Referer', maction)
+                    oRequestHandler.addHeaderEntry('Host', "shoffree.net")
+                    sHtmlContent = oRequestHandler.request()  
+                    
+                    sPattern =  '<iframe.+?src="([^"]+)"></iframe>'
+                    aResult = oParser.parse(sHtmlContent,sPattern)
+                    if aResult[0]:
+                        url = aResult[1][0].split('&role')[0]
+                        url = aResult[1][0].split('?key=')[0] + '?key=' + Quote(url.split('?key=')[1])
+
+                sHosterUrl = url
+                if 'userload' in sHosterUrl:
+                    sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                if 'shoffree' in sHosterUrl:
+                    sHosterUrl = sHosterUrl + "|Referer=" + sUrl
+                if 'mystream' in sHosterUrl:
+                    sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN    
+                oHoster = cHosterGui().checkHoster(sHosterUrl)
+                if oHoster != False:
+                    oHoster.setDisplayName(sMovieTitle)
+                    oHoster.setFileName(sMovieTitle)
+                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
     oGui.setEndOfDirectory()

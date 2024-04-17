@@ -27,6 +27,6 @@ class cHoster(iHoster):
             api_call = aResult[1][0]
 
         if api_call:
-            return True, api_call + '|User-Agent=' + UA + '&Referer=' + self._url
+            return True, api_call + '|User-Agent=' + UA + '&Referer=' + self._url.rsplit("/",1)[0]+'/' + '&Host=' + api_call.rsplit("/",3)[1]
 
         return False, False

@@ -19,6 +19,7 @@ class cHoster(iHoster):
 
     def _getMediaLinkForGuest(self, autoPlay = False):
         api_call = self._url
+        VSlog(api_call)
 
         if ('sub.info' in self._url0):
             SubTitle = self._url0.split('sub.info=')[1]

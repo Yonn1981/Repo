@@ -166,9 +166,6 @@ def showPack():
     sUrl = oInputParameterHandler.getValue('siteUrl')
 
     oParser = cParser()
-    oRequestHandler = cRequestHandler(URL_MAIN)
-    sHtmlContent = oRequestHandler.request()
-
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
@@ -207,9 +204,6 @@ def showMovies(sSearch = ''):
         sUrl = oInputParameterHandler.getValue('siteUrl')
 
     oParser = cParser()
-    oRequestHandler = cRequestHandler(URL_MAIN)
-    sHtmlContent = oRequestHandler.request()
-
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
@@ -229,6 +223,7 @@ def showMovies(sSearch = ''):
             siteUrl = aEntry[0].replace((aEntry[0].split('watch/')[0]), URL_MAIN)
             sDesc = ''
             sThumb = aEntry[2].replace("(","").replace(")","")
+            sThumb = sThumb.replace(sThumb.split('wp-content/')[0], URL_MAIN)
             sYear = ''
             m = re.search('([0-9]{4})', sTitle)
             if m:
@@ -263,9 +258,6 @@ def showSeries(sSearch = ''):
         sUrl = oInputParameterHandler.getValue('siteUrl')
 
     oParser = cParser()
-    oRequestHandler = cRequestHandler(URL_MAIN)
-    sHtmlContent = oRequestHandler.request()
-
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
@@ -292,6 +284,7 @@ def showSeries(sSearch = ''):
                 siteUrl = siteUrl.replace("https://gocimago.shop/",URL_MAIN)
             sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("مشاهده","").replace("برنامج","").replace("مترجمة","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","")
             sThumb = aEntry[2].replace("(","").replace(")","")
+            sThumb = sThumb.replace(sThumb.split('wp-content/')[0], URL_MAIN)
             sDesc = ''
             sTitle = sTitle.split('موسم')[0].split('حلقة')[0]
             sYear = ''
@@ -354,9 +347,6 @@ def showAnimes(sSearch = ''):
         sUrl = oInputParameterHandler.getValue('siteUrl')
 
     oParser = cParser()
-    oRequestHandler = cRequestHandler(URL_MAIN)
-    sHtmlContent = oRequestHandler.request()
-
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
@@ -381,6 +371,7 @@ def showAnimes(sSearch = ''):
             siteUrl = aEntry[0]    
             sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("مشاهده","").replace("برنامج","").replace("مترجمة","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","")
             sThumb = aEntry[2].replace("(","").replace(")","")
+            sThumb = sThumb.replace(sThumb.split('wp-content/')[0], URL_MAIN)
             sDesc = ''
             sTitle = sTitle.split('موسم')[0].split('حلقة')[0]
             sYear = ''

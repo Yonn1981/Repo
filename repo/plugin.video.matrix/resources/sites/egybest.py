@@ -9,6 +9,7 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
+from resources.lib.util import Quote
 from resources.lib import random_ua
 
 UA = random_ua.get_ua()
@@ -596,10 +597,6 @@ def showHosters(oInputParameterHandler = False):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent1 = oRequestHandler.request()
 
-    sMain = main_function(sHtmlContent1)
-    if sMain:
-        URL_MAIN = sMain
-
     sPattern = '<iframe.+?src="([^"]+)'
     aResult = oParser.parse(sHtmlContent1, sPattern)
     if aResult[0]:
@@ -621,158 +618,51 @@ def showHosters(oInputParameterHandler = False):
                             cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
                         else:
                             cHosterGui().showHoster(oGui, oHoster, sHosterUrl + "|Referer=" + rUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
-                                
-            if "role/" in aEntry:
-                aurl = aEntry
 
-                cook = oRequestHandler.GetCookies()
-                oRequestHandler = cRequestHandler(aurl)
-                oRequestHandler.addHeaderEntry('Sec-Fetch-Mode', 'navigate')
-                oRequestHandler.addHeaderEntry('User-Agent', UA)
-                oRequestHandler.addHeaderEntry('Referer', rUrl)
-                oRequestHandler.addHeaderEntry('Cookie', cook)
-                sHtmlContent = oRequestHandler.request()
-                           
-                sPattern = '<source src="([^"]+)".+?size="([^"]+)'
-                aResult = oParser.parse(sHtmlContent, sPattern)
-                if aResult[0]:
-                    for aEntry in aResult[1]:
-            
-                        url = aEntry[0]
-                        qual = aEntry[1]
-                        sHosterUrl = url
-                        if '.ak' in sHosterUrl:
-                            sHosterUrl = sHosterUrl+"|verifypeer=false"  
-
-                        sTitle = ('%s  [COLOR coral](%sp)[/COLOR]') % (sMovieTitle, qual)
-                        oHoster = cHosterGui().checkHoster(sHosterUrl)
-                        if oHoster:
-                            sDisplayTitle = sTitle
-                            oHoster.setDisplayName(sDisplayTitle)
-                            oHoster.setFileName(sMovieTitle)
-                            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
-                else:
-                    sHosterUrl= oRequestHandler.getRealUrl()
-                    sTitle = sMovieTitle
-                    oHoster = cHosterGui().checkHoster(sHosterUrl)
-                    if oHoster:
-                        sDisplayTitle = sTitle
-                        oHoster.setDisplayName(sDisplayTitle)
-                        oHoster.setFileName(sMovieTitle)
-                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl + "|Referer=" + rUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
-
-            else:
-                sHosterUrl = aEntry
-                oHoster = cHosterGui().checkHoster(sHosterUrl)
-                if oHoster:
-                    oHoster.setDisplayName(sMovieTitle)
-                    oHoster.setFileName(sMovieTitle)
-                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
-
-    sPattern =  'name="codes" value="([^"]+)' 
-    aResult = oParser.parse(sHtmlContent1,sPattern)
-    if aResult[0]:
-        mcode = aResult[1][0] 
-
-    sPattern = '<section class="code"><form action="(.+?)" method="post">'
-    aResult = oParser.parse(sHtmlContent1,sPattern)
-    if aResult[0] is True:
-        murl2 = aResult[1][0] 
-
-        oRequestHandler = cRequestHandler(murl2)
-        oRequestHandler.addParameters('codes', mcode)
-        oRequestHandler.setRequestType(1)
-        sHtmlContent = oRequestHandler.request()
- 
-        sPattern = '"iframe_a" href="([^"]+)'
-        aResult = oParser.parse(sHtmlContent, sPattern)
-        if aResult[0]:
-           for aEntry in reversed(aResult[1]):
-               if 'http' not in aEntry:
-                    continue          
-               url = aEntry
-               sThumb = sThumb
-               if url.startswith('//'):
-                  url = 'http:' + url
-								            
-               sHosterUrl = url
-               if 'userload' in sHosterUrl:
-                  sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-               if 'egy-best' in sHosterUrl:
-                  sHosterUrl = sHosterUrl + "|Referer=" + murl2
-               if 'mystream' in sHosterUrl:
-                  sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
-               if '.ak' in sHosterUrl:
-                  sHosterUrl = sHosterUrl+"|verifypeer=false"   
-               oHoster = cHosterGui().checkHoster(sHosterUrl)
-               if oHoster != False:
-                  oHoster.setDisplayName(sMovieTitle)
-                  oHoster.setFileName(sMovieTitle)
-                  cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
-
-
-    sPattern = '<div class="tr flex-start">.+?</div>.+?<div>(.+?)</div>.+?<a href="([^"]+)'
+    sPattern = '<form method="post" target="_blank" action="([^"]+)'
     aResult = oParser.parse(sHtmlContent1, sPattern)
     if aResult[0]:
            for aEntry in aResult[1]:
-                
-                refer = aEntry[1].split("/d")[0]
-                url = aEntry[1]
-                qual = aEntry[0].split('p')[0]
+                          
+                url = aEntry.replace('download','script')
+                Referer = aEntry
+                        
+                cook = oRequestHandler.GetCookies()
                 oRequestHandler = cRequestHandler(url)
+                oRequestHandler.addHeaderEntry('Sec-Fetch-Mode', 'navigate')
+                oRequestHandler.addHeaderEntry('User-Agent', UA)
+                oRequestHandler.addHeaderEntry('Referer', Referer)
+                oRequestHandler.addHeaderEntry('Cookie', cook)
                 sHtmlContent = oRequestHandler.request()
-
+              
                 sPattern = '<iframe.+?src="([^"]+)'
                 aResult = oParser.parse(sHtmlContent, sPattern)
                 if aResult[0]:
-                    for aEntry in aResult[1]:
-            
-                        url = aEntry   
-                        
-                        cook = oRequestHandler.GetCookies()
-                        oRequestHandler = cRequestHandler(url)
-                        oRequestHandler.addHeaderEntry('Sec-Fetch-Mode', 'navigate')
-                        oRequestHandler.addHeaderEntry('User-Agent', UA)
-                        oRequestHandler.addHeaderEntry('Referer', refer)
-                        oRequestHandler.addHeaderEntry('Cookie', cook)
-                        sHtmlContent = oRequestHandler.request()
-              
-                        sPattern = '<a href="([^"]+)'
-                        aResult = oParser.parse(sHtmlContent, sPattern)
-                        if aResult[0]:
-                                for aEntry in aResult[1]:
-            
-                                    url = aEntry
-                                    sHosterUrl = url
-                                    if '.ak' in sHosterUrl:
-                                        sHosterUrl = sHosterUrl+"|verifypeer=false" 
+                        for aEntry in aResult[1]:
+                            if 'http' not in aEntry:
+                                continue
+                                    
+                            url = aEntry
+                            url = aEntry.split('?key=')[0] + '?key=' + Quote(url.split('?key=')[1])
+                            sHosterUrl = url
 
-                                    sTitle = ('%s  [COLOR coral](%sp)[/COLOR]') % (sMovieTitle, qual)
-                                    oHoster = cHosterGui().checkHoster(sHosterUrl)
-                                    if oHoster:
-                                        sDisplayTitle = sTitle
-                                        oHoster.setDisplayName(sDisplayTitle)
-                                        oHoster.setFileName(sMovieTitle)
-                                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                            oHoster = cHosterGui().checkHoster(sHosterUrl)
+                            if oHoster:
+                                oHoster.setDisplayName(sMovieTitle)
+                                oHoster.setFileName(sMovieTitle)
+                                cHosterGui().showHoster(oGui, oHoster, sHosterUrl  + "|Referer=" + rUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
-                sPattern = 'Watch</button><a href="([^"]+)'
-                aResult = oParser.parse(sHtmlContent, sPattern)	
-                if aResult[0]:
-                    for aEntry in aResult[1]:
-            
-                        url = aEntry
-                        sTitle = ('%s  [COLOR coral](%sp)[/COLOR]') % (sMovieTitle, qual)
-                        if url.startswith('//'):
-                            url = 'http:' + url
-				            
-                        sHosterUrl = url 
-                        if '.ak' in sHosterUrl:
-                            sHosterUrl = sHosterUrl+"|verifypeer=false"  
-                        oHoster = cHosterGui().checkHoster(sHosterUrl)
-                        if oHoster:
-                            sDisplayTitle = sTitle
-                            oHoster.setDisplayName(sDisplayTitle)
-                            oHoster.setFileName(sMovieTitle)
-                            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+    sPattern = 'data-embed-url=["\']([^"\']+)["\']'
+    aResult = oParser.parse(sHtmlContent1, sPattern)
+    if aResult[0]:
+        for aEntry in aResult[1]:
+                          
+            sHosterUrl = aEntry
+
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if oHoster:
+                oHoster.setDisplayName(sMovieTitle)
+                oHoster.setFileName(sMovieTitle)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
     oGui.setEndOfDirectory()

@@ -18,11 +18,11 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-ANIM_MOVIES = (URL_MAIN + '/movies_list/', 'showMovies')
-ANIM_NEWS = (URL_MAIN+'/episodes' , 'showSeries')
+ANIM_MOVIES = (URL_MAIN + 'movies_list/', 'showMovies')
+ANIM_NEWS = (URL_MAIN+'episodes' , 'showSeries')
 
-URL_SEARCH = (URL_MAIN + '/?s=', 'showMovies')
-URL_SEARCH_ANIMS = (URL_MAIN + '/?s=', 'showSeries')
+URL_SEARCH = (URL_MAIN + '?s=', 'showMovies')
+URL_SEARCH_ANIMS = (URL_MAIN + '?s=', 'showSeries')
 
 FUNCTION_SEARCH = 'showMovies'
  
@@ -47,7 +47,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/?s='+sSearchText
+        sUrl = URL_MAIN + '?s='+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -130,8 +130,10 @@ def showSeries(sSearch = ''):
             sThumb = aEntry[2]
             sDesc = ''
             sYear = ''
-            sTitle = sTitle.split('الحلقة')[0].split('الموسم')[0]
-            sTitle = sTitle.replace("Season ","S")
+            if "الحلقة" in sTitle:
+                sTitle = sTitle.split("الحلقة")[0].split('الموسم')[0]
+            if "حلقة" in sTitle:
+                sTitle = sTitle.split("حلقة")[0].split('الموسم')[0]
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)

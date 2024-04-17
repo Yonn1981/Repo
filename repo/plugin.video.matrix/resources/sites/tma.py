@@ -252,10 +252,13 @@ def showHosters():
         if (aResult):
             for aEntry in aResult:
                 sHosterUrl = aEntry
-                VSlog(sHosterUrl)
+                if '.site' in sHosterUrl:
+                    oHoster = cHosterGui().getHoster('mcloud') 
+                else:
+                    oHoster = cHosterGui().checkHoster(sHosterUrl)
 
                 sDisplayTitle = sMovieTitle
-                oHoster = cHosterGui().checkHoster(sHosterUrl)
+                
                 if oHoster != False:
                     oHoster.setDisplayName(sDisplayTitle)
                     oHoster.setFileName(sMovieTitle)

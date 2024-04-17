@@ -481,6 +481,7 @@ def showHosters():
     nTitle = oInputParameterHandler.getValue('nTitle')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
+    sHost = oInputParameterHandler.getValue('sHost')
 
     vrf = getVerid(sId)
 
@@ -501,7 +502,10 @@ def showHosters():
         if ('sub.info' in sHosterUrl):
             SubTitle = sHosterUrl.split('sub.info=')[1]
             sHosterUrl = sHosterUrl.split('&sub.info')[0]
-        oHoster = cHosterGui().checkHoster(sHosterUrl)
+        if 'Vidplay' in sHost:
+            oHoster = cHosterGui().getHoster('mcloud')     
+        else:
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
         if oHoster:
             if ('http' in SubTitle):
                 sHosterUrl = sHosterUrl+'?sub.info='+SubTitle

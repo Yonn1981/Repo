@@ -32,7 +32,7 @@ class cHoster(iHoster):
         if aResult:
             ext = aResult.group(1).split('.')[-1]
             VSlog(ext)
-            api_call = f"https://qiwi.lol/{file_id}.{ext}"
+            api_call = f"https://spyderrock.com/{file_id}.{ext}"
 
         if api_call:
             return True, api_call + '|User-Agent=' + UA + '&Referer=' + self._url

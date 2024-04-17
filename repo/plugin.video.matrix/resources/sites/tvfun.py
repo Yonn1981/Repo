@@ -17,10 +17,10 @@ SITE_DESC = 'arabic vod'
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 RAMADAN_SERIES = (URL_MAIN + 'ts/mosalsalat-ramadan-2024/', 'showSeries')
-SERIE_TR = (URL_MAIN + 'cat/mosalsalat-torkia,3/', 'showSeries')
+SERIE_TR = (URL_MAIN + 'cat/mosalsalat-torkia/', 'showSeries')
 SERIE_DUBBED = (URL_MAIN + 'ts/mosalsalat-modablaja/', 'showSeries')
 SERIE_HEND = (URL_MAIN + 'cat/mosalsalat-hindia/', 'showSeries')
-SERIE_AR = (URL_MAIN + 'cat/mosalsalat-3arabia,3/', 'showSeries')
+SERIE_AR = (URL_MAIN + 'cat/mosalsalat-3arabia/', 'showSeries')
 SERIE_ASIA = (URL_MAIN + 'cat/mosalsalat-korea/', 'showSeries')
 SERIE_LATIN = (URL_MAIN + 'cat/mosalsalat-latinia/', 'showSeries')
 REPLAYTV_NEWS = (URL_MAIN + 'cat/programme-tv/', 'showSeries')
@@ -90,7 +90,7 @@ def showSeries(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-    sPattern = '<div class="thumb">.+?href="([^"]+)".+?src="([^"]+)".+?<br>(.+?)</a>'
+    sPattern = '<div class="thumb.+?href="([^"]+)".+?src="([^"]+)".+?<br>(.+?)</a>'
     aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
         total = len(aResult[1])
@@ -137,7 +137,7 @@ def showSeries(sSearch = ''):
                 progress_.VSupdate(progress_, total)
                 if progress_.iscanceled():
                     break
-                if 'موقع' in aEntry[1]:
+                if 'موقع' in aEntry[1] or 'تيفي فان' in aEntry[1]:
                     continue
 
                 sTitle = aEntry[1]     
