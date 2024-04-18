@@ -90,7 +90,7 @@ def showSeries(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-    sPattern = '<div class="thumb.+?href="([^"]+)".+?src="([^"]+)".+?<br>(.+?)</a>'
+    sPattern = '<div class="thumb.+?href="([^"]+)".+?src="([^"]+)".+?>(.+?)<br>(.+?)</a>'
     aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
         total = len(aResult[1])
@@ -99,8 +99,11 @@ def showSeries(sSearch = ''):
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
- 
-            sTitle = aEntry[2].replace("مشاهدة وتحميل","").replace("اون لاين","").replace("مترجمة","").replace("مترجم","")
+            
+            sTitle = aEntry[2] + aEntry[3]
+            sTitle = sTitle.replace("مشاهدة وتحميل","").replace("اون لاين","").replace("مترجمة","").replace("مترجم","").replace("مسلسل","")
+            if 'الحلقة' in sTitle:
+                sTitle = sTitle.split('الحلقة')[0]
             siteUrl = aEntry[0]
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + siteUrl
@@ -176,33 +179,6 @@ def showEpisodes():
     aResult = oParser.parse(sHtmlContent, sPattern) 
     if aResult[0]:
         sHtmlContent = aResult[1][0]
-
-    sPattern = '<div class="thumb.+?href="([^"]+)".+?src="([^"]+)".+?<br>(.+?)</div>'
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    if aResult[0]:
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
- 
-            sTitle = aEntry[2].replace("الحلقة "," E").replace("حلقة "," E").replace("مدبلج للعربية","مدبلج").replace("مشاهدة وتحميل","").replace("اون لاين","")
-            siteUrl = aEntry[0].replace('video/','watch/')
-            if siteUrl.startswith('//'):
-                siteUrl = 'http:' + siteUrl
-            if siteUrl.startswith('/'):
-                siteUrl = URL_MAIN + siteUrl
-
-            sThumb = aEntry[1]
-			
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumb', sThumb)
-            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, '', oOutputParameterHandler)
-
-        progress_.VSclose(progress_)
 
     sPattern = '<div class="episode.+?href="([^"]+)".+?<br>(.+?)</a>'
     aResult = oParser.parse(sHtmlContent, sPattern)

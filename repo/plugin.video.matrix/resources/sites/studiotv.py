@@ -216,7 +216,7 @@ def showHosters():
                 oRequestHandler = cRequestHandler(url)
                 sHtmlContent = oRequestHandler.request()
 
-        sPattern = '<iframe.+?src="([^"]+)'
+        sPattern = '<iframe.+?src=["\']([^"\']+)["\']'
         aResult = oParser.parse(sHtmlContent0, sPattern)
         if aResult[0]:
             for aEntry in aResult[1]:
@@ -367,7 +367,7 @@ def showHosters():
                             oHoster.setFileName(sMovieTitle)
                             cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oOutputParameterHandler)
 
-        sPattern = '<iframe.+?src="([^"]+)'
+        sPattern = '<iframe.+?src=["\']([^"\']+)["\']'
         aResult = oParser.parse(sHtmlContent, sPattern)
         if aResult[0]:
                     for aEntry in aResult[1]:

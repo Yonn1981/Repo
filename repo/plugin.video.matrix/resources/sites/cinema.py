@@ -342,7 +342,7 @@ def showSeriesLinks(oInputParameterHandler = False):
 
                 oHoster = cHosterGui().getHoster('cinemayear') 
                 if oHoster:
-                    sDisplayTitle = ('%s [COLOR coral] [%s] [/COLOR]') % (sMovieTitle, sQual)
+                    sDisplayTitle = ('%s [COLOR coral] [%sp] [/COLOR]') % (sMovieTitle, sQual)
                     oHoster.setDisplayName(sDisplayTitle)
                     oHoster.setFileName(sMovieTitle)
                     cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
@@ -375,7 +375,7 @@ def showLinks(oInputParameterHandler = False):
 
         oHoster = cHosterGui().getHoster('cinemayear') 
         if oHoster:
-            sDisplayTitle = ('%s [COLOR coral] [%s] [/COLOR]') % (sMovieTitle, sQual)
+            sDisplayTitle = ('%s [COLOR coral] [%sp] [/COLOR]') % (sMovieTitle, sQual)
             oHoster.setDisplayName(sDisplayTitle)
             oHoster.setFileName(sMovieTitle)
             cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)

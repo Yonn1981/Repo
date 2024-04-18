@@ -113,46 +113,37 @@ class cPlayer(xbmc.Player):
 
         player_conf = self.ADDON.getSetting('playerPlay')
         # Si lien dash, methode prioritaire
-        mpd = splitext(urlHostName(sUrl))[-1] in [".mpd", ".m3u8"]
-        mpd |= '&ct=6&' in sUrl     # mpd venant de ok.ru, n'a pas d'extension
-        if mpd:
-            if isKrypton() == True:
-                addonManager().enableAddon('inputstream.adaptive')
-                item.setProperty('inputstream', 'inputstream.adaptive')
-                if '.m3u8' in sUrl:
-                    item.setProperty('inputstream.adaptive.manifest_type', 'hls')
+        supported_extensions = [[".hls", 'application/vnd.apple.mpegstream_url'],
+                         [".mpd", 'application/dash+xml'],
+                         [".ism", 'application/vnd.ms-sstr+xml']]
+
+        m3u8_use_ia = True if self.ADDON.getSetting("m3u8_use_ia") == "true" else False
+        if m3u8_use_ia:
+            supported_extensions.append([".m3u8", 'application/x-mpegURL'])
+        adaptive_type = None
+        for extension in supported_extensions:
+            if extension[0] in sUrl:
+                if extension[0] == ".m3u8":
+                    adaptive_type = "hls"
                 else:
-                    item.setProperty('inputstream.adaptive.manifest_type', 'mpd')
-                xbmcplugin.setResolvedUrl(sPluginHandle, True, listitem=item)
-                VSlog('Player use inputstream addon')
-            else:
-                dialog().VSerror('Nécessite kodi 17 minimum')
-                return
+                    adaptive_type = extension[0][1:]
+                mime_type = extension[1]
 
-        elif '.txt' in sUrl:
-            # Temporary Workaround
-            import xbmcgui
-            import requests, sys
-            if 'Origin' in sUrl:
-                Origin = sUrl.split('Origin=')[1]
-                sUrl = sUrl.split('Origin=')[0]
-            else:
-                Origin = sUrl.rsplit("/",3)[0]
-            headers = {"Referer": Origin + '/',
-                        "Origin": Origin}
-            response = requests.get(sUrl, headers=headers).text
-            sUrl = VSPath('special://home/addons/plugin.video.matrix/resources/extra/v.m3u8')
-            with open(sUrl, 'w') as f:
-                f.write(response)
-                f.close
+        if adaptive_type:
+            from inputstreamhelper import Helper
+            is_helper = Helper(adaptive_type)
+            if not is_helper.check_inputstream():
+                self.play(sUrl, item)
+                
+            item.setProperty('inputstream', 'inputstream.adaptive')
+            
+            if '|' in sUrl:
+                sUrl, strhdr = sUrl.split('|')
+                item.setProperty('inputstream.adaptive.stream_headers', strhdr)
 
-            m3u8_url = sUrl
-            listitem = xbmcgui.ListItem(path=m3u8_url)
-            if int(sys.argv[1]) == -1:
-                xbmc.Player().play(sUrl, listitem)
-            else:
-                xbmcgui.ListItem(path=m3u8_url)
-                xbmcplugin.setResolvedUrl(sPluginHandle, True, listitem)
+            item.setMimeType(mime_type)
+            item.setContentLookup(False)
+            xbmcplugin.setResolvedUrl(sPluginHandle, True, listitem=item)
 
         # 1 er mode de lecture
         elif player_conf == '0':

@@ -591,7 +591,7 @@ def showHosters(oInputParameterHandler = False):
 
             oRequestHandler = cRequestHandler(maction)
             oRequestHandler.addHeaderEntry('User-Agent', UA)
-            oRequestHandler.addHeaderEntry('Referer', sUrl)
+            oRequestHandler.addHeaderEntry('Referer', sUrl.encode('utf-8'))
             oRequestHandler.addHeaderEntry('Host', "shoffree.net")
             oRequestHandler.addParameters('url', murl)
             oRequestHandler.setRequestType(1)
@@ -613,6 +613,12 @@ def showHosters(oInputParameterHandler = False):
                     if aResult[0]:
                         url = aResult[1][0].split('&role')[0]
                         url = aResult[1][0].split('?key=')[0] + '?key=' + Quote(url.split('?key=')[1])
+
+                    else:
+                        sPattern =  '<a target="_blank" class="naked" href="([^"]+)'
+                        aResult = oParser.parse(sHtmlContent,sPattern)
+                        if aResult[0]:
+                            url = aResult[1][0]
 
                 sHosterUrl = url
                 if 'userload' in sHosterUrl:

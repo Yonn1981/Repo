@@ -1432,3 +1432,7 @@ msgstr "تحديث ملف معلومات الهوست"
 msgctxt "#70021"
 msgid "Update complete.. In case of error, update Matrix from repository"
 msgstr "اكتمل التحديث.. في حالة حدوث خطأ، قم بتحديث الاضافة من المستودع"
+
+msgctxt "#70022"
+msgid "Play m3u8 streams with Inputstream Adaptive"
+msgstr "Inputstream Adaptive باستخدام m3u8 تشغيل"

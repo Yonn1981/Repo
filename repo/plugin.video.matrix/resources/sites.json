@@ -323,7 +323,7 @@
         "ifushaar": {
             "label": "iFushaar",
             "active": "True",
-            "url": "https://z.ifushaar.com/"
+            "url": "https://r.ifushaar.com/"
         },
         "iptv": {
             "label": "IPTV",
@@ -343,8 +343,8 @@
         "koralive": {
             "label": "Koralive",
             "active": "True",
-            "url": "https://livez.360kora.org/",
-            "url2": "https://ww.alkoora-live.live/"
+            "url": "https://ww.alkoora-live.live/",
+            "url2": "https://shoot.360kora.org/"
         },
         "laroza": {
             "label": "Laroza",
@@ -359,7 +359,7 @@
         "livetv": {
             "label": "Live TV",
             "active": "True",
-            "url": "https://livetv775.me/"
+            "url": "https://livetv777.me/"
         },
         "lodynet": {
             "label": "Lodynet",
@@ -405,7 +405,7 @@
             "label": "Shahid4u",
             "active": "True",
             "cloudflare": "False",
-            "url": "https://shd4u.net/"
+            "url": "https://shed4u.cam/"
         },
         "shoffree": {
             "label": "Shoffree",
@@ -465,7 +465,7 @@
         "tuktukcinema": {
             "label": "Tuktukcinema",
             "active": "True",
-            "url": "https://w.tuktokcinema.com/"
+            "url": "https://www.tuktukcima.com/"
         },
         "tvfun": {
             "label": "Tvfun",
