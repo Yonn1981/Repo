@@ -114,12 +114,10 @@ class cPlayer(xbmc.Player):
         player_conf = self.ADDON.getSetting('playerPlay')
         # Si lien dash, methode prioritaire
         supported_extensions = [[".hls", 'application/vnd.apple.mpegstream_url'],
-                         [".mpd", 'application/dash+xml'],
-                         [".ism", 'application/vnd.ms-sstr+xml']]
+                                [".mpd", 'application/dash+xml'],
+                                [".ism", 'application/vnd.ms-sstr+xml'],
+                                [".m3u8", 'application/x-mpegURL']]
 
-        m3u8_use_ia = True if self.ADDON.getSetting("m3u8_use_ia") == "true" else False
-        if m3u8_use_ia:
-            supported_extensions.append([".m3u8", 'application/x-mpegURL'])
         adaptive_type = None
         for extension in supported_extensions:
             if extension[0] in sUrl:
@@ -129,12 +127,7 @@ class cPlayer(xbmc.Player):
                     adaptive_type = extension[0][1:]
                 mime_type = extension[1]
 
-        if adaptive_type:
-            from inputstreamhelper import Helper
-            is_helper = Helper(adaptive_type)
-            if not is_helper.check_inputstream():
-                self.play(sUrl, item)
-                
+        if adaptive_type:             
             item.setProperty('inputstream', 'inputstream.adaptive')
             
             if '|' in sUrl:

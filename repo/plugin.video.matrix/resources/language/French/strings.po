@@ -1417,7 +1417,3 @@ msgstr "Mettre à jour les hébergeurs"
 msgctxt "#70021"
 msgid "Update complete.. In case of error, update Matrix from repository"
 msgstr "Mise à jour terminée.. En cas d'erreur, mettez à jour Matrix depuis le référentiel"
-
-msgctxt "#70022"
-msgid "Play m3u8 streams with Inputstream Adaptive"
-msgstr "Play m3u8 streams with Inputstream Adaptive"
