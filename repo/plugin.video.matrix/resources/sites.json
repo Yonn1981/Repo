@@ -422,6 +422,11 @@
             "active": "True",
             "url": "http://shoofvod.com/"
         },
+        "showb": {
+            "label": "ShowB",
+            "active": "True",
+            "url": "L2FpZGVtLnhvYndvaHMud3d3Ly86c3B0dGg="
+        },
         "spacepowerfan": {
             "label": "Spacepowerfan",
             "active": "True",
