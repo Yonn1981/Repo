@@ -12,7 +12,7 @@ from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
 from resources.lib import random_ua
 
-UA = random_ua.get_ua()
+UA = random_ua.get_pc_ua()
 
 SITE_IDENTIFIER = 'esseq'
 SITE_NAME = 'Esseq'
@@ -355,7 +355,7 @@ def showHosters(oInputParameterHandler = False):
                 sHosterUrl = sHosterUrl + "|Referer=" + m3url
             if 'mystream' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN    
-            VSlog(sHosterUrl)
+
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
                oHoster.setDisplayName(sMovieTitle)

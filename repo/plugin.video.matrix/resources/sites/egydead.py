@@ -8,8 +8,11 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, isMatrix, VSlog, siteManager, addon
 from resources.lib.parser import cParser
+from resources.lib import random_ua
 import re
- 
+
+UA = random_ua.get_pc_ua()
+
 SITE_IDENTIFIER = 'egydead'
 SITE_NAME = 'Egydead'
 SITE_DESC = 'arabic vod'
@@ -155,6 +158,7 @@ def showMovies(sSearch = ''):
 
     oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
+    oRequestHandler.addHeaderEntry('User-Agent', UA)
     sHtmlContent = oRequestHandler.request()
 
     sPattern = '<li class="movieItem">\s*<a href="([^<]+)" title="([^<]+)">\s*<img src="([^<]+)">'
@@ -209,6 +213,7 @@ def showPack(sSearch = ''):
 
     oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
+    oRequestHandler.addHeaderEntry('User-Agent', UA)
     sHtmlContent = oRequestHandler.request()
 
     sPattern = '<li class="movieItem">\s*<a href="([^<]+)" title="([^<]+)">\s*<img src="([^<]+)">'
@@ -254,6 +259,7 @@ def showPacks():
 
 	oParser = cParser()
 	oRequestHandler = cRequestHandler(sUrl)
+	oRequestHandler.addHeaderEntry('User-Agent', UA)
 	sHtmlContent = oRequestHandler.request()
             
 	sPattern =  '<h1 class="TitleMaster">(.+?)<div class="related-posts">' 
@@ -295,6 +301,7 @@ def showSeries(sSearch = ''):
 
     oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
+    oRequestHandler.addHeaderEntry('User-Agent', UA)
     sHtmlContent = oRequestHandler.request()
 
     sStart = '<ul class="posts-list">'
@@ -365,6 +372,7 @@ def showSeasons():
 
     oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
+    oRequestHandler.addHeaderEntry('User-Agent', UA)
     sHtmlContent = oRequestHandler.request()
 
     sPattern = '<li><a itemprop="url" href=["\']([^"\']+)["\']'
@@ -442,6 +450,7 @@ def showEps():
 
     oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
+    oRequestHandler.addHeaderEntry('User-Agent', UA)
     sHtmlContent = oRequestHandler.request()
 
     sPattern = '<a href="([^<]+)" title="([^<]+)">([^<]+)</a>'
@@ -483,6 +492,7 @@ def showHosters(oInputParameterHandler = False):
 
     oParser = cParser()
     oRequestHandler = cRequestHandler(sUrl)
+    oRequestHandler.addHeaderEntry('User-Agent', UA)
     sHtmlContent = oRequestHandler.request()
 
     s = requests.Session()

@@ -7,14 +7,8 @@
         },
         "aflaam": {
             "label": "Aflaam",
-            "active": "True",
+            "active": "False",
             "url": "https://aflaam.com/"
-        },
-        "askmovie": {
-            "label": "Ask4movie",
-            "active": "True",
-            "cloudflare": "True",
-            "url": "https://ask4movie.li/"
         },
         "akoam": {
             "label": "Akoam",
@@ -161,11 +155,6 @@
             "active": "True",
             "url": "https://vip.cima-city.xyz/"
         },
-        "cimaking": {
-            "label": "CimaKing",
-            "active": "False",
-            "url": "https://cimaking.com/"
-        },
         "cimalek": {
             "label": "Cimalek",
             "active": "True",
@@ -186,12 +175,6 @@
             "active": "True",
             "cloudflare": "True",
             "url": "L3dvaHMucmE1NjMvLzpzcHR0aA=="
-        },
-        "cinemana": {
-            "label": "Cinemana",
-            "active": "True",
-            "cloudflare": "True",
-            "url": "https://cinemana.work/"
         },
         "cinematy": {
             "label": "Cinematy",
@@ -253,12 +236,7 @@
         "esseq": {
             "label": "Esseq",
             "active": "True",
-            "url": "https://eceeq.net/"
-        },
-        "fansubs": {
-            "label": "Fansubstv",
-            "active": "False",
-            "url": "https://fansubs.tv/"
+            "url": "https://3sktr.tv/"
         },
         "faselhd": {
             "label": "Faselhd",
@@ -334,11 +312,6 @@
             "label": "KarbalaTV",
             "active": "True",
             "url": "https://karbala-tv.iq/video.php"
-        },
-        "kporama": {
-            "label": "Kporama",
-            "active": "False",
-            "url": "https://kporama.com/"
         },
         "koralive": {
             "label": "Koralive",
