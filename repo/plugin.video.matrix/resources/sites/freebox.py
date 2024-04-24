@@ -5,7 +5,6 @@
 
 import re
 import string
-import json
 import requests
 
 from resources.lib.comaddon import progress, addon, VSlog, siteManager
@@ -22,7 +21,7 @@ SITE_NAME = '[COLOR orange]Free TV[/COLOR]'
 SITE_DESC = 'Watch Livetelevision'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
-URL_WEB = 'https://raw.githubusercontent.com/Yonn1981/Repo/master/repo/zips/Resources/webtv2.m3u'
+URL_WEB = 'https://bit.ly/sports4kuhd'
 
 TV_GROUPS = ('http://venom/', 'showGroups')
 

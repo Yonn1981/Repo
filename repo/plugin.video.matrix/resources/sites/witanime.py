@@ -297,6 +297,7 @@ def showHosters(oInputParameterHandler = False):
             if url.startswith('//'):
                url = 'http:' + url
             if 'yona' in url:
+                    url = url + '&apiKey=7d942435-c790-405c-8381-f682a274b437'
                     oRequestHandler = cRequestHandler(url)
                     oRequestHandler.addHeaderEntry('User-Agent', UA)
                     oRequestHandler.addHeaderEntry('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')

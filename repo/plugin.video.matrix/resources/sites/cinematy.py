@@ -9,6 +9,7 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
+from resources.lib.multihost import cMegamax
 from resources.lib import random_ua
 
 UA = random_ua.get_ua()
@@ -391,6 +392,8 @@ def showLinks(oInputParameterHandler = False):
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
         for aEntry in aResult[1]:
+            if 'megamax' in aEntry[0]:
+                continue
 
             url = aEntry[0]
             sQual = aEntry[1]
@@ -404,6 +407,24 @@ def showLinks(oInputParameterHandler = False):
                oHoster.setDisplayName(sDisplayTitle)
                oHoster.setFileName(sMovieTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+
+    oGui.setEndOfDirectory()
+
+def showMegaLinks():
+    oGui = cGui()
+
+    oInputParameterHandler = cInputParameterHandler()
+    sHosterUrl = oInputParameterHandler.getValue('sHosterUrl')
+    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
+    sQual = oInputParameterHandler.getValue('sQual')
+    sThumb = oInputParameterHandler.getValue('sThumb')
+
+    sDisplayTitle = ('%s [COLOR coral] [%s] [/COLOR]') % (sMovieTitle, sQual)   
+    oHoster = cHosterGui().checkHoster(sHosterUrl)
+    if oHoster != False:
+        oHoster.setDisplayName(sDisplayTitle)
+        oHoster.setFileName(sMovieTitle)
+        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
     oGui.setEndOfDirectory()
 
@@ -431,16 +452,33 @@ def showHosters():
     sPattern = 'iframe.+?src="([^"]+)'
     aResult = oParser.parse(sHtmlContent2, sPattern)
     if aResult[0]:
-                sHosterUrl = aResult[1][0]
+        oOutputParameterHandler = cOutputParameterHandler()
+        sHosterUrl = aResult[1][0]
+        if '/iframe' in sHosterUrl:
+            data = cMegamax().GetUrls(sHosterUrl)
+            if data is not False:
+                for item in data:
+                    sHosterUrl = item.split(',')[0].split('=')[1]
+                                        
+                    sQual = item.split(',')[1].split('=')[1]
+                    sLabel = item.split(',')[2].split('=')[1]
 
-                if 'mystream' in sHosterUrl:
-                    sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN    
-                if 'ma2d' in sHosterUrl:
-                    sHosterUrl = sHosterUrl + "|Referer=" + sReferme  
-                oHoster = cHosterGui().checkHoster(sHosterUrl)
-                if oHoster != False:
-                    oHoster.setDisplayName(sMovieTitle)
-                    oHoster.setFileName(sMovieTitle)
-                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                    sDisplayTitle = ('%s [COLOR coral] [%s][/COLOR][COLOR orange] - %s[/COLOR]') % (sMovieTitle, sQual, sLabel)      
+                    oOutputParameterHandler.addParameter('sHosterUrl', sHosterUrl)
+                    oOutputParameterHandler.addParameter('sQual', sQual)
+                    oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
+                    oOutputParameterHandler.addParameter('sThumb', sThumb)
+
+                    oGui.addLink(SITE_IDENTIFIER, 'showMegaLinks', sDisplayTitle, sThumb, '', oOutputParameterHandler, oInputParameterHandler)
+
+        if 'mystream' in sHosterUrl:
+            sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN    
+        if 'ma2d' in sHosterUrl:
+            sHosterUrl = sHosterUrl + "|Referer=" + sReferme  
+        oHoster = cHosterGui().checkHoster(sHosterUrl)
+        if oHoster != False:
+            oHoster.setDisplayName(sMovieTitle)
+            oHoster.setFileName(sMovieTitle)
+            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
     oGui.setEndOfDirectory()

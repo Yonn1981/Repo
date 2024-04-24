@@ -7,7 +7,7 @@
         },
         "aflaam": {
             "label": "Aflaam",
-            "active": "False",
+            "active": "True",
             "url": "https://aflaam.com/"
         },
         "akoam": {
@@ -211,7 +211,7 @@
         "dramacafe": {
             "label": "Dramacafe",
             "active": "True",
-            "url": "https://asd.dramacafe-tv.com/"
+            "url": "https://w5.dramacafe-tv.com/"
         },
         "egybest": {
             "label": "EgyBest",
@@ -332,7 +332,7 @@
         "livetv": {
             "label": "Live TV",
             "active": "True",
-            "url": "https://livetv777.me/"
+            "url": "https://livetv779.me/"
         },
         "lodynet": {
             "label": "Lodynet",
@@ -362,7 +362,7 @@
         "qfilm": {
             "label": "QFilm",
             "active": "True",
-            "url": "https://wwa.qfilm.tv/"
+            "url": "https://www.qfilm.tv/"
         },
         "rotana": {
             "label": "Rotana",
@@ -377,7 +377,7 @@
         "shahidu": {
             "label": "Shahid4u",
             "active": "True",
-            "cloudflare": "False",
+            "cloudflare": "True",
             "url": "https://shed4u.cam/"
         },
         "shoffree": {

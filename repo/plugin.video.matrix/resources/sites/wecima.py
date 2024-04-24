@@ -30,12 +30,12 @@ MOVIE_TURK = (URL_MAIN + 'category/أفلام/افلام-تركى-turkish-films/
 MOVIE_HI = (URL_MAIN + 'category/أفلام/افلام-هندي-indian-movies/', 'showMovies')
 KID_MOVIES = (URL_MAIN + 'category/افلام-كرتون/', 'showMovies')
 
-RAMADAN_SERIES = (URL_MAIN + 'category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b1%d9%85%d8%b6%d8%a7%d9%86-2023-series-ramadan-2023/list/', 'showSeries')
+RAMADAN_SERIES = (URL_MAIN + 'category/مسلسلات/مسلسلات-رمضان-2024/', 'showSeries')
 
 SERIE_AR = (URL_MAIN + 'category/مسلسلات/13-مسلسلات-عربيه-arabic-series/list/', 'showSeries')
 SERIE_EN = (URL_MAIN + 'category/مسلسلات/5-series-english-مسلسلات-اجنبي/list/', 'showSeries')
 SERIE_HEND = (URL_MAIN + 'category/مسلسلات/9-series-indian-مسلسلات-هندية/list/', 'showSeries')
-ANIM_NEWS = (URL_MAIN + 'category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%83%d8%b1%d8%aa%d9%88%d9%86/list/', 'showSeries')
+ANIM_NEWS = (URL_MAIN + 'category/مسلسلات-كرتون/list/', 'showSeries')
 SERIE_ASIA = (URL_MAIN + 'category/مسلسلات/مسلسلات-اسيوية/list/', 'showSeries')
 SERIE_TR = (URL_MAIN + 'ategory/مسلسلات/8-مسلسلات-تركية-turkish-series/list/', 'showSeries')
 
@@ -80,7 +80,7 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', DOC_NEWS[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام وثائقية', 'doc.png', oOutputParameterHandler)
 
-    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/category/افلام/10-movies-english-افلام-اجنبي/سلاسل-الافلام-الكاملة-full-pack/')
+    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'category/افلام/10-movies-english-افلام-اجنبي/سلاسل-الافلام-الكاملة-full-pack/')
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'سلاسل افلام كاملة', 'agnab.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', SERIE_EN[0])

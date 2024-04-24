@@ -1,11 +1,5 @@
 # -*- coding: utf-8 -*-
 # vStream https://github.com/Kodi-vStream/venom-xbmc-addons
-#
-
-try:  # Python 2
-    import urllib2
-except ImportError:  # Python 3
-    import urllib.request as urllib2
 
 import json
 import requests
@@ -15,7 +9,9 @@ from resources.hosters.hoster import iHoster
 from resources.lib.comaddon import dialog
 from resources.lib.util import cUtil
 from resources.lib.comaddon import VSlog
+from resources.lib import random_ua
 
+UA = random_ua.get_pc_ua()
 
 class cHoster(iHoster):
     def __init__(self):
@@ -36,11 +32,11 @@ class cHoster(iHoster):
         sHost = v[0]
         web_url = 'http://' + sHost + '/videoembed/' + sId
 
-        HEADERS = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101 Firefox/52.0',
+        hdrs = {'User-Agent': UA,
                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'}
 
         St=requests.Session()
-        sHtmlContent = St.get(web_url).content.decode('utf-8')
+        sHtmlContent = St.get(web_url, headers = hdrs).content.decode('utf-8')
         oParser = cParser()
 
         sHtmlContent = oParser.abParse(sHtmlContent, 'data-options=', '" data-player-container', 14)
@@ -49,7 +45,7 @@ class cHoster(iHoster):
 
         page = json.loads(sHtmlContent)
         page = json.loads(page['flashvars']['metadata'])
-        VSlog(page)
+
         if page:
             sPattern = "'hlsMasterPlaylistUrl': '(.+?)',"
             aResult = oParser.parse(page, sPattern)
@@ -61,9 +57,7 @@ class cHoster(iHoster):
                 url.append(x['url'])
                 qua.append(x['name'])
 
-            # Si au moins 1 url
             if (url):
-                # dialogue qualité
                 api_call = dialog().VSselectqual(qua, url)
 
 

@@ -2,15 +2,17 @@
 # vStream https://github.com/Kodi-vStream/venom-xbmc-addons
 # Do not go through the download version.
 # Not all links are downloadable.
-# SSL error my region - Temp fixed for my area, might be broken for others
+
 import random
 import time
 import requests
-import urllib.request as urllib
 
 from resources.hosters.hoster import iHoster
+from resources.lib.handler.requestHandler import cRequestHandler
+from resources.lib.comaddon import VSlog
+from resources.lib import random_ua
 
-UA = 'Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.5615.48 Mobile Safari/537.36'
+UA = random_ua.get_pc_ua()
 
 class cHoster(iHoster):
 
@@ -20,41 +22,51 @@ class cHoster(iHoster):
     def setUrl(self, url):
         sid = str(url).replace('/d/', '/e/')
         sid = sid.split('/e/')[1]
-        self._url = 'http://i.doodcdn.co/e/'+sid
+        self._url = url
 
     def _getMediaLinkForGuest(self, autoPlay = False):
+        VSlog(self._url)
         api_call = False
-        headers = {'User-Agent': UA}
 
-        req = urllib.Request(self._url, None, headers)
-        with urllib.urlopen(req, timeout=30) as response:
-            sHtmlContent = response.read()
-            urlDownload = response.geturl()
+        oRequestHandler = cRequestHandler(self._url)
+        oRequestHandler.addHeaderEntry('User-Agent', UA)
+        oRequestHandler.request()
+        surl = oRequestHandler.getRealUrl()
 
-        try:
-            sHtmlContent = sHtmlContent.decode('utf8')
-        except:
-            pass
+        if surl != self._url:
+            self._url = surl
+        
+        sHost = getHost(self._url)
+
+        oRequestHandler = cRequestHandler(self._url)
+        oRequestHandler.addHeaderEntry('User-Agent', UA)
+        sHtmlContent = oRequestHandler.request()
 
         if '/pass_md5/' not in sHtmlContent:
             return None
         md5 = sHtmlContent.split("'/pass_md5/")[1].split("',")[0]
+
         token = md5.split("/")[-1]
         randomString = getRandomString()
         expiry = int(time.time() * 1000)
         videoUrlStart = requests.get(
-            f"https://i.doodcdn.co/pass_md5/{md5}",
-            headers={"referer": urlDownload},
+            f"{sHost}pass_md5/{md5}",
+            headers={"referer": surl},
         ).text
+
         api_call = f"{videoUrlStart}{randomString}?token={token}&expiry={expiry}"
 
         if api_call:
-            api_call = api_call.replace('~','%7E') + '|Referer=' + urlDownload
+            api_call = api_call.replace('~','%7E') + '|Referer=' + surl
             return True, api_call
 
         return False, False
 
-
 def getRandomString(length=10):
     allowedChars = list('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789')
     return ''.join(random.choice(allowedChars) for _ in range(length))
+
+def getHost(self):
+    parts = self.rsplit("/", 2)
+    host = parts[0] 
+    return f'{host}/'
