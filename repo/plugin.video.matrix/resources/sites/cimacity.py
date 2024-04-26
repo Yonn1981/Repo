@@ -393,7 +393,7 @@ def showServer(oInputParameterHandler = False):
     oRequestHandler.addHeaderEntry('referer', URL_MAIN)
     sHtmlContent = oRequestHandler.request().replace("&#39;","'")
 
-    sStart = 'class="serversList">'
+    sStart = '<ul class=serversList>'
     sEnd = '</div>'
     sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
 

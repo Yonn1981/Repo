@@ -31,6 +31,20 @@ class cHoster(iHoster):
             data = unicodedata.normalize('NFD', data).encode('ascii', 'ignore').decode('unicode_escape')
             sHtmlContent = cPacker().unpack(data)
 
+        else:
+            self._url = self._url.replace('embed-','')
+            oRequest = cRequestHandler(self._url)
+            sHtmlContent = oRequest.request()
+
+            sPattern = '(eval\(function\(p,a,c,k,e(?:.|\s)+?\))<\/script>'
+            aResult = oParser.parse(sHtmlContent, sPattern)
+
+            if aResult[0]:
+                data = aResult[1][0]
+                data = unicodedata.normalize('NFD', data).encode('ascii', 'ignore').decode('unicode_escape')
+                sHtmlContent = cPacker().unpack(data)
+
+
         sPattern = 'file:"(.+?)"'
         aResult = oParser.parse(sHtmlContent, sPattern)
 

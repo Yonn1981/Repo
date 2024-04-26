@@ -5,9 +5,10 @@
 from resources.hosters.hoster import iHoster
 from resources.lib.parser import cParser
 from resources.lib.comaddon import VSlog
+from resources.lib import helpers
 from resources.lib.util import Unquote
 from resources.lib.packer import cPacker
-import re,xbmc
+import re
 import requests
 
 UA = 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Mobile Safari/537.36'
@@ -47,15 +48,10 @@ class cHoster(iHoster):
          headers = {
             'Origin': 'http://{0}'.format(sHost),
             'Referer': sLink,
-            'User-Agent': UA
-         }
-         payload = {
-            'op': 'download2',
-            'id2': sID,
-            'rand': '',
-            'referer': sLink
-         }
-         _r = Sgn.post(sLink,headers=headers,data=payload)
+            'User-Agent': UA}
+         sHtmlContent = Sgn.get(self._url, headers=headers).text
+         data = helpers.get_hidden(sHtmlContent)
+         _r = Sgn.post(sLink,headers=headers,data=data)
          sHtmlContent = _r.content.decode('utf8',errors='ignore')
 
          sPattern = 'id="direct_link".+?href="([^"]+)'

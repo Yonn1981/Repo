@@ -24,30 +24,36 @@ class cHoster(iHoster):
         if 'video_ext.php?' in media_id:
             media_id = media_id.split('video_ext.php?')[1]
 
-        query = urllib_parse.parse_qs(media_id)
-
         try:
+            query = urllib_parse.parse_qs(media_id)
             oid, video_id = query['oid'][0], query['id'][0]
 
         except:
             oid, video_id = re.findall('video(.*)_(.*)', media_id)[0]
         
-        sources = self.__get_sources(oid, video_id, headers)
-        if sources:
-            sources.sort(key=lambda x: int(x[0]), reverse=True)
-            source = helpers.pick_source(sources)
-            if source:
-                headers.pop('X-Requested-With')
-                return True, source + helpers.append_headers(headers)
-        else:
-            html = requests.get(self.get_url(media_id), headers=headers).content
-            jd = re.search(r'var\s*playerParams\s*=\s*(.+?});', html)
-            if jd:
-                jd = json.loads(jd.group(1))
-                source = jd.get('params')[0].get('hls')
+        if not oid.startswith('doc'):
+            oid = oid.replace('video', '')
+            sources = self.__get_sources(oid, video_id, headers)
+            if sources:
+                sources.sort(key=lambda x: int(x[0]), reverse=True)
+                source = helpers.pick_source(sources)
                 if source:
                     headers.pop('X-Requested-With')
                     return True, source + helpers.append_headers(headers)
+
+        html = requests.get(self.get_url(media_id), headers=headers).content
+        if media_id.startswith('doc'):
+            jd = re.search(r'Docs\.initDoc\(({.+?})\)', html)
+        else:
+            jd = re.search(r'var\s*playerParams\s*=\s*(.+?});', html)
+        if jd:
+            jd = json.loads(jd.group(1))
+            if media_id.startswith('doc'):
+                source = jd.get('docUrl')
+            else:
+                source = jd.get('params')[0].get('hls')
+            if source:
+                return True, source + helpers.append_headers(headers)
 
         return False, False
 
@@ -83,4 +89,9 @@ class cHoster(iHoster):
         return sources
 
     def get_url(self, media_id):
-        return 'https://vk.com/video_ext.php?%s' % (media_id)
+        if media_id.startswith('doc'):
+            url = 'https://vk.com/%s' % (media_id)
+        else:
+            media_id = media_id.replace('video', '')
+            url = 'https://vk.com/video_ext.php?%s' % (media_id)
+        return url

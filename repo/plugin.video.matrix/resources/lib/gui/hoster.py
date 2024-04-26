@@ -280,7 +280,7 @@ class cHosterGui:
             return self.getHoster("filelions")
 
         # Vidguard Clone
-        vidguard = next((x for x in ['vidguard', 'fertoto', 'vgembed', 'vgfplay', 'vembed', 'vid-guard', 'jetload', 'embedv', 'fslinks', 'bembed'] if x in sHostName), None)
+        vidguard = next((x for x in ['vidguard', 'fertoto', 'vgembed', 'vgfplay', 'vembed', 'vid-guard', 'jetload', 'embedv', 'fslinks', 'bembed', 'listeamed'] if x in sHostName), None)
         if vidguard:
             return self.getHoster("vidguard")
 
@@ -295,7 +295,8 @@ class cHosterGui:
             return self.getHoster("filemoon")
 
         # Voe Clone
-        voe = next((x for x in ['voe', 'kathleenmemberhistory', 'timberwoodanotia', 'stevenimaginelittle', 'availedsmallest', 'monorhinouscassaba', 'jamiesamewalk'] if x in sHostName), None)
+        voe = next((x for x in ['voe', 'kathleenmemberhistory', 'timberwoodanotia', 'stevenimaginelittle', 'availedsmallest', 'monorhinouscassaba', 'jamiesamewalk',
+                                'graceaddresscommunity'] if x in sHostName), None)
         if voe:
             return self.getHoster("voe")
 

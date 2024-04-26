@@ -30,7 +30,7 @@ class cHoster(iHoster):
          sHtmlContent = Sgn.get(self._url, headers=headers).text
          data = helpers.get_hidden(sHtmlContent)
          data.update(captcha_lib.do_captcha(sHtmlContent))
-         time.sleep(31)
+         time.sleep(61)
 
          _r = Sgn.post(self._url, data, headers=headers)
          sHtmlContent = _r.content.decode('utf8',errors='ignore')

@@ -206,6 +206,7 @@ def showMovies(sSearch = ''):
 
     oParser = cParser() 
     oRequestHandler = cRequestHandler(sUrl)
+    oRequestHandler.disableSSL()
     sHtmlContent = oRequestHandler.request()
 
     sStart = '<div class="container">'
