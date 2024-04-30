@@ -35,7 +35,9 @@ SERIE_HEND = (URL_MAIN + 'category.php?cat=moslslat-hindia', 'showSeries')
 SERIE_ASIA = (URL_MAIN + 'category.php?cat=moslslat-asia', 'showSeries')
 SERIE_TR = (URL_MAIN + 'category.php?cat=moslslat-turkya', 'showSeries')
 SERIE_DUBBED = (URL_MAIN + 'category.php?cat=moslslat-modablaja', 'showSeries')
+KID_CARTOON = (URL_MAIN + 'category.php?cat=anime-arabic', 'showSeries')
 
+REPLAYTV_PLAY = (URL_MAIN + 'category.php?cat=masr7eyat', 'showMovies')
 REPLAYTV_NEWS = (URL_MAIN + 'category.php?cat=tv-programs', 'showSeries')
 
 URL_SEARCH = (URL_MAIN + 'search.php?keywords=', 'showSeries')
@@ -96,6 +98,12 @@ def load():
     
     oOutputParameterHandler.addParameter('siteUrl', SERIE_DUBBED[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات مدبلجة', 'mdblg.png', oOutputParameterHandler)  
+
+    oOutputParameterHandler.addParameter('siteUrl', KID_CARTOON[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات كرتون', 'crtoon.png', oOutputParameterHandler)
+
+    oOutputParameterHandler.addParameter('siteUrl', REPLAYTV_PLAY[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'مسرحيات', 'msrh.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', REPLAYTV_NEWS[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'برامج تلفزيونية', 'brmg.png', oOutputParameterHandler)

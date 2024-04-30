@@ -14,15 +14,15 @@ from resources.lib import random_ua
 UA = random_ua.get_phone_ua()
 
 SITE_IDENTIFIER = 'prstej'
-SITE_NAME = 'Prstej'
+SITE_NAME = 'Brstej'
 SITE_DESC = 'arabic vod'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-RAMADAN_SERIES = (URL_MAIN + 'category102.php?cat=rammdan2024', 'showSeries')
-MOVIE_AR = (URL_MAIN + 'category102.php?cat=movies2024', 'showMovies')
-MOVIE_TURK = (URL_MAIN + 'category102.php?cat=turkish-movies2024', 'showMovies')
-SERIE_AR = (URL_MAIN + 'category102.php?cat=arab2024', 'showSeries')
+RAMADAN_SERIES = (URL_MAIN + 'category102.php?cat=rammdan1-2024', 'showSeries')
+MOVIE_AR = (URL_MAIN + 'category102.php?cat=aflam-2024', 'showMovies')
+MOVIE_TURK = (URL_MAIN + 'category102.php?cat=turkish1-movies2024', 'showMovies')
+SERIE_AR = (URL_MAIN + 'category102.php?cat=aarab-2024', 'showSeries')
 SERIE_EN = (URL_MAIN + 'category102.php?cat=english2024', 'showSeries')
 SERIE_TR = (URL_MAIN + 'category102.php?cat=tyyy1-2024', 'showSeries')
 SERIE_ASIA = (URL_MAIN + 'category102.php?cat=asia', 'showSeries')
@@ -69,8 +69,8 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', ANIM_NEWS[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات إنمي', 'anime.png', oOutputParameterHandler)  
 
-    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'category102.php?cat=rm-2022')
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'رمضان 2022', 'rmdn.png', oOutputParameterHandler)
+    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'category102.php?cat=rammmda1-1n2023')
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'رمضان 2023', 'rmdn.png', oOutputParameterHandler)
 
     oGui.setEndOfDirectory()
  

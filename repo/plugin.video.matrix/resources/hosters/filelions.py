@@ -5,6 +5,7 @@ from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
 from resources.lib.comaddon import VSlog
 from resources.lib.packer import cPacker
+from six.moves import urllib_parse
 
 class cHoster(iHoster):
 
@@ -13,8 +14,15 @@ class cHoster(iHoster):
 
     def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
+        if '$$' in self._url:
+            self._url, referer = self._url.split('$$')
+            referer = urllib_parse.urljoin(referer, '/')
+        else:
+            referer = self._url
+
         self._url = self._url.replace('/d/','/v/').replace('/f/','/v/').replace('/file/','/v/')
         oRequest = cRequestHandler(self._url)
+        oRequest.addHeaderEntry('Referer', referer)
         sHtmlContent = oRequest.request()
 
         api_call = ''

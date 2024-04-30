@@ -43,7 +43,7 @@ DOC_SERIES = (URL_MAIN + 'genre/وثائقي', 'showSeries')
 SPORT_WWE = (URL_MAIN + 'category/عروض-مصارعة-مترجمة/', 'showMovies')
 ANIM_NEWS = (URL_MAIN + 'category/مسلسلات-انمي-مترجمة/', 'showSeries')
 ANIM_MOVIES = (URL_MAIN + 'category/افلام-انمي/', 'showMovies')
-REPLAYTV_PLAY = (URL_MAIN + 'category/مسرحيات/', 'showMovies')
+# REPLAYTV_PLAY = (URL_MAIN + 'category/مسرحيات/', 'showMovies')
 REPLAYTV_NEWS = (URL_MAIN + 'category/برامج-تلفزيونية/', 'showSeries')
 
 URL_SEARCH_MOVIES = (URL_MAIN + '/?s=', 'showMovies')
@@ -127,8 +127,8 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', REPLAYTV_NEWS[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'برامج تلفزيونية','brmg.png', oOutputParameterHandler)
 	
-    oOutputParameterHandler.addParameter('siteUrl', REPLAYTV_PLAY[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'مسرحيات', 'msrh.png', oOutputParameterHandler)
+    # oOutputParameterHandler.addParameter('siteUrl', REPLAYTV_PLAY[0])
+    # oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'مسرحيات', 'msrh.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', SPORT_WWE[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'مصارعة', 'wwe.png', oOutputParameterHandler)

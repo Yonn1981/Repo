@@ -45,7 +45,7 @@ def showDailyList():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-    sPattern = '<h2 class="entry-title".+?href="([^"]+)" rel="bookmark">(.+?)</a>'
+    sPattern = "<div class='item-thumbnail'>.+?href='([^']+)'.+?<img alt='([^']+)'.+?data-src='([^']+)' loading="
     aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
         total = len(aResult[1])
@@ -55,15 +55,17 @@ def showDailyList():
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
-            if 'Links M3u' in aEntry[1]:
+            if 'data.title' in aEntry[1]:
                 continue
             sUrl2 = aEntry[0]
             sTitle = aEntry[1]
+            sThumb = aEntry[2]
 
             oOutputParameterHandler.addParameter('siteUrl', sUrl2)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
 
-            oGui.addDir(SITE_IDENTIFIER, 'showAllPlaylist', sTitle, 'tv.png', oOutputParameterHandler)
+            oGui.addMisc(SITE_IDENTIFIER, 'showAllPlaylist', sTitle, '', sThumb, '', oOutputParameterHandler)
 
         progress_.VSclose(progress_)
 
@@ -73,16 +75,13 @@ def showAllPlaylist():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
+    sThumb = oInputParameterHandler.getValue('sThumb')
 
     oParser = cParser()
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-
-    sStart = '<ul class="da-attachments-list">'
-    sEnd = '</ul>'
-    sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
-    
-    sPattern = '<a href="([^"]+)" title="([^"]+)" class='
+  
+    sPattern = '<a href="([^"]+)" id="download".+?title="([^"]+)">'
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
         total = len(aResult[1])
@@ -100,7 +99,29 @@ def showAllPlaylist():
             oOutputParameterHandler.addParameter('siteUrl', sUrl2)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
 
-            oGui.addDir(SITE_IDENTIFIER, 'showWeb', sTitle, '', oOutputParameterHandler)
+            oGui.addMisc(SITE_IDENTIFIER, 'showWeb', sTitle, '', sThumb, '', oOutputParameterHandler)
+
+        progress_.VSclose(progress_)
+
+    sPattern = 'onclick="([^"]+)"><b>(.+?)</b>'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    if aResult[0]:
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+
+        oOutputParameterHandler = cOutputParameterHandler()
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+
+            sUrl2 = aEntry[0].replace("myDownloadFunction(this,`",'').replace("`)",'')
+            sTitle = aEntry[1]
+
+            oOutputParameterHandler.addParameter('siteUrl', sUrl2)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+
+            oGui.addMisc(SITE_IDENTIFIER, 'showWeb', sTitle, '', sThumb, '', oOutputParameterHandler)
 
         progress_.VSclose(progress_)
 

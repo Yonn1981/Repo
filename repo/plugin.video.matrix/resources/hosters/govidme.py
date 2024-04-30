@@ -4,6 +4,7 @@ from resources.lib.comaddon import dialog
 from resources.hosters.hoster import iHoster
 from resources.lib.comaddon import VSlog
 from resources.lib import random_ua
+from six.moves import urllib_parse
 
 UA = random_ua.get_pc_ua()
 
@@ -19,11 +20,16 @@ class cHoster(iHoster):
         VSlog(self._url)
 
         oParser = cParser()
-        sReferer = self._url 
+
+        if '$$' in self._url:
+            self._url, sReferer = self._url.split('$$')
+            sReferer = urllib_parse.urljoin(sReferer, '/')
+        else:
+            sReferer = 'https://cima-club.io/'
 
         oRequest = cRequestHandler(self._url)
         oRequest.addHeaderEntry('user-agent', UA)
-        oRequest.addHeaderEntry('Referer', 'https://cima-club.io/')
+        oRequest.addHeaderEntry('Referer', sReferer)
         sHtmlContent = oRequest.request()
         
         sPattern =  'file:"([^<]+)",label:"([^<]+)"}' 

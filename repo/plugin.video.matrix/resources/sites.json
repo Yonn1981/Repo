@@ -155,11 +155,6 @@
             "active": "True",
             "url": "https://vip.cima-city.xyz/"
         },
-        "cimalek": {
-            "label": "Cimalek",
-            "active": "True",
-            "url": "https://cimalek.art/"
-        },
         "cimalina": {
             "label": "CimaLina",
             "active": "True",
@@ -191,7 +186,7 @@
         "daily": {
             "label": "Daily IPTV List",
             "active": "False",
-            "url": "https://d.tousecurity.com/"
+            "url": "https://ifixnet.blogspot.com/"
         },
         "daktna": {
             "label": "Daktna",
@@ -212,11 +207,6 @@
             "label": "Dramacafe",
             "active": "True",
             "url": "https://w5.dramacafe-tv.com/"
-        },
-        "egybest": {
-            "label": "EgyBest",
-            "active": "True",
-            "url": "https://egybest.homes/"
         },
         "egyclub": {
             "label": "Egyclub",
@@ -316,8 +306,8 @@
         "koralive": {
             "label": "Koralive",
             "active": "True",
-            "url": "https://ww.alkoora-live.live/",
-            "url2": "https://shoot.360kora.org/"
+            "url": "https://es.live-kora.io/",
+            "url2": "https://syrialive.360kora.org/"
         },
         "laroza": {
             "label": "Laroza",
@@ -332,12 +322,12 @@
         "livetv": {
             "label": "Live TV",
             "active": "True",
-            "url": "https://livetv779.me/"
+            "url": "https://livetv780.me/"
         },
         "lodynet": {
             "label": "Lodynet",
             "active": "True",
-            "url": "https://lodynet.cfd/"
+            "url": "https://llodynet.site/"
         },
         "moviztime": {
             "label": "MovizTime",
@@ -409,11 +399,6 @@
             "label": "Stardima",
             "active": "True",
             "url": "https://stardima.vip/watch/"
-        },
-        "studiotv": {
-            "label": "Studio2TV",
-            "active": "True",
-            "url": "https://www.studio2tv.tn/"
         },
         "taxielcima": {
             "label": "TaxiElCima",

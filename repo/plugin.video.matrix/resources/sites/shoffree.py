@@ -572,65 +572,67 @@ def showHosters(oInputParameterHandler = False):
         sUrl = sUrl.rsplit("/",1)[0] + '/single-movie?watch=1'
     oParser = cParser()
     oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
+    sHtmlContent1 = oRequestHandler.request()
 
-    sMain = main_function(sHtmlContent)
+    sMain = main_function(sHtmlContent1)
     if sMain:
         URL_MAIN = sMain
 
     sPattern =  '<form action="([^"]+)' 
-    aResult = oParser.parse(sHtmlContent,sPattern)
+    aResult = oParser.parse(sHtmlContent1,sPattern)
     if aResult[0]:
         maction = aResult[1][0] 
 
     sPattern =  'name="url" value="([^"]+)' 
-    aResult = oParser.parse(sHtmlContent,sPattern)
+    aResult = oParser.parse(sHtmlContent1,sPattern)
     if aResult[0]:
         for aEntry in aResult[1]:
             murl = aEntry
 
-            oRequestHandler = cRequestHandler(maction)
-            oRequestHandler.addHeaderEntry('User-Agent', UA)
-            oRequestHandler.addHeaderEntry('Referer', sUrl.encode('utf-8'))
-            oRequestHandler.addHeaderEntry('Host', "shoffree.net")
-            oRequestHandler.addParameters('url', murl)
-            oRequestHandler.setRequestType(1)
-            sHtmlContent = oRequestHandler.request()
+    sUrl2 = f'{maction}?id={murl}'
+    oRequestHandler = cRequestHandler(sUrl2)
+    sHtmlContent = oRequestHandler.request()
 
-            sPattern =  "window.open\('(.*?)'" 
-            aResult = oParser.parse(sHtmlContent,sPattern)
-            if aResult[0]:
-                url = aResult[1][0] 
-                if 'shoffree' in url:
+    sPattern =  'name="key" value="([^"]+)' 
+    aResult = oParser.parse(sHtmlContent,sPattern)
+    if aResult[0]:
+        mkey = aResult[1][0] 
+
+        oRequestHandler = cRequestHandler(sUrl)
+        oRequestHandler.addHeaderEntry('User-Agent', UA)
+        oRequestHandler.addHeaderEntry('Referer', sUrl.encode('utf-8'))
+        oRequestHandler.addHeaderEntry('Host', "shoffree.net")
+        oRequestHandler.addParameters('key', mkey)
+        oRequestHandler.setRequestType(1)
+        sHtmlContent = oRequestHandler.request()
+
+    sPattern = 'data-embed="([^"]+)'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    if aResult[0]:
+        for aEntry in aResult[1]:
+            url = aEntry
+            if '?url' in url:
+                url = url.split('?url=')[1]
+            if 'shoffree' in url:
                     oRequestHandler = cRequestHandler(url)
                     oRequestHandler.addHeaderEntry('User-Agent', UA)
-                    oRequestHandler.addHeaderEntry('Referer', maction)
-                    oRequestHandler.addHeaderEntry('Host', "shoffree.net")
+                    oRequestHandler.addHeaderEntry('Referer', sUrl)
                     sHtmlContent = oRequestHandler.request()  
-                    
-                    sPattern =  '<iframe.+?src="([^"]+)"></iframe>'
-                    aResult = oParser.parse(sHtmlContent,sPattern)
-                    if aResult[0]:
-                        url = aResult[1][0].split('&role')[0]
-                        url = aResult[1][0].split('?key=')[0] + '?key=' + Quote(url.split('?key=')[1])
+                    sLink = oRequestHandler.getRealUrl()
+                    url = sLink.split('&role')[0]
+                    url = sLink.split('?key=')[0] + '?key=' + Quote(url.split('?key=')[1])
 
-                    else:
-                        sPattern =  '<a target="_blank" class="naked" href="([^"]+)'
-                        aResult = oParser.parse(sHtmlContent,sPattern)
-                        if aResult[0]:
-                            url = aResult[1][0]
-
-                sHosterUrl = url
-                if 'userload' in sHosterUrl:
-                    sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-                if 'shoffree' in sHosterUrl:
-                    sHosterUrl = sHosterUrl + "|Referer=" + sUrl
-                if 'mystream' in sHosterUrl:
-                    sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN    
-                oHoster = cHosterGui().checkHoster(sHosterUrl)
-                if oHoster != False:
-                    oHoster.setDisplayName(sMovieTitle)
-                    oHoster.setFileName(sMovieTitle)
-                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+            sHosterUrl = url
+            if 'userload' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+            if 'shoffree' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + sUrl
+            if 'mystream' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if oHoster:
+                oHoster.setDisplayName(sMovieTitle)
+                oHoster.setFileName(sMovieTitle)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
     oGui.setEndOfDirectory()

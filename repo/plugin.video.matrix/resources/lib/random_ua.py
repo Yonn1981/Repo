@@ -22,13 +22,18 @@ def get_random_ua():
     third_num = random.randint(3221, 4235)
     fourth_num = random.randint(0, 95)
     os_type =   [
+                '(Windows NT 7.0; Win64; x64) AppleWebKit/537.36',
+                '(Windows NT 8.1; Win64; x64) AppleWebKit/537.36',
                 '(Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
-                '(X11; Linux x86_64) AppleWebKit/537.36',
-                '(X11; Linux i686) AppleWebKit/537.36',
-                '(Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36', 
+                '(Windows NT 11.0; Win64; x64) AppleWebKit/537.36',
+                '(X11; Ubuntu; x86_64) AppleWebKit/537.36',
+                '(X11; Fedora; x86_64) AppleWebKit/537.36',
+                '(Macintosh; Intel Mac OS X 10.14; x64) AppleWebKit/537.36',
+                '(Macintosh; Intel Mac OS X 11.0; x64) AppleWebKit/537.36',
+                '(Linux; U; Android 13; en-us; Pixel 6 Pro Build/TPP1.220621.005) AppleWebKit/537.36',
+                '(Linux; U; Android 12; en-us; SM-G998B Build/SP1A.210812.016) AppleWebKit/537.36',
+                '(iPad; CPU OS 15_6 like Mac OS X) AppleWebKit/604.1.34',
                 '(iPhone; CPU OS 16_3 like Mac OS X) AppleWebKit/605.1.15s',
-                '(iPad; CPU OS 15_6 like Mac OS X) AppleWebKit/604.1.34', 
-                '(Windows NT 11.0; Win64; x64) AppleWebKit/537.36'
                 ]
     chrome_version = 'Chrome/{}.0.{}.{}'.format(
         first_num, third_num, fourth_num)
@@ -43,11 +48,14 @@ def get_pc_ua():
     third_num = random.randint(3221, 4235)
     fourth_num = random.randint(0, 95)
     os_type =   [
+                '(Windows NT 7.0; Win64; x64) AppleWebKit/537.36',
+                '(Windows NT 8.1; Win64; x64) AppleWebKit/537.36',
                 '(Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
-                '(Windows NT 11.0; Win64; x64) AppleWebKit/537.36', 
-                '(X11; Linux x86_64) AppleWebKit/537.36',
-                '(X11; Linux i686) AppleWebKit/537.36',
-                '(Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36'
+                '(Windows NT 11.0; Win64; x64) AppleWebKit/537.36',
+                '(X11; Ubuntu; x86_64) AppleWebKit/537.36',
+                '(X11; Fedora; x86_64) AppleWebKit/537.36',
+                '(Macintosh; Intel Mac OS X 10.14; x64) AppleWebKit/537.36',
+                '(Macintosh; Intel Mac OS X 11.0; x64) AppleWebKit/537.36',
                 ]
     chrome_version = 'Chrome/{}.0.{}.{}'.format(
         first_num, third_num, fourth_num)
@@ -65,7 +73,8 @@ def get_phone_ua():
                 '(iPhone; CPU OS 16_3 like Mac OS X) AppleWebKit/605.1.15s',
                 '(iPad; CPU OS 15_6 like Mac OS X) AppleWebKit/604.1.34',
                 '(Linux; U; Android 13; en-us; Pixel 6 Pro Build/TPP1.220621.005)', 
-                '(Linux; U; Android 12; en-us; SM-G998B Build/SP1A.210812.016)'
+                '(Linux; U; Android 12; en-us; SM-G998B Build/SP1A.210812.016)',
+                '(Linux; U; Android 10; en-us; Mi 10T Pro Build/QKQ1.190711.002) AppleWebKit/537.36'
                 ]
   chrome_version = 'Chrome/{}.0.{}.{}'.format(
       first_num, third_num, fourth_num)
