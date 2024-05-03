@@ -129,31 +129,6 @@ class cPlayer(xbmc.Player):
                 dialog().VSerror('Nécessite kodi 17 minimum')
                 return
 
-        elif '.txt' in sUrl:
-            # Temporary Workaround
-            import xbmcgui
-            import requests, sys
-            if 'Origin' in sUrl:
-                Origin = sUrl.split('Origin=')[1]
-                sUrl = sUrl.split('Origin=')[0]
-            else:
-                Origin = sUrl.rsplit("/",3)[0]
-            headers = {"Referer": Origin + '/',
-                        "Origin": Origin}
-            response = requests.get(sUrl, headers=headers).text
-            sUrl = VSPath('special://home/addons/plugin.video.matrix/resources/extra/v.m3u8')
-            with open(sUrl, 'w') as f:
-                f.write(response)
-                f.close
-
-            m3u8_url = sUrl
-            listitem = xbmcgui.ListItem(path=m3u8_url)
-            if int(sys.argv[1]) == -1:
-                xbmc.Player().play(sUrl, listitem)
-            else:
-                xbmcgui.ListItem(path=m3u8_url)
-                xbmcplugin.setResolvedUrl(sPluginHandle, True, listitem)
-
         # 1 er mode de lecture
         elif player_conf == '0':
             self.play(sUrl, item)

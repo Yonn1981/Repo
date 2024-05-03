@@ -9,6 +9,7 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
+from resources.lib.multihost import cMegamax
 from resources.lib import random_ua
 
 UA = random_ua.get_ua()
@@ -454,7 +455,22 @@ def showHosters():
     sPattern = 'iframe.+?src="([^"]+)'
     aResult = oParser.parse(sHtmlContent2, sPattern)
     if aResult[0]:
+                oOutputParameterHandler = cOutputParameterHandler()
                 sHosterUrl = aResult[1][0]
+                if 'megamax' in sHosterUrl or 'lodcima' in sHosterUrl:
+                    data = cMegamax().GetUrls(sHosterUrl)
+                    if data is not False:
+                        for item in data:
+                            sHosterUrl = item.split(',')[0].split('=')[1]
+                            sQual = item.split(',')[1].split('=')[1]
+                            sLabel = item.split(',')[2].split('=')[1]
+
+                            sDisplayTitle = ('%s [COLOR coral] [%s][/COLOR][COLOR orange] - %s[/COLOR]') % (sMovieTitle, sQual, sLabel)      
+                            oOutputParameterHandler.addParameter('sHosterUrl', sHosterUrl)
+                            oOutputParameterHandler.addParameter('sQual', sQual)
+                            oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
+                            oOutputParameterHandler.addParameter('sThumb', sThumb)
+                            oGui.addLink(SITE_IDENTIFIER, 'showMegaLinks', sDisplayTitle, sThumb, '', oOutputParameterHandler, oInputParameterHandler)	
 
                 if 'mystream' in sHosterUrl:
                     sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN    
@@ -463,5 +479,23 @@ def showHosters():
                     oHoster.setDisplayName(sMovieTitle)
                     oHoster.setFileName(sMovieTitle)
                     cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+
+    oGui.setEndOfDirectory()
+
+def showMegaLinks():
+    oGui = cGui()
+
+    oInputParameterHandler = cInputParameterHandler()
+    sHosterUrl = oInputParameterHandler.getValue('sHosterUrl')
+    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
+    sQual = oInputParameterHandler.getValue('sQual')
+    sThumb = oInputParameterHandler.getValue('sThumb')
+
+    sDisplayTitle = ('%s [COLOR coral] [%s] [/COLOR]') % (sMovieTitle, sQual)   
+    oHoster = cHosterGui().checkHoster(sHosterUrl)
+    if oHoster != False:
+        oHoster.setDisplayName(sDisplayTitle)
+        oHoster.setFileName(sMovieTitle)
+        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
     oGui.setEndOfDirectory()

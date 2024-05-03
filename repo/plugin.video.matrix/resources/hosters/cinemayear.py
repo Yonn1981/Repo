@@ -15,7 +15,7 @@ class cHoster(iHoster):
         if ('sub.info' in self._url):
             SubTitle = self._url.split('sub.info=')[1]
             api_call = self._url.split('?sub.info=')[0] 
-        
+
         if api_call:
             if ('http' in SubTitle):
                 return True, api_call, SubTitle

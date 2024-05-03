@@ -325,10 +325,12 @@ def showHosters(oInputParameterHandler = False):
         for aEntry in aResult:
             
             url = aEntry[1]
-            host  = aEntry[0]
+            host  = aEntry[0].replace('facebook','face')
 
             if 'ok' in host:
                url =  'https://ok.ru/videoembed/'+ url
+            if 'face' in host:
+               url =  'https://app.videas.fr/embed/media/'+ url
             if 'tune' in host:
                url =  'https://tune.pk/js/open/embed.js?vid='+url+'&userid=827492&_=1601112672793'
             if 'estream' in host:

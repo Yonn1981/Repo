@@ -616,7 +616,7 @@ def showHosters(oInputParameterHandler = False):
             if 'shoffree' in url:
                     oRequestHandler = cRequestHandler(url)
                     oRequestHandler.addHeaderEntry('User-Agent', UA)
-                    oRequestHandler.addHeaderEntry('Referer', sUrl)
+                    oRequestHandler.addHeaderEntry('Referer', sUrl.encode('utf-8'))
                     sHtmlContent = oRequestHandler.request()  
                     sLink = oRequestHandler.getRealUrl()
                     url = sLink.split('&role')[0]

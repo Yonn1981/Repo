@@ -371,7 +371,7 @@ def showLinks(oInputParameterHandler = False):
 
     for aEntry in sHtmlContent["data"]["files"]:
         sQual = aEntry["resolution"]
-        sHosterUrl = aEntry["path"] + '?sub.info=' + sSub
+        sHosterUrl = aEntry["path"] + f'|Referer={URL_MAIN}' + '?sub.info=' + sSub
 
         oHoster = cHosterGui().getHoster('cinemayear') 
         if oHoster:

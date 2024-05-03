@@ -64,7 +64,7 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
 
     oParser = cParser()
-    sPattern = 'class="block-post">.+?<a href="([^"]+)" title="([^"]+)".+?data-img="([^"]+)'
+    sPattern = 'class="block-post">\s*<a href="([^"]+)" title="([^"]+)".+?data-img="([^"]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)		
     if aResult[0]:
         total = len(aResult[1])
@@ -77,6 +77,8 @@ def showMovies(sSearch = ''):
  
             sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("برنامج","").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("بلوراي","").replace("الفيلم الوثائقي","").replace("اون لاين","").replace("إكس إس أنمي","")
             siteUrl = aEntry[0]
+            if siteUrl.startswith('//'):
+                siteUrl = 'http:' + siteUrl
             sThumb = aEntry[2]
             sDesc = ''
             sYear = ''
@@ -114,7 +116,7 @@ def showSeries(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
 
     oParser = cParser()
-    sPattern = 'class="block-post">.+?<a href="([^"]+)" title="([^"]+)".+?data-img="([^"]+)'
+    sPattern = 'class="block-post">\s*<a href="([^"]+)" title="([^"]+)".+?data-img="([^"]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
         total = len(aResult[1])
@@ -179,6 +181,10 @@ def ShowEps():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request() 
 
+    sStart = 'id="episodes">'
+    sEnd = '</div>'
+    sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
+
     sPattern = 'href="([^"]+)".+?<span>الحلقة</span>\s*<em>(.+?)</em>'
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
@@ -188,6 +194,8 @@ def ShowEps():
             sTitle = "E"+aEntry[1]
             sTitle = sMovieTitle+sTitle
             siteUrl = aEntry[0]
+            if siteUrl.startswith('//'):
+                siteUrl = 'http:' + siteUrl
             sDesc = ''
             sYear = ''
  

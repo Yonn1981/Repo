@@ -433,7 +433,7 @@ def showHosters(oInputParameterHandler = False):
                 url = 'https:' + url
 
             sHosterUrl = url
-            if 'megamax' in sHosterUrl:
+            if 'megamax' in sHosterUrl or 'megazid' in sHosterUrl:
                 data = cMegamax().GetUrls(sHosterUrl)
                 if data is not False:
                     for item in data:

@@ -22,7 +22,7 @@
             <fanart>fanart.jpg</fanart>
         </assets>
     </extension>
-</addon><addon id="plugin.video.matrix" name="Matrix" version="6.4.0g" provider-name="Yonn1981">
+</addon><addon id="plugin.video.matrix" name="Matrix" version="6.4.0h" provider-name="Yonn1981">
     <requires>
 
         <trycatch>
@@ -43,6 +43,7 @@
         <import addon="script.module.dnspython" optional="true" />
         <import addon="plugin.video.torrest" optional="true" />
         <import addon="repository.github" optional="true" />
+        <import addon="script.module.pycryptodome" version="3.4.3" />
         
     </requires>
 

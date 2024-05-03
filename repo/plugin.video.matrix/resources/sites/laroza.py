@@ -19,14 +19,14 @@ SITE_DESC = 'arabic vod'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-MOVIE_AR = (URL_MAIN + 'category.php?cat=arabic-movies14', 'showMovies')
+MOVIE_AR = (URL_MAIN + 'category.php?cat=arabic-movies16', 'showMovies')
 MOVIE_EN = (URL_MAIN + 'category.php?cat=all_movies', 'showMovies')
 MOVIE_HI = (URL_MAIN + 'category.php?cat=indian-movies3', 'showMovies')
 MOVIE_ASIAN = (URL_MAIN + 'category.php?cat=asian-movies', 'showMovies')
 MOVIE_DUBBED = (URL_MAIN + 'category.php?cat=aflammdblgh', 'showMovies')
 KID_MOVIES = (URL_MAIN + 'category.php?cat=anime-movies', 'showMovies')
 
-RAMADAN_SERIES = (URL_MAIN + 'category.php?cat=3-ramadan-2024', 'showSeries')
+RAMADAN_SERIES = (URL_MAIN + 'category.php?cat=8-ramadan-2024', 'showSeries')
 SERIE_EN = (URL_MAIN + 'category.php?cat=english-series3', 'showSeries')
 SERIE_AR = (URL_MAIN + 'category.php?cat=arabic-series29', 'showSeries')
 SERIE_HEND = (URL_MAIN + 'category.php?cat=4indian-series', 'showSeries')
@@ -188,7 +188,7 @@ def showSeries(sSearch = ''):
     oRequestHandler.addHeaderEntry('User-Agent', UA)
     sHtmlContent = oRequestHandler.request()
   
-    sPattern = '<div class="thumbnail">.+?<i class="fa fa-clock-o">.+?<a href="(.+?)".+?title="(.+?)".+?<img src=.+?data-echo="(.+?)"'
+    sPattern = '<div class="thumbnail">.+?<i class="fa fa-clock-o">.+?<a href="(.+?)"\s*title="(.+?)".+?<img src=.+?data-echo="(.+?)"'
     aResult = oParser.parse(sHtmlContent, sPattern)	
     itemList = []		
     if aResult[0] :

@@ -130,7 +130,7 @@ def showMovies(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
     
-    sPattern = '<div class="content-box">\s*<a href="([^"]+)" title="([^"]+)".+?data-image="([^"]+)'
+    sPattern = '<div class="SMallBloca".+?<a href="([^"]+)" title="([^"]+)".+?img src="([^"]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
         total = len(aResult[1])
@@ -199,7 +199,7 @@ def showSeries(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-    sPattern = '<div class="content-box">\s*<a href="([^"]+)" title="([^"]+)".+?data-image="([^"]+)'
+    sPattern = '<div class="SMallBloca".+?<a href="([^"]+)" title="([^"]+)".+?img src="([^"]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)
     itemList = []		
     if aResult[0]:
@@ -270,7 +270,7 @@ def showSeasons():
 	oRequestHandler = cRequestHandler(sUrl)
 	sHtmlContent = oRequestHandler.request()
 
-	sStart = 'class="tab-class" id="seasons">'
+	sStart = 'class="Seasons">'
 	sEnd = 'class="container">'
 	sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
 
@@ -304,19 +304,15 @@ def showEpisodes():
 	oRequestHandler = cRequestHandler(sUrl)
 	sHtmlContent = oRequestHandler.request()
 
-	sStart = 'class="tab-class" id="episodes">'
-	sEnd = '<div class="tab-class"'
-	sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
-
-	sPattern = '<div class="episode-block.+?href="([^"]+)".+?data-image="([^"]+)".+?<em>(.+?)</em>'
+	sPattern = '<div class="SMallBloca".+?href="([^"]+)".+?<span>(.+?)</span>'
 	aResult = oParser.parse(sHtmlContent, sPattern)
 	if aResult[0] is True:
 		oOutputParameterHandler = cOutputParameterHandler()
 		for aEntry in aResult[1]:
  
-			sTitle = f'{sMovieTitle} E{aEntry[2]}'
+			sTitle = f'{sMovieTitle} E{aEntry[1]}'
 			siteUrl = aEntry[0] + 'watch/'
-			sThumb = aEntry[1]
+			sThumb = sThumb
 			sDesc = ""
 			
 			oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -325,13 +321,6 @@ def showEpisodes():
 			oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
         
 	oGui.setEndOfDirectory()
-  
-def __checkForNextPage(sHtmlContent):
-    oParser = cParser()
-    sPattern = '<link rel="next" href="([^"]+)'	
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    if aResult[0]:
-        return aResult[1][0]
 
 def showHosters(oInputParameterHandler = False):
     oGui = cGui()
@@ -345,7 +334,7 @@ def showHosters(oInputParameterHandler = False):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
              
-    sPattern = 'data-link="([^"]+)'
+    sPattern = 'data-url="([^"]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()

@@ -6,7 +6,6 @@ from resources.lib.gui.contextElement import cContextElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.comaddon import dialog, addon, VSlog
-import re
 
 class cHosterGui:
     SITE_NAME = 'cHosterGui'
@@ -212,7 +211,7 @@ class cHosterGui:
         supported_player = ['film77', 'hdup', 'streamable', 'stardima', 'filescdn', 'vidgot', 'videott', 'vidlo', 'sendit', 'thevid', 'vidmoly', 'gettyshare',
                             'fastplay', 'cloudy', 'hibridvod', 'extremenow', 'yourupload', 'vidspeeds', 'moshahda', 'voe', 'faselhd', 'naqoos', 'frdl',
                             'streamax', 'gounlimited', 'xdrive', 'facebook', 'mixdrop', 'mixloads', 'vidoza', 'rutube', 'megawatch', 'vidzi', 'filetrip', 
-                            'speedvid', 'letsupload', 'krakenfiles', 'onevideo', 'playreplay', 'vidfast', 'uqload', 'qiwi', 'gofile', 'mail.ru',
+                            'speedvid', 'letsupload', 'krakenfiles', 'onevideo', 'playreplay', 'vidfast', 'uqload', 'qiwi', 'gofile', 'mail.ru', 'videas',
                             'letwatch', 'mp4upload', 'filepup', 'vimple', 'wstream', 'watchvideo', 'vidwatch', 'up2stream', 'tune', 'playtube',
                             'vidup', 'vidbull', 'vidlox', '33player' 'easyload', 'ninjastream', 'cloudhost', 'videobin', 'stagevu', 'gorillavid', 'soraplay',
                             'daclips', 'hdvid', 'vshare', 'vidload', 'giga', 'vidbom', 'cloudvid', 'megadrive', 'downace', 'clickopen', 'supervideo', 'veev',
@@ -309,6 +308,11 @@ class cHosterGui:
         vidlo = next((x for x in ['DoodStream', 'dooood', 'flixeo', 'ds2play', 'dood', 'd0o0d', 'ds2video', 'do0od', 'd0000d', 'd000d'] if x in sHostName), None)
         if vidlo:    
             return self.getHoster('dood')
+
+        #chillx Clone
+        vidlo = next((x for x in ['chillx', 'vectorx', 'boltx', 'bestx'] if x in sHostName), None)
+        if vidlo:    
+            return self.getHoster('chillx')
 
         if ('mcloud' in sHosterUrl) or ('vizcloud' in sHosterUrl) or ('vidstream' in sHosterUrl) or ('vidplay' in sHosterUrl) or ('55a0716b8c' in sHosterUrl) or ('e69975b881' in sHosterUrl) or ('c8365730d4' in sHosterUrl):
             return self.getHoster('mcloud')
@@ -457,8 +461,8 @@ class cHosterGui:
         if ('vidspeed' in sHostName):
             return self.getHoster('vidspeeds')
 				
-        if ('linkbox' in sHostName) or ('sharezweb' in sHostName):
-            return self.getHoster('resolver')
+        if ('linkbox' in sHostName) or ('sharezweb' in sHostName) or ('lbx.to' in sHostName):
+            return self.getHoster('linkbox')
            
         if ('mediafire' in sHostName):
             return self.getHoster('mediafire')
