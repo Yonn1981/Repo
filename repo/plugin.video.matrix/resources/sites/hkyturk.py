@@ -9,6 +9,7 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
+from resources.lib.multihost import cMegamax
 from resources.lib import random_ua
 
 UA = random_ua.get_ua()
@@ -319,7 +320,7 @@ def showSeasons():
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()  
         for aEntry in aResult[1]:
-            sSeason = aEntry[1].replace("الموسم العاشر","S10").replace("الموسم الحادي عشر","S11").replace("الموسم الثاني عشر","S12").replace("الموسم الثالث عشر","S13").replace("الموسم الرابع عشر","S14").replace("الموسم الخامس عشر","S15").replace("الموسم السادس عشر","S16").replace("الموسم السابع عشر","S17").replace("الموسم الثامن عشر","S18").replace("الموسم التاسع عشر","S19").replace("الموسم العشرون","S20").replace("الموسم الحادي و العشرون","S21").replace("الموسم الثاني و العشرون","S22").replace("الموسم الثالث و العشرون","S23").replace("الموسم الرابع والعشرون","S24").replace("الموسم الخامس و العشرون","S25").replace("الموسم السادس والعشرون","S26").replace("الموسم السابع والعشرون","S27").replace("الموسم الثامن والعشرون","S28").replace("الموسم التاسع والعشرون","S29").replace("الموسم الثلاثون","S30").replace("الموسم الحادي و الثلاثون","S31").replace("الموسم الثاني والثلاثون","S32").replace("الموسم الأول","S1").replace("الموسم الاول","S1").replace("الموسم الثاني","S2").replace("الموسم الثالث","S3").replace("الموسم الثالث","S3").replace("الموسم الرابع","S4").replace("الموسم الخامس","S5").replace("الموسم السادس","S6").replace("الموسم السابع","S7").replace("الموسم الثامن","S8").replace("الموسم التاسع","S9").replace("الموسم","S").replace("موسم","S").replace("S ","S").split('الحلقة')[0]
+            sSeason = aEntry[1].replace("الموسم العاشر","S10").replace("الموسم الحادي عشر","S11").replace("الموسم الثاني عشر","S12").replace("الموسم الثالث عشر","S13").replace("الموسم الرابع عشر","S14").replace("الموسم الخامس عشر","S15").replace("الموسم السادس عشر","S16").replace("الموسم السابع عشر","S17").replace("الموسم الثامن عشر","S18").replace("الموسم التاسع عشر","S19").replace("الموسم العشرون","S20").replace("الموسم الحادي و العشرون","S21").replace("الموسم الثاني و العشرون","S22").replace("الموسم الثالث و العشرون","S23").replace("الموسم الرابع والعشرون","S24").replace("الموسم الخامس و العشرون","S25").replace("الموسم السادس والعشرون","S26").replace("الموسم السابع والعشرون","S27").replace("الموسم الثامن والعشرون","S28").replace("الموسم التاسع والعشرون","S29").replace("الموسم الثلاثون","S30").replace("الموسم الحادي و الثلاثون","S31").replace("الموسم الثاني والثلاثون","S32").replace("الموسم الأول","S1").replace("الموسم الاول","S1").replace("الموسم الثاني","S2").replace("الموسم الثالث","S3").replace("الموسم الثالث","S3").replace("الموسم الرابع","S4").replace("الموسم الخامس","S5").replace("الموسم السادس","S6").replace("الموسم السابع","S7").replace("الموسم الثامن","S8").replace("الموسم التاسع","S9").replace("الموسم","S").replace("موسم","S").replace("S ","S").replace("SS","S").split('الحلقة')[0]
             if bool(re.search(r'\d', sSeason)) is False:
                 sSeason = "S1"
             siteUrl = URL_MAIN+'wp-content/themes/vo2023/temp/ajax/seasons.php?seriesID='+aEntry[0]
@@ -453,7 +454,24 @@ def showHosters(oInputParameterHandler = False):
             sPattern = 'iframe.+?src=["\']([^"\']+)["\']'
             aResult = oParser.parse(sHtmlContent2, sPattern)
             if aResult[0]:
+                oOutputParameterHandler = cOutputParameterHandler()
                 sHosterUrl = aResult[1][0]
+
+                if 'megamax' in sHosterUrl or '/iframe/' in sHosterUrl:
+                    data = cMegamax().GetUrls(sHosterUrl)
+                    if data is not False:
+                        for item in data:
+                            sHosterUrl = item.split(',')[0].split('=')[1]
+                            sQual = item.split(',')[1].split('=')[1]
+                            sLabel = item.split(',')[2].split('=')[1]
+
+                            sDisplayTitle = ('%s [COLOR coral] [%s][/COLOR][COLOR orange] - %s[/COLOR]') % (sMovieTitle, sQual, sLabel)      
+                            oOutputParameterHandler.addParameter('sHosterUrl', sHosterUrl)
+                            oOutputParameterHandler.addParameter('sQual', sQual)
+                            oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
+                            oOutputParameterHandler.addParameter('sThumb', sThumb)
+
+                            oGui.addLink(SITE_IDENTIFIER, 'showLinks', sDisplayTitle, sThumb, '', oOutputParameterHandler, oInputParameterHandler)
 
                 if 'mystream' in sHosterUrl:
                     sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN    
@@ -485,7 +503,24 @@ def showHosters(oInputParameterHandler = False):
                 sPattern = 'iframe.+?src=["\']([^"\']+)["\']'
                 aResult = oParser.parse(sHtmlContent2, sPattern)
                 if aResult[0]:
+                    oOutputParameterHandler = cOutputParameterHandler()
                     sHosterUrl = aResult[1][0]
+
+                    if 'megamax' in sHosterUrl or '/iframe/' in sHosterUrl:
+                        data = cMegamax().GetUrls(sHosterUrl)
+                        if data is not False:
+                            for item in data:
+                                sHosterUrl = item.split(',')[0].split('=')[1]
+                                sQual = item.split(',')[1].split('=')[1]
+                                sLabel = item.split(',')[2].split('=')[1]
+
+                                sDisplayTitle = ('%s [COLOR coral] [%s][/COLOR][COLOR orange] - %s[/COLOR]') % (sMovieTitle, sQual, sLabel)      
+                                oOutputParameterHandler.addParameter('sHosterUrl', sHosterUrl)
+                                oOutputParameterHandler.addParameter('sQual', sQual)
+                                oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
+                                oOutputParameterHandler.addParameter('sThumb', sThumb)
+
+                                oGui.addLink(SITE_IDENTIFIER, 'showLinks', sDisplayTitle, sThumb, '', oOutputParameterHandler, oInputParameterHandler)
 
                     if 'mystream' in sHosterUrl:
                         sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN    
@@ -494,5 +529,23 @@ def showHosters(oInputParameterHandler = False):
                         oHoster.setDisplayName(sMovieTitle)
                         oHoster.setFileName(sMovieTitle)
                         cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+
+    oGui.setEndOfDirectory()
+
+def showLinks():
+    oGui = cGui()
+
+    oInputParameterHandler = cInputParameterHandler()
+    sHosterUrl = oInputParameterHandler.getValue('sHosterUrl')
+    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
+    sQual = oInputParameterHandler.getValue('sQual')
+    sThumb = oInputParameterHandler.getValue('sThumb')
+
+    sDisplayTitle = ('%s [COLOR coral] [%s] [/COLOR]') % (sMovieTitle, sQual)   
+    oHoster = cHosterGui().checkHoster(sHosterUrl)
+    if oHoster != False:
+        oHoster.setDisplayName(sDisplayTitle)
+        oHoster.setFileName(sMovieTitle)
+        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 
     oGui.setEndOfDirectory()

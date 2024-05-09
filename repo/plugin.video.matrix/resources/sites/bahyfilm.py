@@ -186,7 +186,7 @@ def showMovies(sSearch = ''):
         oRequestHandler.addHeaderEntry('Origin', getHost(sUrl))
         sHtmlContent = oRequestHandler.request()
 
-        sPattern = '<div class="card">\s*<a href="([^"]+)".+?data-src="([^"]+)".+?alt="([^"]+)'
+        sPattern = '<div class="card">\s*<a href="([^"]+)".+?src="([^"]+)".+?alt="([^"]+)'
 
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:

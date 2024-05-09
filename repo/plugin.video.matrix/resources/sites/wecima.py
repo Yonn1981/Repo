@@ -18,6 +18,8 @@ SITE_NAME = 'Wecima'
 SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
+if addon().getSetting('Use_alternative') == "true":
+    URL_MAIN = siteManager().getUrlMain2(SITE_IDENTIFIER)
 
 MOVIE_TOP = (URL_MAIN + 'movies/best/', 'showMovies')
 MOVIE_POP = (URL_MAIN + 'movies/top/', 'showMovies')

@@ -868,6 +868,10 @@ msgctxt "#30334"
 msgid "Premium Token"
 msgstr ""
 
+msgctxt "#30339"
+msgid "Test"
+msgstr ""
+
 msgctxt "#30340"
 msgid "Trakt integration"
 msgstr ""
@@ -1431,4 +1435,8 @@ msgstr ""
 
 msgctxt "#70021"
 msgid "Update complete.. In case of error, update Matrix from repository"
+msgstr ""
+
+msgctxt "#70022"
+msgid "Use alternative site link"
 msgstr ""

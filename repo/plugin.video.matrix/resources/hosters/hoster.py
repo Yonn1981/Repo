@@ -76,3 +76,6 @@ class iHoster:
 
     def _getMediaLinkByPremiumUser(self, autoPlay = False):
         pass
+
+    def testPremium(self):
+        return

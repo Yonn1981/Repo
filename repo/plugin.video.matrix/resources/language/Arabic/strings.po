@@ -838,7 +838,11 @@ msgstr "Activer Premium"
 
 msgctxt "#30334"
 msgid "Premium Token"
-msgstr "Token Premium"
+msgstr "توكن بريميوم"
+
+msgctxt "#30339"
+msgid "Test"
+msgstr "Tester le token"
 
 msgctxt "#30340"
 msgid "Trakt integration"
@@ -1432,3 +1436,7 @@ msgstr "تحديث ملف معلومات الهوست"
 msgctxt "#70021"
 msgid "Update complete.. In case of error, update Matrix from repository"
 msgstr "اكتمل التحديث.. في حالة حدوث خطأ، قم بتحديث الاضافة من المستودع"
+
+msgctxt "#70022"
+msgid "Use alternative site link"
+msgstr "الرابط البديل للموقع"

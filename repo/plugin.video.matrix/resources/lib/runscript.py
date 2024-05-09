@@ -427,6 +427,12 @@ class cClear:
 
                 return
 
+        elif (env == 'testpremium'):    # tester un compte premium
+            from resources.lib.gui.hoster import cHosterGui
+            oHoster = cHosterGui().getHoster("alldebrid")
+            oHoster.testPremium()
+            return
+
         else:
             return
 

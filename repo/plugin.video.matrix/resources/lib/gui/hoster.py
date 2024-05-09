@@ -261,7 +261,7 @@ class cHosterGui:
         streamwish = next((x for x in ['streamwish', 'khadhnayad', 'ajmidyad', 'yadmalik', 'kharabnah', 'hayaatieadhab', 'sfastwish', 'eghjrutf', 'eghzrutw',
                             'wishfast', 'fviplions', 'egtpgrvh', 'mdy48tn97', 'embedwish', 'fsdcmo.sbs', 'anime4low', 'cdnwish-down', 'heavenlyvideo',
                             'flaswish', 'streamzid', 'cimawish', 'egopxutd', 'obeywish', 'trgsfjll', 'mdbekjwqa', 'uqloads', 'm3lomatik', 'cdnwish', 'ma2d',
-                            'mohahhda', 'asnwish', 'jodwish', 'cinemathek', 'swhoi', 'dancima'] if x in sHostName), None)
+                            'mohahhda', 'asnwish', 'jodwish', 'cinemathek', 'swhoi', 'dancima', 'warda'] if x in sHostName), None)
         if streamwish:
             return self.getHoster('streamwish')
 
@@ -274,12 +274,13 @@ class cHosterGui:
         # Filelions Clone
         filelions = next((x for x in ['filelions', 'ajmidyadfihayh', 'alhayabambi', 'bazwatch', 'cilootv', 'motvy55', 'bazlions', 'lylxan',
                                 'fdewsdc.sbs', '5drama.vip', 'cdnlion-down', 'demonvideo', 'zidlions', 'vidhide', 'streamfile', 'vidnow', 'tuktukcinema29.buzz',
-                                'gsfomqu', 'codeda', 'ma3refa.store', 'coolciima'] if x in sHostName), None)
+                                'gsfomqu', 'codeda', 'ma3refa.store', 'coolciima', 'nejma'] if x in sHostName), None)
         if filelions:
             return self.getHoster("filelions")
 
         # Vidguard Clone
-        vidguard = next((x for x in ['vidguard', 'fertoto', 'vgembed', 'vgfplay', 'vembed', 'vid-guard', 'jetload', 'embedv', 'fslinks', 'bembed', 'listeamed'] if x in sHostName), None)
+        vidguard = next((x for x in ['vidguard', 'fertoto', 'vgembed', 'vgfplay', 'vembed', 'vid-guard', 'jetload', 'embedv', 'fslinks', 'bembed', 'listeamed',
+                                     'gsfjzmqu'] if x in sHostName), None)
         if vidguard:
             return self.getHoster("vidguard")
 
@@ -310,8 +311,8 @@ class cHosterGui:
             return self.getHoster('dood')
 
         #chillx Clone
-        vidlo = next((x for x in ['chillx', 'vectorx', 'boltx', 'bestx'] if x in sHostName), None)
-        if vidlo:    
+        chillx = next((x for x in ['chillx', 'vectorx', 'boltx', 'bestx'] if x in sHostName), None)
+        if chillx:    
             return self.getHoster('chillx')
 
         if ('mcloud' in sHosterUrl) or ('vizcloud' in sHosterUrl) or ('vidstream' in sHosterUrl) or ('vidplay' in sHosterUrl) or ('55a0716b8c' in sHosterUrl) or ('e69975b881' in sHosterUrl) or ('c8365730d4' in sHosterUrl):

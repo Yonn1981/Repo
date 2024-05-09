@@ -226,7 +226,8 @@
         "esseq": {
             "label": "Esseq",
             "active": "True",
-            "url": "https://3sktr.tv/"
+            "url": "https://3sktr.tv/",
+            "url2": "https://eshqee.net/"
         },
         "faselhd": {
             "label": "Faselhd",
@@ -449,7 +450,8 @@
             "label": "Wecima",
             "active": "True",
             "cloudflare": "False",
-            "url": "https://wecima.media/" 
+            "url": "https://wecima.media/",
+            "url2": "https://wecima.show/"
         },
         "witanime": {
             "label": "WitAnime",

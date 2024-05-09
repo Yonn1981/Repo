@@ -5,6 +5,10 @@ from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
 from resources.lib.comaddon import dialog, VSlog
 from resources.lib.aadecode import decodeAA
+from resources.lib import random_ua
+
+UA = random_ua.get_ua()
+
 import re
 import binascii
 import base64
@@ -17,6 +21,7 @@ class cHoster(iHoster):
     def _getMediaLinkForGuest(self, autoPlay = False):
         sURL = getHost(self._url)
         oRequest = cRequestHandler(sURL)
+        oRequest.addHeaderEntry('User-Agent', UA)
         sHtmlContent = oRequest.request()
 
         api_call = ''
@@ -48,14 +53,15 @@ class cHoster(iHoster):
 
                 api_call = dialog().VSselectqual(qua, url) + '|Referer=' + sURL
                 
-            sPattern = '"stream":"(.*?)"'
+            sPattern = '"stream":"([^"]+)".+?"hash":"([^"]+)"'
             aResult = oParser.parse(sHtmlContent, sPattern)
             if aResult[0]:
-                url = str(aResult[1][0])
-                if not url.startswith('https://'):
-                    url= re.sub(':/*', '://', url)
-                url = url.encode().decode('unicode-escape')
-                api_call = sig_decode(url) + '|Referer=' + sURL
+                url2 = str(aResult[1][0][0])
+                if not url2.startswith('https://'):
+                    url2= re.sub(':/*', '://', url2)
+                url2 = url2.encode().decode('unicode-escape')
+
+                api_call = sig_decode(url2) + '|Referer=' + sURL
 
         if api_call:
             return True, api_call

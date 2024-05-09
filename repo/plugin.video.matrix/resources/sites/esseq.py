@@ -10,15 +10,16 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
-from resources.lib import random_ua
 
-UA = random_ua.get_pc_ua()
+UA = 'Mozilla/5.0 (Linux; Android 14; SM-A346M Build/UP1A.231005.007; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/124.0.6367.108 Mobile Safari/537.36 Instagram 330.0.0.40.92 Android (34/14; 450dpi; 1080x2130; samsung; SM-A346M; a34x; mt6877; pt_BR; 596227443)'
 
 SITE_IDENTIFIER = 'esseq'
 SITE_NAME = 'Esseq'
 SITE_DESC = 'arabic vod'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
+if addon().getSetting('Use_alternative') == "true":
+    URL_MAIN = siteManager().getUrlMain2(SITE_IDENTIFIER)
 
 SERIE_TR = (URL_MAIN + '/all-series/', 'showSeries')
 MOVIE_TURK = (URL_MAIN + '/category/الأفلام-التركية/', 'showMovies')

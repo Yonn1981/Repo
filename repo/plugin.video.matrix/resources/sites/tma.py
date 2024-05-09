@@ -120,7 +120,7 @@ def showMoviesSearch(sSearch=''):
     API_Key = addons.getSetting('api_tmdb')
 
     sUrl = sSearch + '&api_key='+API_Key
-        
+    simdb_id = ''
     data = requests.get(sUrl)
     sHtmlContent = data.text
 
@@ -141,8 +141,10 @@ def showMoviesSearch(sSearch=''):
                 continue
                 
             sId = aEntry[0]
-            siteUrl = f'https://prod.omega.themoviearchive.site/v3/movie/sources/{sId}'
             sTitle = aEntry[1]
+            sDisplayTitle = sTitle.replace(' ','%2520').replace('%20','%2520')
+            siteUrl = base64.b64decode('aHR0cHM6Ly9hcGkuYnJhZmxpeC52aWRlby9mZWJib3gvc291cmNlcy13aXRoLXRpdGxlPw==').decode('utf8',errors='ignore')
+            siteUrl = f'{siteUrl}title={sDisplayTitle}&mediaType=movie&episodeId=1&seasonId=1&tmdbId={sId}&imdbId={simdb_id}'
             sThumb = "https://image.tmdb.org/t/p/w500" + aEntry[3].replace('"','')
             sDesc = aEntry[2]
 
@@ -150,6 +152,7 @@ def showMoviesSearch(sSearch=''):
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
+            oOutputParameterHandler.addParameter('sId', sId)
             oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
             progress_.VSclose(progress_)

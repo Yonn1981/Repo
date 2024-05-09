@@ -11,12 +11,12 @@ from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, isMatrix, siteManager, addon
 from resources.lib.parser import cParser
 from resources.lib import random_ua
- 
+
+UA = random_ua.get_phone_ua()
+
 SITE_IDENTIFIER = 'faselhd'
 SITE_NAME = 'Faselhd'
 SITE_DESC = 'arabic vod'
-
-UA = random_ua.get_phone_ua()
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
