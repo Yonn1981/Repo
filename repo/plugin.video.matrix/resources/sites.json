@@ -355,11 +355,6 @@
             "active": "True",
             "url": "https://www.qfilm.tv/"
         },
-        "rotana": {
-            "label": "Rotana",
-            "active": "True",
-            "url": "https://rotana.net/"
-        },
         "sflix": {
             "label": "sFlix",
             "active": "True",
@@ -369,17 +364,12 @@
             "label": "Shahid4u",
             "active": "True",
             "cloudflare": "True",
-            "url": "https://sha4u.net/"
+            "url": "https://shhid4u.cam/"
         },
         "shoffree": {
             "label": "Shoffree",
             "active": "True",
             "url": "https://shoffree.net/"
-        },
-        "shooflive": {
-            "label": "Shooflive",
-            "active": "True",
-            "url": "https://tv.shooflive.art/"
         },
         "shoofvod": {
             "label": "Shoofvod",

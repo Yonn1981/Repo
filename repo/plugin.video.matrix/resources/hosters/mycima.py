@@ -30,6 +30,6 @@ class cHoster(iHoster):
 
         api_call = Unquote(api_call)
         if api_call:
-            return True, api_call.replace(' ', '%20')
+            return True, api_call.replace(' ', '%20') + "|Referer=" + self._url + '&User-Agent=' + UA
 
         return False, False
