@@ -1,10 +1,12 @@
 ﻿from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
-from resources.lib.comaddon import dialog, xbmcgui
 from resources.hosters.hoster import iHoster
 from resources.lib.packer import cPacker
 from resources.lib.comaddon import VSlog
 import unicodedata
+from resources.lib import random_ua
+
+UA = random_ua.get_phone_ua()
 
 class cHoster(iHoster):
 
@@ -17,6 +19,7 @@ class cHoster(iHoster):
     def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
         api_call = ''
+        sReferer = f'https://{self._url.split("/")[2]}'
 
         oRequest = cRequestHandler(self._url)
         sHtmlContent = oRequest.request()
@@ -57,6 +60,6 @@ class cHoster(iHoster):
             api_call = aResult[1][0] 
 
         if api_call:
-            return True, api_call
+            return True, api_call + '|User-Agent=' + UA + '&Referer=' + sReferer 
 
         return False, False

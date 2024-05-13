@@ -122,14 +122,6 @@ def load():
 
     oGui.setEndOfDirectory()
 
-def main_function(sHtmlContent):
-    oParser = cParser()
-    sPattern = '<a class="naked" href="([^"]+)'
-    aResult = oParser.parse(sHtmlContent, sPattern)    
-    if (aResult[0]):
-        sMain = aResult[1][0]+'/'
-    return sMain
- 
 def showSearch():
     oGui = cGui()
  
@@ -159,10 +151,6 @@ def showYears():
     oParser = cParser()
     oRequestHandler = cRequestHandler(URL_MAIN)
     sHtmlContent = oRequestHandler.request()
-    URL_MAIN2 = main_function(sHtmlContent)
-
-    if URL_MAIN2:
-        sUrl = sUrl.replace(URL_MAIN, URL_MAIN2)
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -192,10 +180,6 @@ def showSerieYears():
     oParser = cParser()
     oRequestHandler = cRequestHandler(URL_MAIN)
     sHtmlContent = oRequestHandler.request()
-    URL_MAIN2 = main_function(sHtmlContent)
-
-    if URL_MAIN2:
-        sUrl = sUrl.replace(URL_MAIN, URL_MAIN2)
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -225,10 +209,6 @@ def showLang():
     oParser = cParser()
     oRequestHandler = cRequestHandler(URL_MAIN)
     sHtmlContent = oRequestHandler.request()
-    URL_MAIN2 = main_function(sHtmlContent)
-
-    if URL_MAIN2:
-        sUrl = sUrl.replace(URL_MAIN, URL_MAIN2)
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -258,10 +238,6 @@ def showSerieLang():
     oParser = cParser()
     oRequestHandler = cRequestHandler(URL_MAIN)
     sHtmlContent = oRequestHandler.request()
-    URL_MAIN2 = main_function(sHtmlContent)
-
-    if URL_MAIN2:
-        sUrl = sUrl.replace(URL_MAIN, URL_MAIN2)
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -355,10 +331,6 @@ def showMovies(sSearch = ''):
     oParser = cParser()
     oRequestHandler = cRequestHandler(URL_MAIN)
     sHtmlContent = oRequestHandler.request()
-    URL_MAIN2 = main_function(sHtmlContent)
-
-    if URL_MAIN2:
-        sUrl = sUrl.replace(URL_MAIN, URL_MAIN2)
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -416,10 +388,6 @@ def showSeries(sSearch = ''):
     oParser = cParser()
     oRequestHandler = cRequestHandler(URL_MAIN)
     sHtmlContent = oRequestHandler.request()
-    URL_MAIN2 = main_function(sHtmlContent)
-
-    if URL_MAIN2:
-        sUrl = sUrl.replace(URL_MAIN, URL_MAIN2)
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -573,10 +541,6 @@ def showHosters(oInputParameterHandler = False):
     oParser = cParser()
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent1 = oRequestHandler.request()
-
-    sMain = main_function(sHtmlContent1)
-    if sMain:
-        URL_MAIN = sMain
 
     sPattern =  '<form action="([^"]+)' 
     aResult = oParser.parse(sHtmlContent1,sPattern)

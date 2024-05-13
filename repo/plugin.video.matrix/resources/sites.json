@@ -143,7 +143,7 @@
         "cimau": {
             "label": "Cima4u",
             "active": "True",
-            "url": "https://cima4u-cdn.c4u.ink/"
+            "url": "https://www.cima4u-tv.com/"
         },
         "cimaclub": {
             "label": "CimaClub",
@@ -206,7 +206,7 @@
         "dramacafe": {
             "label": "Dramacafe",
             "active": "True",
-            "url": "https://w5.dramacafe-tv.com/"
+            "url": "https://w7.dramacafe-tv.com/"
         },
         "egyclub": {
             "label": "Egyclub",
@@ -308,7 +308,7 @@
             "label": "Koralive",
             "active": "True",
             "url": "https://es.live-kora.io/",
-            "url2": "https://360kora.com/"
+            "url2": "https://360kora.org/"
         },
         "laroza": {
             "label": "Laroza",

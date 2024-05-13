@@ -5,8 +5,9 @@ from resources.hosters.hoster import iHoster
 from resources.lib.packer import cPacker
 from resources.lib.comaddon import VSlog
 import unicodedata
+from resources.lib import random_ua
 
-UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101 Firefox/68.0'
+UA = random_ua.get_phone_ua()
 
 class cHoster(iHoster):
 
@@ -46,6 +47,6 @@ class cHoster(iHoster):
                 sHost = api_call.split("/")[2]
 
         if api_call:
-            return True, api_call+ '|User-Agent=' + UA + '&Referer=' + sReferer + '&Host=' + sHost
+            return True, api_call + '|User-Agent=' + UA + '&Referer=' + sReferer + '&Host=' + sHost
 
         return False, False
