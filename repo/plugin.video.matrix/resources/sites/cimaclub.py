@@ -352,7 +352,7 @@ def showServers(oInputParameterHandler = False):
             if url.startswith('//'):
                 url = 'http:' + url				
             
-            sHosterUrl = url + "|Referer=" + sReferer
+            sHosterUrl = url + "|Referer=" + sHosterUrl
             oHoster = cHosterGui().getHoster('lien_direct')  
             if oHoster:
                sDisplayTitle = sTitle
@@ -361,3 +361,4 @@ def showServers(oInputParameterHandler = False):
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
     
     oGui.setEndOfDirectory()	
+    

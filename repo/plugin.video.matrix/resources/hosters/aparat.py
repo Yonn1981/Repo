@@ -6,6 +6,9 @@ from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
 from resources.lib.comaddon import dialog, VSlog
+from resources.lib import random_ua
+
+UA = random_ua.get_ua()
 
 class cHoster(iHoster):
 
@@ -25,28 +28,23 @@ class cHoster(iHoster):
             sHtmlContent = oRequestHandler.request()
 
             oParser = cParser()
-            sPattern = 'src:\s+"([^"]+)'
+            sPattern = '"src":"([^"]+)'
             aResult = oParser.parse(sHtmlContent, sPattern)
-
             if aResult[0]:
                 url2 = aResult[1][0]
                 oRequestHandler = cRequestHandler(url2)
                 sHtmlContent2 = oRequestHandler.request()
 
-                # prend tous les formats  (peu créer problemes CODECS avc1)
-                # sPattern = 'RESOLUTION=(\w+).+?(https.+?m3u8)'
-
-                # limite les formats
-                sPattern = 'PROGRAM-ID.+?RESOLUTION=(\w+).+?(https.+?m3u8)'
+                sPattern = 'RESOLUTION=(\d+x\d{0,4})\s*(https?://[^\s]+)'
                 aResult = oParser.parse(sHtmlContent2, sPattern)
                 for aEntry in aResult[1]:
                     list_q.append(aEntry[0])
-                    list_url.append(aEntry[1])  # parfois lien de meme qualité avec url diffrentes
+                    list_url.append(aEntry[1])  
 
             if list_url:
                 api_call = dialog().VSselectqual(list_q, list_url)
                 if api_call:
-                    return True, api_call
+                    return True, api_call + '|User-Agent=' + UA + '&Referer=' + self._url
 
         if VideoType == 2:
             oRequestHandler = cRequestHandler(self._url)

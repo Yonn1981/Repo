@@ -585,7 +585,7 @@ def showLinks(oInputParameterHandler = False):
             sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
         
         if 'mp4' in sHosterUrl:
-            sHosterUrl = sHosterUrl + '|User-Agent=' + UA + '&Referer=' + sUrl
+            sHosterUrl = sHosterUrl + '|User-Agent=' + UA + '&Referer=' + sHosterUrl
             oHoster = cHosterGui().getHoster('lien_direct')
         else:
             oHoster = cHosterGui().checkHoster(sHosterUrl)

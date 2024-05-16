@@ -22,7 +22,7 @@ class cHoster(iHoster):
     def setUrl(self, url):
         sid = str(url).replace('/d/', '/e/')
         sid = sid.split('/e/')[1]
-        self._url = url
+        self._url = url.replace('doods.pro','d0000d.com')
 
     def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)

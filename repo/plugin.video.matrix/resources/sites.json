@@ -175,7 +175,7 @@
             "label": "Cinematy",
             "active": "True",
             "cloudflare": "False",
-            "url": "https://niimaty.store/"
+            "url": "https://cinematy.click/"
         },
         "coolcima": {
             "label": "CoolCima",
@@ -363,8 +363,8 @@
         "shahidu": {
             "label": "Shahid4u",
             "active": "True",
-            "cloudflare": "True",
-            "url": "https://shhid4u.cam/"
+            "cloudflare": "False",
+            "url": "https://shed4u.name/"
         },
         "shoffree": {
             "label": "Shoffree",

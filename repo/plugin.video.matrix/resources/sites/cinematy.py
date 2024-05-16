@@ -353,7 +353,7 @@ def showLinks(oInputParameterHandler = False):
     if aResult[0]:
         sID = aResult[1][0] 
 
-    sPattern =  '<a rel="nofollow" href="([^"]+)' 
+    sPattern =  '<a rel="nofollow"\s*href="([^"]+)' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0]:
         sReferme = aResult[1][0] 
