@@ -9,6 +9,7 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
+from resources.lib.util import cUtil
 from resources.lib import random_ua
 
 UA = random_ua.get_ua()
@@ -25,7 +26,6 @@ MOVIE_ASIAN = (URL_MAIN + 'category/أفلام-آسيوية-مترجمة/', 'sho
 MOVIE_TURK = (URL_MAIN + 'category/أفلام-تركية/', 'showMovies')
 MOVIE_GENRES = (True, 'moviesGenres')
 
-#SERIE_EN = (URL_MAIN + 'category/مسلسلات-أجنبية-مترجمة-d/', 'showSeries')
 SERIE_ASIA = (URL_MAIN + 'category/مسلسلات-كورية/', 'showSeries')
 SERIE_GENRES = (True, 'seriesGenres')
 
@@ -64,9 +64,6 @@ def load():
 
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_TURK[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام تركية', 'turk.png', oOutputParameterHandler)
-
-    #oOutputParameterHandler.addParameter('siteUrl', SERIE_EN[0])
-    #oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أجنبية', 'agnab.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', ANIM_NEWS[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات انمي', 'anime.png', oOutputParameterHandler)
@@ -160,7 +157,7 @@ def showMovies(sSearch = ''):
             if "انمي"  in aEntry[1]:
                 continue 
             
-            sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("مشاهده","").replace("برنامج","").replace("مترجمة","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("مشاهدة","").replace("مشاهده","").replace("مترجم","").replace("فيلم","").replace("اونلاين","").replace("اون لاين","").replace("برنامج","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("انمي","")
+            sTitle = cUtil().CleanMovieName(aEntry[1])
             siteUrl = aEntry[0]
             sDesc = ''
             sThumb = aEntry[2]
@@ -168,7 +165,6 @@ def showMovies(sSearch = ''):
             m = re.search('([0-9]{4})', sTitle)
             if m:
                 sYear = str(m.group(0))
-                sTitle = sTitle.replace(sYear,'')
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)

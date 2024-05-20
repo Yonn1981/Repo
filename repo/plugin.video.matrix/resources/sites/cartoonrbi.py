@@ -1,7 +1,6 @@
 ﻿# -*- coding: utf-8 -*-
 # zombi https://github.com/zombiB/zombi-addons/
 
-import re
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler

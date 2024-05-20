@@ -9,7 +9,7 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
-from resources.lib.util import Quote
+from resources.lib.util import Quote, cUtil
 from resources.lib import random_ua
 
 UA = random_ua.get_ua()
@@ -127,7 +127,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText is not False:
-        sUrl = URL_MAIN + '/search?query='+sSearchText
+        sUrl = URL_MAIN + 'search?query='+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -137,7 +137,7 @@ def showSeriesSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText is not False:
-        sUrl = URL_MAIN + '/search?query='+sSearchText
+        sUrl = URL_MAIN + 'search?query='+sSearchText
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -348,7 +348,7 @@ def showMovies(sSearch = ''):
             if 'serie/' in aEntry[0] or 'episode/' in aEntry[0]:
                 continue 
 
-            sTitle = aEntry[1].replace("مشاهدة","").replace("برنامج","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("مدبلج للعربية","").replace("مدبلج","").replace("عرض","").replace("الرو","")
+            sTitle = cUtil().CleanMovieName(aEntry[1])
             siteUrl = aEntry[0]
             sThumb = aEntry[2].replace('/w342','/w500')
             sDesc = ''
@@ -356,7 +356,6 @@ def showMovies(sSearch = ''):
             m = re.search('([0-9]{4})', sTitle)
             if m:
                sYear = str(m.group(0))
-               sTitle = sTitle.replace(sYear,'')
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)

@@ -9,6 +9,7 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
+from resources.lib.util import cUtil
 from resources.lib.multihost import cMegamax
 from resources.lib import random_ua
 
@@ -96,7 +97,7 @@ def showMovies(sSearch = ''):
             if "فيلم" not in aEntry[2]:
                 continue
  
-            sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
+            sTitle = cUtil().CleanMovieName(aEntry[2])
             siteUrl = aEntry[0]
             sThumb = re.sub(r'-\d*x\d*.','.', aEntry[1]).replace('background-image:url(','').replace(');','')
             sYear = ''

@@ -9,6 +9,7 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
+from resources.lib.util import cUtil
 from resources.lib.multihost import cMegamax
 from resources.lib import random_ua
 
@@ -101,7 +102,7 @@ def showMovies(sSearch = ''):
             if "فيلم" not in aEntry[1]:
                 continue
  
-            sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
+            sTitle = cUtil().CleanMovieName(aEntry[1])
             siteUrl = aEntry[0] .replace("/movies/","/watch_movies/")
             sThumb = aEntry[2]
             sYear = ''
@@ -130,7 +131,7 @@ def showMovies(sSearch = ''):
  
                 sTitle = aEntry[1]           
                 sTitle =  "PAGE " + sTitle
-                sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
+                sTitle =  '[COLOR red]'+sTitle+'[/COLOR]'
                 siteUrl = aEntry[0]
                 sThumb = ""
                 sDesc = ""
@@ -139,7 +140,7 @@ def showMovies(sSearch = ''):
                 oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
                 oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
-                oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle, '', oOutputParameterHandler)
+                oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle, 'next.png', oOutputParameterHandler)
 
             progress_.VSclose(progress_)
  
@@ -224,7 +225,7 @@ def showSeries(sSearch = ''):
                 oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
                 oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
-                oGui.addDir(SITE_IDENTIFIER, 'showSeries', sTitle, '', oOutputParameterHandler)
+                oGui.addDir(SITE_IDENTIFIER, 'showSeries', sTitle, 'next.png', oOutputParameterHandler)
 
             progress_.VSclose(progress_)
 

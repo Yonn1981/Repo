@@ -8,6 +8,7 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, siteManager, addon
 from resources.lib.parser import cParser
+from resources.lib.util import cUtil
 import re
  
 SITE_IDENTIFIER = 'lodynet'
@@ -16,21 +17,21 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-MOVIE_TURK = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%aa%d8%b1%d9%83%d9%8a%d8%a9-%d9%85%d8%aa%d8%b1%d8%ac%d9%85/', 'showMovies')
-MOVIE_HI = (URL_MAIN + '/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%87%D9%86%D8%AF%D9%8A%D8%A9/', 'showMovies')
-MOVIE_ASIAN = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%b3%d9%8a%d9%88%d9%8a%d8%a9-a/', 'showMovies')
-KID_MOVIES = (URL_MAIN + '/category/%d8%a7%d9%86%d9%8a%d9%85%d9%8a/', 'showMovies')
+MOVIE_TURK = (URL_MAIN + 'category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%aa%d8%b1%d9%83%d9%8a%d8%a9-%d9%85%d8%aa%d8%b1%d8%ac%d9%85/', 'showMovies')
+MOVIE_HI = (URL_MAIN + 'category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%87%D9%86%D8%AF%D9%8A%D8%A9/', 'showMovies')
+MOVIE_ASIAN = (URL_MAIN + 'category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%b3%d9%8a%d9%88%d9%8a%d8%a9-a/', 'showMovies')
+KID_MOVIES = (URL_MAIN + 'category/%d8%a7%d9%86%d9%8a%d9%85%d9%8a/', 'showMovies')
 MOVIE_PACK = (URL_MAIN , 'showPack')
-SERIE_TR = (URL_MAIN + '/turkish-series-2b/', 'showSerie')
-SERIE_TR_AR = (URL_MAIN + '/dubbed-turkish-series-g/', 'showSerie')
-SERIE_HEND = (URL_MAIN + '/bالمسلسلات-هندية-مترجمة/', 'showSerie')
-SERIE_HEND_AR = (URL_MAIN + '/dubbed-indian-series-p4/', 'showSerie')
-SERIE_ASIA = (URL_MAIN + '/tag/new-asia/', 'showSerie')
-SERIE_PAK = (URL_MAIN + '/category/%d8%a7%d9%84%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a8%d8%a7%d9%83%d8%b3%d8%aa%d8%a7%d9%86%d9%8a%d8%a9/', 'showSerie')
-SERIE_LATIN = (URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%85%d9%83%d8%b3%d9%8a%d9%83%d9%8a%d8%a9-a/', 'showSerie')
+SERIE_TR = (URL_MAIN + 'turkish-series-2b/', 'showSerie')
+SERIE_TR_AR = (URL_MAIN + 'dubbed-turkish-series-g/', 'showSerie')
+SERIE_HEND = (URL_MAIN + 'bالمسلسلات-هندية-مترجمة/', 'showSerie')
+SERIE_HEND_AR = (URL_MAIN + 'dubbed-indian-series-p4/', 'showSerie')
+SERIE_ASIA = (URL_MAIN + 'tag/new-asia/', 'showSerie')
+SERIE_PAK = (URL_MAIN + 'category/%d8%a7%d9%84%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a8%d8%a7%d9%83%d8%b3%d8%aa%d8%a7%d9%86%d9%8a%d8%a9/', 'showSerie')
+SERIE_LATIN = (URL_MAIN + 'category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%85%d9%83%d8%b3%d9%8a%d9%83%d9%8a%d8%a9-a/', 'showSerie')
 
-URL_SEARCH = (URL_MAIN + '/search/', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + '/search/', 'showSearchSerie')
+URL_SEARCH = (URL_MAIN + 'search/', 'showMovies')
+URL_SEARCH_SERIES = (URL_MAIN + 'search/', 'showSearchSerie')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -89,7 +90,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/search/'+sSearchText
+        sUrl = URL_MAIN + 'search/'+sSearchText
         showSearchSerie(sUrl)
         oGui.setEndOfDirectory()
         return	
@@ -120,7 +121,8 @@ def showMoviesSearch(sSearch = ''):
             if 'فيلم'  not in aEntry[1]:
                 continue
  
-            sTitle = aEntry[1].replace("&#8217;", "'").replace("مشاهدة","").replace("مترجم","").replace("اونلاين","").replace("تحميل فلم","").replace("مدبلج للعربية","مدبلج").replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مدبلج للعربية","مدبلج").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("والاخيرة","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("الموسم الحادي عشر","S11").replace("الموسم الثاني عشر","S12").replace("الموسم الثالث عشر","S13").replace("الموسم الرابع عشر","S14").replace("الموسم الخامس عشر","S15").replace("الموسم السادس عشر","S16").replace("الموسم السابع عشر","S17").replace("الموسم الثامن عشر","S18").replace("الموسم التاسع عشر","S19").replace("الموسم العشرون","S20").replace("الموسم الحادي و العشرون","S21").replace("الموسم الثاني و العشرون","S22").replace("الموسم الثالث و العشرون","S23").replace("الموسم الرابع والعشرون","S24").replace("الموسم الخامس و العشرون","S25").replace("الموسم السادس والعشرون","S26").replace("الموسم السابع والعشرون","S27").replace("الموسم الثامن والعشرون","S28").replace("الموسم التاسع والعشرون","S29").replace("الموسم الثلاثون","S30").replace("الموسم الحادي و الثلاثون","S31").replace("الموسم الثاني والثلاثون","S32").replace("الموسم الاول","S1").replace("الأول","1").replace("الموسم الثاني","S2").replace("الموسم الثالث","S3").replace("الموسم الثالث","S3").replace("الموسم الرابع","S4").replace("الموسم الخامس","S5").replace("الموسم السادس","S6").replace("الموسم السابع","S7").replace("الموسم الثامن","S8").replace("الموسم التاسع","S9").replace("الموسم العاشر","S10").replace("الموسم","S").replace("S ","S").replace("موسم","S").replace("S ","S").replace("الحلقة "," E").replace("حلقة "," E").replace("الأخيرة","")
+            sTitle = (cUtil().CleanMovieName(aEntry[1])).replace("&#8217;", "'")
+            sTitle = re.sub('[^a-zA-Z]', ' ', sTitle)
             siteUrl = aEntry[0]
             sThumb = aEntry[2]
             sDesc = ""
@@ -128,7 +130,6 @@ def showMoviesSearch(sSearch = ''):
             m = re.search('([0-9]{4})', sTitle)
             if m:
                 sYear = str(m.group(0))
-                sTitle = sTitle.replace(sYear,'')
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -265,7 +266,8 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1].replace("&#8217;", "'").replace("مشاهدة و تحميل","").replace("مشاهدة","").replace("وتحميل","").replace("مترجمة","").replace("مترجم","").replace("اونلاين","").replace("تحميل فلم","").replace("مشاهده","").replace("مترجم","").replace("الفيلم","").replace("فيلم","").replace("اون لاين","").replace("اونلاين","").replace("برنامج","").replace("بجودة","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("مدبلج للعربية","مدبلج").replace("انيمي","").replace("الموسم","S").replace("S ","S").replace("موسم","S").replace("S ","S").replace("الحلقة "," E").replace("حلقة "," E")
+            sTitle = cUtil().CleanMovieName(aEntry[1]).replace("&#8217;", "'")
+            sTitle = re.sub('[^a-zA-Z0-9]', ' ', sTitle)
             siteUrl = aEntry[0]
             sThumb = aEntry[2]
             sDesc = ""
@@ -273,7 +275,6 @@ def showMovies(sSearch = ''):
             m = re.search('([0-9]{4})', sTitle)
             if m:
                 sYear = str(m.group(0))
-                sTitle = sTitle.replace(sYear,'')
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)

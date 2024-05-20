@@ -9,6 +9,7 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
+from resources.lib.util import cUtil
 from resources.lib.multihost import cMegamax
  
 SITE_IDENTIFIER = 'animezid'
@@ -98,7 +99,7 @@ def showMoviesSearch(sSearch = ''):
             if "فيلم" not in aEntry[1]:
                 continue
  
-            sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("برنامج","").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","")
+            sTitle = cUtil().CleanMovieName(aEntry[1])
             siteUrl = aEntry[0].replace('watch.php?','play.php?')
             sDesc = ''
             sThumb = aEntry[2]
@@ -232,7 +233,7 @@ def showMoviesLinks(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("برنامج","").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
+            sTitle = cUtil().CleanMovieName(aEntry[1])
             siteUrl = aEntry[0].replace('watch.php?','play.php?')
             sThumb = aEntry[2]
             sDesc = ''

@@ -10,6 +10,7 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
+from resources.lib.util import cUtil
 
 UA = 'Mozilla/5.0 (Linux; Android 14; SM-A346M Build/UP1A.231005.007; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/124.0.6367.108 Mobile Safari/537.36 Instagram 330.0.0.40.92 Android (34/14; 450dpi; 1080x2130; samsung; SM-A346M; a34x; mt6877; pt_BR; 596227443)'
 
@@ -21,12 +22,12 @@ URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 if addon().getSetting('Use_alternative') == "true":
     URL_MAIN = siteManager().getUrlMain2(SITE_IDENTIFIER)
 
-SERIE_TR = (URL_MAIN + '/all-series/', 'showSeries')
-MOVIE_TURK = (URL_MAIN + '/category/الأفلام-التركية/', 'showMovies')
+SERIE_TR = (URL_MAIN + 'all-series/', 'showSeries')
+MOVIE_TURK = (URL_MAIN + 'category/الأفلام-التركية/', 'showMovies')
 
-URL_SEARCH = (URL_MAIN + '/search/', 'showSeries')
-URL_SEARCH_MOVIES = (URL_MAIN + '/search/', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + '/search/', 'showSeries')
+URL_SEARCH = (URL_MAIN + 'search/', 'showSeries')
+URL_SEARCH_MOVIES = (URL_MAIN + 'search/', 'showMovies')
+URL_SEARCH_SERIES = (URL_MAIN + 'search/', 'showSeries')
 FUNCTION_SEARCH = 'showSeries'
  
 def load():
@@ -56,7 +57,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/search/'+sSearchText
+        sUrl = URL_MAIN + 'search/'+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -66,7 +67,7 @@ def showSeriesSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/search/'+sSearchText
+        sUrl = URL_MAIN + 'search/'+sSearchText
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -98,7 +99,7 @@ def showMovies(sSearch = ''):
             if "فيلم" not in aEntry[2]:
                 continue
  
-            sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","").strip()
+            sTitle = cUtil().CleanMovieName(aEntry[2])
             siteUrl = aEntry[0]
             import base64
             if '?url=' in siteUrl or '?post=' in siteUrl:
@@ -188,7 +189,7 @@ def __checkForNextPage(sHtmlContent):
 
     return False 
 
-def showSeries2(sSearch = ''):
+def showSeries2():
     oGui = cGui()
 
     oInputParameterHandler = cInputParameterHandler()

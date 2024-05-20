@@ -829,8 +829,8 @@ msgid "Calendar"
 msgstr "التقويم"
 
 msgctxt "#30332"
-msgid "TV (Official)"
-msgstr "ويب تي في"
+msgid "Sports TV (Official)"
+msgstr "الرياضة ويب تي في"
 
 msgctxt "#30333"
 msgid "Activate Premium"

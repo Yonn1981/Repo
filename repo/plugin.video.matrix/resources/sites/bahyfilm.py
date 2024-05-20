@@ -10,6 +10,7 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
+from resources.lib.util import cUtil
 from resources.lib import random_ua
 
 UA = random_ua.get_random_ua()
@@ -200,7 +201,7 @@ def showMovies(sSearch = ''):
             if '/series' in aEntry[0]:
                 continue 
 
-            sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("ومترجمه","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
+            sTitle = cUtil().CleanMovieName(aEntry[2])
             siteUrl = URL_MAIN + aEntry[0]
             sThumb = aEntry[1].replace("(","").replace(")","")
             if 'http' not in sThumb:
@@ -211,7 +212,6 @@ def showMovies(sSearch = ''):
             if m:
                 sYear = str(m.group(0))
                 sDesc = sYear
-                sTitle = sTitle.replace(sYear,'')
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)

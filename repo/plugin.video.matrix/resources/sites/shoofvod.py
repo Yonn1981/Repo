@@ -9,6 +9,7 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
+from resources.lib.util import cUtil
 
 SITE_IDENTIFIER = 'shoofvod'
 SITE_NAME = 'Shoofvod'
@@ -16,26 +17,27 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-MOVIE_EN = (URL_MAIN + '/al_751319_1', 'showMovies')
-MOVIE_AR = (URL_MAIN + '/Cat-100-1', 'showMovies')
-MOVIE_HI = (URL_MAIN + '/Cat-132-1', 'showMovies')
-MOVIE_TURK = (URL_MAIN + '/Cat-48-1', 'showMovies')
-MOVIE_ANIME = (URL_MAIN + '/Cat-57-1', 'showMovies')
-DOC_NEWS = (URL_MAIN + '/Cat-23-1', 'showMovies')
+MOVIE_EN = (URL_MAIN + 'al_751319_1', 'showMovies')
+MOVIE_AR = (URL_MAIN + 'Cat-100-1', 'showMovies')
+MOVIE_HI = (URL_MAIN + 'Cat-132-1', 'showMovies')
+MOVIE_TURK = (URL_MAIN + 'Cat-48-1', 'showMovies')
+MOVIE_ANIME = (URL_MAIN + 'Cat-57-1', 'showMovies')
+DOC_NEWS = (URL_MAIN + 'Cat-23-1', 'showMovies')
 
-RAMADAN_SERIES = (URL_MAIN + '/Cat-145-1', 'showSeries')
-SERIE_DUBBED = (URL_MAIN + '/Cat-129-1', 'showSeries')
-SERIE_AR = (URL_MAIN + '/Cat-98-1', 'showSeries')
-SERIE_TR = (URL_MAIN + '/Cat-128-1', 'showSeries')
-SERIE_TR_AR = (URL_MAIN + '/Cat-129-1', 'showSeries')
-SERIE_HEND = (URL_MAIN + '/Cat-130-1', 'showSeries')
+RAMADAN_SERIES = (URL_MAIN + 'Cat-145-1', 'showSeries')
+SERIE_DUBBED = (URL_MAIN + 'Cat-129-1', 'showSeries')
+SERIE_AR = (URL_MAIN + 'Cat-98-1', 'showSeries')
+SERIE_TR = (URL_MAIN + 'Cat-128-1', 'showSeries')
+SERIE_TR_AR = (URL_MAIN + 'Cat-129-1', 'showSeries')
+SERIE_HEND = (URL_MAIN + 'Cat-130-1', 'showSeries')
 SERIE_GENRES = (True, 'showGenres')
-KID_CARTOON = (URL_MAIN + '/Cat-56-1', 'showSeries')
+KID_CARTOON = (URL_MAIN + 'Cat-56-1', 'showSeries')
 
-REPLAYTV_NEWS = (URL_MAIN + '/Cat-39-1', 'showSeries')
-REPLAYTV_PLAY = (URL_MAIN + '/Cat-44-1', 'showEps')
+REPLAYTV_NEWS = (URL_MAIN + 'Cat-39-1', 'showSeries')
+REPLAYTV_PLAY = (URL_MAIN + 'Cat-44-1', 'showEps')
 
-URL_SEARCH = (URL_MAIN + '/Search/', 'showMovies')
+URL_SEARCH_MOVIES = (URL_MAIN + 'Search/', 'showMovies')
+URL_SEARCH_SERIES = (URL_MAIN + 'Search/', 'showSeries')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -45,7 +47,10 @@ def load():
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
     oGui.addDir(SITE_IDENTIFIER, 'showSearch', addons.VSlang(30330), 'search.png', oOutputParameterHandler)
-    
+
+    oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
+    oGui.addDir(SITE_IDENTIFIER, 'showSeriesSearch', addons.VSlang(30079), 'search.png', oOutputParameterHandler)
+
     oOutputParameterHandler.addParameter('siteUrl', RAMADAN_SERIES[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات رمضان', 'rmdn.png', oOutputParameterHandler)
 
@@ -62,7 +67,7 @@ def load():
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام هندية', 'hend.png', oOutputParameterHandler) 
     
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_ANIME[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام إنمي', 'anime.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام انمي', 'anime.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', DOC_NEWS[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام وثائقية', 'doc.png', oOutputParameterHandler)
@@ -98,12 +103,22 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/Search/'+sSearchText
+        sUrl = URL_MAIN + 'Search/'+sSearchText
 
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
-    
+
+def showSeriesSearch():
+    oGui = cGui()
+
+    sSearchText = oGui.showKeyBoard()
+    if sSearchText:
+        sUrl = URL_MAIN + 'Search/'+sSearchText
+        showSeries(sUrl)
+        oGui.setEndOfDirectory()
+        return
+
 def showGenres():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
@@ -141,8 +156,10 @@ def showMovies(sSearch = ''):
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
- 
-            sTitle = aEntry[2].replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("مسلسل","").replace("مدبلج للعربية","").replace("مدبلج","").replace("والأخيرة","").replace("-","").replace("الحلقة "," E").replace("حلقة "," E")
+            if 'الحلقة' in aEntry[2]:
+                continue
+
+            sTitle = cUtil().CleanMovieName(aEntry[2])
             siteUrl = URL_MAIN+aEntry[0]
             siteUrl = siteUrl.replace('vidpage_','Play/')
             sThumb = aEntry[1]
@@ -151,7 +168,6 @@ def showMovies(sSearch = ''):
             m = re.search('([0-9]{4})', sTitle)
             if m:
                 sYear = str(m.group(0))
-                sTitle = sTitle.replace(sYear,'')
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -159,11 +175,7 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('sYear', sYear)
             oOutputParameterHandler.addParameter('sDesc', sDesc)
 			
-            if 'الحلقة' in aEntry[2]:
-                oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
-            else:
-
-                oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
 
@@ -187,7 +199,7 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
-            oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle, '', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle, 'next.png', oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  
@@ -222,7 +234,9 @@ def showSeries(sSearch = ''):
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
- 
+            if 'الحلقة' not in aEntry[2]:
+                continue
+
             sTitle = aEntry[2].replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("مسلسل","").replace("مدبلج للعربية","").replace("مدبلج","").replace("والأخيرة","").replace("-","").replace("الحلقة "," E").replace("حلقة "," E")
             siteUrl = URL_MAIN+aEntry[0]
             sThumb = aEntry[1]
@@ -234,8 +248,12 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oOutputParameterHandler.addParameter('sYear', sYear)
             oOutputParameterHandler.addParameter('sDesc', sDesc)
-
-            oGui.addTV(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            
+            if '/vidpage' in siteUrl:
+                siteUrl = siteUrl.replace('vidpage_','Play/')
+                oGui.addTV(SITE_IDENTIFIER, 'showHosters',  sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            else:
+                oGui.addTV(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  

@@ -8,6 +8,7 @@ from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
+from resources.lib.util import cUtil
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib import random_ua
 
@@ -100,7 +101,6 @@ def showMovies(sSearch = ''):
     oRequestHandler.addHeaderEntry('Referer', URL_MAIN)
     sHtmlContent = oRequestHandler.request()
     
-
     sPattern = '<div class="box-item">.+?href="([^"]+)" title="([^"]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
@@ -113,8 +113,8 @@ def showMovies(sSearch = ''):
                 break
 
             siteUrl = aEntry[0]
-            sTitle = aEntry[1].replace("فيلم","").replace("مترجم ","").replace("مترجم","").replace("مدبلج ","").replace("مدبلج","").strip()
-            sTitle = re.sub('[^a-zA-Z]', ' ', sTitle)
+            sTitle = cUtil().CleanMovieName(aEntry[1])
+            sTitle = re.sub('[^a-zA-Z0-9]', ' ', sTitle)
             sYear = ''       
             sThumb = ''      
             if sThumb.startswith('//'):

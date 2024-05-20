@@ -10,7 +10,7 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
-from resources.lib.util import Unquote
+from resources.lib.util import Unquote, cUtil
  
 SITE_IDENTIFIER = 'gateanime'
 SITE_NAME = 'Gateanime'
@@ -18,7 +18,7 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-ANIM_NEWS = (URL_MAIN + 'tag/أنميات-موسم-خريف-2023/', 'showSeries')
+ANIM_NEWS = (URL_MAIN + 'tag/أنميات-موسم-شتاء-2024/', 'showSeries')
 ANIM_MOVIES = (URL_MAIN + 'movies/', 'showMovies')
 
 KID_MOVIES = (URL_MAIN + 'category/مدبلج/?tr_post_type=1', 'showMovies')
@@ -101,8 +101,7 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
-            
+            sTitle = cUtil().CleanMovieName(aEntry[2])
             siteUrl = aEntry[0]
             sThumb = aEntry[1]
             sYear = aEntry[3]

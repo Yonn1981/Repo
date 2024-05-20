@@ -9,6 +9,7 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
+from resources.lib.util import cUtil
  
 SITE_IDENTIFIER = 'asiaarabs'
 SITE_NAME = 'Asia4arabs'
@@ -16,12 +17,12 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-MOVIE_ASIAN = (URL_MAIN + '/search/label/%D8%A3%D9%81%D9%84%D8%A7%D9%85', 'showMovies')
-SERIE_ASIA = (URL_MAIN + '/search/label/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA', 'showSeries')
+MOVIE_ASIAN = (URL_MAIN + 'search/label/%D8%A3%D9%81%D9%84%D8%A7%D9%85', 'showMovies')
+SERIE_ASIA = (URL_MAIN + 'search/label/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA', 'showSeries')
 
-URL_SEARCH = (URL_MAIN + '/search?q=', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + '/search?q=', 'showSeries')
-URL_SEARCH_MOVIES = (URL_MAIN + '/search?q=', 'showMovies')
+URL_SEARCH = (URL_MAIN + 'search?q=', 'showMovies')
+URL_SEARCH_SERIES = (URL_MAIN + 'search?q=', 'showSeries')
+URL_SEARCH_MOVIES = (URL_MAIN + 'search?q=', 'showMovies')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -48,7 +49,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/search?q='+sSearchText
+        sUrl = URL_MAIN + 'search?q='+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -58,7 +59,7 @@ def showSearchSeries():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/search?q='+sSearchText
+        sUrl = URL_MAIN + 'search?q='+sSearchText
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -91,7 +92,7 @@ def showMovies(sSearch = ''):
             if "مسلسل" in aEntry[1]:
                 continue
  
-            sTitle = aEntry[1].replace("مترجمة","").replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("انمى","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("كامل","").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("جميع حلقات","").replace("والأخيرة","").replace("والاخيرة","").replace("الأخيرة","").replace("الاخيرة","").replace("والاخيرة","")
+            sTitle = cUtil().CleanMovieName(aEntry[1])
             siteUrl = aEntry[0]
             sThumb = aEntry[3]
             sDesc = aEntry[2]
@@ -99,7 +100,6 @@ def showMovies(sSearch = ''):
             m = re.search('([0-9]{4})', sTitle)
             if m:
                 sYear = str(m.group(0))
-                sTitle = sTitle.replace(sYear,'')
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)

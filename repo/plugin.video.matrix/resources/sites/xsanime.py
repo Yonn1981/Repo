@@ -10,6 +10,7 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
+from resources.lib.util import cUtil
 from resources.lib.multihost import cMegamax
 
 SITE_IDENTIFIER = 'xsanime'
@@ -75,7 +76,7 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("برنامج","").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("بلوراي","").replace("الفيلم الوثائقي","").replace("اون لاين","").replace("إكس إس أنمي","")
+            sTitle = (cUtil().CleanMovieName(aEntry[1])).replace("إكس إس أنمي","")
             siteUrl = aEntry[0]
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + siteUrl

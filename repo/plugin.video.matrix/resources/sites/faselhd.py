@@ -10,6 +10,7 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, isMatrix, siteManager, addon
 from resources.lib.parser import cParser
+from resources.lib.util import cUtil
 from resources.lib import random_ua
 
 UA = random_ua.get_phone_ua()
@@ -20,26 +21,26 @@ SITE_DESC = 'arabic vod'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-MOVIE_EN = (URL_MAIN + '/movies', 'showMovies')
-MOVIE_HI = (URL_MAIN + '/hindi', 'showMovies')
-MOVIE_ASIAN = (URL_MAIN + '/asian-movies', 'showMovies')
-KID_MOVIES = (URL_MAIN + '/dubbed-movies', 'showMovies')
-ANIM_MOVIES = (URL_MAIN + '/anime-movies', 'showMovies')
-MOVIE_TOP = (URL_MAIN + '/movies_top_votes', 'showMovies')
-MOVIE_POP = (URL_MAIN + '/movies_top_views', 'showMovies')
+MOVIE_EN = (URL_MAIN + 'movies', 'showMovies')
+MOVIE_HI = (URL_MAIN + 'hindi', 'showMovies')
+MOVIE_ASIAN = (URL_MAIN + 'asian-movies', 'showMovies')
+KID_MOVIES = (URL_MAIN + 'dubbed-movies', 'showMovies')
+ANIM_MOVIES = (URL_MAIN + 'anime-movies', 'showMovies')
+MOVIE_TOP = (URL_MAIN + 'movies_top_votes', 'showMovies')
+MOVIE_POP = (URL_MAIN + 'movies_top_views', 'showMovies')
 MOVIE_PACK = (URL_MAIN , 'showPack')
 
-SERIE_EN = (URL_MAIN + '/series', 'showSeries')
-SERIE_ASIA = (URL_MAIN + '/asian-series', 'showSeries')
-REPLAYTV_NEWS = (URL_MAIN + '/tvshows', 'showSeries')
+SERIE_EN = (URL_MAIN + 'series', 'showSeries')
+SERIE_ASIA = (URL_MAIN + 'asian-series', 'showSeries')
+REPLAYTV_NEWS = (URL_MAIN + 'tvshows', 'showSeries')
 
-ANIM_NEWS = (URL_MAIN + '/anime', 'showAnimes')
-DOC_NEWS = (URL_MAIN + '/movies-cats/documentary', 'showMovies')
-DOC_SERIES = (URL_MAIN + '/series_genres/documentary', 'showSeries')
+ANIM_NEWS = (URL_MAIN + 'anime', 'showAnimes')
+DOC_NEWS = (URL_MAIN + 'movies-cats/documentary', 'showMovies')
+DOC_SERIES = (URL_MAIN + 'series_genres/documentary', 'showSeries')
 
-URL_SEARCH = (URL_MAIN + '/?s=', 'showSeries')
-URL_SEARCH_MOVIES = (URL_MAIN + '/?s=%D9%81%D9%8A%D9%84%D9%85+', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + '/?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSeries')
+URL_SEARCH = (URL_MAIN + '?s=', 'showSeries')
+URL_SEARCH_MOVIES = (URL_MAIN + '?s=%D9%81%D9%8A%D9%84%D9%85+', 'showMovies')
+URL_SEARCH_SERIES = (URL_MAIN + '?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSeries')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -96,7 +97,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/?s=%D9%81%D9%8A%D9%84%D9%85+'+sSearchText
+        sUrl = URL_MAIN + '?s=%D9%81%D9%8A%D9%84%D9%85+'+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -106,7 +107,7 @@ def showSeriesSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+'+sSearchText
+        sUrl = URL_MAIN + '?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+'+sSearchText
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -177,7 +178,7 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
              
-            sTitle = aEntry[2].replace("مشاهدة","").replace("مترجم","").replace("فيلم","").replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","").replace("برنامج","")
+            sTitle = cUtil().CleanMovieName(aEntry[2])
             siteUrl = aEntry[0]
             sThumb = aEntry[1].replace("(","").replace(")","")
             sDesc = ''
@@ -185,7 +186,6 @@ def showMovies(sSearch = ''):
             m = re.search('([0-9]{4})', sTitle)
             if m:
                 sYear = str(m.group(0))
-                sTitle = sTitle.replace(sYear,'')
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -217,7 +217,7 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
             
-            sTitle = aEntry[2].replace("مشاهدة","").replace("مترجم","").replace("فيلم","").replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","").replace("برنامج","")
+            sTitle = cUtil().CleanMovieName(aEntry[2])
             siteUrl = aEntry[0]
             sThumb = aEntry[1].replace("(","").replace(")","")
             sDesc = ''
@@ -225,10 +225,10 @@ def showMovies(sSearch = ''):
             m = re.search('([0-9]{4})', sTitle)
             if m:
                 sYear = str(m.group(0))
-                sTitle = sTitle.replace(sYear,'')
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sYear', sYear)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oOutputParameterHandler.addParameter('sDesc', sDesc)
 			

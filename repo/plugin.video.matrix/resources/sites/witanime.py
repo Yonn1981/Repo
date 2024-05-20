@@ -10,6 +10,7 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
+from resources.lib.util import cUtil
 from resources.lib import random_ua
 
 UA = random_ua.get_ua()
@@ -20,12 +21,12 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-ANIM_MOVIES = (URL_MAIN + '/anime-type/movie/', 'showMovies')
-ANIM_NEWS = (URL_MAIN+'/episode/' , 'showSeries')
+ANIM_MOVIES = (URL_MAIN + 'anime-type/movie/', 'showMovies')
+ANIM_NEWS = (URL_MAIN + 'episode/' , 'showSeries')
 ANIM_LIST = (True, 'showAnimesList')
 
-URL_SEARCH = (URL_MAIN + '/?search_param=animes&s=', 'showMovies')
-URL_SEARCH_ANIMS = (URL_MAIN + '/?search_param=animes&s=', 'showSeries')
+URL_SEARCH = (URL_MAIN + '?search_param=animes&s=', 'showMovies')
+URL_SEARCH_ANIMS = (URL_MAIN + '?search_param=animes&s=', 'showSeries')
 
 FUNCTION_SEARCH = 'showMovies'
  
@@ -119,7 +120,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/?search_param=animes&s='+sSearchText
+        sUrl = URL_MAIN + '?search_param=animes&s='+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -147,7 +148,7 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("برنامج","").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("بلوراي","").replace("الفيلم الوثائقي","").replace("اون لاين","")
+            sTitle = cUtil().CleanMovieName(aEntry[1])
             siteUrl = aEntry[3]
             sThumb = re.sub(r'-\d+x\d{0,3}','', aEntry[0])  
             sDesc = aEntry[2]

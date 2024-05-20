@@ -15,14 +15,18 @@ class cHoster(iHoster):
     def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
         if 'embed-' in self._url:
-            self._url = self._url.replace('embed-','')
+            surl = self._url.replace('embed-','')
  
         api_call = ''
         
         oParser = cParser()
-        oRequest = cRequestHandler(self._url)
+        oRequest = cRequestHandler(surl)
         sHtmlContent = oRequest.request()
 		
+        if ' can be watched as embed' in sHtmlContent:
+            oRequest = cRequestHandler(self._url)
+            sHtmlContent = oRequest.request()
+
         sPattern = 'sources: [{file:"(.+?)"}],'
         aResult = oParser.parse(sHtmlContent, sPattern)
         if aResult[0]:

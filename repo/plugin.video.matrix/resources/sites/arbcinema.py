@@ -3,8 +3,6 @@
 
 import re
 import requests
-import json 
-	
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -13,6 +11,7 @@ from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib import random_ua
+from resources.lib.util import cUtil
 
 UA = random_ua.get_random_ua()
  
@@ -29,8 +28,6 @@ MOVIE_GENRES = (URL_MAIN, 'showGenres')
 
 URL_SEARCH = (URL_MAIN + '/?s=', 'showMovies')
 FUNCTION_SEARCH = 'showMovies'
-
-UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:60.0) Gecko/20100101 Firefox/60.0' 
 
 def load():
     oGui = cGui()
@@ -123,8 +120,7 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[2].encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
-            sTitle = sTitle.replace("مشاهدة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("كامل","").replace("برنامج","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","")
+            sTitle = str((cUtil().CleanMovieName(aEntry[2])).encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
             siteUrl = aEntry[0]
             sThumb = aEntry[1]
             sRes = f'{aEntry[3]}'
@@ -133,7 +129,6 @@ def showMovies(sSearch = ''):
             m = re.search('([0-9]{4})', sTitle)
             if m:
                 sYear = str(m.group(0))
-                sTitle = sTitle.replace(sYear,'')
             if sRes:
                 sTitle += ' [%s]' % sRes
 

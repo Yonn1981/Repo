@@ -8,6 +8,7 @@ from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
+from resources.lib.util import cUtil
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib import random_ua
 
@@ -19,17 +20,17 @@ SITE_DESC = 'arabic vod'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-MOVIE_EN = (URL_MAIN + '/category/%d8%a7%d9%84%d8%a3%d9%81%d9%84%d8%a7%d9%85/%d8%a3%d9%81%d9%84%d8%a7%d9%85-%d8%a3%d8%ac%d9%86%d8%a8%d9%8a%d8%a9/', 'showMovies')
-MOVIE_HI = (URL_MAIN + '/category/%d8%a7%d9%84%d8%a3%d9%81%d9%84%d8%a7%d9%85/%d8%a3%d9%81%d9%84%d8%a7%d9%85-%d9%87%d9%86%d8%af%d9%8a%d8%a9/', 'showMovies')
-SERIE_EN = (URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a3%d8%ac%d9%86%d8%a8%d9%8a%d8%a9/', 'showSeries')
-SERIE_ASIA = (URL_MAIN + '/category/%d8%a7%d9%84%d8%af%d8%b1%d8%a7%d9%85%d8%a7-%d8%a7%d9%84%d9%85%d9%83%d8%b3%d9%8a%d9%83%d9%8a%d8%a9/%d8%a7%d9%84%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a7%d9%84%d9%85%d8%aa%d8%b1%d8%ac%d9%85%d8%a9/', 'showSeries')
-SERIE_TR = (URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%aa%d8%b1%d9%83%d9%8a%d8%a9/', 'showSeries')
+MOVIE_EN = (URL_MAIN + 'category/%d8%a7%d9%84%d8%a3%d9%81%d9%84%d8%a7%d9%85/%d8%a3%d9%81%d9%84%d8%a7%d9%85-%d8%a3%d8%ac%d9%86%d8%a8%d9%8a%d8%a9/', 'showMovies')
+MOVIE_HI = (URL_MAIN + 'category/%d8%a7%d9%84%d8%a3%d9%81%d9%84%d8%a7%d9%85/%d8%a3%d9%81%d9%84%d8%a7%d9%85-%d9%87%d9%86%d8%af%d9%8a%d8%a9/', 'showMovies')
+SERIE_EN = (URL_MAIN + 'category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a3%d8%ac%d9%86%d8%a8%d9%8a%d8%a9/', 'showSeries')
+SERIE_ASIA = (URL_MAIN + 'category/%d8%a7%d9%84%d8%af%d8%b1%d8%a7%d9%85%d8%a7-%d8%a7%d9%84%d9%85%d9%83%d8%b3%d9%8a%d9%83%d9%8a%d8%a9/%d8%a7%d9%84%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a7%d9%84%d9%85%d8%aa%d8%b1%d8%ac%d9%85%d8%a9/', 'showSeries')
+SERIE_TR = (URL_MAIN + 'category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%aa%d8%b1%d9%83%d9%8a%d8%a9/', 'showSeries')
 
-ANIM_NEWS = (URL_MAIN + '/category/%d8%a7%d9%84%d8%a3%d9%86%d9%85%d9%8a/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a7%d9%84%d8%a3%d9%86%d9%85%d9%8a/', 'showSeries')
-ANIM_MOVIES = (URL_MAIN + '/category/%d8%a7%d9%84%d8%a3%d9%86%d9%85%d9%8a/%d8%a3%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d9%84%d8%a2%d9%86%d9%85%d9%8a/', 'showMovies')
+ANIM_NEWS = (URL_MAIN + 'category/%d8%a7%d9%84%d8%a3%d9%86%d9%85%d9%8a/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a7%d9%84%d8%a3%d9%86%d9%85%d9%8a/', 'showSeries')
+ANIM_MOVIES = (URL_MAIN + 'category/%d8%a7%d9%84%d8%a3%d9%86%d9%85%d9%8a/%d8%a3%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d9%84%d8%a2%d9%86%d9%85%d9%8a/', 'showMovies')
 
-URL_SEARCH = (URL_MAIN + '/?s=', 'showMovies')
-URL_SEARCH_MOVIES = (URL_MAIN + '/?s=', 'showMovies')
+URL_SEARCH = (URL_MAIN + '?s=', 'showMovies')
+URL_SEARCH_MOVIES = (URL_MAIN + '?s=', 'showMovies')
 FUNCTION_SEARCH = 'showMovies'
 	
 def load():
@@ -67,7 +68,7 @@ def showSearch():
     oGui = cGui()
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/?s='+sSearchText
+        sUrl = URL_MAIN + '?s='+sSearchText
         if 'مسلسل' in sUrl:
             showSeries(sUrl)
         showMovies(sUrl)
@@ -78,7 +79,7 @@ def showSearchSeries():
     oGui = cGui()
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/?s='+sSearchText
+        sUrl = URL_MAIN + '?s='+sSearchText
         if 'مسلسل' in sUrl:
             showSeries(sUrl)
         showMovies(sUrl)
@@ -86,7 +87,6 @@ def showSearchSeries():
         return  
  
 def showMovies(sSearch = ''):
-    import requests
     oGui = cGui()
     if sSearch:
       sUrl = sSearch
@@ -109,7 +109,7 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[arabic]").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
+            sTitle = cUtil().CleanMovieName(aEntry[2])
             siteUrl = aEntry[0]
             sThumb = aEntry[1]
             sDesc = ''
@@ -117,7 +117,6 @@ def showMovies(sSearch = ''):
             m = re.search('([1-2][0-9]{3})', sTitle)
             if m:
                 sYear = str(m.group(0))
-                sTitle = sTitle.replace(sYear,'')
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -140,7 +139,6 @@ def showMovies(sSearch = ''):
 
  
 def showSeries(sSearch = ''):
-    import requests
     oGui = cGui()
     if sSearch:
       sUrl = sSearch
@@ -218,7 +216,6 @@ def showSeasons():
 	oGui.setEndOfDirectory()
     
 def showEps():
-    import requests
     oGui = cGui()
    
     oInputParameterHandler = cInputParameterHandler()

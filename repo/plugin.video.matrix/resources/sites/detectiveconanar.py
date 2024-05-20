@@ -26,7 +26,7 @@ def load():
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام انمي', 'anime.png', oOutputParameterHandler)
     
     oOutputParameterHandler.addParameter('siteUrl', ANIM_NEWS[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات إنمي', 'anime.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات انمي', 'anime.png', oOutputParameterHandler)
     
     oGui.setEndOfDirectory()
    
@@ -140,22 +140,27 @@ def showHosters(oInputParameterHandler = False):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()        
 
-    sPattern = '<tr id="link.+?<a href="([^"]+)".+?<strong class="quality">(.+?)</strong>'
+    sPattern = 'data-embed="([^"]+)".+?class="btn">(.+?)</a>'
     aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
         for aEntry in aResult[1]:
-            
-            url = aEntry[0]
-            sTitle =  '[COLOR gold] ('+aEntry[1]+')[/COLOR]'
             if 'Blog' in aEntry[1]:
                 continue
-            if url.startswith('//'):
-               url = 'http:' + url
+
+            sLink = aEntry[0]
+            if sLink.startswith('//'):
+               sLink = 'http:' + sLink
             
-            sHosterUrl = url + "|Referer=" + sUrl
-            oHoster = cHosterGui().getHoster('lien_direct') 
+            try:
+                sQual = re.search(r"\(([^)]+)\)", aEntry[1]).group(1)
+            except:
+                sQual = aEntry[1]
+
+            sDisplayTitle =  f'{sMovieTitle} [{sQual}]'
+            sHosterUrl = sLink + "|Referer=" + URL_MAIN
+            oHoster = cHosterGui().getHoster('jimmy') 
             if oHoster:
-               oHoster.setDisplayName(sMovieTitle+sTitle)
+               oHoster.setDisplayName(sDisplayTitle)
                oHoster.setFileName(sMovieTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
                

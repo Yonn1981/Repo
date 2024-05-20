@@ -9,6 +9,7 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
+from resources.lib.util import cUtil
 from resources.lib.multihost import cMultiup
 
 SITE_IDENTIFIER = 'shahidu'
@@ -230,7 +231,7 @@ def showMovies(sSearch = ''):
             if "مسلسل" in aEntry[2]:
                 continue
 
-            sTitle = aEntry[2].replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("يلم","").replace("اون لاين","").replace("برنامج","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("HD","").replace("كامل","")
+            sTitle = cUtil().CleanMovieName(aEntry[2])
             if 'http' not in aEntry[1]:
                 sThumb = URL_MAIN+aEntry[1]
             else:
@@ -243,10 +244,7 @@ def showMovies(sSearch = ''):
             m = re.search('([0-9]{4})', sTitle)
             if m:
                 sYear = str(m.group(0))
-                if 'عرض' in sTitle:
-                    sTitle = sTitle.replace('عرض','')
-                else:
-                    sTitle = sTitle.replace(sYear,'')
+
             sDesc = ''
             if aEntry[3]:
                 sDesc = str(aEntry[3])

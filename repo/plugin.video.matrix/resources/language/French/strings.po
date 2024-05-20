@@ -841,8 +841,8 @@ msgid "Calendar"
 msgstr "Calendrier des sorties VO"
 
 msgctxt "#30332"
-msgid "TV (Official)"
-msgstr "TV (Officiel)"
+msgid "Sports TV (Official)"
+msgstr "Sports TV (Officiel)"
 
 msgctxt "#30333"
 msgid "Activate Premium"

@@ -167,8 +167,8 @@
         },
         "cinema": {
             "label": "CinemaAllYear",
-            "active": "True",
-            "cloudflare": "True",
+            "active": "False",
+            "cloudflare": "False",
             "url": "L3dvaHMucmE1NjMvLzpzcHR0aA=="
         },
         "cinematy": {
@@ -364,7 +364,7 @@
             "label": "Shahid4u",
             "active": "True",
             "cloudflare": "False",
-            "url": "https://shed4u.name/"
+            "url": "https://sheed4u.cam/"
         },
         "shoffree": {
             "label": "Shoffree",

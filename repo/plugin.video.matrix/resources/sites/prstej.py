@@ -9,6 +9,7 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
+from resources.lib.util import cUtil
 from resources.lib import random_ua
 
 UA = random_ua.get_phone_ua()
@@ -79,7 +80,7 @@ def showSeriesSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/search.php?keywords='+sSearchText
+        sUrl = URL_MAIN + 'search.php?keywords='+sSearchText
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -89,7 +90,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/search.php?keywords=فيلم+'+sSearchText
+        sUrl = URL_MAIN + 'search.php?keywords=فيلم+'+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -123,7 +124,7 @@ def showMovies(sSearch = ''):
             if "حلقة"  in aEntry[1]:
                 continue
             
-            sTitle = aEntry[1].replace("مشاهدة","").replace("مشاهده","").replace("مترجم","").replace("فيلم","").replace("اونلاين","").replace("اون لاين","").replace("برنامج","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("انمي","")
+            sTitle = cUtil().CleanMovieName(aEntry[1])
             siteUrl = aEntry[0].replace("watch.php","play.php")
             sDesc = ""
             sThumb = aEntry[2]
@@ -131,7 +132,6 @@ def showMovies(sSearch = ''):
             m = re.search('([0-9]{4})', sTitle)
             if m:
                 sYear = str(m.group(0))
-                sTitle = sTitle.replace(sYear,'')
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)

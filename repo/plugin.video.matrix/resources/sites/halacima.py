@@ -9,6 +9,7 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
+from resources.lib.util import cUtil
 from resources.lib.multihost import cMegamax
 from resources.lib import random_ua
 
@@ -39,9 +40,9 @@ ANIM_NEWS = (URL_MAIN + 'category/مسلسلات-انمي', 'showSerie')
 
 REPLAYTV_NEWS = (URL_MAIN + 'category/برامج-وتلفزة', 'showSeries')
 
-URL_SEARCH = (URL_MAIN + '/search/', 'showMovies')
-URL_SEARCH_MOVIES = (URL_MAIN + '/search/', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + '/search/', 'showSeries')
+URL_SEARCH = (URL_MAIN + 'search/', 'showMovies')
+URL_SEARCH_MOVIES = (URL_MAIN + 'search/', 'showMovies')
+URL_SEARCH_SERIES = (URL_MAIN + 'search/', 'showSeries')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -183,8 +184,7 @@ def showMovies(sSearch = ''):
             if "حلقة"  in aEntry[1]:
                 continue
  
-            sTitle = aEntry[1].replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("مترجمة","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","").replace("كامله","").replace("بجودة عالية","").replace("كاملة","").replace("جودة عالية","").replace("كامل","").replace("اونلاين","").replace("اون لاين","").replace("انمي","")            
-            sTitle = sTitle
+            sTitle = cUtil().CleanMovieName(aEntry[1])          
             sThumb = aEntry[2]
             siteUrl = aEntry[0].replace("/movies/","/watch_movies/")
             sDesc = ''
@@ -192,7 +192,6 @@ def showMovies(sSearch = ''):
             m = re.search('([0-9]{4})', sTitle)
             if m:
                 sYear = str(m.group(0))
-                sTitle = sTitle.replace(sYear,'')
  
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -217,14 +216,11 @@ def showMovies(sSearch = ''):
             sTitle =  "PAGE " + sTitle
             sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
             siteUrl = aEntry[0]
-            sThumb = ""
-            sDesc = ""
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
-            oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle, '', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle, 'next.png', oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  

@@ -8,6 +8,7 @@ from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
+from resources.lib.util import cUtil
 from resources.lib.comaddon import progress, VSlog, siteManager
  
 SITE_IDENTIFIER = 'alwanfilm'
@@ -62,7 +63,7 @@ def showMovies(sSearch = ''):
                 break
             
             siteUrl = aEntry[1]
-            sTitle = aEntry[2].replace('</h4>',"").replace('<h4>',"").replace('"',"").replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
+            sTitle = (cUtil().CleanMovieName(aEntry[2])).replace('</h4>',"").replace('<h4>',"").replace('"',"")
             if "movies/" not in siteUrl:
                 siteUrl =  f'{URL_MAIN}movies/{siteUrl}'
             if '../../' in siteUrl:

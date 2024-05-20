@@ -9,6 +9,7 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
+from resources.lib.util import cUtil
 from resources.lib import random_ua
 
 UA = random_ua.get_pc_ua()
@@ -129,7 +130,6 @@ def showSeriesSearch():
         return  
  
 def showMovies(sSearch = ''):
-    import requests
     oGui = cGui()
     if sSearch:
       sUrl = sSearch
@@ -154,7 +154,7 @@ def showMovies(sSearch = ''):
             if 'مسلسل' in aEntry[1] or 'موسم' in aEntry[1]:
                continue
 
-            sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[arabic]").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
+            sTitle = cUtil().CleanMovieName(aEntry[1])
             siteUrl = aEntry[0]
             sThumb = aEntry[2]
             sDesc = ''
@@ -162,11 +162,6 @@ def showMovies(sSearch = ''):
             m = re.search('([0-9]{4})', sTitle)
             if m:
                 sYear = str(m.group(0))
-                if 'عرض' in sTitle:
-                    sTitle = sTitle.replace('عرض','')
-                else:
-                    sTitle = sTitle.replace(sYear,'')
-            sDisplayTitle = ('%s (%s)') % (sTitle, sYear)
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -174,7 +169,7 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('sYear', sYear)
             oOutputParameterHandler.addParameter('sDesc', sDesc)
 
-            oGui.addTV(SITE_IDENTIFIER, 'showServer', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showServer', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
@@ -188,7 +183,6 @@ def showMovies(sSearch = ''):
         oGui.setEndOfDirectory()  
  
 def showSeries(sSearch = ''):
-    import requests
     oGui = cGui()
     if sSearch:
       sUrl = sSearch

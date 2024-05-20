@@ -137,6 +137,7 @@ def WindowsBoxes(sTitle, siteUrl, metaType, year, sSite, sFav, sCat):
     # Sinon on gere par matrix via la lib TMDB
     sType = str(metaType).replace('1', 'movie').replace('2', 'tvshow').replace('3', 'collection').replace('4', 'anime')\
                          .replace('5', 'season').replace('6', 'episode')
+    sTitle = sTitle.replace("مدبلج","")
 
     try:
         tmdb_id = xbmc.getInfoLabel('ListItem.Property(TmdbId)')

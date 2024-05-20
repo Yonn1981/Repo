@@ -3,6 +3,7 @@
 import re
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
+from resources.lib.util import cUtil
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
@@ -101,14 +102,13 @@ def showMoviesearch(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","") 
+            sTitle = cUtil().CleanMovieName(aEntry[2])
             siteUrl = aEntry[0]
             sThumb = aEntry[1] 
             sYear = ''
             m = re.search('([0-9]{4})', sTitle)
             if m:
-                  sYear = str(m.group(0))
-                  sTitle = sTitle.replace(sYear,'')
+               sYear = str(m.group(0))
             sDesc = '' 
 						
             oOutputParameterHandler = cOutputParameterHandler()
@@ -195,18 +195,18 @@ def showLive():
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]: 
-            sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","") 
+            sTitle = cUtil().CleanMovieName(aEntry[2])
             siteUrl = aEntry[0]
             sThumb = aEntry[1]
             sYear = ''
-            m = re.search('([1-2][0-9]{3})', sTitle)
+            m = re.search('([0-9]{4})', sTitle)
             if m:
-                  sYear = str(m.group(0))
-                  sTitle = sTitle.replace(sYear,'')
+               sYear = str(m.group(0))
             sDesc = ''
 
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sYear', sYear)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oGui.addMovie(SITE_IDENTIFIER, 'showLive2', sTitle, '', sThumb, sDesc, oOutputParameterHandler)        
 
@@ -215,7 +215,7 @@ def showLive():
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
-            sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","") 
+            sTitle = cUtil().CleanMovieName(aEntry[2])
             siteUrl = aEntry[0]
             sThumb = aEntry[1] 
             sDesc = "" 

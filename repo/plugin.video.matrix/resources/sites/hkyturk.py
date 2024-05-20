@@ -9,6 +9,7 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
+from resources.lib.util import cUtil
 from resources.lib.multihost import cMegamax
 from resources.lib import random_ua
 
@@ -24,9 +25,9 @@ SERIE_TR = (URL_MAIN + 'category/مسلسلات-تركية-مترجمة/', 'show
 SERIE_TR_AR = (URL_MAIN + 'category/مسلسلات/مسلسلات-تركية-مدبلجة/', 'showSeries')
 MOVIE_TURK = (URL_MAIN + 'movies/', 'showMovies')
 
-URL_SEARCH = (URL_MAIN + '/search/', 'showSeries')
-URL_SEARCH_MOVIES = (URL_MAIN + '/search/', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + '/search/', 'showSeries')
+URL_SEARCH = (URL_MAIN + 'search/', 'showSeries')
+URL_SEARCH_MOVIES = (URL_MAIN + 'search/', 'showMovies')
+URL_SEARCH_SERIES = (URL_MAIN + 'search/', 'showSeries')
 FUNCTION_SEARCH = 'showSeries'
  
 def load():
@@ -59,7 +60,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/search/'+sSearchText
+        sUrl = URL_MAIN + 'search/'+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -69,7 +70,7 @@ def showSeriesSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/search/'+sSearchText
+        sUrl = URL_MAIN + 'search/'+sSearchText
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -100,7 +101,7 @@ def showMovies(sSearch = ''):
             if "فيلم" not in aEntry[1]:
                 continue
  
-            sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
+            sTitle = cUtil().CleanMovieName(aEntry[1])
             siteUrl = aEntry[0] + '?do=watch'
             sThumb = re.sub(r'-\d*x\d*.','.', aEntry[2].replace("(","").replace(")",""))
             sYear = ''
@@ -132,7 +133,7 @@ def showMovies(sSearch = ''):
                 oOutputParameterHandler = cOutputParameterHandler()
                 oOutputParameterHandler.addParameter('siteUrl',siteUrl)
 			
-                oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle, '', oOutputParameterHandler)
+                oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle, 'next.png', oOutputParameterHandler)
 
         sPattern = 'href="([^"]+)">(.+?)</a>'
         aResult = oParser.parse(sHtmlContent, sPattern)
@@ -147,11 +148,11 @@ def showMovies(sSearch = ''):
                 oOutputParameterHandler = cOutputParameterHandler()
                 oOutputParameterHandler.addParameter('siteUrl',siteUrl)
 			
-                oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle, '', oOutputParameterHandler) 
+                oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle, 'next.png', oOutputParameterHandler) 
 
         oGui.setEndOfDirectory()
 
-def showSeries2(sSearch = ''):
+def showSeries2():
     oGui = cGui()
 
     oInputParameterHandler = cInputParameterHandler()
@@ -205,7 +206,7 @@ def showSeries2(sSearch = ''):
                 oOutputParameterHandler = cOutputParameterHandler()
                 oOutputParameterHandler.addParameter('siteUrl',siteUrl)
 			
-                oGui.addDir(SITE_IDENTIFIER, 'showSeries2', sTitle, '', oOutputParameterHandler)
+                oGui.addDir(SITE_IDENTIFIER, 'showSeries2', sTitle, 'next.png', oOutputParameterHandler)
 
     sPattern = 'href="([^"]+)">(.+?)</a>'
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -220,7 +221,7 @@ def showSeries2(sSearch = ''):
                 oOutputParameterHandler = cOutputParameterHandler()
                 oOutputParameterHandler.addParameter('siteUrl',siteUrl)
 			
-                oGui.addDir(SITE_IDENTIFIER, 'showSeries2', sTitle, '', oOutputParameterHandler) 
+                oGui.addDir(SITE_IDENTIFIER, 'showSeries2', sTitle, 'next.png', oOutputParameterHandler) 
 
     oGui.setEndOfDirectory()
 
@@ -284,7 +285,7 @@ def showSeries(sSearch = ''):
                 oOutputParameterHandler = cOutputParameterHandler()
                 oOutputParameterHandler.addParameter('siteUrl',siteUrl)
 			
-                oGui.addDir(SITE_IDENTIFIER, 'showSeries', sTitle, '', oOutputParameterHandler)
+                oGui.addDir(SITE_IDENTIFIER, 'showSeries', sTitle, 'next.png', oOutputParameterHandler)
 
         sPattern = 'href="([^"]+)">(.+?)</a>'
         aResult = oParser.parse(sHtmlContent, sPattern)
@@ -299,7 +300,7 @@ def showSeries(sSearch = ''):
                 oOutputParameterHandler = cOutputParameterHandler()
                 oOutputParameterHandler.addParameter('siteUrl',siteUrl)
 			
-                oGui.addDir(SITE_IDENTIFIER, 'showSeries', sTitle, '', oOutputParameterHandler) 
+                oGui.addDir(SITE_IDENTIFIER, 'showSeries', sTitle, 'next.png', oOutputParameterHandler) 
 
         oGui.setEndOfDirectory()
  

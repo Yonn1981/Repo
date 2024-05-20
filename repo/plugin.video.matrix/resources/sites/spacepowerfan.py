@@ -1,7 +1,6 @@
 ﻿# -*- coding: utf-8 -*-
 # zombi https://github.com/zombiB/zombi-addons/
 
-import re
 import requests
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
@@ -10,6 +9,7 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, isMatrix, siteManager, addon
 from resources.lib.parser import cParser
+from resources.lib.util import cUtil
  
 SITE_IDENTIFIER = 'spacepowerfan'
 SITE_NAME = 'Spacepowerfan'
@@ -17,10 +17,10 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-ANIM_MOVIES = (URL_MAIN + '/%d8%a3%d9%81%d9%84%d8%a7%d9%85/', 'showMovies')
-ANIM_NEWS = (URL_MAIN + '/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/', 'showSeries')
+ANIM_MOVIES = (URL_MAIN + '%d8%a3%d9%81%d9%84%d8%a7%d9%85/', 'showMovies')
+ANIM_NEWS = (URL_MAIN + '%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/', 'showSeries')
 
-URL_SEARCH = (URL_MAIN + '/?s=', 'showSeries')
+URL_SEARCH = (URL_MAIN + '?s=', 'showSeries')
 FUNCTION_SEARCH = 'showSeries'
  
 def load():
@@ -44,7 +44,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/?s='+sSearchText
+        sUrl = URL_MAIN + '?s='+sSearchText
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -72,11 +72,12 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","")
+            sTitle = cUtil().CleanMovieName(aEntry[2])
             siteUrl = aEntry[0]
             sThumb = aEntry[1].replace('"',"").replace("&quot;","").replace("amp;","")
             sDesc = aEntry[4]
             sYear = aEntry[3]
+
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
@@ -157,11 +158,10 @@ def showEpisodes():
     sThumb = oInputParameterHandler.getValue('sThumb')
     
     oParser = cParser()
-    St=requests.Session()
-    if not isMatrix(): 
-       sHtmlContent = St.get(sUrl).content
-    if isMatrix(): 
-       sHtmlContent = St.get(sUrl).content.decode('utf-8')
+
+    oParser = cParser()
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request()
     
     sPattern = 'data-tab="(.+?)">(.+?)</table>'
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -179,7 +179,7 @@ def showEpisodes():
  
                        sTitle = aEntry[2].replace("الحلقة "," E").replace("حلقة "," E")
                        sTitle = sTitle.replace("والأخيرة","").replace("والاخيرة","").replace("الأخيرة","").replace("الاخيرة","")
-                       sTitle = sMovieTitle+' '+sSeason+sTitle
+                       sTitle = sSeason + sTitle
                        siteUrl = aEntry[1]
                        sThumb = aEntry[0]
                        sDesc = ""
@@ -221,9 +221,8 @@ def showServers(oInputParameterHandler = False):
         for aEntry in aResult[1]:
 
             sId = aEntry.replace('"',"").replace("&quot;","").replace("amp;","")
-            sgn = requests.Session()
-            data = sgn.get(sId).content
-            sHtmlContent2 = data 
+            oRequestHandler = cRequestHandler(sId)
+            sHtmlContent2 = oRequestHandler.request()
 
             sPattern = 'src="([^<]+)" frameborder'
             aResult = oParser.parse(sHtmlContent2, sPattern)
@@ -235,6 +234,7 @@ def showServers(oInputParameterHandler = False):
                        url = url.replace("video?path=/../","")
                     if url.startswith('//'):
                        url = 'http:' + url
+                    
                     sHosterUrl = url 
                     oHoster = cHosterGui().checkHoster(sHosterUrl)
                     if oHoster:

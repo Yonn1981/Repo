@@ -2,14 +2,19 @@
 # zombi https://github.com/zombiB/zombi-addons/
 
 import re
+import requests
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
+from resources.lib.util import cUtil
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
-	
+from resources.lib import random_ua
+
+UA = random_ua.get_ua()
+
 SITE_IDENTIFIER = 'ifushaar'
 SITE_NAME = 'iFushaar'
 SITE_DESC = 'arabic vod'
@@ -52,7 +57,7 @@ def showSearchAll():
     oGui = cGui()
     sSearchText = oGui.showKeyBoard()
     if sSearchText != False:
-        sUrl = URL_MAIN + '/?s='+sSearchText
+        sUrl = URL_MAIN + '?s='+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return  
@@ -62,7 +67,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/?s='+sSearchText
+        sUrl = URL_MAIN + '?s='+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -121,7 +126,7 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1].replace("تحميل","").replace("مشاهدة","").replace("مشاهده","").replace("مباشره","").replace("مترجمة","").replace("مسلسل","").replace("انمي","").replace("مترجم","").replace("كاملة","").replace("جودة عالية","").replace("كامل","").replace("فلم","").replace("فيلم","").replace("اونلاين","").replace("اون لاين","").replace("اولاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("أون لاين","")
+            sTitle = cUtil().CleanMovieName(aEntry[1])
             siteUrl = aEntry[0]
             sThumb = aEntry[2]
             sDesc = ''
@@ -129,7 +134,6 @@ def showMovies(sSearch = ''):
             m = re.search('([0-9]{4})', sTitle)
             if m:
                 sYear = str(m.group(0))
-                sTitle = sTitle.replace(sYear,'')
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -158,9 +162,7 @@ def __checkForNextPage(sHtmlContent):
 
     return False
 
-
 def showHosters(oInputParameterHandler = False):
-    import requests
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -169,7 +171,6 @@ def showHosters(oInputParameterHandler = False):
 
     oParser = cParser()    
     oRequestHandler = cRequestHandler(sUrl)
-    St=requests.Session()
     sHtmlContent1 = oRequestHandler.request()
 
     sPattern = '</div><a href="([^"]+)'
@@ -182,8 +183,8 @@ def showHosters(oInputParameterHandler = False):
                 aurl = 'http:' + aurl
 
             cook = oRequestHandler.GetCookies()
-            hdr = {'Sec-Fetch-Mode' : 'navigate','Cookie' : cook,'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.58','Referer' : sUrl}
-            sHtmlContent = St.get(aurl,headers=hdr)
+            hdr = {'Sec-Fetch-Mode' : 'navigate', 'Cookie' : cook, 'User-Agent' : UA, 'Referer' : sUrl}
+            sHtmlContent = requests.get(aurl,headers=hdr)
             sHtmlContent = sHtmlContent.content
                             
             sPattern = 'data-src="([^"]+)'
@@ -194,11 +195,9 @@ def showHosters(oInputParameterHandler = False):
                     url = aEntry
                     sHosterUrl = url
 
-                    sTitle = sMovieTitle
                     oHoster = cHosterGui().checkHoster(sHosterUrl)
                     if oHoster:
-                        sDisplayTitle = sTitle
-                        oHoster.setDisplayName(sDisplayTitle)
+                        oHoster.setDisplayName(sMovieTitle)
                         oHoster.setFileName(sMovieTitle)
                         cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
                 

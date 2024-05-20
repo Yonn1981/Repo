@@ -146,6 +146,9 @@ class cHome:
         oGui = cGui()
 
         oOutputParameterHandler = cOutputParameterHandler()
+        oOutputParameterHandler.addParameter('siteUrl', 'TV')
+        oGui.addDir('freebox', 'showWeb', self.addons.VSlang(30332), 'tv.png', oOutputParameterHandler)
+
         oOutputParameterHandler.addParameter('siteUrl', 'SPORT_FOOT')
         oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30113), self.addons.VSlang(30134)), 'foot.png', oOutputParameterHandler)
 
@@ -164,10 +167,6 @@ class cHome:
         oGui = cGui()
     
         oOutputParameterHandler = cOutputParameterHandler()
-
-        oOutputParameterHandler.addParameter('siteUrl', 'TV')
-        oGui.addDir('freebox', 'showWeb', self.addons.VSlang(30332), 'tv.png', oOutputParameterHandler)
-
         oOutputParameterHandler.addParameter('siteUrl', 'TV_GROUPS')
         oGui.addDir('freebox', 'showGroups', self.addons.VSlang(70016), 'genres.png', oOutputParameterHandler)
 

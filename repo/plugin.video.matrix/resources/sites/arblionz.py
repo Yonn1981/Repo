@@ -9,7 +9,7 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
-from resources.lib.util import Quote
+from resources.lib.util import Quote, cUtil
 from resources.lib import random_ua
 
 UA = random_ua.get_ua()
@@ -20,30 +20,30 @@ SITE_DESC = 'arabic vod'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-MOVIE_EN = (URL_MAIN + '/category/movies/english-movies/', 'showMovies')
-MOVIE_4k = (URL_MAIN + '/Quality/4k/', 'showMovies')
-MOVIE_HI = (URL_MAIN + '/category/movies/indian-movies/', 'showMovies')
-MOVIE_ASIAN = (URL_MAIN + '/category/movies/asian-movies/', 'showMovies')
-KID_MOVIES = (URL_MAIN + '/category/anime-cartoon/cartoon/', 'showMovies')
+MOVIE_EN = (URL_MAIN + 'category/movies/english-movies/', 'showMovies')
+MOVIE_4k = (URL_MAIN + 'Quality/4k/', 'showMovies')
+MOVIE_HI = (URL_MAIN + 'category/movies/indian-movies/', 'showMovies')
+MOVIE_ASIAN = (URL_MAIN + 'category/movies/asian-movies/', 'showMovies')
+KID_MOVIES = (URL_MAIN + 'category/anime-cartoon/cartoon/', 'showMovies')
 MOVIE_GENRES = (True, 'moviesGenres')
 
-SERIE_TR = (URL_MAIN + '/category/series/turkish-series-translated-20221/', 'showSeries')
-SERIE_TR_AR = (URL_MAIN + '/category/turkish-series-dubbed/', 'showSeries')
-SERIE_EN = (URL_MAIN + '/category/series/english-series/', 'showSeries')
-SERIE_KR = (URL_MAIN + '/category/series/korean-series/', 'showSeries')
-SERIE_ASIA = (URL_MAIN + '/category/series/asian-series/', 'showSeries')
-SERIE_HEND = (URL_MAIN + '/category/series/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%87%d9%86%d8%af%d9%8a%d8%a9/', 'showSeries')
-SERIE_LATIN = (URL_MAIN + '/category/series/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%85%d9%83%d8%b3%d9%8a%d9%83%d9%8a/', 'showSeries')
+SERIE_TR = (URL_MAIN + 'category/series/turkish-series-translated-20221/', 'showSeries')
+SERIE_TR_AR = (URL_MAIN + 'category/turkish-series-dubbed/', 'showSeries')
+SERIE_EN = (URL_MAIN + 'category/series/english-series/', 'showSeries')
+SERIE_KR = (URL_MAIN + 'category/series/korean-series/', 'showSeries')
+SERIE_ASIA = (URL_MAIN + 'category/series/asian-series/', 'showSeries')
+SERIE_HEND = (URL_MAIN + 'category/series/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%87%d9%86%d8%af%d9%8a%d8%a9/', 'showSeries')
+SERIE_LATIN = (URL_MAIN + 'category/series/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%85%d9%83%d8%b3%d9%8a%d9%83%d9%8a/', 'showSeries')
 
-ANIM_NEWS = (URL_MAIN + '/category/series/anime/', 'showSeries')
-REPLAYTV_NEWS = (URL_MAIN + '/category/برامج-اجنبي/', 'showSeries')
+ANIM_NEWS = (URL_MAIN + 'category/series/anime/', 'showSeries')
+REPLAYTV_NEWS = (URL_MAIN + 'category/برامج-اجنبي/', 'showSeries')
 
-SPORT_FOOT = (URL_MAIN + '/category/other-shows/sport/', 'showMovies')
-SPORT_WWE = (URL_MAIN + '/category/other-shows/wrestling/', 'showMovies')
+SPORT_FOOT = (URL_MAIN + 'category/other-shows/sport/', 'showMovies')
+SPORT_WWE = (URL_MAIN + 'category/other-shows/wrestling/', 'showMovies')
 
-URL_SEARCH = (URL_MAIN + '/search/', 'showMovies')
-URL_SEARCH_MOVIES = (URL_MAIN + '/search/', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + '/search/', 'showSeries')
+URL_SEARCH = (URL_MAIN + 'search/', 'showMovies')
+URL_SEARCH_MOVIES = (URL_MAIN + 'search/', 'showMovies')
+URL_SEARCH_SERIES = (URL_MAIN + 'search/', 'showSeries')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -94,7 +94,7 @@ def load():
     oGui.addDir(SITE_IDENTIFIER, SERIE_KR[1], 'مسلسلات كورية', 'kr.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', ANIM_NEWS[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات إنمي', 'anime.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات انمي', 'anime.png', oOutputParameterHandler)
     
     oOutputParameterHandler.addParameter('siteUrl', REPLAYTV_NEWS[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'برامج تلفزيونية', 'brmg.png', oOutputParameterHandler)
@@ -115,7 +115,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/search/'+sSearchText
+        sUrl = URL_MAIN + 'search/'+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return 
@@ -125,7 +125,7 @@ def showSearchSeries():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/search/'+sSearchText
+        sUrl = URL_MAIN + 'search/'+sSearchText
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -134,25 +134,25 @@ def moviesGenres():
     oGui = cGui()
 
     liste = []
-    liste.append(['اكشن', URL_MAIN + '/genre/اكشن/'])
-    liste.append(['انيميشن', URL_MAIN + '/genre/animation/'])
-    liste.append(['مغامرات', URL_MAIN + '/genre/مغامرة/'])
-    liste.append(['غموض', URL_MAIN + '/genre/mystery/'])
-    liste.append(['تاريخي', URL_MAIN + '/genre/history/'])
-    liste.append(['كوميديا', URL_MAIN + '/genre/كوميديا/'])
-    liste.append(['موسيقى', URL_MAIN + '/genre/musical/'])
-    liste.append(['رياضي', URL_MAIN + '/genre/رياضة/'])
-    liste.append(['دراما', URL_MAIN + '/genre/drama/'])
-    liste.append(['رعب', URL_MAIN + '/genre/horror/'])
-    liste.append(['عائلى', URL_MAIN + '/genre/family/'])
-    liste.append(['فانتازيا', URL_MAIN + '/genre/fantasy/'])
-    liste.append(['حروب', URL_MAIN + '/genre/war/'])
-    liste.append(['الجريمة', URL_MAIN + '/genre/crime/'])
-    liste.append(['رومانسى', URL_MAIN + '/genre/romance/'])
-    liste.append(['خيال علمى', URL_MAIN + '/genre/sci-fi/'])
-    liste.append(['اثارة', URL_MAIN + '/genre/اثارة/'])
-    liste.append(['وثائقى', URL_MAIN + '/genre/documentary/'])
-    liste.append(['ويسترن', URL_MAIN + '/genre/ويسترن/'])
+    liste.append(['اكشن', URL_MAIN + 'genre/اكشن/'])
+    liste.append(['انيميشن', URL_MAIN + 'genre/animation/'])
+    liste.append(['مغامرات', URL_MAIN + 'genre/مغامرة/'])
+    liste.append(['غموض', URL_MAIN + 'genre/mystery/'])
+    liste.append(['تاريخي', URL_MAIN + 'genre/history/'])
+    liste.append(['كوميديا', URL_MAIN + 'genre/كوميديا/'])
+    liste.append(['موسيقى', URL_MAIN + 'genre/musical/'])
+    liste.append(['رياضي', URL_MAIN + 'genre/رياضة/'])
+    liste.append(['دراما', URL_MAIN + 'genre/drama/'])
+    liste.append(['رعب', URL_MAIN + 'genre/horror/'])
+    liste.append(['عائلى', URL_MAIN + 'genre/family/'])
+    liste.append(['فانتازيا', URL_MAIN + 'genre/fantasy/'])
+    liste.append(['حروب', URL_MAIN + 'genre/war/'])
+    liste.append(['الجريمة', URL_MAIN + 'genre/crime/'])
+    liste.append(['رومانسى', URL_MAIN + 'genre/romance/'])
+    liste.append(['خيال علمى', URL_MAIN + 'genre/sci-fi/'])
+    liste.append(['اثارة', URL_MAIN + 'genre/اثارة/'])
+    liste.append(['وثائقى', URL_MAIN + 'genre/documentary/'])
+    liste.append(['ويسترن', URL_MAIN + 'genre/ويسترن/'])
 
     for sTitle, sUrl in liste:
 
@@ -190,16 +190,14 @@ def showMovies(sSearch = ''):
             if "سيرفر"  in aEntry[1]:
                 continue
              
-            sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","").replace("عرض","").replace("الرو","").replace("بالتعليق العربي","[COLOR gold]- Arabic Commentary -[/COLOR]")
+            sTitle = (cUtil().CleanMovieName(aEntry[1])).replace("بالتعليق العربي","[COLOR gold]- Arabic Commentary -[/COLOR]")
             siteUrl = aEntry[0]
             sThumb = re.sub(r'-\d*x\d*.','.', aEntry[2])
-
             sDesc = ''
             sYear = ''
             m = re.search('([0-9]{4})', sTitle)
             if m:
                 sYear = str(m.group(0))
-                sTitle = sTitle.replace(sYear,'[COLOR gold]' + sYear + '[/COLOR]')
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -221,7 +219,7 @@ def showMovies(sSearch = ''):
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
- 
+          
             sTitle = aEntry[1]           
             sTitle =  "PAGE " + sTitle
             sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
@@ -232,7 +230,7 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
-            oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle, '', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle, 'next.png', oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
@@ -313,7 +311,7 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
-            oGui.addDir(SITE_IDENTIFIER, 'showSeries', sTitle, '', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showSeries', sTitle, 'next.png', oOutputParameterHandler)
 
         progress_.VSclose(progress_)
 			

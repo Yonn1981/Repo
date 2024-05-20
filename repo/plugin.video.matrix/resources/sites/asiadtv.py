@@ -9,6 +9,7 @@ from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
+from resources.lib.util import cUtil
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib import random_ua
 
@@ -116,7 +117,7 @@ def showMovies(sSearch = ''):
                 continue 
 
             siteUrl = aEntry[0]
-            sTitle = aEntry[2].replace("مترجم ","").replace("مترجم","").replace("مدبلج ","").replace("مدبلج","").split("/")[0].strip()
+            sTitle = cUtil().CleanMovieName(aEntry[2])
             sYear = ''        
             sThumb = re.sub(r'-\d*x\d*.','.', aEntry[1])       
             if sThumb.startswith('//'):
@@ -255,6 +256,12 @@ def showEpisodes():
     oRequestHandler.addHeaderEntry('User-Agent', UA)
     oRequestHandler.addHeaderEntry('Referer', URL_MAIN)
     sHtmlContent = oRequestHandler.request()
+    
+    sDesc = ''
+    sPattern = '<div class="description">(.+?)</div>'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    if aResult[0]:
+        sDesc = aResult[1][0] 
 
     sStart = '<ul class="eplist2 list-eps">'
     aResult = oParser.parse(sHtmlContent, sStart)
@@ -273,7 +280,6 @@ def showEpisodes():
                 sTitle = aEntry[1].replace("فيلم","-Movie").replace("الحلقة ","E").replace("الحلقة","E").replace("الحلقه ","E").replace("الحلقه","E").replace("END","").replace("والاخيرة","").replace("والأخيرة","").strip()
                 sTitle = sMovieTitle + ' ' +  sTitle
                 sYear = ''
-                sDesc = ''
         
                 oOutputParameterHandler.addParameter('sMovieTitle', sTitle )
                 oOutputParameterHandler.addParameter('siteUrl',  siteUrl) 

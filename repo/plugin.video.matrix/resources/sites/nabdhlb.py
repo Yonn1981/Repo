@@ -7,7 +7,8 @@ from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
-from resources.lib.comaddon import progress,VSlog, siteManager, addon
+from resources.lib.util import cUtil
+from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib import random_ua
 
 UA = random_ua.get_ua()
@@ -171,16 +172,15 @@ def showMovies(sSearch = ''):
                 continue 
 
             siteUrl = aEntry[0]+'?do=views'
-            sTitle = aEntry[1].replace("مترجم ","").replace("مترجم","").replace("مدبلج ","").replace("فيلم","").replace("+","").replace("حلقات","").replace("الحلقات","").replace("فلم"," ").replace('مترجمة','').replace('اونلاين','').replace('أونلاين','').replace('اون لاين','').replace('أون لاين','').replace('مترجم','').replace('للعربية','').replace('للعربي','').replace('-','').replace('كامل','').replace('مشاهدة','').replace("WEB-DL","").replace("BRRip","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("WEBRip","").replace("DvDrip","").replace("DvDRip","").replace("DVBRip","").replace("TVRip","").replace("WEB Dl","").replace("WeB Dl","").replace("WEB DL","").replace("WeB DL","").replace("Web DL","").replace("WEB-dl","").replace("4K","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("HDCam","").replace("Full HD","").replace("HC","").replace("Web-dl","").strip()
-            sYear = ''
-            m = re.search('([0-9]{4})', sTitle)
-            if m:
-                sYear = str(m.group(0))
-                sTitle = sTitle.replace(sYear,'')
+            sTitle = cUtil().CleanMovieName(aEntry[1])
             sThumb = aEntry[2].replace('background-image:url(','').replace(");","").replace("'","")
             if sThumb.startswith('//'):
                 sThumb = 'https:' + sThumb           
             sDesc = ''
+            sYear = ''
+            m = re.search('([0-9]{4})', sTitle)
+            if m:
+                sYear = str(m.group(0))
 
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('siteUrl',  siteUrl) 

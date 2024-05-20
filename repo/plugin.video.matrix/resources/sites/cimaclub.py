@@ -8,7 +8,7 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
-from resources.lib.util import Unquote
+from resources.lib.util import Unquote, cUtil
 from resources.lib import random_ua
 
 UA = random_ua.get_ua()
@@ -153,7 +153,7 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1].replace("مشاهدة","").replace("مشاهده","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("اونلاين","").replace("برنامج","").replace("بجودة","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("مدبلج للعربية","مدبلج").replace("انيمي","")
+            sTitle = cUtil().CleanMovieName(aEntry[1])
             siteUrl = aEntry[0] + 'see/'
             sThumb = aEntry[2]
             sDesc = ''
@@ -161,10 +161,6 @@ def showMovies(sSearch = ''):
             m = re.search('([1-2][0-9]{3})', sTitle)
             if m:
                 sYear = str(m.group(0))
-                if 'عرض' in sTitle:
-                    sTitle = sTitle.replace('عرض','')
-                else:
-                    sTitle = sTitle.replace(sYear,'')
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -184,8 +180,6 @@ def showMovies(sSearch = ''):
                 sTitle =  "PAGE " + sTitle
                 sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
                 siteUrl = aEntry[0]
-                sThumb = ""
-                sDesc = ""
 
                 oOutputParameterHandler = cOutputParameterHandler()
                 oOutputParameterHandler.addParameter('siteUrl',siteUrl)

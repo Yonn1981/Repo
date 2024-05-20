@@ -8,6 +8,7 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, siteManager, VSlog, addon
 from resources.lib.parser import cParser
+from resources.lib.util import cUtil
  
 SITE_IDENTIFIER = 'aracinema_co'
 SITE_NAME = 'ARA-Drama'
@@ -241,7 +242,7 @@ def showMovies(sSearch = ''):
             if "فيلم" not in aEntry[1]:
                 continue
  
-            sTitle = aEntry[1].replace("&#8217;","'").replace("مشاهدة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("برنامج","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
+            sTitle = (cUtil().CleanMovieName(aEntry[1])).replace("&#8217;","'")
             siteUrl = aEntry[0]
             sThumb = aEntry[2]
             sDesc = ""
