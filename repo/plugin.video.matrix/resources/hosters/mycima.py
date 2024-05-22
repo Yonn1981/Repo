@@ -15,6 +15,10 @@ class cHoster(iHoster):
 
     def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
+        sReferer = self._url
+        if '|Referer=' in self._url:
+            sReferer = self._url.split('|Referer=')[1]
+            self._url = self._url.split('|Referer=')[0]
 
         oRequestHandler = cRequestHandler(self._url)
         oRequestHandler.addHeaderEntry('User-Agent', UA)
@@ -30,6 +34,6 @@ class cHoster(iHoster):
 
         api_call = Unquote(api_call)
         if api_call:
-            return True, api_call.replace(' ', '%20') + "|Referer=" + self._url + '&User-Agent=' + UA
+            return True, api_call.replace(' ', '%20') + "|Referer=" + sReferer + '&User-Agent=' + UA
 
         return False, False

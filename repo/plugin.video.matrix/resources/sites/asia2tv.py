@@ -164,7 +164,7 @@ def showSeries(sSearch = ''):
                 break
 
             siteUrl = aEntry[0]
-            sTitle = aEntry[1].replace("فيلم","").replace("مترجم ","").replace("مترجم","").replace("مدبلج ","").replace("مدبلج","").strip()
+            sTitle = cUtil().CleanSeriesName(aEntry[1])
             sYear = ''
             sThumb = aEntry[2]
             if sThumb.startswith('//'):

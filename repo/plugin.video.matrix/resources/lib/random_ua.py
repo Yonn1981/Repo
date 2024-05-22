@@ -108,3 +108,19 @@ def savecookies(flarejson):
     clean_cookies_dict = {cookie['name']: cookie['value'] for cookie in flarejson}
 
     set_setting('current_cook', clean_cookies_dict)
+
+def get_arabseedUrl(url):
+    VSlog(get_setting('seed_url'))
+    VSlog(int(get_setting('last_seed_create')))
+    import requests
+    try:
+        last_gen = int(get_setting('last_seed_create'))
+    except Exception:
+        last_gen = 0
+    if not get_setting('seed_url') or last_gen < (time.time() - (7 * 24 * 60 * 60)):
+        arabseedUrl = requests.get(url, allow_redirects=True).url
+        set_setting('seed_url', arabseedUrl)
+        set_setting('last_seed_create', str(int(time.time())))
+    else:
+        arabseedUrl = get_setting('seed_url')
+    return arabseedUrl

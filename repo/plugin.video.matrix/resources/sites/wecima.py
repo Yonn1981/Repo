@@ -26,11 +26,11 @@ MOVIE_TOP = (URL_MAIN + 'movies/best/', 'showMovies')
 MOVIE_POP = (URL_MAIN + 'movies/top/', 'showMovies')
 MOVIE_CLASSIC = (URL_MAIN + 'movies/old/', 'showMovies')
 MOVIE_FAM = (URL_MAIN + 'mpaa/pg/', 'showMovies')
-MOVIE_EN = (URL_MAIN + 'category/أفلام/10-movies-english-افلام-اجنبي/', 'showMovies')
+MOVIE_EN = (URL_MAIN + 'category/أفلام/10-movies-english-افلام-اجنبي/list/recent/', 'showMovies')
 MOVIE_PACK = (URL_MAIN , 'showPack')
 MOVIE_AR = (URL_MAIN + 'category/أفلام/افلام-عربي-arabic-movies/', 'showMovies')
 MOVIE_TURK = (URL_MAIN + 'category/أفلام/افلام-تركى-turkish-films/list/recent/', 'showMovies')
-MOVIE_HI = (URL_MAIN + 'category/أفلام/افلام-هندي-indian-movies/', 'showMovies')
+MOVIE_HI = (URL_MAIN + 'category/أفلام/افلام-هندي-indian-movies/list/recent/', 'showMovies')
 KID_MOVIES = (URL_MAIN + 'category/افلام-كرتون/', 'showMovies')
 
 RAMADAN_SERIES = (URL_MAIN + 'category/مسلسلات/مسلسلات-رمضان-2024/', 'showSeries')
@@ -102,7 +102,7 @@ def load():
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات هندية', 'hend.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', ANIM_NEWS[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات إنمي', 'anime.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات انمي', 'anime.png', oOutputParameterHandler)
   
     oOutputParameterHandler.addParameter('siteUrl', DOC_SERIES[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات وثائقية', 'doc.png', oOutputParameterHandler)
@@ -123,14 +123,6 @@ def load():
     oGui.addDir(SITE_IDENTIFIER, 'showPack', 'أقسام الموقع', 'listes.png', oOutputParameterHandler)
 
     oGui.setEndOfDirectory()
-
-def main_function(sHtmlContent):
-    oParser = cParser()
-    sPattern = '<link rel="canonical" href="([^"]+)'
-    aResult = oParser.parse(sHtmlContent, sPattern)    
-    if (aResult[0]):
-        URL_MAIN = aResult[1][0].replace('mycima/','')
-    return URL_MAIN
 
 def showSeriesSearch():
     oGui = cGui()
@@ -210,6 +202,10 @@ def showMovies(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
+    sStart = '<div class="Grid--WecimaPosts">'
+    sEnd = '<wecima'
+    sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
+
     sPattern = '<div class="Thumb--GridItem"><a href="([^<]+)" title="(.+?)">.+?image:url(.+?);"><div.+?class="year">(.+?)</span>'
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
@@ -283,8 +279,8 @@ def showSeries(sSearch = ''):
  
             siteUrl = aEntry[0]
             if 'gocimago.shop' in siteUrl:
-                siteUrl = siteUrl.replace("https://gocimago.shop/",URL_MAIN)
-            sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("مشاهده","").replace("برنامج","").replace("مترجمة","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","")
+                siteUrl = siteUrl.replace("https://gocimago.shop/", URL_MAIN)
+            sTitle = cUtil().CleanMovieName(aEntry[1])
             sThumb = aEntry[2].replace("(","").replace(")","")
             sThumb = sThumb.replace(sThumb.split('wp-content/')[0], URL_MAIN)
             sDesc = ''
@@ -371,7 +367,7 @@ def showAnimes(sSearch = ''):
                 continue
  
             siteUrl = aEntry[0]    
-            sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("مشاهده","").replace("برنامج","").replace("مترجمة","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","")
+            sTitle = cUtil().CleanMovieName(aEntry[1])
             sThumb = aEntry[2].replace("(","").replace(")","")
             sThumb = sThumb.replace(sThumb.split('wp-content/')[0], URL_MAIN)
             sDesc = ''
@@ -455,7 +451,7 @@ def showSeasons():
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult:
  
-            sTitle = aEntry[1].replace("موسم","").replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("مشاهده","").replace("برنامج","").replace("مترجمة","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","")
+            sTitle = cUtil().CleanMovieName(aEntry[1])
             sTitle =  " S" + sTitle
             sSeason = sTitle.replace("S ","S")
             sTitle1 = sMovieTitle+sSeason
@@ -694,7 +690,7 @@ def showHosters(oInputParameterHandler = False):
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
             if 'mystream' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN   
-            if 'top15top' in sHosterUrl:
+            if '.shop' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
             oHoster = cHosterGui().checkHoster(sServer)
             if oHoster:
@@ -718,7 +714,7 @@ def showHosters(oInputParameterHandler = False):
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
             if 'mystream' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN   
-            if 'top15top' in sHosterUrl:
+            if '.shop' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
             oHoster = cHosterGui().getHoster('lien_direct')
             if oHoster:

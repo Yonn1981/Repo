@@ -287,7 +287,7 @@ def showSeries(sSearch = ''):
             if '/watch' in aEntry[0]:
                 continue
 
-            sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("ومترجمه","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
+            sTitle = cUtil().CleanSeriesName(aEntry[2])
             siteUrl = aEntry[0]
             if 'http' not in siteUrl:
                 siteUrl = f'{URL_MAIN}series/{aEntry[0]}'
@@ -300,7 +300,6 @@ def showSeries(sSearch = ''):
             if m:
                 sYear = str(m.group(0))
                 sDesc = sYear
-                sTitle = sTitle.replace(sYear,'')
 
             if sTitle not in itemList:
                 itemList.append(sTitle)	

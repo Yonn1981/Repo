@@ -3,7 +3,7 @@
 #
 from requests import post, get, Session, Request, RequestException, ConnectionError
 from resources.lib.comaddon import addon, dialog, VSlog, VSPath, isMatrix
-from resources.lib.util import urlHostName
+from resources.lib.util import urlHostName, Quote
 from resources.lib import random_ua
 
 import requests.packages.urllib3.util.connection as urllib3_cn
@@ -294,7 +294,6 @@ class cRequestHandler:
                                             
                         json_response = False
                         try:
-                            # We make a request.
                             url = "https://scrapeninja.p.rapidapi.com/scrape"
 
                             payload = {
@@ -309,39 +308,49 @@ class cRequestHandler:
 
                             json_response = post(url, json=payload, headers=headers)
                         except:
-                            dialog().VSerror("%s (%s)" % ("FlareSolverr جرب استخدام ، (Cloudflare) الصفحة ربما محمية بواسطة ", urlHostName(self.__sUrl)))
+                            dialog().VSerror("%s (%s)" % ("Scrappey جرب استخدام ، (Cloudflare) الصفحة ربما محمية بواسطة ", urlHostName(self.__sUrl)))
 
                         if json_response:
                             response = json_response.json()
                             if 'body' in response: 
                                 sContent = response['body']
 
-                    # Try by Puffy (limited))
+                    # Try by scrappey (limited)
                     if bypass == '2':
                                             
                         json_response = False
+                        if '&img=' in self.__sUrl:
+                            self.__sUrl = self.__sUrl.split('&img=')[0]
                         try:
-                            # We make a request.
-                            url = "https://pulffy-cloudflare-bypass1.p.rapidapi.com/scrape"
 
-                            querystring = {"url":self.__sUrl}
+                            url = "https://scrappey-com.p.rapidapi.com/api/v1"
 
+                            if method == 'GET':
+                                payload = {
+	                                "cmd": "request.get",
+	                                "url": convert_url(self.__sUrl)
+                                    }
+                            else:
+                                payload = {
+	                                "cmd": "request.post",
+	                                "url": convert_url(self.__sUrl),
+                                    "postData": _request.data
+                                    }
                             headers = {
-	                            "Cookie": "cookie1=value;cookie2=value",
+	                            "content-type": "application/json",
 	                            "X-RapidAPI-Key": RapidApi_Key,
-	                            "X-RapidAPI-Host": "pulffy-cloudflare-bypass1.p.rapidapi.com"
-	                            }
+	                            "X-RapidAPI-Host": "scrappey-com.p.rapidapi.com"
+                                }
 
-                            json_response = get(url, headers=headers, params=querystring)
-                            json_response = json_response.text
-                            if 'exceeded' in json_response:
-                                dialog().VSerror("%s (%s)" % ("You have exceeded the 10 MONTHLY quota for Requests on your free plan", "Pulffy"))                                
-
+                            json_response = post(url, json=payload, headers=headers)          
+                            if json_response:
+                                response = json_response.json()
+                                if 'solution' in response:
+   
+                                    sContent = response['solution']['response']
+                            
                         except:
-                            dialog().VSerror("%s (%s)" % ("FlareSolverr جرب استخدام ، (Cloudflare) الصفحة ربما محمية بواسطة ", urlHostName(self.__sUrl)))
-
-                        if json_response:
-                            sContent = json_response
+                            dialog().VSerror("%s (%s)" % ("فشلت عملية تجاوز الحماية", f'"scrappey" {urlHostName(self.__sUrl)}'))
 
             if self.oResponse and not sContent:
                 # Ignorer ces deux codes erreurs.
@@ -355,7 +364,7 @@ class cRequestHandler:
                 sContent = sContent.replace("\r\t", "")
 
             if (self.__bRemoveBreakLines == True):
-                sContent = sContent.replace("&nbsp;", "")
+                sContent = sContent.replace("&nbsp;", "").replace("&#8217;","'")
 
         if self.__enableDNS:
             socket.getaddrinfo = self.save_getaddrinfo
@@ -429,6 +438,20 @@ def MPencode(fields):
 
     return content_type, ''.join(form_data)
 
+def convert_url(url):
+  import urllib.parse
+  parsed_url = urllib.parse.urlparse(url)
+  path_components = parsed_url.path.split('/')
+
+  encoded_components = []
+  for component in path_components:
+    encoded_component = urllib.parse.quote(component)
+    encoded_components.append(encoded_component)
+
+  encoded_path = '/'.join(encoded_components)
+
+  converted_url = urllib.parse.urlunparse((parsed_url.scheme, parsed_url.netloc, encoded_path, parsed_url.params, parsed_url.query, parsed_url.fragment))
+  return converted_url
 
 def __randy_boundary(length=10, reshuffle=False):
     import string
