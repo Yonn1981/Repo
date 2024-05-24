@@ -178,15 +178,13 @@ def showSeries(sSearch = ''):
                 break
  
             siteUrl = aEntry[0]           
-            sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("مشاهده","").replace("برنامج","").replace("مترجمة","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","")
+            sTitle = cUtil().CleanSeriesName(aEntry[1])
             sThumb = aEntry[2]
             sDesc = ''
-            sTitle = sTitle.split('موسم')[0].split('الحلقة')[0]
             sYear = ''
             m = re.search('([0-9]{4})', sTitle)
             if m:
                 sYear = str(m.group(0))
-                sTitle = sTitle.replace(sYear,'')
 
             if sTitle not in itemList:
                 itemList.append(sTitle)				

@@ -110,8 +110,6 @@ def savecookies(flarejson):
     set_setting('current_cook', clean_cookies_dict)
 
 def get_arabseedUrl(url):
-    VSlog(get_setting('seed_url'))
-    VSlog(int(get_setting('last_seed_create')))
     import requests
     try:
         last_gen = int(get_setting('last_seed_create'))

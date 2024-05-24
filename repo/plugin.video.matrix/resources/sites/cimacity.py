@@ -342,7 +342,7 @@ def showEpisodes():
     sEnd = '</div>'
     sHtmlContent2 = oParser.abParse(sHtmlContent, sStart, sEnd)
 
-    sPattern = 'href=["\']([^"\']+)["\'].+?>(.+?)</a>'
+    sPattern = 'href=["\']([^"\']+)["\'].+?<em>(.+?)</em>'
     aResult = oParser.parse(sHtmlContent2, sPattern)
     if aResult[0] :
         oOutputParameterHandler = cOutputParameterHandler()

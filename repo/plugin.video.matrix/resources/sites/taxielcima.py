@@ -214,27 +214,24 @@ def showSeries(sSearch = ''):
             if 'فيلم' in aEntry[1] or 'فلم' in aEntry[1]:
                continue
 
-            sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","").replace(" والأخيرة","").replace("اونا","")
+            sTitle = cUtil().CleanSeriesName(aEntry[2])
+            siteUrl = aEntry[1]
+            sThumb = aEntry[4]
+            sDesc = ''
             sYear = ''
             m = re.search('([0-9]{4})', sTitle)
             if m:
                 sYear = str(m.group(0))
-                sTitle = sTitle.replace(sYear,'')
-            siteUrl = aEntry[1]
-            sThumb = aEntry[4]
-            sDesc = ''
-            sDisplayTitle = sTitle.replace("الموسم العاشر","").replace("الموسم الحادي عشر","").replace("الموسم الثاني عشر","").replace("الموسم الثالث عشر","").replace("الموسم الرابع عشر","").replace("الموسم الخامس عشر","").replace("الموسم السادس عشر","").replace("الموسم السابع عشر","").replace("الموسم الثامن عشر","").replace("الموسم التاسع عشر","").replace("الموسم العشرون","").replace("الموسم الحادي و العشرون","").replace("الموسم الثاني و العشرون","").replace("الموسم الثالث و العشرون","S23").replace("الموسم الرابع والعشرون","").replace("الموسم الخامس و العشرون","").replace("الموسم السادس والعشرون","").replace("الموسم السابع والعشرون","").replace("الموسم الثامن والعشرون","").replace("الموسم التاسع والعشرون","").replace("الموسم الثلاثون","").replace("الموسم الحادي و الثلاثون","").replace("الموسم الثاني والثلاثون","").replace("الموسم الاول","").replace("الموسم الثاني","").replace("الموسم الثالث","").replace("الموسم الثالث","").replace("الموسم الرابع","").replace("الموسم الخامس","").replace("الموسم السادس","").replace("الموسم السابع","").replace("الموسم الثامن","").replace("الموسم التاسع","").replace("الموسم","").replace("موسم","").replace("S ","").replace("الحلقة","").replace("1","").replace("2","").replace("3","").replace("4","").replace("5","").replace("6","").replace("7","").replace("8","").replace("9","").replace("10","").replace("11","").replace("12","").replace("13","").replace("14","").replace("15","").replace("16","").replace("17","").replace("18","").replace("19","").replace("20","").replace("21","").replace("22","").replace("23","").replace("24","").replace("25","").replace("26","").replace("27","").replace("28","").replace("29","").replace("30","").replace("0","").replace("season","")
 
-            if sDisplayTitle not in itemList:
-                itemList.append(sDisplayTitle)	
-
+            if sTitle not in itemList:
+                itemList.append(sTitle)	
                 oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-                oOutputParameterHandler.addParameter('sMovieTitle', sDisplayTitle)
+                oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
                 oOutputParameterHandler.addParameter('sThumb', sThumb)
                 oOutputParameterHandler.addParameter('sYear', sYear)
                 oOutputParameterHandler.addParameter('sDesc', sDesc)
 			
-                oGui.addTV(SITE_IDENTIFIER, 'showSeasons', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
+                oGui.addTV(SITE_IDENTIFIER, 'showSeasons', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
 
@@ -285,7 +282,7 @@ def showSeasons():
 		oOutputParameterHandler = cOutputParameterHandler()
 		for aEntry in aResult[1]:
 			sSeason = aEntry[1].split("موسم")[1]
-			sTitle = f'{sMovieTitle} {sSeason.replace("العاشر","S10").replace("الحادي عشر","S11").replace("الثاني عشر","S12").replace("الثالث عشر","S13").replace("الرابع عشر","S14").replace("الخامس عشر","S15").replace("السادس عشر","S16").replace("السابع عشر","S17").replace("الثامن عشر","S18").replace("التاسع عشر","S19").replace("العشرون","S20").replace("الحادي و العشرون","S21").replace("الثاني و العشرون","S22").replace("الثالث و العشرون","S23").replace("الرابع والعشرون","S24").replace("الخامس و العشرون","S25").replace("السادس والعشرون","S26").replace("السابع والعشرون","S27").replace("الثامن والعشرون","S28").replace("التاسع والعشرون","S29").replace("الثلاثون","S30").replace("الحادي و الثلاثون","S31").replace("الثاني والثلاثون","S32").replace("الاول","S1").replace("الثاني","S2").replace("الثالث","S3").replace("الثالث","S3").replace("الرابع","S4").replace("الخامس","S5").replace("السادس","S6").replace("السابع","S7").replace("الثامن","S8").replace("التاسع","S9").replace("الموسم","S").replace("موسم","S").replace("S ","S")}'
+			sTitle = f'{sMovieTitle} {cUtil().ConvertSeasons(sSeason)}'
 			siteUrl = aEntry[0]
 			sThumb = sThumb
 			sDesc = ""

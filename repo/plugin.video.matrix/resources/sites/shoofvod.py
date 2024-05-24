@@ -237,7 +237,7 @@ def showSeries(sSearch = ''):
             if 'الحلقة' not in aEntry[2]:
                 continue
 
-            sTitle = aEntry[2].replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("مسلسل","").replace("مدبلج للعربية","").replace("مدبلج","").replace("والأخيرة","").replace("-","").replace("الحلقة "," E").replace("حلقة "," E")
+            sTitle = (cUtil().CleanMovieName(aEntry[2])).replace("-","").replace("الحلقة "," E").replace("حلقة "," E")
             siteUrl = URL_MAIN+aEntry[0]
             sThumb = aEntry[1]
             sDesc = ""
@@ -294,7 +294,7 @@ def showEps():
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
  
-            sTitle = aEntry[2].replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("مسلسل","").replace("مدبلج للعربية","").replace("مدبلج","").replace("والأخيرة","").replace("-","").replace("الحلقة "," E").replace("حلقة "," E")
+            sTitle = (cUtil().CleanMovieName(aEntry[2])).replace("-","").replace("الحلقة "," E").replace("حلقة "," E")
             siteUrl = URL_MAIN+aEntry[0]
             siteUrl = siteUrl.replace('vidpage_','Play/')
             sThumb = aEntry[1]

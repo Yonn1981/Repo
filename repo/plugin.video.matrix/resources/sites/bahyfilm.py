@@ -355,6 +355,12 @@ def showEpisodes():
     if aResult[0]:
         nUrl = f'{URL_MAIN}series/{aResult[1][0]}'
 
+    else:
+        sPattern = 'data-dropdown.+?href="([^"]+)'
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        if aResult[0]:
+            nUrl = f'{URL_MAIN}series/{aResult[1][0]}'
+
     oRequestHandler = cRequestHandler(nUrl)
     oRequestHandler.addHeaderEntry('User-Agent', UA)
     sHtmlContent = oRequestHandler.request()
@@ -372,7 +378,7 @@ def showEpisodes():
             sSeason = aEntry[0].replace('الموسم ','S')
             sHtmlContent = aEntry[1]
 
-            sPattern = 'href="([^"]+)".+?<li.+?>(.+?)</li>'
+            sPattern = 'href="([^"]+)">(.+?)</li>'
             aResult = oParser.parse(sHtmlContent, sPattern)
             if aResult[0] :
                 oOutputParameterHandler = cOutputParameterHandler()  

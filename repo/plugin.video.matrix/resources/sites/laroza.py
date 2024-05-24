@@ -203,7 +203,7 @@ def showSeries(sSearch = ''):
             siteUrl = aEntry[0]
             if 'حلقة' not in aEntry[1]: 
                 siteUrl = aEntry[0].replace("watch.php","play.php").replace("video.php","play.php")      
-            sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("مشاهده","").replace("برنامج","").replace("مترجمة","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","")
+            sTitle = cUtil().CleanMovieName(aEntry[1])
             sThumb = aEntry[2]
             sDesc = ''
             sTitle = sTitle.split('موسم')[0].split('الحلقة')[0]

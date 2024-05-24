@@ -19,12 +19,8 @@ SITE_IDENTIFIER = 'arabseed'
 SITE_NAME = 'Arabseed'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
-
-try:
-    URL_MAIN = random_ua.get_arabseedUrl(URL_MAIN)
-except:
-    URL_MAIN = URL_MAIN
+MAIN_URL = siteManager().getUrlMain(SITE_IDENTIFIER)
+URL_MAIN = random_ua.get_arabseedUrl(MAIN_URL)
 
 MOVIE_CLASSIC = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%83%d9%84%d8%a7%d8%b3%d9%8a%d9%83%d9%8a%d9%87/', 'showMovies')
 MOVIE_EN = (URL_MAIN + '/category/foreign-movies/', 'showMovies')
