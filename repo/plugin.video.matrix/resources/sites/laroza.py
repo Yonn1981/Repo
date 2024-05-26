@@ -206,7 +206,7 @@ def showSeries(sSearch = ''):
             sTitle = cUtil().CleanMovieName(aEntry[1])
             sThumb = aEntry[2]
             sDesc = ''
-            sTitle = sTitle.split('موسم')[0].split('الحلقة')[0]
+            sTitle = sTitle.split('الموسم')[0].split('موسم')[0].split('الحلقة')[0]
             sYear = ''
             m = re.search('([0-9]{4})', sTitle)
             if m:

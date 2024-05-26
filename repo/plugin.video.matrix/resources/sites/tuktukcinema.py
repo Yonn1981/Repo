@@ -82,7 +82,7 @@ def load():
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات تركية', 'turk.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', ANIM_NEWS[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات إنمي', 'anime.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات انمي', 'anime.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', SERIE_HEND[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات هندية', 'hend.png', oOutputParameterHandler)
@@ -194,7 +194,8 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = cUtil().CleanMovieName(aEntry[1])
+            sTitle = cUtil().CleanSeriesName(aEntry[1])
+            sTitle = re.sub(r"S\d{1,2}", "", sTitle)
             sYear = ''
             siteUrl = aEntry[0]
             sThumb = aEntry[2]
@@ -242,7 +243,7 @@ def showSeasons():
 		oOutputParameterHandler = cOutputParameterHandler()
 		for aEntry in aResult[1]:
  
-			sTitle = sMovieTitle + aEntry[1].replace("الموسم","S").replace("S ","S")
+			sTitle = f'{sMovieTitle}  {aEntry[1].replace("الموسم","S").replace("S ","S")}'
 			siteUrl = aEntry[0]
 			sThumb = aEntry[2]
 			sDesc = ""

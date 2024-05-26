@@ -4,7 +4,9 @@ from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
 from resources.lib.comaddon import VSlog
-UA = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:68.0) Gecko/20100101 Firefox/68.0'
+from resources.lib import random_ua
+
+UA = random_ua.get_pc_ua()
 
 
 class cHoster(iHoster):
@@ -15,6 +17,14 @@ class cHoster(iHoster):
         VSlog(self._url)
         api_call = ''
         oParser = cParser()
+
+        oRequestHandler = cRequestHandler(self._url)
+        oRequestHandler.addHeaderEntry('User-Agent', UA)
+        oRequestHandler.request()
+        surl = oRequestHandler.getRealUrl()
+
+        if surl != self._url:
+            self._url = surl
 
         oRequest = cRequestHandler(self._url)
         sHtmlContent = oRequest.request()

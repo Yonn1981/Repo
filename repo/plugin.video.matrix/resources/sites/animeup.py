@@ -22,7 +22,7 @@ SITE_DESC = 'arabic vod'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-ANIM_NEWS = (URL_MAIN + '/anime-season/ربيع-2024/', 'showSeries')
+ANIM_NEWS = (URL_MAIN + '/episode/', 'showSeries')
 ANIM_MOVIES = (URL_MAIN + '/anime-type/movie-3/', 'showMovies')
 ANIM_SUB = (URL_MAIN + '/anime-category/%d8%a7%d9%84%d8%a7%d9%86%d9%85%d9%8a-%d8%a7%d9%84%d9%85%d8%aa%d8%b1%d8%ac%d9%85/', 'showSeries')
 ANIM_DUBBED = (URL_MAIN + '/anime-category/%d8%a7%d9%84%d8%a7%d9%86%d9%85%d9%8a-%d8%a7%d9%84%d9%85%d8%af%d8%a8%d9%84%d8%ac/', 'showSeries')
@@ -47,10 +47,7 @@ def load():
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أحدث الأفلام', 'anime.png', oOutputParameterHandler)
   
     oOutputParameterHandler.addParameter('siteUrl', ANIM_NEWS[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات انمي', 'anime.png', oOutputParameterHandler)
-            
-    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/episode/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'يعرض الان', 'anime.png', oOutputParameterHandler)    
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات انمي', 'anime.png', oOutputParameterHandler) 
 
     oOutputParameterHandler.addParameter('siteUrl', ANIM_DUBBED[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'انمي مدبلج', 'anime.png', oOutputParameterHandler)
@@ -300,6 +297,8 @@ def showHosters(oInputParameterHandler = False):
                 continue
             
             url = aEntry[0].replace('/d/','/f/')
+            if url.startswith('//'):
+                url = 'http:' + url
             sLabel = aEntry[1]
             sHosterUrl = url
             if 'megamax' in sHosterUrl:

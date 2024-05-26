@@ -202,7 +202,7 @@ class cUtil:
         return name
 
     def CleanSeriesName(self, name):
-        name = name.replace("مشاهدة وتحميل","").replace("مشاهدة","").replace("المسلسل الباكستاني","").replace("مسلسل باكستاني","").replace("مسلسل","").replace("الانمي","").replace("انمي","").replace("مترجم عربي","")\
+        name = name.replace("مشاهدة وتحميل","").replace("مشاهدة","").replace("المسلسل الباكستاني","").replace("مسلسل باكستاني","").replace("مسلسل","").replace("الانمي","").replace("انمي","").replace("أنمي","").replace("أنمى","").replace("مترجم عربي","")\
             .replace("مترجمة","").replace("مترجم","").replace("الفيلم"," ").replace("الفلم"," ").replace("فلم"," ").replace("فيلم","").replace("برنامج","").replace("WEB-DL","").replace("BRRip","")\
             .replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","")\
             .replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("انيمي","")\
@@ -259,13 +259,13 @@ class cUtil:
             .replace("الموسم الخامس والثلاثون","S35").replace("الموسم الاول","S1").replace("الموسم الأول","S1").replace("الموسم الثاني","S2").replace("الموسم الثانى","S2").replace("الموسم الثالث","S3")\
             .replace("الموسم الثالث","S3").replace("الموسم الرابع","S4").replace("الموسم الخامس","S5").replace("الموسم السادس","S6").replace("الموسم السابع","S7")\
             .replace("الموسم الثامن","S8").replace("الموسم التاسع","S9").replace("الموسم","S").replace("موسم","S").replace("S ","S").replace("مترجم","").replace("مترجمة","").replace(" الحادي عشر","11")\
-            .replace(" الثاني عشر","12").replace(" الثالث عشر","13").replace(" الرابع عشر","14").replace(" الخامس عشر","15").replace(" السادس عشر","16")\
-            .replace(" السابع عشر","17").replace(" الثامن عشر","18").replace(" التاسع عشر","19").replace(" العشرون","20").replace(" الحادي و العشرون","21")\
-            .replace(" الثاني و العشرون","22").replace(" الثالث و العشرون","23").replace(" الرابع والعشرون","24").replace(" الخامس و العشرون","25")\
-            .replace(" السادس والعشرون","26").replace(" السابع والعشرون","27").replace(" الثامن والعشرون","28").replace(" التاسع والعشرون","29")\
-            .replace(" الثلاثون","30").replace(" الحادي و الثلاثون","31").replace(" الثاني والثلاثون","32").replace(" الاول","1").replace(" الثاني","2")\
-            .replace(" الثانى","2").replace(" الثالث","3").replace(" الرابع","4").replace(" الخامس","5").replace(" السادس","6").replace(" السابع","7")\
-            .replace(" الثامن","8").replace(" التاسع","9").replace(" العاشر","10")
+            .replace("الثاني عشر","12").replace("الثالث عشر","13").replace(" الرابع عشر","14").replace("الخامس عشر","15").replace(" السادس عشر","16")\
+            .replace("السابع عشر","17").replace("الثامن عشر","18").replace(" التاسع عشر","19").replace("العشرون","20").replace("الحادي و العشرون","21")\
+            .replace("الثاني و العشرون","22").replace("الثالث و العشرون","23").replace("الرابع والعشرون","24").replace("الخامس و العشرون","25")\
+            .replace("السادس والعشرون","26").replace("السابع والعشرون","27").replace("الثامن والعشرون","28").replace(" التاسع والعشرون","29")\
+            .replace("الثلاثون","30").replace("الحادي و الثلاثون","31").replace("الثاني والثلاثون","32").replace("الأول","1").replace("الاول","1").replace("الثاني","2")\
+            .replace("الثانى","2").replace("الثالث","3").replace("الرابع","4").replace("الخامس","5").replace("السادس","6").replace("السابع","7")\
+            .replace("الثامن","8").replace("التاسع","9").replace("العاشر","10")
 
             return name
 

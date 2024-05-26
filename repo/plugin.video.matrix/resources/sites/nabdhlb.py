@@ -239,13 +239,12 @@ def showSeries(sSearch = ''):
                 continue 
 
             siteUrl = aEntry[0]
-            sTitle = cUtil().CleanMovieName(aEntry[1])
-            sTitle = re.sub(r'/(19|20)[0-9][0-9]/', '', sTitle)
+            sTitle = cUtil().CleanSeriesName(aEntry[1])
+            sTitle = re.sub(r"S\d{1,2}", "", sTitle)
             sYear = ''
             m = re.search('([0-9]{4})', sTitle)
             if m:
                 sYear = str(m.group(0))
-                sTitle = sTitle.replace(sYear,'')
             sThumb = aEntry[2].replace('background-image:url(','').replace(");","").replace("'","")
             if sThumb.startswith('//'):
                 sThumb = 'https:' + sThumb       
@@ -302,7 +301,7 @@ def showSeasons():
     
             seriesID = aEntry[0]
             siteUrl = f'{URL_MAIN}wp-content/themes/vo2022/temp/ajax/seasons.php?seriesID={seriesID}'
-            sTitle = cUtil().CleanSeriesName(aEntry[1])
+            sTitle = f'{sMovieTitle} {cUtil().CleanSeriesName(aEntry[1])}'
             sYear = ''
             sDesc = ''
             
