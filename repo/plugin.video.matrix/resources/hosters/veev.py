@@ -26,7 +26,7 @@ class cHoster(iHoster):
         headers = {'User-Agent': UA, 'Referer': self._url}
         sHtmlContent = s.get(self._url, headers=headers).text
         
-        f = re.search(r'{\s*fc:\s*"([^"]+)', sHtmlContent)
+        f = re.search(r'window\._vvto.+?fc\s*:\s*"([^"]+)', sHtmlContent)
         if f:
             ch = veev_decode(f.group(1))
             params = {
@@ -39,7 +39,7 @@ class cHoster(iHoster):
             durl = urllib_parse.urljoin(self._url, '/dl') + '?' + urllib_parse.urlencode(params)
             jresp = s.get(durl, headers=headers).content
             jresp = json.loads(jresp).get('file')
-            if jresp.get('file_status') == 'OK':
+            if jresp and jresp.get('file_status') == 'OK':
                 api_call = decode_url(veev_decode(jresp.get('dv')[0].get('s')), build_array(ch)[0])
 
         if api_call:

@@ -579,6 +579,9 @@ def showLinks(oInputParameterHandler = False):
         if '.shop' in sHosterUrl:
             sHosterUrl = sHosterUrl + '|User-Agent=' + UA + '&Referer=' + siteManager().getUrlMain('wecima')
             oHoster = cHosterGui().getHoster('lien_direct')
+        if '&Expires=' in sHosterUrl:
+            sHosterUrl = sHosterUrl + '|User-Agent=' + UA + '&Referer=' + siteManager().getUrlMain('wecima')
+            oHoster = cHosterGui().getHoster('lien_direct')
         else:
             oHoster = cHosterGui().checkHoster(sHosterUrl)
         if oHoster:

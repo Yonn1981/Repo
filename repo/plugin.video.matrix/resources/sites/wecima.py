@@ -18,7 +18,8 @@ SITE_IDENTIFIER = 'wecima'
 SITE_NAME = 'Wecima'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
+MAIN_URL = siteManager().getUrlMain(SITE_IDENTIFIER)
+URL_MAIN = random_ua.get_wecimaUrl(MAIN_URL)
 if addon().getSetting('Use_alternative') == "true":
     URL_MAIN = siteManager().getUrlMain2(SITE_IDENTIFIER)
 
