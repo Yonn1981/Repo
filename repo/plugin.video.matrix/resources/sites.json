@@ -206,7 +206,7 @@
         "dramacafe": {
             "label": "Dramacafe",
             "active": "True",
-            "url": "https://wwc.dramacafe-tv.com/"
+            "url": "https://law.dramacafe-tv.com/"
         },
         "egyclub": {
             "label": "Egyclub",
@@ -364,7 +364,7 @@
             "label": "Shahid4u",
             "active": "True",
             "cloudflare": "False",
-            "url": "https://sheid4u.cam/"
+            "url": "https://shid4u.cam/"
         },
         "shoffree": {
             "label": "Shoffree",
