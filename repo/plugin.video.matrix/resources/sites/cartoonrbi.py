@@ -21,8 +21,6 @@ URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
  
 KID_MOVIES = (URL_MAIN + 'films.html', 'showMovies')
 KID_CARTOON = (URL_MAIN + 'cats.html', 'showSeries')
-
-MOVIE_PACK = (URL_MAIN , 'showPack')
  
 def load():
     oGui = cGui()
@@ -34,7 +32,7 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', KID_CARTOON[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات كرتون', 'crtoon.png', oOutputParameterHandler)    
 
-    oOutputParameterHandler.addParameter('siteUrl', MOVIE_PACK[0])
+    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN)
     oGui.addDir(SITE_IDENTIFIER, 'showPack', 'جميع الكرتون', 'listes.png', oOutputParameterHandler)            
     oGui.setEndOfDirectory()
 

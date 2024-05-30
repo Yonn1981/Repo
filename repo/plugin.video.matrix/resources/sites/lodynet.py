@@ -21,7 +21,7 @@ MOVIE_TURK = (URL_MAIN + 'category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%aa%d8%b1%d
 MOVIE_HI = (URL_MAIN + 'category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%87%D9%86%D8%AF%D9%8A%D8%A9/', 'showMovies')
 MOVIE_ASIAN = (URL_MAIN + 'category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%b3%d9%8a%d9%88%d9%8a%d8%a9-a/', 'showMovies')
 KID_MOVIES = (URL_MAIN + 'category/%d8%a7%d9%86%d9%8a%d9%85%d9%8a/', 'showMovies')
-MOVIE_PACK = (URL_MAIN , 'showPack')
+
 SERIE_TR = (URL_MAIN + 'turkish-series-2b/', 'showSerie')
 SERIE_TR_AR = (URL_MAIN + 'dubbed-turkish-series-g/', 'showSerie')
 SERIE_HEND = (URL_MAIN + 'bالمسلسلات-هندية-مترجمة/', 'showSerie')
@@ -81,7 +81,7 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/%d9%85%d8%b4%d8%a7%d9%87%d8%af%d8%a9-%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%aa%d8%a7%d9%8a%d9%84%d9%86%d8%af%d9%8a%d8%a9/')
     oGui.addDir(SITE_IDENTIFIER, 'showSerie' ,'مسلسلات تايلاندية', 'asia.png', oOutputParameterHandler)
 
-    oOutputParameterHandler.addParameter('siteUrl', MOVIE_PACK[0])
+    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN)
     oGui.addDir(SITE_IDENTIFIER, 'showPack', 'أقسام الموقع', 'listes.png', oOutputParameterHandler)	
     oGui.setEndOfDirectory()
  

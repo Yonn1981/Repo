@@ -26,7 +26,7 @@ class cHoster(iHoster):
         headers = {'User-Agent': UA, 'Referer': self._url}
         sHtmlContent = s.get(self._url, headers=headers).text
         
-        f = re.search(r'window\._vvto.+?fc\s*:\s*"([^"]+)', sHtmlContent)
+        f = re.search(r'>window\._vvto.+?fc\s*:\s*"([^"]+)', sHtmlContent)
         if f:
             ch = veev_decode(f.group(1))
             params = {

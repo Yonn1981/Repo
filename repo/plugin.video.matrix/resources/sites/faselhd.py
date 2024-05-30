@@ -29,6 +29,7 @@ ANIM_MOVIES = (URL_MAIN + 'anime-movies', 'showMovies')
 MOVIE_TOP = (URL_MAIN + 'movies_top_votes', 'showMovies')
 MOVIE_POP = (URL_MAIN + 'movies_top_views', 'showMovies')
 MOVIE_DUBBED = (URL_MAIN + 'dubbed-movies', 'showMovies')
+MOVIE_PACK = (URL_MAIN + 'movies_collections', 'showMovies')
 
 SERIE_EN = (URL_MAIN + 'series', 'showSeries')
 SERIE_ASIA = (URL_MAIN + 'asian-series', 'showSeries')
@@ -74,7 +75,10 @@ def load():
 
     oOutputParameterHandler.addParameter('siteUrl', DOC_NEWS[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام وثائقية', 'doc.png', oOutputParameterHandler) 
-    
+
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_PACK[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'سلاسل افلام كاملة', 'pack.png', oOutputParameterHandler)
+
     oOutputParameterHandler.addParameter('siteUrl', SERIE_EN[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أجنبية', 'agnab.png', oOutputParameterHandler)
     
@@ -112,8 +116,42 @@ def showSeriesSearch():
         oGui.setEndOfDirectory()
         return
 
+def showWeek():
+    oGui = cGui()
+
+    oInputParameterHandler = cInputParameterHandler()
+    sHtmlContent = oInputParameterHandler.getValue('sHtmlContentX')
+
+    oParser = cParser() 
+    sPattern = '<div class="postDiv.+?">.+?<a href="([^"]+)">.+?data-src="([^"]+)".+?alt="([^"]+)'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    if aResult[0]:
+        oOutputParameterHandler = cOutputParameterHandler()    
+        for aEntry in aResult[1]:
+            
+            sTitle = cUtil().CleanMovieName(aEntry[2])
+            siteUrl = aEntry[0]
+            sThumb = aEntry[1].replace("(","").replace(")","")
+            sDesc = ''
+            sYear = ''
+            m = re.search('([0-9]{4})', sTitle)
+            if m:
+                sYear = str(m.group(0))
+
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
+            oOutputParameterHandler.addParameter('sYear', sYear)
+            oOutputParameterHandler.addParameter('sDesc', sDesc)
+
+            oGui.addMovie(SITE_IDENTIFIER, 'showLink', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+
+    oGui.setEndOfDirectory()
+
 def showMovies(sSearch = ''):
     oGui = cGui()
+    oOutputParameterHandler = cOutputParameterHandler()
+    
     if sSearch:
       sUrl = sSearch
     else:
@@ -124,12 +162,26 @@ def showMovies(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-    sPattern = '<div class="postDiv.+?">.+?<a href="([^"]+)">.+?data-src="([^"]+)".+?alt="([^"]+)'
+    sStart = '<div class="subHead">'
+    sEnd = '<div class="container">'
+    sHtmlContentX = oParser.abParse(sHtmlContent, sStart, sEnd)
+    oOutputParameterHandler.addParameter('sHtmlContentX', sHtmlContentX)
+    if not sSearch:
+        oGui.addDir(SITE_IDENTIFIER, 'showWeek', 'الافلام الاكثر مشاهدة هذا الاسبوع', 'film.png', oOutputParameterHandler)
+    
+    sStart = 'id="postList">'
+    sEnd = '</html>'
+    sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
+
+    sPattern = '<div class="postDiv.+?href="([^"]+)">.+?data-src="([^"]+)"'
+    if 'collections' in sUrl:
+        sPattern += '.+?<div class="h1">(.+?)</div>'
+    else:
+        sPattern += '.+?alt="([^"]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
-        oOutputParameterHandler = cOutputParameterHandler() 
         for aEntry in aResult[1]:
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
@@ -152,44 +204,10 @@ def showMovies(sSearch = ''):
 
             if "serie"  in siteUrl or "episode"  in siteUrl or "/anime/" in siteUrl:
                 oGui.addTV(SITE_IDENTIFIER, 'showEpisodes1', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            if 'collections/' in siteUrl:
+                oGui.addMovie(SITE_IDENTIFIER, 'showMovies', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
             else:     
                 oGui.addMovie(SITE_IDENTIFIER, 'showLink', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
-
-        progress_.VSclose(progress_)
-
-        sNextPage = __checkForNextPage(sHtmlContent)
-        if sNextPage:
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
-
-    sPattern = '<div class="postDiv">.+?<a href="([^"]+)".+?data-src="([^"]+)".+?<div class="h1">(.+?)</div>'
-    aResult = oParser.parse(sHtmlContent, sPattern)	
-    if aResult[0]:
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        oOutputParameterHandler = cOutputParameterHandler() 
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
-            
-            sTitle = cUtil().CleanMovieName(aEntry[2])
-            siteUrl = aEntry[0]
-            sThumb = aEntry[1].replace("(","").replace(")","")
-            sDesc = ''
-            sYear = ''
-            m = re.search('([0-9]{4})', sTitle)
-            if m:
-                sYear = str(m.group(0))
-
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sYear', sYear)
-            oOutputParameterHandler.addParameter('sThumb', sThumb)
-            oOutputParameterHandler.addParameter('sDesc', sDesc)
-			
-            oGui.addTV(SITE_IDENTIFIER, 'showMovies', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
 

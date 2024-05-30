@@ -21,7 +21,6 @@ MOVIE_AR = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%b9%d8%b1%d8
 MOVIE_HI = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%87%d9%86%d8%af%d9%8a%d8%a9', 'showLive')
 MOVIE_ASIAN = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%b3%d9%8a%d9%88%d9%8a%d8%a9', 'showLive')
 KID_MOVIES = (URL_MAIN + '/category/%d9%83%d8%a7%d8%b1%d8%aa%d9%88%d9%86-%d9%88%d8%a7%d9%86%d9%85%d9%8a', 'showLive')
-MOVIE_PACK = (URL_MAIN + '/%D8%A7%D9%82%D8%B3%D8%A7%D9%85-%D8%A7%D9%84%D9%85%D9%88%D9%82%D8%B9', 'showPack')
 MOVIE_ANNEES = (True, 'showYears')
 
 URL_SEARCH = (URL_MAIN + '/?s=', 'showMoviesearch')
@@ -51,7 +50,7 @@ def load():
 	oOutputParameterHandler.addParameter('siteUrl', KID_MOVIES[0])
 	oGui.addDir(SITE_IDENTIFIER, 'showLive', 'أفلام كرتون', 'anim.png', oOutputParameterHandler)
 
-	oOutputParameterHandler.addParameter('siteUrl', MOVIE_PACK[0])
+	oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/%D8%A7%D9%82%D8%B3%D8%A7%D9%85-%D8%A7%D9%84%D9%85%D9%88%D9%82%D8%B9')
 	oGui.addDir(SITE_IDENTIFIER, 'showPack', 'أقسام الموقع', 'film.png', oOutputParameterHandler)
 
 	oOutputParameterHandler.addParameter('siteUrl', MOVIE_ANNEES[0])

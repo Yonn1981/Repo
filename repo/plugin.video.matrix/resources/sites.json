@@ -140,16 +140,6 @@
             "active": "True",
             "url": "https://cdrama.in/"
         },
-        "cimau": {
-            "label": "Cima4u",
-            "active": "True",
-            "url": "https://www.cima4u-tv.com/"
-        },
-        "cimaclub": {
-            "label": "CimaClub",
-            "active": "True",
-            "url": "https://cimaclub.watch/"
-        },
         "cimacity": {
             "label": "CimaCity",
             "active": "True",
@@ -370,6 +360,11 @@
             "label": "Shoffree",
             "active": "True",
             "url": "https://shoffree.net/"
+        },
+        "shoofmax": {
+            "label": "ShoofMAX",
+            "active": "True",
+            "url": "https://shoofmax.com/"
         },
         "shoofvod": {
             "label": "Shoofvod",

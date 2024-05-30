@@ -135,7 +135,7 @@ def showPack():
     sEnd = '<button class='
     sHtmlContent1 = oParser.abParse(sHtmlContent, sStart, sEnd)
 
-    sPattern = '<a href="([^"]+)".+?src="([^"]+)" alt="([^"]+)'
+    sPattern = '<a href="([^"]+)".+?src="([^"]+)".+?<div>(.+?)</div>'
     aResult = oParser.parse(sHtmlContent1, sPattern)	
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()

@@ -23,7 +23,7 @@ URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 MOVIE_EN = (URL_MAIN + 'category/افلام-اجنبي/', 'showMovies')
 MOVIE_ASIAN = (URL_MAIN + 'category/افلام-اسيوي/', 'showMovies')
 MOVIE_NETFLIX = (URL_MAIN + 'netflix-movies/', 'showMovies')
-MOVIE_PACK = (URL_MAIN , 'showPack')
+MOVIE_PACK = (URL_MAIN + 'movies-collections/', 'showMovies')
 KID_MOVIES = (URL_MAIN + 'category/افلام-انمي/', 'showMovies')
 
 SERIE_EN = (URL_MAIN + 'category/مسلسلات-اجنبي/', 'showSeries')
@@ -58,7 +58,10 @@ def load():
        
     oOutputParameterHandler.addParameter('siteUrl', KID_MOVIES[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام كرتون', 'crtoon.png', oOutputParameterHandler)
-    
+
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_PACK[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'سلاسل افلام كاملة', 'pack.png', oOutputParameterHandler)
+
     oOutputParameterHandler.addParameter('siteUrl', SERIE_EN[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أجنبية', 'agnab.png', oOutputParameterHandler)
    
@@ -71,8 +74,8 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', SERIE_NETFLIX[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات نيتفلكس', 'netflix.png', oOutputParameterHandler)
 
-    oOutputParameterHandler.addParameter('siteUrl', MOVIE_PACK[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showPack', 'أقسام الموقع', 'icon.png', oOutputParameterHandler)
+    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN)
+    oGui.addDir(SITE_IDENTIFIER, 'showPack', 'أقسام الموقع', 'listes.png', oOutputParameterHandler)
 
     oGui.setEndOfDirectory()
  
@@ -96,13 +99,11 @@ def showSearchSeries():
         oGui.setEndOfDirectory()
         return
 
-def showPack(sSearch = ''):
+def showPack():
     oGui = cGui()
-    if sSearch:
-      sUrl = sSearch
-    else:
-        oInputParameterHandler = cInputParameterHandler()
-        sUrl = oInputParameterHandler.getValue('siteUrl')
+
+    oInputParameterHandler = cInputParameterHandler()
+    sUrl = oInputParameterHandler.getValue('siteUrl')
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -116,9 +117,12 @@ def showPack(sSearch = ''):
         for aEntry in aResult[1]:
             if 'المزيد' in aEntry[1]:
                 continue
-            sTitle = cUtil().CleanMovieName(aEntry[2])
+            sTitle = aEntry[1]
+            sTitle = re.sub(r"[^\w\s]", "", sTitle)
             sThumb = ''
             siteUrl = aEntry[0]
+            if siteUrl.startswith('/'):
+                siteUrl = URL_MAIN + siteUrl
 
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -130,14 +134,7 @@ def showPack(sSearch = ''):
             else:
                 oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle, sThumb, oOutputParameterHandler)
  
-        sNextPage = __checkForNextPage(sHtmlContent)
-        if sNextPage:
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
- 
-    if not sSearch:
-        oGui.setEndOfDirectory()
+    oGui.setEndOfDirectory()
 			
 def showMovies(sSearch = ''):
     oGui = cGui()
@@ -190,14 +187,14 @@ def showMovies(sSearch = ''):
     
         progress_.VSclose(progress_)
 
+    if not sSearch:
         sNextPage = __checkForNextPage(sHtmlContent)
         if sNextPage:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
  
-    if not sSearch:
-        oGui.setEndOfDirectory()
+    oGui.setEndOfDirectory()
 
 def showassemblies():
     oGui = cGui()

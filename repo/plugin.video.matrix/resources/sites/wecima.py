@@ -28,7 +28,7 @@ MOVIE_POP = (URL_MAIN + 'movies/top/', 'showMovies')
 MOVIE_CLASSIC = (URL_MAIN + 'movies/old/', 'showMovies')
 MOVIE_FAM = (URL_MAIN + 'mpaa/pg/', 'showMovies')
 MOVIE_EN = (URL_MAIN + 'category/أفلام/10-movies-english-افلام-اجنبي/list/recent/', 'showMovies')
-MOVIE_PACK = (URL_MAIN , 'showPack')
+MOVIE_PACK = (URL_MAIN + 'category/افلام/10-movies-english-افلام-اجنبي/سلاسل-الافلام-الكاملة-full-pack/', 'showMovies')
 MOVIE_AR = (URL_MAIN + 'category/أفلام/افلام-عربي-arabic-movies/', 'showMovies')
 MOVIE_TURK = (URL_MAIN + 'category/أفلام/افلام-تركى-turkish-films/list/recent/', 'showMovies')
 MOVIE_HI = (URL_MAIN + 'category/أفلام/افلام-هندي-indian-movies/list/recent/', 'showMovies')
@@ -45,6 +45,7 @@ SERIE_TR = (URL_MAIN + 'ategory/مسلسلات/8-مسلسلات-تركية-turki
 
 DOC_SERIES = (URL_MAIN + 'category/مسلسلات/مسلسلات-وثائقية-documentary-series/list/', 'showSeries')
 DOC_NEWS = (URL_MAIN + 'category/أفلام/افلام-وثائقية-documentary-films/list/recent/', 'showMovies')
+SPORT_WWE = (URL_MAIN + 'category/مصارعة-حرة/', 'showMovies')
 
 URL_SEARCH = (URL_MAIN + 'search/', 'showSeries')
 URL_SEARCH_MOVIES = (URL_MAIN + 'search/', 'showMovies')
@@ -84,8 +85,8 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', DOC_NEWS[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام وثائقية', 'doc.png', oOutputParameterHandler)
 
-    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'category/افلام/10-movies-english-افلام-اجنبي/سلاسل-الافلام-الكاملة-full-pack/')
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'سلاسل افلام كاملة', 'agnab.png', oOutputParameterHandler)
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_PACK[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'سلاسل افلام كاملة', 'pack.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', SERIE_EN[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أجنبية', 'agnab.png', oOutputParameterHandler)
@@ -108,6 +109,9 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', DOC_SERIES[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات وثائقية', 'doc.png', oOutputParameterHandler)
 
+    oOutputParameterHandler.addParameter('siteUrl', SPORT_WWE[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'مصارعة', 'wwe.png', oOutputParameterHandler)
+
     oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/production/netflix/list/')
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات Netfilx', 'agnab.png', oOutputParameterHandler)
 
@@ -120,7 +124,7 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/production/walt-disney-pictures/list/')
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات Walt Disney', 'agnab.png', oOutputParameterHandler)
 
-    oOutputParameterHandler.addParameter('siteUrl', MOVIE_PACK[0])
+    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN)
     oGui.addDir(SITE_IDENTIFIER, 'showPack', 'أقسام الموقع', 'listes.png', oOutputParameterHandler)
 
     oGui.setEndOfDirectory()

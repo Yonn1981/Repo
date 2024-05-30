@@ -18,7 +18,6 @@ SITE_DESC = 'sport vod'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 SPORT_FOOT = (URL_MAIN + 'video', 'showMovies')
-MOVIE_PACK = (URL_MAIN , 'showPack')
 SPORT_SPORTS = ('http://', 'load')
 
 def load():
@@ -28,7 +27,7 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', SPORT_FOOT[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أهداف و ملخصات ', 'sport.png', oOutputParameterHandler)
 
-    oOutputParameterHandler.addParameter('siteUrl', MOVIE_PACK[0])
+    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN)
     oGui.addDir(SITE_IDENTIFIER, 'showPack', 'فيديوهات الموقع', 'films.png', oOutputParameterHandler)
 
     oGui.setEndOfDirectory() 
