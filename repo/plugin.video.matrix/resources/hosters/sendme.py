@@ -37,7 +37,7 @@ class cHoster(iHoster):
             api_call = aResult[1][0]
            
         if api_call:
-            return True, api_call + '|Referer=https://send.cm/'
+            return True, f'{api_call}|User-Agent={UA}&Referer={self._url}'
 
         return False, False
         

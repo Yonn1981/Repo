@@ -14,8 +14,9 @@ class cHoster(iHoster):
 
     def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
-        if '$$' in self._url:
-            self._url, referer = self._url.split('$$')
+        referer = self._url
+        if '|Referer=' in self._url:
+            self._url, referer = self._url.split('|Referer=')
             referer = urllib_parse.urljoin(referer, '/')
         else:
             referer = self._url

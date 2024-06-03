@@ -455,6 +455,8 @@ def showHosters():
 
         if 'vidtube' in sHosterUrl:
             sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+        if 'vidhidepro' in sHosterUrl:
+            sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
         if 'updown' in sHosterUrl:
             sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
 

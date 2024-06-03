@@ -191,14 +191,61 @@ def showHosters(oInputParameterHandler = False):
             sHosterUrl = aEntry
             if sHosterUrl.startswith('//'):
                 sHosterUrl = 'http:' + sHosterUrl
-            if 'userload' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-            if 'mystream' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN   
+            if 'qvid' in sHosterUrl:
+                oRequestHandler = cRequestHandler(sHosterUrl)
+                oRequestHandler.addHeaderEntry('User-Agent', UA)
+                sHtmlContent = oRequestHandler.request()  
+                
+                sPattern = 'href="([^"]+)" role="button">(.+?)</a>'
+                aResult = oParser.parse(sHtmlContent, sPattern)
+                if aResult[0] :
+                    oOutputParameterHandler = cOutputParameterHandler()
+                    for aEntry in aResult[1]:
+                        sLink = aEntry[0]
+                        sServer = aEntry[1]
+                        
+                        sDisplayTitle = ('%s [COLOR orange] - %s[/COLOR]') % (sMovieTitle, sServer)      
+                        oOutputParameterHandler.addParameter('sHosterUrl', sLink)
+                        oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
+                        oOutputParameterHandler.addParameter('sThumb', sThumb)
+
+                        oGui.addLink(SITE_IDENTIFIER, 'showLinks', sDisplayTitle, sThumb, '', oOutputParameterHandler, oInputParameterHandler)
+            else:
+                if 'userload' in sHosterUrl:
+                    sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                if 'mystream' in sHosterUrl:
+                    sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN   
+                oHoster = cHosterGui().checkHoster(sHosterUrl)
+                if oHoster:
+                    oHoster.setDisplayName(sMovieTitle)
+                    oHoster.setFileName(sMovieTitle)
+                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+				               
+    oGui.setEndOfDirectory()
+
+def showLinks():
+    oGui = cGui()
+
+    oInputParameterHandler = cInputParameterHandler()
+    sHosterUrl = oInputParameterHandler.getValue('sHosterUrl')
+    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
+    sThumb = oInputParameterHandler.getValue('sThumb')
+
+    oParser = cParser()
+    oRequestHandler = cRequestHandler(sHosterUrl)
+    oRequestHandler.addHeaderEntry('User-Agent', UA)
+    sHtmlContent = oRequestHandler.request()     
+
+    sPattern = '<iframe src=["\']([^"\']+)["\']'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    if aResult[0] :
+        for aEntry in aResult[1]:
+            
+            sHosterUrl = aEntry  
             oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if oHoster:
+            if oHoster != False:
                 oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
-				               
+
     oGui.setEndOfDirectory()

@@ -1,11 +1,13 @@
-﻿from resources.lib.handler.requestHandler import cRequestHandler
+﻿import requests
+from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.lib.comaddon import dialog, xbmcgui
 from resources.hosters.hoster import iHoster
 from resources.lib.packer import cPacker
 from resources.lib.comaddon import VSlog
-import re
-import requests
+from resources.lib import random_ua
+
+UA = random_ua.get_pc_ua()
 
 class cHoster(iHoster):
 
@@ -26,7 +28,7 @@ class cHoster(iHoster):
             sReferer = self._url.split('|Referer=')[1]            
             self._url = self._url.split('|Referer=')[0]
 
-        VSlog(self._url)
+
         api_call = ''
 
         UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:39.0) Gecko/20100101 Firefox/39.0'

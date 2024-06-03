@@ -20,7 +20,7 @@ SITE_DESC = 'arabic vod'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-MOVIE_AR = (URL_MAIN + 'category.php?cat=arabic-movies16', 'showMovies')
+MOVIE_AR = (URL_MAIN + 'category.php?cat=arabic-movies18', 'showMovies')
 MOVIE_EN = (URL_MAIN + 'category.php?cat=all_movies', 'showMovies')
 MOVIE_HI = (URL_MAIN + 'category.php?cat=indian-movies3', 'showMovies')
 MOVIE_ASIAN = (URL_MAIN + 'category.php?cat=asian-movies', 'showMovies')
@@ -29,9 +29,9 @@ KID_MOVIES = (URL_MAIN + 'category.php?cat=anime-movies', 'showMovies')
 
 RAMADAN_SERIES = (URL_MAIN + 'category.php?cat=8-ramadan-2024', 'showSeries')
 SERIE_EN = (URL_MAIN + 'category.php?cat=english-series3', 'showSeries')
-SERIE_AR = (URL_MAIN + 'category.php?cat=arabic-series29', 'showSeries')
+SERIE_AR = (URL_MAIN + 'category.php?cat=arabic-series31', 'showSeries')
 SERIE_HEND = (URL_MAIN + 'category.php?cat=4indian-series', 'showSeries')
-SERIE_TR = (URL_MAIN + 'category.php?cat=turkish-3isk-seriess29', 'showSeries')
+SERIE_TR = (URL_MAIN + 'category.php?cat=turkish-3isk-seriess30', 'showSeries')
 
 REPLAYTV_PLAY = (URL_MAIN+'category.php?cat=masrh1', 'showMovies')
 REPLAYTV_NEWS = (URL_MAIN + 'category.php?cat=tv-programs5', 'showSeries')

@@ -66,7 +66,7 @@ def load():
     oGui.addDir(SITE_IDENTIFIER, SERIE_JP[1], 'مسلسلات تايلندية', 'thai.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'الحلقات-الجديدة/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'احدث الحلقات', 'asia.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries2', 'احدث الحلقات', 'asia.png', oOutputParameterHandler)
 
     oGui.setEndOfDirectory()
 
@@ -195,7 +195,58 @@ def showSeries(sSearch = ''):
 
     if not sSearch:
         oGui.setEndOfDirectory()
- 			
+
+def showSeries2(sSearch = ''):
+    oGui = cGui()
+    if sSearch:
+      sUrl = sSearch
+    else:
+        oInputParameterHandler = cInputParameterHandler()
+        sUrl = oInputParameterHandler.getValue('siteUrl')
+
+    oParser = cParser() 
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request()
+
+    sPattern = '<article class="post">.+?href="([^"]+)".+?data-img="([^"]+)" title="([^"]+)'
+    aResult = oParser.parse(sHtmlContent, sPattern)	
+    if aResult[0]:
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        oOutputParameterHandler = cOutputParameterHandler()  
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+ 
+            if "فيلم" in aEntry[2]:
+                continue
+ 
+            sTitle = (cUtil().CleanMovieName(aEntry[2])).replace('الحلقة ','E').replace('حلقة ','E')
+            sTitle = re.sub(r"ح(\d+)", r"", cUtil().ConvertSeasons(sTitle))
+            siteUrl = aEntry[0]
+            sThumb = re.sub(r'-\d*x\d*.','.', aEntry[1])       
+            if sThumb.startswith('//'):
+                sThumb = 'https:' + sThumb 
+            sDesc = ""
+
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
+			
+            oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+
+        progress_.VSclose(progress_)
+ 
+        sNextPage = __checkForNextPage(sHtmlContent)
+        if sNextPage:
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
+            oGui.addDir(SITE_IDENTIFIER, 'showSeries2', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+
+    if not sSearch:
+        oGui.setEndOfDirectory()
+
 def showSeasons():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()

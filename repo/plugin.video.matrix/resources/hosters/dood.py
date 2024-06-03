@@ -20,22 +20,12 @@ class cHoster(iHoster):
         iHoster.__init__(self, 'dood', 'Dood')
 
     def setUrl(self, url):
-        sid = str(url).replace('/d/', '/e/')
-        sid = sid.split('/e/')[1]
-        self._url = url.replace('doods.pro','d0000d.com').replace('ds2play.com','d0000d.com')
+        self._url = f'https://d0000d.com/e/{url.rsplit("/",1)[1]}'
 
     def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
         api_call = False
-
-        oRequestHandler = cRequestHandler(self._url)
-        oRequestHandler.addHeaderEntry('User-Agent', UA)
-        oRequestHandler.request()
-        surl = oRequestHandler.getRealUrl()
-
-        if surl != self._url:
-            self._url = surl
-        
+       
         sHost = getHost(self._url)
 
         oRequestHandler = cRequestHandler(self._url)
@@ -51,13 +41,13 @@ class cHoster(iHoster):
         expiry = int(time.time() * 1000)
         videoUrlStart = requests.get(
             f"{sHost}pass_md5/{md5}",
-            headers={"referer": surl},
+            headers={"referer": self._url},
         ).text
 
         api_call = f"{videoUrlStart}{randomString}?token={token}&expiry={expiry}"
 
         if api_call:
-            api_call = api_call.replace('~','%7E') + '|Referer=' + surl
+            api_call = api_call.replace('~','%7E') + '|Referer=' + self._url
             return True, api_call
 
         return False, False

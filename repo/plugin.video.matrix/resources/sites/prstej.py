@@ -1,5 +1,5 @@
 ﻿# -*- coding: utf-8 -*-
-# zombi https://github.com/zombiB/zombi-addons/
+# Temporary fix
 
 import re
 from resources.lib.gui.hoster import cHosterGui
@@ -20,15 +20,15 @@ SITE_DESC = 'arabic vod'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-RAMADAN_SERIES = (URL_MAIN + 'category102.php?cat=rammdan2-2024', 'showSeries')
-MOVIE_AR = (URL_MAIN + 'category102.php?cat=aflam-2024', 'showMovies')
-MOVIE_TURK = (URL_MAIN + 'category102.php?cat=turkish1-movies2024', 'showMovies')
-SERIE_AR = (URL_MAIN + 'category102.php?cat=aarab2-2024', 'showSeries')
-SERIE_EN = (URL_MAIN + 'category102.php?cat=english2024', 'showSeries')
-SERIE_TR = (URL_MAIN + 'category102.php?cat=tyyy3-2024', 'showSeries')
-SERIE_ASIA = (URL_MAIN + 'category102.php?cat=asia', 'showSeries')
+RAMADAN_SERIES = (f'{URL_MAIN}/ind6', 'showSeriesLists')
+MOVIE_AR = (f'{URL_MAIN}/ind6', 'showMoviesLists')
+MOVIE_TURK = (f'{URL_MAIN}/ind6', 'showMoviesLists')
+SERIE_AR = (f'{URL_MAIN}/ind6', 'showSeriesLists')
+SERIE_EN = (f'{URL_MAIN}/ind6', 'showSeriesLists')
+SERIE_TR = (f'{URL_MAIN}/ind6', 'showSeriesLists')
+SERIE_ASIA = (f'{URL_MAIN}/ind6', 'showSeriesLists')
 
-ANIM_NEWS = (URL_MAIN + 'category102.php?cat=anmei', 'showSeries')
+ANIM_NEWS = (f'{URL_MAIN}/ind6', 'showSeriesLists')
 
 URL_SEARCH = (URL_MAIN + 'search.php?keywords=', 'showSeries')
 URL_SEARCH_MOVIES = (URL_MAIN + 'search.php?keywords=', 'showMovies')
@@ -47,31 +47,28 @@ def load():
     oGui.addDir(SITE_IDENTIFIER, 'showSeriesSearch', addons.VSlang(30079), 'search.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', RAMADAN_SERIES[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'رمضان', 'rmdn.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSeriesLists', 'رمضان', 'rmdn.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_TURK[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام تركية', 'turk.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showMoviesLists', 'أفلام تركية', 'turk.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_AR[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام عربية', 'arab.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showMoviesLists', 'أفلام عربية', 'arab.png', oOutputParameterHandler)
 	
     oOutputParameterHandler.addParameter('siteUrl', SERIE_AR[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات عربية', 'arab.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSeriesLists', 'مسلسلات عربية', 'arab.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', SERIE_EN[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أجنبية', 'agnab.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSeriesLists', 'مسلسلات أجنبية', 'agnab.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', SERIE_ASIA[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أسيوية', 'asia.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSeriesLists', 'مسلسلات أسيوية', 'asia.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', SERIE_TR[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات تركية', 'turk.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSeriesLists', 'مسلسلات تركية', 'turk.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', ANIM_NEWS[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات إنمي', 'anime.png', oOutputParameterHandler)  
-
-    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'category102.php?cat=rammmda1-1n2023')
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'رمضان 2023', 'rmdn.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSeriesLists', 'مسلسلات إنمي', 'anime.png', oOutputParameterHandler)  
 
     oGui.setEndOfDirectory()
  
@@ -94,7 +91,30 @@ def showSearch():
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
-	
+
+def showMoviesLists():
+    oGui = cGui()
+
+    oParser = cParser()
+    oRequestHandler = cRequestHandler(f'{URL_MAIN}/ind6')
+    oRequestHandler.addHeaderEntry('User-Agent', UA)
+    sHtmlContent = oRequestHandler.request()
+
+    sPattern = '<a href="([^"]+)".+?class="sub_ca">(.+?)</a>'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    if aResult[0]:
+        oOutputParameterHandler = cOutputParameterHandler()    
+        for aEntry in aResult[1]:
+            if 'افلام' not in aEntry[1]:
+                continue
+ 
+            sUrl = aEntry[0]
+            sTitle = aEntry[1].replace('<b>','').replace('</b>','')
+            oOutputParameterHandler.addParameter('siteUrl', sUrl) 
+            oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle, 'film.png', oOutputParameterHandler)
+ 
+    oGui.setEndOfDirectory()
+
 def showMovies(sSearch = ''):
     oGui = cGui()
     if sSearch:
@@ -107,7 +127,7 @@ def showMovies(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     oRequestHandler.addHeaderEntry('User-Agent', UA)
     sHtmlContent = oRequestHandler.request()
-
+    
     sPattern = '<div class="thumbnail">.+?<a href="(.+?)".+?title="(.+?)".+?data-echo="(.+?)"'
     aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0] :
@@ -152,6 +172,29 @@ def showMovies(sSearch = ''):
     if not sSearch:
         oGui.setEndOfDirectory()
 
+def showSeriesLists():
+    oGui = cGui()
+
+    oParser = cParser()
+    oRequestHandler = cRequestHandler(f'{URL_MAIN}/ind6')
+    oRequestHandler.addHeaderEntry('User-Agent', UA)
+    sHtmlContent = oRequestHandler.request()
+
+    sPattern = '<a href="([^"]+)".+?class="sub_ca">(.+?)</a>'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    if aResult[0]:
+        oOutputParameterHandler = cOutputParameterHandler()    
+        for aEntry in reversed(aResult[1]):
+            if 'مسلسلات' not in aEntry[1]:
+                continue
+ 
+            sUrl = aEntry[0]
+            sTitle = aEntry[1].replace('<b>','').replace('</b>','')
+            oOutputParameterHandler.addParameter('siteUrl', sUrl) 
+            oGui.addDir(SITE_IDENTIFIER, 'showSeries', sTitle, 'mslsl.png', oOutputParameterHandler)
+ 
+    oGui.setEndOfDirectory()
+
 def showSeries(sSearch = ''):
     oGui = cGui()
     if sSearch:
@@ -159,7 +202,7 @@ def showSeries(sSearch = ''):
     else:
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
-
+    
     oParser = cParser()
     oRequestHandler = cRequestHandler(sUrl)
     oRequestHandler.addHeaderEntry('User-Agent', UA)

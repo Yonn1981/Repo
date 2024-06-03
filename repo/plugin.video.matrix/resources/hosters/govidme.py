@@ -20,9 +20,8 @@ class cHoster(iHoster):
         VSlog(self._url)
 
         oParser = cParser()
-
-        if '$$' in self._url:
-            self._url, sReferer = self._url.split('$$')
+        if '|Referer=' in self._url:
+            self._url, sReferer = self._url.split('|Referer=')
             sReferer = urllib_parse.urljoin(sReferer, '/')
         else:
             sReferer = 'https://cima-club.io/'
