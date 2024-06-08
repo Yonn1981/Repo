@@ -139,7 +139,7 @@ def showHosters(oInputParameterHandler = False):
         for aEntry in aResult[1]:
             
             url = aEntry[0] 
-            sHost = aEntry[1]  
+            sHost = re.sub(r"\D", "", aEntry[1])
             sTitle = ('%s  [COLOR coral](%sp)[/COLOR]') % (sMovieTitle, sHost) 
             sThumb = sThumb
             if url.startswith('//'):

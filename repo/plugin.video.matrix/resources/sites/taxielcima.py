@@ -141,7 +141,7 @@ def showMovies(sSearch = ''):
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
-            if 'مسلسل' in aEntry[1] or 'موسم' in aEntry[1]:
+            if 'مسلسل' in aEntry[2] or 'موسم' in aEntry[2] or 'حلقة' in aEntry[2]:
                continue
 
             sTitle = cUtil().CleanMovieName(aEntry[2])
@@ -167,17 +167,16 @@ def showMovies(sSearch = ''):
     
         progress_.VSclose(progress_)
 
-    sStart = 'class="page-numbers'
-    sEnd = '<div class='
-    sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
-    sPattern = 'href="([^"]+)">([^<]+)</a></li>'
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    if aResult[0]:
+    if not sSearch:
+        sStart = 'class="page-numbers'
+        sEnd = '<div class='
+        sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
+        sPattern = 'href="([^"]+)">([^<]+)</a></li>'
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        if aResult[0]:
             for aEntry in aResult[1]:
-                sTitle = aEntry[1]
-            
-                sTitle =  "PAGE " + sTitle
-                sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
+                
+                sTitle =   f'[COLOR red]Page: {aEntry[1]}[/COLOR]'
                 siteUrl = aEntry[0]
 
                 oOutputParameterHandler = cOutputParameterHandler()
@@ -185,7 +184,6 @@ def showMovies(sSearch = ''):
 			
                 oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle, 'next.png', oOutputParameterHandler)
 
-    if not sSearch:
         oGui.setEndOfDirectory()
 		
 def showSeries(sSearch = ''):
@@ -211,7 +209,7 @@ def showSeries(sSearch = ''):
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
-            if 'فيلم' in aEntry[1] or 'فلم' in aEntry[1]:
+            if 'فيلم' in aEntry[2] or 'فلم' in aEntry[2]:
                continue
 
             sTitle = cUtil().CleanSeriesName(aEntry[2])
@@ -235,17 +233,16 @@ def showSeries(sSearch = ''):
 
         progress_.VSclose(progress_)
 
-    sStart = 'class="page-numbers'
-    sEnd = '<div class='
-    sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
-    sPattern = 'href="([^"]+)">([^<]+)</a></li>'
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    if aResult[0]:
+    if not sSearch:
+        sStart = 'class="page-numbers'
+        sEnd = '<div class='
+        sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
+        sPattern = 'href="([^"]+)">([^<]+)</a></li>'
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        if aResult[0]:
             for aEntry in aResult[1]:
-                sTitle = aEntry[1]
-            
-                sTitle =  "PAGE " + sTitle
-                sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
+                
+                sTitle =   f'[COLOR red]Page: {aEntry[1]}[/COLOR]'
                 siteUrl = aEntry[0]
 
                 oOutputParameterHandler = cOutputParameterHandler()
@@ -253,7 +250,6 @@ def showSeries(sSearch = ''):
 			
                 oGui.addDir(SITE_IDENTIFIER, 'showSeries', sTitle, 'next.png', oOutputParameterHandler)
 
-    if not sSearch:
         oGui.setEndOfDirectory()
 
 def showSeasons():

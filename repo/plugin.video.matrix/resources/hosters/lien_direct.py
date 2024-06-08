@@ -53,7 +53,7 @@ class cHoster(iHoster):
             api_call = api_call + '|User-Agent=' + UA 
 
         if 'fushaar' in api_call:
-            api_call = api_call + '|User-Agent=' + UA  + '&Referer=' + self._url
+            api_call = f'{api_call}|User-Agent={UA}&Referer={self._url}&verifypeer=false'
 
         if api_call:
             if ('http' in SubTitle):

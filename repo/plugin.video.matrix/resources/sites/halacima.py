@@ -200,31 +200,22 @@ def showMovies(sSearch = ''):
             oGui.addMovie(SITE_IDENTIFIER, 'showServers', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
-        
-    sPattern = '<li><a href="([^"]+)" data-ci-pagination-page="([^"]+)'
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    if aResult[0]:
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        oOutputParameterHandler = cOutputParameterHandler() 
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
- 
-            sTitle = aEntry[1]           
-            sTitle =  "PAGE " + sTitle
-            sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
-            siteUrl = aEntry[0]
 
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+    if not sSearch:        
+        sPattern = '<li><a href="([^"]+)" data-ci-pagination-page="([^"]+)'
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        if aResult[0]:
+            oOutputParameterHandler = cOutputParameterHandler() 
+            for aEntry in aResult[1]:
+ 
+                sTitle =   f'[COLOR red]Page: {aEntry[1]}[/COLOR]'
+                siteUrl = aEntry[0]
+
+                oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+                oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
 			
-            oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle, 'next.png', oOutputParameterHandler)
-
-        progress_.VSclose(progress_)
+                oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle, 'next.png', oOutputParameterHandler)
  
-    if not sSearch:
         oGui.setEndOfDirectory()
  
 def showSeries(sSearch = ''):
@@ -268,34 +259,25 @@ def showSeries(sSearch = ''):
             oGui.addTV(SITE_IDENTIFIER, 'showSeason', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
-        
-    sPattern = '<li><a href="([^"]+)" data-ci-pagination-page="([^"]+)'
-    aResult = oParser.parse(sHtmlContent, sPattern)	
-    if aResult[0]:
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        oOutputParameterHandler = cOutputParameterHandler() 
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
- 
-            sTitle = aEntry[1]           
-            sTitle =  "PAGE " + sTitle
-            sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
-            siteUrl = aEntry[0]
-            sThumb = ""
-            sDesc = ""
 
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumb', sThumb)
+    if not sSearch:        
+        sPattern = '<li><a href="([^"]+)" data-ci-pagination-page="([^"]+)'
+        aResult = oParser.parse(sHtmlContent, sPattern)	
+        if aResult[0]:
+            oOutputParameterHandler = cOutputParameterHandler() 
+            for aEntry in aResult[1]:
+ 
+                sTitle =   f'[COLOR red]Page: {aEntry[1]}[/COLOR]'
+                siteUrl = aEntry[0]
+                sThumb = ""
+                sDesc = ""
+
+                oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+                oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+                oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
-            oGui.addDir(SITE_IDENTIFIER, 'showSeries', sTitle, 'next.png', oOutputParameterHandler)
+                oGui.addDir(SITE_IDENTIFIER, 'showSeries', sTitle, 'next.png', oOutputParameterHandler)
 
-        progress_.VSclose(progress_)
- 
-    if not sSearch:
         oGui.setEndOfDirectory()
 
 def showSerie(sSearch = ''):
@@ -348,9 +330,7 @@ def showSerie(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1]            
-            sTitle =  "PAGE " + sTitle
-            sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
+            sTitle =   f'[COLOR red]Page: {aEntry[1]}[/COLOR]'
             siteUrl = aEntry[0]
             sThumb = ""
             sDesc = ""

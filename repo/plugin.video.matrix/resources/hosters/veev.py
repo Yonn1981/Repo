@@ -25,22 +25,26 @@ class cHoster(iHoster):
         s = requests.session()
         headers = {'User-Agent': UA, 'Referer': self._url}
         sHtmlContent = s.get(self._url, headers=headers).text
-        
-        f = re.search(r'>window\._vvto.+?fc\s*:\s*"([^"]+)', sHtmlContent)
-        if f:
-            ch = veev_decode(f.group(1))
-            params = {
-                'op': 'player_api',
-                'cmd': 'gi',
-                'file_code': media_id,
-                'ch': ch,
-                'ie': 1
-            }
-            durl = urllib_parse.urljoin(self._url, '/dl') + '?' + urllib_parse.urlencode(params)
-            jresp = s.get(durl, headers=headers).content
-            jresp = json.loads(jresp).get('file')
-            if jresp and jresp.get('file_status') == 'OK':
-                api_call = decode_url(veev_decode(jresp.get('dv')[0].get('s')), build_array(ch)[0])
+        if s.get(self._url, headers=headers).url != self._url:
+            media_id = (s.get(self._url, headers=headers).url).split('/')[-1]
+        sHtmlContent = re.sub(r'(/\*.+?\*/)', '', sHtmlContent)
+        items = re.findall(r'>window\._vvto.+?fc\s*:\s*"([^"]+)', sHtmlContent)
+        if items:
+            for f in items:
+                if '@' not in f and ' ' not in f:
+                    ch = veev_decode(f)
+                    params = {
+                        'op': 'player_api',
+                        'cmd': 'gi',
+                        'file_code': media_id,
+                        'ch': ch,
+                        'ie': 1
+                    }
+                    durl = urllib_parse.urljoin(self._url, '/dl') + '?' + urllib_parse.urlencode(params)
+                    jresp = s.get(durl, headers=headers).content
+                    jresp = json.loads(jresp).get('file')
+                    if jresp and jresp.get('file_status') == 'OK':
+                        api_call = decode_url(veev_decode(jresp.get('dv')[0].get('s')), build_array(ch)[0])
 
         if api_call:
             return True, api_call + '|User-Agent=' + UA + '&Referer=' + self._url
