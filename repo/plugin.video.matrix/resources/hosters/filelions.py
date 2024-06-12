@@ -21,7 +21,7 @@ class cHoster(iHoster):
         else:
             referer = self._url
 
-        self._url = self._url.replace('/d/','/v/').replace('/f/','/v/').replace('/file/','/v/')
+        self._url = self._url.replace('/d/','/v/').replace('/f/','/v/').replace('/file/','/v/').replace('/download/','/v/')
         oRequest = cRequestHandler(self._url)
         oRequest.addHeaderEntry('Referer', referer)
         sHtmlContent = oRequest.request()

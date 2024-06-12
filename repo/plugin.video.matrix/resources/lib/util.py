@@ -174,9 +174,9 @@ class cUtil:
         return name
 
     def CleanMovieName(self, name):
-        name = name.replace("مشاهدة وتحميل","").replace("مشاهدة","").replace("مسلسل","").replace("الانمي","").replace("انمي","").replace("أنمي","").replace("أنمى","").replace("مترجم عربي","")\
+        name = name.replace("تحميل و مشاهدة","").replace("مشاهدة وتحميل","").replace("مشاهدة","").replace("مسلسل","").replace("الانمي","").replace("انمي","").replace("أنمي","").replace("أنمى","").replace("مترجم عربي","")\
             .replace("مترجمة","").replace("مترجم","").replace("الفيلم"," ").replace("الفلم"," ").replace("فلم"," ").replace("فيلم","").replace("برنامج","").replace("WEB-DL","").replace("BRRip","")\
-            .replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","")\
+            .replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("بجودة","")\
             .replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("انيمي","")\
             .replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("بلوراي","")\
             .replace("HC","").replace("Web-dl","").replace("مدبلج للعربية","مدبلج").replace("والأخيرة","").replace("والاخيرة","").replace("الأخيرة","")\
@@ -184,7 +184,7 @@ class cUtil:
             .replace("جودة عالية","").replace("كامل","").replace("السلسلة الوثائقية","").replace("الوثائقي","").replace("عرض","").replace("الرو","")\
             .replace("جميع حلقات","").replace("سلسلة افلام","").replace("سلسلة اجزاء","").replace("تحميل","").replace("مشاهده","").replace("مباشره","")\
             .replace('للعربية','').replace('للعربي','').replace('اونلاين','').replace('أونلاين','').replace('اون لاين','').replace('أون لاين','').replace('اولاين','')\
-            .replace("المسلسل العائلي","").replace("كرتون","")
+            .replace("المسلسل العائلي","").replace("كرتون","").replace(" hd ","")
         
         year = ''
         m = re.search('([0-9]{4})', name)
@@ -202,9 +202,9 @@ class cUtil:
         return name
 
     def CleanSeriesName(self, name):
-        name = name.replace("مشاهدة وتحميل","").replace("مشاهدة","").replace("المسلسل الباكستاني","").replace("مسلسل باكستاني","").replace("مسلسل","").replace("الانمي","").replace("انمي","").replace("أنمي","").replace("أنمى","").replace("مترجم عربي","")\
+        name = name.replace("تحميل و مشاهدة","").replace("مشاهدة وتحميل","").replace("مشاهدة","").replace("المسلسل الباكستاني","").replace("مسلسل باكستاني","").replace("مسلسل","").replace("الانمي","").replace("انمي","").replace("أنمي","").replace("أنمى","").replace("مترجم عربي","")\
             .replace("مترجمة","").replace("مترجم","").replace("الفيلم"," ").replace("الفلم"," ").replace("فلم"," ").replace("فيلم","").replace("برنامج","").replace("WEB-DL","").replace("BRRip","")\
-            .replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","")\
+            .replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("بجودة","")\
             .replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("انيمي","")\
             .replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("بلوراي","")\
             .replace("HC","").replace("Web-dl","").replace("مدبلج للعربية","مدبلج").replace("والأخيرة","").replace("والاخيرة","").replace("الأخيرة","")\
@@ -213,7 +213,7 @@ class cUtil:
             .replace("جميع حلقات","").replace("سلسلة افلام","").replace("سلسلة اجزاء","").replace("تحميل","").replace("مشاهده","").replace("مباشره","")\
             .replace('للعربية','').replace('للعربي','').replace('اونلاين','').replace('أونلاين','').replace('اون لاين','').replace('أون لاين','').replace('اولاين','')\
             .replace("المسلسل العائلي","").replace("تقرير","").replace("+","").replace("حلقات","").replace("الحلقات","").replace(" ة "," ").replace("القصير","")\
-            .replace('جميع مواسم','')
+            .replace('جميع مواسم','').replace(" hd ","")
                
         name = self.ConvertSeasons(name)
         

@@ -487,7 +487,7 @@ def showHosters(oInputParameterHandler = False):
     aResult = oParser.parse(sHtmlContent0, sPattern)
     if aResult[0] :    
         for aEntry in aResult[1]:
-            sQual = aEntry[0].replace("سيرفرات تحميل","")
+            sQual = aEntry[0].replace("سيرفرات تحميل","").strip()
             sHtmlContent1 = aEntry[1]
 
             sPattern = 'href="([^"]+)'
@@ -518,7 +518,7 @@ def showHosters(oInputParameterHandler = False):
 
                     oHoster = cHosterGui().checkHoster(sHosterUrl)
                     if oHoster:
-                        sDisplayTitle = sMovieTitle + ('[COLOR coral](%sp)[/COLOR]') % (sQual)
+                        sDisplayTitle = f'{sMovieTitle} [COLOR coral]({sQual}p)[/COLOR]'
                         oHoster.setDisplayName(sDisplayTitle)
                         oHoster.setFileName(sMovieTitle)
                         cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)

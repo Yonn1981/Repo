@@ -31,9 +31,6 @@ class cHoster(iHoster):
             sUrl = sUrl
             Referer = siteManager().getUrlMain('moviztime')
 
-        oRequest = cRequestHandler(self._url)
-        sHtmlContent = oRequest.request()
-
         sdata = sUrl.split('data=')[1]
 
         Sgn=requests.Session()
@@ -43,16 +40,16 @@ class cHoster(iHoster):
         	'Accept-Language': 'en-US,en;q=0.9,ar;q=0.8',
         	'User-Agent': UA,
         	'Upgrade-Insecure-Requests': '1',
+            'Host':'vidhls.com',
         	'Referer': Referer}
         prm={
                 "data": sdata}
-        _r = Sgn.post(sUrl,headers=hdr,data=prm)
+        _r = Sgn.get(sUrl,headers=hdr)
         sHtmlContent = _r.content.decode('utf8',errors='ignore').replace('\\','')
         oParser = cParser() 
 
         sPattern = '"videoServer":"([^"]+)'
         aResult = oParser.parse(sHtmlContent, sPattern)
-   
         if aResult[0]:
             VidServ = aResult[1][0]
 
@@ -61,13 +58,12 @@ class cHoster(iHoster):
         if aResult[0]:
             Url2 = aResult[1][0]
             Url2 = 'https://vidhls.com'+Url2+'?s='+VidServ
-
-            s = requests.Session()            
+          
             headers = {'Referer':'https://vidhls.com/'}
-            r = s.get(Url2, headers=headers)
+            r = Sgn.get(Url2, headers=headers)
             sHtmlContent = r.text
 
-            sPattern = 'RESOLUTION=(\d+x\d+)\s*(https.*?=)'
+            sPattern = 'RESOLUTION=(\d+x\d+)\s*(http[s]?://\S+)'
             aResult = oParser.parse(sHtmlContent, sPattern)
             if aResult[0]:
                 for aEntry in aResult[1]:

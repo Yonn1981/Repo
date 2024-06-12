@@ -140,6 +140,11 @@
             "active": "True",
             "url": "https://cdrama.in/"
         },
+        "cinemabest": {
+            "label": "CinemaBest",
+            "active": "True",
+            "url": "https://cinma.best/"
+        },
         "cimacity": {
             "label": "CimaCity",
             "active": "True",
@@ -323,7 +328,7 @@
         "moviztime": {
             "label": "MovizTime",
             "active": "True",
-            "url": "https://movtime94.homes/"
+            "url": "https://movtime107.shop/"
         },
         "nabdhlb": {
             "label": "Nabd8lb",
@@ -408,7 +413,7 @@
         },
         "topimdb": {
             "label": "Top IMDB",
-            "active": "True",
+            "active": "False",
             "url": "https://www.imdb.com/"
         },
         "tuktukcinema": {
@@ -419,7 +424,7 @@
         "tvfun": {
             "label": "Tvfun",
             "active": "True",
-            "url": "https://www.tv-f.com/"
+            "url": "https://www.tvfhd.com/"
         },
         "tvnine": {
             "label": "Tv96",
