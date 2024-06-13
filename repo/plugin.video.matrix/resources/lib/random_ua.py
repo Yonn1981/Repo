@@ -115,7 +115,7 @@ def get_arabseedUrl(url):
         last_gen = int(get_setting('last_seed_create'))
     except Exception:
         last_gen = 0
-    if not get_setting('seed_url') or last_gen < (time.time() - (7 * 24 * 60 * 60)):
+    if not get_setting('seed_url') or last_gen < (time.time() - (1 * 24 * 60 * 60)):
         arabseedUrl = requests.get(url, allow_redirects=True).url
         set_setting('seed_url', arabseedUrl)
         set_setting('last_seed_create', str(int(time.time())))
@@ -129,7 +129,7 @@ def get_wecimaUrl(url):
         last_gen = int(get_setting('last_wecima_create'))
     except Exception:
         last_gen = 0
-    if not get_setting('wecima_url') or last_gen < (time.time() - (7 * 24 * 60 * 60)):
+    if not get_setting('wecima_url') or last_gen < (time.time() - (5 * 24 * 60 * 60)):
         arabseedUrl = requests.get(url, allow_redirects=True).url
         set_setting('wecima_url', arabseedUrl)
         set_setting('last_wecima_create', str(int(time.time())))

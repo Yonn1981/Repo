@@ -510,8 +510,8 @@ def showHosters(oInputParameterHandler = False):
     if aResult[0]:
         m3url = aResult[1][0].replace(' ','')
         oRequestHandler = cRequestHandler(m3url)
-        oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
-        oRequestHandler.addHeaderEntry('referer', URL_MAIN+'/')
+        oRequestHandler.addHeaderEntry('User-Agent', UA)
+        oRequestHandler.addHeaderEntry('referer', URL_MAIN)
         sHtmlContent = oRequestHandler.request() 
 
     sStart = '<div class="containerServers">'

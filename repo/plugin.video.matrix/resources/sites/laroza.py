@@ -27,7 +27,7 @@ MOVIE_ASIAN = (URL_MAIN + 'category.php?cat=asian-movies', 'showMovies')
 MOVIE_DUBBED = (URL_MAIN + 'category.php?cat=aflammdblgh', 'showMovies')
 KID_MOVIES = (URL_MAIN + 'category.php?cat=anime-movies', 'showMovies')
 
-RAMADAN_SERIES = (URL_MAIN + 'category.php?cat=8-ramadan-2024', 'showSeries')
+RAMADAN_SERIES = (URL_MAIN + 'category.php?cat=17-ramadan-2024', 'showSeries')
 SERIE_EN = (URL_MAIN + 'category.php?cat=english-series3', 'showSeries')
 SERIE_AR = (URL_MAIN + 'category.php?cat=arabic-series31', 'showSeries')
 SERIE_HEND = (URL_MAIN + 'category.php?cat=4indian-series', 'showSeries')

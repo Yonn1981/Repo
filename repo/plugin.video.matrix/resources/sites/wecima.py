@@ -41,7 +41,7 @@ SERIE_EN = (URL_MAIN + 'category/مسلسلات/5-series-english-مسلسلات-
 SERIE_HEND = (URL_MAIN + 'category/مسلسلات/9-series-indian-مسلسلات-هندية/list/', 'showSeries')
 ANIM_NEWS = (URL_MAIN + 'category/مسلسلات-كرتون/list/', 'showSeries')
 SERIE_ASIA = (URL_MAIN + 'category/مسلسلات/مسلسلات-اسيوية/list/', 'showSeries')
-SERIE_TR = (URL_MAIN + 'ategory/مسلسلات/8-مسلسلات-تركية-turkish-series/list/', 'showSeries')
+SERIE_TR = (URL_MAIN + 'category/مسلسلات/8-مسلسلات-تركية-turkish-series/list/', 'showSeries')
 
 DOC_SERIES = (URL_MAIN + 'category/مسلسلات/مسلسلات-وثائقية-documentary-series/list/', 'showSeries')
 DOC_NEWS = (URL_MAIN + 'category/أفلام/افلام-وثائقية-documentary-films/list/recent/', 'showMovies')
