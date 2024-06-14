@@ -510,8 +510,9 @@ def showLink(oInputParameterHandler = False):
     oGui.setEndOfDirectory()       
   
 def __checkForNextPage(sHtmlContent):
+    sHtmlContent = sHtmlContent.replace('&rsaquo;','›')
     oParser = cParser()
-    sPattern = "href='([^']+)'>&rsaquo;</a>"
+    sPattern = 'href=["\']([^"\']+)["\']>›</a>'
     aResult = oParser.parse(sHtmlContent, sPattern) 
     if aResult[0]:
         return aResult[1][0]
