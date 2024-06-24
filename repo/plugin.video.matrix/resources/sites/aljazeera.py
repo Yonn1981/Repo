@@ -16,9 +16,9 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-DOC_NEWS = (URL_MAIN + 'programs/investigative', 'showMovies')
-DOC_SERIES = (URL_MAIN + 'programs/documentaries', 'showMovies')
-REPLAYTV_NEWS = (URL_MAIN + 'programs/newsmagazineshows', 'showMovies')
+DOC_NEWS = (f'{URL_MAIN}programs/investigative', 'showMovies')
+DOC_SERIES = (f'{URL_MAIN}programs/documentaries', 'showMovies')
+REPLAYTV_NEWS = (f'{URL_MAIN}programs/newsmagazineshows', 'showMovies')
 
 def load():
     oGui = cGui()
@@ -35,7 +35,7 @@ def load():
 
     oGui.setEndOfDirectory()
 
-def showMovies(sSearch = ''):
+def showMovies():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -56,8 +56,8 @@ def showMovies(sSearch = ''):
                 break
  
             sTitle = aEntry[2]           
-            sThumb = URL_MAIN+aEntry[0]
-            siteUrl = URL_MAIN+aEntry[1]
+            sThumb = f'{URL_MAIN}{aEntry[0]}'
+            siteUrl = f'{URL_MAIN}{aEntry[1]}'
             sDesc = aEntry[3]
 			
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -69,7 +69,7 @@ def showMovies(sSearch = ''):
  
     oGui.setEndOfDirectory() 
     
-def showMoviesLinks(sSearch = ''):
+def showMoviesLinks():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -90,8 +90,8 @@ def showMoviesLinks(sSearch = ''):
                 break
  
             sTitle = aEntry[2]            
-            sThumb = URL_MAIN+aEntry[0]
-            siteUrl = URL_MAIN+aEntry[1]
+            sThumb = f'{URL_MAIN}{aEntry[0]}'
+            siteUrl = f'{URL_MAIN}{aEntry[1]}'
             sDesc = aEntry[3]			
 			
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -115,11 +115,11 @@ def __checkForNextPage(sHtmlContent):
     sPattern = '<li >.+?<a href="(.+?)">'
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:       
-        return URL_MAIN+'/'+aResult[1][0]
+        return f'{URL_MAIN}{aResult[1][0]}'
 
     return False
 
-def showHosters(oInputParameterHandler = False):
+def showHosters():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -143,6 +143,6 @@ def showHosters(oInputParameterHandler = False):
             if oHoster:
                 oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
                
     oGui.setEndOfDirectory()

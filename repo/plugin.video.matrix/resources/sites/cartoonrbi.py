@@ -19,8 +19,8 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
  
-KID_MOVIES = (URL_MAIN + 'films.html', 'showMovies')
-KID_CARTOON = (URL_MAIN + 'cats.html', 'showSeries')
+KID_MOVIES = (f'{URL_MAIN}films.html', 'showMovies')
+KID_CARTOON = (f'{URL_MAIN}cats.html', 'showSeries')
  
 def load():
     oGui = cGui()
@@ -198,7 +198,7 @@ def showEps():
 
         oGui.setEndOfDirectory()
        
-def showLink(oInputParameterHandler = False):
+def showLink():
     oGui = cGui()
    
     oInputParameterHandler = cInputParameterHandler()
@@ -224,7 +224,7 @@ def showLink(oInputParameterHandler = False):
         for aEntry in aResult[1]:
             sErver = aEntry[0].replace("(","")
             sPage = aEntry[1]
-            siteUrl = URL_MAIN + '/plugins/server'+sErver+'/embed.php?url='+sPage+'&id='+sname
+            siteUrl = f'{URL_MAIN}/plugins/server{sErver}/embed.php?url={sPage}&id={sname}'
 			
             oRequestHandler = cRequestHandler(siteUrl)
             oRequestHandler.addHeaderEntry('User-Agent', UA)
@@ -245,7 +245,7 @@ def showLink(oInputParameterHandler = False):
                       url2 = url.split('=') 
                       url = url2[1].replace("&token","")
                    if url.startswith('//'):
-                      url = 'http:' + url
+                      url = f'http:{url}'
                    if 'arteenz' in url:
                       oRequestHandler = cRequestHandler(url)
                       sUrl0 = oRequestHandler.request()
@@ -259,18 +259,12 @@ def showLink(oInputParameterHandler = False):
                           url = ""
 								            
                    sHosterUrl = url
-                   if 'userload' in sHosterUrl:
-                       sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-                   if '.m3u8' in sHosterUrl:
-                       sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
-                   if 'mystream' in sHosterUrl:
-                       sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
-                   if 'extrashare' in sHosterUrl:
-                       sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN    
+                   if 'userload' in sHosterUrl or '.m3u8' in sHosterUrl or 'mystream' in sHosterUrl or 'extrashare' in sHosterUrl:
+                       sHosterUrl = f'{sHosterUrl}|Referer={URL_MAIN}'  
                    oHoster = cHosterGui().checkHoster(sHosterUrl)
                    if oHoster:
                       oHoster.setDisplayName(sMovieTitle)
                       oHoster.setFileName(sMovieTitle)
-                      cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                      cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
        
     oGui.setEndOfDirectory()

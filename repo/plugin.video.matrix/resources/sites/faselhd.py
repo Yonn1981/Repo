@@ -21,27 +21,27 @@ SITE_DESC = 'arabic vod'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-MOVIE_EN = (URL_MAIN + 'movies', 'showMovies')
-MOVIE_HI = (URL_MAIN + 'hindi', 'showMovies')
-MOVIE_ASIAN = (URL_MAIN + 'asian-movies', 'showMovies')
-KID_MOVIES = (URL_MAIN + 'dubbed-movies', 'showMovies')
-ANIM_MOVIES = (URL_MAIN + 'anime-movies', 'showMovies')
-MOVIE_TOP = (URL_MAIN + 'movies_top_votes', 'showMovies')
-MOVIE_POP = (URL_MAIN + 'movies_top_views', 'showMovies')
-MOVIE_DUBBED = (URL_MAIN + 'dubbed-movies', 'showMovies')
-MOVIE_PACK = (URL_MAIN + 'movies_collections', 'showMovies')
+MOVIE_EN = (f'{URL_MAIN}movies', 'showMovies')
+MOVIE_HI = (f'{URL_MAIN}hindi', 'showMovies')
+MOVIE_ASIAN = (f'{URL_MAIN}asian-movies', 'showMovies')
+KID_MOVIES = (f'{URL_MAIN}dubbed-movies', 'showMovies')
+ANIM_MOVIES = (f'{URL_MAIN}anime-movies', 'showMovies')
+MOVIE_TOP = (f'{URL_MAIN}movies_top_votes', 'showMovies')
+MOVIE_POP = (f'{URL_MAIN}movies_top_views', 'showMovies')
+MOVIE_DUBBED = (f'{URL_MAIN}dubbed-movies', 'showMovies')
+MOVIE_PACK = (f'{URL_MAIN}movies_collections', 'showMovies')
 
-SERIE_EN = (URL_MAIN + 'series', 'showSeries')
-SERIE_ASIA = (URL_MAIN + 'asian-series', 'showSeries')
-REPLAYTV_NEWS = (URL_MAIN + 'tvshows', 'showSeries')
+SERIE_EN = (f'{URL_MAIN}series', 'showSeries')
+SERIE_ASIA = (f'{URL_MAIN}asian-series', 'showSeries')
+REPLAYTV_NEWS = (f'{URL_MAIN}tvshows', 'showSeries')
 
-ANIM_NEWS = (URL_MAIN + 'anime', 'showAnimes')
-DOC_NEWS = (URL_MAIN + 'movies-cats/documentary', 'showMovies')
-DOC_SERIES = (URL_MAIN + 'series_genres/documentary', 'showSeries')
+ANIM_NEWS = (f'{URL_MAIN}anime', 'showAnimes')
+DOC_NEWS = (f'{URL_MAIN}movies-cats/documentary', 'showMovies')
+DOC_SERIES = (f'{URL_MAIN}series_genres/documentary', 'showSeries')
 
-URL_SEARCH = (URL_MAIN + '?s=', 'showSeries')
-URL_SEARCH_MOVIES = (URL_MAIN + '?s=%D9%81%D9%8A%D9%84%D9%85+', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + '?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSeries')
+URL_SEARCH = (f'{URL_MAIN}?s=', 'showSeries')
+URL_SEARCH_MOVIES = (f'{URL_MAIN}?s=%D9%81%D9%8A%D9%84%D9%85+', 'showMovies')
+URL_SEARCH_SERIES = (f'{URL_MAIN}?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSeries')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -101,7 +101,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '?s=%D9%81%D9%8A%D9%84%D9%85+'+sSearchText
+        sUrl = f'{URL_MAIN}?s=%D9%81%D9%8A%D9%84%D9%85+{sSearchText}'
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -111,7 +111,7 @@ def showSeriesSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+'+sSearchText
+        sUrl = f'{URL_MAIN}?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+{sSearchText}'
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -366,7 +366,7 @@ def showEpisodes():
     sEnd = '<div class="postShare">'
     sHtmlContent2 = oParser.abParse(sHtmlContent2, sStart, sEnd).replace('class="active">', ">")
 
-    oRequestHandler = cRequestHandler(URL_MAIN + '/series-ajax/?_action=get_season_list&_post_id='+postid)
+    oRequestHandler = cRequestHandler(f'{URL_MAIN}/series-ajax/?_action=get_season_list&_post_id={postid}')
     oRequestHandler.addParameters('seasonID', postid)
     oRequestHandler.setRequestType(1)
     sHtmlContent = oRequestHandler.request()
@@ -380,8 +380,8 @@ def showEpisodes():
                 if "العضوية" in aEntry[1]:
                     continue
  
-                sTitle = aEntry[1].replace("الحلقة "," E")
-                sTitle = ('%s %s') % (sMovieTitle, sTitle)
+                sTitle = aEntry[1].replace("الحلقة ","E")
+                sTitle = f'{sMovieTitle} {sTitle}'
                 siteUrl = aEntry[0].replace(' class="active"', "").replace('"', "") 
                 sThumb = sThumb
                 sDesc = ""
@@ -401,8 +401,8 @@ def showEpisodes():
                 if "العضوية" in aEntry[1]:
                     continue
  
-                sTitle = aEntry[1].strip().replace("الحلقة "," E")
-                sTitle = ('%s %s') % (sTitle, sMovieTitle)
+                sTitle = aEntry[1].strip().replace("الحلقة ","E")
+                sTitle = f'{sMovieTitle} {sTitle}'
                 siteUrl = aEntry[0]
                 sThumb = sThumb
                 sDesc = ""
@@ -439,8 +439,8 @@ def showEpisodes1():
         oOutputParameterHandler = cOutputParameterHandler()                     
         for aEntry in aResult[1]:
  
-            sTitle = aEntry[1].strip().replace("الحلقة "," E")
-            sTitle = sMovieTitle+sTitle
+            sTitle = aEntry[1].strip().replace("الحلقة ","E")
+            sTitle = f'{sMovieTitle} {sTitle}'
             siteUrl = aEntry[0]
             sThumb = sThumb
             sDesc = sNote
@@ -458,7 +458,7 @@ def showEpisodes1():
        
     oGui.setEndOfDirectory()
 	
-def showLink(oInputParameterHandler = False):
+def showLink():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -487,25 +487,24 @@ def showLink(oInputParameterHandler = False):
                 for aEntry in aResult[1]:
                     sHosterUrl = aEntry[0]
                     sHost = aEntry[1].upper()
-                    sTitle = ('%s  (%s)') % (sMovieTitle, sHost)  
+                    sTitle = f'{sMovieTitle} {sHost}'
                     oHoster = cHosterGui().getHoster('faselhd') 
                     if oHoster:
                         oHoster.setDisplayName(sTitle)
                         oHoster.setFileName(sMovieTitle)
-                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)            
+                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)            
 
             sPattern =  'videoSrc = ["\']([^"\']+)["\']' 
             aResult = oParser.parse(data, sPattern)
             if aResult[0]:
                 for aEntry in aResult[1]:
                     sHosterUrl = aEntry
-                    sHost = 'Server 2'
-                    sTitle = ('%s  (%s)') % (sMovieTitle, sHost)  
+                    sTitle = f'{sMovieTitle} Server 2' 
                     oHoster = cHosterGui().getHoster('faselhd') 
                     if oHoster:
                         oHoster.setDisplayName(sTitle)
                         oHoster.setFileName(sMovieTitle)
-                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)    
+                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)    
 
     oGui.setEndOfDirectory()       
   

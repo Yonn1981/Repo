@@ -1,7 +1,6 @@
 ﻿# -*- coding: utf-8 -*-
 # zombi https://github.com/zombiB/zombi-addons/
-
-import re		
+	
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -12,17 +11,17 @@ from resources.lib.parser import cParser
 from resources.lib.util import cUtil
  
 SITE_IDENTIFIER = 'arabsciences'
-SITE_NAME = 'Arabsciences'
+SITE_NAME = 'ArabSciences'
 SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-DOC_NEWS = (URL_MAIN + 'category/tv-channels/', 'showMovies')
+DOC_NEWS = (f'{URL_MAIN}category/tv-channels/', 'showMovies')
 DOC_GENRES = (URL_MAIN, 'showGenres')
 
-URL_SEARCH = (URL_MAIN + '?s=', 'showMovies')
-URL_SEARCH_MOVIES = (URL_MAIN + '?s=', 'showMovies')
-URL_SEARCH_MISC = (URL_MAIN + '?s=', 'showMovies')
+URL_SEARCH = (f'{URL_MAIN}?s=', 'showMovies')
+URL_SEARCH_MOVIES = (f'{URL_MAIN}?s=', 'showMovies')
+URL_SEARCH_MISC = (f'{URL_MAIN}?s=', 'showMovies')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -61,7 +60,6 @@ def showGenres():
 
             sTitle = cUtil().unescape(aEntry[1])
             siteUrl = aEntry[0]
-            sDesc = ''
 			
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -76,7 +74,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '?s='+sSearchText
+        sUrl = f'{URL_MAIN}?s={sSearchText}'
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -143,7 +141,7 @@ def __checkForNextPage(sHtmlContent):
 
     return False
 
-def showHosters(oInputParameterHandler = False):
+def showHosters():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -162,14 +160,14 @@ def showHosters(oInputParameterHandler = False):
                 continue            
             url = aEntry.replace('?rel=0','').replace('"','')
             if url.startswith('//'):
-                url = 'http:' + url					
+                url = f'http:{url}'				
             
             sHosterUrl = url 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
                 oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
     sPattern = 'https://www.youtube.com/embed/(.+?)"'
     aResult = oParser.parse(sHtmlContent, sPattern)	
@@ -177,14 +175,14 @@ def showHosters(oInputParameterHandler = False):
         for aEntry in aResult[1]:
             if ".api"  in aEntry or "image"  in aEntry:
                 continue                  
-            url = 'https://www.youtube.com/embed/'+aEntry
+            url = f'https://www.youtube.com/embed/{aEntry}'
 				           
             sHosterUrl = url 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
                 oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 				          
     sPattern = '<iframe.+?src="([^"]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -192,13 +190,13 @@ def showHosters(oInputParameterHandler = False):
         for aEntry in aResult[1]:
             url = aEntry.replace('?rel=0','').replace('"','')
             if url.startswith('//'):
-               url = 'http:' + url					
+               url = f'http:{url}'					
             
             sHosterUrl = url 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
                oHoster.setDisplayName(sMovieTitle)
                oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
     oGui.setEndOfDirectory()

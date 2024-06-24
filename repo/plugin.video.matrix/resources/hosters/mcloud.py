@@ -137,8 +137,8 @@ def encode_id(id_):
 
 		return h
 		
-	# Credits to @Ciarands for providing key - Thanks
-	klucze = requests.get('https://github.com/Ciarands/vidsrc-keys/blob/main/keys.json')
+	# Credits to @Inside4ndroid for providing key - Thanks
+	klucze = requests.get('https://github.com/Inside4ndroid/vidkey-js/blob/main/keys.json')
 					   
 	matches = re.search(r"\"rawLines\":\s*\[\"(.+)\"\]", klucze.text)
 	k1, k2 = json.loads(matches.group(1).replace("\\", ""))

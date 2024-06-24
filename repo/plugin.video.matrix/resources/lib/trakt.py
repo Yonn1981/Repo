@@ -1047,8 +1047,6 @@ class cTrakt:
 
     def getTmdbID(self, sTitle, sType):
 
-        oInputParameterHandler = cInputParameterHandler()
-
         from resources.lib.tmdb import cTMDb
         grab = cTMDb()
 

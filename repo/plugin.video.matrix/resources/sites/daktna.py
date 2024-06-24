@@ -20,12 +20,12 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-RAMADAN_SERIES = (URL_MAIN + '/list/series/', 'showSeries')
-SERIE_AR = (URL_MAIN + '/list/series/', 'showSeries')
-SERIE_TR = (URL_MAIN + '/list/series-turkish/', 'showSeries')
+RAMADAN_SERIES = (f'{URL_MAIN}/list/series/', 'showSeries')
+SERIE_AR = (f'{URL_MAIN}/list/series/', 'showSeries')
+SERIE_TR = (f'{URL_MAIN}/list/series-turkish/', 'showSeries')
 
-URL_SEARCH = (URL_MAIN + '/?s=', 'showSeries')
-URL_SEARCH_SERIES = (URL_MAIN + '/?s=', 'showSeries')
+URL_SEARCH = (f'{URL_MAIN}/?s=', 'showSeries')
+URL_SEARCH_SERIES = (f'{URL_MAIN}/?s=', 'showSeries')
 FUNCTION_SEARCH = 'showSeriesSearch'
  
 def load():
@@ -52,7 +52,7 @@ def showSeriesSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/?s='+sSearchText
+        sUrl = f'{URL_MAIN}/?s={sSearchText}'
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -204,11 +204,10 @@ def showHosters(oInputParameterHandler = False):
 
     sPattern =  'data-vid="([^"]+)'
     aResult = oParser.parse(sHtmlContent,sPattern)
-    m3url=''
     if aResult[0]:
         postid = aResult[1][0] 
 
-    oRequestHandler = cRequestHandler(sURL_MAIN+'wp-admin/admin-ajax.php?action=video_info&post_id='+postid)
+    oRequestHandler = cRequestHandler(f'{sURL_MAIN}wp-admin/admin-ajax.php?action=video_info&post_id={postid}')
     oRequestHandler.addHeaderEntry('User-Agent', UA)
     oRequestHandler.addHeaderEntry('Referer', sURL_MAIN)
     oRequestHandler.addParameters('action', 'video_info')
@@ -222,11 +221,11 @@ def showHosters(oInputParameterHandler = False):
             
             sHosterUrl = aEntry.replace('\\','')
             if sHosterUrl.startswith('//'):
-                sHosterUrl = 'http:' + sHosterUrl 
+                sHosterUrl = f'http:{sHosterUrl}'
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
                 oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 				               
     oGui.setEndOfDirectory()

@@ -21,19 +21,19 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
  
-URL_SERIE = URL_MAIN + 'show/allprograms/30348/%D8%A7%D9%84%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA'
+URL_SERIE = f'{URL_MAIN}show/allprograms/30348/%D8%A7%D9%84%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA'
 
-MOVIE_AR = (URL_MAIN + 'movies?page=1', 'showMovies')
-SERIE_AR = (URL_MAIN + 'series', 'showSeries')
-RAMADAN_SERIES = (URL_MAIN + 'ramadan', 'showSeries')
-REPLAYTV_PLAY = (URL_MAIN+'show/205952/%D9%85%D8%B3%D8%B1%D8%AD%D9%8A%D8%A7%D8%AA-%D8%B2%D9%85%D8%A7%D9%86', 'showEps')
+MOVIE_AR = (f'{URL_MAIN}movies?page=1', 'showMovies')
+SERIE_AR = (f'{URL_MAIN}series', 'showSeries')
+RAMADAN_SERIES = (f'{URL_MAIN}ramadan', 'showSeries')
+REPLAYTV_PLAY = (f'{URL_MAIN}show/205952/%D9%85%D8%B3%D8%B1%D8%AD%D9%8A%D8%A7%D8%AA-%D8%B2%D9%85%D8%A7%D9%86', 'showEps')
 
-ISLAM_SHOWS = (URL_MAIN+'programs/30349/إسلاميات', 'showSeries')
-ISLAM_QURAN = (URL_MAIN+'programs/208779/القرآن-الكريم', 'showSeries')
+ISLAM_SHOWS = (f'{URL_MAIN}programs/30349/إسلاميات', 'showSeries')
+ISLAM_QURAN = (f'{URL_MAIN}programs/208779/القرآن-الكريم', 'showSeries')
 
-URL_SEARCH = (URL_MAIN+'search_result?term=', 'showMovies')
-URL_SEARCH_MOVIES = (URL_MAIN+'search_result?term=', 'showMoviesSearch')
-URL_SEARCH_SERIES= (URL_MAIN+'search_result?term=', 'showSeriesSearch')
+URL_SEARCH = (f'{URL_MAIN}search_result?term=', 'showMovies')
+URL_SEARCH_MOVIES = (f'{URL_MAIN}search_result?term=', 'showMoviesSearch')
+URL_SEARCH_SERIES= (f'{URL_MAIN}search_result?term=', 'showSeriesSearch')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -83,7 +83,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN+'search_result?term='+sSearchText+'&page=1'
+        sUrl = f'{URL_MAIN}search_result?term={sSearchText}&page=1'
         showMoviesSearch(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -93,7 +93,7 @@ def showSearchSeries():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN+'search_result?term='+sSearchText+'&page=1'
+        sUrl = f'{URL_MAIN}search_result?term={sSearchText}&page=1'
         showSeriesSearch(sUrl)
         oGui.setEndOfDirectory()
         return  
@@ -101,7 +101,7 @@ def showSearchSeries():
 def showMoviesSearch(sSearch = ''):
     oGui = cGui()
     if sSearch:
-      sUrl = sSearch+'&page=1'
+      sUrl = f'{sSearch}&page=1'
     else:
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -171,7 +171,7 @@ def showSeriesSearch(sSearch = ''):
                 break
  
             sTitle = cUtil().CleanSeriesName(aEntry[2])
-            siteUrl = aEntry[0]+'?page=1'
+            siteUrl = f'{aEntry[0]}?page=1'
             sThumb = aEntry[1]
             sDesc = ''
 
@@ -230,8 +230,7 @@ def showMovies(sSearch = ''):
     sUrl = sUrl.replace("&page=","?page=")
     page = sUrl.split('?page=')[1]
     page = int(page)+1
-    sTitle = 'More' 
-    sTitle = '[COLOR red]'+sTitle+'[/COLOR]'
+    sTitle = f'[COLOR red]Page: {page}[/COLOR]'
     page = str(page)
     siteUrl = sUrl.split('?page=')[0]
     siteUrl = siteUrl +'?page='+ page
@@ -355,7 +354,6 @@ def showSeasons():
     oParser = cParser()
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    cook = oRequestHandler.GetCookies()
 
     sPattern = '<a class=" select-category.+?href="([^"]+)">(.+?)</a>'
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -438,9 +436,9 @@ def showSeasons():
                 if sMovieTitle is False:
                     sMovieTitle = sTitle
                 if ':' in aEntry[2]:
-                    sTitle = sMovieTitle+' '+sTitle.split(':')[1]
+                    sTitle = f'{sMovieTitle} {sTitle.split(":")[1]}'
                 else:
-                    sTitle = sMovieTitle+' '+sTitle          
+                    sTitle = f'{sMovieTitle} {sTitle}'       
 
                 oOutputParameterHandler.addParameter('siteUrl',siteUrl)
                 oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -488,9 +486,9 @@ def showEps():
             if sMovieTitle is False:
                 sMovieTitle = sTitle
             if ':' in aEntry[2]:
-                sTitle = sMovieTitle+' '+sTitle.split(':')[1]
+                sTitle = f'{sMovieTitle} {sTitle.split(":")[1]}'
             else:
-                sTitle = sMovieTitle+' '+sTitle          
+                sTitle = f'{sMovieTitle} {sTitle}'          
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -507,7 +505,7 @@ def showEps():
             oGui.addDir(SITE_IDENTIFIER, 'showEps', '[COLOR teal]More >>>[/COLOR]', 'next.png', oOutputParameterHandler)
 
     else:
-        oGui.addText(SITE_IDENTIFIER, '[COLOR %s]%s[/COLOR]' % ('white', ' الموقع لم يرفع حلقات هذا الموسم من المسلسل'), 'none.png')
+        oGui.addText(SITE_IDENTIFIER, f'[COLOR white] الموقع لم يرفع حلقات هذا الموسم من المسلسل [/COLOR]', 'none.png')
 
     oGui.setEndOfDirectory() 
 
@@ -541,7 +539,7 @@ def showHosters():
     aUser = addons.getSetting('hoster_awaan_username')
     aPass = addons.getSetting('hoster_awaan_password')
 
-    St=requests.Session()
+    St = requests.Session()
 
     sPattern =  '<div class="show_bottom_row">.+?<a href="([^"]+)" class="btn watch-now play">'
     aResult = oParser.parse(sHtmlContent,sPattern)
@@ -560,7 +558,7 @@ def showHosters():
                 'back_rel':f'{sUrl}',
                 'username':aUser,
                 'password':aPass}
-            url = URL_MAIN+'auth/login'
+            url = f'{URL_MAIN}auth/login'
             headers = {'User-Agent': UA,
                     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
                     'Accept-Language': 'en-US,en;q=0.9,ar;q=0.8',
@@ -568,18 +566,18 @@ def showHosters():
                     'Referer': URL_MAIN,
                     'Content-Type': 'application/x-www-form-urlencoded',
                     'Cookie':cook}
-            r = St.post(url,data=data,headers=headers)
+            r = St.post(url, data=data, headers=headers)
             r = St.get(f'{URL_MAIN}auth/manage-profiles?back_rel={URL_MAIN}')
             sHtmlContent = r.text
             sPattern =  'data-profile-id="([^"]+)' 
             aResult = oParser.parse(sHtmlContent,sPattern)
             if aResult[0]:
                 sprofile = aResult[1][0]
-            data = {'_token':_token,
-                'profile_id':sprofile,
-                'back_rel':URL_MAIN}
+            data = {'_token': _token,
+                    'profile_id': sprofile,
+                    'back_rel': URL_MAIN}
             headers = {'User-Agent': UA}
-            r = St.post(f'{URL_MAIN}auth/select-profile?back_rel={URL_MAIN}', data=data,headers=headers)
+            r = St.post(f'{URL_MAIN}auth/select-profile?back_rel={URL_MAIN}', data=data, headers=headers)
             r = St.get(sLink)
             sHtmlContent = r.text
             
@@ -604,14 +602,14 @@ def showHosters():
         for aEntry in aResult[1]:       
             url = aEntry
             if url.startswith('//'):
-                url = 'http:' + url
+                url = f'http:{url}'
 
-            sTitle = '[COLOR gold] Direct Link رابط مباشر [/COLOR]'
+            sTitle = f'{sMovieTitle} [COLOR gold] Direct Link [/COLOR]'
 
             oOutputParameterHandler.addParameter('siteUrl', url)
             oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
-            oGui.addLink(SITE_IDENTIFIER, 'showLinks', sTitle, sThumb, '', oOutputParameterHandler, oInputParameterHandler)
+            oGui.addLink(SITE_IDENTIFIER, 'showLinks', sTitle, sThumb, sTitle, oOutputParameterHandler)
 
 
     oGui.setEndOfDirectory()	
@@ -625,11 +623,10 @@ def showLinks():
     sThumb = oInputParameterHandler.getValue('sThumb')
 
     sHosterUrl = sUrl
-
     oHoster = cHosterGui().checkHoster(sHosterUrl)
     if oHoster:
             oHoster.setDisplayName(sMovieTitle)
             oHoster.setFileName(sMovieTitle)
-            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
     oGui.setEndOfDirectory()

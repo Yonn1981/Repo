@@ -16,14 +16,14 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-MOVIE_AR = (URL_MAIN + '?cat=5', 'showMovies')
-SERIE_AR = (URL_MAIN + '?cat=2', 'showSeries')
-KID_CARTOON = (URL_MAIN + '?cat=6', 'showSeries')
-REPLAYTV_PLAY = (URL_MAIN + '?cat=3', 'showSeries')
+MOVIE_AR = (f'{URL_MAIN}?cat=5', 'showMovies')
+SERIE_AR = (f'{URL_MAIN}?cat=2', 'showSeries')
+KID_CARTOON = (f'{URL_MAIN}?cat=6', 'showSeries')
+REPLAYTV_PLAY = (f'{URL_MAIN}?cat=3', 'showSeries')
 
-URL_SEARCH = (URL_MAIN + '?s=', 'showSeries')
-URL_SEARCH_MOVIES = (URL_MAIN + '/?s=', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + '/?s=', 'showSeries')
+URL_SEARCH = (f'{URL_MAIN}?s=', 'showSeries')
+URL_SEARCH_MOVIES = (f'{URL_MAIN}/?s=', 'showMovies')
+URL_SEARCH_SERIES = (f'{URL_MAIN}/?s=', 'showSeries')
 FUNCTION_SEARCH = 'showSeries'
  
 def load():
@@ -56,7 +56,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = 'http://www.fn-team.com/?s='+sSearchText
+        sUrl = f'{URL_MAIN}/?s={sSearchText}'
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -66,7 +66,7 @@ def showSeriesSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/?s='+sSearchText
+        sUrl = f'{URL_MAIN}/?s={sSearchText}'
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -94,10 +94,7 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            if "مسلسل"  in aEntry[1]:
-                continue
- 
-            if "حلقة"  in aEntry[1]:
+            if "مسلسل"  in aEntry[1] or "حلقة"  in aEntry[1]:
                 continue
  
             sTitle = aEntry[1].replace("&#8217;","'").replace("فيلم","")
@@ -105,7 +102,7 @@ def showMovies(sSearch = ''):
             sThumb = aEntry[2].replace("(","").replace(")","")
             sDesc = aEntry[1]
 
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
@@ -150,7 +147,7 @@ def showSeries(sSearch = ''):
             sThumb = aEntry[2].replace("(","").replace(")","")
             sDesc = aEntry[1]
 
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
@@ -176,7 +173,7 @@ def __checkForNextPage(sHtmlContent):
 
     return False
 	
-def showHosters(oInputParameterHandler = False):
+def showHosters():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -194,18 +191,18 @@ def showHosters(oInputParameterHandler = False):
             
             url = aEntry[0].replace('https://youtu.be/', 'https://www.youtube.com/watch?v=')
             Squality = aEntry[1]
-            sTitle = ' ['+Squality+'] ' 
+            sTitle = f'[{Squality}]' 
             if url.startswith('//'):
-               url = 'http:' + url
+               url = f'http:{url}'
             if 'twitter' in url:
                 continue
             sHosterUrl = url
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
-               sDisplayTitle = sMovieTitle+sTitle
+               sDisplayTitle = f'{sMovieTitle} {sTitle}'
                oHoster.setDisplayName(sDisplayTitle)
                oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 				    
     sPattern = '<a href="([^<]+)" class=".+?">(.+?)</a></h3>'
     aResult = oParser.parse(sHtmlContent, sPattern)	
@@ -215,16 +212,16 @@ def showHosters(oInputParameterHandler = False):
             url = aEntry[0].replace('https://youtu.be/', 'https://www.youtube.com/watch?v=')
             sTitle = aEntry[1]
             if url.startswith('//'):
-               url = 'http:' + url
+               url = f'http:{url}'
             if 'twitter' in url:
                 continue
             sHosterUrl = url
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
-               sDisplayTitle = sMovieTitle+' '+sTitle
+               sDisplayTitle = f'{sMovieTitle} {sTitle}'
                oHoster.setDisplayName(sDisplayTitle)
                oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 				   
     else:        
         sPattern = '<iframe.+?src="(.+?)" frameborder'       
@@ -238,6 +235,6 @@ def showHosters(oInputParameterHandler = False):
                 if oHoster:
                    oHoster.setDisplayName(sMovieTitle)
                    oHoster.setFileName(sMovieTitle)
-                   cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)          
+                   cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)          
 
     oGui.setEndOfDirectory()             

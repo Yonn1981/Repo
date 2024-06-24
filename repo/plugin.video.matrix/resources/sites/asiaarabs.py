@@ -17,12 +17,12 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-MOVIE_ASIAN = (URL_MAIN + 'search/label/%D8%A3%D9%81%D9%84%D8%A7%D9%85', 'showMovies')
-SERIE_ASIA = (URL_MAIN + 'search/label/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA', 'showSeries')
+MOVIE_ASIAN = (f'{URL_MAIN}search/label/%D8%A3%D9%81%D9%84%D8%A7%D9%85', 'showMovies')
+SERIE_ASIA = (f'{URL_MAIN}search/label/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA', 'showSeries')
 
-URL_SEARCH = (URL_MAIN + 'search?q=', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + 'search?q=', 'showSeries')
-URL_SEARCH_MOVIES = (URL_MAIN + 'search?q=', 'showMovies')
+URL_SEARCH = (f'{URL_MAIN}search?q=', 'showMovies')
+URL_SEARCH_SERIES = (f'{URL_MAIN}search?q=', 'showSeries')
+URL_SEARCH_MOVIES = (f'{URL_MAIN}search?q=', 'showMovies')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -49,7 +49,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + 'search?q='+sSearchText
+        sUrl = f'{URL_MAIN}search?q={sSearchText}'
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -59,7 +59,7 @@ def showSearchSeries():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + 'search?q='+sSearchText
+        sUrl = f'{URL_MAIN}search?q={sSearchText}'
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -120,19 +120,15 @@ def showMovies(sSearch = ''):
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
-            if "youtube" in aEntry[1]:
-                continue
-            if "google" in aEntry[1]:
+            if "youtube" in aEntry[1] or "google" in aEntry[1]:
                 continue
  
-            sTitle = aEntry[1]          
-            sTitle =  "PAGE " + sTitle
-            sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
+            sTitle =   f'[COLOR red]Page: {aEntry[1]}[/COLOR]'
             siteUrl = aEntry[0]
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
 			
-            oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle, '', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle, 'next.png', oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
@@ -190,27 +186,22 @@ def showSeries(sSearch = ''):
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
-            if "youtube" in aEntry[1]:
-                continue
-            if "google" in aEntry[1]:
+            if "youtube" in aEntry[1] or "google" in aEntry[1]:
                 continue
  
-            sTitle = aEntry[1]           
-            sTitle =  "PAGE " + sTitle
-            sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
+            sTitle =   f'[COLOR red]Page: {aEntry[1]}[/COLOR]'
             siteUrl = aEntry[0]
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
 			
-            oGui.addDir(SITE_IDENTIFIER, 'showSeries', sTitle, '', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showSeries', sTitle, 'next.png', oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
     if not sSearch:
         oGui.setEndOfDirectory()
 		
-
-def showEpisodes(oInputParameterHandler = False):
+def showEpisodes():
     oGui = cGui()
     
     oInputParameterHandler = cInputParameterHandler()
@@ -242,16 +233,15 @@ def showEpisodes(oInputParameterHandler = False):
         for aEntry in aResult[1]:
 
             url = aEntry[1]
-            sTitle = aEntry[0]
+            sTitle = f'{aEntry[0]} {sMovieTitle}'
             if url.startswith('//'):
-               url = 'http:' + url
+               url = f'http:{url}'
 
             sHosterUrl = url
             if "youtube" in sHosterUrl:
                 continue
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
-               sTitle = sTitle+sMovieTitle
                oHoster.setDisplayName(sTitle)
                oHoster.setFileName(sTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
@@ -262,25 +252,19 @@ def showEpisodes(oInputParameterHandler = False):
         for aEntry in aResult[1]:
             
             url = aEntry[1]
-            sTitle = "E"+aEntry[0].replace(" ","").replace("]","").replace("[","").replace(" = {};","").replace(" iframes","").replace("iframes","").replace("={};","")
+            sTitle = f'E{aEntry[0].replace(" ","").replace("]","").replace("[","").replace(" = {};","").replace(" iframes","").replace("iframes","").replace("={};","")}'
             if url.startswith('//'):
-               url = 'http:' + url
+               url = f'http:{url}'
             
             sHosterUrl = url
-            if "youtube" in sHosterUrl:
-                continue
-            if "google" in sHosterUrl:
-                continue
-            if "LINK0" in sHosterUrl:
+            if "youtube" in sHosterUrl or "google" in sHosterUrl or "LINK0" in sHosterUrl:
                 continue
             if 'userload' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-            if 'mystream' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+                sHosterUrl = f'{sHosterUrl}|Referer={URL_MAIN}'
 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
-               sTitle = sTitle+sMovieTitle
+               sTitle = f'{sTitle}{sMovieTitle}'
                oHoster.setDisplayName(sTitle)
                oHoster.setFileName(sTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
@@ -293,26 +277,20 @@ def showEpisodes(oInputParameterHandler = False):
             url = aEntry[0]
             sTitle = aEntry[1].replace("الحلقة "," E")
             if url.startswith('//'):
-               url = 'http:' + url
+               url = f'http:{url}'
             
             sHosterUrl = url
-            if "youtube" in sHosterUrl:
-                continue
-            if "google" in sHosterUrl:
-                continue
-            if "LINK0" in sHosterUrl:
+            if "youtube" in sHosterUrl or "google" in sHosterUrl or "LINK0" in sHosterUrl:
                 continue
             if 'userload' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-            if 'mystream' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+                sHosterUrl = f'{sHosterUrl}|Referer={URL_MAIN}'
 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
-               sTitle = sTitle+sMovieTitle
+               sTitle = f'{sTitle}{sMovieTitle}'
                oHoster.setDisplayName(sTitle)
                oHoster.setFileName(sTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
     sPattern = '<td><a href=["\']([^"\']+)["\']\s*target="iframe_a">(.+?)</a>'
     aResult = oParser.parse(sHtmlContent, sPattern)	
@@ -325,23 +303,17 @@ def showEpisodes(oInputParameterHandler = False):
                url = 'http:' + url
             
             sHosterUrl = url
-            if "youtube" in sHosterUrl:
-                continue
-            if "google" in sHosterUrl:
-                continue
-            if "LINK0" in sHosterUrl:
+            if "youtube" in sHosterUrl or "google" in sHosterUrl or "LINK0" in sHosterUrl:
                 continue
             if 'userload' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-            if 'mystream' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+                sHosterUrl = f'{sHosterUrl}|Referer={URL_MAIN}'
 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
-               sTitle = sTitle+sMovieTitle
+               sTitle = f'{sTitle}{sMovieTitle}'
                oHoster.setDisplayName(sTitle)
                oHoster.setFileName(sTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
     sPattern = '>الحلقة([^<]+)</span></span></h4><iframe allowfullscreen.+?src="(.+?)" width'
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -349,32 +321,25 @@ def showEpisodes(oInputParameterHandler = False):
         for aEntry in aResult[1]:
             
             url = aEntry[1]
-            sTitle = "E"+aEntry[0].replace(" ","").replace("]","").replace("[","").replace(" = {};","").replace(" iframes","").replace("iframes","").replace("={};","")
+            sTitle = f'E{aEntry[0].replace(" ","").replace("]","").replace("[","").replace(" = {};","").replace(" iframes","").replace("iframes","").replace("={};","")} {sMovieTitle}'
             if url.startswith('//'):
                url = 'http:' + url
             
             sHosterUrl = url
-            if "youtube" in sHosterUrl:
-                continue
-            if "google" in sHosterUrl:
-                continue
-            if "LINK0" in sHosterUrl:
+            if "youtube" in sHosterUrl or "google" in sHosterUrl or "LINK0" in sHosterUrl:
                 continue
             if 'userload' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-            if 'mystream' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+                sHosterUrl = f'{sHosterUrl}|Referer={URL_MAIN}'
 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
-               sTitle = sTitle+sMovieTitle
                oHoster.setDisplayName(sTitle)
                oHoster.setFileName(sTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
        
     oGui.setEndOfDirectory()
   
-def showHosters(oInputParameterHandler = False):
+def showHosters():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -399,25 +364,17 @@ def showHosters(oInputParameterHandler = False):
             if "youtube" in sHosterUrl:
                 sTitle = "-trailer"
              
-            if "blogger" in sHosterUrl:
-                continue
-            if ".jpg" in sHosterUrl:
-                continue
-            if ".jpeg" in sHosterUrl:
-                continue
-            if "google" in sHosterUrl:
+            if "blogger" in sHosterUrl or ".jpg" in sHosterUrl or ".jpeg" in sHosterUrl or "google" in sHosterUrl:
                 continue
             if 'userload' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-            if 'mystream' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+                sHosterUrl = f'{sHosterUrl}|Referer={URL_MAIN}'
                 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
-               sDisplayTitle = sMovieTitle+sTitle
+               sDisplayTitle = f'{sMovieTitle} {sTitle}'
                oHoster.setDisplayName(sDisplayTitle)
                oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
                
     sStart = '>روابط التحميل</span>'
     sEnd = '</div>'
@@ -437,24 +394,16 @@ def showHosters(oInputParameterHandler = False):
             if "youtube" in sHosterUrl:
                 sTitle = "-trailer"
              
-            if "blogger" in sHosterUrl:
-                continue
-            if ".jpg" in sHosterUrl:
-                continue
-            if ".jpeg" in sHosterUrl:
-                continue
-            if "google" in sHosterUrl:
+            if "blogger" in sHosterUrl or ".jpg" in sHosterUrl or ".jpeg" in sHosterUrl or "google" in sHosterUrl:
                 continue
             if 'userload' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-            if 'mystream' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+                sHosterUrl = f'{sHosterUrl}|Referer={URL_MAIN}'
                 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
-               sDisplayTitle = sMovieTitle+sTitle
+               sDisplayTitle = f'{sMovieTitle} {sTitle}'
                oHoster.setDisplayName(sDisplayTitle)
                oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
                 
     oGui.setEndOfDirectory()

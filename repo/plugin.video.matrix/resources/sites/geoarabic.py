@@ -16,7 +16,7 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-DOC_NEWS = (URL_MAIN + 'search/label/%D9%88%D8%AB%D8%A7%D8%A6%D9%82%D9%8A?max-results=300', 'showMovies')
+DOC_NEWS = (f'{URL_MAIN}search/label/%D9%88%D8%AB%D8%A7%D8%A6%D9%82%D9%8A?max-results=300', 'showMovies')
 DOC_GENRES = (True, 'showGenres')
  
 def load():
@@ -72,7 +72,6 @@ def showMovies(sSearch = ''):
                 break
  
             sTitle = aEntry[1]
-            
             sThumb = aEntry[2].replace('w50-h26', 'w400-h720')
             siteUrl = aEntry[0]
             sDesc = aEntry[3] 
@@ -102,7 +101,7 @@ def __checkForNextPage(sHtmlContent):
 
     return False
 
-def showHosters(oInputParameterHandler = False):
+def showHosters():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -151,6 +150,6 @@ def showHosters(oInputParameterHandler = False):
             if oHoster:
                oHoster.setDisplayName(sMovieTitle)
                oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 				               
     oGui.setEndOfDirectory()

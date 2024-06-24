@@ -16,8 +16,8 @@ SITE_NAME = 'Detectiveconanar'
 SITE_DESC = 'arabic vod'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
-ANIM_NEWS = (URL_MAIN + 'episodes/', 'showSeries')
-ANIM_MOVIES = (URL_MAIN + 'movies/', 'showMovies')
+ANIM_NEWS = (f'{URL_MAIN}episodes/', 'showSeries')
+ANIM_MOVIES = (f'{URL_MAIN}movies/', 'showMovies')
  
 def load():
     oGui = cGui()
@@ -56,7 +56,7 @@ def showMovies(sSearch = ''):
             siteUrl = aEntry[2]
             sThumb = aEntry[0]
 
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 
@@ -98,7 +98,7 @@ def showSeries(sSearch = ''):
             sDesc = ''
             sTitle = cUtil().CleanMovieName(aEntry[1])
 
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
@@ -130,7 +130,7 @@ def __checkForNextPage(sHtmlContent):
 
     return False
 
-def showHosters(oInputParameterHandler = False):
+def showHosters():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -150,19 +150,19 @@ def showHosters(oInputParameterHandler = False):
 
             sLink = aEntry[0]
             if sLink.startswith('//'):
-               sLink = 'http:' + sLink
+               sLink = f'http:{sLink}'
             
             try:
                 sQual = re.search(r"\(([^)]+)\)", aEntry[1]).group(1)
             except:
                 sQual = aEntry[1]
 
-            sDisplayTitle =  f'{sMovieTitle} [{sQual}]'
-            sHosterUrl = sLink + "|Referer=" + URL_MAIN
+            sDisplayTitle = f'{sMovieTitle} [{sQual}]'
+            sHosterUrl = f'{sLink}|Referer={URL_MAIN}'
             oHoster = cHosterGui().getHoster('jimmy') 
             if oHoster:
                oHoster.setDisplayName(sDisplayTitle)
                oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
                
     oGui.setEndOfDirectory()

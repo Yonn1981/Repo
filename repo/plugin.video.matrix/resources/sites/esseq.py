@@ -22,12 +22,12 @@ URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 if addon().getSetting('Use_alternative') == "true":
     URL_MAIN = siteManager().getUrlMain2(SITE_IDENTIFIER)
 
-SERIE_TR = (URL_MAIN + 'all-series/', 'showSeries')
-MOVIE_TURK = (URL_MAIN + 'category/الأفلام-التركية/', 'showMovies')
+SERIE_TR = (f'{URL_MAIN}all-series/', 'showSeries')
+MOVIE_TURK = (f'{URL_MAIN}category/الأفلام-التركية/', 'showMovies')
 
-URL_SEARCH = (URL_MAIN + 'search/', 'showSeries')
-URL_SEARCH_MOVIES = (URL_MAIN + 'search/', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + 'search/', 'showSeries')
+URL_SEARCH = (f'{URL_MAIN}search/', 'showSeries')
+URL_SEARCH_MOVIES = (f'{URL_MAIN}search/', 'showMovies')
+URL_SEARCH_SERIES = (f'{URL_MAIN}search/', 'showSeries')
 FUNCTION_SEARCH = 'showSeries'
  
 def load():
@@ -47,7 +47,7 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', SERIE_TR[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات تركية', 'turk.png', oOutputParameterHandler)
 
-    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'episodes/')
+    oOutputParameterHandler.addParameter('siteUrl', f'{URL_MAIN}episodes/')
     oGui.addDir(SITE_IDENTIFIER, 'showSeries2', 'احدث الحلقات', 'turk.png', oOutputParameterHandler)
 
     oGui.setEndOfDirectory()
@@ -57,7 +57,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + 'search/'+sSearchText
+        sUrl = f'{URL_MAIN}search/{sSearchText}'
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -67,7 +67,7 @@ def showSeriesSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + 'search/'+sSearchText
+        sUrl = f'{URL_MAIN}search/{sSearchText}'
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -111,7 +111,7 @@ def showMovies(sSearch = ''):
             sYear = ''
             sDesc = ''
 
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sYear', sYear)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
@@ -158,12 +158,12 @@ def showSeries(sSearch = ''):
  
             sTitle = cUtil().CleanMovieName(aEntry[2])
             if 'الموسم' not in aEntry[2]:
-                sTitle = sTitle + ' S1'
+                sTitle = f'{sTitle} S1'
             siteUrl = aEntry[0]
             sThumb = aEntry[1]
             sDesc = ""
 
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
@@ -214,7 +214,6 @@ def showSeries2():
             if "فيلم" in aEntry[2]:
                 continue
  
- 
             sTitle = (cUtil().CleanMovieName(aEntry[2])).replace('الحلقة ','E').replace('حلقة ','E')
             sTitle = cUtil().ConvertSeasons(sTitle)
             siteUrl = aEntry[0]
@@ -224,7 +223,7 @@ def showSeries2():
             sThumb = aEntry[1]
             sDesc = ""
 
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
@@ -270,7 +269,7 @@ def showEps():
             m = re.search('([0-9]{1})', SerieTitle)
             if m:
                sS = str(m.group(0))
-               sTitle = 'S'+sS+' E'+aEntry[1]+' '+SerieTitle.replace(sS,'')
+               sTitle = f'S{sS} E{aEntry[1]} {SerieTitle.replace(sS,"")}'
             else:
                 sTitle = sMovieTitle+' E'+aEntry[1]
             siteUrl = aEntry[0] 
@@ -293,7 +292,7 @@ def showEps():
 
     oGui.setEndOfDirectory() 
 
-def showHosters(oInputParameterHandler = False):
+def showHosters():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -330,58 +329,55 @@ def showHosters(oInputParameterHandler = False):
             host  = aEntry[0].replace('facebook','face')
 
             if 'ok' in host:
-               url =  'https://ok.ru/videoembed/'+ url
+               url =  f'https://ok.ru/videoembed/{url}'
             if 'face' in host:
-               url =  'https://app.videas.fr/embed/media/'+ url
+               url =  f'https://app.videas.fr/embed/media/{url}'
             if 'tune' in host:
-               url =  'https://tune.pk/js/open/embed.js?vid='+url+'&userid=827492&_=1601112672793'
+               url =  f'https://tune.pk/js/open/embed.js?vid={url}&userid=827492&_=1601112672793'
             if 'estream' in host:
-               url =  'https://arabveturk.sbs/embed-'+url+'.html'
+               url =  f'https://arabveturk.sbs/embed-{url}.html'
             if 'now' in host:
-               url =  'https://extreamnow.org/embed-'+url+'.html'
+               url =  f'https://extreamnow.org/embed-{url}.html'
             if 'box' in host:
-               url =  'https://youdbox.site/embed-'+url+'.html'
+               url =  f'https://youdbox.site/embed-{url}.html'
             if 'Pro HD' in host:
-               url =  'https://segavid.com/embed-'+url+'.html'
+               url =  f'https://segavid.com/embed-{url}.html'
             if 'Red HD' in host:
-               url =  'https://embedwish.com/e/'+ url
+               url =  f'https://embedwish.com/e/{url}'
             if 'online' in host:
-               url =  'https://player.vimeo.com/video/'+url+'?title=0&byline=0'
+               url =  f'https://player.vimeo.com/video/{url}?title=0&byline=0'
             if 'youtube' in host:
-               url =  'https://www.youtube.com/watch?v='+url
+               url =  f'https://www.youtube.com/watch?v={url}'
             if url.startswith('//'):
-               url = 'http:' + url
+               url = f'http:{url}'
             
             sHosterUrl = url
             if 'userload' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                sHosterUrl = f'{sHosterUrl}|Referer={URL_MAIN}'
             if 'extreamnow' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + m3url
-            if 'mystream' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN    
+                sHosterUrl = f'{sHosterUrl}|Referer={m3url}'
 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
                oHoster.setDisplayName(sMovieTitle)
                oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 	
     if aResult2:
         for aEntry in aResult2:
             
             url = aEntry
             if url.startswith('//'):
-               url = 'http:' + url
+               url = f'http:{url}'
 				            
             sHosterUrl = url
             if 'userload' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-            if 'mystream' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN    
+                sHosterUrl = f'{sHosterUrl}|Referer={URL_MAIN}'
+   
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
                oHoster.setDisplayName(sMovieTitle)
                oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
               
     oGui.setEndOfDirectory()

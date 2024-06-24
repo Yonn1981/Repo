@@ -21,12 +21,12 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-ANIM_MOVIES = (URL_MAIN + 'anime-type/movie/', 'showMovies')
-ANIM_NEWS = (URL_MAIN + 'episode/' , 'showSeries')
+ANIM_MOVIES = (f'{URL_MAIN}anime-type/movie/', 'showMovies')
+ANIM_NEWS = (f'{URL_MAIN}episode/' , 'showSeries')
 ANIM_LIST = (True, 'showAnimesList')
 
-URL_SEARCH = (URL_MAIN + '?search_param=animes&s=', 'showMovies')
-URL_SEARCH_ANIMS = (URL_MAIN + '?search_param=animes&s=', 'showSeries')
+URL_SEARCH = (f'{URL_MAIN}?search_param=animes&s=', 'showMovies')
+URL_SEARCH_ANIMS = (f'{URL_MAIN}?search_param=animes&s=', 'showSeries')
 
 FUNCTION_SEARCH = 'showMovies'
  
@@ -44,10 +44,10 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', ANIM_MOVIES[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام انمي', 'anime.png', oOutputParameterHandler)
 
-    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/anime-status/%d9%8a%d8%b9%d8%b1%d8%b6-%d8%a7%d9%84%d8%a7%d9%86/')
+    oOutputParameterHandler.addParameter('siteUrl', f'{URL_MAIN}/anime-status/%d9%8a%d8%b9%d8%b1%d8%b6-%d8%a7%d9%84%d8%a7%d9%86/')
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'يعرض الان', 'anime.png', oOutputParameterHandler) 
 
-    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/anime-season/%D8%B4%D8%AA%D8%A7%D8%A1-2023/')
+    oOutputParameterHandler.addParameter('siteUrl', f'{URL_MAIN}/anime-season/%D8%B4%D8%AA%D8%A7%D8%A1-2023/')
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أنميات الموسم', 'anime.png', oOutputParameterHandler) 
 
     oOutputParameterHandler.addParameter('siteUrl', ANIM_LIST[0])
@@ -59,53 +59,53 @@ def showAnimesList():
     oGui = cGui()
 
     liste = []
-    liste.append( ['#', URL_MAIN + '/en-anime-letter/228'] )
-    liste.append( ['أ', URL_MAIN + '/ar-anime-letter/أ'] )
-    liste.append( ['ب', URL_MAIN + '/ar-anime-letter/ب'] )
-    liste.append( ['ت', URL_MAIN + '/ar-anime-letter/ت'] )
-    liste.append( ['ث', URL_MAIN + '/ar-anime-letter/ث'] )
-    liste.append( ['ج', URL_MAIN + '/ar-anime-letter/ج'] )
-    liste.append( ['د', URL_MAIN + '/ar-anime-letter/د'] )
-    liste.append( ['ر', URL_MAIN + '/ar-anime-letter/ر'] )
-    liste.append( ['ز', URL_MAIN + '/ar-anime-letter/ز'] )
-    liste.append( ['س', URL_MAIN + '/ar-anime-letter/س'] )
-    liste.append( ['ش', URL_MAIN + '/ar-anime-letter/ش'] )
-    liste.append( ['ط', URL_MAIN + '/ar-anime-letter/ط'] )
-    liste.append( ['غ', URL_MAIN + '/ar-anime-letter/غ'] )
-    liste.append( ['ف', URL_MAIN + '/ar-anime-letter/ف'] )
-    liste.append( ['ك', URL_MAIN + '/ar-anime-letter/ك'] )
-    liste.append( ['ل', URL_MAIN + '/ar-anime-letter/ل'] )
-    liste.append( ['م', URL_MAIN + '/ar-anime-letter/م'] )
-    liste.append( ['ن', URL_MAIN + '/ar-anime-letter/ن'] )
-    liste.append( ['هـ', URL_MAIN + '/ar-anime-letter/ه'] )
-    liste.append( ['و', URL_MAIN + '/ar-anime-letter/و'] )
-    liste.append( ['ي', URL_MAIN + '/ar-anime-letter/ي'] )
-    liste.append( ['A', URL_MAIN + '/en-anime-letter/A'] )
-    liste.append( ['B', URL_MAIN + '/en-anime-letter/B'] )
-    liste.append( ['C', URL_MAIN + '/en-anime-letter/C'] )
-    liste.append( ['D', URL_MAIN + '/en-anime-letter/D'] )
-    liste.append( ['E', URL_MAIN + '/en-anime-letter/E'] )
-    liste.append( ['F', URL_MAIN + '/en-anime-letter/F'] )
-    liste.append( ['G', URL_MAIN + '/en-anime-letter/G'] )
-    liste.append( ['H', URL_MAIN + '/en-anime-letter/H'] )
-    liste.append( ['I', URL_MAIN + '/en-anime-letter/I'] )
-    liste.append( ['J', URL_MAIN + '/en-anime-letter/J'] )
-    liste.append( ['K', URL_MAIN + '/en-anime-letter/K'] )
-    liste.append( ['L', URL_MAIN + '/en-anime-letter/L'] )
-    liste.append( ['M', URL_MAIN + '/en-anime-letter/M'] )
-    liste.append( ['N', URL_MAIN + '/en-anime-letter/N'] )
-    liste.append( ['O', URL_MAIN + '/en-anime-letter/O'] )
-    liste.append( ['P', URL_MAIN + '/en-anime-letter/P'] )
-    liste.append( ['Q', URL_MAIN + '/en-anime-letter/Q'] )
-    liste.append( ['R', URL_MAIN + '/en-anime-letter/R'] )
-    liste.append( ['S', URL_MAIN + '/en-anime-letter/S'] )
-    liste.append( ['T', URL_MAIN + '/en-anime-letter/T'] )
-    liste.append( ['U', URL_MAIN + '/en-anime-letter/U'] )
-    liste.append( ['V', URL_MAIN + '/en-anime-letter/V'] )
-    liste.append( ['W', URL_MAIN + '/en-anime-letter/W'] )
-    liste.append( ['X', URL_MAIN + '/en-anime-letter/X'] )
-    liste.append( ['Y', URL_MAIN + '/en-anime-letter/Y'] )
-    liste.append( ['Z', URL_MAIN + '/en-anime-letter/Z'] )
+    liste.append( ['#', f'{URL_MAIN}/en-anime-letter/228'] )
+    liste.append( ['أ', f'{URL_MAIN}/ar-anime-letter/أ'] )
+    liste.append( ['ب', f'{URL_MAIN}/ar-anime-letter/ب'] )
+    liste.append( ['ت', f'{URL_MAIN}/ar-anime-letter/ت'] )
+    liste.append( ['ث', f'{URL_MAIN}/ar-anime-letter/ث'] )
+    liste.append( ['ج', f'{URL_MAIN}/ar-anime-letter/ج'] )
+    liste.append( ['د', f'{URL_MAIN}/ar-anime-letter/د'] )
+    liste.append( ['ر', f'{URL_MAIN}/ar-anime-letter/ر'] )
+    liste.append( ['ز', f'{URL_MAIN}/ar-anime-letter/ز'] )
+    liste.append( ['س', f'{URL_MAIN}/ar-anime-letter/س'] )
+    liste.append( ['ش', f'{URL_MAIN}/ar-anime-letter/ش'] )
+    liste.append( ['ط', f'{URL_MAIN}/ar-anime-letter/ط'] )
+    liste.append( ['غ', f'{URL_MAIN}/ar-anime-letter/غ'] )
+    liste.append( ['ف', f'{URL_MAIN}/ar-anime-letter/ف'] )
+    liste.append( ['ك', f'{URL_MAIN}/ar-anime-letter/ك'] )
+    liste.append( ['ل', f'{URL_MAIN}/ar-anime-letter/ل'] )
+    liste.append( ['م', f'{URL_MAIN}/ar-anime-letter/م'] )
+    liste.append( ['ن', f'{URL_MAIN}/ar-anime-letter/ن'] )
+    liste.append( ['هـ', f'{URL_MAIN}/ar-anime-letter/ه'] )
+    liste.append( ['و', f'{URL_MAIN}/ar-anime-letter/و'] )
+    liste.append( ['ي', f'{URL_MAIN}/ar-anime-letter/ي'] )
+    liste.append( ['A', f'{URL_MAIN}/en-anime-letter/A'] )
+    liste.append( ['B', f'{URL_MAIN}/en-anime-letter/B'] )
+    liste.append( ['C', f'{URL_MAIN}/en-anime-letter/C'] )
+    liste.append( ['D', f'{URL_MAIN}/en-anime-letter/D'] )
+    liste.append( ['E', f'{URL_MAIN}/en-anime-letter/E'] )
+    liste.append( ['F', f'{URL_MAIN}/en-anime-letter/F'] )
+    liste.append( ['G', f'{URL_MAIN}/en-anime-letter/G'] )
+    liste.append( ['H', f'{URL_MAIN}/en-anime-letter/H'] )
+    liste.append( ['I', f'{URL_MAIN}/en-anime-letter/I'] )
+    liste.append( ['J', f'{URL_MAIN}/en-anime-letter/J'] )
+    liste.append( ['K', f'{URL_MAIN}/en-anime-letter/K'] )
+    liste.append( ['L', f'{URL_MAIN}/en-anime-letter/L'] )
+    liste.append( ['M', f'{URL_MAIN}/en-anime-letter/M'] )
+    liste.append( ['N', f'{URL_MAIN}/en-anime-letter/N'] )
+    liste.append( ['O', f'{URL_MAIN}/en-anime-letter/O'] )
+    liste.append( ['P', f'{URL_MAIN}/en-anime-letter/P'] )
+    liste.append( ['Q', f'{URL_MAIN}/en-anime-letter/Q'] )
+    liste.append( ['R', f'{URL_MAIN}/en-anime-letter/R'] )
+    liste.append( ['S', f'{URL_MAIN}/en-anime-letter/S'] )
+    liste.append( ['T', f'{URL_MAIN}/en-anime-letter/T'] )
+    liste.append( ['U', f'{URL_MAIN}/en-anime-letter/U'] )
+    liste.append( ['V', f'{URL_MAIN}/en-anime-letter/V'] )
+    liste.append( ['W', f'{URL_MAIN}/en-anime-letter/W'] )
+    liste.append( ['X', f'{URL_MAIN}/en-anime-letter/X'] )
+    liste.append( ['Y', f'{URL_MAIN}/en-anime-letter/Y'] )
+    liste.append( ['Z', f'{URL_MAIN}/en-anime-letter/Z'] )
 
     for sTitle, sUrl in liste:
 
@@ -120,7 +120,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '?search_param=animes&s='+sSearchText
+        sUrl = f'{URL_MAIN}?search_param=animes&s={sSearchText}'
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -154,7 +154,7 @@ def showMovies(sSearch = ''):
             sDesc = aEntry[2]
             sYear = ''
 
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oOutputParameterHandler.addParameter('sYear', sYear)
@@ -203,7 +203,7 @@ def showSeries(sSearch = ''):
             sTitle = sTitle.split('الحلقة')[0].split('الموسم')[0]
             sTitle = sTitle.replace("Season ","S")
 
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oOutputParameterHandler.addParameter('sYear', sYear)
@@ -245,8 +245,7 @@ def ShowEps():
         for aEntry in aResult[1]:
  
             sEp = aEntry[1].replace("الحلقة ","").replace("الفلم ","").replace("الخاصة ","")
-            sTitle = " E"+sEp
-            sTitle = sMovieTitle+sTitle
+            sTitle = f'{sMovieTitle} E{sEp}'
             EnCodedUrl = aEntry[0].replace("openEpisode('","").replace("')","")
             siteUrl = base64.b64decode(EnCodedUrl).decode('utf8',errors='ignore')
             sDesc = ''
@@ -273,7 +272,7 @@ def __checkForNextPage(sHtmlContent):
 
     return False
 
-def showHosters(oInputParameterHandler = False):
+def showHosters():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -318,21 +317,21 @@ def showHosters(oInputParameterHandler = False):
 
                             sHosterUrl = url
                             if 'soraplay' in sHosterUrl:
-                                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                                sHosterUrl = f'{sHosterUrl}|Referer={URL_MAIN}'
                             oHoster = cHosterGui().checkHoster(sHosterUrl)
                             if oHoster:
-                                sDisplayTitle = ('%s) [COLOR coral] Yonaplay (%s)[/COLOR]') % (sMovieTitle, sQual)
+                                sDisplayTitle = f'{sMovieTitle} [COLOR coral] Yonaplay ({sQual})[/COLOR]'
                                 oHoster.setDisplayName(sDisplayTitle)
                                 oHoster.setFileName(sMovieTitle)
-                                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)                 
+                                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)                 
 
             sHosterUrl = url
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
-               sDisplayTitle = ('%s [COLOR coral](%s)[/COLOR]') % (sMovieTitle, sTitle)
+               sDisplayTitle = f'{sMovieTitle} [COLOR coral]({sTitle})[/COLOR]'
                oHoster.setDisplayName(sDisplayTitle)
                oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
     sStart = '<div class="content episode-download-container">'
     sEnd = '<div class="content">'
@@ -346,22 +345,19 @@ def showHosters(oInputParameterHandler = False):
             sHtmlContent1 = aEntry[1]
 
             sPattern = 'data-url="([^"]+)'
-
-            oParser = cParser()
             aResult = oParser.parse(sHtmlContent1, sPattern)
-		
             if aResult[0] :
                 for aEntry in aResult[1]:            
                     url = base64.b64decode(aEntry).decode('utf8',errors='ignore')
-                    sTitle = " "
                     if url.startswith('//'):
-                        url = 'http:' + url		         
+                        url = 'http:' + url	
+
                     sHosterUrl = url
                     oHoster = cHosterGui().checkHoster(sHosterUrl)
                     if oHoster:
-                        sDisplayTitle = ('%s [COLOR coral](%s)[/COLOR]') % (sMovieTitle, sQual)
+                        sDisplayTitle = f'{sMovieTitle} [COLOR coral]({sQual})[/COLOR]'
                         oHoster.setDisplayName(sDisplayTitle)
                         oHoster.setFileName(sMovieTitle)
-                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)	
+                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)	
 	       
     oGui.setEndOfDirectory()

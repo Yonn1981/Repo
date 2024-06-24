@@ -8,7 +8,7 @@ import xbmcplugin
 import sys
 
 from resources.lib.tmdb import cTMDb
-from resources.lib.comaddon import listitem, addon, dialog, window, isKrypton, isNexus, progress, VSlog
+from resources.lib.comaddon import listitem, addon, dialog, window, isNexus, progress, VSlog
 from resources.lib.gui.contextElement import cContextElement
 from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -32,18 +32,11 @@ class cGui:
     thread_listing = []
     episodeListing = []  # Pour gérer l'enchainement des episodes
     ADDON = addon()
-    
     displaySeason = addon().getSetting('display_season_title')
-    
+
     # Gérer les résultats de la recherche
     searchResults = {}
     searchResultsSemaphore = threading.Semaphore()
-
-    def emptySearchResult(self, siteName):
-        cGui.searchResultsSemaphore.acquire()
-
-        cGui.searchResults[siteName] = []  # vider le tableau de résultats
-        cGui.searchResultsSemaphore.release()
 
     def getEpisodeListing(self):
         return self.episodeListing
@@ -67,7 +60,6 @@ class cGui:
 
         oGuiElement.setDescription(sDesc)
 
-
         # Pour addLink on recupere le sCat et sMeta precedent.
         oInputParameterHandler = None
         if Type == 'link':
@@ -88,19 +80,20 @@ class cGui:
         # a faire après avoir déterminé la cat et le meta
         oGuiElement.setTitle(sLabel)
 
+
         # Si pas d'id TMDB pour un episode, on recupère le précédent qui vient de la série
         if sCat and not oOutputParameterHandler.getValue('sTmdbId'):
             if not sMeta:
                 if not oInputParameterHandler:
                     oInputParameterHandler = cInputParameterHandler()
                 sMeta = int(oInputParameterHandler.getValue('sMeta'))
-
             if 0 < sMeta < 7:
                 if not oInputParameterHandler:
                     oInputParameterHandler = cInputParameterHandler()
                 sTmdbID = oInputParameterHandler.getValue('sTmdbId')
                 if sTmdbID:
                     oOutputParameterHandler.addParameter('sTmdbId', sTmdbID)
+
         oOutputParameterHandler.addParameter('sFav', sFunction)
 
         resumeTime = oOutputParameterHandler.getValue('ResumeTime')
@@ -169,6 +162,7 @@ class cGui:
             oOutputParameterHandler.addParameter('nextSaisonFunc', sFunction)
 
         return self.addNewDir('tvshows', sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler, 2, 9)
+
     def addMisc(self, sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler=''):
         if sThumbnail or sDesc:
             cat = 'videos'
@@ -185,10 +179,9 @@ class cGui:
     def addDir(self, sId, sFunction, sLabel, sIcon, oOutputParameterHandler='', sDesc=""):
         return self.addNewDir('dir', sId, sFunction, sLabel, sIcon, '', sDesc, oOutputParameterHandler, 0, None)
 
-    def addLink(self, sId, sFunction, sLabel, sThumbnail, sDesc, oOutputParameterHandler='', oInputParameterHandler = False):
+    def addLink(self, sId, sFunction, sLabel, sThumbnail, sDesc, oOutputParameterHandler=''):
         # Pour gérer l'enchainement des épisodes
-        if not oInputParameterHandler:
-            oInputParameterHandler = cInputParameterHandler()
+        oInputParameterHandler = cInputParameterHandler()
         oOutputParameterHandler.addParameter('saisonUrl', oInputParameterHandler.getValue('saisonUrl'))
         oOutputParameterHandler.addParameter('nextSaisonFunc', oInputParameterHandler.getValue('nextSaisonFunc'))
         oOutputParameterHandler.addParameter('movieUrl', oInputParameterHandler.getValue('movieUrl'))
@@ -287,6 +280,7 @@ class cGui:
                   'sTmdbId': oGuiElement.setTmdbId,
                   'sYear': oGuiElement.setYear,
                   'sRes': oGuiElement.setRes}
+
         try:  # Py2
             for sParam, callback in params.iteritems():
                 value = oOutputParameterHandler.getValue(sParam)
@@ -313,6 +307,7 @@ class cGui:
                 oListItem.addStreamInfo('video', {'width': 1280, 'height': 720})
             elif '480' in sRes:
                 oListItem.addStreamInfo('video', {'width': 720, 'height': 576})
+
         sCat = oGuiElement.getCat()
         if sCat:
             cGui.sCat = sCat
@@ -355,11 +350,14 @@ class cGui:
         return oListItem
 
     def createListItem(self, oGuiElement):
+
         # Récupération des metadonnées par thread
         if oGuiElement.getMeta() and oGuiElement.getMetaAddon() == 'true':
             return self.createListItemThread(oGuiElement)
+
         # pas de meta, appel direct
         return self._createListItem(oGuiElement)
+
     # Utilisation d'un Thread pour un chargement des metas en parallèle
     def createListItemThread(self, oGuiElement):
         itemTitle = oGuiElement.getTitle()
@@ -370,12 +368,14 @@ class cGui:
         return oListItem
 
     def _createListItem(self, oGuiElement, oListItem=None):
+
         # Enleve les elements vides
         data = {key: val for key, val in oGuiElement.getItemValues().items() if val != ""}
 
         itemTitle = oGuiElement.getTitle()
 
         sMediaUrl = oGuiElement.getMediaUrl()
+
         # Formatage nom episode
         sCat = oGuiElement.getCat()
         if sCat and int(sCat) == 8:  # Nom de l'épisode
@@ -399,16 +399,16 @@ class cGui:
             except:
                 data['title'] = itemTitle
                 pass
-
+            
             # release du lien
             if sMediaUrl:
                 data['plot'] = sMediaUrl
         else:
             # Permet d'afficher toutes les informations pour les films.
             data['title'] = itemTitle
-
             if sMediaUrl:   # release du lien
                 data['tagline'] = sMediaUrl
+            
         if ":" in str(data.get('duration')):
             # Convertion en seconde, utile pour le lien final.
             data['duration'] = (sum(x * int(t) for x, t in zip([1, 60, 3600], reversed(data.get('duration', '').split(":")))))
@@ -570,6 +570,7 @@ class cGui:
         oOutputParameterHandler.addParameter('sFileName', sFileName)
 
         self.createSimpleMenu(oGuiElement, oOutputParameterHandler, 'cGui', oGuiElement.getSiteName(), 'viewSimil', self.ADDON.VSlang(30213))
+
     #MenuParents 
     def createContexMenuParents(self, oGuiElement, oOutputParameterHandler=''):
         oOutputParameterHandler = cOutputParameterHandler()
@@ -615,8 +616,10 @@ class cGui:
                 sTest = '%s?site=%s&function=%s&%s' % (sPluginPath, oContextItem.getFile(), oContextItem.getFunction(), sParams)
                 titleMenu = '[COLOR %s]%s[/COLOR]' % (sDecoColor, oContextItem.getTitle())
                 aContextMenus += [(titleMenu, 'RunPlugin(%s)' % sTest)]
+
             oListItem.addContextMenuItems(aContextMenus)
         oListItem.setProperty('nbcontextmenu', str(nbContextMenu))
+
         return oListItem
 
     def __createItemUrl(self, oGuiElement, oOutputParameterHandler=''):
@@ -642,9 +645,6 @@ class cGui:
         return sItemUrl
 
     def setEndOfDirectory(self, forceViewMode=False):
-        # On n'affiche pas si on fait une recherche
-        if window(10101).getProperty('playVideo') == 'true':
-            return
         iHandler = cPluginHandler().getPluginHandle()
 
         if not self.listing:
@@ -659,8 +659,8 @@ class cGui:
                 thread.join(100)
             progress_.VSclose(progress_)
 
-
         del self.thread_listing[:]
+
         xbmcplugin.addDirectoryItems(iHandler, self.listing, len(self.listing))
         xbmcplugin.setPluginCategory(iHandler, '')
         xbmcplugin.setContent(iHandler, cGui.CONTENT)
@@ -734,6 +734,7 @@ class cGui:
         else:
             # On appel la fonction integrée a Kodi pour charger les infos.
             xbmc.executebuiltin('Action(Info)')
+
 		
     def viewParents(self):
         oInputParameterHandler = cInputParameterHandler()
@@ -878,7 +879,7 @@ class cGui:
         Stextf = f'{Stext}\n{Stext0}\nSex & Nudity الجنس والعري: {SNude}\nViolence & Gore العنف والدموية: {SGore}\nProfanity الشتم: {SProfanity}\nAlcohol, Drugs & Smoking الكحول والمخدرات والتدخين: {SSmoking}\nFrightening & Intense Scene المشاهد المخيفة: {SIntense}'
 
         ret = DIALOG.VSok(Stextf)
-						
+
     def viewSimil(self):
         sPluginPath = cPluginHandler().getPluginPath()
 
@@ -887,9 +888,8 @@ class cGui:
             sCleanTitle = oInputParameterHandler.getValue('sFileName') 
         else:
             sCleanTitle = oInputParameterHandler.getValue('sTitle') if oInputParameterHandler.exist('sTitle') else xbmc.getInfoLabel('ListItem.Title')
-
             # sCleanTitle = cUtil().titleWatched(sCleanTitle)
-  
+            
         sCat = oInputParameterHandler.getValue('sCat') if oInputParameterHandler.exist('sCat') else xbmc.getInfoLabel('ListItem.Property(sCat)')
 
         oOutputParameterHandler = cOutputParameterHandler()
@@ -900,13 +900,14 @@ class cGui:
         sTest = '?site=%s&function=%s&%s' % ('globalSearch', 'globalSearch', sParams)
         sys.argv[2] = sTest
         sTest = sPluginPath + sTest
- 
+
         # Si lancé depuis la page Home de Kodi, il faut d'abord en sortir pour lancer la recherche
         if xbmc.getCondVisibility('Window.IsVisible(home)'):
             xbmc.executebuiltin('ActivateWindow(%d)' % 10025)
 
         xbmc.executebuiltin('Container.Update(%s)' % sTest)
         return True
+
     def selectPage(self):
         from resources.lib.parser import cParser
         sPluginPath = cPluginHandler().getPluginPath()
@@ -959,10 +960,9 @@ class cGui:
         sTest = '%s?site=%s&function=%s&%s' % (sPluginPath, sId, sFunction, sParams)
         xbmc.executebuiltin('Container.Update(%s, replace)' % sTest)
 
-
     def setWatched(self):
         if True:
-            # Use matrix database
+            # Use Matrix database
             oInputParameterHandler = cInputParameterHandler()
             sSite = oInputParameterHandler.getValue('sId')
             sSiteUrl = oInputParameterHandler.getValue('siteUrl')
@@ -984,7 +984,6 @@ class cGui:
             meta['site'] = sSite
             meta['siteurl'] = sSiteUrl
             meta['cat'] = sCat
-
             meta['fav'] = sFav
             meta['season'] = sSeason
             meta['seasonUrl'] = sSeasonUrl
@@ -1064,4 +1063,3 @@ class cGui:
         cGui.searchResultsSemaphore.acquire()
         cGui.searchResults = {}
         cGui.searchResultsSemaphore.release()
-    

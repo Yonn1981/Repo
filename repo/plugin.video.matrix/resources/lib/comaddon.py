@@ -425,6 +425,13 @@ def isNexus():
     except:
         return False
 
+def KodiVersion():
+    try:
+        version = xbmc.getInfoLabel('system.buildversion')
+        return int(version[0:2])
+
+    except:
+        return False
 
 # Transforme les "special" en chemin normal.
 def VSPath(pathSpecial):

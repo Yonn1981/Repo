@@ -20,30 +20,30 @@ SITE_DESC = 'arabic vod'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-MOVIE_EN = (URL_MAIN + 'category/movies/english-movies/', 'showMovies')
-MOVIE_4k = (URL_MAIN + 'Quality/4k/', 'showMovies')
-MOVIE_HI = (URL_MAIN + 'category/movies/indian-movies/', 'showMovies')
-MOVIE_ASIAN = (URL_MAIN + 'category/movies/asian-movies/', 'showMovies')
-KID_MOVIES = (URL_MAIN + 'category/anime-cartoon/cartoon/', 'showMovies')
+MOVIE_EN = (f'{URL_MAIN}category/movies/english-movies/', 'showMovies')
+MOVIE_4k = (f'{URL_MAIN}Quality/4k/', 'showMovies')
+MOVIE_HI = (f'{URL_MAIN}category/movies/indian-movies/', 'showMovies')
+MOVIE_ASIAN = (f'{URL_MAIN}category/movies/asian-movies/', 'showMovies')
+KID_MOVIES = (f'{URL_MAIN}category/anime-cartoon/cartoon/', 'showMovies')
 MOVIE_GENRES = (True, 'moviesGenres')
 
-SERIE_TR = (URL_MAIN + 'category/series/turkish-series-translated-20221/', 'showSeries')
-SERIE_TR_AR = (URL_MAIN + 'category/turkish-series-dubbed/', 'showSeries')
-SERIE_EN = (URL_MAIN + 'category/series/english-series/', 'showSeries')
-SERIE_KR = (URL_MAIN + 'category/series/korean-series/', 'showSeries')
-SERIE_ASIA = (URL_MAIN + 'category/series/asian-series/', 'showSeries')
-SERIE_HEND = (URL_MAIN + 'category/series/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%87%d9%86%d8%af%d9%8a%d8%a9/', 'showSeries')
-SERIE_LATIN = (URL_MAIN + 'category/series/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%85%d9%83%d8%b3%d9%8a%d9%83%d9%8a/', 'showSeries')
+SERIE_TR = (f'{URL_MAIN}category/series/turkish-series-translated-20221/', 'showSeries')
+SERIE_TR_AR = (f'{URL_MAIN}category/turkish-series-dubbed/', 'showSeries')
+SERIE_EN = (f'{URL_MAIN}category/series/english-series/', 'showSeries')
+SERIE_KR = (f'{URL_MAIN}category/series/korean-series/', 'showSeries')
+SERIE_ASIA = (f'{URL_MAIN}category/series/asian-series/', 'showSeries')
+SERIE_HEND = (f'{URL_MAIN}category/series/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%87%d9%86%d8%af%d9%8a%d8%a9/', 'showSeries')
+SERIE_LATIN = (f'{URL_MAIN}category/series/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%85%d9%83%d8%b3%d9%8a%d9%83%d9%8a/', 'showSeries')
 
-ANIM_NEWS = (URL_MAIN + 'category/series/anime/', 'showSeries')
-REPLAYTV_NEWS = (URL_MAIN + 'category/برامج-اجنبي/', 'showSeries')
+ANIM_NEWS = (f'{URL_MAIN}category/series/anime/', 'showSeries')
+REPLAYTV_NEWS = (f'{URL_MAIN}category/برامج-اجنبي/', 'showSeries')
 
-SPORT_FOOT = (URL_MAIN + 'category/other-shows/sport/', 'showMovies')
-SPORT_WWE = (URL_MAIN + 'category/other-shows/wrestling/', 'showMovies')
+SPORT_FOOT = (f'{URL_MAIN}category/other-shows/sport/', 'showMovies')
+SPORT_WWE = (f'{URL_MAIN}category/other-shows/wrestling/', 'showMovies')
 
-URL_SEARCH = (URL_MAIN + 'search/', 'showMovies')
-URL_SEARCH_MOVIES = (URL_MAIN + 'search/', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + 'search/', 'showSeries')
+URL_SEARCH = (f'{URL_MAIN}search/', 'showMovies')
+URL_SEARCH_MOVIES = (f'{URL_MAIN}search/', 'showMovies')
+URL_SEARCH_SERIES = (f'{URL_MAIN}search/', 'showSeries')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -115,7 +115,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + 'search/'+sSearchText
+        sUrl = f'{URL_MAIN}search/{sSearchText}'
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return 
@@ -125,7 +125,7 @@ def showSearchSeries():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + 'search/'+sSearchText
+        sUrl = f'{URL_MAIN}search/{sSearchText}'
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -134,30 +134,30 @@ def moviesGenres():
     oGui = cGui()
 
     liste = []
-    liste.append(['اكشن', URL_MAIN + 'genre/اكشن/'])
-    liste.append(['انيميشن', URL_MAIN + 'genre/animation/'])
-    liste.append(['مغامرات', URL_MAIN + 'genre/مغامرة/'])
-    liste.append(['غموض', URL_MAIN + 'genre/mystery/'])
-    liste.append(['تاريخي', URL_MAIN + 'genre/history/'])
-    liste.append(['كوميديا', URL_MAIN + 'genre/كوميديا/'])
-    liste.append(['موسيقى', URL_MAIN + 'genre/musical/'])
-    liste.append(['رياضي', URL_MAIN + 'genre/رياضة/'])
-    liste.append(['دراما', URL_MAIN + 'genre/drama/'])
-    liste.append(['رعب', URL_MAIN + 'genre/horror/'])
-    liste.append(['عائلى', URL_MAIN + 'genre/family/'])
-    liste.append(['فانتازيا', URL_MAIN + 'genre/fantasy/'])
-    liste.append(['حروب', URL_MAIN + 'genre/war/'])
-    liste.append(['الجريمة', URL_MAIN + 'genre/crime/'])
-    liste.append(['رومانسى', URL_MAIN + 'genre/romance/'])
-    liste.append(['خيال علمى', URL_MAIN + 'genre/sci-fi/'])
-    liste.append(['اثارة', URL_MAIN + 'genre/اثارة/'])
-    liste.append(['وثائقى', URL_MAIN + 'genre/documentary/'])
-    liste.append(['ويسترن', URL_MAIN + 'genre/ويسترن/'])
+    liste.append(['اكشن', f'{URL_MAIN}genre/اكشن/'])
+    liste.append(['انيميشن', f'{URL_MAIN}genre/animation/'])
+    liste.append(['مغامرات', f'{URL_MAIN}genre/مغامرة/'])
+    liste.append(['غموض', f'{URL_MAIN}genre/mystery/'])
+    liste.append(['تاريخي', f'{URL_MAIN}genre/history/'])
+    liste.append(['كوميديا', f'{URL_MAIN}genre/كوميديا/'])
+    liste.append(['موسيقى', f'{URL_MAIN}genre/musical/'])
+    liste.append(['رياضي', f'{URL_MAIN}genre/رياضة/'])
+    liste.append(['دراما', f'{URL_MAIN}genre/drama/'])
+    liste.append(['رعب', f'{URL_MAIN}genre/horror/'])
+    liste.append(['عائلى', f'{URL_MAIN}genre/family/'])
+    liste.append(['فانتازيا', f'{URL_MAIN}genre/fantasy/'])
+    liste.append(['حروب', f'{URL_MAIN}genre/war/'])
+    liste.append(['الجريمة', f'{URL_MAIN}genre/crime/'])
+    liste.append(['رومانسى', f'{URL_MAIN}genre/romance/'])
+    liste.append(['خيال علمى', f'{URL_MAIN}genre/sci-fi/'])
+    liste.append(['اثارة', f'{URL_MAIN}genre/اثارة/'])
+    liste.append(['وثائقى', f'{URL_MAIN}genre/documentary/'])
+    liste.append(['ويسترن', f'{URL_MAIN}genre/ويسترن/'])
 
     for sTitle, sUrl in liste:
 
         oOutputParameterHandler = cOutputParameterHandler()
-        oOutputParameterHandler.addParameter('siteUrl', sUrl+'films/')
+        oOutputParameterHandler.addParameter('siteUrl', f'{sUrl}films/')
         oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle, 'genres.png', oOutputParameterHandler)
 
     oGui.setEndOfDirectory()	
@@ -332,7 +332,7 @@ def showSeasons():
         if aResult[0]:
             oOutputParameterHandler = cOutputParameterHandler() 
             for aEntry in aResult[1]:
-                sTitle =  sMovieTitle+' E'+ aEntry[1]
+                sTitle =  f'{sMovieTitle} E{aEntry[1]}'
                 siteUrl = aEntry[0]
                 sThumb = sThumb
                 sDesc = ''
@@ -359,7 +359,6 @@ def showEps():
    
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
-    sMovieUrl = oInputParameterHandler.getValue('sMovieUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
 
@@ -379,19 +378,19 @@ def showEps():
         oOutputParameterHandler = cOutputParameterHandler()  
         for aEntry in aResult[1]:
 
-            sTitle = sMovieTitle+' E'+ aEntry[1]
+            sTitle = f'{sMovieTitle} E{aEntry[1]}'
             siteUrl = aEntry[0]
             sThumb = sThumb
             sDesc = ""
 
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
                
     oGui.setEndOfDirectory() 
  
-def showHosters(oInputParameterHandler = False):
+def showHosters():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -412,7 +411,7 @@ def showHosters(oInputParameterHandler = False):
     if (aResult[0]):
         sId = aResult[1][0]
 
-    siteUrl = URL_MAIN + '/PostServersWatch/'+sId
+    siteUrl = f'{URL_MAIN}/PostServersWatch/{sId}'
     oRequestHandler = cRequestHandler(siteUrl)
     cook = oRequestHandler.GetCookies()
     oRequestHandler.setRequestType(1)
@@ -428,7 +427,7 @@ def showHosters(oInputParameterHandler = False):
     if aResult[0]:
         for aEntry in aResult[1]:
             sServer = aEntry[2].replace('Goved','govid.me').replace('OK','ok.ru')
-            link = URL_MAIN + '/Embedder/'+aEntry[1]+'/'+aEntry[0]
+            link = f'{URL_MAIN}/Embedder/{aEntry[1]}/{aEntry[0]}'
             oRequestHandler = cRequestHandler(link)
             cook = oRequestHandler.GetCookies()
             oRequestHandler.setRequestType(1)
@@ -448,16 +447,13 @@ def showHosters(oInputParameterHandler = False):
                    sTitle = sMovieTitle
             
                    sHosterUrl = url.strip()
-                   if 'mystream' in sHosterUrl:
-                       sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
-
                    oHoster = cHosterGui().checkHoster(sServer)
                    if oHoster:
                        oHoster.setDisplayName(sMovieTitle)
                        oHoster.setFileName(sMovieTitle)
-                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 					   
-    siteUrl = URL_MAIN + '/PostServersDownload/'+sId
+    siteUrl = f'{URL_MAIN}/PostServersDownload/{sId}'
     oRequestHandler = cRequestHandler(siteUrl)
     cook = oRequestHandler.GetCookies()
     oRequestHandler.setRequestType(1)
@@ -476,17 +472,16 @@ def showHosters(oInputParameterHandler = False):
         for aEntry in aResult:
             if 'moshahda' in aEntry[0]:
                 continue
+
             url = aEntry[0]
-            sTitle = sMovieTitle+'('+aEntry[1]+')'
+            sTitle = f'{sMovieTitle} ({aEntry[1]})'
             
             sHosterUrl = url
-            if 'mystream' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
                 oHoster.setDisplayName(sTitle)
                 oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)			
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)			
                 
     oGui.setEndOfDirectory()  
 
@@ -495,6 +490,6 @@ def __checkForNextPage(sHtmlContent):
     sPattern = '<a class="page-link current".+?</a><a class="page-link" href="(.+?)">'
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
-        return URL_MAIN+aResult[1][0]
+        return f'{URL_MAIN}{aResult[1][0]}'
 
     return False

@@ -19,8 +19,8 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-MOVIE_AR = (URL_MAIN + 'genre/filter/فيلم/1/yop?country=&subgenre=', 'showMovies')
-SERIE_AR = (URL_MAIN + 'genre/filter/مسلسل/1/yop?country=&subgenre=', 'showSeries')
+MOVIE_AR = (f'{URL_MAIN}genre/filter/فيلم/1/yop?country=&subgenre=', 'showMovies')
+SERIE_AR = (f'{URL_MAIN}genre/filter/مسلسل/1/yop?country=&subgenre=', 'showSeries')
 
 def load():
     oGui = cGui()
@@ -46,7 +46,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText is not False:
-        sUrl = URL_MAIN + 'search?q=' + sSearchText
+        sUrl = f'{URL_MAIN}search?q={sSearchText}'
         showSearchResults(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -56,7 +56,7 @@ def showSearchSeries():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText is not False:
-        sUrl = URL_MAIN + 'search?q=' + sSearchText
+        sUrl = f'{URL_MAIN}search?q={sSearchText}'
         showSearchResults(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -90,7 +90,7 @@ def showSearchResults(sSearch = ''):
             sThumb = aEntry[1]
             sYear = ''
             
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('pTitle', re.sub(r"-?\d+\.jpg", "", sThumb.split("/")[-1]))
             oOutputParameterHandler.addParameter('sThumb', sThumb)
@@ -130,7 +130,7 @@ def showMovies(sSearch = ''):
             if m:
                 sYear = str(m.group(0))
 
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('pTitle', aEntry['presbase'])
             oOutputParameterHandler.addParameter('sThumb', sThumb)
@@ -177,7 +177,7 @@ def showSeries(sSearch = ''):
             if m:
                 sYear = str(m.group(0))
 
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('pTitle', aEntry['presbase'])
             oOutputParameterHandler.addParameter('sEpisodes', sEpisodes)
@@ -230,7 +230,7 @@ def showEpisodes():
         sThumb = sThumb
         sDesc = ""
 			
-        oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+        oOutputParameterHandler.addParameter('siteUrl', siteUrl)
         oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
         oOutputParameterHandler.addParameter('pTitle', pTitle)
         oOutputParameterHandler.addParameter('sThumb', sThumb)
@@ -239,7 +239,7 @@ def showEpisodes():
       
     oGui.setEndOfDirectory()
  
-def showLinks(oInputParameterHandler = False):
+def showLinks():
     oGui = cGui()
 
     oInputParameterHandler = cInputParameterHandler()
@@ -274,6 +274,6 @@ def showLinks(oInputParameterHandler = False):
             if oHoster:
                 oHoster.setDisplayName(sDisplayTitle)
                 oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
     oGui.setEndOfDirectory()

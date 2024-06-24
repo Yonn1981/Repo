@@ -260,7 +260,7 @@ def play__():
         if oHoster:
             oHoster.setDisplayName(sTitle)
             oHoster.setFileName(sTitle)
-            cHosterGui().showHoster(oGui, oHoster, sUrl, sThumbnail, oInputParameterHandler=oInputParameterHandler)
+            cHosterGui().showHoster(oGui, oHoster, sUrl, sThumbnail)
 
     oGui.setEndOfDirectory()
 

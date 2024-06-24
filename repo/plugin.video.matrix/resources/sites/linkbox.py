@@ -3,15 +3,12 @@
 # Thanks to TSIPlayer Creators
 
 import re
+import requests
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.comaddon import VSlog, siteManager, addon
-
-import json
-import requests
-
 
 SITE_IDENTIFIER = 'linkbox'
 SITE_NAME = 'Telebox [COLOR orange]- Linkbox -[/COLOR]'
@@ -110,13 +107,12 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = 'https://www.zain3.com/api/search?kw='+sSearchText+'&pageSize=50&pageNo=1'
+        sUrl = f'https://www.zain3.com/api/search?kw={sSearchText}&pageSize=50&pageNo=1'
         GetSearch(sUrl)
         oGui.setEndOfDirectory()
         return
 
-def showContent(sSearch = '',oInputParameterHandler = False):
-    import requests
+def showContent():
     oGui = cGui()
     oOutputParameterHandler = cOutputParameterHandler()
 
@@ -136,7 +132,7 @@ def showContent(sSearch = '',oInputParameterHandler = False):
     else:
         page = 1
 
-    sUrl = URL_MAIN + '/api/file/share_out_list/?sortField=name&sortAsc=1&pageNo='+str(page)+'&pageSize='+str(nb_elm)+'&'+'shareToken='+shareToken+'&pid='+str(pid)+'&needTpInfo=1&scene=singleGroup&name=&platform=web&pf=web&lan=en'
+    sUrl = f'{URL_MAIN}/api/file/share_out_list/?sortField=name&sortAsc=1&pageNo={str(page)}&pageSize={str(nb_elm)}&shareToken={shareToken}&pid={str(pid)}&needTpInfo=1&scene=singleGroup&name=&platform=web&pf=web&lan=en'
 
     data = requests.get(sUrl).json()
     data = data.get('data',{})
@@ -191,13 +187,12 @@ def showContent(sSearch = '',oInputParameterHandler = False):
                     if oHoster:
                         oHoster.setDisplayName(sDisplayTitle)
                         oHoster.setFileName(sTitle)
-                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, icon, oInputParameterHandler=oInputParameterHandler)              
+                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, icon)              
 
     oGui.setEndOfDirectory()
 
 
 def GetSearch(sSearch = ''):
-    import requests
     oGui = cGui()
     sUrl = sSearch
 
@@ -246,8 +241,7 @@ def GetSearch(sSearch = ''):
  
     oGui.setEndOfDirectory()
 
-def showGroupSearch(sSearchText = '', oInputParameterHandler = False):
-    import requests
+def showGroupSearch(sSearchText = ''):
     oGui = cGui()
     sSearchText = oGui.showKeyBoard()
 
@@ -269,7 +263,7 @@ def showGroupSearch(sSearchText = '', oInputParameterHandler = False):
     else:
         page = 1
 
-    sUrl = URL_MAIN + '/api/file/share_out_list/?sortField=name&sortAsc=1&pageNo='+str(page)+'&pageSize='+str(nb_elm)+'&'+'shareToken='+shareToken+'&pid='+str(pid)+'&needTpInfo=1&scene=singleGroup&name='+sSearchText+'&platform=web&pf=web&lan=en'
+    sUrl = f'{URL_MAIN}/api/file/share_out_list/?sortField=name&sortAsc=1&pageNo={str(page)}&pageSize={str(nb_elm)}&shareToken={shareToken}&pid={str(pid)}&needTpInfo=1&scene=singleGroup&name={sSearchText}&platform=web&pf=web&lan=en'
 
     data = requests.get(sUrl).json()
     data = data.get('data',{})
@@ -317,17 +311,16 @@ def showGroupSearch(sSearchText = '', oInputParameterHandler = False):
                          icon = icon.split('&x-image-process',1)[0]
 
                     sHosterUrl = url.replace('<nil>','')
-                    sDisplayTitle = sTitle + '  [COLOR yellow]('+str(size) + 'MB)[/COLOR]'
+                    sDisplayTitle = f'{sTitle} [COLOR yellow]({str(size)}MB)[/COLOR]'
                     oHoster = cHosterGui().getHoster('lien_direct')        
                     if oHoster:
                         oHoster.setDisplayName(sDisplayTitle)
                         oHoster.setFileName(sTitle)
-                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, icon, oInputParameterHandler=oInputParameterHandler)         
+                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, icon)         
  
     oGui.setEndOfDirectory()
 
-def showGroupSearchNext(sSearchText = '', oInputParameterHandler = False):
-    import requests
+def showGroupSearchNext(sSearchText = ''):
     oGui = cGui()
 
     oOutputParameterHandler = cOutputParameterHandler()  
@@ -347,7 +340,7 @@ def showGroupSearchNext(sSearchText = '', oInputParameterHandler = False):
     else:
         page = 1
 
-    sUrl = URL_MAIN + '/api/file/share_out_list/?sortField=name&sortAsc=1&pageNo='+str(page)+'&pageSize='+str(nb_elm)+'&'+'shareToken='+shareToken+'&pid=0&needTpInfo=1&scene=singleGroup&name='+sSearchText+'&platform=web&pf=web&lan=en'
+    sUrl = f'{URL_MAIN}/api/file/share_out_list/?sortField=name&sortAsc=1&pageNo={str(page)}&pageSize={str(nb_elm)}&shareToken={shareToken}&pid=0&needTpInfo=1&scene=singleGroup&name={sSearchText}&platform=web&pf=web&lan=en'
 
     data = requests.get(sUrl).json()
     data = data.get('data',{})
@@ -392,6 +385,6 @@ def showGroupSearchNext(sSearchText = '', oInputParameterHandler = False):
                     if oHoster:
                         oHoster.setDisplayName(sDisplayTitle)
                         oHoster.setFileName(sTitle)
-                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, icon, oInputParameterHandler=oInputParameterHandler)          
+                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, icon)          
  
     oGui.setEndOfDirectory()

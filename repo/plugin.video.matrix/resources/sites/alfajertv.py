@@ -20,26 +20,26 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-MOVIE_EN = (URL_MAIN + 'genre/english-movies/', 'showMovies')
-MOVIE_AR = (URL_MAIN + 'genre/arabic-movies/', 'showMovies')
-MOVIE_FAM = (URL_MAIN + 'genre/family/', 'showMovies')
-MOVIE_HI = (URL_MAIN + 'genre/indian-movies/', 'showMovies')
-MOVIE_TOP = (URL_MAIN + 'imdb/', 'showTopMovies')
-MOVIE_TURK = (URL_MAIN + 'genre/turkish-movies/', 'showMovies')
-KID_MOVIES = (URL_MAIN + 'genre/animation/', 'showMovies')
+MOVIE_EN = (f'{URL_MAIN}genre/english-movies/', 'showMovies')
+MOVIE_AR = (f'{URL_MAIN}genre/arabic-movies/', 'showMovies')
+MOVIE_FAM = (f'{URL_MAIN}genre/family/', 'showMovies')
+MOVIE_HI = (f'{URL_MAIN}genre/indian-movies/', 'showMovies')
+MOVIE_TOP = (f'{URL_MAIN}imdb/', 'showTopMovies')
+MOVIE_TURK = (f'{URL_MAIN}genre/turkish-movies/', 'showMovies')
+KID_MOVIES = (f'{URL_MAIN}genre/animation/', 'showMovies')
 MOVIE_GENRES = (URL_MAIN, 'moviesGenres')
 
-SERIE_TR = (URL_MAIN + 'genre/turkish-series/', 'showSeries')
-SERIE_EN = (URL_MAIN + 'genre/english-series/', 'showSeries')
-SERIE_AR = (URL_MAIN + 'genre/arabic-series/', 'showSeries')
-RAMADAN_SERIES = (URL_MAIN + 'genre/ramadan2024', 'showSeries')
+SERIE_TR = (f'{URL_MAIN}genre/turkish-series/', 'showSeries')
+SERIE_EN = (f'{URL_MAIN}genre/english-series/', 'showSeries')
+SERIE_AR = (f'{URL_MAIN}genre/arabic-series/', 'showSeries')
+RAMADAN_SERIES = (f'{URL_MAIN}genre/ramadan2024', 'showSeries')
 SERIE_GENRES = (URL_MAIN, 'seriesGenres')
 
-REPLAYTV_PLAY = (URL_MAIN + 'genre/plays/', 'showMovies')
+REPLAYTV_PLAY = (f'{URL_MAIN}genre/plays/', 'showMovies')
 
-URL_SEARCH = (URL_MAIN + '?s=', 'showMoviesSearch')
-URL_SEARCH_MOVIES = (URL_MAIN + '?s=', 'showMoviesSearch')
-URL_SEARCH_SERIES = (URL_MAIN + '?s=', 'showSeriesSearch')
+URL_SEARCH = (f'{URL_MAIN}?s=', 'showMoviesSearch')
+URL_SEARCH_MOVIES = (f'{URL_MAIN}?s=', 'showMoviesSearch')
+URL_SEARCH_SERIES = (f'{URL_MAIN}?s=', 'showSeriesSearch')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -93,7 +93,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/?s='+sSearchText
+        sUrl = f'{URL_MAIN}?s='+sSearchText
         showMoviesSearch(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -103,7 +103,7 @@ def showSearchSeries():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/?s='+sSearchText
+        sUrl = f'{URL_MAIN}?s='+sSearchText
         showSeriesSearch(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -433,7 +433,7 @@ def showEpisodes():
         oOutputParameterHandler = cOutputParameterHandler() 
         for aEntry in aResult[1]:
  
-            sTitle = sMovieTitle+' S'+aEntry[2].replace("- ","E")
+            sTitle = f'{sMovieTitle} S{aEntry[2].replace("- ","E")}'
             siteUrl = aEntry[0]
             sThumb = aEntry[1]
             sDesc =  sDesc
@@ -450,7 +450,7 @@ def showEpisodes():
         oOutputParameterHandler = cOutputParameterHandler() 
         for aEntry in aResult[1]:
  
-            sTitle = sMovieTitle+' S'+aEntry[2].replace("- ","E")
+            sTitle = f'{sMovieTitle} S{aEntry[2].replace("- ","E")}'
             siteUrl = aEntry[0]
             sThumb = aEntry[1]
             sDesc =  sDesc
@@ -472,7 +472,7 @@ def __checkForNextPage(sHtmlContent):
     
     return False
 	
-def showServer(oInputParameterHandler = False):
+def showServer():
     oGui = cGui()
    
     oInputParameterHandler = cInputParameterHandler()
@@ -488,11 +488,11 @@ def showServer(oInputParameterHandler = False):
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
        for aEntry in aResult[1]:
-           pUrl = URL_MAIN + '/wp-admin/admin-ajax.php'
+           pUrl = f'{URL_MAIN}wp-admin/admin-ajax.php'
            post = aEntry[1]
            nume = aEntry[2]
            dtype= aEntry[0]
-           pdata = 'action=doo_player_ajax&post='+post+'&nume='+nume+'&type='+dtype
+           pdata = f'action=doo_player_ajax&post={post}&nume={nume}&type={dtype}'
 
            oRequest = cRequestHandler(pUrl)
            oRequest.setRequestType(1)
@@ -511,19 +511,19 @@ def showServer(oInputParameterHandler = False):
                for aEntry in aResult[1]:            
                    url = aEntry.replace("%2F","/").replace("%3A",":").replace("https://show.alfajertv.com/jwplayer/?source=","").replace("&type=mp4","").split("&id")[0]
                    if 'hadara.ps' in aEntry :
-                      url = url + "|Referer=" + aEntry + "&User-Agent=" + UA + "&verifypeer=false"
+                      url = f'{url}|Referer{aEntry}&User-Agent={UA}&verifypeer=false'
                    if url.startswith('//'):
                       url = 'http:' + url
             
                    sHosterUrl = url
                    if 'userload' in sHosterUrl:
-                       sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                       sHosterUrl = f'{sHosterUrl}|Referer={URL_MAIN}'
                    if 'mystream' in sHosterUrl:
-                       sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+                       sHosterUrl = f'{sHosterUrl}|Referer={URL_MAIN}'
                    oHoster = cHosterGui().checkHoster(sHosterUrl)
                    if oHoster:
                       oHoster.setDisplayName(sMovieTitle)
                       oHoster.setFileName(sMovieTitle)
-                      cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                      cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
     oGui.setEndOfDirectory()

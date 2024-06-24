@@ -20,27 +20,27 @@ SITE_DESC = 'arabic vod'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-MOVIE_EN = (URL_MAIN + 'category.php?cat=english-movies', 'showMovies')
-MOVIE_AR = (URL_MAIN + 'category.php?cat=arabic-movies', 'showMovies')
-MOVIE_DUBBED = (URL_MAIN + 'category.php?cat=modablaja-movies', 'showMovies')
-MOVIE_HI = (URL_MAIN + 'category.php?cat=hindia-movies', 'showMovies')
-MOVIE_ASIAN = (URL_MAIN + 'category.php?cat=asian-movies', 'showMovies')
-MOVIE_TURK = (URL_MAIN + 'category.php?cat=turkey-movies', 'showMovies')
-KID_MOVIES = (URL_MAIN + 'category.php?cat=animation-movies', 'showMovies')
+MOVIE_EN = (f'{URL_MAIN}category.php?cat=english-movies', 'showMovies')
+MOVIE_AR = (f'{URL_MAIN}category.php?cat=arabic-movies', 'showMovies')
+MOVIE_DUBBED = (f'{URL_MAIN}category.php?cat=modablaja-movies', 'showMovies')
+MOVIE_HI = (f'{URL_MAIN}category.php?cat=hindia-movies', 'showMovies')
+MOVIE_ASIAN = (f'{URL_MAIN}category.php?cat=asian-movies', 'showMovies')
+MOVIE_TURK = (f'{URL_MAIN}category.php?cat=turkey-movies', 'showMovies')
+KID_MOVIES = (f'{URL_MAIN}category.php?cat=animation-movies', 'showMovies')
 
-DOC_NEWS = (URL_MAIN + 'category.php?cat=aflam-wthaaeqe', 'showMovies')
+DOC_NEWS = (f'{URL_MAIN}category.php?cat=aflam-wthaaeqe', 'showMovies')
 
-SERIE_TR = (URL_MAIN + 'category.php?cat=moslslat-turkya', 'showSeries')
-SERIE_DUBBED = (URL_MAIN + 'category.php?cat=modablaja-series', 'showSeries')
-SERIE_ASIA = (URL_MAIN + 'category.php?cat=asia-series', 'showSeries')
-SERIE_HEND = (URL_MAIN + 'category.php?cat=hindia-series', 'showSeries')
-SERIE_EN = (URL_MAIN + 'category.php?cat=moslslat-agnabya', 'showSeries')
-SERIE_AR = (URL_MAIN + 'category.php?cat=moslslat-arabia', 'showSeries')
-RAMADAN_SERIES = (URL_MAIN + 'category.php?cat=mslslat-rmdtan-2024', 'showSeries')
-ANIM_NEWS = (URL_MAIN + 'category.php?cat=animation-series', 'showSeries')
+SERIE_TR = (f'{URL_MAIN}category.php?cat=moslslat-turkya', 'showSeries')
+SERIE_DUBBED = (f'{URL_MAIN}category.php?cat=modablaja-series', 'showSeries')
+SERIE_ASIA = (f'{URL_MAIN}category.php?cat=asia-series', 'showSeries')
+SERIE_HEND = (f'{URL_MAIN}category.php?cat=hindia-series', 'showSeries')
+SERIE_EN = (f'{URL_MAIN}category.php?cat=moslslat-agnabya', 'showSeries')
+SERIE_AR = (f'{URL_MAIN}category.php?cat=moslslat-arabia', 'showSeries')
+RAMADAN_SERIES = (f'{URL_MAIN}category.php?cat=mslslat-rmdtan-2024', 'showSeries')
+ANIM_NEWS = (f'{URL_MAIN}category.php?cat=animation-series', 'showSeries')
 
-URL_SEARCH_MOVIES = (URL_MAIN + 'search.php?keywords=', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + 'search.php?keywords=', 'showSeries')
+URL_SEARCH_MOVIES = (f'{URL_MAIN}search.php?keywords=', 'showMovies')
+URL_SEARCH_SERIES = (f'{URL_MAIN}search.php?keywords=', 'showSeries')
 FUNCTION_SEARCH = 'showMovies'
 	
 def load():
@@ -54,10 +54,10 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
     oGui.addDir(SITE_IDENTIFIER, 'showSeriesSearch', addons.VSlang(30079), 'search.png', oOutputParameterHandler)
 
-    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'category.php?cat=moslslat-cima-city')
+    oOutputParameterHandler.addParameter('siteUrl', f'{URL_MAIN}category.php?cat=moslslat-cima-city')
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات سيما سيتي', 'mslsl.png', oOutputParameterHandler)
 
-    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'category.php?cat=cimacity-movies')
+    oOutputParameterHandler.addParameter('siteUrl', f'{URL_MAIN}category.php?cat=cimacity-movies')
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'افلام سيما سيتي', 'film.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', RAMADAN_SERIES[0])
@@ -111,7 +111,7 @@ def showSearch():
     oGui = cGui()
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + 'search.php?keywords='+sSearchText
+        sUrl = f'{URL_MAIN}search.php?keywords={sSearchText}'
         if 'series' in sUrl:
             showSeries(sUrl)
         showMovies(sUrl)
@@ -122,7 +122,7 @@ def showSeriesSearch():
     oGui = cGui()
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + 'search.php?keywords='+sSearchText
+        sUrl = f'{URL_MAIN}search.php?keywords={sSearchText}'
         if 'series' in sUrl:
             showSeries(sUrl)
         showMovies(sUrl)
@@ -235,6 +235,7 @@ def showSeries(sSearch = ''):
  
     if not sSearch:
         oGui.setEndOfDirectory()  
+
 def showSeasons():
     oGui = cGui()
    
@@ -295,22 +296,17 @@ def showSeasons():
                 sTitle = sDesc
                 sThumb = sThumb
                 if url.startswith('//'):
-                    url = 'http:' + url
+                    url = f'http:{url}'
 								            
                 sHosterUrl = url
-                if 'nowvid' in sHosterUrl:
-                    sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
-                if 'userload' in sHosterUrl:
-                    sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-                if 'mystream' in sHosterUrl:
-                    sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
+                if 'nowvid' in sHosterUrl or 'userload' in sHosterUrl:
+                    sHosterUrl = f'{sHosterUrl}|Referer={URL_MAIN}' 
                  
                 oHoster = cHosterGui().checkHoster(sHosterUrl)
                 if oHoster:
-                    sDisplayTitle = sTitle
-                    oHoster.setDisplayName(sDisplayTitle)
+                    oHoster.setDisplayName(sTitle)
                     oHoster.setFileName(sMovieTitle)
-                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
     oGui.setEndOfDirectory() 
     
@@ -331,7 +327,6 @@ def showEpisodes():
     if aResult[0]:
         SID = aResult[1][0] 
 
-
     if len(SID) == 1:
         SeasonID = SID
             
@@ -348,7 +343,7 @@ def showEpisodes():
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
             
-            sTitle = sMovieTitle+' E'+aEntry[1].replace('الحلقة ','')
+            sTitle = f'{sMovieTitle} E{aEntry[1].replace("الحلقة ","")}'
             siteUrl = aEntry[0]
             sThumb = sThumb
             sDesc = ''
@@ -360,7 +355,7 @@ def showEpisodes():
            
     oGui.setEndOfDirectory()
 	
-def showServer(oInputParameterHandler = False):
+def showServer():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -399,18 +394,14 @@ def showServer(oInputParameterHandler = False):
                 url = 'http:' + url
 								            
             sHosterUrl = url
-            if 'nowvid' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
-            if 'userload' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-            if 'mystream' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
+            if 'nowvid' in sHosterUrl or 'userload' in sHosterUrl:
+                sHosterUrl = f'{sHosterUrl}|Referer={URL_MAIN}'
                  
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
                 oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)     
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)     
       
     oGui.setEndOfDirectory()  
 

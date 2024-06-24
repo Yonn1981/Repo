@@ -16,9 +16,9 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-ISLAM_SHOWS = (URL_MAIN+'?partName=Lectures', 'showSeries')
-ISLAM_QURAN = (URL_MAIN+'?partName=Quran', 'showSeries')
-ISLAM_NASHEED = (URL_MAIN+'?partName=poems', 'showSeries')
+ISLAM_SHOWS = (f'{URL_MAIN}?partName=Lectures', 'showSeries')
+ISLAM_QURAN = (f'{URL_MAIN}?partName=Quran', 'showSeries')
+ISLAM_NASHEED = (f'{URL_MAIN}?partName=poems', 'showSeries')
 ISLAM_GENRES = (URL_MAIN, 'showGenres')
 
 def load():
@@ -46,12 +46,12 @@ def showGenres():
     sUrl = oInputParameterHandler.getValue('siteUrl')
  
     liste = []	
-    liste.append( ['ادعية و زيارات',URL_MAIN + '?partName=Pra_Vis'] )
-    liste.append( ['برامج دينية',URL_MAIN + '?partName=religious'] )
-    liste.append( ['برامج حسينية',URL_MAIN + '?partName=hussien'] )
-    liste.append( ['برامج ثقافية',URL_MAIN + '?partName=educational'] )
-    liste.append( ['أفلام و مسلسلات',URL_MAIN + '?partName=series'] )
-    liste.append( ['الاسرة و الطفل',URL_MAIN + '?partName=family'] )
+    liste.append( ['ادعية و زيارات',f'{URL_MAIN}?partName=Pra_Vis'] )
+    liste.append( ['برامج دينية',f'{URL_MAIN}?partName=religious'] )
+    liste.append( ['برامج حسينية',f'{URL_MAIN}?partName=hussien'] )
+    liste.append( ['برامج ثقافية',f'{URL_MAIN}?partName=educational'] )
+    liste.append( ['أفلام و مسلسلات',f'{URL_MAIN}?partName=series'] )
+    liste.append( ['الاسرة و الطفل',f'{URL_MAIN}?partName=family'] )
  
     for sTitle,sUrl in liste:
  
@@ -88,8 +88,8 @@ def showSeries(sSearch = ''):
  
             sTitle = aEntry[2]
             sYear = ''
-            siteUrl = URL_MAIN+aEntry[0]
-            sThumb = URL_MAIN.split('/video')[0] + aEntry[1]
+            siteUrl = f'{URL_MAIN}{aEntry[0]}'
+            sThumb = f'{URL_MAIN.split("/video")[0]}{aEntry[1]}'
             sDesc = ''
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -130,8 +130,8 @@ def showEpisodes():
 		for aEntry in aResult[1]:
  
 			sTitle = aEntry[1]
-			siteUrl = URL_MAIN.split('video')[0] + aEntry[0]
-			sThumb = URL_MAIN.split('/video')[0] + aEntry[2].replace("(","").replace(")","")
+			siteUrl = f"{URL_MAIN.split('video')[0]}{aEntry[0]}"
+			sThumb = f'{URL_MAIN.split("/video")[0]}{aEntry[2].replace("(","").replace(")","")}'
 			sDesc = ""
 			
 			oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -157,7 +157,7 @@ def __checkForNextPage(sHtmlContent):
 
     return False
 
-def showLinks(oInputParameterHandler = False):
+def showLinks():
     oGui = cGui()
 
     oInputParameterHandler = cInputParameterHandler()
@@ -173,13 +173,13 @@ def showLinks(oInputParameterHandler = False):
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
         for aEntry in aResult[1]:           
-            sHosterUrl = URL_MAIN.split('/video')[0] + aEntry
+            sHosterUrl = f"{URL_MAIN.split('/video')[0]}{aEntry}"
 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
                 oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 		               
     oGui.setEndOfDirectory()
 

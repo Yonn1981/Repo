@@ -134,7 +134,7 @@ def showGroups():
     oGui.setEndOfDirectory()
 
 
-def showChannels(oInputParameterHandler = False):
+def showChannels():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     SelectedCat = oInputParameterHandler.getValue('sTitle2')
@@ -158,11 +158,11 @@ def showChannels(oInputParameterHandler = False):
             if oHoster:
                 oHoster.setDisplayName(aEntry['name'])
                 oHoster.setFileName(SelectedCat)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, aEntry['logo'], oInputParameterHandler=oInputParameterHandler)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, aEntry['logo'])
 
     oGui.setEndOfDirectory()
 
-def showAllChannels(oInputParameterHandler = False):
+def showAllChannels():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     SelectedCat = oInputParameterHandler.getValue('sTitle2')
@@ -182,7 +182,7 @@ def showAllChannels(oInputParameterHandler = False):
         if oHoster:
             oHoster.setDisplayName(aEntry['name'])
             oHoster.setFileName(aEntry['name'])
-            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, aEntry['logo'], oInputParameterHandler=oInputParameterHandler)
+            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, aEntry['logo'])
 
     oGui.setEndOfDirectory()
 
@@ -196,7 +196,7 @@ def showMenuTV():
     oGui.setEndOfDirectory()
 
 
-def parseM3U(sUrl=None):  # Traite les m3u local
+def parseM3U(sUrl=None):  
     
     if not sUrl:
         oInputParameterHandler = cInputParameterHandler()
@@ -232,7 +232,7 @@ def parseM3U(sUrl=None):  # Traite les m3u local
     return playlist
 
 
-def showWeb(oInputParameterHandler = False):  # Code qui s'occupe de liens TV du Web
+def showWeb():  
     oGui = cGui()
 
     oInputParameterHandler = cInputParameterHandler()
@@ -266,8 +266,6 @@ def showWeb(oInputParameterHandler = False):  # Code qui s'occupe de liens TV du
             if not sThumb:
                 sThumb = 'https://raw.githubusercontent.com/Yonn1981/Repo/master/repo/plugin.video.matrix/resources/art/tv.png'
 
-
-            # les + ne peuvent pas passer
             url2 = track.path.replace('+', 'P_L_U_S')
 
             thumb = ''.join([sRootArt, sThumb])
@@ -282,14 +280,11 @@ def showWeb(oInputParameterHandler = False):  # Code qui s'occupe de liens TV du
             if oHoster:
                 oHoster.setDisplayName(track.title)
                 oHoster.setFileName(track.title)
-                cHosterGui().showHoster(oGui, oHoster, url2, sThumb, oInputParameterHandler=oInputParameterHandler)
+                cHosterGui().showHoster(oGui, oHoster, url2, sThumb)
 
         progress_.VSclose(progress_)
 
     oGui.setEndOfDirectory()
-
-
-
 
 def showAZ():
     oGui = cGui()
@@ -325,7 +320,6 @@ def showTV(oInputParameterHandler = False):
     if aResult[0]:
         progress_ = progress().VScreate(SITE_NAME)
 
-        # affiche par
         if oInputParameterHandler.exist('AZ'):
             sAZ = oInputParameterHandler.getValue('AZ')
             string = filter(lambda t: t[0].strip().capitalize().startswith(sAZ), aResult[1])
@@ -349,14 +343,14 @@ def showTV(oInputParameterHandler = False):
             if oHoster:
                 oHoster.setDisplayName(track.title)
                 oHoster.setFileName(track.title)
-                cHosterGui().showHoster(oGui, oHoster, aEntry[1], 'tv.png', oInputParameterHandler=oInputParameterHandler)
+                cHosterGui().showHoster(oGui, oHoster, aEntry[1], 'tv.png')
 
         progress_.VSclose(progress_)
 
     oGui.setEndOfDirectory()
 
 
-def play__(oInputParameterHandler = False):  # Lancer les liens
+def play__():
     addons = addon()
     oGui = cGui()
 
@@ -368,19 +362,16 @@ def play__(oInputParameterHandler = False):  # Lancer les liens
     sThumbnail = oInputParameterHandler.getValue('sThumbnail')
     sDesc = oInputParameterHandler.getValue('sDesc')
 
-    # Special url with tag
     if '[' in sUrl and ']' in sUrl:
         sUrl = getRealUrl(sUrl)
 
-    # Bug specifique au flux france TV
-    # eof detectedL
     if 'youtube' in sUrl:
         oHoster = cHosterGui().checkHoster(sUrl)
 
         if oHoster:
             oHoster.setDisplayName(sTitle)
             oHoster.setFileName(sTitle)
-            cHosterGui().showHoster(oGui, oHoster, sUrl, sThumbnail, oInputParameterHandler=oInputParameterHandler)
+            cHosterGui().showHoster(oGui, oHoster, sUrl, sThumbnail)
 
     else:
         oGuiElement = cGuiElement()

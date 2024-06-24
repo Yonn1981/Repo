@@ -20,18 +20,18 @@ SITE_DESC = 'Asian Movies and TV Shows'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-MOVIE_ASIAN = (URL_MAIN + 'category/asian-movies/', 'showMovies')
-SERIE_ASIAN = (URL_MAIN + 'category/asian-drama/', 'showSeries')
-SERIE_KR = (URL_MAIN + 'category/asian-drama/korean/', 'showSeries')
-SERIE_CN = (URL_MAIN + 'category/asian-drama/chinese-taiwanese/', 'showSeries')
-SERIE_JP = (URL_MAIN + 'category/asian-drama/japanese/', 'showSeries')
-SERIE_THAI = (URL_MAIN + 'category/asian-drama/thai/', 'showSeries')
-REPLAYTV_PLAY = (URL_MAIN + 'category/asian-drama/kshow/', 'showSeries')
+MOVIE_ASIAN = (f'{URL_MAIN}category/asian-movies/', 'showMovies')
+SERIE_ASIAN = (f'{URL_MAIN}category/asian-drama/', 'showSeries')
+SERIE_KR = (f'{URL_MAIN}category/asian-drama/korean/', 'showSeries')
+SERIE_CN = (f'{URL_MAIN}category/asian-drama/chinese-taiwanese/', 'showSeries')
+SERIE_JP = (f'{URL_MAIN}category/asian-drama/japanese/', 'showSeries')
+SERIE_THAI = (f'{URL_MAIN}category/asian-drama/thai/', 'showSeries')
+REPLAYTV_PLAY = (f'{URL_MAIN}category/asian-drama/kshow/', 'showSeries')
 
-URL_SEARCH = (URL_MAIN + '?s=', 'showSeries')
-URL_SEARCH_MOVIES = (URL_MAIN + '?s=', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + '?s=', 'showSeries')
-URL_SEARCH_MISC = (URL_MAIN + '?s=', 'showSeries')
+URL_SEARCH = (f'{URL_MAIN}?s=', 'showSeries')
+URL_SEARCH_MOVIES = (f'{URL_MAIN}?s=', 'showMovies')
+URL_SEARCH_SERIES = (f'{URL_MAIN}?s=', 'showSeries')
+URL_SEARCH_MISC = (f'{URL_MAIN}?s=', 'showSeries')
 FUNCTION_SEARCH = 'showSeries'
 
 WhiteList = ('افلام','مسلسلات','برامج','اطفال','رمضان','انمي','كرتون','كارتون','دراما', 'الدراما')
@@ -73,7 +73,7 @@ def showSearch():
     oGui = cGui() 
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '?s='+sSearchText
+        sUrl = f'{URL_MAIN}?s={sSearchText}'
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -82,7 +82,7 @@ def showSearchSeries():
     oGui = cGui()
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '?s='+sSearchText
+        sUrl = f'{URL_MAIN}?s={sSearchText}'
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return  
@@ -118,7 +118,7 @@ def showMovies(sSearch = ''):
             sYear = ''       
             sThumb = ''      
             if sThumb.startswith('//'):
-                sThumb = 'https:' + sThumb        
+                sThumb = f'https:{sThumb}'      
             sDesc = ''
 
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -168,7 +168,7 @@ def showSeries(sSearch = ''):
             sYear = ''
             sThumb = aEntry[2]
             if sThumb.startswith('//'):
-                sThumb = 'https:' + sThumb       
+                sThumb = f'https:{sThumb}'       
             sDesc = ''
 
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -216,10 +216,10 @@ def showEpisodes():
 
             siteUrl = aEntry[0]
             if 'الحلقة' in aEntry[1]:
-                sTitle = 'E' + aEntry[1].split("الحلقة")[1].strip()
+                sTitle = f'E{aEntry[1].split("الحلقة")[1].strip()}'
             else:
                 sTitle = aEntry[1]
-            sTitle = sTitle + ' '+ sMovieTitle
+            sTitle = f'{sTitle} {sMovieTitle}'
             sThumb = sThumb
             sDesc = ''
 
@@ -241,7 +241,7 @@ def __checkForNextPage(sHtmlContent):
 
     return False
 
-def showHosters(oInputParameterHandler = False):
+def showHosters():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -258,17 +258,15 @@ def showHosters(oInputParameterHandler = False):
         for aEntry in aResult[1]:
             
             url = aEntry
-            sTitle = sMovieTitle
             if url.startswith('//'):
-                url = 'http:' + url
+                url = f'http:{url}'
 				            
             sHosterUrl = url 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
-                sDisplayTitle = sTitle
-                oHoster.setDisplayName(sDisplayTitle)
+                oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
     else:
         if 'قريباً' in sHtmlContent:

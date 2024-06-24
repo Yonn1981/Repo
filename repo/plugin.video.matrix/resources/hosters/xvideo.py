@@ -26,9 +26,13 @@ class cHoster(iHoster):
         oParser = cParser()
        
         api_call = ''
+        sPattern = 'file:"(.+?)"'
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        if aResult[0]:
+            api_call = aResult[1][0] 
+            
         sPattern = '(eval\(function\(p,a,c,k,e(?:.|\s)+?\))<\/script>'
         aResult = oParser.parse(sHtmlContent, sPattern)
-
         if aResult[0]:
             data = aResult[1][0]
             data = unicodedata.normalize('NFD', data).encode('ascii', 'ignore').decode('unicode_escape')
@@ -41,16 +45,13 @@ class cHoster(iHoster):
 
             sPattern = '(eval\(function\(p,a,c,k,e(?:.|\s)+?\))<\/script>'
             aResult = oParser.parse(sHtmlContent, sPattern)
-
             if aResult[0]:
                 data = aResult[1][0]
                 data = unicodedata.normalize('NFD', data).encode('ascii', 'ignore').decode('unicode_escape')
                 sHtmlContent = cPacker().unpack(data)
 
-
         sPattern = 'file:"(.+?)"'
         aResult = oParser.parse(sHtmlContent, sPattern)
-
         if aResult[0]:
             api_call = aResult[1][0] 
 

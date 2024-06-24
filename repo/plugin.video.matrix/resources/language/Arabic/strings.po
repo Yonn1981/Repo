@@ -931,10 +931,6 @@ msgctxt "#30361"
 msgid "Activate scrobbling"
 msgstr "تتبع القراءة"
 
-msgctxt "#31209"
-msgid "Results: [COLOR deepskyblue]%s[/COLOR]"
-msgstr "[COLOR deepskyblue]%s[/COLOR] :النتائج"
-
 msgctxt "#31210"
 msgid "Add to new list"
 msgstr "أضف إلى قائمة جديدة"
@@ -1310,7 +1306,7 @@ msgid "Remaining sites: %s"
 msgstr "المواقع المتبقية : %s"
 
 msgctxt "#31209"
-msgid "Results: %s"
+msgid "Results: [COLOR deepskyblue]%s[/COLOR]"
 msgstr "النتائج : [COLOR deepskyblue]%s[/COLOR]"
 
 msgctxt "#30224"

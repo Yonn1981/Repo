@@ -21,13 +21,13 @@ SITE_DESC = 'arabic vod'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-MOVIE_FAM = (URL_MAIN + 'gerne/family/', 'showMovies')
-MOVIE_EN = (URL_MAIN + 'packs/افلام-اجنبية/', 'showMovies')
-MOVIE_FAM = (URL_MAIN + 'archive/افلام-عائلية/', 'showMovies')
-MOVIE_TOP = (URL_MAIN + '#trending', 'showMovies')
+MOVIE_FAM = (f'{URL_MAIN}gerne/family/', 'showMovies')
+MOVIE_EN = (f'{URL_MAIN}packs/افلام-اجنبية/', 'showMovies')
+MOVIE_FAM = (f'{URL_MAIN}archive/افلام-عائلية/', 'showMovies')
+MOVIE_TOP = (f'{URL_MAIN}#trending', 'showMovies')
 MOVIE_GENRES = (URL_MAIN, 'moviesGenres')
-URL_SEARCH = (URL_MAIN + '?s=', 'showMovies')
-URL_SEARCH_MOVIES = (URL_MAIN + '?s=', 'showMovies')
+URL_SEARCH = (f'{URL_MAIN}?s=', 'showMovies')
+URL_SEARCH_MOVIES = (f'{URL_MAIN}?s=', 'showMovies')
 FUNCTION_SEARCH = 'showMovies'
 
 def load():
@@ -57,7 +57,7 @@ def showSearchAll():
     oGui = cGui()
     sSearchText = oGui.showKeyBoard()
     if sSearchText != False:
-        sUrl = URL_MAIN + '?s='+sSearchText
+        sUrl = f'{URL_MAIN}?s={sSearchText}'
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return  
@@ -67,7 +67,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '?s='+sSearchText
+        sUrl = f'{URL_MAIN}?s={sSearchText}'
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -96,7 +96,7 @@ def moviesGenres():
             siteUrl = aEntry[0]			
 
             oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
 			
             oGui.addMisc(SITE_IDENTIFIER, 'showMovies', sTitle, 'film.png', '', '', oOutputParameterHandler)
@@ -135,7 +135,7 @@ def showMovies(sSearch = ''):
             if m:
                 sYear = str(m.group(0))
 
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oOutputParameterHandler.addParameter('sYear', sYear)
@@ -162,7 +162,7 @@ def __checkForNextPage(sHtmlContent):
 
     return False
 
-def showHosters(oInputParameterHandler = False):
+def showHosters():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -199,6 +199,6 @@ def showHosters(oInputParameterHandler = False):
                     if oHoster:
                         oHoster.setDisplayName(sMovieTitle)
                         oHoster.setFileName(sMovieTitle)
-                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
                 
     oGui.setEndOfDirectory()

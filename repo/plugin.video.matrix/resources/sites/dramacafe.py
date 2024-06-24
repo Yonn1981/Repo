@@ -21,29 +21,29 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-MOVIE_AR = (URL_MAIN + 'category.php?cat=aflam-araby1', 'showMovies')
-MOVIE_EN = (URL_MAIN + 'category.php?cat=aflam-agnaby', 'showMovies')
-MOVIE_HI = (URL_MAIN + 'category.php?cat=aflam-hindi', 'showMovies')
-MOVIE_ASIAN = (URL_MAIN + 'category.php?cat=asian-movies', 'showMovies')
-MOVIE_TURK = (URL_MAIN + 'category.php?cat=Turkish-Movies', 'showMovies')
-MOVIE_DUBBED = (URL_MAIN + 'category.php?cat=Dubbed-Movies', 'showMovies')
-KID_MOVIES = (URL_MAIN + 'category.php?cat=aflam-cartoon', 'showMovies')
+MOVIE_AR = (f'{URL_MAIN}category.php?cat=aflam-araby1', 'showMovies')
+MOVIE_EN = (f'{URL_MAIN}category.php?cat=aflam-agnaby', 'showMovies')
+MOVIE_HI = (f'{URL_MAIN}category.php?cat=aflam-hindi', 'showMovies')
+MOVIE_ASIAN = (f'{URL_MAIN}category.php?cat=asian-movies', 'showMovies')
+MOVIE_TURK = (f'{URL_MAIN}category.php?cat=Turkish-Movies', 'showMovies')
+MOVIE_DUBBED = (f'{URL_MAIN}category.php?cat=Dubbed-Movies', 'showMovies')
+KID_MOVIES = (f'{URL_MAIN}category.php?cat=aflam-cartoon', 'showMovies')
 
-RAMADAN_SERIES = (URL_MAIN + 'category.php?cat=ramadan-2024', 'showSeries')
-SERIE_EN = (URL_MAIN + 'category.php?cat=moslslat-agnaby', 'showSeries')
-SERIE_AR = (URL_MAIN + 'category.php?cat=moslslat-arabia', 'showSeries')
-SERIE_HEND = (URL_MAIN + 'category.php?cat=moslslat-hindia', 'showSeries')
-SERIE_ASIA = (URL_MAIN + 'category.php?cat=moslslat-asia', 'showSeries')
-SERIE_TR = (URL_MAIN + 'category.php?cat=moslslat-turkya', 'showSeries')
-SERIE_DUBBED = (URL_MAIN + 'category.php?cat=moslslat-modablaja', 'showSeries')
-KID_CARTOON = (URL_MAIN + 'category.php?cat=anime-arabic', 'showSeries')
+RAMADAN_SERIES = (f'{URL_MAIN}category.php?cat=ramadan-2024', 'showSeries')
+SERIE_EN = (f'{URL_MAIN}category.php?cat=moslslat-agnaby', 'showSeries')
+SERIE_AR = (f'{URL_MAIN}category.php?cat=moslslat-arabia', 'showSeries')
+SERIE_HEND = (f'{URL_MAIN}category.php?cat=moslslat-hindia', 'showSeries')
+SERIE_ASIA = (f'{URL_MAIN}category.php?cat=moslslat-asia', 'showSeries')
+SERIE_TR = (f'{URL_MAIN}category.php?cat=moslslat-turkya', 'showSeries')
+SERIE_DUBBED = (f'{URL_MAIN}category.php?cat=moslslat-modablaja', 'showSeries')
+KID_CARTOON = (f'{URL_MAIN}category.php?cat=anime-arabic', 'showSeries')
 
-REPLAYTV_PLAY = (URL_MAIN + 'category.php?cat=masr7eyat', 'showMovies')
-REPLAYTV_NEWS = (URL_MAIN + 'category.php?cat=tv-programs', 'showSeries')
+REPLAYTV_PLAY = (f'{URL_MAIN}category.php?cat=masr7eyat', 'showMovies')
+REPLAYTV_NEWS = (f'{URL_MAIN}category.php?cat=tv-programs', 'showSeries')
 
-URL_SEARCH = (URL_MAIN + 'search.php?keywords=', 'showSeries')
-URL_SEARCH_MOVIES = (URL_MAIN + 'search.php?keywords=', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + 'search.php?keywords=', 'showSeries')
+URL_SEARCH = (f'{URL_MAIN}search.php?keywords=', 'showSeries')
+URL_SEARCH_MOVIES = (f'{URL_MAIN}search.php?keywords=', 'showMovies')
+URL_SEARCH_SERIES = (f'{URL_MAIN}search.php?keywords=', 'showSeries')
 
 FUNCTION_SEARCH = 'showSeries'
 	
@@ -116,7 +116,7 @@ def showSearch():
     oGui = cGui() 
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + 'search.php?keywords=فيلم+'+sSearchText
+        sUrl = f'{URL_MAIN}search.php?keywords=فيلم+{sSearchText}'
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -125,7 +125,7 @@ def showSearchSeries():
     oGui = cGui()
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + 'search.php?keywords=مسلسل+'+sSearchText
+        sUrl = f'{URL_MAIN}search.php?keywords=مسلسل+{sSearchText}'
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return  
@@ -287,15 +287,15 @@ def showEpisodes():
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
             
-            sTitle = sMovieTitle+' E'+aEntry[1]
-            siteUrl = URL_MAIN+aEntry[0]
+            sTitle = f'{sMovieTitle} E{aEntry[1]}'
+            siteUrl = f'{URL_MAIN}{aEntry[0]}'
             if '?post=' in siteUrl:
                 url_tmp = siteUrl.split('?post=')[-1].replace('%3D','=')
                 siteUrl = base64.b64decode(url_tmp).decode('utf8',errors='ignore')
             sThumb = sThumb
             sDesc = ''
 			
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
@@ -307,11 +307,11 @@ def __checkForNextPage(sHtmlContent):
     sPattern = '<li class="active">.+?href="#".+?href="([^"]+)'	
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0] :       
-        return URL_MAIN+aResult[1][0]
+        return f'{URL_MAIN}{aResult[1][0]}'
 
     return False
 
-def showHosters(oInputParameterHandler = False):
+def showHosters():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -345,14 +345,14 @@ def showHosters(oInputParameterHandler = False):
                 continue        
             url = aEntry[1]
             if url.startswith('//'):
-               url = 'http:' + url
+               url = f'http:{url}'
 			           
             sHosterUrl = url
             oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if oHoster != False:
+            if oHoster:
                oHoster.setDisplayName(sMovieTitle)
                oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
     sPattern = 'data-embed-url=["\']([^"\']+)["\']' 
     aResult = re.findall(sPattern, sHtmlContent)	
@@ -360,14 +360,14 @@ def showHosters(oInputParameterHandler = False):
         for aEntry in aResult:            
             url = aEntry
             if url.startswith('//'):
-               url = 'http:' + url
+               url = f'http:{url}'
 			           
             sHosterUrl = url
             oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if oHoster != False:
+            if oHoster:
                oHoster.setDisplayName(sMovieTitle)
                oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
     sPattern = '<iframe src=["\']([^"\']+)["\']' 
     aResult = re.findall(sPattern, sHtmlContent)	
@@ -375,14 +375,14 @@ def showHosters(oInputParameterHandler = False):
         for aEntry in aResult:            
             url = aEntry
             if url.startswith('//'):
-               url = 'http:' + url
+               url = f'http:{url}'
 			           
             sHosterUrl = url
             oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if oHoster != False:
+            if oHoster:
                oHoster.setDisplayName(sMovieTitle)
                oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
     oGui.setEndOfDirectory()
                 

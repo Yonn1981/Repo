@@ -1,5 +1,5 @@
 ﻿# -*- coding: utf-8 -*-
-#zombi https://github.com/zombiB/zombi-addons/
+# zombi https://github.com/zombiB/zombi-addons/
 
 import re
 import requests
@@ -21,12 +21,12 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
  
-MOVIE_EN = (URL_MAIN + 'cat_film/افلام-اجنبي-مترجمة/', 'showMovies')
-KID_MOVIES = (URL_MAIN + 'type/كرتون/', 'showMovies')
-MOVIE_ASIAN = (URL_MAIN + 'country/مشاهدة-افلام-اسيوية-مترجمة-21/', 'showMovies')
+MOVIE_EN = (f'{URL_MAIN}cat_film/افلام-اجنبي-مترجمة/', 'showMovies')
+KID_MOVIES = (f'{URL_MAIN}type/كرتون/', 'showMovies')
+MOVIE_ASIAN = (f'{URL_MAIN}country/مشاهدة-افلام-اسيوية-مترجمة-21/', 'showMovies')
 MOVIE_GENRES = (URL_MAIN, 'showGenres')
 
-URL_SEARCH = (URL_MAIN + '/?s=', 'showMovies')
+URL_SEARCH = (f'{URL_MAIN}/?s=', 'showMovies')
 FUNCTION_SEARCH = 'showMovies'
 
 def load():
@@ -59,7 +59,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/?s='+sSearchText
+        sUrl = f'{URL_MAIN}/?s={sSearchText}'
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -215,7 +215,7 @@ def showLink():
                         oOutputParameterHandler.addParameter('sThumb', sThumb)
                         oOutputParameterHandler.addParameter('nume', nume)
 
-                        oGui.addLink(SITE_IDENTIFIER, 'showHosters', nume, sThumb, '', oOutputParameterHandler, oInputParameterHandler)
+                        oGui.addLink(SITE_IDENTIFIER, 'showHosters', nume, sThumb, '', oOutputParameterHandler)
 
     oGui.setEndOfDirectory() 
 
@@ -305,27 +305,22 @@ def showServer(oInputParameterHandler = False):
 				            
             sHosterUrl = url 
             if 'userload' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                sHosterUrl = f'{sHosterUrl}|Referer={URL_MAIN}'
             if 'mystream' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
+                sHosterUrl = f'{sHosterUrl}|Referer={URL_MAIN}' 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
                oHoster.setDisplayName(sMovieTitle)
                oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 				
-       
     oGui.setEndOfDirectory()	 
  
- 
 def __checkForNextPage(sHtmlContent):
-    sPattern = "<a href='([^<]+)'>&rsaquo;</a>"
-	
     oParser = cParser()
+    sPattern = "<a href='([^<]+)'>&rsaquo;</a>"
     aResult = oParser.parse(sHtmlContent, sPattern)
- 
-    if aResult[0]:
-        
+    if aResult[0]: 
         return aResult[1][0]
 
     return False

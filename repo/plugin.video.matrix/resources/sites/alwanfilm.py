@@ -17,7 +17,7 @@ SITE_DESC = 'arabic vod'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-MOVIE_CLASSIC = (URL_MAIN + 'movies/', 'showMovies')
+MOVIE_CLASSIC = (f'{URL_MAIN}movies/', 'showMovies')
 REPLAYTV_PLAY = ('https://alwanzman.com/genre/%D9%83%D9%88%D9%85%D9%8A%D8%AF%D9%8A%D8%A7/', 'showMovies')
 MOVIE_ANNEES = (True, 'showYears')
 
@@ -38,11 +38,11 @@ def showYears():
     oOutputParameterHandler = cOutputParameterHandler()
     for i in reversed(range(1932, 1975)):
         sYear = str(i)
-        oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/release/' + sYear)  # / inutile
+        oOutputParameterHandler.addParameter('siteUrl', f'{URL_MAIN}release/' + sYear)
         oGui.addDir(SITE_IDENTIFIER, 'showMovies', sYear, 'annees.png', oOutputParameterHandler)
     oGui.setEndOfDirectory()
 	
-def showMovies(sSearch = ''):
+def showMovies():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -81,7 +81,7 @@ def showMovies(sSearch = ''):
             if m:
                 sDub = str(m.group(0))
                 sTitle = sTitle.replace(sDub,'')
-            sDisplayTitle = ('%s [%s]') % (sTitle, sDub)
+            sDisplayTitle = f'{sTitle} [{sDub}]'
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -106,17 +106,16 @@ def __checkForNextPage(sHtmlContent, sUrl):
     sPattern = '<link rel="next" href="([^<]+)" />'
     aResult = oParser.parse(sHtmlContent, sPattern) 
     if aResult[0]:
-        return sUrl+ aResult[1][0]
+        return f'{sUrl}{aResult[1][0]}'
 
     sPattern = 'class="arrow_pag" href="([^"]+)'
     aResult = oParser.parse(sHtmlContent, sPattern) 
     if aResult[0]:
-        return sUrl+ aResult[1][0]
+        return f'{sUrl}{aResult[1][0]}'
 
     return False
 
-	 
-def showServer(oInputParameterHandler = False):
+def showServer():
     oGui = cGui()
    
     oInputParameterHandler = cInputParameterHandler()
@@ -134,14 +133,14 @@ def showServer(oInputParameterHandler = False):
         for aEntry in aResult[1]:            
             url = aEntry
             if url.startswith('//'):
-               url = 'http:' + url					
+               url = f'http:{url}'				
             
             sHosterUrl = url 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
                oHoster.setDisplayName(sMovieTitle)
                oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
     sPattern = '<iframe.+?src=["\']([^"\']+)["\']'
     aResult = oParser.parse(sHtmlContent, sPattern)	
@@ -149,13 +148,13 @@ def showServer(oInputParameterHandler = False):
         for aEntry in aResult[1]:            
             url = aEntry
             if url.startswith('//'):
-               url = 'http:' + url					
+               url = f'http:{url}'				
             
             sHosterUrl = url 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
                oHoster.setDisplayName(sMovieTitle)
                oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)				
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)				
        
     oGui.setEndOfDirectory()

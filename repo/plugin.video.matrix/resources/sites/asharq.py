@@ -16,8 +16,8 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-DOC_NEWS = (URL_MAIN+'/doc', 'showMovies')
-DOC_SERIES = (URL_MAIN+'/doc', 'showMovies')
+DOC_NEWS = (f'{URL_MAIN}/doc', 'showMovies')
+DOC_SERIES = (f'{URL_MAIN}/doc', 'showMovies')
  
 def load():
     oGui = cGui()
@@ -48,7 +48,7 @@ def showMovies(sSearch = ''):
 
             sTitle = aEntry[3]
             sThumb = aEntry[0]
-            siteUrl = URL_MAIN + aEntry[2]
+            siteUrl = f'{URL_MAIN}{aEntry[2]}'
             sDesc = aEntry[1]
 			
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -59,7 +59,7 @@ def showMovies(sSearch = ''):
 
     oGui.setEndOfDirectory() 
     
-def showMoviesLinks(sSearch = ''):
+def showMoviesLinks():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -79,7 +79,7 @@ def showMoviesLinks(sSearch = ''):
  
             sTitle = sMovieTitle          
             sThumb = sThumb
-            siteUrl = URL_MAIN+aEntry
+            siteUrl = f'{URL_MAIN}{aEntry}'
             sDesc = sDesc
 						
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -96,7 +96,7 @@ def showMoviesLinks(sSearch = ''):
  
             sTitle = aEntry[2]
             sThumb = aEntry[0]
-            siteUrl = URL_MAIN+aEntry[1]
+            siteUrl = f'{URL_MAIN}{aEntry[1]}'
             sDesc = aEntry[3]
 				
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -118,7 +118,7 @@ def __checkForNextPage(sHtmlContent):
     sPattern = '<li >.+?<a href="(.+?)">'
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:    
-        return URL_MAIN+'/'+aResult[1][0]
+        return f'{URL_MAIN}/{aResult[1][0]}'
 
     return False
 
@@ -144,9 +144,9 @@ def showHosters():
 
                 url = aEntry[1]
                 quality = aEntry[0]
-                sTitle = ('%s  [COLOR coral]%s[/COLOR]') % (sMovieTitle, quality)
+                sTitle = f'{sMovieTitle}  [COLOR coral]{quality}[/COLOR]'
                 if url.startswith('//'):
-                    url = 'http:' + url
+                    url = f'http:{url}'
                     
                 sHosterUrl = url			
                 oHoster = cHosterGui().checkHoster(sHosterUrl)

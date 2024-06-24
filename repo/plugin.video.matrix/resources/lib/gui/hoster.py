@@ -11,12 +11,10 @@ class cHosterGui:
     SITE_NAME = 'cHosterGui'
     ADDON = addon()
 
-    # step 1 - bGetRedirectUrl in ein extra optionsObject verpacken
-    def showHoster(self, oGui, oHoster, sMediaUrl, sThumbnail, bGetRedirectUrl=False, oInputParameterHandler=False):
+    def showHoster(self, oGui, oHoster, sMediaUrl, sThumbnail, bGetRedirectUrl=False):
         oHoster.setUrl(sMediaUrl)
         oOutputParameterHandler = cOutputParameterHandler()
-        if not oInputParameterHandler:
-            oInputParameterHandler = cInputParameterHandler()
+        oInputParameterHandler = cInputParameterHandler()
 
         # Gestion NextUp
         siteUrl = oInputParameterHandler.getValue('siteUrl')
@@ -33,16 +31,10 @@ class cHosterGui:
         sFav = oInputParameterHandler.getValue('sFav')
         if not sFav:
             sFav = oInputParameterHandler.getValue('function')
-        searchSiteId = oInputParameterHandler.getValue('searchSiteId')
-        if searchSiteId:
-            oOutputParameterHandler.addParameter('searchSiteId', searchSiteId)
-        oOutputParameterHandler.addParameter('searchSiteName', oInputParameterHandler.getValue('searchSiteName'))
-        oOutputParameterHandler.addParameter('sQual', oInputParameterHandler.getValue('sQual'))
 
         oGuiElement = cGuiElement()
         oGuiElement.setSiteName(self.SITE_NAME)
         oGuiElement.setFunction('play')
-
 
         # Catégorie de lecture
         if oInputParameterHandler.exist('sCat'):
@@ -72,11 +64,12 @@ class cHosterGui:
             if self.ADDON.getSetting('display_info_file') == 'true':
                 oHoster.setDisplayName(sMediaFile)
                 oGuiElement.setTitle(oHoster.getFileName())  # permet de calculer le cleanTitle
-                oGuiElement.setRawTitle(oHoster.getDisplayName())   # remplace le titre par le lien
+                oGuiElement.setRawTitle(oHoster.getDisplayName())  # remplace le titre par le lien
             else:
                 oGuiElement.setTitle(oHoster.getDisplayName())
         else:
             oGuiElement.setTitle(oHoster.getDisplayName())
+
 
         title = oGuiElement.getCleanTitle()
         tvShowTitle = oGuiElement.getItemValue('tvshowtitle')
@@ -96,11 +89,13 @@ class cHosterGui:
         oOutputParameterHandler.addParameter('siteUrl', siteUrl)
         oOutputParameterHandler.addParameter('sTmdbId', sTmdbId)
 
+
         # gestion NextUp
-        oOutputParameterHandler.addParameter('sourceName', site)    # source d'origine
-        oOutputParameterHandler.addParameter('sourceFav', sFav)    # source d'origine
+        oOutputParameterHandler.addParameter('sourceName', site)  # source d'origine
+        oOutputParameterHandler.addParameter('sourceFav', sFav)  # source d'origine
         oOutputParameterHandler.addParameter('nextSaisonFunc', nextSaisonFunc)
         oOutputParameterHandler.addParameter('saisonUrl', saisonUrl)
+        oOutputParameterHandler.addParameter('realHoster', oHoster.getRealHost())
 
         # gestion Lecture en cours
         oOutputParameterHandler.addParameter('movieUrl', movieUrl)
@@ -172,34 +167,35 @@ class cHosterGui:
         except:
             sHostName = sHosterUrl
 
-        if debrid:
-            # L'user a active l'url resolver ?
-            if self.ADDON.getSetting('Userresolveurl') == 'true':
-                import resolveurl
-                hmf = resolveurl.HostedMediaFile(url=sHosterUrl)
-                if hmf.valid_url():
-                    tmp = self.getHoster('resolver')
-                    RH = sHosterUrl.split('/')[2]
-                    RH = RH.replace('www.', '')
-                    tmp.setRealHost(RH.split('.')[0].upper())
-                    return tmp
+        if debrid: # premiere tentative avec debrideur, si on revient ici, ce sera pour tester sans debrideur
 
-
+# NON, Il faut passer par alldebrid car darkibox est bloqué dans certains pays
+            # Priorité au compte darkibox pour les liens darkino
+            # if self.ADDON.getSetting('hoster_darkibox_premium') == 'true':
+            #     sRealHost = self.checkHoster(sHosterUrl, False)
+            #     if sRealHost and 'darkibox' in sRealHost.getPluginIdentifier():
+            #         return sRealHost
 
             # L'user a activé alldebrid ?
             if self.ADDON.getSetting('hoster_alldebrid_premium') == 'true':
                 f = self.getHoster('alldebrid')
                 #mise a jour du nom
+                sRealHost = self.checkHoster(sHosterUrl, False)
+                if sRealHost:
+                    sHostName = sRealHost.getPluginIdentifier()
                 f.setRealHost(sHostName)
                 return f
-					
+
             # L'user a activé realbrid ?
             if self.ADDON.getSetting('hoster_realdebrid_premium') == 'true':
                 f = self.getHoster('realdebrid')
                 #mise a jour du nom
+                sRealHost = self.checkHoster(sHosterUrl, False)
+                if sRealHost:
+                    sHostName = sRealHost.getPluginIdentifier()
                 f.setRealHost(sHostName)
                 return f
-					
+
             # L'user a activé debrid_link ?
             if self.ADDON.getSetting('hoster_debridlink_premium') == 'true':
                 if "debrid.link" not in sHosterUrl:
@@ -207,7 +203,6 @@ class cHosterGui:
                 else:
                     return self.getHoster("lien_direct")
 
-                
         supported_player = ['film77', 'hdup', 'streamable', 'stardima', 'filescdn', 'vidgot', 'videott', 'vidlo', 'sendit', 'thevid', 'vidmoly', 'gettyshare',
                             'fastplay', 'cloudy', 'hibridvod', 'extremenow', 'yourupload', 'vidspeeds', 'moshahda', 'voe', 'faselhd', 'naqoos', 'frdl',
                             'streamax', 'gounlimited', 'xdrive', 'facebook', 'mixdrop', 'mixloads', 'vidoza', 'rutube', 'megawatch', 'vidzi', 'filetrip', 
@@ -261,7 +256,7 @@ class cHosterGui:
         streamwish = next((x for x in ['streamwish', 'khadhnayad', 'ajmidyad', 'yadmalik', 'kharabnah', 'hayaatieadhab', 'sfastwish', 'eghjrutf', 'eghzrutw',
                             'wishfast', 'fviplions', 'egtpgrvh', 'mdy48tn97', 'embedwish', 'fsdcmo.sbs', 'anime4low', 'cdnwish-down', 'heavenlyvideo',
                             'flaswish', 'streamzid', 'cimawish', 'egopxutd', 'obeywish', 'trgsfjll', 'mdbekjwqa', 'uqloads', 'm3lomatik', 'cdnwish', 'ma2d',
-                            'mohahhda', 'asnwish', 'jodwish', 'cinemathek', 'swhoi', 'dancima', 'warda', 'gsfqzmqu', 'swdyu', 'cinemabest.online'] if x in sHostName), None)
+                            'mohahhda', 'asnwish', 'jodwish', 'cinemathek', 'swhoi', 'dancima', 'warda', 'gsfqzmqu', 'swdyu', 'cinemabest.online', 'zidwish'] if x in sHostName), None)
         if streamwish:
             return self.getHoster('streamwish')
 
@@ -274,7 +269,7 @@ class cHosterGui:
         # Filelions Clone
         filelions = next((x for x in ['filelions', 'ajmidyadfihayh', 'alhayabambi', 'bazwatch', 'cilootv', 'motvy55', 'bazlions', 'lylxan',
                                 'fdewsdc.sbs', '5drama.vip', 'cdnlion-down', 'demonvideo', 'zidlions', 'vidhide', 'streamfile', 'vidnow', 'tuktukcinema29.buzz',
-                                'gsfomqu', 'codeda', 'ma3refa.store', 'coolciima', 'nejma', 'cinmabest.site'] if x in sHostName), None)
+                                'gsfomqu', 'codeda', 'ma3refa.store', 'coolciima', 'nejma', 'cinmabest.site', 'zidhide'] if x in sHostName), None)
         if filelions:
             return self.getHoster("filelions")
 
@@ -698,12 +693,11 @@ class cHosterGui:
         klass = getattr(mod, 'cHoster')
         return klass()
 
-    def play(self, oInputParameterHandler = False, autoPlay = False):
+    def play(self):
         oGui = cGui()
         oDialog = dialog()
 
-        if not oInputParameterHandler:
-            oInputParameterHandler = cInputParameterHandler()
+        oInputParameterHandler = cInputParameterHandler()
         sHosterIdentifier = oInputParameterHandler.getValue('sHosterIdentifier')
         sMediaUrl = oInputParameterHandler.getValue('sMediaUrl')
         bGetRedirectUrl = oInputParameterHandler.getValue('bGetRedirectUrl')
@@ -729,12 +723,11 @@ class cHosterGui:
         oHoster.setFileName(sFileName)
 
         sHosterName = oHoster.getDisplayName()
-        if not autoPlay:
-            oDialog.VSinfo(sHosterName, 'Resolve')
+        oDialog.VSinfo(sHosterName, 'Resolve')
 
         try:
             oHoster.setUrl(sMediaUrl)
-            aLink = oHoster.getMediaLink(autoPlay)
+            aLink = oHoster.getMediaLink()
 
             if aLink and (aLink[0] or aLink[1]):  # Le hoster ne sait pas résoudre mais a retourné une autre url
                 if not aLink[0]:  # Voir exemple avec allDebrid qui : return False, URL
@@ -742,10 +735,9 @@ class cHosterGui:
                     if oHoster:
                         oHoster.setFileName(sFileName)
                         sHosterName = oHoster.getDisplayName()
-                        if not autoPlay:
-                            oDialog.VSinfo(sHosterName, 'Resolve')
+                        oDialog.VSinfo(sHosterName, 'Resolve')
                         oHoster.setUrl(aLink[1])
-                        aLink = oHoster.getMediaLink(autoPlay)
+                        aLink = oHoster.getMediaLink()
 
                 if aLink[0]:
                     oGuiElement = cGuiElement()
@@ -759,27 +751,24 @@ class cHosterGui:
                     oGuiElement.getInfoLabel()
 
                     from resources.lib.player import cPlayer
-                    oPlayer = cPlayer(oInputParameterHandler)
+                    oPlayer = cPlayer()
 
-                    # sous titres ?
+                    # sous-titres ?
                     if len(aLink) > 2:
                         oPlayer.AddSubtitles(aLink[2])
 
                     return oPlayer.run(oGuiElement, aLink[1])
 
-            if not autoPlay:
-                oDialog.VSerror(self.ADDON.VSlang(30020))
-            return False
+            oDialog.VSerror(self.ADDON.VSlang(30020))
+            return
 
         except Exception as e:
             oDialog.VSerror(self.ADDON.VSlang(30020))
             import traceback
             traceback.print_exc()
-            return False
+            return
 
-        if not autoPlay:
-            oGui.setEndOfDirectory()
-        return False
+        oGui.setEndOfDirectory()
 
     def addToPlaylist(self):
         oGui = cGui()

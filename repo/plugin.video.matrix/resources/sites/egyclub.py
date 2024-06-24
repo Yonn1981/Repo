@@ -19,19 +19,19 @@ SITE_NAME = 'Egyclub'
 SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
-MOVIE_EN = (URL_MAIN + 'category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a', 'showMovies')
-MOVIE_HI = (URL_MAIN + 'category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%87%D9%86%D8%AF%D9%8A', 'showMovies')
-MOVIE_TURK = (URL_MAIN + 'category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%AA%D8%B1%D9%83%D9%8A', 'showMovies')
-KID_MOVIES = (URL_MAIN + 'category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D9%86%D9%8A%D9%85%D9%8A%D8%B4%D9%86', 'showMovies')
-MOVIE_CLASSIC = (URL_MAIN + 'category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%83%d9%84%d8%a7%d8%b3%d9%8a%d9%83%d9%8a%d8%a9-%d8%b9%d8%a7%d9%84%d9%85%d9%8a%d8%a9', 'showMovies')
+MOVIE_EN = (f'{URL_MAIN}category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a', 'showMovies')
+MOVIE_HI = (f'{URL_MAIN}category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%87%D9%86%D8%AF%D9%8A', 'showMovies')
+MOVIE_TURK = (f'{URL_MAIN}category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%AA%D8%B1%D9%83%D9%8A', 'showMovies')
+KID_MOVIES = (f'{URL_MAIN}category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D9%86%D9%8A%D9%85%D9%8A%D8%B4%D9%86', 'showMovies')
+MOVIE_CLASSIC = (f'{URL_MAIN}category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%83%d9%84%d8%a7%d8%b3%d9%8a%d9%83%d9%8a%d8%a9-%d8%b9%d8%a7%d9%84%d9%85%d9%8a%d8%a9', 'showMovies')
 
-SERIE_EN = (URL_MAIN + 'category/مسلسلات-اجنبي/', 'showSeries')
-DOC_NEWS = (URL_MAIN + 'category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%88%d8%ab%d8%a7%d8%a6%d9%82%d9%8a%d8%a9', 'showMovies')
+SERIE_EN = (f'{URL_MAIN}category/مسلسلات-اجنبي/', 'showSeries')
+DOC_NEWS = (f'{URL_MAIN}category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%88%d8%ab%d8%a7%d8%a6%d9%82%d9%8a%d8%a9', 'showMovies')
 
 
-URL_SEARCH = (URL_MAIN + '/?s=', 'showMovies')
-URL_SEARCH_MOVIES = (URL_MAIN + '/?s=', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + '/?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSeries')
+URL_SEARCH = (f'{URL_MAIN}/?s=', 'showMovies')
+URL_SEARCH_MOVIES = (f'{URL_MAIN}/?s=', 'showMovies')
+URL_SEARCH_SERIES = (f'{URL_MAIN}/?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSeries')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -70,7 +70,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/?s='+sSearchText
+        sUrl = f'{URL_MAIN}/?s={sSearchText}'
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -80,7 +80,7 @@ def showSeriesSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+'+sSearchText
+        sUrl = f'{URL_MAIN}/?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+{sSearchText}'
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -143,7 +143,7 @@ def __checkForNextPage(sHtmlContent):
     sPattern = 'class="next page-numbers" href="(.+?)">'
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:       
-        return URL_MAIN+aResult[1][0]
+        return f'{URL_MAIN}{aResult[1][0]}'
 
     return False 
  
@@ -251,7 +251,7 @@ def showEpisodes():
             oGui.addDir(SITE_IDENTIFIER, 'showEpisodes', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
     else:
         oOutputParameterHandler = cOutputParameterHandler() 
-        oOutputParameterHandler.addParameter('siteUrl',sUrl)
+        oOutputParameterHandler.addParameter('siteUrl', sUrl)
         oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
         oOutputParameterHandler.addParameter('sThumb', sThumb)
 
@@ -259,7 +259,7 @@ def showEpisodes():
        
     oGui.setEndOfDirectory() 
  
-def showServers(oInputParameterHandler = False):
+def showServers():
     oGui = cGui()
    
     oInputParameterHandler = cInputParameterHandler()
@@ -276,7 +276,7 @@ def showServers(oInputParameterHandler = False):
     if aResult[0]:
         for aEntry in aResult[1]:
 
-            oRequestHandler = cRequestHandler(URL_MAIN + 'wp-content/themes/Elshaikh/Inc/Ajax/Single/Server.php')
+            oRequestHandler = cRequestHandler(f'{URL_MAIN}wp-content/themes/Elshaikh/Inc/Ajax/Single/Server.php')
             oRequestHandler.addHeaderEntry('User-Agent', UA)
             oRequestHandler.addHeaderEntry('Referer', URL_MAIN)
             oRequestHandler.addParameters('id', aEntry[1])
@@ -291,18 +291,17 @@ def showServers(oInputParameterHandler = False):
             
                     url = aEntry
                     if url.startswith('//'):
-                       url = 'http:' + url
+                       url = f'http:{url}'
             
                     sHosterUrl = url
                     if 'userload' in sHosterUrl:
-                        sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-                    if 'mystream' in sHosterUrl:
-                        sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN   
+                        sHosterUrl = f'{sHosterUrl}|Referer={URL_MAIN}'
+  
                     oHoster = cHosterGui().checkHoster(sHosterUrl)
                     if oHoster:
                        oHoster.setDisplayName(sMovieTitle)
                        oHoster.setFileName(sMovieTitle)
-                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
      	
     sPattern = 'target="_NEW" href="([^"]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)	
@@ -316,13 +315,12 @@ def showServers(oInputParameterHandler = False):
 							            
             sHosterUrl = url 
             if 'userload' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-            if 'mystream' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
+                sHosterUrl = f'{sHosterUrl}|Referer={URL_MAIN}'
+ 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
                oHoster.setDisplayName(sMovieTitle)
                oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)               
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)               
                 
     oGui.setEndOfDirectory()

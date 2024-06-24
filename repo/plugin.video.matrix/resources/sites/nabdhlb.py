@@ -19,31 +19,31 @@ SITE_DESC = 'Online Movies and TV Shows'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-MOVIE_EN = (URL_MAIN + 'category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a%d8%a9/', 'showMovies')
-MOVIE_TURK = (URL_MAIN + 'category/%d8%a3%d9%81%d9%84%d8%a7%d9%85-%d8%aa%d8%b1%d9%83%d9%8a%d8%a9/', 'showMovies')
-MOVIE_HI = (URL_MAIN + 'category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%87%d9%86%d8%af%d9%8a%d8%a9/', 'showMovies')
-MOVIE_PAK = (URL_MAIN + 'category/%d8%a3%d9%81%d9%84%d8%a7%d9%85-%d8%a8%d8%a7%d9%83%d8%b3%d8%aa%d8%a7%d9%86%d9%8a%d8%a9/', 'showMovies')
-MOVIE_ASIAN = (URL_MAIN + 'category/%d8%a3%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%b3%d9%8a%d9%88%d9%8a%d8%a9/', 'showMovies')
-MOVIE_VIET = (URL_MAIN + 'category/%d8%a3%d9%81%d9%84%d8%a7%d9%85-%d9%81%d9%84%d8%a8%d9%8a%d9%86%d9%8a%d8%a9/', 'showMovies')
-KID_MOVIES = (URL_MAIN + 'category/%d8%a3%d9%81%d9%84%d8%a7%d9%85-%d8%a3%d9%86%d9%85%d9%8a-%d9%83%d8%b1%d8%aa%d9%88%d9%86/', 'showMovies')
+MOVIE_EN = (f'{URL_MAIN}category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a%d8%a9/', 'showMovies')
+MOVIE_TURK = (f'{URL_MAIN}category/%d8%a3%d9%81%d9%84%d8%a7%d9%85-%d8%aa%d8%b1%d9%83%d9%8a%d8%a9/', 'showMovies')
+MOVIE_HI = (f'{URL_MAIN}category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%87%d9%86%d8%af%d9%8a%d8%a9/', 'showMovies')
+MOVIE_PAK = (f'{URL_MAIN}category/%d8%a3%d9%81%d9%84%d8%a7%d9%85-%d8%a8%d8%a7%d9%83%d8%b3%d8%aa%d8%a7%d9%86%d9%8a%d8%a9/', 'showMovies')
+MOVIE_ASIAN = (f'{URL_MAIN}category/%d8%a3%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%b3%d9%8a%d9%88%d9%8a%d8%a9/', 'showMovies')
+MOVIE_VIET = (f'{URL_MAIN}category/%d8%a3%d9%81%d9%84%d8%a7%d9%85-%d9%81%d9%84%d8%a8%d9%8a%d9%86%d9%8a%d8%a9/', 'showMovies')
+KID_MOVIES = (f'{URL_MAIN}category/%d8%a3%d9%81%d9%84%d8%a7%d9%85-%d8%a3%d9%86%d9%85%d9%8a-%d9%83%d8%b1%d8%aa%d9%88%d9%86/', 'showMovies')
 
-SERIE_TR = (URL_MAIN + 'category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%aa%d8%b1%d9%83%d9%8a%d8%a9-%d9%85%d8%aa%d8%b1%d8%ac%d9%85%d8%a9/', 'showSeries')
-SERIE_TR_AR = (URL_MAIN + 'category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%aa%d8%b1%d9%83%d9%8a%d8%a9-%d9%85%d8%af%d8%a8%d9%84%d8%ac%d8%a9/', 'showSeries')
-SERIE_EN = (URL_MAIN + 'category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a%d8%a9/', 'showSeries')
-SERIE_AR = (URL_MAIN + 'category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b9%d8%b1%d8%a8%d9%8a%d8%a9-%d8%ad%d8%b5%d8%b1%d9%8a%d8%a9/', 'showSeries')
-SERIE_ASIA = (URL_MAIN + 'category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a7%d8%b3%d9%8a%d9%88%d9%8a%d8%a9/', 'showSeries')
-SERIE_THAI = (URL_MAIN + 'category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%aa%d8%a7%d9%8a%d9%84%d9%86%d8%af%d9%8a%d8%a9-%d9%88-%d8%a7%d9%84%d8%aa%d8%a7%d9%8a%d9%88%d8%a7%d9%86%d9%8a%d8%a9/', 'showSeries')
-SERIE_FI = (URL_MAIN + 'category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%81%d9%84%d8%a8%d9%8a%d9%86%d9%8a%d8%a9/', 'showSeries')
-SERIE_MAL = (URL_MAIN + 'category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%85%d8%a7%d9%84%d9%8a%d8%b2%d9%8a%d8%a9/', 'showSeries')
-SERIE_HEND = (URL_MAIN + 'category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%87%d9%86%d8%af%d9%8a%d8%a9-%d9%85%d8%aa%d8%b1%d8%ac%d9%85%d8%a9/', 'showSeries')
-SERIE_HEND_AR = (URL_MAIN + 'category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%87%d9%86%d8%af%d9%8a%d8%a9-%d9%85%d8%af%d8%a8%d9%84%d8%ac%d8%a9/', 'showSeries')
-SERIE_PAK = (URL_MAIN + 'category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a8%d8%a7%d9%83%d8%b3%d8%aa%d8%a7%d9%86%d9%8a%d8%a9/', 'showSeries')
-SERIE_LATIN = (URL_MAIN + 'category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%84%d8%a7%d8%aa%d9%8a%d9%86%d9%8a%d8%a9-%d9%88-%d9%85%d9%83%d8%b3%d9%8a%d9%83%d9%8a%d8%a9/', 'showSeries')
+SERIE_TR = (f'{URL_MAIN}category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%aa%d8%b1%d9%83%d9%8a%d8%a9-%d9%85%d8%aa%d8%b1%d8%ac%d9%85%d8%a9/', 'showSeries')
+SERIE_TR_AR = (f'{URL_MAIN}category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%aa%d8%b1%d9%83%d9%8a%d8%a9-%d9%85%d8%af%d8%a8%d9%84%d8%ac%d8%a9/', 'showSeries')
+SERIE_EN = (f'{URL_MAIN}category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a%d8%a9/', 'showSeries')
+SERIE_AR = (f'{URL_MAIN}category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b9%d8%b1%d8%a8%d9%8a%d8%a9-%d8%ad%d8%b5%d8%b1%d9%8a%d8%a9/', 'showSeries')
+SERIE_ASIA = (f'{URL_MAIN}category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a7%d8%b3%d9%8a%d9%88%d9%8a%d8%a9/', 'showSeries')
+SERIE_THAI = (f'{URL_MAIN}category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%aa%d8%a7%d9%8a%d9%84%d9%86%d8%af%d9%8a%d8%a9-%d9%88-%d8%a7%d9%84%d8%aa%d8%a7%d9%8a%d9%88%d8%a7%d9%86%d9%8a%d8%a9/', 'showSeries')
+SERIE_FI = (f'{URL_MAIN}category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%81%d9%84%d8%a8%d9%8a%d9%86%d9%8a%d8%a9/', 'showSeries')
+SERIE_MAL = (f'{URL_MAIN}category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%85%d8%a7%d9%84%d9%8a%d8%b2%d9%8a%d8%a9/', 'showSeries')
+SERIE_HEND = (f'{URL_MAIN}category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%87%d9%86%d8%af%d9%8a%d8%a9-%d9%85%d8%aa%d8%b1%d8%ac%d9%85%d8%a9/', 'showSeries')
+SERIE_HEND_AR = (f'{URL_MAIN}category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%87%d9%86%d8%af%d9%8a%d8%a9-%d9%85%d8%af%d8%a8%d9%84%d8%ac%d8%a9/', 'showSeries')
+SERIE_PAK = (f'{URL_MAIN}category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a8%d8%a7%d9%83%d8%b3%d8%aa%d8%a7%d9%86%d9%8a%d8%a9/', 'showSeries')
+SERIE_LATIN = (f'{URL_MAIN}category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%84%d8%a7%d8%aa%d9%8a%d9%86%d9%8a%d8%a9-%d9%88-%d9%85%d9%83%d8%b3%d9%8a%d9%83%d9%8a%d8%a9/', 'showSeries')
 RAMDAN_SERIES = (URL_MAIN +'category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b1%d9%85%d8%b6%d8%a7%d9%86-2022/', 'showSeries')
 
-URL_SEARCH = (URL_MAIN + '?s=', 'showMovies')
-URL_SEARCH_MOVIES = (URL_MAIN + '?s=', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + '?s=', 'showSeries')
+URL_SEARCH = (f'{URL_MAIN}?s=', 'showMovies')
+URL_SEARCH_MOVIES = (f'{URL_MAIN}?s=', 'showMovies')
+URL_SEARCH_SERIES = (f'{URL_MAIN}?s=', 'showSeries')
 FUNCTION_SEARCH = 'showMovies'
 
 sitemsList = []
@@ -122,7 +122,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '?s='+sSearchText
+        sUrl = f'{URL_MAIN}?s={sSearchText}'
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return 
@@ -132,7 +132,7 @@ def showSearchSeries():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '?s='+sSearchText
+        sUrl = f'{URL_MAIN}?s={sSearchText}'
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -171,11 +171,11 @@ def showMovies(sSearch = ''):
             if not '/movie' in aEntry[0]:
                 continue 
 
-            siteUrl = aEntry[0]+'?do=views'
+            siteUrl = f'{aEntry[0]}?do=views'
             sTitle = cUtil().CleanMovieName(aEntry[1])
             sThumb = aEntry[2].replace('background-image:url(','').replace(");","").replace("'","")
             if sThumb.startswith('//'):
-                sThumb = 'https:' + sThumb           
+                sThumb = f'https:{sThumb}'          
             sDesc = ''
             sYear = ''
             m = re.search('([0-9]{4})', sTitle)
@@ -247,7 +247,7 @@ def showSeries(sSearch = ''):
                 sYear = str(m.group(0))
             sThumb = aEntry[2].replace('background-image:url(','').replace(");","").replace("'","")
             if sThumb.startswith('//'):
-                sThumb = 'https:' + sThumb       
+                sThumb = f'https:{sThumb}'     
             sDesc = ''
 
             if sTitle not in itemList:
@@ -354,17 +354,16 @@ def showEpisodes():
         oOutputParameterHandler = cOutputParameterHandler()    
         for aEntry in aResult[1]:
 
-            siteUrl = aEntry[0]+'?do=views'
-            sTitle = ' E' + aEntry[1]
-            sTitle = sMovieTitle+sTitle
+            siteUrl = f'{aEntry[0]}?do=views'
+            sTitle = f'{sMovieTitle} E{aEntry[1]}'
             sYear = ''
             sDesc = ''
         
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('siteUrl',  siteUrl) 
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl) 
             oOutputParameterHandler.addParameter('sThumb', sThumb)
-            oOutputParameterHandler.addParameter('sYear',sYear)
-            oOutputParameterHandler.addParameter('sDesc',sDesc)
+            oOutputParameterHandler.addParameter('sYear', sYear)
+            oOutputParameterHandler.addParameter('sDesc', sDesc)
             oGui.addEpisode(SITE_IDENTIFIER, 'showHosters' , sTitle , sYear, sThumb, sDesc, oOutputParameterHandler)
       
     oGui.setEndOfDirectory()	
@@ -378,7 +377,7 @@ def __checkForNextPage(sHtmlContent):
 
     return False
 
-def showHosters(oInputParameterHandler = False):
+def showHosters():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -404,7 +403,7 @@ def showHosters(oInputParameterHandler = False):
             sHosterID = ServerIDs.split(',')[0]
             serverId = ServerIDs.split(',')[1]
       
-            url = URL_MAIN + 'wp-content/themes/vo2022/temp/ajax/iframe2.php?id=' + sID + '&video=' + sHosterID + '&serverId=' + serverId
+            url = f'{URL_MAIN}wp-content/themes/vo2022/temp/ajax/iframe2.php?id={sID}&video={sHosterID}&serverId={serverId}'
             oRequestHandler = cRequestHandler(url)
             cook = oRequestHandler.GetCookies()
             oRequestHandler.addHeaderEntry('User-Agent', UA)
@@ -420,13 +419,11 @@ def showHosters(oInputParameterHandler = False):
             aResult = oParser.parse(sHtmlContent2, sPattern)
             if aResult[0]:
                 sHosterUrl = aResult[1][0]
-
-                if 'mystream' in sHosterUrl:
-                    sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN    
+ 
                 oHoster = cHosterGui().checkHoster(sHosterUrl)
-                if oHoster != False:
+                if oHoster:
                     oHoster.setDisplayName(sMovieTitle)
                     oHoster.setFileName(sMovieTitle)
-                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
                        
     oGui.setEndOfDirectory()

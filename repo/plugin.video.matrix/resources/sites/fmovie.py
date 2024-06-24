@@ -10,17 +10,9 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
-
+from urllib.parse import unquote, quote
 import sys, re, base64
-if sys.version_info >= (3,0,0):
-# for Python 3
-    to_unicode = str
-    from urllib.parse import unquote, quote
-
-else:
-    # for Python 2
-    to_unicode = unicode
-    from urllib import unquote, quote
+to_unicode = str
 
 SITE_IDENTIFIER = 'fmovie'
 SITE_NAME = 'FMovies'
@@ -30,18 +22,18 @@ URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 aniyomi = ''
 
-MOVIE_EN = (URL_MAIN + '/movie', 'showMovies')
-KID_MOVIES = (URL_MAIN + '/filter?keyword=&type%5B%5D=movie&genre%5B%5D=10&sort=recently_updated', 'showMovies')
+MOVIE_EN = (f'{URL_MAIN}/movie', 'showMovies')
+KID_MOVIES = (f'{URL_MAIN}/filter?keyword=&type%5B%5D=movie&genre%5B%5D=10&sort=recently_updated', 'showMovies')
 MOVIE_GENRES = (True, 'moviesGenres')
-SERIE_EN = (URL_MAIN + '/tv', 'showSeries')
-ANIM_NEWS = (URL_MAIN + '/filter?keyword=&type%5B%5D=tv&genre%5B%5D=10&sort=recently_updated', 'showSeries')
+SERIE_EN = (f'{URL_MAIN}/tv', 'showSeries')
+ANIM_NEWS = (f'{URL_MAIN}/filter?keyword=&type%5B%5D=tv&genre%5B%5D=10&sort=recently_updated', 'showSeries')
 SERIE_GENRES = (True, 'seriesGenres')
 
-DOC_NEWS = (URL_MAIN + '/filter?keyword=&type=movie&genre=131&sort=recently_added', 'showMovies')
-DOC_SERIES = (URL_MAIN + '/filter?keyword=&type=tv&genre=131&sort=recently_added', 'showSeries')
+DOC_NEWS = (f'{URL_MAIN}/filter?keyword=&type=movie&genre=131&sort=recently_added', 'showMovies')
+DOC_SERIES = (f'{URL_MAIN}/filter?keyword=&type=tv&genre=131&sort=recently_added', 'showSeries')
 
-URL_SEARCH_MOVIES = (URL_MAIN + '/filter?keyword=', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + '/filter?keyword=', 'showSeries')
+URL_SEARCH_MOVIES = (f'{URL_MAIN}/filter?keyword=', 'showMovies')
+URL_SEARCH_SERIES = (f'{URL_MAIN}/filter?keyword=', 'showSeries')
 FUNCTION_SEARCH = 'showMovies'
 	
 def load():
@@ -61,7 +53,7 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', KID_MOVIES[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام انيميشن', 'anim.png', oOutputParameterHandler)
 
-    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/filter?keyword=&type%5B%5D=movie&sort=trending')
+    oOutputParameterHandler.addParameter('siteUrl', f'{URL_MAIN}/filter?keyword=&type%5B%5D=movie&sort=trending')
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'الأفلام الرائجة', 'film.png', oOutputParameterHandler)	
 
     oOutputParameterHandler.addParameter('siteUrl', DOC_NEWS[0])
@@ -73,7 +65,7 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', ANIM_NEWS[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات انيميشن', 'anime.png', oOutputParameterHandler)  
 
-    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/filter?keyword=&type%5B%5D=tv&sort=trending')
+    oOutputParameterHandler.addParameter('siteUrl', f'{URL_MAIN}/filter?keyword=&type%5B%5D=tv&sort=trending')
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'المسلسلات الرائجة', 'mslsl.png', oOutputParameterHandler)	
 
     oOutputParameterHandler.addParameter('siteUrl', DOC_SERIES[0])
@@ -91,7 +83,7 @@ def showSearch():
     oGui = cGui()
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/filter?keyword='+sSearchText + '&type%5B%5D=movie&sort=most_relevance'
+        sUrl = f'{URL_MAIN}/filter?keyword={sSearchText}&type%5B%5D=movie&sort=most_relevance'
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return  
@@ -100,7 +92,7 @@ def showSeriesSearch():
     oGui = cGui()
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/filter?keyword='+sSearchText + '&type%5B%5D=tv&sort=most_relevance'
+        sUrl = f'{URL_MAIN}/filter?keyword={sSearchText}&type%5B%5D=tv&sort=most_relevance'
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return  
@@ -109,27 +101,27 @@ def seriesGenres():
     oGui = cGui()
 
     liste = []
-    liste.append(['Action', URL_MAIN + '/filter?keyword=&type%5B%5D=tv&genre%5B%5D=25&sort=recently_updated'])
-    liste.append(['Adventure', URL_MAIN + '/filter?keyword=&type%5B%5D=tv&genre%5B%5D=17&sort=recently_updated'])
-    liste.append(['Animated', URL_MAIN + '/filter?keyword=&type%5B%5D=tv&genre%5B%5D=10&sort=recently_updated'])
-    liste.append(['Biography', URL_MAIN + '/filter?keyword=&type%5B%5D=tv&genre%5B%5D=215&sort=recently_updated'])
-    liste.append(['Comedy', URL_MAIN + '/filter?keyword=&type%5B%5D=tv&genre%5B%5D=14&sort=recently_updated'])
-    liste.append(['Crime', URL_MAIN + '/filter?keyword=&type%5B%5D=tv&genre%5B%5D=26&sort=recently_updated'])
-    liste.append(['Drama', URL_MAIN + '/filter?keyword=&type%5B%5D=tv&genre%5B%5D=1&sort=recently_updated'])
-    liste.append(['Documentary', URL_MAIN + '/filter?keyword=&type%5B%5D=tv&genre%5B%5D=131&sort=recently_updated'])
-    liste.append(['Family', URL_MAIN + '/filter?keyword=&type%5B%5D=tv&genre%5B%5D=43&sort=recently_updated'])
-    liste.append(['Fantasy', URL_MAIN + '/filter?keyword=&type%5B%5D=tv&genre%5B%5D=31&sort=recently_updated'])
-    liste.append(['History', URL_MAIN + '/filter?keyword=&type%5B%5D=tv&genre%5B%5D=47&sort=recently_updated'])
-    liste.append(['Horror', URL_MAIN + '/filter?keyword=&type%5B%5D=tv&genre%5B%5D=74&sort=recently_updated'])
-    liste.append(['Music', URL_MAIN + '/filter?keyword=&type%5B%5D=tv&genre%5B%5D=199&sort=recently_updated'])
-    liste.append(['Mystery', URL_MAIN + '/filter?keyword=&type%5B%5D=tv&genre%5B%5D=64&sort=recently_updated'])
-    liste.append(['Reality TV', URL_MAIN + '/filter?keyword=&type%5B%5D=tv&genre%5B%5D=4&sort=recently_updated'])
-    liste.append(['Romance', URL_MAIN + '/filter?keyword=&type%5B%5D=tv&genre%5B%5D=23&sort=recently_updated'])
-    liste.append(['Sci-Fi', URL_MAIN + '/filter?keyword=&type%5B%5D=tv&genre%5B%5D=15&sort=recently_updated'])
-    liste.append(['Sports', URL_MAIN + '/filter?keyword=&type%5B%5D=tv&genre%5B%5D=44&sort=recently_updated'])
-    liste.append(['Thriller', URL_MAIN + '/filter?keyword=&type%5B%5D=tv&genre%5B%5D=7&sort=recently_updated'])
-    liste.append(['War', URL_MAIN + '/filter?keyword=&type%5B%5D=tv&genre%5B%5D=58&sort=recently_updated'])
-    liste.append(['Western', URL_MAIN + '/filter?keyword=&type%5B%5D=tv&genre%5B%5D=28&sort=recently_updated'])
+    liste.append(['Action', f'{URL_MAIN}/filter?keyword=&type%5B%5D=tv&genre%5B%5D=25&sort=recently_updated'])
+    liste.append(['Adventure', f'{URL_MAIN}/filter?keyword=&type%5B%5D=tv&genre%5B%5D=17&sort=recently_updated'])
+    liste.append(['Animated', f'{URL_MAIN}/filter?keyword=&type%5B%5D=tv&genre%5B%5D=10&sort=recently_updated'])
+    liste.append(['Biography', f'{URL_MAIN}/filter?keyword=&type%5B%5D=tv&genre%5B%5D=215&sort=recently_updated'])
+    liste.append(['Comedy', f'{URL_MAIN}/filter?keyword=&type%5B%5D=tv&genre%5B%5D=14&sort=recently_updated'])
+    liste.append(['Crime', f'{URL_MAIN}/filter?keyword=&type%5B%5D=tv&genre%5B%5D=26&sort=recently_updated'])
+    liste.append(['Drama', f'{URL_MAIN}/filter?keyword=&type%5B%5D=tv&genre%5B%5D=1&sort=recently_updated'])
+    liste.append(['Documentary', f'{URL_MAIN}/filter?keyword=&type%5B%5D=tv&genre%5B%5D=131&sort=recently_updated'])
+    liste.append(['Family', f'{URL_MAIN}/filter?keyword=&type%5B%5D=tv&genre%5B%5D=43&sort=recently_updated'])
+    liste.append(['Fantasy', f'{URL_MAIN}/filter?keyword=&type%5B%5D=tv&genre%5B%5D=31&sort=recently_updated'])
+    liste.append(['History', f'{URL_MAIN}/filter?keyword=&type%5B%5D=tv&genre%5B%5D=47&sort=recently_updated'])
+    liste.append(['Horror', f'{URL_MAIN}/filter?keyword=&type%5B%5D=tv&genre%5B%5D=74&sort=recently_updated'])
+    liste.append(['Music', f'{URL_MAIN}/filter?keyword=&type%5B%5D=tv&genre%5B%5D=199&sort=recently_updated'])
+    liste.append(['Mystery', f'{URL_MAIN}/filter?keyword=&type%5B%5D=tv&genre%5B%5D=64&sort=recently_updated'])
+    liste.append(['Reality TV', f'{URL_MAIN}/filter?keyword=&type%5B%5D=tv&genre%5B%5D=4&sort=recently_updated'])
+    liste.append(['Romance', f'{URL_MAIN}/filter?keyword=&type%5B%5D=tv&genre%5B%5D=23&sort=recently_updated'])
+    liste.append(['Sci-Fi', f'{URL_MAIN}/filter?keyword=&type%5B%5D=tv&genre%5B%5D=15&sort=recently_updated'])
+    liste.append(['Sports', f'{URL_MAIN}/filter?keyword=&type%5B%5D=tv&genre%5B%5D=44&sort=recently_updated'])
+    liste.append(['Thriller', f'{URL_MAIN}/filter?keyword=&type%5B%5D=tv&genre%5B%5D=7&sort=recently_updated'])
+    liste.append(['War', f'{URL_MAIN}/filter?keyword=&type%5B%5D=tv&genre%5B%5D=58&sort=recently_updated'])
+    liste.append(['Western', f'{URL_MAIN}/filter?keyword=&type%5B%5D=tv&genre%5B%5D=28&sort=recently_updated'])
 
     for sTitle, sUrl in liste:
 
@@ -143,27 +135,27 @@ def moviesGenres():
     oGui = cGui()
 
     liste = []
-    liste.append(['Action', URL_MAIN + '/filter?keyword=&type%5B%5D=movie&genre%5B%5D=25&sort=recently_updated'])
-    liste.append(['Adventure', URL_MAIN + '/filter?keyword=&type%5B%5D=movie&genre%5B%5D=17&sort=recently_updated'])
-    liste.append(['Animated', URL_MAIN + '/filter?keyword=&type%5B%5D=movie&genre%5B%5D=10&sort=recently_updated'])
-    liste.append(['Biography', URL_MAIN + '/filter?keyword=&type%5B%5D=movie&genre%5B%5D=215&sort=recently_updated'])
-    liste.append(['Comedy', URL_MAIN + '/filter?keyword=&type%5B%5D=movie&genre%5B%5D=14&sort=recently_updated'])
-    liste.append(['Crime', URL_MAIN + '/filter?keyword=&type%5B%5D=movie&genre%5B%5D=26&sort=recently_updated'])
-    liste.append(['Drama', URL_MAIN + '/filter?keyword=&type%5B%5D=movie&genre%5B%5D=1&sort=recently_updated'])
-    liste.append(['Documentary', URL_MAIN + '/filter?keyword=&type%5B%5D=movie&genre%5B%5D=131&sort=recently_updated'])
-    liste.append(['Family', URL_MAIN + '/filter?keyword=&type%5B%5D=movie&genre%5B%5D=43&sort=recently_updated'])
-    liste.append(['Fantasy', URL_MAIN + '/filter?keyword=&type%5B%5D=movie&genre%5B%5D=31&sort=recently_updated'])
-    liste.append(['History', URL_MAIN + '/filter?keyword=&type%5B%5D=movie&genre%5B%5D=47&sort=recently_updated'])
-    liste.append(['Horror', URL_MAIN + '/filter?keyword=&type%5B%5D=movie&genre%5B%5D=74&sort=recently_updated'])
-    liste.append(['Music', URL_MAIN + '/filter?keyword=&type%5B%5D=movie&genre%5B%5D=199&sort=recently_updated'])
-    liste.append(['Mystery', URL_MAIN + '/filter?keyword=&type%5B%5D=movie&genre%5B%5D=64&sort=recently_updated'])
-    liste.append(['Reality TV', URL_MAIN + '/filter?keyword=&type%5B%5D=movie&genre%5B%5D=4&sort=recently_updated'])
-    liste.append(['Romance', URL_MAIN + '/filter?keyword=&type%5B%5D=movie&genre%5B%5D=23&sort=recently_updated'])
-    liste.append(['Sci-Fi', URL_MAIN + '/filter?keyword=&type%5B%5D=movie&genre%5B%5D=15&sort=recently_updated'])
-    liste.append(['Sports', URL_MAIN + '/filter?keyword=&type%5B%5D=movie&genre%5B%5D=44&sort=recently_updated'])
-    liste.append(['Thriller', URL_MAIN + '/filter?keyword=&type%5B%5D=movie&genre%5B%5D=7&sort=recently_updated'])
-    liste.append(['War', URL_MAIN + '/filter?keyword=&type%5B%5D=movie&genre%5B%5D=58&sort=recently_updated'])
-    liste.append(['Western', URL_MAIN + '/filter?keyword=&type%5B%5D=movie&genre%5B%5D=28&sort=recently_updated'])
+    liste.append(['Action', f'{URL_MAIN}/filter?keyword=&type%5B%5D=movie&genre%5B%5D=25&sort=recently_updated'])
+    liste.append(['Adventure', f'{URL_MAIN}/filter?keyword=&type%5B%5D=movie&genre%5B%5D=17&sort=recently_updated'])
+    liste.append(['Animated', f'{URL_MAIN}/filter?keyword=&type%5B%5D=movie&genre%5B%5D=10&sort=recently_updated'])
+    liste.append(['Biography', f'{URL_MAIN}/filter?keyword=&type%5B%5D=movie&genre%5B%5D=215&sort=recently_updated'])
+    liste.append(['Comedy', f'{URL_MAIN}/filter?keyword=&type%5B%5D=movie&genre%5B%5D=14&sort=recently_updated'])
+    liste.append(['Crime', f'{URL_MAIN}/filter?keyword=&type%5B%5D=movie&genre%5B%5D=26&sort=recently_updated'])
+    liste.append(['Drama', f'{URL_MAIN}/filter?keyword=&type%5B%5D=movie&genre%5B%5D=1&sort=recently_updated'])
+    liste.append(['Documentary', f'{URL_MAIN}/filter?keyword=&type%5B%5D=movie&genre%5B%5D=131&sort=recently_updated'])
+    liste.append(['Family', f'{URL_MAIN}/filter?keyword=&type%5B%5D=movie&genre%5B%5D=43&sort=recently_updated'])
+    liste.append(['Fantasy', f'{URL_MAIN}/filter?keyword=&type%5B%5D=movie&genre%5B%5D=31&sort=recently_updated'])
+    liste.append(['History', f'{URL_MAIN}/filter?keyword=&type%5B%5D=movie&genre%5B%5D=47&sort=recently_updated'])
+    liste.append(['Horror', f'{URL_MAIN}/filter?keyword=&type%5B%5D=movie&genre%5B%5D=74&sort=recently_updated'])
+    liste.append(['Music', f'{URL_MAIN}/filter?keyword=&type%5B%5D=movie&genre%5B%5D=199&sort=recently_updated'])
+    liste.append(['Mystery', f'{URL_MAIN}/filter?keyword=&type%5B%5D=movie&genre%5B%5D=64&sort=recently_updated'])
+    liste.append(['Reality TV', f'{URL_MAIN}/filter?keyword=&type%5B%5D=movie&genre%5B%5D=4&sort=recently_updated'])
+    liste.append(['Romance', f'{URL_MAIN}/filter?keyword=&type%5B%5D=movie&genre%5B%5D=23&sort=recently_updated'])
+    liste.append(['Sci-Fi', f'{URL_MAIN}/filter?keyword=&type%5B%5D=movie&genre%5B%5D=15&sort=recently_updated'])
+    liste.append(['Sports', f'{URL_MAIN}/filter?keyword=&type%5B%5D=movie&genre%5B%5D=44&sort=recently_updated'])
+    liste.append(['Thriller', f'{URL_MAIN}/filter?keyword=&type%5B%5D=movie&genre%5B%5D=7&sort=recently_updated'])
+    liste.append(['War', f'{URL_MAIN}/filter?keyword=&type%5B%5D=movie&genre%5B%5D=58&sort=recently_updated'])
+    liste.append(['Western', f'{URL_MAIN}/filter?keyword=&type%5B%5D=movie&genre%5B%5D=28&sort=recently_updated'])
 
     for sTitle, sUrl in liste:
 
@@ -254,7 +246,7 @@ def showSeries(sSearch = ''):
             sDesc = ''
             sYear = ''
 
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oOutputParameterHandler.addParameter('sYear', sYear)
@@ -295,7 +287,7 @@ def showSeasons():
             sId = aEntry
 
             vrf = getVerid(sId)
-            sUrl = URL_MAIN + '/ajax/episode/list/' + sId + '?vrf=' + vrf
+            sUrl = f'{URL_MAIN}/ajax/episode/list/{sId}?vrf={vrf}'
 
             oRequestHandler = cRequestHandler(sUrl)
             sHtmlContent = oRequestHandler.request()
@@ -308,12 +300,12 @@ def showSeasons():
 
                     sSeason = aEntry.replace('\\','').replace('"','')                  
                     Ss = aEntry.replace('\\','').replace('"','')
-                    sDisplaySeason = sSeriesTitle+ ' S{:02d}'.format(int(sSeason))
-                    siteUrl = sURL2 + '/' + Ss + '-1'
+                    sDisplaySeason = f"{sSeriesTitle} S{sSeason:02d}"
+                    siteUrl = f'{sURL2}/{Ss}-1'
                     sThumb = sThumb
                     sDesc = ''
 			
-                    oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+                    oOutputParameterHandler.addParameter('siteUrl', siteUrl)
                     oOutputParameterHandler.addParameter('SeasonTitle', sDisplaySeason)
                     oOutputParameterHandler.addParameter('sSeriesTitle', sSeriesTitle)
                     oOutputParameterHandler.addParameter('sThumb', sThumb)
@@ -323,7 +315,6 @@ def showSeasons():
     oGui.setEndOfDirectory() 
         
 def showEps():
-    import requests
     oGui = cGui()
    
     oInputParameterHandler = cInputParameterHandler()
@@ -347,7 +338,7 @@ def showEps():
 
             sId = aEntry
             vrf = getVerid(sId)
-            sUrl = URL_MAIN + '/ajax/episode/list/' + sId + '?vrf=' + vrf
+            sUrl = f'{URL_MAIN}/ajax/episode/list/{sId}?vrf={vrf}'
 
             oRequestHandler = cRequestHandler(sUrl)
             sHtmlContent = oRequestHandler.request().replace('\\','')
@@ -365,10 +356,11 @@ def showEps():
             if aResult[1]:
                 oOutputParameterHandler = cOutputParameterHandler()   
                 for aEntry in aResult[1]:
-
-                    siteUrl = URL_MAIN +aEntry[0].split('\\')[0]
+                    
+                    nLink = aEntry[0].split("\\")[0]
+                    siteUrl = f'{URL_MAIN}{nLink}'
                     sEpisode = aEntry[2].replace('Episode ','').replace(':','')
-                    episode = '{}E{:02d}'.format(SeasonTitle, int(sEpisode))
+                    episode = f"{SeasonTitle} E{sEpisode:02d}"
 
                     sTitle = aEntry[3].replace(':','')                      
                     sDisplayTitle = SeasonTitle + ' - ' + episode + ' - ' + sTitle
@@ -376,11 +368,11 @@ def showEps():
                     sId =  aEntry[1].split('\\')[0]
                     vrf = quote(getVerid(sId))
 
-                    siteUrl = URL_MAIN + '/ajax/server/list/' + sId +'?vrf='+vrf
+                    siteUrl = f'{URL_MAIN}/ajax/server/list/{sId}?vrf={vrf}'
                     sThumb = sThumb
                     sDesc = ""
 			
-                    oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+                    oOutputParameterHandler.addParameter('siteUrl', siteUrl)
                     oOutputParameterHandler.addParameter('sMovieTitle', sDisplayTitle)
                     oOutputParameterHandler.addParameter('sThumb', sThumb)
                     oGui.addEpisode(SITE_IDENTIFIER, 'showSeriesLinks', sDisplayTitle, sThumb, sThumb, sDesc, oOutputParameterHandler)
@@ -389,7 +381,7 @@ def showEps():
  
 def showLinks(oInputParameterHandler = False):
     oGui = cGui()
-    from urllib.parse import unquote
+
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
@@ -405,9 +397,9 @@ def showLinks(oInputParameterHandler = False):
         for aEntry in aResult[1]:
             sId = aEntry
             vrf = getVerid(sId)
-            sUrl = URL_MAIN + '/ajax/episode/list/' + sId +'?vrf='+vrf
+            nUrl = f'{URL_MAIN}/ajax/episode/list/{sId}?vrf={vrf}'
 
-            oRequestHandler = cRequestHandler(sUrl)
+            oRequestHandler = cRequestHandler(nUrl)
             sHtmlContent = oRequestHandler.request().replace('\\','')
 
             sPattern = 'data-id="([^"]+)".+?<span>(.+?)</span>'
@@ -418,7 +410,7 @@ def showLinks(oInputParameterHandler = False):
                     sId = aEntry[0]
                     nTitle = aEntry[1]
                     vrf = getVerid(sId)
-                    url = URL_MAIN + '/ajax/server/list/' + sId +'?vrf='+vrf
+                    url = f'{URL_MAIN}/ajax/server/list/{sId}?vrf={vrf}'
 
                     oRequestHandler = cRequestHandler(url)
                     sHtmlContent = oRequestHandler.request().replace('\\','')
@@ -431,15 +423,16 @@ def showLinks(oInputParameterHandler = False):
             
                             sId = aEntry[0].split('\\')[0] 
                             sHost = aEntry[1]
-                            sTitle = ('%s [COLOR coral]%s[/COLOR]') % (sMovieTitle, sHost)
+                            sTitle = f'{sMovieTitle} [COLOR coral]{sHost}[/COLOR]'
 
                             oOutputParameterHandler.addParameter('sId', sId)
                             oOutputParameterHandler.addParameter('nTitle', nTitle)
+                            oOutputParameterHandler.addParameter('siteUrl', sUrl)
                             oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
                             oOutputParameterHandler.addParameter('sThumb', sThumb)
                             oOutputParameterHandler.addParameter('sHost', sHost)
 
-                            oGui.addLink(SITE_IDENTIFIER, 'showHosters', sTitle, sThumb, '', oOutputParameterHandler, oInputParameterHandler)
+                            oGui.addLink(SITE_IDENTIFIER, 'showHosters', sTitle, sThumb, sTitle, oOutputParameterHandler)
 
     oGui.setEndOfDirectory()
 
@@ -462,14 +455,15 @@ def showSeriesLinks(oInputParameterHandler = False):
             
             sId = aEntry[0].split('\\')[0] 
             sHost = aEntry[1]
-            sTitle = ('%s [COLOR coral]%s[/COLOR]') % (sMovieTitle, sHost)
+            sTitle = f'{sMovieTitle} [COLOR coral]{sHost}[/COLOR]'
 
             oOutputParameterHandler.addParameter('sId', sId)
             oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
+            oOutputParameterHandler.addParameter('siteUrl', sUrl)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oOutputParameterHandler.addParameter('sHost', sHost)
 
-            oGui.addLink(SITE_IDENTIFIER, 'showHosters', sTitle, sThumb, '', oOutputParameterHandler, oInputParameterHandler)
+            oGui.addLink(SITE_IDENTIFIER, 'showHosters', sTitle, sThumb, sTitle, oOutputParameterHandler)
                                 
     oGui.setEndOfDirectory()
 
@@ -485,7 +479,7 @@ def showHosters():
 
     vrf = getVerid(sId)
 
-    url = URL_MAIN + '/ajax/server/' + sId +'?vrf='+vrf
+    url = f'{URL_MAIN}/ajax/server/{sId}?vrf={vrf}'
     oRequestHandler = cRequestHandler(url)
     sHtmlContent = oRequestHandler.request()
 
@@ -508,11 +502,11 @@ def showHosters():
             oHoster = cHosterGui().checkHoster(sHosterUrl)
         if oHoster:
             if ('http' in SubTitle):
-                sHosterUrl = sHosterUrl+'?sub.info='+SubTitle
+                sHosterUrl = f'{sHosterUrl}?sub.info={SubTitle}'
             else:
                 sHosterUrl = sHosterUrl
             if nTitle:
-                sDisplayTitle = nTitle+' '+sMovieTitle
+                sDisplayTitle = f'{nTitle} {sMovieTitle}'
             else:
                 sDisplayTitle = sMovieTitle
             oHoster.setDisplayName(sDisplayTitle)
@@ -536,8 +530,6 @@ def DecodeLink(mainurl):
 	ab=mainurl[0:6]   #23.09.21
 	ac2 = mainurl[6:]	#23.09.21
 	ac2 = mainurl#[6:]	#23.09.21
-	
-	
 	
 	#ab = 'DZmuZuXqa9O0z3b7'
 	ab= 'hlPeNwkncH0fq9so'

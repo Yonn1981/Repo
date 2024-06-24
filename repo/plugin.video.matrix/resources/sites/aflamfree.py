@@ -16,15 +16,15 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-MOVIE_EN = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a%d8%a9', 'showLive')
-MOVIE_AR = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%b9%d8%b1%d8%a8%d9%8a%d8%a9', 'showLive')
-MOVIE_HI = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%87%d9%86%d8%af%d9%8a%d8%a9', 'showLive')
-MOVIE_ASIAN = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%b3%d9%8a%d9%88%d9%8a%d8%a9', 'showLive')
-KID_MOVIES = (URL_MAIN + '/category/%d9%83%d8%a7%d8%b1%d8%aa%d9%88%d9%86-%d9%88%d8%a7%d9%86%d9%85%d9%8a', 'showLive')
+MOVIE_EN = (f'{URL_MAIN}category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a%d8%a9', 'showLive')
+MOVIE_AR = (f'{URL_MAIN}category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%b9%d8%b1%d8%a8%d9%8a%d8%a9', 'showLive')
+MOVIE_HI = (f'{URL_MAIN}category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%87%d9%86%d8%af%d9%8a%d8%a9', 'showLive')
+MOVIE_ASIAN = (f'{URL_MAIN}category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%b3%d9%8a%d9%88%d9%8a%d8%a9', 'showLive')
+KID_MOVIES = (f'{URL_MAIN}category/%d9%83%d8%a7%d8%b1%d8%aa%d9%88%d9%86-%d9%88%d8%a7%d9%86%d9%85%d9%8a', 'showLive')
 MOVIE_ANNEES = (True, 'showYears')
 
-URL_SEARCH = (URL_MAIN + '/?s=', 'showMoviesearch')
-URL_SEARCH_MOVIES = (URL_MAIN + '/?s=', 'showMoviesearch')
+URL_SEARCH = (f'{URL_MAIN}?s=', 'showMoviesearch')
+URL_SEARCH_MOVIES = (f'{URL_MAIN}?s=', 'showMoviesearch')
 FUNCTION_SEARCH = 'showMoviesearch'
 
 def load():
@@ -50,7 +50,7 @@ def load():
 	oOutputParameterHandler.addParameter('siteUrl', KID_MOVIES[0])
 	oGui.addDir(SITE_IDENTIFIER, 'showLive', 'أفلام كرتون', 'anim.png', oOutputParameterHandler)
 
-	oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/%D8%A7%D9%82%D8%B3%D8%A7%D9%85-%D8%A7%D9%84%D9%85%D9%88%D9%82%D8%B9')
+	oOutputParameterHandler.addParameter('siteUrl', f'{URL_MAIN}%D8%A7%D9%82%D8%B3%D8%A7%D9%85-%D8%A7%D9%84%D9%85%D9%88%D9%82%D8%B9')
 	oGui.addDir(SITE_IDENTIFIER, 'showPack', 'أقسام الموقع', 'film.png', oOutputParameterHandler)
 
 	oOutputParameterHandler.addParameter('siteUrl', MOVIE_ANNEES[0])
@@ -64,7 +64,7 @@ def showYears():
     oOutputParameterHandler = cOutputParameterHandler()
     for i in reversed(range(1921, int(datetime.datetime.now().year) + 1)):
         sYear = str(i)
-        oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/release-year/' + sYear)  # / inutile
+        oOutputParameterHandler.addParameter('siteUrl', f'{URL_MAIN}release-year/' + sYear)  # / inutile
         oGui.addDir(SITE_IDENTIFIER, 'showLive', sYear, 'annees.png', oOutputParameterHandler)
     oGui.setEndOfDirectory()
 	
@@ -73,7 +73,7 @@ def showSearch():
 	 
 	sSearchText = oGui.showKeyBoard()
 	if sSearchText:
-		sUrl = URL_MAIN + '/?s='+sSearchText
+		sUrl = f'{URL_MAIN}?s='+sSearchText
 		showMoviesearch(sUrl)
 		oGui.setEndOfDirectory()
 		return
@@ -241,11 +241,10 @@ def showLive():
     
     oGui.setEndOfDirectory() 
   
-def showLive2(oInputParameterHandler = False):
+def showLive2():
     oGui = cGui()
    
-    if not oInputParameterHandler:
-        oInputParameterHandler = cInputParameterHandler()
+    oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
@@ -279,13 +278,13 @@ def showLive2(oInputParameterHandler = False):
 								           
                    sHosterUrl = url 
                    if 'userload' in sHosterUrl:
-                      sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                      sHosterUrl = f'{sHosterUrl}|Referer={URL_MAIN}'
                    if 'mystream' in sHosterUrl:
-                      sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
+                      sHosterUrl = f'{sHosterUrl}|Referer={URL_MAIN}' 
                    oHoster = cHosterGui().checkHoster(sHosterUrl)
                    if oHoster:
                       oHoster.setDisplayName(sMovieTitle)
                       oHoster.setFileName(sMovieTitle)
-                      cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                      cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
        
     oGui.setEndOfDirectory()

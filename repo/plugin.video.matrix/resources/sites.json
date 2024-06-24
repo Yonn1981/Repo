@@ -43,6 +43,7 @@
         "animeblkom": {
             "label": "Animeblkom",
             "active": "True",
+            "cloudflare": "True",
             "url": "https://animeblkom.net/"
         },
         "animeup": {
@@ -201,7 +202,7 @@
         "dramacafe": {
             "label": "Dramacafe",
             "active": "True",
-            "url": "https://w16.dramacafe-tv.com/"
+            "url": "https://w17.dramacafe-tv.com/"
         },
         "egyclub": {
             "label": "Egyclub",

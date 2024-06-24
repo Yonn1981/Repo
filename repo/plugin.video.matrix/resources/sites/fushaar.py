@@ -17,13 +17,13 @@ SITE_DESC = 'arabic vod'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-MOVIE_FAM = (URL_MAIN + 'gerne/family/', 'showMovies')
+MOVIE_FAM = (f'{URL_MAIN}gerne/family/', 'showMovies')
 MOVIE_EN = (URL_MAIN, 'showMovies')
-KID_MOVIES = (URL_MAIN + 'gerne/animation/', 'showMovies')
-MOVIE_TOP = (URL_MAIN + 'newest/', 'showMovies')
+KID_MOVIES = (f'{URL_MAIN}gerne/animation/', 'showMovies')
+MOVIE_TOP = (f'{URL_MAIN}newest/', 'showMovies')
 
-URL_SEARCH = (URL_MAIN + '?s=', 'showMovies')
-URL_SEARCH_MOVIES = (URL_MAIN + '?s=', 'showMovies')
+URL_SEARCH = (f'{URL_MAIN}?s=', 'showMovies')
+URL_SEARCH_MOVIES = (f'{URL_MAIN}?s=', 'showMovies')
 FUNCTION_SEARCH = 'showMovies'
 
 
@@ -47,7 +47,7 @@ def showSearchAll():
     oGui = cGui()
     sSearchText = oGui.showKeyBoard()
     if sSearchText != False:
-        sUrl = URL_MAIN + '/?s='+sSearchText
+        sUrl = f'{URL_MAIN}/?s={sSearchText}'
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return  
@@ -57,7 +57,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/?s='+sSearchText
+        sUrl = f'{URL_MAIN}/?s={sSearchText}'
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -87,14 +87,14 @@ def showMovies(sSearch = ''):
  
             sTitle = cUtil().CleanMovieName(aEntry[1])
             siteUrl = aEntry[0]
-            sThumb = aEntry[2] + "|verifypeer=false"
+            sThumb = f'{aEntry[2]}|verifypeer=false'
             sDesc = ''
             sYear = ''
             m = re.search('([0-9]{4})', sTitle)
             if m:
                 sYear = str(m.group(0))
 
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oOutputParameterHandler.addParameter('sYear', sYear)
@@ -122,7 +122,7 @@ def __checkForNextPage(sHtmlContent):
 
     return False
 
-def showHosters(oInputParameterHandler = False):
+def showHosters():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -140,21 +140,19 @@ def showHosters(oInputParameterHandler = False):
             
             url = aEntry[0] 
             sHost = re.sub(r"\D", "", aEntry[1])
-            sTitle = ('%s  [COLOR coral](%sp)[/COLOR]') % (sMovieTitle, sHost) 
+            sTitle = f'{sMovieTitle} [COLOR coral]({sHost}p)[/COLOR]'
             sThumb = sThumb
             if url.startswith('//'):
-               url = 'http:' + url
+               url = f'http:{url}'
 								            
             sHosterUrl = url 
-            if 'fushaar' in sHosterUrl:
-                sHosterUrl = sHosterUrl 
             if 'uptobox' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                sHosterUrl = f'{sHosterUrl}|Referer={URL_MAIN}'
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
                oHoster.setDisplayName(sTitle)
                oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl + "|verifypeer=false", sThumb, oInputParameterHandler=oInputParameterHandler)           
+               cHosterGui().showHoster(oGui, oHoster, f'{sHosterUrl}|verifypeer=false', sThumb)           
          
     sPattern =  'file: "(.+?)",.+?label: "(.+?)"'                                                            
     aResult = oParser.parse(sHtmlContent,sPattern)
@@ -163,17 +161,17 @@ def showHosters(oInputParameterHandler = False):
             
             url = aEntry[0] 
             sHost = aEntry[1]  
-            sTitle = ('%s  [COLOR coral](%s)[/COLOR]') % (sMovieTitle, sHost) 
+            sTitle = f'{sMovieTitle} [COLOR coral]({sHost})[/COLOR]' 
             sThumb = sThumb
             if url.startswith('//'):
-               url = 'http:' + url				
+               url = f'http:{url}'				
 				            
             sHosterUrl = url 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
                oHoster.setDisplayName(sTitle)
                oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl , sThumb, oInputParameterHandler=oInputParameterHandler)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl , sThumb)
           
     sPattern =  '<IFRAME sandbox.+?data-lazy-src="([^"]+)'                                                                
     aResult = oParser.parse(sHtmlContent,sPattern)
@@ -186,20 +184,20 @@ def showHosters(oInputParameterHandler = False):
             sTitle = sMovieTitle
             sThumb = sThumb
             if url.startswith('//'):
-               url = 'http:' + url
+               url = f'http:{url}'
 								            
             sHosterUrl = url 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
                oHoster.setDisplayName(sTitle)
                oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl , sThumb, oInputParameterHandler=oInputParameterHandler)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl , sThumb)
           
     sPattern =  '</span><a href=.+?data-lazy-src="([^"]+)'                                                                 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0]:
              
         sThumb = aResult[1][0]
-        oGui.addText(SITE_IDENTIFIER, '[COLOR %s]%s[/COLOR]' % ('red', 'الفلم للأعضاء فقط'), 'none.png')
+        oGui.addText(SITE_IDENTIFIER, '[COLOR red] الفلم للأعضاء فقط [/COLOR]', 'none.png')
 
     oGui.setEndOfDirectory()

@@ -21,12 +21,12 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-SERIE_TR = (URL_MAIN + 'category/مسلسلات-تركية/', 'showSeries')
-MOVIE_TURK = (URL_MAIN + 'movies', 'showMovies')
+SERIE_TR = (f'{URL_MAIN}category/مسلسلات-تركية/', 'showSeries')
+MOVIE_TURK = (f'{URL_MAIN}movies', 'showMovies')
 
-URL_SEARCH = (URL_MAIN + 'search/', 'showSeries')
-URL_SEARCH_MOVIES = (URL_MAIN + 'search/', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + 'search/', 'showSeries')
+URL_SEARCH = (f'{URL_MAIN}search/', 'showSeries')
+URL_SEARCH_MOVIES = (f'{URL_MAIN}search/', 'showMovies')
+URL_SEARCH_SERIES = (f'{URL_MAIN}search/', 'showSeries')
 FUNCTION_SEARCH = 'showSeries'
  
 def load():
@@ -46,7 +46,7 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', SERIE_TR[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات تركية', 'turk.png', oOutputParameterHandler)
 
-    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'episodes/')
+    oOutputParameterHandler.addParameter('siteUrl', f'{URL_MAIN}episodes/')
     oGui.addDir(SITE_IDENTIFIER, 'showSeries2', 'احدث الحلقات', 'turk.png', oOutputParameterHandler)
 
     oGui.setEndOfDirectory()
@@ -56,7 +56,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + 'search/'+sSearchText
+        sUrl = f'{URL_MAIN}search/{sSearchText}'
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -66,7 +66,7 @@ def showSeriesSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + 'search/'+sSearchText
+        sUrl = f'{URL_MAIN}search/{sSearchText}'
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -233,7 +233,7 @@ def showSeasons():
         oOutputParameterHandler = cOutputParameterHandler()  
         for aEntry in aResult[1]:
 
-            siteUrl = URL_MAIN+'wp-content/themes/vo2023/temp/ajax/seasons.php?seriesID='+aEntry[0]
+            siteUrl = f'{URL_MAIN}wp-content/themes/vo2023/temp/ajax/seasons.php?seriesID={aEntry[0]}'
             sTitle = f'{sMovieTitle} {cUtil().ConvertSeasons(aEntry[1]).split("الحلقة")[0]}'
             sThumb = sThumb
             sDesc = ''
@@ -251,7 +251,7 @@ def showSeasons():
             oOutputParameterHandler = cOutputParameterHandler()    
             for aEntry in aResult[1]:
  
-                sTitle =  sMovieTitle + aEntry[1].replace('الحلقة','E').replace("الموسم","S")
+                sTitle =  f'{sMovieTitle} {aEntry[1].replace("الحلقة","E").replace("الموسم","S")}'
                 siteUrl = aEntry[0]
                 sThumb = sThumb
                 sDesc = ''
@@ -267,7 +267,7 @@ def showSeasons():
             oOutputParameterHandler = cOutputParameterHandler()    
             for aEntry in aResult[1]:
  
-                sTitle =  sMovieTitle + aEntry[1].replace('الحلقة','E').replace("الموسم","S")
+                sTitle =  f'{sMovieTitle} {aEntry[1].replace("الحلقة","E").replace("الموسم","S")}'
                 siteUrl = aEntry[0]
                 sThumb = sThumb
                 sDesc = ''
@@ -336,7 +336,7 @@ def showEps():
         
     oGui.setEndOfDirectory() 
 
-def showHosters(oInputParameterHandler = False):
+def showHosters():
     oGui = cGui()
 
     oInputParameterHandler = cInputParameterHandler()
@@ -403,19 +403,20 @@ def showHosters(oInputParameterHandler = False):
                                     sQual = item.split(',')[1].split('=')[1]
                                     sLabel = item.split(',')[2].split('=')[1]
 
-                                    sDisplayTitle = ('%s [COLOR coral] [%s][/COLOR][COLOR orange] - %s[/COLOR]') % (sMovieTitle, sQual, sLabel)      
+                                    sDisplayTitle = f'{sMovieTitle} ({sQual}) [COLOR coral]{sLabel}[/COLOR]'     
                                     oOutputParameterHandler.addParameter('sHosterUrl', sHosterUrl)
+                                    oOutputParameterHandler.addParameter('siteUrl', sUrl)
                                     oOutputParameterHandler.addParameter('sQual', sQual)
                                     oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
                                     oOutputParameterHandler.addParameter('sThumb', sThumb)
 
-                                    oGui.addLink(SITE_IDENTIFIER, 'showLinks', sDisplayTitle, sThumb, '', oOutputParameterHandler, oInputParameterHandler)
+                                    oGui.addLink(SITE_IDENTIFIER, 'showLinks', sDisplayTitle, sThumb, sDisplayTitle, oOutputParameterHandler)
  
                         oHoster = cHosterGui().checkHoster(sHosterUrl)
                         if oHoster != False:
                             oHoster.setDisplayName(sMovieTitle)
                             oHoster.setFileName(sMovieTitle)
-                            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
     oGui.setEndOfDirectory()
 
@@ -425,14 +426,12 @@ def showLinks():
     oInputParameterHandler = cInputParameterHandler()
     sHosterUrl = oInputParameterHandler.getValue('sHosterUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sQual = oInputParameterHandler.getValue('sQual')
     sThumb = oInputParameterHandler.getValue('sThumb')
-
-    sDisplayTitle = ('%s [COLOR coral] [%s] [/COLOR]') % (sMovieTitle, sQual)   
+  
     oHoster = cHosterGui().checkHoster(sHosterUrl)
-    if oHoster != False:
-        oHoster.setDisplayName(sDisplayTitle)
+    if oHoster:
+        oHoster.setDisplayName(sMovieTitle)
         oHoster.setFileName(sMovieTitle)
-        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
     oGui.setEndOfDirectory()

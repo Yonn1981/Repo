@@ -367,40 +367,6 @@ def showLink():
  
     oGui.setEndOfDirectory()
 	
-def showLinks(oInputParameterHandler = False):
-    oGui = cGui()
-    
-    if not oInputParameterHandler:
-        oInputParameterHandler = cInputParameterHandler()
-    sUrl = oInputParameterHandler.getValue('siteUrl')
-    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumb = oInputParameterHandler.getValue('sThumb')
-
-    sUrl = sUrl.replace('download','watching')
-
-    oParser = cParser()
-    oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
-
-    sPattern = '"embedUrl": "([^"]+)'
-    aResult = oParser.parse(sHtmlContent, sPattern)	
-    if (aResult[0] == True):
-        for aEntry in aResult[1]:
-            
-            sHosterUrl = aEntry
-            sTitle = sMovieTitle
-            if sHosterUrl.startswith('//'):
-                sHosterUrl = 'http:' + sHosterUrl
-             
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if (oHoster):
-                sDisplayTitle = sTitle
-                oHoster.setDisplayName(sDisplayTitle)
-                oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl + '|AUTH=TLS&verifypeer=false', sThumb, oInputParameterHandler=oInputParameterHandler)
-         
-    oGui.setEndOfDirectory()
-	
 def showSeries(sSearch = ''):
     oGui = cGui()
     if sSearch:
@@ -482,7 +448,6 @@ def showSeasons():
     sHtmlContent = oRequestHandler.request()
     
     sNote = ''
-
     sPattern = '<div class="sub_desc"><span style="color:#FFD700">.+?</span>([^<]+)<br />'
     aResult = oParser.parse(sHtmlContent, sPattern)
     if (aResult[0]):
@@ -530,11 +495,10 @@ def showSeasons():
        
     oGui.setEndOfDirectory()
   
-def showSeasons2(oInputParameterHandler = False):
+def showSeasons2():
     oGui = cGui()
    
-    if not oInputParameterHandler:
-        oInputParameterHandler = cInputParameterHandler()
+    oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
@@ -568,15 +532,48 @@ def showSeasons2(oInputParameterHandler = False):
             sPattern = 'src="(.+?)".+?type='
             aResult = oParser.parse(sHtmlContent, sPattern)	
             if aResult[0]:
-                    for aEntry in aResult[1]:            
-                        sHosterUrl = aEntry
-                        if sHosterUrl.startswith('//'):
-                           sHosterUrl = 'http:' + sHosterUrl
+                for aEntry in aResult[1]:            
+                    sHosterUrl = aEntry
+                    if sHosterUrl.startswith('//'):
+                        sHosterUrl = 'http:' + sHosterUrl
             
-                        oHoster = cHosterGui().getHoster('lien_direct')
-                        if oHoster:
-                           oHoster.setDisplayName(sMovieTitle)
-                           oHoster.setFileName(sMovieTitle)
-                           cHosterGui().showHoster(oGui, oHoster, sHosterUrl + "|AUTH=TLS&verifypeer=false", sThumb, oInputParameterHandler=oInputParameterHandler)
+                    oHoster = cHosterGui().getHoster('lien_direct')
+                    if oHoster:
+                        oHoster.setDisplayName(sMovieTitle)
+                        oHoster.setFileName(sMovieTitle)
+                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl + "|AUTH=TLS&verifypeer=false", sThumb, oInputParameterHandler=oInputParameterHandler)
        
+    oGui.setEndOfDirectory()
+
+def showLinks():
+    oGui = cGui()
+    
+    oInputParameterHandler = cInputParameterHandler()
+    sUrl = oInputParameterHandler.getValue('siteUrl')
+    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
+    sThumb = oInputParameterHandler.getValue('sThumb')
+
+    sUrl = sUrl.replace('download','watching')
+
+    oParser = cParser()
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request()
+
+    sPattern = '"embedUrl": "([^"]+)'
+    aResult = oParser.parse(sHtmlContent, sPattern)	
+    if (aResult[0] == True):
+        for aEntry in aResult[1]:
+            
+            sHosterUrl = f'{aEntry}|AUTH=TLS&verifypeer=false'
+            sTitle = sMovieTitle
+            if sHosterUrl.startswith('//'):
+                sHosterUrl = 'http:' + sHosterUrl
+             
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if (oHoster):
+                sDisplayTitle = sTitle
+                oHoster.setDisplayName(sDisplayTitle)
+                oHoster.setFileName(sMovieTitle)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+         
     oGui.setEndOfDirectory()

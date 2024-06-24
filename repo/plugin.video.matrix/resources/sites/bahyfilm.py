@@ -21,19 +21,19 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-MOVIE_EN = (URL_MAIN + 'section.php?sidebarID=11', 'showMovies')
-MOVIE_ASIAN = (URL_MAIN + 'section.php?sidebarID=15', 'showMovies')
-MOVIE_HI = (URL_MAIN + 'section.php?sidebarID=12', 'showMovies')
-KID_MOVIES = (URL_MAIN + 'section.php?sidebarID=8', 'showMovies')
-MOVIE_TOP = (URL_MAIN + 'section.php?sidebarID=11', 'showMovies')
+MOVIE_EN = (f'{URL_MAIN}section.php?sidebarID=11', 'showMovies')
+MOVIE_ASIAN = (f'{URL_MAIN}section.php?sidebarID=15', 'showMovies')
+MOVIE_HI = (f'{URL_MAIN}section.php?sidebarID=12', 'showMovies')
+KID_MOVIES = (f'{URL_MAIN}section.php?sidebarID=8', 'showMovies')
+MOVIE_TOP = (f'{URL_MAIN}section.php?sidebarID=11', 'showMovies')
 MOVIE_PACK = (URL_MAIN , 'showPack')
 MOVIE_ANNEES = (URL_MAIN , 'showYears')
 
-SERIE_EN = (URL_MAIN + 'series/', 'showSeries')
+SERIE_EN = (f'{URL_MAIN}series/', 'showSeries')
 
-URL_SEARCH = (URL_MAIN + '/?s=', 'showMovies')
-URL_SEARCH_MOVIES = (URL_MAIN + '/?s=', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + '/search/', 'showSeries')
+URL_SEARCH = (f'{URL_MAIN}?s=', 'showMovies')
+URL_SEARCH_MOVIES = (f'{URL_MAIN}?s=', 'showMovies')
+URL_SEARCH_SERIES = (f'{URL_MAIN}?s=', 'showSeries')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -74,7 +74,7 @@ def showSearch():
     oGui = cGui()
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '?s='+sSearchText
+        sUrl = f'{URL_MAIN}?s={sSearchText}'
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -84,7 +84,7 @@ def showSeriesSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '?s='+sSearchText
+        sUrl = f'{URL_MAIN}?s={sSearchText}'
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -111,7 +111,7 @@ def showYears():
             if 'soon' in aEntry[0] or 'alt=' in aEntry[1]:
                 continue 
             sTitle = aEntry[1]
-            siteUrl = URL_MAIN + aEntry[0]
+            siteUrl = f'{URL_MAIN}{aEntry[0]}'
 			
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -143,10 +143,9 @@ def showPack():
             if 'soon' in aEntry[0]:
                 continue 
             sTitle = aEntry[2]
-            siteUrl = URL_MAIN + aEntry[0]
-            sThumb = URL_MAIN + aEntry[1]
+            siteUrl = f'{URL_MAIN}{aEntry[0]}'
+            sThumb = f'{URL_MAIN}{aEntry[1]}'
 
-			
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -167,7 +166,7 @@ def showMovies(sSearch = ''):
         sUrl = sSearch
         squery = sUrl.split('?s=')[1]
 
-        oRequestHandler = cRequestHandler(URL_MAIN + 'search_suggestion.php')
+        oRequestHandler = cRequestHandler(f'{URL_MAIN}search_suggestion.php')
         oRequestHandler.addHeaderEntry('Accept', '*/*')
         oRequestHandler.addHeaderEntry('accept-language', 'en-US,en;q=0.9,ar;q=0.8')
         oRequestHandler.addHeaderEntry('User-Agent', UA)
@@ -180,7 +179,6 @@ def showMovies(sSearch = ''):
         sPattern = '<a href="([^"]+)".+?<img src="([^"]+)".+?class="suggestion-name">(.+?)</span>'
 
     else:
-
         oRequestHandler = cRequestHandler(sUrl)
         oRequestHandler.addHeaderEntry('User-Agent', UA)
         oRequestHandler.addHeaderEntry('Referer', sUrl.encode('utf-8'))
@@ -202,10 +200,10 @@ def showMovies(sSearch = ''):
                 continue 
 
             sTitle = cUtil().CleanMovieName(aEntry[2])
-            siteUrl = URL_MAIN + aEntry[0]
+            siteUrl = f'{URL_MAIN}{aEntry[0]}'
             sThumb = aEntry[1].replace("(","").replace(")","")
             if 'http' not in sThumb:
-                sThumb = URL_MAIN + sThumb
+                sThumb = f'{URL_MAIN}{sThumb}'
             sDesc = ''
             sYear = ''
             m = re.search('([0-9]{4})', sTitle)
@@ -230,9 +228,8 @@ def showMovies(sSearch = ''):
 
     for link in (page_links[:2] + page_links[-2:]):
         oOutputParameterHandler = cOutputParameterHandler()  
-        sTitle = "PAGE " + link.split('page=')[1]
-        sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
-        siteUrl = URL_MAIN + 'section.php' + link
+        sTitle = f'[COLOR red]{link.split("page=")[1]}[/COLOR]'
+        siteUrl = f'{URL_MAIN}section.php{link}'
 
         oOutputParameterHandler.addParameter('siteUrl',siteUrl)
         oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle, 'next.png', oOutputParameterHandler)
@@ -251,7 +248,7 @@ def showSeries(sSearch = ''):
         sUrl = sSearch
         squery = sUrl.split('?s=')[1]
 
-        oRequestHandler = cRequestHandler(URL_MAIN + 'search_suggestion.php')
+        oRequestHandler = cRequestHandler(f'{URL_MAIN}search_suggestion.php')
         oRequestHandler.addHeaderEntry('Accept', '*/*')
         oRequestHandler.addHeaderEntry('accept-language', 'en-US,en;q=0.9,ar;q=0.8')
         oRequestHandler.addHeaderEntry('User-Agent', UA)
@@ -319,9 +316,8 @@ def showSeries(sSearch = ''):
 
     for link in (page_links[:2] + page_links[-2:]):
         oOutputParameterHandler = cOutputParameterHandler()  
-        sTitle = "PAGE " + link.split('page=')[1]
-        sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
-        siteUrl = URL_MAIN + 'section.php' + link
+        sTitle = f'[COLOR red]{link.split("page=")[1]}[/COLOR]'
+        siteUrl = f'{URL_MAIN}section.php{link}'
 
         oOutputParameterHandler.addParameter('siteUrl',siteUrl)
         oGui.addDir(SITE_IDENTIFIER, 'showSeries', sTitle, 'next.png', oOutputParameterHandler)
@@ -382,8 +378,8 @@ def showEpisodes():
                 oOutputParameterHandler = cOutputParameterHandler()  
                 for aEntry in aResult[1]:
  
-                    siteUrl = URL_MAIN +aEntry[0]
-                    sEp = aEntry[1].replace('الحلقة ','')
+                    siteUrl = f'{URL_MAIN}{aEntry[0]}'
+                    sEp = aEntry[1].replace('الحلقة ','').replace('</a>','')
                     sTitle = f'{sMovieTitle} {sSeason} E{sEp}'
                     sThumb = sThumb
 			
@@ -394,7 +390,7 @@ def showEpisodes():
 
     oGui.setEndOfDirectory() 
 
-def showLinks(oInputParameterHandler = False):
+def showLinks():
     oGui = cGui()
    
     oInputParameterHandler = cInputParameterHandler()
@@ -407,7 +403,7 @@ def showLinks(oInputParameterHandler = False):
 
     if 'episode' not in sUrl:
         movie_id = base64.b64decode(sUrl.split('?id=')[1]).decode('utf8',errors='ignore')
-        slink = URL_MAIN + 'getlinks.php'
+        slink = f'{URL_MAIN}getlinks.php'
     else:
         episode_id = base64.b64decode(sUrl.split('&episode=')[1]).decode('utf8',errors='ignore')
         slink = f'{URL_MAIN}series/getepisodelink.php'
@@ -430,17 +426,17 @@ def showLinks(oInputParameterHandler = False):
         sQual = sResolution
         sHosterUrl = sLink
 
-        sDisplayTitle = ('%s [COLOR coral] (%sp) [/COLOR]') % (sMovieTitle, sQual) 
+        sDisplayTitle = f'{sMovieTitle} [COLOR coral] ({sQual}p) [/COLOR]'
 
         if 'mp4' in sHosterUrl:
-            sHosterUrl = sLink + '|User-Agent=' + UA + '&Referer=' + sUrl
+            sHosterUrl = f'{sLink}|User-Agent={UA}&Referer={sUrl}'
             oHoster = cHosterGui().getHoster('lien_direct')
         else:
             oHoster = cHosterGui().checkHoster(sHosterUrl)
         if oHoster:
                oHoster.setDisplayName(sDisplayTitle)
                oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
     oGui.setEndOfDirectory()  
 

@@ -16,16 +16,16 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-RAMADAN_SERIES = (URL_MAIN + 'ts/mosalsalat-ramadan-2024/', 'showSeries')
-SERIE_TR = (URL_MAIN + 'cat/mosalsalat-torkia/', 'showSeries')
-SERIE_DUBBED = (URL_MAIN + 'ts/mosalsalat-modablaja/', 'showSeries')
-SERIE_HEND = (URL_MAIN + 'cat/mosalsalat-hindia/', 'showSeries')
-SERIE_AR = (URL_MAIN + 'cat/mosalsalat-3arabia/', 'showSeries')
-SERIE_ASIA = (URL_MAIN + 'cat/mosalsalat-korea/', 'showSeries')
-SERIE_LATIN = (URL_MAIN + 'cat/mosalsalat-latinia/', 'showSeries')
-REPLAYTV_NEWS = (URL_MAIN + 'cat/programme-tv/', 'showSeries')
+RAMADAN_SERIES = (f'{URL_MAIN}ts/mosalsalat-ramadan-2024/', 'showSeries')
+SERIE_TR = (f'{URL_MAIN}cat/mosalsalat-torkia/', 'showSeries')
+SERIE_DUBBED = (f'{URL_MAIN}ts/mosalsalat-modablaja/', 'showSeries')
+SERIE_HEND = (f'{URL_MAIN}cat/mosalsalat-hindia/', 'showSeries')
+SERIE_AR = (f'{URL_MAIN}cat/mosalsalat-3arabia/', 'showSeries')
+SERIE_ASIA = (f'{URL_MAIN}cat/mosalsalat-korea/', 'showSeries')
+SERIE_LATIN = (f'{URL_MAIN}cat/mosalsalat-latinia/', 'showSeries')
+REPLAYTV_NEWS = (f'{URL_MAIN}cat/programme-tv/', 'showSeries')
 
-URL_SEARCH = (URL_MAIN + 'q/', 'showSeries')
+URL_SEARCH = (f'{URL_MAIN}q/', 'showSeries')
 FUNCTION_SEARCH = 'showSeries'
  
 def load():
@@ -57,10 +57,10 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', RAMADAN_SERIES[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات رمضان', 'rmdn.png', oOutputParameterHandler)
     
-    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/ts/mosalsalat-motarjama/')
+    oOutputParameterHandler.addParameter('siteUrl', f'{URL_MAIN}/ts/mosalsalat-motarjama/')
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات مترجمة', 'mslsl.png', oOutputParameterHandler)
 
-    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/ts/zee-alwan/')
+    oOutputParameterHandler.addParameter('siteUrl', f'{URL_MAIN}/ts/zee-alwan/')
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'زي الوان', 'mslsl.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', REPLAYTV_NEWS[0])
@@ -73,7 +73,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + 'q/' + sSearchText + '/'
+        sUrl = f'{URL_MAIN}q/{sSearchText}/'
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -106,16 +106,16 @@ def showSeries(sSearch = ''):
                 sTitle = sTitle.split('الحلقة')[0]
             siteUrl = aEntry[0]
             if siteUrl.startswith('//'):
-                siteUrl = 'http:' + siteUrl
+                siteUrl =f'http:{siteUrl}'
             if siteUrl.startswith('/'):
-                siteUrl = URL_MAIN + siteUrl
+                siteUrl = f'{URL_MAIN}{siteUrl}'
 
             sThumb = aEntry[1]
             sDesc = ''
             sYear = ''
 
             oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oOutputParameterHandler.addParameter('sYear', sYear)
@@ -134,32 +134,21 @@ def showSeries(sSearch = ''):
         sPattern = '<li><a href="([^<]+)">([^<]+)</a></li>'
         aResult = oParser.parse(sHtmlContent, sPattern)
         if aResult[0]:
-            total = len(aResult[1])
-            progress_ = progress().VScreate(SITE_NAME)
             for aEntry in aResult[1]:
-                progress_.VSupdate(progress_, total)
-                if progress_.iscanceled():
-                    break
                 if 'موقع' in aEntry[1] or 'تيفي فان' in aEntry[1]:
                     continue
 
-                sTitle = aEntry[1]     
-                sTitle =  "PAGE " + sTitle
-                sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
+                sTitle = f'[COLOR red]Page: {aEntry[1]}[/COLOR]'
                 siteUrl = aEntry[0]
                 if siteUrl.startswith('/'):
-                    siteUrl = URL_MAIN + siteUrl
+                    siteUrl = f'{URL_MAIN}{siteUrl}'
                 if siteUrl.startswith('//'):
-                    siteUrl = 'http:' + siteUrl
-                sThumb = ""
-                sDesc = ""
+                    siteUrl = f'http:{siteUrl}'
 
                 oOutputParameterHandler = cOutputParameterHandler()
                 oOutputParameterHandler.addParameter('siteUrl',siteUrl)
 			
-                oGui.addDir(SITE_IDENTIFIER, 'showSeries', sTitle, '', oOutputParameterHandler)
-
-            progress_.VSclose(progress_)
+                oGui.addDir(SITE_IDENTIFIER, 'showSeries', sTitle, 'next.png', oOutputParameterHandler)
  
     oGui.setEndOfDirectory()
 
@@ -193,14 +182,14 @@ def showEpisodes():
             sTitle = f'{sMovieTitle} E{aEntry[1]}'
             siteUrl = aEntry[0].replace('video/','watch/')
             if siteUrl.startswith('//'):
-                siteUrl = 'http:' + siteUrl
+                siteUrl = f'http:{siteUrl}'
             if siteUrl.startswith('/'):
-                siteUrl = URL_MAIN + siteUrl
+                siteUrl = f'{URL_MAIN}{siteUrl}'
 
             sThumb = sThumb
 			
             oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, '', oOutputParameterHandler)
@@ -222,12 +211,12 @@ def showEpisodes():
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + siteUrl
             if URL_MAIN not in siteUrl:
-                siteUrl = URL_MAIN + siteUrl
+                siteUrl = f'{URL_MAIN}{siteUrl}'
             sThumb = sThumb
             sDesc = ""
 			
             oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
@@ -250,28 +239,24 @@ def showEpisodes():
                     break
                 if 'موقع' in aEntry[1]:
                     continue
-                sTitle = aEntry[1]
-            
-                sTitle =  "PAGE " + sTitle
-                sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
+
+                sTitle = f'[COLOR red]Page: {aEntry[1]}[/COLOR]'
                 siteUrl = aEntry[0]
                 if siteUrl.startswith('/'):
-                    siteUrl = URL_MAIN + siteUrl
+                    siteUrl = f'{URL_MAIN}{siteUrl}'
                 if siteUrl.startswith('//'):
-                    siteUrl = 'http:' + siteUrl
-                sThumb = ""
-                sDesc = ""
+                    siteUrl = f'http:{siteUrl}'
 
                 oOutputParameterHandler = cOutputParameterHandler()
                 oOutputParameterHandler.addParameter('siteUrl',siteUrl)
 			
-                oGui.addDir(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', oOutputParameterHandler)
+                oGui.addDir(SITE_IDENTIFIER, 'showEpisodes', sTitle, 'next.png', oOutputParameterHandler)
         
         progress_.VSclose(progress_)
   
     oGui.setEndOfDirectory()
 
-def showHosters(oInputParameterHandler = False):
+def showHosters():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -287,7 +272,6 @@ def showHosters(oInputParameterHandler = False):
     if aResult[0]:
         for aEntry in aResult[1]:
             m3url = aEntry.replace("('","").replace("')","")
-            # Try to fix string to make it decodable:
             m3url = m3url[2:]
 
             sHtmlContent2 = base64.b64decode(m3url).decode('ascii',errors='ignore')
@@ -298,16 +282,14 @@ def showHosters(oInputParameterHandler = False):
                for aEntry in aResult[1]:
         
                    url = aEntry.replace("https://dai.ly/","https://www.dailymotion.com/video/")
-                   sTitle = " " 
                    if url.startswith('//'):
-                       url = 'http:' + url
+                       url = f'http:{url}'
             
                    sHosterUrl = url 
                    oHoster = cHosterGui().checkHoster(sHosterUrl)
                    if oHoster:
-                       sDisplayTitle = sMovieTitle+sTitle
-                       oHoster.setDisplayName(sDisplayTitle)
-                       oHoster.setFileName(sDisplayTitle)
-                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                       oHoster.setDisplayName(sMovieTitle)
+                       oHoster.setFileName(sMovieTitle)
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
                 
     oGui.setEndOfDirectory()

@@ -1,7 +1,6 @@
 ﻿# -*- coding: utf-8 -*-
 # zombi https://github.com/zombiB/zombi-addons/
 
-import re	
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -26,7 +25,7 @@ def load():
     
     oGui.setEndOfDirectory()
    
-def showMovies(sSearch = ''):
+def showMovies():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -77,8 +76,7 @@ def __checkForNextPage(sHtmlContent):
 
     return False
 
-
-def showHosters(oInputParameterHandler = False):
+def showHosters():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -102,13 +100,13 @@ def showHosters(oInputParameterHandler = False):
             url = aEntry
             url = aEntry.replace('?rel=0','')
             if url.startswith('//'):
-               url = 'http:' + url
+               url = f'http:{url}'
            
             sHosterUrl = url 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
                oHoster.setDisplayName(sMovieTitle)
                oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
                
     oGui.setEndOfDirectory()

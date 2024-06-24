@@ -32,9 +32,9 @@ SERIE_ASIA = ('اسيوية', 'showSeriesLists')
 
 ANIM_NEWS = ('انمي', 'showSeriesLists')
 
-URL_SEARCH = (URL_MAIN + 'search.php?keywords=', 'showSeries')
-URL_SEARCH_MOVIES = (URL_MAIN + 'search.php?keywords=', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + 'search.php?keywords=', 'showSeries')
+URL_SEARCH = (f'{URL_MAIN}search.php?keywords=', 'showSeries')
+URL_SEARCH_MOVIES = (f'{URL_MAIN}search.php?keywords=', 'showMovies')
+URL_SEARCH_SERIES = (f'{URL_MAIN}search.php?keywords=', 'showSeries')
 FUNCTION_SEARCH = 'showSearch'
  
 def load():
@@ -82,7 +82,7 @@ def showSeriesSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + 'search.php?keywords='+sSearchText
+        sUrl = f'{URL_MAIN}search.php?keywords={sSearchText}'
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -92,7 +92,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + 'search.php?keywords=فيلم+'+sSearchText
+        sUrl = f'{URL_MAIN}search.php?keywords=فيلم+{sSearchText}'
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -300,7 +300,7 @@ def showEpisodes():
     if aResult[0] :
         oOutputParameterHandler = cOutputParameterHandler()  
         for aEntry in aResult[1]:
-            sSeason = "S"+aEntry[0]
+            sSeason = f'S{+aEntry[0]}'
             sHtmlContent = aEntry[1]
 
             sPattern = 'href="(.+?)" title=.+?<em>(.+?)</em><span>'
@@ -309,21 +309,20 @@ def showEpisodes():
                 oOutputParameterHandler = cOutputParameterHandler()  
                 for aEntry in aResult[1]:
  
-                    siteUrl = URL_MAIN +aEntry[0]
+                    siteUrl = f'{URL_MAIN}{aEntry[0]}'
                     siteUrl = siteUrl.replace("watch.php","play.php")
-                    sTitle = sMovieTitle+' '+sSeason
-                    sTitle = sTitle+" E"+aEntry[1]
+                    sTitle = f'{sTitle} {sSeason} E{aEntry[1]}'
                     sThumb = sThumb
                     sDesc = ""
 			
-                    oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+                    oOutputParameterHandler.addParameter('siteUrl', siteUrl)
                     oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
                     oOutputParameterHandler.addParameter('sThumb', sThumb)
                     oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, '', oOutputParameterHandler)     
        
     oGui.setEndOfDirectory() 
 	 
-def showHosters(oInputParameterHandler = False):
+def showHosters():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -342,13 +341,13 @@ def showHosters(oInputParameterHandler = False):
             
             sHosterUrl = aEntry
             if sHosterUrl.startswith('//'):
-                sHosterUrl = 'http:' + sHosterUrl
+                sHosterUrl = f'http:{sHosterUrl}'
 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
                 oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
     else:
         sPattern = '<iframe src=["\']([^"\']+)["\']'
@@ -364,6 +363,6 @@ def showHosters(oInputParameterHandler = False):
                 if oHoster:
                     oHoster.setDisplayName(sMovieTitle)
                     oHoster.setFileName(sMovieTitle)
-                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
                
     oGui.setEndOfDirectory()

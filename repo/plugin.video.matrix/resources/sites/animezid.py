@@ -11,20 +11,23 @@ from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
 from resources.lib.util import cUtil
 from resources.lib.multihost import cMegamax
- 
+from resources.lib import random_ua
+
+UA = random_ua.get_ua()
+
 SITE_IDENTIFIER = 'animezid'
 SITE_NAME = 'Animezid'
 SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-KID_MOVIES = (URL_MAIN + 'category.php?cat=movies', 'showMovies')
-KID_CARTOON = (URL_MAIN + 'category.php?cat=series', 'showSeries')
-ANIM_NEWS = (URL_MAIN + 'category.php?cat=anime', 'showSeriesLinks')
+KID_MOVIES = (f'{URL_MAIN}category.php?cat=movies', 'showMovies')
+KID_CARTOON = (f'{URL_MAIN}category.php?cat=series', 'showSeries')
+ANIM_NEWS = (f'{URL_MAIN}category.php?cat=anime', 'showSeriesLinks')
 
-URL_SEARCH = (URL_MAIN + '/search.php?keywords=', 'showMovies')
-URL_SEARCH_MOVIES = (URL_MAIN + '/search.php?keywords=', 'showMoviesSearch')
-URL_SEARCH_ANIMS = (URL_MAIN + '/search.php?keywords=', 'showSeriesSearch')
+URL_SEARCH = (f'{URL_MAIN}search.php?keywords=', 'showMovies')
+URL_SEARCH_MOVIES = (f'{URL_MAIN}search.php?keywords=', 'showMoviesSearch')
+URL_SEARCH_ANIMS = (f'{URL_MAIN}search.php?keywords=', 'showSeriesSearch')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -54,7 +57,7 @@ def showSearchSeries():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + 'search.php?keywords='+sSearchText
+        sUrl = f'{URL_MAIN}search.php?keywords={sSearchText}'
         showSeriesSearch(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -64,7 +67,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + 'search.php?keywords='+sSearchText
+        sUrl = f'{URL_MAIN}search.php?keywords={sSearchText}'
         showMoviesSearch(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -352,17 +355,14 @@ def showSeriesLinks():
     sPattern = 'href="([^"]+)">([^<]+)</a>'
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
-            for aEntry in aResult[1]:
-                sTitle = aEntry[1]
-            
-                sTitle =  "PAGE " + sTitle
-                sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
-                siteUrl = URL_MAIN + aEntry[0]
+            for aEntry in aResult[1]:       
+                sTitle =   f'[COLOR red]Page: {aEntry[1]}[/COLOR]'
+                siteUrl = f'{URL_MAIN}{aEntry[0]}'
 
                 oOutputParameterHandler = cOutputParameterHandler()
                 oOutputParameterHandler.addParameter('siteUrl',siteUrl)
 			
-                oGui.addDir(SITE_IDENTIFIER, 'showSeriesLinks', sTitle, '', oOutputParameterHandler)
+                oGui.addDir(SITE_IDENTIFIER, 'showSeriesLinks', sTitle, 'next.png', oOutputParameterHandler)
 
     oGui.setEndOfDirectory()
  
@@ -403,16 +403,7 @@ def showEpisodes():
 
     oGui.setEndOfDirectory()
 
-def __checkForNextPage(sHtmlContent):
-    oParser = cParser()
-    sPattern = '<li class="">.+?<a href="([^<]+)">'
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    if aResult[0]:
-        return URL_MAIN + aResult[1][0]
-
-    return False
-
-def showHosters(oInputParameterHandler = False):
+def showHosters():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -420,10 +411,19 @@ def showHosters(oInputParameterHandler = False):
     sThumb = oInputParameterHandler.getValue('sThumb')
 
     oParser = cParser()    
-    oRequestHandler = cRequestHandler(sUrl)
+    oRequestHandler = cRequestHandler(sUrl.replace('play.php','watch.php'))
     sHtmlContent = oRequestHandler.request()
-               
-    sPattern = 'data-embed="(.+?)">'
+
+    sPattern =  '<a rel="nofollow" href="([^"]+)"\s*class='
+    aResult = oParser.parse(sHtmlContent,sPattern)
+    if aResult[0]:
+        m3url = aResult[1][0]
+        oRequestHandler = cRequestHandler(m3url)
+        oRequestHandler.addHeaderEntry('User-Agent', UA)
+        oRequestHandler.addHeaderEntry('referer', URL_MAIN)
+        sHtmlContent = oRequestHandler.request() 
+
+    sPattern = 'data-server=.+?iframe src=["\']([^"\']+)'
     aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()
@@ -431,7 +431,7 @@ def showHosters(oInputParameterHandler = False):
         
             url = aEntry.replace("+","")
             if url.startswith('//'):
-                url = 'https:' + url
+                url = f'https:{url}'
 
             sHosterUrl = url
             if 'megamax' in sHosterUrl or 'megazid' in sHosterUrl:
@@ -444,19 +444,20 @@ def showHosters(oInputParameterHandler = False):
 
                         sDisplayTitle = ('%s [COLOR coral] [%s][/COLOR][COLOR orange] - %s[/COLOR]') % (sMovieTitle, sQual, sLabel)      
                         oOutputParameterHandler.addParameter('sHosterUrl', sHosterUrl)
+                        oOutputParameterHandler.addParameter('siteUrl', sUrl)
                         oOutputParameterHandler.addParameter('sQual', sQual)
                         oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
                         oOutputParameterHandler.addParameter('sThumb', sThumb)
 
-                        oGui.addLink(SITE_IDENTIFIER, 'showLinks', sDisplayTitle, sThumb, '', oOutputParameterHandler, oInputParameterHandler)			
+                        oGui.addLink(SITE_IDENTIFIER, 'showLinks', sDisplayTitle, sThumb, sDisplayTitle, oOutputParameterHandler)			
 					            
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if oHoster:
-                oHoster.setDisplayName(sMovieTitle)
-                oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+            else:
+                oHoster = cHosterGui().checkHoster(sHosterUrl)
+                if oHoster:
+                    oHoster.setDisplayName(sMovieTitle)
+                    oHoster.setFileName(sMovieTitle)
+                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
                
-
     sPattern = 'target="_blank" href="(.+?)"><span>(.+?)</span>'
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
@@ -464,8 +465,8 @@ def showHosters(oInputParameterHandler = False):
         
             url = aEntry[0].replace("+","")
             if url.startswith('//'):
-                url = 'https:' + url
-            sTitle = sMovieTitle+' ['+aEntry[1]+'] '									
+                url = f'https:{url}'
+            sTitle = f'{sMovieTitle} [{aEntry[1]}]'									
             
             sHosterUrl = url 
             if 'megamax' in sHosterUrl:
@@ -474,7 +475,7 @@ def showHosters(oInputParameterHandler = False):
             if oHoster:
                 oHoster.setDisplayName(sTitle)
                 oHoster.setFileName(sTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)				
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)				
                 
     oGui.setEndOfDirectory()
 
@@ -487,11 +488,11 @@ def showLinks():
     sQual = oInputParameterHandler.getValue('sQual')
     sThumb = oInputParameterHandler.getValue('sThumb')
 
-    sDisplayTitle = ('%s [COLOR coral] [%s] [/COLOR]') % (sMovieTitle, sQual)   
+    sDisplayTitle = f'{sMovieTitle} [COLOR coral] [{sQual}] [/COLOR]'   
     oHoster = cHosterGui().checkHoster(sHosterUrl)
-    if oHoster != False:
+    if oHoster:
         oHoster.setDisplayName(sDisplayTitle)
         oHoster.setFileName(sMovieTitle)
-        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
     oGui.setEndOfDirectory()

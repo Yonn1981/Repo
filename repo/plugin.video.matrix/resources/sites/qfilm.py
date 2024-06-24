@@ -20,17 +20,17 @@ SITE_DESC = 'arabic vod'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-MOVIE_EN = (URL_MAIN + 'category.php?cat=english-movies', 'showMovies')
-MOVIE_AR = (URL_MAIN + 'category.php?cat=arabic', 'showMovies')
-MOVIE_TURK = (URL_MAIN + 'category.php?cat=turkish-movies', 'showMovies')
-MOVIE_HI = (URL_MAIN + 'category.php?cat=indian-movies', 'showMovies')
-MOVIE_ASIAN = (URL_MAIN + 'category.php?cat=asian-movies', 'showMovies')
-ANIM_MOVIES = (URL_MAIN + 'category.php?cat=anime-movies', 'showMovies')
-MOVIE_DUBBED = (URL_MAIN + 'category.php?cat=dubbed-movies', 'showMovies')
+MOVIE_EN = (f'{URL_MAIN}category.php?cat=english-movies', 'showMovies')
+MOVIE_AR = (f'{URL_MAIN}category.php?cat=arabic', 'showMovies')
+MOVIE_TURK = (f'{URL_MAIN}category.php?cat=turkish-movies', 'showMovies')
+MOVIE_HI = (f'{URL_MAIN}category.php?cat=indian-movies', 'showMovies')
+MOVIE_ASIAN = (f'{URL_MAIN}category.php?cat=asian-movies', 'showMovies')
+ANIM_MOVIES = (f'{URL_MAIN}category.php?cat=anime-movies', 'showMovies')
+MOVIE_DUBBED = (f'{URL_MAIN}category.php?cat=dubbed-movies', 'showMovies')
 MOVIE_GENRES = (True, 'moviesGenres')
 
-URL_SEARCH = (URL_MAIN + 'search.php?keywords=', 'showSeries')
-URL_SEARCH_MOVIES = (URL_MAIN + 'search.php?keywords=', 'showMovies')
+URL_SEARCH = (f'{URL_MAIN}search.php?keywords=', 'showSeries')
+URL_SEARCH_MOVIES = (f'{URL_MAIN}search.php?keywords=', 'showMovies')
 FUNCTION_SEARCH = 'showSearch'
  
 def load():
@@ -59,7 +59,7 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', ANIM_MOVIES[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام انيميشن', 'anim.png', oOutputParameterHandler)
 
-    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'category.php?cat=adult-movies')
+    oOutputParameterHandler.addParameter('siteUrl', f'{URL_MAIN}category.php?cat=adult-movies')
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'للكبار فقط +18', 'agnab.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_GENRES[0])
@@ -72,7 +72,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + 'search.php?keywords='+sSearchText
+        sUrl = f'{URL_MAIN}search.php?keywords={sSearchText}'
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -81,24 +81,24 @@ def moviesGenres():
     oGui = cGui()
 
     liste = []
-    liste.append(['اكشن', URL_MAIN + 'category.php?cat=action-movies'])
-    liste.append(['انيميشن', URL_MAIN + 'category.php?cat=anime-movies'])
-    liste.append(['مغامرات', URL_MAIN + 'category.php?cat=adventure-movies'])
-    liste.append(['غموض', URL_MAIN + 'category.php?cat=mystery-movies'])
-    liste.append(['تاريخي', URL_MAIN + 'category.php?cat=historical-movies'])
-    liste.append(['كوميديا', URL_MAIN + 'category.php?cat=comedy-movies'])
-    liste.append(['موسيقى', URL_MAIN + 'category.php?cat=musical-movies'])
-    liste.append(['سيرة ذاتية', URL_MAIN + 'category.php?cat=biography-movies'])
-    liste.append(['دراما', URL_MAIN + 'category.php?cat=drama-movies'])
-    liste.append(['رعب', URL_MAIN + 'category.php?cat=horror-movies'])
-    liste.append(['عائلى', URL_MAIN + 'category.php?cat=family-movies'])
-    liste.append(['فانتازيا', URL_MAIN + 'category.php?cat=fantasy-movies'])
-    liste.append(['حروب', URL_MAIN + 'category.php?cat=war-movies'])
-    liste.append(['الجريمة', URL_MAIN + 'category.php?cat=crime-movies'])
-    liste.append(['رومانسى', URL_MAIN + 'category.php?cat=romance-movies'])
-    liste.append(['خيال علمى', URL_MAIN + 'category.php?cat=sci-fi-movies'])
-    liste.append(['اثارة', URL_MAIN + 'category.php?cat=thriller-movies'])
-    liste.append(['وثائقى', URL_MAIN + 'category.php?cat=documentary-movies'])
+    liste.append(['اكشن', f'{URL_MAIN}category.php?cat=action-movies'])
+    liste.append(['انيميشن', f'{URL_MAIN}category.php?cat=anime-movies'])
+    liste.append(['مغامرات', f'{URL_MAIN}category.php?cat=adventure-movies'])
+    liste.append(['غموض', f'{URL_MAIN}category.php?cat=mystery-movies'])
+    liste.append(['تاريخي', f'{URL_MAIN}category.php?cat=historical-movies'])
+    liste.append(['كوميديا', f'{URL_MAIN}category.php?cat=comedy-movies'])
+    liste.append(['موسيقى', f'{URL_MAIN}category.php?cat=musical-movies'])
+    liste.append(['سيرة ذاتية', f'{URL_MAIN}category.php?cat=biography-movies'])
+    liste.append(['دراما', f'{URL_MAIN}category.php?cat=drama-movies'])
+    liste.append(['رعب', f'{URL_MAIN}category.php?cat=horror-movies'])
+    liste.append(['عائلى', f'{URL_MAIN}category.php?cat=family-movies'])
+    liste.append(['فانتازيا', f'{URL_MAIN}category.php?cat=fantasy-movies'])
+    liste.append(['حروب', f'{URL_MAIN}category.php?cat=war-movies'])
+    liste.append(['الجريمة', f'{URL_MAIN}category.php?cat=crime-movies'])
+    liste.append(['رومانسى', f'{URL_MAIN}category.php?cat=romance-movies'])
+    liste.append(['خيال علمى', f'{URL_MAIN}category.php?cat=sci-fi-movies'])
+    liste.append(['اثارة', f'{URL_MAIN}category.php?cat=thriller-movies'])
+    liste.append(['وثائقى', f'{URL_MAIN}category.php?cat=documentary-movies'])
 
     for sTitle, sUrl in liste:
 
@@ -171,7 +171,7 @@ def __checkForNextPage(sHtmlContent):
 
     return False
 	 
-def showHosters(oInputParameterHandler = False):
+def showHosters():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -190,7 +190,7 @@ def showHosters(oInputParameterHandler = False):
             
             sHosterUrl = aEntry
             if sHosterUrl.startswith('//'):
-                sHosterUrl = 'http:' + sHosterUrl
+                sHosterUrl = f'http:{sHosterUrl}'
             if 'qvid' in sHosterUrl:
                 oRequestHandler = cRequestHandler(sHosterUrl)
                 oRequestHandler.addHeaderEntry('User-Agent', UA)
@@ -204,22 +204,22 @@ def showHosters(oInputParameterHandler = False):
                         sLink = aEntry[0]
                         sServer = aEntry[1]
                         
-                        sDisplayTitle = ('%s [COLOR orange] - %s[/COLOR]') % (sMovieTitle, sServer)      
+                        sDisplayTitle = f'{sMovieTitle} [COLOR orange] - {sServer}[/COLOR]'   
                         oOutputParameterHandler.addParameter('sHosterUrl', sLink)
+                        oOutputParameterHandler.addParameter('siteUrl', sUrl)
                         oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
                         oOutputParameterHandler.addParameter('sThumb', sThumb)
 
-                        oGui.addLink(SITE_IDENTIFIER, 'showLinks', sDisplayTitle, sThumb, '', oOutputParameterHandler, oInputParameterHandler)
+                        oGui.addLink(SITE_IDENTIFIER, 'showLinks', sDisplayTitle, sThumb, '', oOutputParameterHandler)
             else:
                 if 'userload' in sHosterUrl:
-                    sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-                if 'mystream' in sHosterUrl:
-                    sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN   
+                    sHosterUrl = f'{sHosterUrl}|Referer={URL_MAIN}'
+ 
                 oHoster = cHosterGui().checkHoster(sHosterUrl)
                 if oHoster:
                     oHoster.setDisplayName(sMovieTitle)
                     oHoster.setFileName(sMovieTitle)
-                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 				               
     oGui.setEndOfDirectory()
 
@@ -243,9 +243,9 @@ def showLinks():
             
             sHosterUrl = aEntry  
             oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if oHoster != False:
+            if oHoster:
                 oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
     oGui.setEndOfDirectory()

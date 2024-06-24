@@ -16,19 +16,19 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-MOVIE_AR = (URL_MAIN + '/ar/category/الأفلام', 'showSeries')
+MOVIE_AR = (f'{URL_MAIN}/ar/category/الأفلام', 'showSeries')
 
-RAMADAN_SERIES = (URL_MAIN + '/ar/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA', 'showSeries')
-SERIE_AR = (URL_MAIN + '/ar/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA', 'showSeries')
-KID_CARTOON = (URL_MAIN + '/ar/category/%D8%A3%D8%B7%D9%81%D8%A7%D9%84', 'showSerie')
+RAMADAN_SERIES = (f'{URL_MAIN}/ar/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA', 'showSeries')
+SERIE_AR = (f'{URL_MAIN}/ar/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA', 'showSeries')
+KID_CARTOON = (f'{URL_MAIN}/ar/category/%D8%A3%D8%B7%D9%81%D8%A7%D9%84', 'showSerie')
 
 SERIE_GENRES = (True, 'seriesGenres')
 
-REPLAYTV_NEWS = (URL_MAIN + '/ar/category/برامج', 'showSeries')
-REPLAYTV_PLAY = (URL_MAIN + '/ar/category/مسرحيات', 'showSeries')
+REPLAYTV_NEWS = (f'{URL_MAIN}/ar/category/برامج', 'showSeries')
+REPLAYTV_PLAY = (f'{URL_MAIN}/ar/category/مسرحيات', 'showSeries')
 
-URL_SEARCH = (URL_MAIN + '/ar/search?q=', 'showSeries')
-URL_SEARCH_SERIES = (URL_MAIN + '/ar/search?q=', 'showSeriesSearch')
+URL_SEARCH = (f'{URL_MAIN}/ar/search?q=', 'showSeries')
+URL_SEARCH_SERIES = (f'{URL_MAIN}/ar/search?q=', 'showSeriesSearch')
 FUNCTION_SEARCH = 'showSeries'
  
 def load():
@@ -64,7 +64,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/ar/search?q='+sSearchText
+        sUrl = f'{URL_MAIN}/ar/search?q={sSearchText}'
         showSeriesSearch(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -124,19 +124,19 @@ def seriesGenres():
     oGui = cGui()
 
     liste = []
-    liste.append(['دراما', URL_MAIN + '/ar/type/'])
-    liste.append(['كوميدي', URL_MAIN + '/ar/type/'])
-    liste.append(['حارة-شامية', URL_MAIN + '/ar/type/'])
-    liste.append(['رومنسي', URL_MAIN + '/ar/type/'])
-    liste.append(['اجتماعي', URL_MAIN + '/ar/type/'])
-    liste.append(['تاريخي-سيرة-ذاتيه-وثائقي', URL_MAIN + '/ar/type/'])
-    liste.append(['رعب', URL_MAIN + '/ar/type/'])
-    liste.append(['أكشن', URL_MAIN + '/ar/type/'])
-    liste.append(['رياضي', URL_MAIN + '/ar/type/'])
-    liste.append(['غموض-تشويق', URL_MAIN + '/ar/type/'])
-    liste.append(['مقابلات-تلفزيونية', URL_MAIN + '/ar/type/'])
-    liste.append(['ديني', URL_MAIN + '/ar/type/'])
-    liste.append(['طبخ', URL_MAIN + '/ar/type/'])
+    liste.append(['دراما', f'{URL_MAIN}/ar/type/'])
+    liste.append(['كوميدي', f'{URL_MAIN}/ar/type/'])
+    liste.append(['حارة-شامية', f'{URL_MAIN}/ar/type/'])
+    liste.append(['رومنسي', f'{URL_MAIN}/ar/type/'])
+    liste.append(['اجتماعي', f'{URL_MAIN}/ar/type/'])
+    liste.append(['تاريخي-سيرة-ذاتيه-وثائقي', f'{URL_MAIN}/ar/type/'])
+    liste.append(['رعب', f'{URL_MAIN}/ar/type/'])
+    liste.append(['أكشن', f'{URL_MAIN}/ar/type/'])
+    liste.append(['رياضي', f'{URL_MAIN}/ar/type/'])
+    liste.append(['غموض-تشويق', f'{URL_MAIN}/ar/type/'])
+    liste.append(['مقابلات-تلفزيونية', f'{URL_MAIN}/ar/type/'])
+    liste.append(['ديني', f'{URL_MAIN}/ar/type/'])
+    liste.append(['طبخ', f'{URL_MAIN}/ar/type/'])
 
     for sTitle, sUrl in liste:
 
@@ -174,9 +174,9 @@ def showSeries(sSearch = ''):
             sThumb = aEntry[4]
             sDesc = aEntry[1]
             sYear = aEntry[0]
-            sDisplayTitle = ('%s (%s)') % (sTitle, sYear)
+            sDisplayTitle = f'{sTitle} ({sYear})'
 
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sYear', sYear)
             oOutputParameterHandler.addParameter('sDesc', sDesc)
@@ -224,7 +224,7 @@ def showSerie(sSearch = ''):
             sDesc = aEntry[0]
             sYear = ""
 
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oOutputParameterHandler.addParameter('sYear', sYear)
@@ -252,7 +252,7 @@ def __checkForNextPage(sHtmlContent):
 
     return False
 
-def showHosters(oInputParameterHandler = False):
+def showHosters():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -297,13 +297,13 @@ def showHosters(oInputParameterHandler = False):
             sThumb = aEntry[1]
             url = str(aEntry[0])
             if url.startswith('//'):
-                url = 'http:' + url
+                url = f'http:{url}'
             
             sHosterUrl = url
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
                 oHoster.setDisplayName(sTitle)
                 oHoster.setFileName(sTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 				
     oGui.setEndOfDirectory()                

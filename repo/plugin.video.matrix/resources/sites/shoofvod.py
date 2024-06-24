@@ -17,27 +17,27 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-MOVIE_EN = (URL_MAIN + 'al_751319_1', 'showMovies')
-MOVIE_AR = (URL_MAIN + 'Cat-100-1', 'showMovies')
-MOVIE_HI = (URL_MAIN + 'Cat-132-1', 'showMovies')
-MOVIE_TURK = (URL_MAIN + 'Cat-48-1', 'showMovies')
-MOVIE_ANIME = (URL_MAIN + 'Cat-57-1', 'showMovies')
-DOC_NEWS = (URL_MAIN + 'Cat-23-1', 'showMovies')
+MOVIE_EN = (f'{URL_MAIN}al_751319_1', 'showMovies')
+MOVIE_AR = (f'{URL_MAIN}Cat-100-1', 'showMovies')
+MOVIE_HI = (f'{URL_MAIN}Cat-132-1', 'showMovies')
+MOVIE_TURK = (f'{URL_MAIN}Cat-48-1', 'showMovies')
+MOVIE_ANIME = (f'{URL_MAIN}Cat-57-1', 'showMovies')
+DOC_NEWS = (f'{URL_MAIN}Cat-23-1', 'showMovies')
 
-RAMADAN_SERIES = (URL_MAIN + 'Cat-145-1', 'showSeries')
-SERIE_DUBBED = (URL_MAIN + 'Cat-129-1', 'showSeries')
-SERIE_AR = (URL_MAIN + 'Cat-98-1', 'showSeries')
-SERIE_TR = (URL_MAIN + 'Cat-128-1', 'showSeries')
-SERIE_TR_AR = (URL_MAIN + 'Cat-129-1', 'showSeries')
-SERIE_HEND = (URL_MAIN + 'Cat-130-1', 'showSeries')
+RAMADAN_SERIES = (f'{URL_MAIN}Cat-145-1', 'showSeries')
+SERIE_DUBBED = (f'{URL_MAIN}Cat-129-1', 'showSeries')
+SERIE_AR = (f'{URL_MAIN}Cat-98-1', 'showSeries')
+SERIE_TR = (f'{URL_MAIN}Cat-128-1', 'showSeries')
+SERIE_TR_AR = (f'{URL_MAIN}Cat-129-1', 'showSeries')
+SERIE_HEND = (f'{URL_MAIN}Cat-130-1', 'showSeries')
 SERIE_GENRES = (True, 'showGenres')
-KID_CARTOON = (URL_MAIN + 'Cat-56-1', 'showSeries')
+KID_CARTOON = (f'{URL_MAIN}Cat-56-1', 'showSeries')
 
-REPLAYTV_NEWS = (URL_MAIN + 'Cat-39-1', 'showSeries')
-REPLAYTV_PLAY = (URL_MAIN + 'Cat-44-1', 'showEps')
+REPLAYTV_NEWS = (f'{URL_MAIN}Cat-39-1', 'showSeries')
+REPLAYTV_PLAY = (f'{URL_MAIN}Cat-44-1', 'showEps')
 
-URL_SEARCH_MOVIES = (URL_MAIN + 'Search/', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + 'Search/', 'showSeries')
+URL_SEARCH_MOVIES = (f'{URL_MAIN}Search/', 'showMovies')
+URL_SEARCH_SERIES = (f'{URL_MAIN}Search/', 'showSeries')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -103,7 +103,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + 'Search/'+sSearchText
+        sUrl = f'{URL_MAIN}Search/{sSearchText}'
 
         showMovies(sUrl)
         oGui.setEndOfDirectory()
@@ -114,7 +114,7 @@ def showSeriesSearch():
 
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + 'Search/'+sSearchText
+        sUrl = f'{URL_MAIN}Search/{sSearchText}'
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -125,7 +125,7 @@ def showGenres():
     sUrl = oInputParameterHandler.getValue('siteUrl')
  
     liste = []
-    liste.append( ['مسلسلات سورية - لبنانية',URL_MAIN + '/Cat-93-1'] )
+    liste.append( ['مسلسلات سورية - لبنانية',f'{URL_MAIN}/Cat-93-1'] )
     for sTitle,sUrl in liste:
  
         oOutputParameterHandler = cOutputParameterHandler()
@@ -302,7 +302,7 @@ def showEps():
        
     oGui.setEndOfDirectory()
     
-def showHosters(oInputParameterHandler = False):
+def showHosters():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -317,7 +317,7 @@ def showHosters(oInputParameterHandler = False):
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0]:
         m3url = aResult[1][0]
-        m3url = URL_MAIN + '' + m3url 
+        m3url = f'{URL_MAIN}{m3url}'
         oRequest = cRequestHandler(m3url)
         sHtmlContent = oRequest.request()
 
@@ -325,7 +325,8 @@ def showHosters(oInputParameterHandler = False):
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0]:
         m3url = aResult[1][0]
-        m3url = 'http:' + m3url 
+        if m3url.startswith('//'):
+            m3url = f'http:{m3url}'
 			
         oRequest = cRequestHandler(m3url)
         sHtmlContent = oRequest.request()
@@ -336,12 +337,12 @@ def showHosters(oInputParameterHandler = False):
             for aEntry in aResult[1]:       
                 url = aEntry
                 if url.startswith('//'):
-                   url = 'http:' + url
+                   url = f'http:{url}'
                 sHosterUrl = url  
                 oHoster = cHosterGui().checkHoster(sHosterUrl)
                 if oHoster:
                    oHoster.setDisplayName(sMovieTitle)
                    oHoster.setFileName(sMovieTitle)
-                   cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                   cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
     oGui.setEndOfDirectory()

@@ -21,11 +21,11 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-KID_MOVIES = (URL_MAIN + 'movies/#gsc.tab=0', 'showMovies')
-KID_CARTOON = (URL_MAIN + 'tvshows/#gsc.tab=0', 'showSeries')
+KID_MOVIES = (f'{URL_MAIN}movies/#gsc.tab=0', 'showMovies')
+KID_CARTOON = (f'{URL_MAIN}tvshows/#gsc.tab=0', 'showSeries')
 
-URL_SEARCH = (URL_MAIN + '?s=', 'showSeriesSearch')
-URL_SEARCH_SERIES = (URL_MAIN + '?s=', 'showSeriesSearch')
+URL_SEARCH = (f'{URL_MAIN}?s=', 'showSeriesSearch')
+URL_SEARCH_SERIES = (f'{URL_MAIN}?s=', 'showSeriesSearch')
 FUNCTION_SEARCH = 'showSeries'
  
 def load():
@@ -52,7 +52,7 @@ def showSearchMovies():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '?s='+sSearchText
+        sUrl = f'{URL_MAIN}?s={sSearchText}'
         showMoviesSearch(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -62,7 +62,7 @@ def showSearchSeries():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '?s='+sSearchText
+        sUrl = f'{URL_MAIN}?s={sSearchText}'
         showSeriesSearch(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -100,7 +100,7 @@ def showMoviesSearch(sSearch = ''):
             sYear = ''
             sDesc = ''
 
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oOutputParameterHandler.addParameter('sYear', sYear)
@@ -115,14 +115,12 @@ def showMoviesSearch(sSearch = ''):
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
  
-            sTitle = aEntry[1]  
-            sTitle =  "PAGE " + sTitle
-            sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
+            sTitle = f'[COLOR red]Page: {aEntry[1]}[/COLOR]'
             siteUrl = aEntry[0].replace("'","")
             sThumb = ""
             sDesc = ""
 
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
@@ -164,7 +162,7 @@ def showSeriesSearch(sSearch = ''):
             sYear = ''
             sDesc = ''
 
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oOutputParameterHandler.addParameter('sYear', sYear)
@@ -179,14 +177,12 @@ def showSeriesSearch(sSearch = ''):
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
  
-            sTitle = aEntry[1]     
-            sTitle =  "PAGE " + sTitle
-            sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
+            sTitle = f'[COLOR red]Page: {aEntry[1]}[/COLOR]'
             siteUrl = aEntry[0].replace("'","")
             sThumb = ""
             sDesc = ""
 
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
@@ -226,7 +222,7 @@ def showMovies(sSearch = ''):
             sYear = ''
             sDesc = ''
 
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oOutputParameterHandler.addParameter('sYear', sYear)
@@ -269,14 +265,14 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = (cUtil().CleanMovieName(aEntry[2])).replace("الحلقة "," E")
+            sTitle = (cUtil().CleanMovieName(aEntry[1])).replace("الحلقة "," E")
             siteUrl = aEntry[2]
             sThumb = aEntry[0]
             sThumb = re.sub(r'-\d*x\d*.','.', sThumb)
             sYear = ''
             sDesc = ''
 
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oOutputParameterHandler.addParameter('sYear', sYear)
@@ -322,7 +318,7 @@ def showEpisodes():
             sThumb = re.sub(r'-\d*x\d*.','.', sThumb)
             sDesc = ''
 			
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
@@ -344,7 +340,7 @@ def __checkForNextPage(sHtmlContent):
 
     return False
 
-def showHosters(oInputParameterHandler = False):
+def showHosters():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -368,14 +364,14 @@ def showHosters(oInputParameterHandler = False):
     aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
        for aEntry in aResult[1]:       
-           url = shost+'/watch/player/player.php?slug='+aEntry
+           url = f'{shost}/watch/player/player.php?slug={aEntry}'
 				
            sHosterUrl = url 
            oHoster = cHosterGui().checkHoster(sHosterUrl)
            if oHoster:
                oHoster.setDisplayName(sMovieTitle)
                oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
                
     cook = oRequestHandler.GetCookies()      
     sPattern =  'data-type=["\']([^"\']+)["\'] data-post=["\']([^"\']+)["\'] data-nume=["\']([^"\']+)["\']'
@@ -410,13 +406,13 @@ def showHosters(oInputParameterHandler = False):
                     if '/?id=' in url:
                         url = url.split('/?id=', 1)[1]
                     if url.startswith('//'):
-                        url = 'https:' + url
+                        url = f'https:{url}'
 				            
                     sHosterUrl = url
                     oHoster = cHosterGui().checkHoster(sHosterUrl)
                     if oHoster:
                         oHoster.setDisplayName(sMovieTitle)
                         oHoster.setFileName(sMovieTitle)
-                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
                 
     oGui.setEndOfDirectory()			

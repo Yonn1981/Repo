@@ -17,7 +17,7 @@ SITE_NAME = 'Btolat'
 SITE_DESC = 'sport vod'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
-SPORT_FOOT = (URL_MAIN + 'video', 'showMovies')
+SPORT_FOOT = (f'{URL_MAIN}video', 'showMovies')
 SPORT_SPORTS = ('http://', 'load')
 
 def load():
@@ -83,7 +83,7 @@ def showPackMovies():
     sHtmlContent = oRequestHandler.request()
 
     if nVIdeo:
-        oRequestHandler = cRequestHandler(URL_MAIN+'video/LoadMore/'+nVIdeo)
+        oRequestHandler = cRequestHandler(f'{URL_MAIN}video/LoadMore/{nVIdeo}')
         oRequestHandler.addHeaderEntry('User-Agent', UA)
         oRequestHandler.addParameters('VideoID', nVIdeo)
         oRequestHandler.setRequestType(1)
@@ -100,7 +100,7 @@ def showPackMovies():
             if progress_.iscanceled():
                 break
             sUrl = aEntry[0].replace("'","")
-            sUrl = URL_MAIN+sUrl
+            sUrl = f'{URL_MAIN}{sUrl}'
             sTitle = aEntry[2]
             sDesc = ""
             sThumb = aEntry[1]
@@ -132,7 +132,7 @@ def showMovies():
     sHtmlContent = oRequestHandler.request()
 
     if nVIdeo:
-        oRequestHandler = cRequestHandler(URL_MAIN+'api/video/LoadMore/'+nVIdeo)
+        oRequestHandler = cRequestHandler(f'{URL_MAIN}api/video/LoadMore/{nVIdeo}')
         oRequestHandler.addHeaderEntry('User-Agent', UA)
         oRequestHandler.addParameters('VideoID', nVIdeo)
         oRequestHandler.setRequestType(1)
@@ -149,7 +149,7 @@ def showMovies():
             if progress_.iscanceled():
                 break
             sUrl = aEntry[0].replace("'","")
-            sUrl = URL_MAIN+sUrl
+            sUrl = f'{URL_MAIN}{sUrl}'
             sTitle = aEntry[2]
             sDesc = ""
             sThumb = aEntry[1]
@@ -188,7 +188,7 @@ def __checkForNextPage(sHtmlContent):
 
     return False
 
-def showHosters(oInputParameterHandler = False):
+def showHosters():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -213,7 +213,7 @@ def showHosters(oInputParameterHandler = False):
 
                 url = aEntry
                 if url.startswith('//'):
-                    url = 'http:' + url
+                    url = f'http:{url}'
                 oRequest = cRequestHandler(url)
                 sHtmlContent3 = oRequest.request()
             
@@ -227,13 +227,13 @@ def showHosters(oInputParameterHandler = False):
                         qua = aEntry[1].split('.m3u8')[0]
 
                         sHosterUrl = url2
-                        sTitle = ('%s  [COLOR coral](%s)[/COLOR]') % (sMovieTitle, qua)
+                        sTitle = f'{sMovieTitle} [COLOR coral]({qua})[/COLOR]'
                         oHoster = cHosterGui().checkHoster(sHosterUrl)
                         sDisplayTitle = sTitle
                         if oHoster:
                             oHoster.setDisplayName(sDisplayTitle)
                             oHoster.setFileName(sMovieTitle)
-                            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
         sPattern = 'source:["\']([^"\']+)["\']'
         aResult = oParser.parse(sHtmlContent2, sPattern)
@@ -256,13 +256,13 @@ def showHosters(oInputParameterHandler = False):
                         qua = aEntry[1].split('.m3u8')[0]
 
                         sHosterUrl = url2
-                        sTitle = ('%s  [COLOR coral](%s)[/COLOR]') % (sMovieTitle, qua)
+                        sTitle = f'{sMovieTitle} [COLOR coral]({qua})[/COLOR]'
                         oHoster = cHosterGui().checkHoster(sHosterUrl)
                         sDisplayTitle = sTitle
                         if oHoster:
                             oHoster.setDisplayName(sDisplayTitle)
                             oHoster.setFileName(sMovieTitle)
-                            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
         sPattern = '<h1>(.+?)</h1>'
         aResult = oParser.parse(sHtmlContent2, sPattern)
@@ -282,6 +282,6 @@ def showHosters(oInputParameterHandler = False):
             if oHoster:
                 oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
                
     oGui.setEndOfDirectory()    

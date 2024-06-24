@@ -1,7 +1,6 @@
 ﻿# -*- coding: utf-8 -*-
 # zombi https://github.com/zombiB/zombi-addons/
 
-import re
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -57,12 +56,12 @@ def showMovies(sSearch = ''):
             sThumb = ''
             if aEntry[3]:
                 sThumb = aEntry[3]
-            siteUrl = mSite+"bein/live/"+aEntry[0]
+            siteUrl = f'{mSite}bein/live/{aEntry[0]}'
             if siteUrl.startswith('//'):
-                siteUrl = 'http:' + aEntry[0]
+                siteUrl = f'http:{aEntry[0]}'
             sDesc = aEntry[2]
             if aEntry[4]:
-                sDesc = aEntry[2]+ "\n \nوقت المباراة: "+aEntry[4]
+                sDesc = f'{aEntry[2]} \n \nوقت المباراة: {aEntry[4]}'
 						
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -74,7 +73,7 @@ def showMovies(sSearch = ''):
  
     oGui.setEndOfDirectory()
   
-def showLive(oInputParameterHandler = False):
+def showLive():
     oGui = cGui()
    
     oInputParameterHandler = cInputParameterHandler()
@@ -102,7 +101,6 @@ def showLive(oInputParameterHandler = False):
             
             url = aEntry
             sHosterUrl = url
-            sMovieTitle = sMovieTitle
             if 'vimeo' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + mSite
             if 'akamaized' in sHosterUrl:
@@ -116,7 +114,7 @@ def showLive(oInputParameterHandler = False):
             if oHoster:
                 oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
     sPattern = '><iframe.+?src="([^"]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -141,7 +139,7 @@ def showLive(oInputParameterHandler = False):
                      if oHoster:
                                oHoster.setDisplayName(sMovieTitle)
                                oHoster.setFileName(sMovieTitle)
-                               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
             if 'youtube' in url:
                 url = url.split('?')[0]
                 
@@ -157,7 +155,7 @@ def showLive(oInputParameterHandler = False):
             if oHoster:
                 oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
     sPattern = 'onclick="goToLink(.+?), (.+?),'  
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -187,7 +185,7 @@ def showLive(oInputParameterHandler = False):
                     if oHoster:
                         oHoster.setDisplayName(sDisplayTitle)
                         oHoster.setFileName(sMovieTitle)
-                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
 
     sPattern = 'href="javascript:goToMatch(.+?), (.+?),.+?>(.+?)</a>'   
@@ -215,7 +213,7 @@ def showLive(oInputParameterHandler = False):
                     if oHoster:
                         oHoster.setDisplayName(sDisplayTitle)
                         oHoster.setFileName(sMovieTitle)
-                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
             sPattern = 'source: "(.+?)",'
             aResult = oParser.parse(sHtmlContent, sPattern)
@@ -233,7 +231,7 @@ def showLive(oInputParameterHandler = False):
                     if oHoster:
                         oHoster.setDisplayName(sDisplayTitle)
                         oHoster.setFileName(sMovieTitle)
-                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
     else:
         sPattern = 'id="video-container".+?<video.+?src="([^"]+)'
@@ -249,7 +247,7 @@ def showLive(oInputParameterHandler = False):
                 if oHoster:
                     oHoster.setDisplayName('لم يتم بعد وضع بث لهذه المباراة')
                     oHoster.setFileName(sMovieTitle)
-                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
         sPattern = 'itemprop="embedUrl" content="([^"]+)'
         aResult = oParser.parse(sHtmlContent, sPattern)
@@ -264,6 +262,6 @@ def showLive(oInputParameterHandler = False):
                 if oHoster:
                     oHoster.setDisplayName('شاهد الاهداف')
                     oHoster.setFileName(sMovieTitle)
-                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
             
     oGui.setEndOfDirectory() 

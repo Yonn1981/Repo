@@ -18,34 +18,34 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-MOVIE_EN = (URL_MAIN + 'category/افلام-اجنبي', 'showMovies')
-MOVIE_AR = (URL_MAIN + 'category/افلام-عربي', 'showMovies')
-MOVIE_HI = (URL_MAIN + 'category/افلام-هندي', 'showMovies')
-MOVIE_ASIAN = (URL_MAIN + 'category/افلام-اسيوية', 'showMovies')
-MOVIE_TURK = (URL_MAIN + 'category/افلام-تركية', 'showMovies')
+MOVIE_EN = (f'{URL_MAIN}category/افلام-اجنبي', 'showMovies')
+MOVIE_AR = (f'{URL_MAIN}category/افلام-عربي', 'showMovies')
+MOVIE_HI = (f'{URL_MAIN}category/افلام-هندي', 'showMovies')
+MOVIE_ASIAN = (f'{URL_MAIN}category/افلام-اسيوية', 'showMovies')
+MOVIE_TURK = (f'{URL_MAIN}category/افلام-تركية', 'showMovies')
 MOVIE_GENRES = (True, 'moviesGenres')
 
-RAMADAN_SERIES = (URL_MAIN + 'category/مسلسلات-رمضان-2024', 'showSeries')
-SERIE_EN = (URL_MAIN + 'category/مسلسلات-اجنبي', 'showSeries')
-SERIE_AR = (URL_MAIN + 'category/مسلسلات-عربي', 'showSeries')
-SERIE_HEND = (URL_MAIN + 'category/مسلسلات-هندية', 'showSeries')
-SERIE_ASIA = (URL_MAIN + 'category/مسلسلات-اسيوية', 'showSeries')
-SERIE_TR = (URL_MAIN + 'category/مسلسلات-تركية', 'showSeries')
+RAMADAN_SERIES = (f'{URL_MAIN}category/مسلسلات-رمضان-2024', 'showSeries')
+SERIE_EN = (f'{URL_MAIN}category/مسلسلات-اجنبي', 'showSeries')
+SERIE_AR = (f'{URL_MAIN}category/مسلسلات-عربي', 'showSeries')
+SERIE_HEND = (f'{URL_MAIN}category/مسلسلات-هندية', 'showSeries')
+SERIE_ASIA = (f'{URL_MAIN}category/مسلسلات-اسيوية', 'showSeries')
+SERIE_TR = (f'{URL_MAIN}category/مسلسلات-تركية', 'showSeries')
 SERIE_GENRES = (True, 'seriesGenres')
 
-ANIM_MOVIES = (URL_MAIN + 'category/افلام-انمي', 'showMovies')
-ANIM_NEWS = (URL_MAIN+'category/مسلسلات-انمي' , 'showSeries')
+ANIM_MOVIES = (f'{URL_MAIN}category/افلام-انمي', 'showMovies')
+ANIM_NEWS = (f'{URL_MAIN}category/مسلسلات-انمي' , 'showSeries')
 
-REPLAYTV_NEWS = (URL_MAIN + 'category/برامج-تلفزيونية', 'showSeries')
+REPLAYTV_NEWS = (f'{URL_MAIN}category/برامج-تلفزيونية', 'showSeries')
 
-DOC_NEWS = (URL_MAIN + 'genre/وثائقي', 'showMovies')
-DOC_SERIES = (URL_MAIN + 'genre/وثائقي', 'showSeries')
+DOC_NEWS = (f'{URL_MAIN}genre/وثائقي', 'showMovies')
+DOC_SERIES = (f'{URL_MAIN}genre/وثائقي', 'showSeries')
 
-SPORT_WWE = (URL_MAIN + 'category/عروض-مصارعة', 'showMovies')
+SPORT_WWE = (f'{URL_MAIN}category/عروض-مصارعة', 'showMovies')
 
-URL_SEARCH = (URL_MAIN + 'search?s=', 'showMovies')
-URL_SEARCH_MOVIES = (URL_MAIN + 'search?s=فيلم+', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + 'search?s=مسلسل+', 'showSeries')
+URL_SEARCH = (f'{URL_MAIN}search?s=', 'showMovies')
+URL_SEARCH_MOVIES = (f'{URL_MAIN}search?s=فيلم+', 'showMovies')
+URL_SEARCH_SERIES = (f'{URL_MAIN}search?s=مسلسل+', 'showSeries')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -120,7 +120,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + 'search?s='+sSearchText
+        sUrl = f'{URL_MAIN}search?s={sSearchText}'
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -130,7 +130,7 @@ def showSearchSeries():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + 'search?s='+sSearchText
+        sUrl = f'{URL_MAIN}search?s={sSearchText}'
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -139,24 +139,24 @@ def seriesGenres():
     oGui = cGui()
 
     liste = []
-    liste.append(['اكشن', URL_MAIN + 'genre/اكشن'])
-    liste.append(['انيميشن', URL_MAIN + 'genre/كرتون'])
-    liste.append(['مغامرات', URL_MAIN + 'genre/مغامرات'])
-    liste.append(['حركة', URL_MAIN + 'genre/حركة'])
-    liste.append(['تاريخي', URL_MAIN + 'genre/تاريخي'])
-    liste.append(['كوميديا', URL_MAIN + 'genre/كوميدي'])
-    liste.append(['موسيقى', URL_MAIN + 'genre/موسيقي'])
-    liste.append(['رياضي', URL_MAIN + 'genre/رياضي'])
-    liste.append(['دراما', URL_MAIN + 'genre/دراما'])
-    liste.append(['رعب', URL_MAIN + 'genre/رعب'])
-    liste.append(['عائلى', URL_MAIN + 'genre/عائلي'])
-    liste.append(['فانتازيا', URL_MAIN + 'genre/فانتازيا'])
-    liste.append(['حروب', URL_MAIN + 'genre/حروب'])
-    liste.append(['الجريمة', URL_MAIN + 'genre/جريمة'])
-    liste.append(['رومانسى', URL_MAIN + 'genre/رومانسي'])
-    liste.append(['خيال علمى', URL_MAIN + 'genre/خيال%20علمي'])
-    liste.append(['اثارة', URL_MAIN + 'genre/ﺗﺸﻮﻳﻖ%20ﻭﺇﺛﺎﺭﺓ'])
-    liste.append(['وثائقى', URL_MAIN + 'genre/وثائقي'])
+    liste.append(['اكشن', f'{URL_MAIN}genre/اكشن'])
+    liste.append(['انيميشن', f'{URL_MAIN}genre/كرتون'])
+    liste.append(['مغامرات', f'{URL_MAIN}genre/مغامرات'])
+    liste.append(['حركة', f'{URL_MAIN}genre/حركة'])
+    liste.append(['تاريخي', f'{URL_MAIN}genre/تاريخي'])
+    liste.append(['كوميديا', f'{URL_MAIN}genre/كوميدي'])
+    liste.append(['موسيقى', f'{URL_MAIN}genre/موسيقي'])
+    liste.append(['رياضي', f'{URL_MAIN}genre/رياضي'])
+    liste.append(['دراما', f'{URL_MAIN}genre/دراما'])
+    liste.append(['رعب', f'{URL_MAIN}genre/رعب'])
+    liste.append(['عائلى', f'{URL_MAIN}genre/عائلي'])
+    liste.append(['فانتازيا', f'{URL_MAIN}genre/فانتازيا'])
+    liste.append(['حروب', f'{URL_MAIN}genre/حروب'])
+    liste.append(['الجريمة', f'{URL_MAIN}genre/جريمة'])
+    liste.append(['رومانسى', f'{URL_MAIN}genre/رومانسي'])
+    liste.append(['خيال علمى', f'{URL_MAIN}genre/خيال%20علمي'])
+    liste.append(['اثارة', f'{URL_MAIN}genre/ﺗﺸﻮﻳﻖ%20ﻭﺇﺛﺎﺭﺓ'])
+    liste.append(['وثائقى', f'{URL_MAIN}genre/وثائقي'])
 
     for sTitle, sUrl in liste:
 
@@ -170,24 +170,24 @@ def moviesGenres():
     oGui = cGui()
 
     liste = []
-    liste.append(['اكشن', URL_MAIN + 'genre/اكشن'])
-    liste.append(['انيميشن', URL_MAIN + 'genre/كرتون'])
-    liste.append(['مغامرات', URL_MAIN + 'genre/مغامرات'])
-    liste.append(['حركة', URL_MAIN + 'genre/حركة'])
-    liste.append(['تاريخي', URL_MAIN + 'genre/تاريخي'])
-    liste.append(['كوميديا', URL_MAIN + 'genre/كوميدي'])
-    liste.append(['موسيقى', URL_MAIN + 'genre/موسيقي'])
-    liste.append(['رياضي', URL_MAIN + 'genre/رياضي'])
-    liste.append(['دراما', URL_MAIN + 'genre/دراما'])
-    liste.append(['رعب', URL_MAIN + 'genre/رعب'])
-    liste.append(['عائلى', URL_MAIN + 'genre/عائلي'])
-    liste.append(['فانتازيا', URL_MAIN + 'genre/فانتازيا'])
-    liste.append(['حروب', URL_MAIN + 'genre/حروب'])
-    liste.append(['الجريمة', URL_MAIN + 'genre/جريمة'])
-    liste.append(['رومانسى', URL_MAIN + 'genre/رومانسي'])
-    liste.append(['خيال علمى', URL_MAIN + 'genre/خيال%20علمي'])
-    liste.append(['اثارة', URL_MAIN + 'genre/ﺗﺸﻮﻳﻖ%20ﻭﺇﺛﺎﺭﺓ'])
-    liste.append(['وثائقى', URL_MAIN + 'genre/وثائقي'])
+    liste.append(['اكشن', f'{URL_MAIN}genre/اكشن'])
+    liste.append(['انيميشن', f'{URL_MAIN}genre/كرتون'])
+    liste.append(['مغامرات', f'{URL_MAIN}genre/مغامرات'])
+    liste.append(['حركة', f'{URL_MAIN}genre/حركة'])
+    liste.append(['تاريخي', f'{URL_MAIN}genre/تاريخي'])
+    liste.append(['كوميديا', f'{URL_MAIN}genre/كوميدي'])
+    liste.append(['موسيقى', f'{URL_MAIN}genre/موسيقي'])
+    liste.append(['رياضي', f'{URL_MAIN}genre/رياضي'])
+    liste.append(['دراما', f'{URL_MAIN}genre/دراما'])
+    liste.append(['رعب', f'{URL_MAIN}genre/رعب'])
+    liste.append(['عائلى', f'{URL_MAIN}genre/عائلي'])
+    liste.append(['فانتازيا', f'{URL_MAIN}genre/فانتازيا'])
+    liste.append(['حروب', f'{URL_MAIN}genre/حروب'])
+    liste.append(['الجريمة', f'{URL_MAIN}genre/جريمة'])
+    liste.append(['رومانسى', f'{URL_MAIN}genre/رومانسي'])
+    liste.append(['خيال علمى', f'{URL_MAIN}genre/خيال%20علمي'])
+    liste.append(['اثارة', f'{URL_MAIN}genre/ﺗﺸﻮﻳﻖ%20ﻭﺇﺛﺎﺭﺓ'])
+    liste.append(['وثائقى', f'{URL_MAIN}genre/وثائقي'])
 
     for sTitle, sUrl in liste:
 
@@ -233,11 +233,11 @@ def showMovies(sSearch = ''):
 
             sTitle = cUtil().CleanMovieName(aEntry[2])
             if 'http' not in aEntry[1]:
-                sThumb = URL_MAIN+aEntry[1]
+                sThumb = f'{URL_MAIN}{aEntry[1]}'
             else:
                 sThumb = aEntry[1]
             if 'http' not in aEntry[0]:
-                siteUrl = URL_MAIN+aEntry[0].replace('film/','download/').replace('post/','download/')
+                siteUrl = f"{URL_MAIN}{aEntry[0].replace('film/','download/').replace('post/','download/')}"
             else:
                 siteUrl = aEntry[0].replace('film/','download/').replace('post/','download/')
             sYear = ''
@@ -249,7 +249,7 @@ def showMovies(sSearch = ''):
             if aEntry[3]:
                 sDesc = str(aEntry[3])
 
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oOutputParameterHandler.addParameter('sYear', sYear)
@@ -297,20 +297,18 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            if "film/" in aEntry[0]:
-                continue
-            if "post/" in aEntry[0]:
+            if "film/" in aEntry[0] or "post/" in aEntry[0]:
                 continue
             if "فيلم" in aEntry[2]:
                 continue
             
             sTitle = cUtil().CleanSeriesName(aEntry[2])
             if 'http' not in aEntry[1]:
-                sThumb = URL_MAIN+aEntry[1]
+                sThumb = f'{URL_MAIN}{aEntry[1]}'
             else:
                 sThumb = aEntry[1]
             if 'http' not in aEntry[0]:
-                siteUrl = URL_MAIN+aEntry[0].replace('film/','download/')
+                siteUrl = f"{URL_MAIN}{aEntry[0].replace('film/','download/')}"
             else:
                 siteUrl = aEntry[0].replace('film/','download/')
             sDesc = ''
@@ -320,7 +318,7 @@ def showSeries(sSearch = ''):
 
             if sTitle not in itemList:
                 itemList.append(sTitle)			
-                oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+                oOutputParameterHandler.addParameter('siteUrl', siteUrl)
                 oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
                 oOutputParameterHandler.addParameter('sThumb', sThumb)
                 oOutputParameterHandler.addParameter('sYear', sYear)
@@ -367,16 +365,15 @@ def showSeasons():
             if progress_.iscanceled():
                 break
 
-            sTitle =  " S" + aEntry[1]
-            sTitle =  sMovieTitle+sTitle
+            sTitle =  f'{sMovieTitle} S{aEntry[1]}'
             if 'http' not in aEntry[0]:
-                siteUrl = URL_MAIN+aEntry[0]
+                siteUrl = f'{URL_MAIN}{aEntry[0]}'
             else:
                 siteUrl = aEntry[0]
             sThumb = sThumb
             sDesc = ''
 			
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oGui.addSeason(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
@@ -394,19 +391,19 @@ def showSeasons():
                 if progress_.iscanceled():
                     break
  
-                sTitle = " E"+aEntry[1]
-                sTitle = sMovieTitle+sTitle
+                sTitle = f'{sMovieTitle} E{aEntry[1]}'
                 if 'http' not in aEntry[0]:
-                    siteUrl = URL_MAIN+aEntry[0].replace('episode/','download/')
+                    siteUrl = f"{URL_MAIN}{aEntry[0].replace('episode/','download/')}"
                 else:
                     siteUrl = aEntry[0].replace('episode/','download/')
                 sThumb = sThumb
                 sDesc = ''
 
-                oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+                oOutputParameterHandler.addParameter('siteUrl', siteUrl)
                 oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
                 oOutputParameterHandler.addParameter('sThumb', sThumb)
                 oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+
             progress_.VSclose(progress_)
        
     oGui.setEndOfDirectory() 
@@ -430,23 +427,23 @@ def showEpisodes():
         for aEntry in aResult[1]:
             if "season/" in aEntry[0]:
                 continue 
-            sTitle = " E"+aEntry[1]
-            sTitle = sMovieTitle+sTitle
+
+            sTitle = f'{sMovieTitle} E{aEntry[1]}'
             if 'http' not in aEntry[0]:
-                siteUrl = URL_MAIN+aEntry[0].replace('episode/','download/')
+                siteUrl = f"{URL_MAIN}{aEntry[0].replace('episode/','download/')}"
             else:
                 siteUrl = aEntry[0].replace('episode/','download/')
             sThumb = sThumb
             sDesc = ''			
 
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
       
     oGui.setEndOfDirectory()		
  
-def showHosters(oInputParameterHandler = False):
+def showHosters():
     oGui = cGui()
    
     oInputParameterHandler = cInputParameterHandler()
@@ -464,17 +461,15 @@ def showHosters(oInputParameterHandler = False):
     if aResult[0]:
         for aEntry in aResult[1]:            
             url = aEntry.replace('\\','')
-
-            sTitle = sMovieTitle
             if url.startswith('//'):
                 url = 'http:' + url
            
             sHosterUrl = url 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
-                oHoster.setDisplayName(sTitle)
-                oHoster.setFileName(sTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                oHoster.setDisplayName(sMovieTitle)
+                oHoster.setFileName(sMovieTitle)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -496,7 +491,6 @@ def showHosters(oInputParameterHandler = False):
                 oOutputParameterHandler = cOutputParameterHandler()
                 for aEntry in aResult[1]:            
                     url = aEntry
-                    sTitle = " "
                     if url.startswith('//'):
                         url = 'http:' + url		   
 
@@ -508,20 +502,21 @@ def showHosters(oInputParameterHandler = False):
                                 sHosterUrl = item.split(',')[0].split('=')[1]
                                 sLabel = item.split(',')[1].split('=')[1]
 
-                                sDisplayTitle = ('%s [COLOR coral] [%s][/COLOR][COLOR orange]  %s[/COLOR]') % (sMovieTitle, sQual, sLabel)      
+                                sDisplayTitle = f'{sMovieTitle} [COLOR coral] [{sQual}][/COLOR][COLOR orange] -{sLabel}[/COLOR]'     
                                 oOutputParameterHandler.addParameter('sHosterUrl', sHosterUrl)
+                                oOutputParameterHandler.addParameter('siteUrl', sUrl)
                                 oOutputParameterHandler.addParameter('sQual', sQual)
                                 oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
                                 oOutputParameterHandler.addParameter('sThumb', sThumb)
 
-                                oGui.addLink(SITE_IDENTIFIER, 'showLinks', sDisplayTitle, sThumb, '', oOutputParameterHandler, oInputParameterHandler)
+                                oGui.addLink(SITE_IDENTIFIER, 'showLinks', sDisplayTitle, sThumb, sDisplayTitle, oOutputParameterHandler)
 
                     oHoster = cHosterGui().checkHoster(sHosterUrl)
                     if oHoster:
                         sDisplayTitle = f'{sMovieTitle} [COLOR coral]({sQual}p)[/COLOR]'
                         oHoster.setDisplayName(sDisplayTitle)
                         oHoster.setFileName(sMovieTitle)
-                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
     oGui.setEndOfDirectory()
 
@@ -531,15 +526,13 @@ def showLinks():
     oInputParameterHandler = cInputParameterHandler()
     sHosterUrl = oInputParameterHandler.getValue('sHosterUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sQual = oInputParameterHandler.getValue('sQual')
     sThumb = oInputParameterHandler.getValue('sThumb')
 
-    sDisplayTitle = ('%s [COLOR coral] [%s] [/COLOR]') % (sMovieTitle, sQual)   
     oHoster = cHosterGui().checkHoster(sHosterUrl)
-    if oHoster != False:
-        oHoster.setDisplayName(sDisplayTitle)
+    if oHoster:
+        oHoster.setDisplayName(sMovieTitle)
         oHoster.setFileName(sMovieTitle)
-        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
     oGui.setEndOfDirectory()
 

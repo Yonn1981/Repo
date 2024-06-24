@@ -2,7 +2,6 @@
 # zombi https://github.com/zombiB/zombi-addons/
 
 import re
-	
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -11,7 +10,6 @@ from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 
-
 TimeOut = 60 	
 SITE_IDENTIFIER = 'aflaam'
 SITE_NAME = 'Aflaam'
@@ -19,17 +17,17 @@ SITE_DESC = 'arabic vod'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-MOVIE_FAM = (URL_MAIN + '/movies?section=0&category=33&rating=0&year=0&language=0&formats=0&quality=0', 'showMovies')
-MOVIE_AR = (URL_MAIN + '/movies?section=1', 'showMovies')
-MOVIE_EN = (URL_MAIN + '/movies?section=2', 'showMovies')
-MOVIE_HI = (URL_MAIN + '/movies?section=3', 'showMovies')
-KID_MOVIES = (URL_MAIN + 'movies?section=2&category=30', 'showMovies')
-MOVIE_TOP = (URL_MAIN + '/movies?section=2&category=0&rating=8&year=0&language=0&formats=0&quality=0', 'showMovies')
-SERIE_EN = (URL_MAIN + '/series?section=2', 'showSeries')
+MOVIE_FAM = (f'{URL_MAIN}movies?section=0&category=33&rating=0&year=0&language=0&formats=0&quality=0', 'showMovies')
+MOVIE_AR = (f'{URL_MAIN}movies?section=1', 'showMovies')
+MOVIE_EN = (f'{URL_MAIN}movies?section=2', 'showMovies')
+MOVIE_HI = (f'{URL_MAIN}movies?section=3', 'showMovies')
+KID_MOVIES = (f'{URL_MAIN}movies?section=2&category=30', 'showMovies')
+MOVIE_TOP = (f'{URL_MAIN}movies?section=2&category=0&rating=8&year=0&language=0&formats=0&quality=0', 'showMovies')
+SERIE_EN = (f'{URL_MAIN}series?section=2', 'showSeries')
 
-URL_SEARCH = (URL_MAIN + '/search?q=', 'showMoviesSearch')
-URL_SEARCH_MOVIES = (URL_MAIN + '/search?q=', 'showMoviesSearch')
-URL_SEARCH_SERIES = (URL_MAIN + '/search?q=', 'showSeriesSearch')
+URL_SEARCH = (f'{URL_MAIN}search?q=', 'showMoviesSearch')
+URL_SEARCH_MOVIES = (f'{URL_MAIN}search?q=', 'showMoviesSearch')
+URL_SEARCH_SERIES = (f'{URL_MAIN}search?q=', 'showSeriesSearch')
 FUNCTION_SEARCH = 'showMoviesSearch'
 
 def load():
@@ -43,23 +41,18 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
     oGui.addDir(SITE_IDENTIFIER, 'showSearchSeries', addons.VSlang(30079), 'search.png', oOutputParameterHandler)
 
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_EN[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أجنبية', 'agnab.png', oOutputParameterHandler)
    
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_AR[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام عربية', 'arab.png', oOutputParameterHandler)
  
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_HI[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام هندية', 'hend.png', oOutputParameterHandler)
     
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', KID_MOVIES[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام كرتون', 'anim.png', oOutputParameterHandler)
 
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', SERIE_EN[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أجنبية', 'agnab.png', oOutputParameterHandler)
 
@@ -70,7 +63,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN+'/search?q='+sSearchText
+        sUrl = f'{URL_MAIN}search?q={sSearchText}'
         showMoviesSearch(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -79,7 +72,7 @@ def showSearchSeries():
     oGui = cGui()
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN+'/search?q='+sSearchText
+        sUrl = f'{URL_MAIN}search?q={sSearchText}'
         showSeriesSearch(sUrl)
         oGui.setEndOfDirectory()
         return  
@@ -91,7 +84,6 @@ def showMovies(sSearch = ''):
     else:
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
-
 
     oParser = cParser()
     oRequestHandler = cRequestHandler(sUrl)
@@ -358,10 +350,10 @@ def __checkForNextPage(sHtmlContent):
 
     return False
 
-def showHosters(oInputParameterHandler = False):
+def showHosters():
     oGui = cGui()
-    if not oInputParameterHandler:
-        oInputParameterHandler = cInputParameterHandler()
+
+    oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
@@ -381,14 +373,14 @@ def showHosters(oInputParameterHandler = False):
     sPattern =  '<source.+?src="(.+?)".+?type="video/mp4".+?size="(.+?)"'                                                                 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0] :
-       for aEntry1 in aResult[1]:
-           sHosterUrl = aEntry1[0] 
-           sHost = aEntry1[1]  
-           sTitle = ('%s  [COLOR coral](%sp)[/COLOR]') % (sMovieTitle, sHost)  
+       for aEntry in aResult[1]:
+           sHosterUrl = f'{aEntry[0]}|verifypeer=false'
+           sTitle = f'{sMovieTitle} [COLOR coral]({aEntry[1]}p)[/COLOR]' 
+
            oHoster = cHosterGui().checkHoster(sHosterUrl)
            if oHoster != False:
               oHoster.setDisplayName(sTitle)
               oHoster.setFileName(sMovieTitle)
-              cHosterGui().showHoster(oGui, oHoster, sHosterUrl + "|verifypeer=false", sThumb, oInputParameterHandler=oInputParameterHandler)
+              cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
                 
     oGui.setEndOfDirectory()

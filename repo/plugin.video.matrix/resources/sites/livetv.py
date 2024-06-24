@@ -5,6 +5,7 @@
 import base64
 import re
 import xbmc
+import json
 from resources.lib.comaddon import isMatrix, siteManager
 from resources.lib.gui.gui import cGui
 from resources.lib.gui.hoster import cHosterGui
@@ -18,19 +19,14 @@ from resources.lib import random_ua
 
 UA = random_ua.get_pc_ua()
 
-try:
-    import json
-except:
-    import simplejson as json
-
 SITE_IDENTIFIER = 'livetv'
 SITE_NAME = 'Live TV'
 SITE_DESC = 'Live sport events'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-SPORT_GENRES = (URL_MAIN + '/enx/allupcoming/', 'showMovies') 
-SPORT_LIVE = (URL_MAIN + '/enx/', 'showLive') 
+SPORT_GENRES = (f'{URL_MAIN}/enx/allupcoming/', 'showMovies') 
+SPORT_LIVE = (f'{URL_MAIN}/enx/', 'showLive') 
 SPORT_SPORTS = (True, 'load')
 
 def load():
@@ -105,7 +101,7 @@ def showMovies():
     else:
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
-            sUrl2 = URL_MAIN + aEntry[0]
+            sUrl2 = f'{URL_MAIN}{aEntry[0]}'
             sTitle = aEntry[1]
 
             try:
@@ -149,7 +145,7 @@ def showMovies2():
             sThumb = ''
             taglive = ''
             sTitle2 = aEntry[1].replace('<br>', ' ')
-            sUrl3 = URL_MAIN + aEntry[0]
+            sUrl3 = f'{URL_MAIN}{aEntry[0]}'
 
             if 'live.gif' in aEntry[2]:
                 taglive = ' [COLOR limegreen] Online[/COLOR]'
@@ -184,11 +180,11 @@ def showMovies2():
                         if heure == -1:
                             heure = 23
                         
-                        sDate = '%02d/%02d %02d%s' % (int(sDateTime[0][0]), sMonth, heure, sDateTime[0][3])
+                        sDate = f"{int(sDateTime[0][0]):02d}/{sMonth:02d} {heure:02d}{sDateTime[0][3]}"
                 except Exception as e:
                     pass
 
-            sTitle2 = ('%s - %s [COLOR yellow]%s[/COLOR]') % (sDate, sTitle2, sQual)
+            sTitle2 = f'{sDate} - {sTitle2} [COLOR yellow]{sQual}[/COLOR]'
             sDisplayTitle = sTitle2 + taglive
 
             oOutputParameterHandler.addParameter('siteUrl3', sUrl3)
@@ -228,8 +224,8 @@ def showMovies3():
 
             sUrl4 = aEntry[1]
             if not (sUrl4.startswith("http")):
-                sUrl4 = "http:" + sUrl4
-            sTitle = ('%s (%s)') % (sMovieTitle2, sLang[:4])
+                sUrl4 = f'http:{sUrl4}'
+            sTitle = f"{sMovieTitle2} ({sLang[:4]})"
             sThumb = ''
 
             oOutputParameterHandler.addParameter('siteUrl4', sUrl4)

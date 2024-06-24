@@ -21,17 +21,17 @@ SITE_DESC = 'Asian Movies and TV Shows'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-MOVIE_ASIAN = (URL_MAIN + 'types/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%b3%d9%8a%d9%88%d9%8a%d8%a9/', 'showMovies')
-SERIE_KR = (URL_MAIN + 'types/%d8%a7%d9%84%d8%af%d8%b1%d8%a7%d9%85%d8%a7-%d8%a7%d9%84%d9%83%d9%88%d8%b1%d9%8a%d8%a9/', 'showSeries')
-SERIE_CN = (URL_MAIN + 'types/%d8%a7%d9%84%d8%af%d8%b1%d8%a7%d9%85%d8%a7-%d8%a7%d9%84%d8%b5%d9%8a%d9%86%d9%8a%d8%a9/', 'showSeries')
-SERIE_JP = (URL_MAIN + 'types/%d8%a7%d9%84%d8%af%d8%b1%d8%a7%d9%85%d8%a7-%d8%a7%d9%84%d9%8a%d8%a7%d8%a8%d8%a7%d9%86%d9%8a%d8%a9/', 'showSeries')
-SERIE_THAI = (URL_MAIN + 'types/%d8%a7%d9%84%d8%af%d8%b1%d8%a7%d9%85%d8%a7-%d8%a7%d9%84%d8%aa%d8%a7%d9%8a%d9%84%d9%86%d8%af%d9%8a%d8%a9/', 'showSeries')
-SERIE_TA = (URL_MAIN + 'types/%d8%a7%d9%84%d8%af%d8%b1%d8%a7%d9%85%d8%a7-%d8%a7%d9%84%d8%aa%d8%a7%d9%8a%d9%88%d9%86%d9%8a%d8%a9/', 'showSeries')
+MOVIE_ASIAN = (f'{URL_MAIN}types/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%b3%d9%8a%d9%88%d9%8a%d8%a9/', 'showMovies')
+SERIE_KR = (f'{URL_MAIN}types/%d8%a7%d9%84%d8%af%d8%b1%d8%a7%d9%85%d8%a7-%d8%a7%d9%84%d9%83%d9%88%d8%b1%d9%8a%d8%a9/', 'showSeries')
+SERIE_CN = (f'{URL_MAIN}types/%d8%a7%d9%84%d8%af%d8%b1%d8%a7%d9%85%d8%a7-%d8%a7%d9%84%d8%b5%d9%8a%d9%86%d9%8a%d8%a9/', 'showSeries')
+SERIE_JP = (f'{URL_MAIN}types/%d8%a7%d9%84%d8%af%d8%b1%d8%a7%d9%85%d8%a7-%d8%a7%d9%84%d9%8a%d8%a7%d8%a8%d8%a7%d9%86%d9%8a%d8%a9/', 'showSeries')
+SERIE_THAI = (f'{URL_MAIN}types/%d8%a7%d9%84%d8%af%d8%b1%d8%a7%d9%85%d8%a7-%d8%a7%d9%84%d8%aa%d8%a7%d9%8a%d9%84%d9%86%d8%af%d9%8a%d8%a9/', 'showSeries')
+SERIE_TA = (f'{URL_MAIN}types/%d8%a7%d9%84%d8%af%d8%b1%d8%a7%d9%85%d8%a7-%d8%a7%d9%84%d8%aa%d8%a7%d9%8a%d9%88%d9%86%d9%8a%d8%a9/', 'showSeries')
 
-URL_SEARCH = (URL_MAIN + '?s=', 'showSeries')
-URL_SEARCH_MOVIES = (URL_MAIN + '?s=', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + '?s=', 'showSeries')
-URL_SEARCH_MISC = (URL_MAIN + '?s=', 'showSeries')
+URL_SEARCH = (f'{URL_MAIN}?s=', 'showSeries')
+URL_SEARCH_MOVIES = (f'{URL_MAIN}?s=', 'showMovies')
+URL_SEARCH_SERIES = (f'{URL_MAIN}?s=', 'showSeries')
+URL_SEARCH_MISC = (f'{URL_MAIN}?s=', 'showSeries')
 FUNCTION_SEARCH = 'showSeries'
 
 WhiteList = ('افلام','مسلسلات','برامج','اطفال','رمضان','انمي','كرتون','كارتون','دراما', 'الدراما')
@@ -65,7 +65,7 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', SERIE_THAI[0])
     oGui.addDir(SITE_IDENTIFIER, SERIE_JP[1], 'مسلسلات تايلندية', 'thai.png', oOutputParameterHandler)
 
-    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'الحلقات-الجديدة/')
+    oOutputParameterHandler.addParameter('siteUrl', f'{URL_MAIN}الحلقات-الجديدة/')
     oGui.addDir(SITE_IDENTIFIER, 'showSeries2', 'احدث الحلقات', 'asia.png', oOutputParameterHandler)
 
     oGui.setEndOfDirectory()
@@ -74,7 +74,7 @@ def showSearch():
     oGui = cGui() 
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '?s='+sSearchText
+        sUrl = f'{URL_MAIN}?s={sSearchText}'
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -83,7 +83,7 @@ def showSearchSeries():
     oGui = cGui()
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '?s='+sSearchText
+        sUrl = f'{URL_MAIN}?s={sSearchText}'
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return  
@@ -278,7 +278,7 @@ def showSeasons():
 
             siteUrl = aEntry[0]
             sTitle = cUtil().CleanSeriesName(aEntry[1])
-            sTitle = sMovieTitle + ' ' +  sTitle
+            sTitle = f'{sMovieTitle} {sTitle}'
             sYear = ''        
             sThumb = sThumb           
             sDesc = ''
@@ -329,7 +329,7 @@ def showEpisodes():
 
                 siteUrl = aEntry[0]
                 sTitle = aEntry[1].replace("فيلم","-Movie").replace("الحلقة ","E").replace("الحلقة","E").replace("الحلقه ","E").replace("الحلقه","E").replace("END","").replace("والاخيرة","").replace("والأخيرة","").strip()
-                sTitle = sMovieTitle + ' ' +  sTitle
+                sTitle = f'{sMovieTitle} {sTitle}'
                 sYear = ''
         
                 oOutputParameterHandler.addParameter('sMovieTitle', sTitle )
@@ -358,7 +358,7 @@ def __checkForNextPage(sHtmlContent):
 
     return False
 
-def showHosters(oInputParameterHandler = False):
+def showHosters():
     oGui = cGui()
 
     oInputParameterHandler = cInputParameterHandler()
@@ -394,14 +394,13 @@ def showHosters(oInputParameterHandler = False):
         for aEntry in aResult[1]:
       
             sHosterUrl = aEntry
-
             if 'asiatvplayer' in sHosterUrl:
-                sHosterUrl = sHosterUrl + '|Referer=' + url
+                sHosterUrl = f'{sHosterUrl}|Referer={url}'
 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if oHoster != False:
+            if oHoster:
                   oHoster.setDisplayName(sMovieTitle)
                   oHoster.setFileName(sMovieTitle)
-                  cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                  cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
     oGui.setEndOfDirectory()

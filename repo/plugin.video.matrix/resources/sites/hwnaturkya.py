@@ -21,14 +21,14 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-SERIE_TR = (URL_MAIN + 'category/مسلسلات-تركية-مترجمة', 'showSeries')
-SERIE_TR_AR = (URL_MAIN + 'category/مسلسلات-تركية-مدبلجة', 'showSeries')
-MOVIE_TURK = (URL_MAIN + 'category/افلام-تركية-مترجمة', 'showMovies')
-MOVIE_DUBBED = (URL_MAIN + 'category/افلام-تركية-مدبلجة', 'showMovies')
+SERIE_TR = (f'{URL_MAIN}category/مسلسلات-تركية-مترجمة', 'showSeries')
+SERIE_TR_AR = (f'{URL_MAIN}category/مسلسلات-تركية-مدبلجة', 'showSeries')
+MOVIE_TURK = (f'{URL_MAIN}category/افلام-تركية-مترجمة', 'showMovies')
+MOVIE_DUBBED = (f'{URL_MAIN}category/افلام-تركية-مدبلجة', 'showMovies')
 
-URL_SEARCH = (URL_MAIN + 'search/', 'showSeries')
-URL_SEARCH_MOVIES = (URL_MAIN + 'search/', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + 'search/', 'showSeries')
+URL_SEARCH = (f'{URL_MAIN}search/', 'showSeries')
+URL_SEARCH_MOVIES = (f'{URL_MAIN}search/', 'showMovies')
+URL_SEARCH_SERIES = (f'{URL_MAIN}search/', 'showSeries')
 FUNCTION_SEARCH = 'showSeries'
  
 def load():
@@ -61,7 +61,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + 'search/'+sSearchText
+        sUrl = f'{URL_MAIN}search/{sSearchText}'
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -71,7 +71,7 @@ def showSeriesSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + 'search/'+sSearchText
+        sUrl = f'{URL_MAIN}search/{sSearchText}'
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -129,9 +129,7 @@ def showMovies(sSearch = ''):
                 if progress_.iscanceled():
                     break
  
-                sTitle = aEntry[1]           
-                sTitle =  "PAGE " + sTitle
-                sTitle =  '[COLOR red]'+sTitle+'[/COLOR]'
+                sTitle =  f'[COLOR red]Page: {aEntry[1]}[/COLOR]'
                 siteUrl = aEntry[0]
                 sThumb = ""
                 sDesc = ""
@@ -206,9 +204,7 @@ def showSeries(sSearch = ''):
                 if progress_.iscanceled():
                     break
  
-                sTitle = aEntry[1]           
-                sTitle =  "PAGE " + sTitle
-                sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
+                sTitle =  f'[COLOR red]Page: {aEntry[1]}[/COLOR]'
                 siteUrl = aEntry[0]
                 sThumb = ""
                 sDesc = ""
@@ -258,7 +254,7 @@ def showSeasons():
                 sThumb = aEntry[3]
                 sDesc = ''
                 if sThumb.startswith('//'):
-                    sThumb = "https:"+aEntry[1]
+                    sThumb = f'https:{aEntry[1]}'
 			
                 oOutputParameterHandler.addParameter('siteUrl',siteUrl)
                 oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -272,7 +268,7 @@ def showSeasons():
             oOutputParameterHandler = cOutputParameterHandler() 
             for aEntry in aResult[1]:
  
-                sTitle = sMovieTitle + ' E'+ aEntry[2]
+                sTitle = f'{sMovieTitle} E{aEntry[2]}'
                 sThumb = sThumb
                 siteUrl = aEntry[0].replace("/episodes/","/watch_episodes/")
                 sDesc = ""
@@ -315,7 +311,7 @@ def showEps():
         
     oGui.setEndOfDirectory() 
 
-def showHosters(oInputParameterHandler = False):
+def showHosters():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -368,7 +364,7 @@ def showHosters(oInputParameterHandler = False):
 
                             sHosterUrl = aEntry
                             if sHosterUrl.startswith('//'):
-                                sHosterUrl = 'http:' + sHosterUrl
+                                sHosterUrl = f'http:{sHosterUrl}'
 
                             if 'megamax' in sHosterUrl:
                                 data = cMegamax().GetUrls(sHosterUrl)
@@ -378,19 +374,19 @@ def showHosters(oInputParameterHandler = False):
                                         sQual = item.split(',')[1].split('=')[1]
                                         sLabel = item.split(',')[2].split('=')[1]
 
-                                        sDisplayTitle = ('%s [COLOR coral] [%s][/COLOR][COLOR orange] - %s[/COLOR]') % (sMovieTitle, sQual, sLabel)      
+                                        sDisplayTitle = f'{sMovieTitle} [COLOR coral] [{sQual}][/COLOR][COLOR orange] - {sLabel}[/COLOR]'  
                                         oOutputParameterHandler.addParameter('sHosterUrl', sHosterUrl)
-                                        oOutputParameterHandler.addParameter('sQual', sQual)
+                                        oOutputParameterHandler.addParameter('siteUrl', sUrl)
                                         oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
                                         oOutputParameterHandler.addParameter('sThumb', sThumb)
 
-                                        oGui.addLink(SITE_IDENTIFIER, 'showLinks', sDisplayTitle, sThumb, '', oOutputParameterHandler, oInputParameterHandler)
+                                        oGui.addLink(SITE_IDENTIFIER, 'showLinks', sDisplayTitle, sThumb, sDisplayTitle, oOutputParameterHandler)
 
                             oHoster = cHosterGui().checkHoster(sHosterUrl)
-                            if oHoster != False:
+                            if oHoster:
                                 oHoster.setDisplayName(sMovieTitle)
                                 oHoster.setFileName(sMovieTitle)
-                                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
     sPattern = '<a target="_blank" href=["\']([^"\']+)["\'].+?<i class="icon-download">'
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -403,14 +399,14 @@ def showHosters(oInputParameterHandler = False):
             url = aEntry
             sTitle = sMovieTitle
             if url.startswith('//'):
-               url = 'http:' + url
+               url = f'http:{url}'
             
             sHosterUrl = url 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
                oHoster.setDisplayName(sTitle)
                oHoster.setFileName(sTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
     oGui.setEndOfDirectory()
 
@@ -420,13 +416,11 @@ def showLinks():
     oInputParameterHandler = cInputParameterHandler()
     sHosterUrl = oInputParameterHandler.getValue('sHosterUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sQual = oInputParameterHandler.getValue('sQual')
     sThumb = oInputParameterHandler.getValue('sThumb')
-
-    sDisplayTitle = ('%s [COLOR coral] [%s] [/COLOR]') % (sMovieTitle, sQual)   
+ 
     oHoster = cHosterGui().checkHoster(sHosterUrl)
-    if oHoster != False:
-        oHoster.setDisplayName(sDisplayTitle)
+    if oHoster:
+        oHoster.setDisplayName(sMovieTitle)
         oHoster.setFileName(sMovieTitle)
         cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
 

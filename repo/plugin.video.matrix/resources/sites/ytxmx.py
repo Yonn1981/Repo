@@ -9,22 +9,23 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
-	
+from resources.lib import random_ua
+
+UA = random_ua.get_random_ua()	
+
 SITE_IDENTIFIER = 'ytxmx'
 SITE_NAME = 'YTX.MX'
 SITE_DESC = 'english vod'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-UA = 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1'
-
-MOVIE_4k = (URL_MAIN + '/browse-movies/0/2160p/all/0/latest/0/all', 'showMovies')
-MOVIE_EN = (URL_MAIN + '/browse-movies/0/all/all/0/year/0/all', 'showMovies')
-KID_MOVIES = (URL_MAIN + '/browse-movies/0/all/animation/0/year/0/all', 'showMovies')
+MOVIE_4k = (f'{URL_MAIN}/browse-movies/0/2160p/all/0/latest/0/all', 'showMovies')
+MOVIE_EN = (f'{URL_MAIN}/browse-movies/0/all/all/0/year/0/all', 'showMovies')
+KID_MOVIES = (f'{URL_MAIN}/browse-movies/0/all/animation/0/year/0/all', 'showMovies')
 MOVIE_GENRES = (True, 'moviesGenres')
 
-URL_SEARCH = (URL_MAIN + '/ajax/search?query=', 'showMovies')
-URL_SEARCH_MOVIES = (URL_MAIN + '/ajax/search?query=', 'showMovies')
+URL_SEARCH = (f'{URL_MAIN}/ajax/search?query=', 'showMovies')
+URL_SEARCH_MOVIES = (f'{URL_MAIN}/ajax/search?query=', 'showMovies')
 FUNCTION_SEARCH = 'showMovies'
 	
 def load():
@@ -53,7 +54,7 @@ def showSearch():
     oGui = cGui()
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + 'ajax/search?query='+sSearchText
+        sUrl = f'{URL_MAIN}ajax/search?query={sSearchText}'
         showSearchMovies(sUrl)
         oGui.setEndOfDirectory()
         return  
@@ -110,25 +111,25 @@ def moviesGenres():
     oGui = cGui()
 
     liste = []
-    liste.append(['Action', URL_MAIN + 'browse-movies/0/all/action/0/year/0/all'])
-    liste.append(['Adventure', URL_MAIN + 'browse-movies/0/all/adventure/0/year/0/all'])
-    liste.append(['Animated', URL_MAIN + 'browse-movies/0/all/animation/0/year/0/all'])
-    liste.append(['Biography', URL_MAIN + 'browse-movies/0/all/biography/0/year/0/all'])
-    liste.append(['Comedy', URL_MAIN + 'browse-movies/0/all/comedy/0/year/0/all'])
-    liste.append(['Crime', URL_MAIN + 'browse-movies/0/all/crime/0/year/0/all'])
-    liste.append(['Drama', URL_MAIN + 'browse-movies/0/all/drama/0/year/0/all'])
-    liste.append(['Documentary', URL_MAIN + 'browse-movies/0/all/documentary/0/year/0/all'])
-    liste.append(['Family', URL_MAIN + 'browse-movies/0/all/family/0/year/0/all'])
-    liste.append(['Fantasy', URL_MAIN + 'browse-movies/0/all/fantasy/0/year/0/all'])
-    liste.append(['History', URL_MAIN + 'browse-movies/0/all/history/0/year/0/all'])
-    liste.append(['Horror', URL_MAIN + 'browse-movies/0/all/horror/0/year/0/all'])
-    liste.append(['Music', URL_MAIN + 'browse-movies/0/all/music/0/year/0/all'])
-    liste.append(['Mystery', URL_MAIN + 'browse-movies/0/all/mystery/0/year/0/all'])
-    liste.append(['Romance', URL_MAIN + 'browse-movies/0/all/romance/0/year/0/all'])
-    liste.append(['Sci-Fi', URL_MAIN + 'browse-movies/0/all/sci-fi/0/year/0/all'])
-    liste.append(['Thriller', URL_MAIN + 'yts.mx/browse-movies/0/all/thriller/0/year/0/all'])
-    liste.append(['War', URL_MAIN + 'browse-movies/0/all/war/0/year/0/all'])
-    liste.append(['Western', URL_MAIN + 'browse-movies/0/all/western/0/year/0/all'])
+    liste.append(['Action', f'{URL_MAIN}browse-movies/0/all/action/0/year/0/all'])
+    liste.append(['Adventure', f'{URL_MAIN}browse-movies/0/all/adventure/0/year/0/all'])
+    liste.append(['Animated', f'{URL_MAIN}browse-movies/0/all/animation/0/year/0/all'])
+    liste.append(['Biography', f'{URL_MAIN}browse-movies/0/all/biography/0/year/0/all'])
+    liste.append(['Comedy', f'{URL_MAIN}browse-movies/0/all/comedy/0/year/0/all'])
+    liste.append(['Crime', f'{URL_MAIN}browse-movies/0/all/crime/0/year/0/all'])
+    liste.append(['Drama', f'{URL_MAIN}browse-movies/0/all/drama/0/year/0/all'])
+    liste.append(['Documentary', f'{URL_MAIN}browse-movies/0/all/documentary/0/year/0/all'])
+    liste.append(['Family', f'{URL_MAIN}browse-movies/0/all/family/0/year/0/all'])
+    liste.append(['Fantasy', f'{URL_MAIN}browse-movies/0/all/fantasy/0/year/0/all'])
+    liste.append(['History', f'{URL_MAIN}browse-movies/0/all/history/0/year/0/all'])
+    liste.append(['Horror', f'{URL_MAIN}browse-movies/0/all/horror/0/year/0/all'])
+    liste.append(['Music', f'{URL_MAIN}browse-movies/0/all/music/0/year/0/all'])
+    liste.append(['Mystery', f'{URL_MAIN}browse-movies/0/all/mystery/0/year/0/all'])
+    liste.append(['Romance', f'{URL_MAIN}browse-movies/0/all/romance/0/year/0/all'])
+    liste.append(['Sci-Fi', f'{URL_MAIN}browse-movies/0/all/sci-fi/0/year/0/all'])
+    liste.append(['Thriller', f'{URL_MAIN}yts.mx/browse-movies/0/all/thriller/0/year/0/all'])
+    liste.append(['War', f'{URL_MAIN}browse-movies/0/all/war/0/year/0/all'])
+    liste.append(['Western', f'{URL_MAIN}browse-movies/0/all/western/0/year/0/all'])
 
     for sTitle, sUrl in liste:
 
@@ -139,7 +140,6 @@ def moviesGenres():
     oGui.setEndOfDirectory()
 
 def showMovies(sSearch = ''):
-    import requests
     oGui = cGui()
     if sSearch:
       sUrl = sSearch.replace(' ', '+')
@@ -168,7 +168,7 @@ def showMovies(sSearch = ''):
             sDesc = ''
             sYear = ''
 
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oOutputParameterHandler.addParameter('sYear', sYear)
@@ -190,7 +190,7 @@ def showMovies(sSearch = ''):
 
         oGui.setEndOfDirectory()  
 
-def showServer(oInputParameterHandler = False):
+def showServer():
     oGui = cGui()
 
     oInputParameterHandler = cInputParameterHandler()
@@ -211,9 +211,9 @@ def showServer(oInputParameterHandler = False):
                sYear = str(m.group(0))
                sMovieTitle = sMovieTitle.replace(sYear,'')
             
-            url = aEntry[2]+'ttmxtt'
+            url = f'{aEntry[2]}ttmxtt'
             qual = aEntry[0].replace('p','')
-            sTitle = ('%s  [COLOR coral](%sp)[/COLOR]') % (sMovieTitle, qual)	
+            sTitle = f'{sMovieTitle} [COLOR coral]({qual}p)[/COLOR]'
 					   
             sHosterUrl = url 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
@@ -221,7 +221,7 @@ def showServer(oInputParameterHandler = False):
                 sDisplayTitle = sTitle
                 oHoster.setDisplayName(sDisplayTitle)
                 oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
     oGui.setEndOfDirectory()  
 

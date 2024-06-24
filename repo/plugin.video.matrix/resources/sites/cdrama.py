@@ -17,12 +17,12 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-MOVIE_ASIAN = (URL_MAIN + 'category/الأفلام-الاسيوية-asian-movies/', 'showMovies')
+MOVIE_ASIAN = (f'{URL_MAIN}category/الأفلام-الاسيوية-asian-movies/', 'showMovies')
 
-SERIE_KR = (URL_MAIN + 'category/الدراما-الكورية-kdrama/', 'showSeries')
-SERIE_CN = (URL_MAIN + 'category/دراما-الصينية-chinese-drama/', 'showSeries')
-SERIE_JP = (URL_MAIN + 'category/الدراما-اليابانية-japanese-drama/', 'showSeries')
-SERIE_ASIA = (URL_MAIN + 'category/الدراما-الكورية-kdrama/', 'showSeries')
+SERIE_KR = (f'{URL_MAIN}category/الدراما-الكورية-kdrama/', 'showSeries')
+SERIE_CN = (f'{URL_MAIN}category/دراما-الصينية-chinese-drama/', 'showSeries')
+SERIE_JP = (f'{URL_MAIN}category/الدراما-اليابانية-japanese-drama/', 'showSeries')
+SERIE_ASIA = (f'{URL_MAIN}category/الدراما-الكورية-kdrama/', 'showSeries')
 
 FUNCTION_SEARCH = 'showSeries'
  
@@ -49,13 +49,13 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', SERIE_JP[0])
     oGui.addDir(SITE_IDENTIFIER, SERIE_JP[1], 'مسلسلات يابانية', 'jp.png', oOutputParameterHandler)
 
-    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'category/درامات-آخرى-other-dramas/')
+    oOutputParameterHandler.addParameter('siteUrl', f'{URL_MAIN}category/درامات-آخرى-other-dramas/')
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'درامات آخرى', 'asia.png', oOutputParameterHandler)   
 
-    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'category/ترجماتنا-الحصرية-our-exclusive-translation/')
+    oOutputParameterHandler.addParameter('siteUrl', f'{URL_MAIN}category/ترجماتنا-الحصرية-our-exclusive-translation/')
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'ترجماتنا الحصرية', 'asia.png', oOutputParameterHandler)    
 
-    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'category/البرامج-الأسيوية-asian-program/')
+    oOutputParameterHandler.addParameter('siteUrl', f'{URL_MAIN}category/البرامج-الأسيوية-asian-program/')
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'البرامج الأسيوية', 'brmg.png', oOutputParameterHandler)         
     
     oGui.setEndOfDirectory()
@@ -65,7 +65,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/movies-categories/'+sSearchText
+        sUrl = f'{URL_MAIN}/movies-categories/{sSearchText}'
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -184,7 +184,6 @@ def showEpisodes():
         for aEntry in aResult[1]:
  
             sTitle = aEntry[1].replace("الحلقة "," E").replace("والاخيرة","").replace("الاخيرة","")
-			
             siteUrl = aEntry[0]
             sInfo = ""
 			
@@ -204,7 +203,7 @@ def __checkForNextPage(sHtmlContent):
 
     return False
 
-def showHosters(oInputParameterHandler = False):
+def showHosters():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -213,7 +212,7 @@ def showHosters(oInputParameterHandler = False):
 
     oParser = cParser()    
     oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request();
+    sHtmlContent = oRequestHandler.request()
               
     sPattern = "data-url='([^<]+)'>"
     aResult = oParser.parse(sHtmlContent, sPattern)	
@@ -223,7 +222,7 @@ def showHosters(oInputParameterHandler = False):
             url = aEntry
             sTitle = sMovieTitle
             if url.startswith('//'):
-               url = 'https:' + url
+               url = f'https:{url}'
 				           
             sHosterUrl = url 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
@@ -231,6 +230,6 @@ def showHosters(oInputParameterHandler = False):
                sDisplayTitle = sTitle
                oHoster.setDisplayName(sDisplayTitle)
                oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail, oInputParameterHandler=oInputParameterHandler)				
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)				
                 
     oGui.setEndOfDirectory()

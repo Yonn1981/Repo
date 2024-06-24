@@ -21,29 +21,29 @@ SITE_DESC = 'arabic vod'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-MOVIE_EN = (URL_MAIN + 'category/افلام-اجنبي/', 'showMovies')
-MOVIE_AR = (URL_MAIN + 'category/افلام-عربي/', 'showMovies')
-MOVIE_HI = (URL_MAIN + 'category/افلام-هندي/', 'showMovies')
-MOVIE_ASIAN = (URL_MAIN + 'category/افلام-اسيوية/', 'showMovies')
-MOVIE_TURK = (URL_MAIN + 'category/الأفلام-التركية/', 'showMovies')
-KID_MOVIES = (URL_MAIN + 'category/افلام-كرتون/', 'showMovies')
+MOVIE_EN = (f'{URL_MAIN}category/افلام-اجنبي/', 'showMovies')
+MOVIE_AR = (f'{URL_MAIN}category/افلام-عربي/', 'showMovies')
+MOVIE_HI = (f'{URL_MAIN}category/افلام-هندي/', 'showMovies')
+MOVIE_ASIAN = (f'{URL_MAIN}category/افلام-اسيوية/', 'showMovies')
+MOVIE_TURK = (f'{URL_MAIN}category/الأفلام-التركية/', 'showMovies')
+KID_MOVIES = (f'{URL_MAIN}category/افلام-كرتون/', 'showMovies')
 
-SERIE_TR = (URL_MAIN + 'category/مسلسلات-تركية-مترجمة/', 'showSeries')
-SERIE_DUBBED = (URL_MAIN + 'category/مسلسلات-تركية-مدبلجة/', 'showSeries')
-SERIE_ASIA = (URL_MAIN + 'category/مسلسلات-اسيوية/', 'showSeries')
-SERIE_HEND = (URL_MAIN + 'category/مسلسلات-هندى/', 'showSeries')
-SERIE_EN = (URL_MAIN + 'category/مسلسلات-اجنبي/', 'showSeries')
-SERIE_AR = (URL_MAIN + 'category/مسلسلات-عربي/', 'showSeries')
-RAMADAN_SERIES = (URL_MAIN + 'category/مسلسلات-رمضان-2024/', 'showSeries')
-KID_CARTOON = (URL_MAIN+'category/مسلسلات-كرتون/', 'showSeries')
+SERIE_TR = (f'{URL_MAIN}category/مسلسلات-تركية-مترجمة/', 'showSeries')
+SERIE_DUBBED = (f'{URL_MAIN}category/مسلسلات-تركية-مدبلجة/', 'showSeries')
+SERIE_ASIA = (f'{URL_MAIN}category/مسلسلات-اسيوية/', 'showSeries')
+SERIE_HEND = (f'{URL_MAIN}category/مسلسلات-هندى/', 'showSeries')
+SERIE_EN = (f'{URL_MAIN}category/مسلسلات-اجنبي/', 'showSeries')
+SERIE_AR = (f'{URL_MAIN}category/مسلسلات-عربي/', 'showSeries')
+RAMADAN_SERIES = (f'{URL_MAIN}category/مسلسلات-رمضان-2024/', 'showSeries')
+KID_CARTOON = (f'{URL_MAIN}category/مسلسلات-كرتون/', 'showSeries')
 
-SPORT_WWE = (URL_MAIN + 'category/عروض-مصارعة/', 'showMovies')
-ANIM_NEWS = (URL_MAIN + 'category/مسلسلات-انمي-مترجمة/', 'showSeries')
-REPLAYTV_PLAY = (URL_MAIN + 'category/مسرحيات/', 'showMovies')
-REPLAYTV_NEWS = (URL_MAIN + 'category/برامج-تلفزيونية/', 'showSeries')
+SPORT_WWE = (f'{URL_MAIN}category/عروض-مصارعة/', 'showMovies')
+ANIM_NEWS = (f'{URL_MAIN}category/مسلسلات-انمي-مترجمة/', 'showSeries')
+REPLAYTV_PLAY = (f'{URL_MAIN}category/مسرحيات/', 'showMovies')
+REPLAYTV_NEWS = (f'{URL_MAIN}category/برامج-تلفزيونية/', 'showSeries')
 
-URL_SEARCH_MOVIES = (URL_MAIN + '?s=', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + '?s=', 'showSeries')
+URL_SEARCH_MOVIES = (f'{URL_MAIN}?s=', 'showMovies')
+URL_SEARCH_SERIES = (f'{URL_MAIN}?s=', 'showSeries')
 FUNCTION_SEARCH = 'showMovies'
 
 def load():
@@ -114,7 +114,7 @@ def showSearch():
     oGui = cGui()
     sSearchText = oGui.showKeyBoard()
     if sSearchText :
-        sUrl = URL_MAIN + '?s='+sSearchText
+        sUrl = f'{URL_MAIN}?s={sSearchText}'
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -123,7 +123,7 @@ def showSeriesSearch():
     oGui = cGui()
     sSearchText = oGui.showKeyBoard()
     if sSearchText :
-        sUrl = URL_MAIN + '?s='+sSearchText
+        sUrl = f'{URL_MAIN}?s={sSearchText}'
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -155,7 +155,7 @@ def showMovies(sSearch = ''):
                 continue
 
             sTitle = cUtil().CleanMovieName(aEntry[1])
-            siteUrl = aEntry[0]+'watch/'
+            siteUrl = f'{aEntry[0]}watch/'
             sThumb = aEntry[2].replace("(","").replace(")","")
             sDesc = ''
             sYear = ''
@@ -266,7 +266,6 @@ def showSeasons():
             
             oGui.addSeason(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
     else:
-
         sStart = '<div class="tabCon episodes" id="episodes">'
         sEnd = '</ul>'
         sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
@@ -315,7 +314,7 @@ def showEpisodes():
         for aEntry in aResult[1]:
             sEp = aEntry[1].replace("الحلقة ","E")
             sTitle = f'{sMovieTitle} {sEp}'
-            siteUrl = aEntry[0]+'watch/'
+            siteUrl = f'{aEntry[0]}watch/'
             sThumb = sThumb
             sDesc = ''
             sHost = ''
@@ -338,7 +337,7 @@ def __checkForNextPage(sHtmlContent):
     
     return False
 
-def showLinks(oInputParameterHandler = False):
+def showLinks():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -371,16 +370,17 @@ def showLinks(oInputParameterHandler = False):
       
             url = f'{URL_MAIN}wp-content/themes/vo2022/temp/ajax/iframe2.php?id={sID}&video={sHosterID}&serverId={serverId}'
             sHost = aEntry[1]
-            sTitle = ('%s [COLOR coral]%s[/COLOR]') % (sMovieTitle, sHost)
+            sTitle = f'{sMovieTitle} [COLOR coral]{sHost}[/COLOR]'
 
-            oOutputParameterHandler.addParameter('siteUrl', url)
+            oOutputParameterHandler.addParameter('siteUrl', sUrl)
+            oOutputParameterHandler.addParameter('sHosterUrl', url)
             oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oOutputParameterHandler.addParameter('sHost', sHost)
             oOutputParameterHandler.addParameter('Referer', Referer)
             oOutputParameterHandler.addParameter('sReferme', sReferme)
 
-            oGui.addLink(SITE_IDENTIFIER, 'showHosters', sTitle, sThumb, '', oOutputParameterHandler, oInputParameterHandler)
+            oGui.addLink(SITE_IDENTIFIER, 'showHosters', sTitle, sThumb, sTitle, oOutputParameterHandler)
                        
     sUrl = sUrl.replace('/watch/','/downloads/')
     oRequestHandler = cRequestHandler(sUrl)
@@ -400,15 +400,15 @@ def showLinks(oInputParameterHandler = False):
             url = aEntry[0]
             sQual = aEntry[1]
             if url.startswith('//'):
-               url = 'http:' + url
+               url = f'http:{url}'
 
             sHosterUrl = url 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
-               sDisplayTitle = ('%s [COLOR coral] [%s] [/COLOR]') % (sMovieTitle, sQual)
+               sDisplayTitle = f'{sMovieTitle} [COLOR coral] [{sQual}] [/COLOR]'
                oHoster.setDisplayName(sDisplayTitle)
                oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
     oGui.setEndOfDirectory()
 
@@ -421,12 +421,12 @@ def showMegaLinks():
     sQual = oInputParameterHandler.getValue('sQual')
     sThumb = oInputParameterHandler.getValue('sThumb')
 
-    sDisplayTitle = ('%s [COLOR coral] [%s] [/COLOR]') % (sMovieTitle, sQual)   
+    sDisplayTitle = f'{sMovieTitle} [COLOR coral] [{sQual}] [/COLOR]'   
     oHoster = cHosterGui().checkHoster(sHosterUrl)
-    if oHoster != False:
+    if oHoster:
         oHoster.setDisplayName(sDisplayTitle)
         oHoster.setFileName(sMovieTitle)
-        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
     oGui.setEndOfDirectory()
 
@@ -435,13 +435,14 @@ def showHosters():
 
     oInputParameterHandler = cInputParameterHandler()
     siteUrl = oInputParameterHandler.getValue('siteUrl')
+    sHosterUrl = oInputParameterHandler.getValue('sHosterUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
     Referer = oInputParameterHandler.getValue('Referer')
     sReferme = oInputParameterHandler.getValue('sReferme')
 
     oParser = cParser()
-    oRequestHandler = cRequestHandler(siteUrl)
+    oRequestHandler = cRequestHandler(sHosterUrl)
     cook = oRequestHandler.GetCookies()
     oRequestHandler.addHeaderEntry('User-Agent', UA)
     oRequestHandler.addHeaderEntry('Referer', Referer.encode('utf-8'))
@@ -465,22 +466,21 @@ def showHosters():
                     sQual = item.split(',')[1].split('=')[1]
                     sLabel = item.split(',')[2].split('=')[1]
 
-                    sDisplayTitle = ('%s [COLOR coral] [%s][/COLOR][COLOR orange] - %s[/COLOR]') % (sMovieTitle, sQual, sLabel)      
+                    sDisplayTitle = f'{sMovieTitle} [COLOR coral] [{sQual}][/COLOR][COLOR orange] - {sLabel}[/COLOR]'      
                     oOutputParameterHandler.addParameter('sHosterUrl', sHosterUrl)
+                    oOutputParameterHandler.addParameter('siteUrl', siteUrl)
                     oOutputParameterHandler.addParameter('sQual', sQual)
                     oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
                     oOutputParameterHandler.addParameter('sThumb', sThumb)
 
-                    oGui.addLink(SITE_IDENTIFIER, 'showMegaLinks', sDisplayTitle, sThumb, '', oOutputParameterHandler, oInputParameterHandler)
+                    oGui.addLink(SITE_IDENTIFIER, 'showMegaLinks', sDisplayTitle, sThumb, sDisplayTitle, oOutputParameterHandler)
 
-        if 'mystream' in sHosterUrl:
-            sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN    
         if 'ma2d' in sHosterUrl:
-            sHosterUrl = sHosterUrl + "|Referer=" + sReferme  
+            sHosterUrl = f'{sHosterUrl}|Referer={sReferme}' 
         oHoster = cHosterGui().checkHoster(sHosterUrl)
-        if oHoster != False:
+        if oHoster:
             oHoster.setDisplayName(sMovieTitle)
             oHoster.setFileName(sMovieTitle)
-            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
     oGui.setEndOfDirectory()

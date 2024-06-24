@@ -16,8 +16,8 @@ SITE_DESC = 'sport vod'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-SPORT_FOOT = (URL_MAIN + 'ar-mena/%D9%81%D9%8A%D8%AF%D9%8A%D9%88', 'showMovies')
-SPORT_SPORTS = (URL_MAIN + 'ar/%D9%83%D8%B1%D8%A9-%D8%A7%D9%84%D9%82%D8%AF%D9%85/%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88', 'showMovies')
+SPORT_FOOT = (f'{URL_MAIN}ar-mena/%D9%81%D9%8A%D8%AF%D9%8A%D9%88', 'showMovies')
+SPORT_SPORTS = (f'{URL_MAIN}ar/%D9%83%D8%B1%D8%A9-%D8%A7%D9%84%D9%82%D8%AF%D9%85/%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88', 'showMovies')
 SPORT_GENRES = ('http://', 'showGenres')
 
 URL_SEARCH = ('ar/search?q=', 'showMovies')
@@ -40,7 +40,7 @@ def showSearch():
     oGui = cGui()
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-            sUrl = URL_MAIN + 'ar/search?q='+sSearchText+'&ft=%22%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88%22'  
+            sUrl = f'{URL_MAIN}ar/search?q={sSearchText}&ft=%22%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88%22'  
             showMovies(sUrl)
             oGui.setEndOfDirectory()
             return  
@@ -51,17 +51,17 @@ def showGenres():
     sUrl = oInputParameterHandler.getValue('siteUrl')
  
     liste = []
-    liste.append( ["كرة القدم ", URL_MAIN + "ar/%D9%83%D8%B1%D8%A9-%D8%A7%D9%84%D9%82%D8%AF%D9%85/%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88"] )
-    liste.append( ["الدوري الإنكليزي الممتاز", URL_MAIN + "ar/%D8%A7%D9%84%D8%AF%D9%88%D8%B1%D9%8A-%D8%A7%D9%84%D8%A5%D9%86%D9%83%D9%84%D9%8A%D8%B2%D9%8A-%D8%A7%D9%84%D9%85%D9%85%D8%AA%D8%A7%D8%B2/%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88"] )
-    liste.append( ["دوري أبطال أوروبا", URL_MAIN + "ar/%D8%AF%D9%88%D8%B1%D9%8A-%D8%A3%D8%A8%D8%B7%D8%A7%D9%84-%D8%A3%D9%88%D8%B1%D9%88%D8%A8%D8%A7/%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88"] )
-    liste.append( ["الدوري-الإسباني", URL_MAIN + "ar/%D8%A7%D9%84%D8%AF%D9%88%D8%B1%D9%8A-%D8%A7%D9%84%D8%A5%D8%B3%D8%A8%D8%A7%D9%86%D9%8A/%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88"] )
-    liste.append( ["الدوري الإيطالي", URL_MAIN + "ar/%D8%A7%D9%84%D8%AF%D9%88%D8%B1%D9%8A-%D8%A7%D9%84%D8%A5%D9%8A%D8%B7%D8%A7%D9%84%D9%8A/%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88"] )
-    liste.append( ["الدوري الفرنسي", URL_MAIN + "ar/%D8%A7%D9%84%D8%AF%D9%88%D8%B1%D9%8A-%D8%A7%D9%84%D9%81%D8%B1%D9%86%D8%B3%D9%8A/%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88"] )
-    liste.append( ["تنس", URL_MAIN + "ar/%D8%AA%D9%86%D8%B3/%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88"] )
-    liste.append( ["كرة السلة", URL_MAIN + "ar/%D9%83%D8%B1%D8%A9-%D8%A7%D9%84%D8%B3%D9%84%D8%A9/%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88"] )
-    liste.append( ["القناة الأولمبية", URL_MAIN + "ar/tag/%D8%A7%D9%84%D9%82%D9%86%D8%A7%D8%A9-%D8%A7%D9%84%D8%A3%D9%88%D9%84%D9%85%D8%A8%D9%8A%D8%A9/"] )
-    liste.append( ["رياضات ميكانيكية", URL_MAIN + "ar/%D8%B1%D9%8A%D8%A7%D8%B6%D8%A7%D8%AA-%D9%85%D9%8A%D9%83%D8%A7%D9%86%D9%8A%D9%83%D9%8A%D8%A9/%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88"] )
-    liste.append( ["BOXE", URL_MAIN + "ar/%D8%A7%D9%84%D9%85%D9%84%D8%A7%D9%83%D9%85%D8%A9/%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88"] )
+    liste.append( ["كرة القدم ", f'{URL_MAIN}ar/%D9%83%D8%B1%D8%A9-%D8%A7%D9%84%D9%82%D8%AF%D9%85/%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88'] )
+    liste.append( ["الدوري الإنكليزي الممتاز", f'{URL_MAIN}ar/%D8%A7%D9%84%D8%AF%D9%88%D8%B1%D9%8A-%D8%A7%D9%84%D8%A5%D9%86%D9%83%D9%84%D9%8A%D8%B2%D9%8A-%D8%A7%D9%84%D9%85%D9%85%D8%AA%D8%A7%D8%B2/%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88'] )
+    liste.append( ["دوري أبطال أوروبا", f'{URL_MAIN}ar/%D8%AF%D9%88%D8%B1%D9%8A-%D8%A3%D8%A8%D8%B7%D8%A7%D9%84-%D8%A3%D9%88%D8%B1%D9%88%D8%A8%D8%A7/%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88'] )
+    liste.append( ["الدوري-الإسباني", f'{URL_MAIN}ar/%D8%A7%D9%84%D8%AF%D9%88%D8%B1%D9%8A-%D8%A7%D9%84%D8%A5%D8%B3%D8%A8%D8%A7%D9%86%D9%8A/%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88'] )
+    liste.append( ["الدوري الإيطالي", f'{URL_MAIN}ar/%D8%A7%D9%84%D8%AF%D9%88%D8%B1%D9%8A-%D8%A7%D9%84%D8%A5%D9%8A%D8%B7%D8%A7%D9%84%D9%8A/%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88'] )
+    liste.append( ["الدوري الفرنسي", f'{URL_MAIN}ar/%D8%A7%D9%84%D8%AF%D9%88%D8%B1%D9%8A-%D8%A7%D9%84%D9%81%D8%B1%D9%86%D8%B3%D9%8A/%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88'] )
+    liste.append( ["تنس", f'{URL_MAIN}ar/%D8%AA%D9%86%D8%B3/%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88'] )
+    liste.append( ["كرة السلة", f'{URL_MAIN}ar/%D9%83%D8%B1%D8%A9-%D8%A7%D9%84%D8%B3%D9%84%D8%A9/%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88'] )
+    liste.append( ["القناة الأولمبية", f'{URL_MAIN}ar/tag/%D8%A7%D9%84%D9%82%D9%86%D8%A7%D8%A9-%D8%A7%D9%84%D8%A3%D9%88%D9%84%D9%85%D8%A8%D9%8A%D8%A9/'] )
+    liste.append( ["رياضات ميكانيكية", f'{URL_MAIN}ar/%D8%B1%D9%8A%D8%A7%D8%B6%D8%A7%D8%AA-%D9%85%D9%8A%D9%83%D8%A7%D9%86%D9%8A%D9%83%D9%8A%D8%A9/%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88'] )
+    liste.append( ["BOXE", f'{URL_MAIN}ar/%D8%A7%D9%84%D9%85%D9%84%D8%A7%D9%83%D9%85%D8%A9/%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88'] )
     
 	            
     for sTitle,sUrl in liste:
@@ -94,11 +94,11 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
 					
-            sUrl = URL_MAIN+aEntry[4]
+            sUrl = f'{URL_MAI}{aEntry[4]}'
             sTitle = aEntry[3]
-            sDesc = '[COLOR aqua]'+aEntry[1]+" //[/COLOR]"+'[COLOR yellow]'+aEntry[2]+'[/COLOR]'
+            sDesc = f'[COLOR aqua]{aEntry[1]} //[/COLOR] [COLOR yellow]{aEntry[2]}[/COLOR]'
             if not 'http' in sUrl:
-                sUrl = str(URL_MAIN) + sUrl
+                sUrl = f'{URL_MAIN}{sUrl}'
             sThumb = aEntry[0]
 					
             oOutputParameterHandler.addParameter('siteUrl', sUrl)
@@ -127,7 +127,7 @@ def __checkForNextPage(sHtmlContent):
 
     return False
     
-def showHosters(oInputParameterHandler = False):
+def showHosters():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -146,15 +146,15 @@ def showHosters(oInputParameterHandler = False):
             
             url = aEntry
             if url.startswith('//'):
-                url = 'http:' + url
+                url = f'http:{url}'
             if 'autoplay' not in url:
-                url = url+'?autoplay=0+'
+                url = f'{url}?autoplay=0+'
             
             sHosterUrl = url
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
                 oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
         
     oGui.setEndOfDirectory()

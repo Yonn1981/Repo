@@ -15,12 +15,13 @@ from resources.lib.util import cUtil, QuoteSafe
 
 
 class cGuiElement:
+
     DEFAULT_FOLDER_ICON = 'icon.png'
 
     def __init__(self):
 
         self.addons = addon()
-        
+
         # self.__sRootArt = cConfig().getRootArt()
         self.__sFunctionName = ''
         self.__sRootArt = 'special://home/addons/plugin.video.matrix/resources/art/'
@@ -124,7 +125,7 @@ class cGuiElement:
             data = '720p'
         elif data.upper() in ('4K', 'UHD', '2160P'):
             data = '2160p'
-        
+
         self.__sRes = data
 
     def getRes(self):
@@ -179,11 +180,7 @@ class cGuiElement:
         return self.__sSiteName
 
     def setFileName(self, sFileName):
-        if isMatrix():
-            self.__sFileName = sFileName
-        else:
-            self.__sFileName = cUtil().titleWatched(sFileName)
-
+        self.__sFileName = cUtil().titleWatched(sFileName)
 
     def getFileName(self):
         return self.__sFileName
@@ -196,6 +193,7 @@ class cGuiElement:
 
     def TraiteTitre(self, sTitle):
         bMatrix = isMatrix()
+
         # convertion unicode ne fonctionne pas avec les accents
         try:
             # traitement du titre pour retirer le - quand c'est une Saison. Tiret, tiret moyen et cadratin
@@ -209,7 +207,7 @@ class cGuiElement:
         except:
             pass
 
-        """ Début Nettoyage du titre """
+        """ Début du nettoyage du titre """
         # vire doubles espaces et double points
         sTitle = re.sub(' +', ' ', sTitle)
         sTitle = re.sub('\.+', '.', sTitle)
@@ -221,7 +219,8 @@ class cGuiElement:
         sTitle = re.sub('[- –_\.\[]+$', '', sTitle)
         # et au debut
         sTitle = re.sub('^[- –_\.]+', '', sTitle)
-        """ Fin Nettoyage du titre """
+
+        """ Fin du nettoyage du titre """
 
         # recherche l'année, uniquement si entre caractere special a cause de 2001 odysse de l'espace ou k2000
         string = re.search('[^\w ]([0-9]{4})[^\w ]', sTitle)
@@ -242,6 +241,7 @@ class cGuiElement:
 
         # Recherche saisons et episodes si séries ou animes
         sa = ep = ''
+        
         if self.__sCat in (2, 3, 4, 8, 9):
             m = re.search('(|S|season)(\s?|\.)(\d+)(\s?|\.)(E|Ep|x|\wpisode)(\s?|\.)(\d+)', sTitle, re.UNICODE)
             if m:
@@ -251,6 +251,7 @@ class cGuiElement:
                     sa = ep = ''
                 else:
                     sTitle = sTitle.replace(m.group(0), '')
+                    
             else:  # Juste l'épisode
                 m = re.search('(^|\s|\.)(E|Ep|\wpisode)(\s?|\.)(\d+)', sTitle, re.UNICODE)
                 if m:
@@ -261,30 +262,29 @@ class cGuiElement:
                     if m:
                         sTitle = sTitle.replace(m.group(0), '')
                         sa = m.group(3)
-
+    
             # enleve les crochets et les parentheses si elles sont vides
             if sa or ep:
                 sTitle = sTitle.replace('()', '').replace('[]', '').replace('- -', '-')
                 # vire espace et - a la fin
                 sTitle = re.sub('[- –_\.\[]+$', '', sTitle)
-
+    
             if sa:
                 self.__Season = sa
                 self.addItemValues('Season', self.__Season)
             if ep:
                 self.__Episode = ep
                 self.addItemValues('Episode', self.__Episode)
-
                 if not self.__Season:
                     self.__Season = '1'   # forcer pour les séries sans saison
-			
+
         # on repasse en utf-8
         if not bMatrix:
             try:
                 sTitle = sTitle.encode('utf-8')
-
             except:
                 pass
+
         # on reformate SXXEXX Titre [tag] (Annee)
         sTitle2 = ''
         if self.__Season:
@@ -292,22 +292,8 @@ class cGuiElement:
         if self.__Episode:
             sTitle2 = sTitle2 + 'E%02d' % int(self.__Episode)
 
-        arabBuck = {"'":"ء", "|":"آ", "?":"أ", "&":"ؤ", "<":"إ", "}":"ئ", "A":"ا", "b":"ب", "p":"ة", "t":"ت", "v":"ث", "g":"ج", "H":"ح", "x":"خ", "d":"د", "*":"ذ", "r":"ر", "z":"ز", "s":"س", "$":"ش", "S":"ص", "D":"ض", "T":"ط", "Z":"ظ", "E":"ع", "G":"غ", "_":"ـ", "f":"ف", "q":"ق", "k":"ك", "l":"ل", "m":"م", "n":"ن", "h":"ه", "w":"و", "Y":"ى", "y":"ي", "F":"ً", "N":"ٌ", "K":"ٍ", "~":"ّ", "o":"ْ", "u":"ُ", "a":"َ", "i":"ِ"}
-        sTitle4 = sTitle
-        if not isMatrix():
-
-           for char in sTitle:
-               ordbuckArab = {ord(v.decode('utf8')): unicode(k) for (k, v) in arabBuck.iteritems()}
-               sTitle4 = sTitle.translate(ordbuckArab)
-        else:
-
-           for char in sTitle:
-               ordbuckArab = {ord(v):(k) for (k, v) in arabBuck.items()}
-               sTitle4 = sTitle.translate(ordbuckArab)
-
-
         # Titre unique pour marquer VU (avec numéro de l'épisode pour les séries)
-        self.__sTitleWatched = cUtil().titleWatched(sTitle4).replace(' ', '')
+        self.__sTitleWatched = cUtil().titleWatched(sTitle).replace(' ', '')
         if sTitle2:
             self.addItemValues('tvshowtitle', cUtil().getSerieTitre(sTitle))
             self.__sTitleWatched += '_' + sTitle2
@@ -326,7 +312,7 @@ class cGuiElement:
     # Permet de forcer le titre sans aucun traitement
     def setRawTitle(self, sTitle):
         self.__sTitle = sTitle
- 
+        
     def setTitle(self, sTitle):
         # Nom en clair sans les langues, qualités, et autres décorations
         self.__sCleanTitle = re.sub('\[.*\]|\(.*\)', '', sTitle)
@@ -334,6 +320,7 @@ class cGuiElement:
             self.__sCleanTitle = re.sub('\[.+?\]|\(.+?\)', '', sTitle)
             if not self.__sCleanTitle:
                 self.__sCleanTitle = sTitle.replace('[', '').replace(']', '').replace('(', '').replace(')', '')
+
         if isMatrix():
             # Python 3 decode sTitle
             try:
@@ -364,13 +351,10 @@ class cGuiElement:
         # Py3
         if isMatrix():
             try:
-
                 if 'Ã' in sDescription or '\\xc' in sDescription:
                     self.__sDescription = str(sDescription.encode('latin-1'), 'utf-8')
                 else:
                     self.__sDescription = sDescription
-
-
             except:
                 self.__sDescription = sDescription
         else:
