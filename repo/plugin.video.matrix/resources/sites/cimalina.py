@@ -127,10 +127,10 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
 
-            if "الحلقة" in aEntry[1]:
+            if "الحلقة" in aEntry[2]:
                 continue
 
-            if "مسلسل" in aEntry[1]:
+            if "مسلسل" in aEntry[2]:
                 continue
 
             sTitle = cUtil().CleanMovieName(aEntry[2])
@@ -184,10 +184,12 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
 
-            if "فيلم" in aEntry[1]:
+            if "فيلم" in aEntry[2]:
                 continue
 
             sTitle = cUtil().CleanSeriesName(aEntry[2])  
+            if sSearch:
+                sTitle = re.sub(r"ح\d{2}|ح\d", "", sTitle)
             siteUrl = aEntry[0]
             sThumb = aEntry[1]
             sYear = ''

@@ -9,7 +9,7 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
-from resources.lib.util import cUtil
+from resources.lib.util import cUtil, Quote
 from resources.lib import random_ua
 
 UA = random_ua.get_ua()
@@ -84,7 +84,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText is not False:
-        sUrl = f'{URL_MAIN}?s=فيلم+{sSearchText}'
+        sUrl = f'{URL_MAIN}?s={sSearchText}'
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -94,7 +94,7 @@ def showSearchSeries():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText is not False:
-        sUrl = f'{URL_MAIN}?s=مسلسل+{sSearchText}'
+        sUrl = f'{URL_MAIN}?s={sSearchText}'
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -138,6 +138,7 @@ def showPack():
 			
 def showMovies(sSearch = ''):
     oGui = cGui()
+
     if sSearch:
       sUrl = sSearch
     else:   
@@ -145,9 +146,20 @@ def showMovies(sSearch = ''):
       sUrl = oInputParameterHandler.getValue('siteUrl')
       sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
       sThumb = oInputParameterHandler.getValue('sThumb')
- 
-    oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
+
+    if sSearch:
+        psearch = sUrl.split('?s=')[1]
+        oRequestHandler = cRequestHandler(f'{URL_MAIN}wp-content/themes/movies2023/Ajaxat/Searching.php')
+        oRequestHandler.addHeaderEntry('User-Agent', UA)
+        oRequestHandler.addHeaderEntry('Referer', URL_MAIN)
+        oRequestHandler.addParameters('search', psearch)
+        oRequestHandler.addParameters('type', 'movies')
+        oRequestHandler.setRequestType(1)
+        sHtmlContent = oRequestHandler.request()
+
+    else:
+        oRequestHandler = cRequestHandler(sUrl)
+        sHtmlContent = oRequestHandler.request()
     
     oParser = cParser()
     sPattern = '<div class="Small--Box"><a href="([^"]+)" title="([^"]+)".+?data-src="([^"]+)'
@@ -253,6 +265,7 @@ def showassemblies():
 
 def showSeries(sSearch = ''):
     oGui = cGui()
+
     if sSearch:
       sUrl = sSearch
     else:
@@ -262,8 +275,20 @@ def showSeries(sSearch = ''):
       sThumb = oInputParameterHandler.getValue('sThumb')
 
     oParser = cParser() 
-    oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
+
+    if sSearch:
+        psearch = sUrl.split('?s=')[1]
+        oRequestHandler = cRequestHandler(f'{URL_MAIN}wp-content/themes/movies2023/Ajaxat/Searching.php')
+        oRequestHandler.addHeaderEntry('User-Agent', UA)
+        oRequestHandler.addHeaderEntry('Referer', URL_MAIN)
+        oRequestHandler.addParameters('search', psearch)
+        oRequestHandler.addParameters('type', 'series')
+        oRequestHandler.setRequestType(1)
+        sHtmlContent = oRequestHandler.request()
+
+    else:    
+        oRequestHandler = cRequestHandler(sUrl)
+        sHtmlContent = oRequestHandler.request()
 
     sPattern = '<div class="Small--Box">.+?href="([^"]+)" title="([^"]+)".+?data-src="([^"]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)

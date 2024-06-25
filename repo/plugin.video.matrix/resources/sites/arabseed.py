@@ -154,16 +154,7 @@ def showMovies(sSearch = ''):
     else:
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
-
-    oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
-
-    oRequestHandler = cRequestHandler(sUrl)
-    oRequestHandler.addHeaderEntry('User-Agent', UA)
-    oRequestHandler.addHeaderEntry('Referer', Quote(sUrl))
-    oRequestHandler.setRequestType(1)
-    sHtmlContent = oRequestHandler.request()
-  
+ 
     if sSearch:
         psearch = sUrl.split('?find=')[1]
         oRequestHandler = cRequestHandler(f'{URL_MAIN}/wp-content/themes/Elshaikh2021/Ajaxat/SearchingTwo.php')
@@ -171,6 +162,13 @@ def showMovies(sSearch = ''):
         oRequestHandler.addHeaderEntry('Referer', Quote(sUrl))
         oRequestHandler.addParameters('search', psearch)
         oRequestHandler.addParameters('type', 'movies')
+        oRequestHandler.setRequestType(1)
+        sHtmlContent = oRequestHandler.request()
+
+    else:
+        oRequestHandler = cRequestHandler(sUrl)
+        oRequestHandler.addHeaderEntry('User-Agent', UA)
+        oRequestHandler.addHeaderEntry('Referer', Quote(sUrl))
         oRequestHandler.setRequestType(1)
         sHtmlContent = oRequestHandler.request()
 
@@ -213,15 +211,12 @@ def showMovies(sSearch = ''):
     if not sSearch: 
         oGui.setEndOfDirectory()
  
-def showPacks(sSearch = ''):
+def showPacks():
     oGui = cGui()
     oParser = cParser()
 
-    if sSearch:
-      sUrl = sSearch
-    else:
-        oInputParameterHandler = cInputParameterHandler()
-        sUrl = oInputParameterHandler.getValue('siteUrl')
+    oInputParameterHandler = cInputParameterHandler()
+    sUrl = oInputParameterHandler.getValue('siteUrl')
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -257,7 +252,6 @@ def showPacks(sSearch = ''):
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showPacks', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
  
-    if not sSearch: 
         oGui.setEndOfDirectory()
 
 def showPack():
@@ -309,15 +303,6 @@ def showSeries(sSearch = ''):
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
 
-    oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
-
-    oRequestHandler = cRequestHandler(sUrl)
-    oRequestHandler.addHeaderEntry('User-Agent', UA)
-    oRequestHandler.addHeaderEntry('Referer', Quote(sUrl))
-    oRequestHandler.setRequestType(1)
-    sHtmlContent = oRequestHandler.request()
-  
     if sSearch:
         psearch = sUrl.split('?find=')[1]
         oRequestHandler = cRequestHandler(f'{URL_MAIN}/wp-content/themes/Elshaikh2021/Ajaxat/SearchingTwo.php')
@@ -329,7 +314,14 @@ def showSeries(sSearch = ''):
         sHtmlContent = oRequestHandler.request()
 
         sPattern = '<div class="Movie.+?">.+?<a href="([^<]+)">.+?data-image="([^<]+)" alt="([^<]+)">'
+
     else:
+        oRequestHandler = cRequestHandler(sUrl)
+        oRequestHandler.addHeaderEntry('User-Agent', UA)
+        oRequestHandler.addHeaderEntry('Referer', Quote(sUrl))
+        oRequestHandler.setRequestType(1)
+        sHtmlContent = oRequestHandler.request()
+
         sPattern = '</div><a href="(.+?)">.+?data-src="([^"]+)".+?alt="(.+?)">'
 
     itemList = []

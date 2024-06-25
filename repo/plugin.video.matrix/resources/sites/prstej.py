@@ -300,7 +300,7 @@ def showEpisodes():
     if aResult[0] :
         oOutputParameterHandler = cOutputParameterHandler()  
         for aEntry in aResult[1]:
-            sSeason = f'S{+aEntry[0]}'
+            sSeason = f'S{aEntry[0]}'
             sHtmlContent = aEntry[1]
 
             sPattern = 'href="(.+?)" title=.+?<em>(.+?)</em><span>'
@@ -311,7 +311,7 @@ def showEpisodes():
  
                     siteUrl = f'{URL_MAIN}{aEntry[0]}'
                     siteUrl = siteUrl.replace("watch.php","play.php")
-                    sTitle = f'{sTitle} {sSeason} E{aEntry[1]}'
+                    sTitle = f'{sMovieTitle} {sSeason} E{aEntry[1]}'
                     sThumb = sThumb
                     sDesc = ""
 			

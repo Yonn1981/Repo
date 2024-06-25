@@ -238,7 +238,7 @@ def showSeries(sSearch = ''):
             if '/movie' in aEntry[0]:
                 continue
 
-            sTitle = cUtil().CleanSeriesName(aEntry[1])
+            sTitle = (cUtil().CleanSeriesName(aEntry[1])).replace("كول سيما","")
             sTitle = re.sub(r"S\d{1,2}", "", sTitle)
             siteUrl = aEntry[0]          
             sThumb = aEntry[2]

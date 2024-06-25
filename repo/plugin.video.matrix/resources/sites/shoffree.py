@@ -573,6 +573,7 @@ def showHosters():
             if '?url' in url:
                 url = url.split('?url=')[1]
             if 'shoffree' in url:
+                try:
                     oRequestHandler = cRequestHandler(url)
                     oRequestHandler.addHeaderEntry('User-Agent', UA)
                     oRequestHandler.addHeaderEntry('Referer', sUrl.encode('utf-8'))
@@ -580,7 +581,8 @@ def showHosters():
                     sLink = oRequestHandler.getRealUrl()
                     url = sLink.split('&role')[0]
                     url = f'{sLink.split("?key=")[0]}?key={Quote(url.split("?key=")[1])}'
-
+                except:
+                    url = ''
             sHosterUrl = url
             if 'userload' in sHosterUrl:
                 sHosterUrl = f'{sHosterUrl}|Referer={URL_MAIN}'

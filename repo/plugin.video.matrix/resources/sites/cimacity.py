@@ -209,6 +209,7 @@ def showSeries(sSearch = ''):
                continue
              
             sTitle = cUtil().CleanSeriesName(aEntry[1])
+            sTitle = re.sub(r"S\d{1,2}", "", sTitle)
             siteUrl = aEntry[0]
             sThumb = aEntry[2]
             sDesc = ''
@@ -378,7 +379,7 @@ def showServer():
     oRequestHandler.addHeaderEntry('referer', URL_MAIN)
     sHtmlContent = oRequestHandler.request().replace("&#39;","'")
 
-    sStart = '<ul class=serversList>'
+    sStart = '<ul class="list_servers'
     sEnd = '</div>'
     sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
 
@@ -391,7 +392,7 @@ def showServer():
             url = url.replace("moshahda","ffsff")
             sThumb = sThumb
             if url.startswith('//'):
-                url = 'http:' + url
+                url = f'http:{url}'
 								            
             sHosterUrl = url
             if 'nowvid' in sHosterUrl or 'userload' in sHosterUrl:
@@ -410,6 +411,6 @@ def __checkForNextPage(sHtmlContent):
     sPattern = '<li class="active"><a href=.+?<a href="(.+?)"'	
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
-        return URL_MAIN+aResult[1][0]
+        return f'{URL_MAIN}{aResult[1][0]}'
 
     return False
