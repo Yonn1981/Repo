@@ -94,7 +94,7 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
 					
-            sUrl = f'{URL_MAI}{aEntry[4]}'
+            sUrl = f'{URL_MAIN}{aEntry[4]}'
             sTitle = aEntry[3]
             sDesc = f'[COLOR aqua]{aEntry[1]} //[/COLOR] [COLOR yellow]{aEntry[2]}[/COLOR]'
             if not 'http' in sUrl:

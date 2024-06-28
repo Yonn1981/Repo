@@ -256,11 +256,11 @@ def showHosters():
             if oHoster:
                 oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
     oGui.setEndOfDirectory()
 
-def showServer(oInputParameterHandler = False):
+def showServer():
     oGui = cGui()
    
     oInputParameterHandler = cInputParameterHandler()

@@ -16,10 +16,10 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-ANIM_NEWS = (f'{URL_MAIN}/series-list', 'showSeries')
-ANIM_MOVIES = (f'{URL_MAIN}/movie-list', 'showMovies')
+ANIM_NEWS = (f'{URL_MAIN}series-list', 'showSeries')
+ANIM_MOVIES = (f'{URL_MAIN}movie-list', 'showMovies')
 
-URL_SEARCH_ANIMS = (f'{URL_MAIN}/search?query=', 'showSeries')
+URL_SEARCH_ANIMS = (f'{URL_MAIN}search?query=', 'showSeries')
 FUNCTION_SEARCH = 'showSeries'
  
 def load():
@@ -52,7 +52,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = f'{URL_MAIN}/search?query={sSearchText}'
+        sUrl = f'{URL_MAIN}search?query={sSearchText}'
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return

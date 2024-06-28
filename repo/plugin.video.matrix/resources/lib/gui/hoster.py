@@ -155,7 +155,6 @@ class cHosterGui:
         if not sHosterUrl:
             return False
 
-
         # Petit nettoyage
         sHosterUrl = sHosterUrl.split('|')[0]
         sHosterUrl = sHosterUrl.split('?')[0]
@@ -167,14 +166,17 @@ class cHosterGui:
         except:
             sHostName = sHosterUrl
 
-        if debrid: # premiere tentative avec debrideur, si on revient ici, ce sera pour tester sans debrideur
+        if debrid: 
 
-# NON, Il faut passer par alldebrid car darkibox est bloqué dans certains pays
-            # Priorité au compte darkibox pour les liens darkino
-            # if self.ADDON.getSetting('hoster_darkibox_premium') == 'true':
-            #     sRealHost = self.checkHoster(sHosterUrl, False)
-            #     if sRealHost and 'darkibox' in sRealHost.getPluginIdentifier():
-            #         return sRealHost
+            if self.ADDON.getSetting('Userresolveurl') == 'true':
+                import resolveurl
+                hmf = resolveurl.HostedMediaFile(url=sHosterUrl)
+                if hmf.valid_url():
+                    tmp = self.getHoster('resolver')
+                    RH = sHosterUrl.split('/')[2]
+                    RH = RH.replace('www.', '')
+                    tmp.setRealHost(RH.split('.')[0].upper())
+                    return tmp
 
             # L'user a activé alldebrid ?
             if self.ADDON.getSetting('hoster_alldebrid_premium') == 'true':
@@ -209,7 +211,7 @@ class cHosterGui:
                             'speedvid', 'letsupload', 'krakenfiles', 'onevideo', 'playreplay', 'vidfast', 'uqload', 'qiwi', 'gofile', 'mail.ru', 'videas',
                             'letwatch', 'mp4upload', 'filepup', 'vimple', 'wstream', 'watchvideo', 'vidwatch', 'up2stream', 'tune', 'playtube', 'extrashare',
                             'vidup', 'vidbull', 'vidlox', '33player' 'easyload', 'ninjastream', 'cloudhost', 'videobin', 'stagevu', 'gorillavid', 'soraplay',
-                            'daclips', 'hdvid', 'vshare', 'vidload', 'giga', 'vidbom', 'cloudvid', 'megadrive', 'downace', 'clickopen', 'supervideo', 'veev',
+                            'daclips', 'hdvid', 'vshare', 'vidload', 'giga', 'vidbom', 'cloudvid', 'megadrive', 'downace', 'clickopen', 'supervideo',
                             'turbovid', 'soundcloud', 'mixcloud', 'ddlfr', 'vupload', 'dwfull', 'vidzstore', 'pdj', 'rapidstream', 'vidyard', '1cloud', 'uploady',
                             'dustreaming', 'viki', 'flix555', 'onlystream', 'upstream', 'pstream', 'vudeo', 'vidia', 'vidbem', 'uplea', 'vido', 'streamhub',
                             'sibnet', 'vidplayer', 'userload', 'aparat', 'evoload', 'abcvideo', 'plynow', '33player', 'filerio', 'videoraj', 'streamvid',
@@ -295,23 +297,52 @@ class cHosterGui:
         if voe:
             return self.getHoster("voe")
 
-        #vidlo Clone
+        # Vidlo Clone
         vidlo = next((x for x in ['vidlo', 'c13-look', '7c3-look'] if x in sHostName), None)
         if vidlo:    
             return self.getHoster('vidlo')
 
-        #dood Clone
+        # Dood Clone
         vidlo = next((x for x in ['DoodStream', 'dooood', 'flixeo', 'ds2play', 'dood', 'd0o0d', 'ds2video', 'do0od', 'd0000d', 'd000d'] if x in sHostName), None)
         if vidlo:    
             return self.getHoster('dood')
 
-        #chillx Clone
+        # Chillx Clone
         chillx = next((x for x in ['chillx', 'vectorx', 'boltx', 'bestx'] if x in sHostName), None)
         if chillx:    
             return self.getHoster('chillx')
 
-        if ('mcloud' in sHosterUrl) or ('vizcloud' in sHosterUrl) or ('vidstream' in sHosterUrl) or ('vidplay' in sHosterUrl) or ('55a0716b8c' in sHosterUrl) or ('e69975b881' in sHosterUrl) or ('c8365730d4' in sHosterUrl):
+        # Mixdrop Clone
+        mixdrop = next((x for x in ['mixdroop', 'mdfx9dc8n', 'mdzsmutpcvykb'] if x in sHostName), None)
+        if mixdrop:    
+            return self.getHoster('mixdrop')
+
+        # Mcloud Clone
+        mcloud = next((x for x in ['mcloud', 'vizcloud', 'vidstream', 'vidplay', '55a0716b8c', 'e69975b881', 'c8365730d4'] if x in sHostName), None)
+        if mcloud:    
             return self.getHoster('mcloud')
+
+        # Arabseed Clone
+        arabseed = next((x for x in ['reviewtech', 'reviewrate', 'seeeed', 'techinsider', 'gamezone.cam'] if x in sHostName), None)
+        if arabseed:    
+            return self.getHoster('arabseed')
+
+        # Streamhide Clone
+        streamhide = next((x for x in ['guccihide', 'streamhide', 'fanakishtuna', 'ahvsh', 'animezd', 'anime7u', 'vidroba'] if x in sHostName), None)
+        if streamhide:    
+            return self.getHoster('streamhide')
+
+        # X-Video Clone
+        xvideo = next((x for x in ['vod540', 'hd-cdn', 'anyvid', 'vod7', 'segavid', 'vidblue', 'arabveturk', 'filegram'] if x in sHostName), None)
+        if xvideo:    
+            return self.getHoster('xvideo')
+
+        # False Links
+        false_links = next((x for x in ['nitroflare', 'tubeload.', 'Facebook', 'fastdrive', 'megaup.net', 'openload', 'vidhd', 'oktube', 'mdiaload', 'fikper', 'turbobit', '1fichier',
+                                        'mega.nz', 'rapidgator', 'ddownload', 'bowfile', 'uptobox', 'uptostream', 'wahmi', 'doodrive', 'highload', 'anonfiles', 'jawcloud', 
+                                        'videomega', 'prostream', 'fembed', 'filegage', 'streamlare', 'katfile', 'usersdrive', 'uploadbank', 'short.ink'] if x in sHostName), None)
+        if false_links:    
+            return False
 
         if ('vidsrc.stream' in sHostName):
             return self.getHoster('vidsrcstream')
@@ -331,14 +362,8 @@ class cHosterGui:
         if ('2embed.me' in sHostName):
             return self.getHoster('2embedme')
 
-        if ('short.ink' in sHostName):
-            return False
-
         if ('remotestre.am' in sHostName):
             return self.getHoster('remotestream')
-
-        if ('mixdroop' in sHosterUrl) or ('mdfx9dc8n' in sHosterUrl) or ('mdzsmutpcvykb' in sHosterUrl):
-            return self.getHoster('mixdrop')
 
         if ('drop.download' in sHostName):
             return self.getHoster('drop')
@@ -357,9 +382,6 @@ class cHosterGui:
 
         if ('wolfstream' in sHosterUrl):
             return self.getHoster('aparat')
-
-        if ('hadara.ps' in sHostName):
-            return self.getHoster('lien_direct')  
               
         if ('vanfem' in sHostName):
             return self.getHoster('fembed')
@@ -369,9 +391,6 @@ class cHosterGui:
 
         if ('updown' in sHostName):
             return self.getHoster('updown')
-
-        if ('vod540' in sHostName) or ('hd-cdn' in sHostName) or ('anyvid' in sHostName) or ('vod7' in sHostName) or ('segavid' in sHostName) or ('vidblue' in sHostName) or ('arabveturk' in sHostName) or ('filegram' in sHostName):
-            return self.getHoster('xvideo')
 
         if ('diasfem' in sHosterUrl):
             return self.getHoster('fembed')
@@ -406,54 +425,15 @@ class cHosterGui:
         if ('/run/' in sHosterUrl):
             return self.getHoster('mycima')
                  
-        if ('megaupload.' in sHostName) or ('fansubs' in sHostName) or ('us.archive.' in sHostName) or ('ddsdd' in sHostName) or ('ffsff' in sHostName) or ('rrsrr' in sHostName)or ('fbcdn.net' in sHostName) or ('blogspot.com' in sHostName) or ('videodelivery' in sHostName) or ('bittube' in sHostName) or ('amazonaws.com' in sHostName):
-            return self.getHoster('lien_direct')
-
         if ('rumble' in sHostName):
             return self.getHoster('rumble')
 
         if ('file-upload' in sHostName):
             return self.getHoster('fileupload')
 
-        if ('.googleusercontent.com' in sHostName):
-            return self.getHoster('lien_direct')
-
         if ('download.gg' in sHostName):
             return self.getHoster('downloadgg')
-
-        if ('archive.org/download' in sHostName):
-            return self.getHoster('lien_direct')
-
-        if ('iptvtree' in sHostName):
-            return self.getHoster('lien_direct')
-        
-        if ('ugeen' in sHostName):
-            return self.getHoster('lien_direct')
-
-        if ('ak-download' in sHostName):
-            return self.getHoster('lien_direct')
-
-        if ('nextcdn' in sHostName):
-            return self.getHoster('lien_direct')
-
-        if ('akwam' in sHostName) or ('onesav' in sHostName) or ('akoams.com' in sHostName):
-            return self.getHoster('lien_direct')
-    
-        if ('.vimeocdn.' in sHostName):
-            return self.getHoster('lien_direct')
-
-        if ('bokracdn' in sHostName):
-            return self.getHoster('lien_direct')
-
-        if ('gcdn' in sHostName):
-            return self.getHoster('lien_direct')
-
-        if ('alarabiya' in sHostName):
-            return self.getHoster('lien_direct')
-
-        if ('kingfoot' in sHostName):
-            return self.getHoster('lien_direct')
-            						
+           						
         if ('vidspeed' in sHostName):
             return self.getHoster('vidspeeds')
 				
@@ -496,9 +476,6 @@ class cHosterGui:
         if (('anavids' in sHostName) or ('anavidz' in sHostName)):
             return self.getHoster('anavids')
 
-        if ('guccihide' in sHostName) or ('streamhide' in sHostName) or ('fanakishtuna' in sHostName) or ('ahvsh' in sHostName) or ('animezd' in sHostName) or ('anime7u' in sHostName) or ('vidroba' in sHostName):
-            return self.getHoster('streamhide')
-
         if (('anonfile' in sHostName) or ('govid.xyz' in sHostName) or ('file.bz' in sHostName) or ('myfile.is' in sHostName) or ('upload.st' in sHostName)):
             return self.getHoster('anonfile')
 
@@ -514,9 +491,6 @@ class cHosterGui:
         if ('skyvid' in sHostName) or ('gvadz' in sHostName):
             return self.getHoster('skyvid')
                        
-        if ('reviewtech' in sHosterUrl) or ('reviewrate' in sHosterUrl) or ('seeeed' in sHosterUrl) or ('techinsider' in sHosterUrl) or ('gamezone.cam' in sHosterUrl):
-            return self.getHoster('arabseed')
-
         if ('4shared' in sHostName):
             return self.getHoster('shared')
 				
@@ -582,9 +556,6 @@ class cHosterGui:
 
         if ('hd-stream' in sHostName):
             return self.getHoster('hd_stream')
-
-        if ('livestream' in sHostName):
-            return self.getHoster('lien_direct')
 
         if ('dailymotion' in sHostName) or ('dai.ly' in sHostName):
             try:
@@ -656,18 +627,16 @@ class cHosterGui:
             if ('/file/forbidden' in sHosterUrl):
                 return False
             return self.getHoster('uploaded')
-
-        if ('myfiles.alldebrid.com' in sHostName):
-            return self.getHoster('lien_direct')
-
-        if ('clientsportals' in sHosterUrl):
-            return self.getHoster('lien_direct')
-    
+   
         if ('torrent' in sHosterUrl) or ('magnet:' in sHosterUrl):
             return self.getHoster('torrent')
-        
-        if ('nitroflare' in sHostName or 'tubeload.' in sHostName or 'Facebook' in sHostName  or 'fastdrive' in sHostName or 'megaup.net' in sHostName  or 'openload' in sHostName or 'vidhd' in sHostName or 'oktube' in sHostName or 'mdiaload' in sHostName or 'fikper' in sHostName or 'turbobit' in sHostName or '1fichier' in sHostName or 'mega.nz' in sHostName or 'rapidgator' in sHostName or 'ddownload' in sHostName or 'bowfile' in sHostName or 'uptobox' in sHostName or 'uptostream' in sHostName or 'wahmi' in sHostName or 'doodrive' in sHostName or 'highload' in sHostName or 'anonfiles' in sHostName or 'jawcloud' in sHostName or 'videomega' in sHostName or 'prostream' in sHostName or 'fembed' in sHostName or 'filegage' in sHostName or 'streamlare' in sHostName or 'katfile' in sHostName or 'usersdrive' in sHostName or 'uploadbank' in sHostName):
-            return False
+
+        # Direct Links
+        line_direct = next((x for x in ['hadara.ps', 'megaupload.', 'fansubs', 'us.archive.', 'ddsdd', 'ffsff', 'rrsrr', 'fbcdn.net', 'blogspot.com', 'videodelivery', 'bittube', 'amazonaws.com',
+                                        '.googleusercontent.com', 'archive.org/download', 'iptvtree', 'ugeen', 'ak-download', 'nextcdn', 'akwam', 'onesav', 'akoams.com', '.vimeocdn.', 'bokracdn', 
+                                        'gcdn', 'alarabiya', 'kingfoot', 'livestream', 'myfiles.alldebrid.com', 'clientsportals'] if x in sHostName), None)
+        if line_direct:    
+            return self.getHoster('lien_direct')
 
         # lien direct ?
         if any(sHosterUrl.endswith(x) for x in ['.mp4', '.avi', '.flv', '.m3u8', '.webm', '.mkv', '.mpd']):

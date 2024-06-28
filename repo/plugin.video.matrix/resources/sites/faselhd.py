@@ -487,7 +487,7 @@ def showLink():
                 for aEntry in aResult[1]:
                     sHosterUrl = aEntry[0]
                     sHost = aEntry[1].upper()
-                    sTitle = f'{sMovieTitle} {sHost}'
+                    sTitle = f'{sMovieTitle} ({sHost})'
                     oHoster = cHosterGui().getHoster('faselhd') 
                     if oHoster:
                         oHoster.setDisplayName(sTitle)
@@ -499,7 +499,7 @@ def showLink():
             if aResult[0]:
                 for aEntry in aResult[1]:
                     sHosterUrl = aEntry
-                    sTitle = f'{sMovieTitle} Server 2' 
+                    sTitle = f'{sMovieTitle} (Server 2)' 
                     oHoster = cHosterGui().getHoster('faselhd') 
                     if oHoster:
                         oHoster.setDisplayName(sTitle)

@@ -77,7 +77,7 @@ def load():
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أسيوية', 'asia.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', SERIE_TR[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'سلسلات تركية', 'turk.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات تركية', 'turk.png', oOutputParameterHandler)
  
   
     oGui.setEndOfDirectory()   
@@ -321,7 +321,7 @@ def showLink():
         for aEntry in aResult[1]:
 
             sTitle = aEntry[0].split('akoam', 1)[0]
-            sTitle = sTitle.replace("."," ").replace("Ep","E").replace("Se","S").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720P","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080P","").replace("1080p","").replace("HC","").replace("Web-dl","").replace("DVD","").replace("BRRIP","").replace("BRRiP","").replace("WEB","")
+            sTitle = (cUtil().CleanMovieName(sTitle)).replace("."," ").replace("Ep","E").replace("Se","S")
             sYear = ''
             sEp = str(aEntry[0]).replace("Ep","Ep").replace("EP","Ep").replace("ep","Ep")
             sEpisode = re.search('Ep(.+?).',  sEp)
@@ -477,7 +477,7 @@ def showSeasons():
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
                 sTitle = aEntry[0].replace("."," ").replace("WEB"," ").replace("Ep","E").split('akoam', 1)[0].split('akwam', 1)[0]
-                sTitle = sTitle.replace("."," ").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("برنامج","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("DVD","").replace("BRRIP","").replace("BRRiP","").replace("-DL","")
+                sTitle = (cUtil().CleanMovieName(sTitle)).replace("."," ")
                 sYear = ''
                 m = re.search('([0-9]{4})', sTitle)
                 if m:

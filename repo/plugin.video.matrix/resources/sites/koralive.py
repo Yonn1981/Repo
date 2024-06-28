@@ -52,7 +52,7 @@ def showMovies():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-    sPattern = '<div class="match-container">\s*<a href="([^"]+)" title="([^"]+)".+?id="result">(.+?)</div>.+?data-start=["\']([^"\']+)["\']'
+    sPattern = '<div class="match-container">\s*<a href="([^"]+)" title="([^"]+)".+?(id|class)="result">(.+?)</div>.+?data-start=["\']([^"\']+)["\']'
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
         total = len(aResult[1])
@@ -64,7 +64,7 @@ def showMovies():
                 break
             if "free Games" in aEntry[1]:
                 continue
-            if "#" in aEntry[0]:
+            if "#" in aEntry[0] or aEntry[0].startswith('\\'):
                 sCondition = "لا توجد روابط للمباراة \n \n"
             else:
                 sCondition = "الروابط متاحة \n \n"
@@ -75,14 +75,16 @@ def showMovies():
                 if 'كورة' in sTitle:
                     sTitle = sTitle.split('كورة')[0]
             sThumb = ''
-            siteUrl =  aEntry[0]
-            sDesc = sCondition + f'وقت المباراة \n {aEntry[3].split("T")[1]}GMT \n \n النتيجة \n {aEntry[2]}'
+            siteUrl = aEntry[0]
+            if siteUrl.startswith('/'):
+                siteUrl = f'{sUrl}siteUrl'
+            sDesc = sCondition + f'وقت المباراة \n {aEntry[4].split("T")[1]}GMT \n \n النتيجة \n {aEntry[3]}'
 			
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 
-            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, 'foot.png', '', sDesc, oOutputParameterHandler)
+            oGui.addMisc(SITE_IDENTIFIER, 'showHosters', sTitle, 'foot.png', '', sDesc, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  
@@ -209,7 +211,7 @@ def showHosters():
                 sDisplayTitle = sMovieTitle
 
                 if sHosterUrl.startswith('//'):
-                    sHosterUrl = f'http:{HosterUrl }'           
+                    sHosterUrl = f'http:{sHosterUrl}'           
 
                 oHoster = cHosterGui().checkHoster(sHosterUrl)
                 if oHoster:
@@ -226,6 +228,8 @@ def showHosters():
         if aResult[0]:
             for aEntry in aResult[1]:
                 murl = aEntry
+                if murl.startswith('//'):
+                    murl = f'{URL_MAIN2}murl '
 
                 oRequestHandler = cRequestHandler(murl)
                 sHtmlContent = oRequestHandler.request()

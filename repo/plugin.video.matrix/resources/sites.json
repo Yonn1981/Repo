@@ -303,8 +303,8 @@
         "koralive": {
             "label": "Koralive",
             "active": "True",
-            "url": "https://es.live-kora.io/",
-            "url2": "https://360kora.org/"
+            "url": "https://www.live-kora.io/",
+            "url2": "https://www.kooralive.okkora-live.com/"
         },
         "laroza": {
             "label": "Laroza",
@@ -325,6 +325,11 @@
             "label": "Lodynet",
             "active": "True",
             "url": "https://llodynet.site/"
+        },
+        "matam": {
+            "label": "MatamLive",
+            "active": "True",
+            "url": "https://matam.live/"
         },
         "moviztime": {
             "label": "MovizTime",

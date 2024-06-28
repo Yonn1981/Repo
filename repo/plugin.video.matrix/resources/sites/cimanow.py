@@ -24,24 +24,24 @@ SITE_DESC = 'arabic vod'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-MOVIE_EN = (f'{URL_MAIN}/category/افلام-اجنبية/', 'showMovies')
-MOVIE_AR = (f'{URL_MAIN}/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9/', 'showMovies')
-MOVIE_HI = (f'{URL_MAIN}/category/%d8%a7%d9%84%d8%a7%d9%81%d9%84%d8%a7%d9%85/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%87%d9%86%d8%af%d9%8a%d8%a9/', 'showMovies')
-MOVIE_TURK = (f'{URL_MAIN}/category/%d8%a7%d9%84%d8%a7%d9%81%d9%84%d8%a7%d9%85/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%aa%d8%b1%d9%83%d9%8a%d8%a9/', 'showMovies')
-KID_MOVIES = (f'{URL_MAIN}/category/افلام-انيميشن/', 'showMovies')
+MOVIE_EN = (f'{URL_MAIN}category/افلام-اجنبية/', 'showMovies')
+MOVIE_AR = (f'{URL_MAIN}category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9/', 'showMovies')
+MOVIE_HI = (f'{URL_MAIN}category/%d8%a7%d9%84%d8%a7%d9%81%d9%84%d8%a7%d9%85/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%87%d9%86%d8%af%d9%8a%d8%a9/', 'showMovies')
+MOVIE_TURK = (f'{URL_MAIN}category/%d8%a7%d9%84%d8%a7%d9%81%d9%84%d8%a7%d9%85/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%aa%d8%b1%d9%83%d9%8a%d8%a9/', 'showMovies')
+KID_MOVIES = (f'{URL_MAIN}category/افلام-انيميشن/', 'showMovies')
 
-SERIE_TR = (f'{URL_MAIN}/category/%d8%a7%d9%84%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%aa%d8%b1%d9%83%d9%8a%d8%a9/', 'showSeries')
-RAMADAN_SERIES = (f'{URL_MAIN}/category/رمضان-2024/', 'showSeries')
-SERIE_EN = (f'{URL_MAIN}/category/%d8%a7%d9%84%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a%d8%a9/', 'showSeries')
-SERIE_AR = (f'{URL_MAIN}/category/%d8%a7%d9%84%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b9%d8%b1%d8%a8%d9%8a%d8%a9/', 'showSeries')
-ANIM_NEWS = (f'{URL_MAIN}/category/مسلسلات-انيميشن/', 'showSeries')
+SERIE_TR = (f'{URL_MAIN}category/%d8%a7%d9%84%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%aa%d8%b1%d9%83%d9%8a%d8%a9/', 'showSeries')
+RAMADAN_SERIES = (f'{URL_MAIN}category/رمضان-2024/', 'showSeries')
+SERIE_EN = (f'{URL_MAIN}category/%d8%a7%d9%84%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a%d8%a9/', 'showSeries')
+SERIE_AR = (f'{URL_MAIN}category/%d8%a7%d9%84%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b9%d8%b1%d8%a8%d9%8a%d8%a9/', 'showSeries')
+ANIM_NEWS = (f'{URL_MAIN}category/مسلسلات-انيميشن/', 'showSeries')
 
-DOC_NEWS = (f'{URL_MAIN}/?s=%D9%88%D8%AB%D8%A7%D8%A6%D9%82%D9%8A', 'showMovies')
-REPLAYTV_NEWS = (f'{URL_MAIN}/category/%d8%a7%d9%84%d8%a8%d8%b1%d8%a7%d9%85%d8%ac-%d8%a7%d9%84%d8%aa%d9%84%d9%81%d8%b2%d9%8a%d9%88%d9%86%d9%8a%d8%a9/', 'showMovies')
+DOC_NEWS = (f'{URL_MAIN}?s=%D9%88%D8%AB%D8%A7%D8%A6%D9%82%D9%8A', 'showMovies')
+REPLAYTV_NEWS = (f'{URL_MAIN}category/%d8%a7%d9%84%d8%a8%d8%b1%d8%a7%d9%85%d8%ac-%d8%a7%d9%84%d8%aa%d9%84%d9%81%d8%b2%d9%8a%d9%88%d9%86%d9%8a%d8%a9/', 'showMovies')
 
-URL_SEARCH = (f'{URL_MAIN}/?s=', 'showMovies')
-URL_SEARCH_MOVIES = (f'{URL_MAIN}/?s=%D9%81%D9%8A%D9%84%D9%85+', 'showMovies')
-URL_SEARCH_SERIES = (f'{URL_MAIN}/?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSeries')
+URL_SEARCH = (f'{URL_MAIN}?s=', 'showMovies')
+URL_SEARCH_MOVIES = (f'{URL_MAIN}?s=%D9%81%D9%8A%D9%84%D9%85+', 'showMovies')
+URL_SEARCH_SERIES = (f'{URL_MAIN}?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSeries')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -88,7 +88,7 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', REPLAYTV_NEWS[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'برامج تلفزيونية', 'brmg.png', oOutputParameterHandler)
 
-    oOutputParameterHandler.addParameter('siteUrl', f'{URL_MAIN}/category/رمضان-2023/')
+    oOutputParameterHandler.addParameter('siteUrl', f'{URL_MAIN}category/رمضان-2023/')
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'رمضان 2023', 'rmdn.png', oOutputParameterHandler)
 
     oGui.setEndOfDirectory()
@@ -480,19 +480,11 @@ def showServer():
     oGui.setEndOfDirectory()
 
 def decode_page(data):
-    t_script = re.findall('<script.*?;.*?\'(.*?);', data, re.S)
-    t_int = re.findall('/g.....(.*?)\)', data, re.S)
+    t_script = re.findall(r'<script.*?;.*?\'(.*?);', data, re.S)
+    t_int = re.findall(r'/g.....(.*?)\)', data, re.S)
     if t_script and t_int:
-        script = t_script[0].replace("'",'')
-        script = script.replace("+",'')
-        script = script.replace("\n",'')
-        sc = script.split('.')
-        page = ''
-        for elm in sc:
-            c_elm = base64.b64decode(elm+'==').decode()
-            t_ch = re.findall('\d+', c_elm, re.S)
-            if t_ch:
-                nb = int(t_ch[0])+int(t_int[0])
-                page = page + chr(nb)
+        script = t_script[0].replace("'", '').replace("+", '').replace("\n", '')
+        decoded_parts = [chr(int(re.findall(r'\d+', base64.b64decode(elm + '==').decode(), re.S)[0]) + int(t_int[0])) for elm in script.split('.')]
+        return ''.join(decoded_parts)
 
-    return page
+    return None  

@@ -12,6 +12,7 @@
         <setting id="playerType" type="enum" values="Auto|MPlayer|DVDPlayer" label="30001" default="2" enable="eq(-1,0)"/>
         <setting id="upnext" type="bool" label="30506" default="true"/>
         <setting id="srt-view" type="bool" label="30002" default="false"/>
+        <setting id="srt-get" type="bool" label="30231" default="false"/>
 
         <setting label="31213" type="lsep"/>
         <setting type="sep"/>

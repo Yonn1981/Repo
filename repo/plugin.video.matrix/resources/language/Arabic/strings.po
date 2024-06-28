@@ -1345,6 +1345,10 @@ msgctxt "#30230"
 msgid "Daily List"
 msgstr "قائمة يومية"
 
+msgctxt "#30231"
+msgid "Get Subtitle from OpenSubtitles [COLOR red](Experimental)[/COLOR]"
+msgstr "الحصول على الترجمة من OpenSubtitles [COLOR red](تجريبي)[/COLOR]"
+
 msgctxt "#70001"
 msgid "TOP"
 msgstr "الأفضل"

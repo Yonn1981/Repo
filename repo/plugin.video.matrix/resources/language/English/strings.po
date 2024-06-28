@@ -740,6 +740,10 @@ msgctxt "#30230"
 msgid "Daily List"
 msgstr ""
 
+msgctxt "#30231"
+msgid "Get Subtitle from OpenSubtitles [COLOR red](Experimental)[/COLOR]"
+msgstr ""
+
 msgctxt "#30300"
 msgid "Library"
 msgstr ""

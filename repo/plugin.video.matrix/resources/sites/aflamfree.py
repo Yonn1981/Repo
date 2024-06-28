@@ -147,16 +147,13 @@ def showPack(sSearch = ''):
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
             sTitle = aEntry[1]
-            sThumb = aEntry[1]
-            siteUrl = aEntry[0]+'/page/1'
-            sDesc = ''
+            siteUrl = f'{aEntry[0].replace(".top",".one")}/page/1'
 			
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumb', sThumb)
 
-            oGui.addMisc(SITE_IDENTIFIER, 'showLive', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showLive', sTitle, 'film.png', oOutputParameterHandler)
  
         sNextPage = __checkForNextPage(sHtmlContent)
         if sNextPage:

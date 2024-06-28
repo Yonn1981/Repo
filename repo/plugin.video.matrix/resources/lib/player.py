@@ -3,6 +3,7 @@
 
 import xbmcplugin
 import xbmc
+import requests, re
 
 from resources.lib.comaddon import addon, dialog, isKrypton, VSlog, addonManager, VSPath, KodiVersion
 from resources.lib.db import cDb
@@ -109,6 +110,41 @@ class cPlayer(xbmc.Player):
                 self.SubtitleActive = True
             except:
                 VSlog("Can't load subtitle:" + str(self.Subtitles_file))
+
+        if not self.Subtitles_file:
+            try:
+                if self.ADDON.getSetting('srt-get') == 'true':
+                    # from resources.lib.tmdb import cTMDb
+
+                    base_url = "https://rest.opensubtitles.org/search/"
+
+                    if self.sCat == '1':
+                        sType = 'movie'
+                        sName = re.sub(r" (S\d+)| (E\d+)", "", self.sTitle).strip()
+                        # meta = cTMDb().get_meta(sType, sName, imdb_id = xbmc.getInfoLabel('ListItem.Property(ImdbId)'))
+                        # sIMDb = meta['imdb_id']
+                        url = f"{base_url}query-{sName}/sublanguageid-ara"
+
+                    else:
+                        sType = 'tvshow'
+                        sName = re.sub(r" (S\d+)| (E\d+)", "", self.sTitle).strip()
+                        # meta = cTMDb().get_meta(sType, sName, imdb_id = xbmc.getInfoLabel('ListItem.Property(TmdbId)'))
+                        # sIMDb = meta['tmdb_id']
+                        # metaURL = f"https://api.themoviedb.org/3/tv/{sIMDb}/external_ids?api_key={self.ADDON.getSetting('api_tmdb')}"
+                        # response = requests.get(metaURL).json()
+                        # sIMDb = response['imdb_id']
+                        url = f"{base_url}episode-{self.sEpisode}/query-{sName}/season-{self.sSaison}/sublanguageid-ara"
+
+                    headers = { "User-Agent": "VLSub 0.10.2",
+                                "X-Requested-With": "XMLHttpRequest"}
+                    
+                    data = requests.get(url, headers=headers).json()
+                    subtitle_url = [item['SubDownloadLink'].replace(".gz", "").replace("download/", "download/subencoding-utf8/") for item in data]
+                        
+                    item.setSubtitles(subtitle_url)
+                    self.SubtitleActive = True
+            except:
+                VSlog("فشل تحميل الترجمة")
 
         kodiver = KodiVersion()
         mpd = splitext(urlHostName(sUrl))[-1] in [".mpd", ".m3u8"]
