@@ -17,10 +17,17 @@ class cHoster(iHoster):
 
     def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
+        
+        oParser = cParser()
         oRequest = cRequestHandler(self._url)
         sHtmlContent = oRequest.request()
 
-        api_call = ''
+        sPattern = 'window.location.href = ["\']([^"\']+)["\']'
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        if aResult[0]:
+            self._url = aResult[1][0]
+            oRequest = cRequestHandler(self._url)
+            sHtmlContent = oRequest.request()
 
         r = re.search(r"let\s*(?:wc0|[0-9a-f]+)\s*=\s*'([^']+)", sHtmlContent)
         if r:

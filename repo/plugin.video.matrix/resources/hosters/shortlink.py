@@ -1,10 +1,11 @@
 #-*- coding: utf-8 -*-
+# Thanks PatrickL546/Hydrax-Abyss.to-DownloadHelper-Python
 
 from resources.hosters.hoster import iHoster
-from resources.lib.comaddon import VSlog
+from resources.lib.comaddon import VSlog, dialog
 import base64
 import json
-import requests
+import requests, re
 
 UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36 Edg/122.0.0.0'
 
@@ -43,19 +44,53 @@ class cHoster(iHoster):
             }
 
         response = s.get(sUrl, headers=headers).text
-        start_pos = response.index("atob(") + 6
-        end_pos = response.rindex(")")
-        base64_encoded_string = response[start_pos:end_pos]
-        decoded_string = base64.b64decode(base64_encoded_string).decode('utf-8')
 
-        json_data = json.loads(decoded_string)
-        id = json_data["id"]
-        domain = json_data["domain"]
+        piece_length_json = json.loads(
+            re.search(
+                r'({"pieceLength.+?})',
+                response,
+            ).group(1)
+        )
 
-        # add www for hd
-        api_call = f'https://{domain}/www{id}'
+        resolution_option = {}
+        quality_prefix = {}
+        piece_length = {}
+        if "sd" in piece_length_json.keys():
+            resolution_option.update({"1": "360p"})
+            quality_prefix.update({"1": ""})
+            piece_length.update({"1": f'{piece_length_json["sd"][0]}'})
+        if "mHd" in piece_length_json.keys():
+            resolution_option.update({"2": "480p"})
+            quality_prefix.update({"2": ""})
+            piece_length.update({"2": f'{piece_length_json["mHd"][0]}'})
+        if "hd" in piece_length_json.keys():
+            resolution_option.update({"3": "720p"})
+            quality_prefix.update({"3": "www"})
+            piece_length.update({"3": f'{piece_length_json["hd"][0]}'})
+        if "fullHd" in piece_length_json.keys():
+            resolution_option.update({"4": "1080p"})
+            quality_prefix.update({"4": "whw"})
+            piece_length.update({"4": f'{piece_length_json["fullHd"][0]}'})
+
+        max_quality = "4"
+        quality = max([i for i in resolution_option if i <= max_quality])
+
+        atob_domain, atob_id = [
+            json.loads(
+                base64.b64decode(
+                    re.search(
+                        r'PLAYER\(atob\("(.*?)"',
+                        response,
+                    ).group(1)
+                )
+            )[i]
+            for i in ["domain", "id"]
+        ]
+
+        api_call = f"https://{atob_domain}/{quality_prefix[quality]}{atob_id}"
 
         if api_call:
-            return True, api_call + '|User-Agent=' + UA + '&Referer=' + sHost + '&Host=' + domain
-
+            dialog().VSinfo('سيأخذ تشغيل الفيديو بعض الوقت', 'جاري التحميل', 4)
+            return True, api_call + '|User-Agent=' + UA + '&Referer=' + sHost
+        
         return False, False

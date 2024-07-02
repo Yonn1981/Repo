@@ -387,14 +387,13 @@ def showSeasons():
 
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('pseason', pseason)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
             oOutputParameterHandler.addParameter('pseason', pseason)
             oOutputParameterHandler.addParameter('post', post)
  
             oGui.addSeason(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumb, '', oOutputParameterHandler)
 
     else:
-
         sPattern = '<link rel="canonical" href="([^"]+)".+?<meta property="og:title" content="([^"]+)'
         aResult = oParser.parse(sHtmlContent, sPattern)
         if aResult[0] is True:
@@ -405,12 +404,11 @@ def showSeasons():
                 sTitle = (cUtil().ConvertSeasons(sTitle)).split('الحلقة')[0]
                 sSeason = sTitle.replace(sMovieTitle,'').replace(' - ','')
                 if 'موسم' not in aEntry[1]:
-                    sTitle = sTitle+' '+'S1'
+                    sTitle = f'{sTitle} S1'
                 else:
-                 sTitle = sMovieTitle +' '+ sSeason
+                 sTitle = f'{sMovieTitle} {sSeason}'
                 
                 siteUrl = aEntry[0]
-                
                 sThumb = sThumb
                 sDesc = ''
 

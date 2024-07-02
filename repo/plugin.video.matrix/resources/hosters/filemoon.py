@@ -1,13 +1,15 @@
 #-*- coding: utf-8 -*-
-#Vstream https://github.com/Kodi-vStream/venom-xbmc-addons
+
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.hosters.hoster import iHoster
 from resources.lib.packer import cPacker
 from resources.lib.parser import cParser
 from resources.lib.comaddon import dialog, VSlog
+from resources.lib import helpers, random_ua
 from resources.lib.util import Unquote
+from six.moves import urllib_parse
 
-UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:39.0) Gecko/20100101 Firefox/39.0'
+UA = random_ua.get_pc_ua()
 
 class cHoster(iHoster):
 
@@ -16,7 +18,6 @@ class cHoster(iHoster):
 
     def _getMediaLinkForGuest(self, autoPlay = False):
         oParser = cParser()
-        # For a friend
         self._url = self._url.replace('filemoon.sx','filemoon.in')
 
         if ('sub.info' in self._url):
@@ -39,6 +40,7 @@ class cHoster(iHoster):
             SubTitle = ''
 
         oRequest = cRequestHandler(self._url)
+        oRequest.addHeaderEntry('User-Agent', UA)
         sHtmlContent = oRequest.request()
 
         api_call = False
@@ -47,47 +49,36 @@ class cHoster(iHoster):
         aResult = oParser.parse(sHtmlContent, sPattern)
         if aResult[0]:
             for aEntry in aResult[1]:
-                url = aEntry
-                sHtmlContent = cPacker().unpack(url)
+                sHtmlContent = cPacker().unpack(aEntry)
 
-                sPattern = 'file:"([^"]+)"'
-                aResult = oParser.parse(sHtmlContent, sPattern)
-
-                if aResult[0]:
-                    api_call = aResult[1][0]
-
-                    oRequestHandler = cRequestHandler(api_call)
-                    sHtmlContent2 = oRequestHandler.request()
-                    list_url = []
-                    list_q = []
-
-                    sPattern = 'PROGRAM.*?BANDWIDTH.*?RESOLUTION=(\d+x\d+).*?(http.+?)(#|$)'
-                    aResult = oParser.parse(sHtmlContent2, sPattern)
-                    if aResult[0]:
-                        for aEntry in aResult[1]:
-                            list_url.append(aEntry[1])
-                            list_q.append(aEntry[0])
-                        if list_url:
-                            api_call = dialog().VSselectqual(list_q, list_url)
+        headers = {'User-Agent': UA}
+        sPattern = 'sources:\s*\[{\s*file:\s*"([^"]+)'
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        if aResult[0]:
+            headers.update({
+                    'Referer': self._url,
+                    'Origin': urllib_parse.urljoin(self._url, '/')[:-1]})
+            api_call = aResult[1][0] + helpers.append_headers(headers)
 
         else:
             sPattern = 'file:"([^"]+)",label:"[0-9]+"}'
             aResult = oParser.parse(sHtmlContent, sPattern)
             if aResult[0]:
-
+                headers.update({
+                    'Referer': self._url,
+                    'Origin': urllib_parse.urljoin(self._url, '/')[:-1]})
                 url = []
                 qua = []
                 for i in aResult[1]:
                     url.append(str(i[0]))
                     qua.append(str(i[1]))
 
-                url = dialog().VSselectqual(qua, Unquote(url))
-
+                api_call = dialog().VSselectqual(qua, Unquote(url)) + helpers.append_headers(headers)
 
         if api_call:
             if ('http' in SubTitle):
-                return True, api_call + '|User-Agent=' + UA + '&Referer=' + self._url, SubTitle
+                return True, api_call, SubTitle
             else:
-                return True, api_call + '|User-Agent=' + UA + '&Referer=' + self._url
+                return True, api_call
 
         return False, False

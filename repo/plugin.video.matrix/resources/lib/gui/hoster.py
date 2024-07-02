@@ -256,7 +256,7 @@ class cHosterGui:
         
         # Streamwish Clone
         streamwish = next((x for x in ['streamwish', 'khadhnayad', 'ajmidyad', 'yadmalik', 'kharabnah', 'hayaatieadhab', 'sfastwish', 'eghjrutf', 'eghzrutw',
-                            'wishfast', 'fviplions', 'egtpgrvh', 'mdy48tn97', 'embedwish', 'fsdcmo.sbs', 'anime4low', 'cdnwish-down', 'heavenlyvideo',
+                            'wishfast', 'fviplions', 'egtpgrvh', 'mdy48tn97', 'embedwish', 'fsdcmo.sbs', 'anime4low', 'cdnwish-down', 'heavenlyvideo', 'strwish',
                             'flaswish', 'streamzid', 'cimawish', 'egopxutd', 'obeywish', 'trgsfjll', 'mdbekjwqa', 'uqloads', 'm3lomatik', 'cdnwish', 'ma2d',
                             'mohahhda', 'asnwish', 'jodwish', 'cinemathek', 'swhoi', 'dancima', 'warda', 'gsfqzmqu', 'swdyu', 'cinemabest.online', 'zidwish'] if x in sHostName), None)
         if streamwish:
@@ -340,9 +340,12 @@ class cHosterGui:
         # False Links
         false_links = next((x for x in ['nitroflare', 'tubeload.', 'Facebook', 'fastdrive', 'megaup.net', 'openload', 'vidhd', 'oktube', 'mdiaload', 'fikper', 'turbobit', '1fichier',
                                         'mega.nz', 'rapidgator', 'ddownload', 'bowfile', 'uptobox', 'uptostream', 'wahmi', 'doodrive', 'highload', 'anonfiles', 'jawcloud', 
-                                        'videomega', 'prostream', 'fembed', 'filegage', 'streamlare', 'katfile', 'usersdrive', 'uploadbank', 'short.ink'] if x in sHostName), None)
+                                        'videomega', 'prostream', 'fembed', 'filegage', 'streamlare', 'katfile', 'usersdrive', 'uploadbank'] if x in sHostName), None)
         if false_links:    
             return False
+
+        if ('short.ink' in sHostName):
+            return self.getHoster('shortlink')
 
         if ('vidsrc.stream' in sHostName):
             return self.getHoster('vidsrcstream')
