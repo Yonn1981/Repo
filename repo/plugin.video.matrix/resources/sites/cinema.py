@@ -311,7 +311,7 @@ def __checkForNextPage(sHtmlContent):
     
     return False
 
-def showSeriesLinks(oInputParameterHandler = False):
+def showSeriesLinks():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -345,11 +345,11 @@ def showSeriesLinks(oInputParameterHandler = False):
                     sDisplayTitle = ('%s [COLOR coral] [%sp] [/COLOR]') % (sMovieTitle, sQual)
                     oHoster.setDisplayName(sDisplayTitle)
                     oHoster.setFileName(sMovieTitle)
-                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
     oGui.setEndOfDirectory()
 
-def showLinks(oInputParameterHandler = False):
+def showLinks():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -378,7 +378,7 @@ def showLinks(oInputParameterHandler = False):
             sDisplayTitle = ('%s [COLOR coral] [%sp] [/COLOR]') % (sMovieTitle, sQual)
             oHoster.setDisplayName(sDisplayTitle)
             oHoster.setFileName(sMovieTitle)
-            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
     oGui.setEndOfDirectory()
 

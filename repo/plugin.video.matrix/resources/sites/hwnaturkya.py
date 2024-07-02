@@ -422,6 +422,6 @@ def showLinks():
     if oHoster:
         oHoster.setDisplayName(sMovieTitle)
         oHoster.setFileName(sMovieTitle)
-        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
     oGui.setEndOfDirectory()

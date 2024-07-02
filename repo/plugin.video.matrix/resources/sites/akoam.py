@@ -541,7 +541,7 @@ def showSeasons2():
                     if oHoster:
                         oHoster.setDisplayName(sMovieTitle)
                         oHoster.setFileName(sMovieTitle)
-                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl + "|AUTH=TLS&verifypeer=false", sThumb, oInputParameterHandler=oInputParameterHandler)
+                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl + "|AUTH=TLS&verifypeer=false", sThumb)
        
     oGui.setEndOfDirectory()
 

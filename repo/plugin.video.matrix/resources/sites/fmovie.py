@@ -511,7 +511,7 @@ def showHosters():
                 sDisplayTitle = sMovieTitle
             oHoster.setDisplayName(sDisplayTitle)
             oHoster.setFileName(sMovieTitle)
-            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
     oGui.setEndOfDirectory()
 

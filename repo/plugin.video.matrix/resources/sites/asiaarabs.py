@@ -267,7 +267,7 @@ def showEpisodes():
                sTitle = f'{sTitle}{sMovieTitle}'
                oHoster.setDisplayName(sTitle)
                oHoster.setFileName(sTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
     sPattern = '<a href="([^<]+)" target="_blank">(.+?)</a>'
     aResult = oParser.parse(sHtmlContent, sPattern)
