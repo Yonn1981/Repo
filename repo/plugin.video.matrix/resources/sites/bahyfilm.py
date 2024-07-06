@@ -228,7 +228,7 @@ def showMovies(sSearch = ''):
 
     for link in (page_links[:2] + page_links[-2:]):
         oOutputParameterHandler = cOutputParameterHandler()  
-        sTitle = f'[COLOR red]{link.split("page=")[1]}[/COLOR]'
+        sTitle = f'[COLOR red]Page: {link.split("page=")[1]}[/COLOR]'
         siteUrl = f'{URL_MAIN}section.php{link}'
 
         oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -316,7 +316,7 @@ def showSeries(sSearch = ''):
 
     for link in (page_links[:2] + page_links[-2:]):
         oOutputParameterHandler = cOutputParameterHandler()  
-        sTitle = f'[COLOR red]{link.split("page=")[1]}[/COLOR]'
+        sTitle = f'[COLOR red]Page: {link.split("page=")[1]}[/COLOR]'
         siteUrl = f'{URL_MAIN}section.php{link}'
 
         oOutputParameterHandler.addParameter('siteUrl',siteUrl)

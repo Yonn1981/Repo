@@ -21,7 +21,7 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-SPORT_LIVE = (URL_MAIN, 'showMovies')
+SPORT_LIVE = (f'{URL_MAIN}p/tv96.html?m=1', 'showMovies')
 
 FUNCTION_SEARCH = 'showMovies'
  

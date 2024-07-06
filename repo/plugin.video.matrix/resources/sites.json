@@ -161,12 +161,6 @@
             "active": "True",
             "url": "https://cimanow.cc/"
         },
-        "cinema": {
-            "label": "CinemaAllYear",
-            "active": "False",
-            "cloudflare": "False",
-            "url": "L3dvaHMucmE1NjMvLzpzcHR0aA=="
-        },
         "cinematy": {
             "label": "Cinematy",
             "active": "True",
@@ -202,7 +196,7 @@
         "dramacafe": {
             "label": "Dramacafe",
             "active": "True",
-            "url": "https://w17.dramacafe-tv.com/"
+            "url": "https://w19.dramacafe-tv.com/"
         },
         "egyclub": {
             "label": "Egyclub",
@@ -217,7 +211,7 @@
         "ehna": {
             "label": "Ehna",
             "active": "True",
-            "url": "http://aflam.top/"
+            "url": "https://aflam.top/"
         },
         "esseq": {
             "label": "Esseq",
@@ -228,7 +222,7 @@
         "faselhd": {
             "label": "Faselhd",
             "active": "True",
-            "url": "https://www.faselhds.world/"
+            "url": "https://www.faselhds.care/"
         },
         "fnteam": {
             "label": "Fnteam",
@@ -303,8 +297,7 @@
         "koralive": {
             "label": "Koralive",
             "active": "True",
-            "url": "https://www.live-kora.io/",
-            "url2": "https://www.kooralive.okkora-live.com/"
+            "url": "https://www.live-kora.io/"
         },
         "laroza": {
             "label": "Laroza",
@@ -349,7 +342,7 @@
         "prstej": {
             "label": "Prstej",
             "active": "True",
-            "url": "https://on.brstej.com/"
+            "url": "https://ser.brstej.com/"
         },
         "qfilm": {
             "label": "QFilm",
@@ -400,7 +393,7 @@
         "taxielcima": {
             "label": "TaxiElCima",
             "active": "True",
-            "url": "https://twoupon.com/"
+            "url": "https://txicima.twoupon.com/"
         },
         "tma": {
             "label": "tma",
@@ -435,7 +428,7 @@
         "tvnine": {
             "label": "Tv96",
             "active": "True",
-            "url": "https://tv.s96.net/"
+            "url": "https://go.s96.net/"
         },
         "watanflix": {
             "label": "Watanflix",

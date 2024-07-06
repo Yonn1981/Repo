@@ -213,6 +213,7 @@ def showSeries(sSearch = ''):
                continue
 
             sTitle = cUtil().CleanSeriesName(aEntry[2])
+            sTitle = re.sub(r"S\d{1,2}", "", sTitle)
             siteUrl = aEntry[1]
             sThumb = aEntry[4]
             sDesc = ''
@@ -278,7 +279,7 @@ def showSeasons():
 		oOutputParameterHandler = cOutputParameterHandler()
 		for aEntry in aResult[1]:
 			sSeason = aEntry[1].split("موسم")[1]
-			sTitle = f'{sMovieTitle} {cUtil().ConvertSeasons(sSeason)}'
+			sTitle = f'{sMovieTitle} S{cUtil().ConvertSeasons(sSeason)}'
 			siteUrl = aEntry[0]
 			sThumb = sThumb
 			sDesc = ""

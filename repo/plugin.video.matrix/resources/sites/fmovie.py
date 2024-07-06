@@ -298,7 +298,7 @@ def showSeasons():
                 oOutputParameterHandler = cOutputParameterHandler()  
                 for aEntry in aResult[1]:
 
-                    sSeason = aEntry.replace('\\','').replace('"','')                  
+                    sSeason = int(aEntry.replace('\\','').replace('"',''))           
                     Ss = aEntry.replace('\\','').replace('"','')
                     sDisplaySeason = f"{sSeriesTitle} S{sSeason:02d}"
                     siteUrl = f'{sURL2}/{Ss}-1'
@@ -359,7 +359,7 @@ def showEps():
                     
                     nLink = aEntry[0].split("\\")[0]
                     siteUrl = f'{URL_MAIN}{nLink}'
-                    sEpisode = aEntry[2].replace('Episode ','').replace(':','')
+                    sEpisode = int(aEntry[2].replace('Episode ','').replace(':',''))
                     episode = f"{SeasonTitle} E{sEpisode:02d}"
 
                     sTitle = aEntry[3].replace(':','')                      
@@ -497,7 +497,9 @@ def showHosters():
             SubTitle = sHosterUrl.split('sub.info=')[1]
             sHosterUrl = sHosterUrl.split('&sub.info')[0]
         if 'Vidplay' in sHost:
-            oHoster = cHosterGui().getHoster('mcloud')     
+            oHoster = cHosterGui().getHoster('mcloud')  
+        if '.xyz' in sHosterUrl:
+            oHoster = cHosterGui().getHoster('filemoon')    
         else:
             oHoster = cHosterGui().checkHoster(sHosterUrl)
         if oHoster:

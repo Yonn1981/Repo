@@ -158,7 +158,7 @@ def showSeries2():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request().replace('&rsaquo;', '>').replace('&raquo;', '>>').replace('&lsaquo;', '<')
 
-    sPattern = 'class="block-post">.+?href="([^"]+)" title="([^"]+)".+?data-img="([^"]+)'
+    sPattern = 'class="block-post">.+?href="([^"]+)" title="([^"]+)".+?(data-img|style)="([^"]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
         total = len(aResult[1])
@@ -175,7 +175,11 @@ def showSeries2():
             sTitle = (cUtil().CleanMovieName(aEntry[1])).replace('الحلقة ','E').replace('حلقة ','E')
             sTitle = cUtil().ConvertSeasons(sTitle)
             siteUrl = f'{aEntry[0]}?do=watch'
-            sThumb = aEntry[2]
+            sThumb = aEntry[3]
+            if 'background-image' in sThumb:
+                match = re.search(r"(?<=url\()([^)]+)(?=\))", sThumb)
+                if match:
+                    sThumb = match.group(1)
             sDesc = ""
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -230,7 +234,7 @@ def showSeries(sSearch = ''):
     sHtmlContent = oRequestHandler.request().replace('&rsaquo;', '>').replace('&raquo;', '>>').replace('&lsaquo;', '<')
 
     itemList = []	
-    sPattern = 'class="block-post">.+?href="([^"]+)" title="([^"]+)".+?data-img="([^"]+)'
+    sPattern = 'class="block-post">.+?href="([^"]+)" title="([^"]+)".+?(data-img|style)="([^"]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
         total = len(aResult[1])
@@ -245,8 +249,13 @@ def showSeries(sSearch = ''):
                 continue
  
             sTitle = (cUtil().CleanSeriesName(aEntry[1])).replace('- قصة عشق','')
+            sTitle = re.sub(r"S\d{2}|S\d", "", sTitle)
             siteUrl = aEntry[0]
-            sThumb = aEntry[2].replace("(","").replace(")","")
+            sThumb = aEntry[3]
+            if 'background-image' in sThumb:
+                match = re.search(r"(?<=url\()([^)]+)(?=\))", sThumb)
+                if match:
+                    sThumb = match.group(1)
             sDesc = ""
 
             if sTitle not in itemList:
@@ -312,6 +321,7 @@ def showSeasons():
             if bool(re.search(r'\d', sSeason)) is False:
                 sSeason = "S1"
             siteUrl = f'{URL_MAIN}wp-content/themes/vo2023/temp/ajax/seasons.php?seriesID={aEntry[0]}'
+            sMovieTitle = re.sub(r"\s+([0-9]+)\s+", "", sMovieTitle)
             sTitle = f'{sMovieTitle} {sSeason}' 
             sThumb = sThumb
             sDesc = ''

@@ -303,6 +303,7 @@ def showSeries(sSearch = ''):
                 continue
             
             sTitle = cUtil().CleanSeriesName(aEntry[2])
+            sTitle = re.sub(r"S\d{1,2}", "", sTitle)
             if 'http' not in aEntry[1]:
                 sThumb = f'{URL_MAIN}{aEntry[1]}'
             else:

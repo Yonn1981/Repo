@@ -188,24 +188,21 @@ class cUtil:
             name = name.replace(word, "")
         name = name.replace("Arabic","مدبلج")
        
-        year = ''
-        m = re.search('([0-9]{4})', name)
-        if m:
-            year = str(m.group(0))
-            name = name.replace(year, '')
-
-        if name == '':
-            try:
-                name = year
-            except:
-                name = name
-
         name = name.strip()
+        if name.isdigit():
+            name = name
+        else:
+            match = re.search('([0-9]{4})', name)
+            if match:
+                year = match.group(1)
+                name = name.replace(year,"")
+
         return name
+
 
     def CleanSeriesName(self, name):
         remove = [
-            'مشاهدة وتحميل', 'تحميل و مشاهدة', 'مشاهدة', 'المسلسل الباكستاني', 'مسلسل باكستاني', 'مسلسل', 'الانمي', 'الأنمي', 
+            'مشاهدة وتحميل', 'تحميل و مشاهدة', 'مشاهدة', 'المسلسل الباكستاني', 'مسلسل باكستاني', 'لمسلسل','مسلسل', 'الانمي', 'الأنمي', 
             'الأنمى', 'أنمي', 'انمي', 'أنمى', 'انيمي', 'مترجم عربي', 'مترجمة', 'مترجم', 'الفيلم', 'الفلم', 'فلم', 'فيلم', 'برنامج',          
             'مدبلج للعربية', 'والأخيرة', 'والاخيرة', 'الأخيرة', 'الاخيرة', 'Arabic', 'كاملة', 'حلقات كاملة', 'مباشرة', 'انتاج ',
             'جودة عالية', 'كامل', 'السلسلة الوثائقية', 'الوثائقي', 'عرض', 'الرو', 'جميع حلقات', 'سلسلة افلام', 'بجودة',
@@ -231,18 +228,23 @@ class cUtil:
         except:
             name = name
 
-        year = ''
-        m = re.search('([0-9]{4})', name)
-        if m:
-            year = str(m.group(0))
-            name = name.replace(year, '')
+        sSeason = ''
+        match = re.search(r"S\d{1,2}", name)
+        if match:
+            sSeason = match.group(0)
+            name = re.sub(sSeason, "", name)
 
         name = name.strip()
-        if name == '':
-            try:
-                name = year
-            except:
-                name = name
+
+        if name.isdigit():
+            name = f'{name} {sSeason}'
+        else:
+            match = re.search('([0-9]{4})', name)
+            if match:
+                year = match.group(1)
+                name = f'{name.replace(year,"")} {sSeason}'
+            else:
+                 name = f'{name} {sSeason}'
 
         return name
 
@@ -274,6 +276,7 @@ class cUtil:
         
         sPattern = r"(\b" + "|".join(arabic_seasons.keys()) + r"\b)"
         clean_name = re.sub(sPattern, lambda match: arabic_seasons[match.group(1)], name)
+        clean_name = re.sub(r"\b S (\d+)", r" S\1", clean_name.strip())
 
         return clean_name
 

@@ -476,7 +476,7 @@ def showSeasons():
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
-                sTitle = aEntry[0].replace("."," ").replace("WEB"," ").replace("Ep","E").split('akoam', 1)[0].split('akwam', 1)[0]
+                sTitle = aEntry[0].replace("."," ").replace("WEB"," ").replace("Ep","Ep").replace("EP","Ep").replace("ep","Ep").split('akoam', 1)[0].split('akwam', 1)[0]
                 sTitle = (cUtil().CleanMovieName(sTitle)).replace("."," ")
                 sYear = ''
                 m = re.search('([0-9]{4})', sTitle)

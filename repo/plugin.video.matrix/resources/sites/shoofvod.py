@@ -228,8 +228,9 @@ def showSeries(sSearch = ''):
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
-            if 'الحلقة' not in aEntry[2]:
-                continue
+            if sSearch:
+                if 'الحلقة' not in aEntry[2]:
+                    continue
 
             sTitle = (cUtil().CleanMovieName(aEntry[2])).replace("-","").replace("الحلقة "," E").replace("حلقة "," E")
             siteUrl = URL_MAIN+aEntry[0]

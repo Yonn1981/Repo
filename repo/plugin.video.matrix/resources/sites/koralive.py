@@ -20,7 +20,6 @@ SITE_NAME = 'Koralive'
 SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
-URL_MAIN2 = siteManager().getUrlMain2(SITE_IDENTIFIER)
 
 SPORT_LIVE = (URL_MAIN, 'showMovies')
 SPORT_FOOT = (f'{URL_MAIN}p/videos.html', 'showVideos')
@@ -42,11 +41,6 @@ def showMovies():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
-
-    oOutputParameterHandler = cOutputParameterHandler()    
-    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN2)
-    if URL_MAIN2 not in sUrl:
-        oGui.addDir(SITE_IDENTIFIER, 'showMovies', ' بث مباشر اخر من كورة لايف', 'sites/kooralive.png', oOutputParameterHandler)
 
     oParser = cParser()
     oRequestHandler = cRequestHandler(sUrl)

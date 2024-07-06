@@ -239,7 +239,7 @@ def showSeries(sSearch = ''):
                 continue 
 
             siteUrl = aEntry[0]
-            sTitle = cUtil().CleanSeriesName(aEntry[1])
+            sTitle = cUtil().CleanSeriesName(aEntry[1]).replace('S ','S')
             sTitle = re.sub(r"S\d{1,2}", "", sTitle)
             sYear = ''
             m = re.search('([0-9]{4})', sTitle)
@@ -296,20 +296,20 @@ def showSeasons():
     sPattern =  'data-season="([^"]+)">(.+?)</li>' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0]:
-        oOutputParameterHandler = cOutputParameterHandler()    
+        oOutputParameterHandler = cOutputParameterHandler()   
         for aEntry in aResult[1]:
     
             seriesID = aEntry[0]
             siteUrl = f'{URL_MAIN}wp-content/themes/vo2022/temp/ajax/seasons.php?seriesID={seriesID}'
-            sTitle = f'{sMovieTitle} {cUtil().CleanSeriesName(aEntry[1])}'
+            sTitle = f"{sMovieTitle} {cUtil().CleanSeriesName(aEntry[1]).replace('S ','S')}"
             sYear = ''
             sDesc = ''
             
-            oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle + ' ' + sTitle)
-            oOutputParameterHandler.addParameter('siteUrl',  siteUrl) 
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl) 
             oOutputParameterHandler.addParameter('sThumb', sThumb)
-            oOutputParameterHandler.addParameter('sYear',sYear)
-            oOutputParameterHandler.addParameter('sDesc',sDesc)
+            oOutputParameterHandler.addParameter('sYear', sYear)
+            oOutputParameterHandler.addParameter('sDesc', sDesc)
             
             oGui.addSeason(SITE_IDENTIFIER, 'showEpisodes' , sTitle, sYear, sThumb, sDesc, oOutputParameterHandler)
     else:
