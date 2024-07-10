@@ -3,17 +3,35 @@
 #
 from requests import post, get, Session, Request, RequestException, ConnectionError
 from resources.lib.comaddon import addon, dialog, VSlog, VSPath, isMatrix
-from resources.lib.util import urlHostName, Quote
+from resources.lib.util import urlHostName
 from resources.lib import random_ua
-
+from requests_cache import CachedSession
 import requests.packages.urllib3.util.connection as urllib3_cn
 import socket
+from datetime import timedelta
 
 UA = random_ua.get_ua()
+CACHE = 'special://home/userdata/addon_data/plugin.video.matrix/requests_cache.db'
 
 class cRequestHandler:
     REQUEST_TYPE_GET = 0
     REQUEST_TYPE_POST = 1
+
+    TIME_UNIT = addon().getSetting('cache_expiration_time_unit')
+    TIME_VALUE = addon().getSetting('cache_expiration_value')
+    ENABLECACHED = addon().getSetting('CachedSession')
+
+    if TIME_UNIT == 'hours':
+        CACHE_EXPIRY = timedelta(hours=TIME_VALUE)
+
+    elif TIME_UNIT == 'days':
+        CACHE_EXPIRY = timedelta(days=TIME_VALUE)
+
+    elif TIME_UNIT == 'minutes':
+        CACHE_EXPIRY = timedelta(minutes=TIME_VALUE)
+
+    else:
+        CACHE_EXPIRY = timedelta(hours=24)
 
     def __init__(self, sUrl):
         self.__sUrl = sUrl
@@ -32,7 +50,10 @@ class cRequestHandler:
         self.__sResponseHeader = ''
         self.BUG_SSL = False
         self.__enableDNS = False
-        self.s = Session()
+        if cRequestHandler.ENABLECACHED == "true":
+            self.s = CachedSession(VSPath(CACHE), cache_control=True, expire_after=cRequestHandler.CACHE_EXPIRY, stale_if_error=True)
+        else:
+            self.s = Session()
         self.redirects = True
         self.verify = True
         self.json = {}
@@ -150,7 +171,7 @@ class cRequestHandler:
 
     def __setDefaultHeader(self):
         self.addHeaderEntry('User-Agent', UA)
-        self.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
+        self.addHeaderEntry('Accept-Language', 'en-US,en;q=0.9,ar;q=0.8,en-GB;q=0.7')
         self.addHeaderEntry('Accept-Charset', 'ISO-8859-1,utf-8;q=0.7,*;q=0.7')
 
     def __callRequest(self, jsonDecode=False):
@@ -198,7 +219,7 @@ class cRequestHandler:
 
             prepped = _request.prepare()
             self.s.headers.update(self.__aHeaderEntries)
-
+            
             self.oResponse = self.s.send(prepped, timeout=self.__timeout, allow_redirects=self.redirects, verify=self.verify)
             self.__sResponseHeader = self.oResponse.headers
             self.__sRealUrl = self.oResponse.url

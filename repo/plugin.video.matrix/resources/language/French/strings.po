@@ -1429,3 +1429,23 @@ msgstr "Mise à jour terminée.. En cas d'erreur, mettez à jour Matrix depuis l
 msgctxt "#70022"
 msgid "Use alternative site link"
 msgstr "Utiliser un lien de site alternatif"
+
+msgctxt "#70023"
+msgid "Cache Settings"
+msgstr "Paramètres du cache"
+
+msgctxt "#70024"
+msgid "Cache Expiration Time Unit"
+msgstr "Unité de temps d'expiration du cache"
+
+msgctxt "#70025"
+msgid "Cache Expiration Value"
+msgstr "Valeur d'expiration du cache"
+
+msgctxt "#70026"
+msgid "Clear Requests Cache"
+msgstr "Effacer le cache des Requests"
+
+msgctxt "#70027"
+msgid "Enable Requests Cache"
+msgstr "Activer le cache des Requests"

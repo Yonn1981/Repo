@@ -22,7 +22,7 @@ URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 MOVIE_AR = ('عربية', 'showMoviesLists')
 MOVIE_TURK = ('تركية', 'showMoviesLists')
-MOVIE_HI = ('هندية', 'showMovies')
+MOVIE_HI = ('هندية', 'showMoviesLists')
 
 RAMADAN_SERIES = ('رمضان', 'showSeriesLists')
 SERIE_AR = ('عربية', 'showSeriesLists')

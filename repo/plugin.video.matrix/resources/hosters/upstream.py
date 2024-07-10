@@ -1,9 +1,10 @@
 #-*- coding: utf-8 -*-
-import re
-import requests
+
 from resources.hosters.hoster import iHoster
 from resources.lib.packer import cPacker
+from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import VSlog
+from resources.lib.parser import cParser
 
 UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:62.0) Gecko/20100101 Firefox/62.0'
 
@@ -24,23 +25,21 @@ class cHoster(iHoster):
         VSlog(self._url)
         api_call = ''
 
-        headers = {'User-Agent': UA,
-                   'Origin': self._url.rsplit('/', 1)[0],
-                   'Referer': self._url
-                   }
-        s = requests.session()
-        sHtmlContent = s.get(self._url, headers=headers).text
+        oParser = cParser()
+        oRequestHandler = cRequestHandler(self._url)
+        oRequestHandler.addHeaderEntry('User-Agent', UA)
+        sHtmlContent = oRequestHandler.request()
 
-        api_call = ''
+        sPattern = '(eval\(function\(p,a,c,k,e(?:.|\s)+?)</script>'
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        if aResult[0]:
+            for aEntry in aResult[1]:
+                sHtmlContent = cPacker().unpack(aEntry)
 
-        aResult = re.search(r'(\s*eval\s*\(\s*function(?:.|\s)+?)<\/script>', sHtmlContent)
-        if aResult:
-            sHtmlContent = cPacker().unpack(aResult.group(1))
-
-        aResult = re.search(r'sources: *\[{file:["\']([^"\']+)', sHtmlContent)
-        if aResult:
-            api_call = aResult.group(1)
-            
+        sPattern = r'sources: *\[{file:["\']([^"\']+)'
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        if aResult[0]:
+            api_call = aResult[1][0]
 
         if api_call:
             if 'http' not in api_call:

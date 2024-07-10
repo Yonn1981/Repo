@@ -24,8 +24,8 @@ SITE_DESC = 'Live sport events'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-SPORT_GENRES = (f'{URL_MAIN}/enx/allupcoming/', 'showMovies') 
-SPORT_LIVE = (f'{URL_MAIN}/enx/', 'showLive') 
+SPORT_GENRES = (f'{URL_MAIN}enx/allupcoming/', 'showMovies') 
+SPORT_LIVE = (f'{URL_MAIN}enx/', 'showLive') 
 SPORT_SPORTS = (True, 'load')
 
 HEURE_HIVER = False

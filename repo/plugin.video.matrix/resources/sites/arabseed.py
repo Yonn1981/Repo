@@ -22,29 +22,29 @@ SITE_DESC = 'arabic vod'
 MAIN_URL = siteManager().getUrlMain(SITE_IDENTIFIER)
 URL_MAIN = random_ua.get_arabseedUrl(MAIN_URL)
 
-MOVIE_CLASSIC = (f'{URL_MAIN}/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%83%d9%84%d8%a7%d8%b3%d9%8a%d9%83%d9%8a%d9%87/', 'showMovies')
-MOVIE_EN = (f'{URL_MAIN}/category/foreign-movies/', 'showMovies')
-MOVIE_AR = (f'{URL_MAIN}/category/arabic-movies-5/', 'showMovies')
-MOVIE_DUBBED = (f'{URL_MAIN}/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%85%d8%af%d8%a8%d9%84%d8%ac%d8%a9/', 'showMovies')
-MOVIE_HI = (f'{URL_MAIN}/category/indian-movies/', 'showMovies')
-MOVIE_ASIAN = (f'{URL_MAIN}/category/asian-movies/', 'showMovies')
-MOVIE_TURK = (f'{URL_MAIN}/category/turkish-movies/', 'showMovies')
-KID_MOVIES = (f'{URL_MAIN}/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d9%86%d9%8a%d9%85%d9%8a%d8%b4%d9%86/', 'showMovies')
+MOVIE_CLASSIC = (f'{URL_MAIN}category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%83%d9%84%d8%a7%d8%b3%d9%8a%d9%83%d9%8a%d9%87/', 'showMovies')
+MOVIE_EN = (f'{URL_MAIN}category/foreign-movies/', 'showMovies')
+MOVIE_AR = (f'{URL_MAIN}category/arabic-movies-5/', 'showMovies')
+MOVIE_DUBBED = (f'{URL_MAIN}category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%85%d8%af%d8%a8%d9%84%d8%ac%d8%a9/', 'showMovies')
+MOVIE_HI = (f'{URL_MAIN}category/indian-movies/', 'showMovies')
+MOVIE_ASIAN = (f'{URL_MAIN}category/asian-movies/', 'showMovies')
+MOVIE_TURK = (f'{URL_MAIN}category/turkish-movies/', 'showMovies')
+KID_MOVIES = (f'{URL_MAIN}category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d9%86%d9%8a%d9%85%d9%8a%d8%b4%d9%86/', 'showMovies')
 
-SERIE_TR = (f'{URL_MAIN}/category/turkish-series-1/', 'showSeries')
-SERIE_DUBBED = (f'{URL_MAIN}/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%85%d8%af%d8%a8%d9%84%d8%ac%d8%a9/', 'showSeries')
-SERIE_ASIA = (f'{URL_MAIN}/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%83%d9%88%d8%b1%d9%8a%d9%87/', 'showSeries')
-SERIE_HEND = (f'{URL_MAIN}/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%87%d9%86%d8%af%d9%8a%d8%a9/', 'showSeries')
-SERIE_EN = (f'{URL_MAIN}/category/foreign-series/', 'showSeries')
-SERIE_AR = (f'{URL_MAIN}/category/arabic-series/', 'showSeries')
-RAMADAN_SERIES = (f'{URL_MAIN}/category/ramadan-series-2024/', 'showSeries')
+SERIE_TR = (f'{URL_MAIN}category/turkish-series-1/', 'showSeries')
+SERIE_DUBBED = (f'{URL_MAIN}category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%85%d8%af%d8%a8%d9%84%d8%ac%d8%a9/', 'showSeries')
+SERIE_ASIA = (f'{URL_MAIN}category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%83%d9%88%d8%b1%d9%8a%d9%87/', 'showSeries')
+SERIE_HEND = (f'{URL_MAIN}category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%87%d9%86%d8%af%d9%8a%d8%a9/', 'showSeries')
+SERIE_EN = (f'{URL_MAIN}category/foreign-series/', 'showSeries')
+SERIE_AR = (f'{URL_MAIN}category/arabic-series/', 'showSeries')
+RAMADAN_SERIES = (f'{URL_MAIN}category/ramadan-series-2024/', 'showSeries')
 
-SPORT_WWE = (f'{URL_MAIN}/category/wwe-shows/', 'showMovies')
-ANIM_NEWS = (f'{URL_MAIN}/category/cartoon-series/', 'showSeries')
+SPORT_WWE = (f'{URL_MAIN}category/wwe-shows/', 'showMovies')
+ANIM_NEWS = (f'{URL_MAIN}category/cartoon-series/', 'showSeries')
 
-REPLAYTV_NEWS = (f'{URL_MAIN}/category/%D8%A8%D8%B1%D8%A7%D9%85%D8%AC-%D8%AA%D9%84%D9%81%D8%B2%D9%8A%D9%88%D9%86%D9%8A%D8%A9', 'showMovies')
-URL_SEARCH_MOVIES = (f'{URL_MAIN}/find/?find=', 'showMovies')
-URL_SEARCH_SERIES = (f'{URL_MAIN}/find/?find=', 'showSeries')
+REPLAYTV_NEWS = (f'{URL_MAIN}category/%D8%A8%D8%B1%D8%A7%D9%85%D8%AC-%D8%AA%D9%84%D9%81%D8%B2%D9%8A%D9%88%D9%86%D9%8A%D8%A9', 'showMovies')
+URL_SEARCH_MOVIES = (f'{URL_MAIN}find/?find=', 'showMovies')
+URL_SEARCH_SERIES = (f'{URL_MAIN}find/?find=', 'showSeries')
 FUNCTION_SEARCH = 'showMovies'
 
 
@@ -110,16 +110,16 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', REPLAYTV_NEWS[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'برامج تلفزيونية', 'brmg.png', oOutputParameterHandler)
 	
-    oOutputParameterHandler.addParameter('siteUrl', f'{URL_MAIN}/category/netfilx/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-netfilz/')
+    oOutputParameterHandler.addParameter('siteUrl', f'{URL_MAIN}category/netfilx/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-netfilz/')
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات Netfilx', 'agnab.png', oOutputParameterHandler)
     
-    oOutputParameterHandler.addParameter('siteUrl', f'{URL_MAIN}/category/netfilx/%d8%a7%d9%81%d9%84%d8%a7%d9%85-netfilx/')
+    oOutputParameterHandler.addParameter('siteUrl', f'{URL_MAIN}category/netfilx/%d8%a7%d9%81%d9%84%d8%a7%d9%85-netfilx/')
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'افلام Netfilx', 'agnab.png', oOutputParameterHandler)
 
-    oOutputParameterHandler.addParameter('siteUrl', f'{URL_MAIN}/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b1%d9%85%d8%b6%d8%a7%d9%86-2023/')
+    oOutputParameterHandler.addParameter('siteUrl', f'{URL_MAIN}category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b1%d9%85%d8%b6%d8%a7%d9%86-2023/')
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'رمضان 2023', 'rmdn.png', oOutputParameterHandler)
 
-    oOutputParameterHandler.addParameter('siteUrl', f'{URL_MAIN}/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b1%d9%85%d8%b6%d8%a7%d9%86-2022/')
+    oOutputParameterHandler.addParameter('siteUrl', f'{URL_MAIN}category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b1%d9%85%d8%b6%d8%a7%d9%86-2022/')
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'رمضان 2022', 'rmdn.png', oOutputParameterHandler)
 
     oGui.setEndOfDirectory()
@@ -129,7 +129,7 @@ def showSearch():
 
     sSearchText = oGui.showKeyBoard()    
     if sSearchText is not False:
-        sUrl = f'{URL_MAIN}/find/?find='+sSearchText
+        sUrl = f'{URL_MAIN}find/?find='+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -139,7 +139,7 @@ def showSeriesSearch():
 
     sSearchText = oGui.showKeyBoard()
     if sSearchText is not False:
-        sUrl = f'{URL_MAIN}/find/?find='+sSearchText
+        sUrl = f'{URL_MAIN}find/?find='+sSearchText
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -157,7 +157,7 @@ def showMovies(sSearch = ''):
  
     if sSearch:
         psearch = sUrl.split('?find=')[1]
-        oRequestHandler = cRequestHandler(f'{URL_MAIN}/wp-content/themes/Elshaikh2021/Ajaxat/SearchingTwo.php')
+        oRequestHandler = cRequestHandler(f'{URL_MAIN}wp-content/themes/Elshaikh2021/Ajaxat/SearchingTwo.php')
         oRequestHandler.addHeaderEntry('User-Agent', UA)
         oRequestHandler.addHeaderEntry('Referer', Quote(sUrl))
         oRequestHandler.addParameters('search', psearch)
@@ -192,7 +192,7 @@ def showMovies(sSearch = ''):
             if m:
                sYear = str(m.group(0))
 
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oOutputParameterHandler.addParameter('sYear', sYear)
@@ -237,7 +237,7 @@ def showPacks():
             sThumb = aEntry[1]
             sDesc = ''
 
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oOutputParameterHandler.addParameter('sDesc', sDesc)
@@ -282,7 +282,7 @@ def showPack():
                sYear = str(m.group(0))
                sTitle = sTitle.replace(sYear,'')
 			
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oOutputParameterHandler.addParameter('sYear', sYear)
@@ -305,7 +305,7 @@ def showSeries(sSearch = ''):
 
     if sSearch:
         psearch = sUrl.split('?find=')[1]
-        oRequestHandler = cRequestHandler(f'{URL_MAIN}/wp-content/themes/Elshaikh2021/Ajaxat/SearchingTwo.php')
+        oRequestHandler = cRequestHandler(f'{URL_MAIN}wp-content/themes/Elshaikh2021/Ajaxat/SearchingTwo.php')
         oRequestHandler.addHeaderEntry('User-Agent', UA)
         oRequestHandler.addHeaderEntry('Referer', Quote(sUrl))
         oRequestHandler.addParameters('search', psearch)
@@ -343,7 +343,7 @@ def showSeries(sSearch = ''):
 
             if sTitle not in itemList:
                 itemList.append(sTitle)	
-                oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+                oOutputParameterHandler.addParameter('siteUrl', siteUrl)
                 oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
                 oOutputParameterHandler.addParameter('sThumb', sThumb)
                 oOutputParameterHandler.addParameter('sDesc', sDesc)
@@ -379,7 +379,7 @@ def showSeasons():
         oOutputParameterHandler = cOutputParameterHandler() 
         for aEntry in aResult[1]:
 
-            siteUrl = f'{URL_MAIN}/wp-content/themes/Elshaikh2021/Ajaxat/Single/Episodes.php'
+            siteUrl = f'{URL_MAIN}wp-content/themes/Elshaikh2021/Ajaxat/Single/Episodes.php'
             sSeason = (cUtil().ConvertSeasons(aEntry[2])).strip()
             sTitle = f'{sMovieTitle} S{sSeason}'
             pseason = aEntry[1]
@@ -432,7 +432,7 @@ def showEps():
 
     oParser = cParser()
     if pseason:
-        oRequestHandler = cRequestHandler(f'{URL_MAIN}/wp-content/themes/Elshaikh2021/Ajaxat/Single/Episodes.php')
+        oRequestHandler = cRequestHandler(f'{URL_MAIN}wp-content/themes/Elshaikh2021/Ajaxat/Single/Episodes.php')
         oRequestHandler.addHeaderEntry('User-Agent', UA)
         oRequestHandler.addParameters('post_id', post)
         oRequestHandler.addParameters('season', pseason)

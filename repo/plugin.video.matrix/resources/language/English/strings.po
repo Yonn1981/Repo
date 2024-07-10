@@ -1440,3 +1440,23 @@ msgstr ""
 msgctxt "#70022"
 msgid "Use alternative site link"
 msgstr ""
+
+msgctxt "#70023"
+msgid "Cache Settings"
+msgstr ""
+
+msgctxt "#70024"
+msgid "Cache Expiration Time Unit"
+msgstr ""
+
+msgctxt "#70025"
+msgid "Cache Expiration Value"
+msgstr ""
+
+msgctxt "#70026"
+msgid "Clear Requests Cache"
+msgstr ""
+
+msgctxt "#70027"
+msgid "Enable Requests Cache"
+msgstr ""

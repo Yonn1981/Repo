@@ -213,9 +213,15 @@
     <!-- Outils -->
     <category label="30127">
         <setting label="30033" type="lsep"/>
-
         <setting type="sep"/>
         <setting id="debug" type="bool" label="30422" default="true"/>
+        
+        <setting type="sep"/>
+        <setting subsetting="true" label="70023" type="lsep"/>
+        <setting id="CachedSession" type="bool" label="70027" default="true"/>
+        <setting id="cache_expiration_time_unit" type="enum" values="hours|days|minutes" label="70024" default="hours"/>
+        <setting id="cache_expiration_value" type="number" label="70025" default="24"/>
+        <setting label="70026" type="action" action="RunScript(plugin.video.matrix, cache, ?site=globalRun&amp;function=cache)"/>
 
         <setting subsetting="true" label="30055" type="lsep"/>
         <setting label="Import/Export" type="action" action="RunScript(plugin.video.matrix, sauv, ?site=globalRun&amp;function=sauv)"/>

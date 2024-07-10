@@ -22,7 +22,7 @@
             <fanart>fanart.jpg</fanart>
         </assets>
     </extension>
-</addon><addon id="plugin.video.matrix" name="Matrix" version="6.4.0z" provider-name="Yonn1981">
+</addon><addon id="plugin.video.matrix" name="Matrix" version="2024.07.10" provider-name="Yonn1981">
     <requires>
 
         <trycatch>
@@ -40,6 +40,7 @@
         <import addon="script.module.requests" />
         <import addon="plugin.video.youtube" version="2.0.0" />
         <import addon="script.module.resolveurl" version="5.1.0" />
+        <import addon="script.module.requests-cache" version="0.5.2" />
         <import addon="script.module.dnspython" optional="true" />
         <import addon="plugin.video.torrest" optional="true" />
         <import addon="repository.github" optional="true" />

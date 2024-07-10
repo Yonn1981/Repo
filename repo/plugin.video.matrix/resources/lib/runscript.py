@@ -69,64 +69,31 @@ class cClear:
 
         elif (env == 'changelog'):
 
-            class XMLDialog(xbmcgui.WindowXMLDialog):
+            sUrl = 'https://api.github.com/repos/Yonn1981/repo/commits'
+            try:
+                oRequest = urllib2.Request(sUrl)
+                oResponse = urllib2.urlopen(oRequest)
 
-                def __init__(self, *args, **kwargs):
-                    xbmcgui.WindowXMLDialog.__init__(self)
-                    pass
+                if xbmc.getInfoLabel('system.buildversion')[0:2] >= '19':
+                    sContent = oResponse.read().decode('utf-8')
+                else:
+                    sContent = oResponse.read()
 
-                def onInit(self):
+                result = json.loads(sContent)
+                detailitems = []
 
-                    self.container = self.getControl(6)
-                    self.button = self.getControl(5)
-                    self.getControl(3).setVisible(False)
-                    self.getControl(1).setLabel('ChangeLog')
-                    self.button.setLabel('OK')
+                for item in result:
+                    login = item['author']['login']
+                    try:
+                        desc = item['commit']['message']
+                    except:
+                        desc = 'None'
+            
+                    detailitems.append(desc)
 
-                    sUrl = 'https://api.github.com/repos/Yonn1981/repo/commits'
-                    oRequest = urllib2.Request(sUrl)
-                    oResponse = urllib2.urlopen(oRequest)
-
-                    # En python 3 on doit décoder la reponse
-                    if xbmc.getInfoLabel('system.buildversion')[0:2] >= '19':
-                        sContent = oResponse.read().decode('utf-8')
-                    else:
-                        sContent = oResponse.read()
-
-                    result = json.loads(sContent)
-                    listitems = []
-
-                    for item in result:
-                        # autor
-                        icon = item['author']['avatar_url']
-                        login = item['author']['login']
-                        # message
-                        try:
-                            desc = item['commit']['message'].encode("utf-8")
-                        except:
-                            desc = 'None'
-
-                        listitem = xbmcgui.ListItem(label=login, label2=desc)
-                        listitem.setArt({'icon': icon, 'thumb': icon})
-                        listitems.append(listitem)
-
-                    self.container.addItems(listitems)
-                    self.setFocus(self.container)
-
-                def onClick(self, controlId):
-                    self.close()
-                    return
-
-                def onFocus(self, controlId):
-                    self.controlId = controlId
-
-                def _close_dialog(self):
-                    self.close()
-
-            path = "special://home/addons/plugin.video.matrix"
-            wd = XMLDialog('DialogSelect.xml', path, "Default")
-            wd.doModal()
-            del wd
+                    cClear.TextBoxes(self, f'[B][COLOR gold]{login}[/COLOR][/B]', "\n\n".join(map(str, detailitems)))
+            except:
+                self.DIALOG.VSerror("%s, %s" % (self.ADDON.VSlang(30205), sUrl))
             return
 
         elif (env == 'soutient'):
@@ -427,6 +394,18 @@ class cClear:
 
                 return
 
+        elif (env == 'cache'):
+            if self.DIALOG.VSyesno(self.ADDON.VSlang(30456)):
+                from requests_cache import CachedSession
+                CACHE = 'special://home/userdata/addon_data/plugin.video.matrix/requests_cache.db'
+                session = CachedSession(VSPath(CACHE))
+                try:
+                    session.cache.clear()
+                    self.DIALOG.VSok(self.ADDON.VSlang(30089))
+                except:
+                    self.DIALOG.VSerror(self.ADDON.VSlang(30096))
+            return
+
         elif (env == 'testpremium'):    # tester un compte premium
             from resources.lib.gui.hoster import cHosterGui
             oHoster = cHosterGui().getHoster("alldebrid")
@@ -477,7 +456,7 @@ class cClear:
         xbmc.sleep(100)
         # set heading
         win.getControl(1).setLabel(heading)
-        win.getControl(5).setText(anounce)
+        win.getControl(5).setText(str(anounce))
         return
 
 

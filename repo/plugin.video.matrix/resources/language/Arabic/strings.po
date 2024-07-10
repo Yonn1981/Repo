@@ -1041,7 +1041,7 @@ msgstr "Go to [COLOR teal]%s[CR]%s[/COLOR][CR],Valid Matrix, only then click YES
 
 msgctxt "#30422"
 msgid "Enable log records"
-msgstr "Enable log records"
+msgstr "تمكين سجلات الـ log"
 
 msgctxt "#30423"
 msgid "Search a Movie"
@@ -1440,3 +1440,23 @@ msgstr "اكتمل التحديث.. في حالة حدوث خطأ، قم بتح�
 msgctxt "#70022"
 msgid "Use alternative site link"
 msgstr "الرابط البديل للموقع"
+
+msgctxt "#70023"
+msgid "Cache Settings"
+msgstr "إعدادات ذاكرة التخزين المؤقت لمكتبة الـ Requests"
+
+msgctxt "#70024"
+msgid "Cache Expiration Time Unit"
+msgstr "وحدة الزمن للتخزين المؤقت"
+
+msgctxt "#70025"
+msgid "Cache Expiration Value"
+msgstr "مقدار الزمن لانتهاء التخزين المؤقت"
+
+msgctxt "#70026"
+msgid "Clear Requests Cache"
+msgstr "امسح ذاكرة التخزين المؤقت لمكتبة الـ Requests"
+
+msgctxt "#70027"
+msgid "Enable Requests Cache"
+msgstr "تمكين ذاكرة التخزين المؤقت لـ Requests"
