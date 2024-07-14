@@ -112,16 +112,16 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', SPORT_WWE[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'مصارعة', 'wwe.png', oOutputParameterHandler)
 
-    oOutputParameterHandler.addParameter('siteUrl', f'{URL_MAIN}/production/netflix/list/')
+    oOutputParameterHandler.addParameter('siteUrl', f'{URL_MAIN}production/netflix/list/')
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات Netfilx', 'agnab.png', oOutputParameterHandler)
 
-    oOutputParameterHandler.addParameter('siteUrl', f'{URL_MAIN}/production/warner-bros/list/')
+    oOutputParameterHandler.addParameter('siteUrl', f'{URL_MAIN}production/warner-bros/list/')
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات Warner Bros', 'agnab.png', oOutputParameterHandler)
 
-    oOutputParameterHandler.addParameter('siteUrl', f'{URL_MAIN}/production/lionsgate/list/')
+    oOutputParameterHandler.addParameter('siteUrl', f'{URL_MAIN}production/lionsgate/list/')
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات Lionsgate', 'agnab.png', oOutputParameterHandler)
 
-    oOutputParameterHandler.addParameter('siteUrl', f'{URL_MAIN}/production/walt-disney-pictures/list/')
+    oOutputParameterHandler.addParameter('siteUrl', f'{URL_MAIN}production/walt-disney-pictures/list/')
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات Walt Disney', 'agnab.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', URL_MAIN)
@@ -420,7 +420,13 @@ def showSeasons():
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
+    sSeason = oInputParameterHandler.getValue('sSeason')
     sThumb = oInputParameterHandler.getValue('sThumb')
+    sData = oInputParameterHandler.getValue('sData')
+    total_episodes = oInputParameterHandler.getValue('total_episodes')
+
+    if sSeason is False:
+        sSeason = 'S1'
 
     oParser = cParser()
     oRequestHandler = cRequestHandler(sUrl)
@@ -449,80 +455,75 @@ def showSeasons():
             oGui.addSeason(SITE_IDENTIFIER, 'showEps', sTitle1, '', sThumb, sDesc, oOutputParameterHandler)
 
     else: 
-        sPattern = '<a class="hoverable activable.+?href="([^"]+)".+?<episodeArea><episodeTitle>([^<]+)</episodeTitle>'
+        sPattern = '<a title="([^<]+)" href="([^<]+)"><div class="Quality".+?</span></div><span>([^<]+)</span>'
         aResult = oParser.parse(sHtmlContent, sPattern)
-        if aResult:
+        if aResult[0]:
             oOutputParameterHandler = cOutputParameterHandler()
             for aEntry in aResult[1]:
- 
-                sTitle = aEntry[1].replace("الحلقة","E").replace(" ","")
-                sTitle = f'{sMovieTitle} S01 {sTitle}'
-                siteUrl = aEntry[0]
-                sThumb = sThumb
-                sDesc = ""
-                sHoster = ""
+    
+                sTitle = aEntry[0]
+                siteUrl = aEntry[1]
+                sThumb = aEntry[2]
+                sDesc = aEntry[2]
+    
+                oOutputParameterHandler = cOutputParameterHandler()
                 oOutputParameterHandler.addParameter('siteUrl', siteUrl)
                 oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-                oOutputParameterHandler.addParameter('sHost', sHoster)
                 oOutputParameterHandler.addParameter('sThumb', sThumb)
                 oOutputParameterHandler.addParameter('sDesc', sDesc)
- 
+                
                 oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
- 
-    sPattern = '<a title="([^<]+)" href="([^"]+)".+?class="Quality".+?</span></div><span>([^<]+)</span>'
-    aResult = oParser.parse(sHtmlContent, sPattern) 
-    if aResult:
-        oOutputParameterHandler = cOutputParameterHandler()
-        for aEntry in aResult[1]:
- 
-            sTitle = aEntry[0]
-            siteUrl = aEntry[1]
-            sThumb = aEntry[2]
-            sDesc = ''
- 
-            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumb', sThumb)
-            oOutputParameterHandler.addParameter('sDesc', sDesc)
- 
-            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
-    sPattern = '<div class="MoreEpisodes.+?" data-term="([^<]+)">'
-    aResult = oParser.parse(sHtmlContent, sPattern)	
-    if aResult[0]:
-        oOutputParameterHandler = cOutputParameterHandler()  
-        for aEntry in aResult[1]:
-            
-            data = aEntry
-            oRequestHandler = cRequestHandler(f'{URL_MAIN}/AjaxCenter/MoreEpisodes/{data}/30/')
-            oRequestHandler.addHeaderEntry('User-Agent', UA)
-            r1 = oRequestHandler.request()
-            sHtmlContent1 = r1.content.decode('utf8').replace("\\","")
-            oRequestHandler = cRequestHandler(f'{URL_MAIN}/AjaxCenter/MoreEpisodes/{data}/70/')
-            oRequestHandler.addHeaderEntry('User-Agent', UA)
-            r2 = oRequestHandler.request()
-            sHtmlContent2 = r2.content.decode('utf8').replace("\\","")
-            oRequestHandler = cRequestHandler(f'{URL_MAIN}/AjaxCenter/MoreEpisodes/{data}/110/')
-            oRequestHandler.addHeaderEntry('User-Agent', UA)
-            r3 = oRequestHandler.request()
-            sHtmlContent3 = r3.content.decode('utf8').replace("\\","")
-            sHtmlContent = sHtmlContent1+sHtmlContent2+sHtmlContent3
+        sPattern = 'href=([^<]+)"><div.+?<episodeTitle>([^<]+)<'
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        if aResult[0]:
+            oOutputParameterHandler = cOutputParameterHandler()  
+            for aEntry in aResult[1]:
+    
+                siteUrl = aEntry[0].replace('"',"").replace('\\','')
+                sTitle = aEntry[1].replace("\\","")
+                sTitle = f'{sTitle.replace("u0627u0644u062du0644u0642u0629","").replace("الحلقة","").strip()}'
+                sTitle = f'{sMovieTitle} S{sSeason} E{sTitle}'
+                sThumb = sThumb
+                sDesc = ""
 
-            sPattern = 'href=([^<]+)"><div.+?<episodeTitle>([^<]+)<'
-            aResult = oParser.parse(sHtmlContent, sPattern)
-            if aResult[0]:
-                oOutputParameterHandler = cOutputParameterHandler()  
-                for aEntry in aResult[1]:
- 
-                    siteUrl = aEntry[0].replace('"',"")
-                    sTitle = f' E{aEntry[1].replace("u0627u0644u062du0644u0642u0629","")} {sMovieTitle}'
+                oOutputParameterHandler.addParameter('siteUrl', siteUrl)
+                oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+                oOutputParameterHandler.addParameter('sThumb', sThumb)
+
+                oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, '', oOutputParameterHandler)
+        
+        sPattern = '<div class="MoreEpisodes.+?" data-term="([^<]+)">'
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        if aResult[0]:
+            oOutputParameterHandler = cOutputParameterHandler()  
+            for aEntry in aResult[1]:
+                sData = aEntry
+
+                match = re.search('episodeTitle>(.+?)</episodeTitle>', sHtmlContent)
+                if match:
+                    total_episodes = (match.group(1)).replace('الحلقة','').strip()
+
+                base_link = f'{URL_MAIN}AjaxCenter/MoreEpisodes/{sData}/'
+                links = generate_links(total_episodes, base_link)
+                for aEntry in links:
+                    match = re.search(r'/(\d+)/$', aEntry)
+                    if match:
+                        pages = int(match.group(1))
+                    else:
+                        pages = 'Next'
+                    pTitle = f'[COLOR red]More Episodes: {pages}[/COLOR]'
+                    siteUrl = aEntry
                     sThumb = sThumb
-                    sDesc = ""
 
                     oOutputParameterHandler.addParameter('siteUrl', siteUrl)
-                    oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+                    oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
+                    oOutputParameterHandler.addParameter('sSeason', sSeason)
                     oOutputParameterHandler.addParameter('sThumb', sThumb)
-                    oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, '', oOutputParameterHandler)
+                    oOutputParameterHandler.addParameter('sData', sData)
+                    oOutputParameterHandler.addParameter('total_episodes', total_episodes)
+                        
+                    oGui.addDir(SITE_IDENTIFIER, 'showEps', pTitle, sThumb, oOutputParameterHandler)
  
     oGui.setEndOfDirectory() 
   
@@ -534,34 +535,15 @@ def showEps():
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sSeason = oInputParameterHandler.getValue('sSeason')
     sThumb = oInputParameterHandler.getValue('sThumb')
+    sData = oInputParameterHandler.getValue('sData')
+    total_episodes = oInputParameterHandler.getValue('total_episodes')
 
     oParser = cParser()
     oRequestHandler = cRequestHandler(sUrl)
     oRequestHandler.addHeaderEntry('User-Agent', UA)
-    oRequestHandler.addHeaderEntry('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
     oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
-    oRequestHandler.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
     sHtmlContent = oRequestHandler.request()
- 
-    sPattern = '<a class="hoverable activable.+?href="([^<]+)"><div class="Thumb"><span><i class="fa fa-play"></i></span></div><episodeArea><episodeTitle>([^<]+)</episodeTitle></episodeArea></a>'
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    if aResult[0]:
-        oOutputParameterHandler = cOutputParameterHandler()
-        for aEntry in aResult[1]:
-
-            sTitle = aEntry[1].replace("الحلقة ","E")
-            sTitle = f'{sMovieTitle}{sSeason}{sTitle}'
-            siteUrl = aEntry[0]
-            sThumb = sThumb
-            sDesc = ""
- 
-            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumb', sThumb) 
-            oOutputParameterHandler.addParameter('sDesc', sDesc)           
- 
-            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
-
+    
     sPattern = '<a title="([^<]+)" href="([^<]+)"><div class="Quality".+?</span></div><span>([^<]+)</span>'
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
@@ -581,46 +563,74 @@ def showEps():
             
             oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
+    sPattern = 'href=([^<]+)"><div.+?<episodeTitle>([^<]+)<'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    if aResult[0]:
+        oOutputParameterHandler = cOutputParameterHandler()  
+        for aEntry in aResult[1]:
+ 
+            siteUrl = aEntry[0].replace('"',"").replace('\\','')
+            sTitle = aEntry[1].replace("\\","")
+            sTitle = f'{sTitle.replace("u0627u0644u062du0644u0642u0629","").replace("الحلقة","").strip()}'
+            sTitle = f'{sMovieTitle} S{sSeason} E{sTitle}'
+            sThumb = sThumb
+            sDesc = ""
+
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
+
+            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, '', oOutputParameterHandler)
+    
     sPattern = '<div class="MoreEpisodes.+?" data-term="([^<]+)">'
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()  
         for aEntry in aResult[1]:
+            sData = aEntry
 
-            data = aEntry
-            oRequestHandler = cRequestHandler(f'{URL_MAIN}/AjaxCenter/MoreEpisodes/{data}/30/')
-            oRequestHandler.addHeaderEntry('User-Agent', UA)
-            r1 = oRequestHandler.request()
-            sHtmlContent1 = r1.content.decode('utf8').replace("\\","")
-            oRequestHandler = cRequestHandler(f'{URL_MAIN}/AjaxCenter/MoreEpisodes/{data}/70/')
-            oRequestHandler.addHeaderEntry('User-Agent', UA)
-            r2 = oRequestHandler.request()
-            sHtmlContent2 = r2.content.decode('utf8').replace("\\","")
-            oRequestHandler = cRequestHandler(f'{URL_MAIN}/AjaxCenter/MoreEpisodes/{data}/110/')
-            oRequestHandler.addHeaderEntry('User-Agent', UA)
-            r3 = oRequestHandler.request()
-            sHtmlContent3 = r3.content.decode('utf8').replace("\\","")
-            sHtmlContent = sHtmlContent1+sHtmlContent2+sHtmlContent3
+            match = re.search('episodeTitle>(.+?)</episodeTitle>', sHtmlContent)
+            if match:
+                total_episodes = (match.group(1)).replace('الحلقة','').strip()
 
-            sPattern = 'href=([^<]+)"><div.+?<episodeTitle>([^<]+)<'
-            aResult = oParser.parse(sHtmlContent, sPattern)
-            if aResult[0]:
-                oOutputParameterHandler = cOutputParameterHandler()  
-                for aEntry in aResult[1]:
- 
-                    siteUrl = aEntry[0].replace('"',"")
-                    sTitle = f'E{aEntry[1].replace("u0627u0644u062du0644u0642u0629","")}'
-                    sTitle = f'{sMovieTitle}{sSeason} {sTitle}'
-                    sThumb = sThumb
-                    sDesc = ""
+            base_link = f'{URL_MAIN}AjaxCenter/MoreEpisodes/{sData}/'
+            links = generate_links(total_episodes, base_link)
+            for aEntry in links:
+                match = re.search(r'/(\d+)/$', aEntry)
+                if match:
+                    pages = int(match.group(1))
+                else:
+                    pages = 'Next'
+                pTitle = f'[COLOR red]More Episodes: {pages}[/COLOR]'
+                siteUrl = aEntry
+                sThumb = sThumb
 
-                    oOutputParameterHandler.addParameter('siteUrl', siteUrl)
-                    oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-                    oOutputParameterHandler.addParameter('sThumb', sThumb)
-                    oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, '', oOutputParameterHandler)
- 
+                oOutputParameterHandler.addParameter('siteUrl', siteUrl)
+                oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
+                oOutputParameterHandler.addParameter('sSeason', sSeason)
+                oOutputParameterHandler.addParameter('sThumb', sThumb)
+                oOutputParameterHandler.addParameter('sData', sData)
+                oOutputParameterHandler.addParameter('total_episodes', total_episodes)
+                    
+                oGui.addDir(SITE_IDENTIFIER, 'showEps', pTitle, sThumb, oOutputParameterHandler)
+
     oGui.setEndOfDirectory() 
-	 
+
+def generate_links(total_episodes, base_link):
+    initial_episodes = 60
+    increment = 40
+    links = []
+    episodes = initial_episodes
+    while int(episodes) <= int(total_episodes):
+        link = f"{base_link}{episodes}/"
+        links.append(link)
+        episodes += increment
+
+    if links and int(links[-1].split('/')[-2]) > int(total_episodes):
+        links[-1] = f"{base_link}{total_episodes}/"
+
+    return links
+
 def showHosters():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()

@@ -498,7 +498,7 @@ def showHosters():
             sHosterUrl = sHosterUrl.split('&sub.info')[0]
         if 'Vidplay' in sHost:
             oHoster = cHosterGui().getHoster('mcloud')  
-        if '.xyz' in sHosterUrl:
+        elif '.xyz' in sHosterUrl:
             oHoster = cHosterGui().getHoster('filemoon')    
         else:
             oHoster = cHosterGui().checkHoster(sHosterUrl)
