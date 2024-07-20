@@ -49,7 +49,7 @@
         "animeup": {
             "label": "Anime4up",
             "active": "True",
-            "url": "https://anime4up.cam/"
+            "url": "https://ww.anime4up.cam/"
         },
         "animezid": {
             "label": "Animezid",
@@ -126,6 +126,11 @@
             "active": "True",
             "url": "https://www.beinsports.com/"
         },
+        "brstej": {
+            "label": "Brstej",
+            "active": "True",
+            "url": "https://ser.brstej.com/"
+        },
         "btolat": {
             "label": "Btolat",
             "active": "True",
@@ -166,6 +171,11 @@
             "active": "True",
             "cloudflare": "False",
             "url": "https://cinematy.store/"
+        },
+        "cinezone": {
+            "label": "CineZone",
+            "active": "True",
+            "url": "https://cinezone.to"
         },
         "coolcima": {
             "label": "CoolCima",
@@ -228,11 +238,6 @@
             "label": "Fnteam",
             "active": "True",
             "url": "https://www.fn-team.com/"
-        },
-        "fmovie": {
-            "label": "FMovies",
-            "active": "True",
-            "url": "https://fmovies24.to"
         },
         "fushaar": {
             "label": "Fushaar",
@@ -338,11 +343,6 @@
             "label": "Naqoos",
             "active": "True",
             "url": "https://naqoos.com/"
-        },
-        "prstej": {
-            "label": "Prstej",
-            "active": "True",
-            "url": "https://ser.brstej.com/"
         },
         "qfilm": {
             "label": "QFilm",

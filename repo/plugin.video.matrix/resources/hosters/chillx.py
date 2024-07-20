@@ -29,7 +29,7 @@ class cHoster(iHoster):
         r = s.get(self._url, headers=headers)
         sHtmlContent = r.text
 
-        key_response = requests.get("https://raw.githubusercontent.com/rushi-chavan/multi-keys/keys/keys.json")
+        key_response = requests.get("https://rowdy-avocado.github.io/multi-keys/")
         key_data = key_response.json()
         key = key_data['chillx']
         key = ''.join(key)

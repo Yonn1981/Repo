@@ -1,9 +1,11 @@
 #-*- coding: utf-8 -*-
 # Yonn1981 https://github.com/Yonn1981/Repo
+# Thanks https://github.com/Rowdy-Avocado/
 
-import re
 import requests
 import base64, json
+from urllib.parse import unquote
+from Cryptodome.Cipher import ARC4
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.hosters.hoster import iHoster
 from resources.lib.comaddon import dialog, VSlog
@@ -17,7 +19,7 @@ class cHoster(iHoster):
         iHoster.__init__(self, 'mcloud', 'mCloud/VizCLoud')
 
     def setUrl(self, url):
-        self._url = str(url).replace('+', '%2B').split('#')[0]
+        self._url = str(url).replace('+', '%2B').split('$')[0]
         self._url0 = str(url)
 
     def _getMediaLinkForGuest(self, autoPlay = False):
@@ -47,7 +49,23 @@ class cHoster(iHoster):
         else:
             SubTitle = ''
 
-        api_call = decodeVidstream(self._url)
+        my_keys = getKeys()
+        domain = self._url.split("/e/")[0]
+        id = self._url.split("/")[-1].split("?")[0]
+        encoded_id = encode(id, my_keys[0])
+        t = self._url.split("t=")[1].split("&")[0]
+        h = encode(id, my_keys[1])
+        media_url = f"{domain}/mediainfo/{encoded_id}?t={t}&h={h}"
+
+        response = requests.get(media_url)
+        
+        encoded_res = response.json().get('result')
+        decoded_res = decode(encoded_res, my_keys[2])
+        res = json.loads(decoded_res)
+        if 'sources' in res:
+            sList = json.loads(json.dumps(res))
+            api_call = sList['sources'][0]['file']
+                    
         api_call = api_call.replace('\\','')
 
         if api_call:
@@ -58,97 +76,25 @@ class cHoster(iHoster):
 
         return False, False
 
-def decodeVidstream(query):
-	from requests.compat import urlparse
-	link = ''
-	ref = query
-	hd ={'user-agent':  UA,'Referer': ref}
-	domain = urlparse(query).netloc
+def encode(input_str, key):
+        rc4_key = key.encode('utf-8')
+        cipher = ARC4.new(rc4_key)
+        encrypted_bytes = cipher.encrypt(input_str.encode('utf-8'))
+        return base64.urlsafe_b64encode(encrypted_bytes).decode('utf-8')
 
-	futokenurl = 'https://'+domain+'/futoken'
-	futoken = requests.get(futokenurl, headers={"Referer": query},verify=False).text
+def decode(input_str, key):
+        decoded_bytes = base64.urlsafe_b64decode(input_str)
+        rc4_key = key.encode('utf-8')
+        cipher = ARC4.new(rc4_key)
+        decrypted_bytes = cipher.decrypt(decoded_bytes)
+        decoded_string = decrypted_bytes.decode('utf-8')
+        return unquote(decoded_string)
 
-	k=re.findall("k='([^']+)'",futoken,re.DOTALL)[0]
-	if '.bz/' in query:
-		query = query.split('e/')[1].split('?')
-	else:
-		query = query.split('/e/')[1].split('?')
-    
-	v = encode_id(query[0])
-	a = [k];
-	for i in range(len(v)):
-		w = ord(k[i % len(k)])
-		z = ord(v[i])
-		x=int(w)+int(z)
-		a.append(str(x))#
-
-	urlk = 'https://'+domain+'/mediainfo/'+",".join(a)+'?'+query[1]
-
-	ff=requests.get(urlk, headers=hd,verify=False).text
-	if 'status":200' in ff:
-		srcs = (json.loads(ff)).get('result',None).get('sources',None)
-		for src in srcs:
-			fil = src.get('file',None)
-			if 'm3u8' in fil:
-				link = fil+'|User-Agent='+UA+'&Referer='+ref
-				break
-	
-	return link
-
-def encode_id(id_):
-	def endEN(t, n) :
-		return t + n;
-	
-	def rLMxL(t, n):
-		return t < n;
-	
-	def VHtgA (t, n) :
-		return t % n;
-	
-	def DxlFU(t, n) :
-		return rLMxL(t, n);
-	
-	def dec2(t, n) :
-		o=[]
-		s=[]
-		u=0
-		h=''
-		for e in range(256):
-			s.append(e)
-	
-		for e in range(256):
-			u = endEN(u + s[e],ord(t[e % len(t)])) % 256
-			o = s[e];
-			s[e] = s[u];
-			s[u] = o;
-		e=0
-		u=0
-		c=0
-		for c in range(len(n)):
-			e = (e + 1) % 256
-			o = s[e]
-			u = VHtgA(u + s[e], 256)
-			s[e] = s[u];
-			s[u] = o;
-			try:
-				h += chr((n[c]) ^ s[(s[e] + s[u]) % 256]);
-			except:
-				h += chr(ord(n[c]) ^ s[(s[e] + s[u]) % 256]);
-
-		return h
-		
-	# Credits to @Inside4ndroid for providing key - Thanks
-	klucze = requests.get('https://github.com/Inside4ndroid/vidkey-js/blob/main/keys.json')
-					   
-	matches = re.search(r"\"rawLines\":\s*\[\"(.+)\"\]", klucze.text)
-	k1, k2 = json.loads(matches.group(1).replace("\\", ""))
-
-	cbn = dec2(k1,id_)
-	cbn = cbn.encode('Latin_1')
-	cbn = dec2(k2,cbn)
-	cbn = cbn.encode('Latin_1')
-
-	vrfx = base64.b64encode(cbn)#
-	v = vrfx.decode('utf-8')
-	v = v.replace('/','_')
-	return v	
+def getKeys():
+        oRequestHandler = cRequestHandler("https://rowdy-avocado.github.io/multi-keys/")
+        res = oRequestHandler.request(jsonDecode=True)
+        if res is not None:
+             keys = res["vidplay"]
+        else:
+             keys = ["NeBk5CElH19ucfBU", "Z7YMUOoLEjfNqPAt", "eO74cTKZayUWH8x5"]
+        return keys

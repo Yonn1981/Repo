@@ -379,10 +379,6 @@ def showServer():
     oRequestHandler.addHeaderEntry('referer', URL_MAIN)
     sHtmlContent = oRequestHandler.request().replace("&#39;","'")
 
-    sStart = '<ul class="list_servers'
-    sEnd = '</div>'
-    sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
-
     sPattern = 'iframe src=["\']([^"\']+)["\']'
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
