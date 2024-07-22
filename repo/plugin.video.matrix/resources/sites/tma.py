@@ -11,6 +11,7 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.parser import cParser
 from resources.lib.comaddon import progress, addon, isMatrix, VSlog
 from resources.lib.tmdb import cTMDb
+from resources.lib.multihost import cVidsrcto
 
 UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36'
 
@@ -246,9 +247,20 @@ def showHosters():
         sResponse = requests.request("GET", sApi, headers=None, data=None)
         data = json.loads(sResponse.text)
         simdb_id = data["imdb_id"]
+        id = data.get("id")
+        original_title = data.get("original_title")
+        release_date = data.get("release_date")
+        year = None 
+
+        if release_date:
+            try:
+                year = release_date[:4]  
+            except (ValueError, IndexError):
+                VSlog("Error parsing year from release date")
+                pass
+
         sUrl = sUrl + simdb_id
 
-    from resources.lib.multihost import cVidsrcto
     try:
         sHosterUrl = f'https://vidsrc.to/embed/movie/{simdb_id}'
         aResult = cVidsrcto().GetUrls(sHosterUrl)
@@ -257,18 +269,19 @@ def showHosters():
                 sHosterUrl = aEntry
                 if '.site' in sHosterUrl:
                     oHoster = cHosterGui().getHoster('mcloud') 
+                elif '.xyz' in sHosterUrl:
+                    oHoster = cHosterGui().getHoster('filemoon') 
                 else:
                     oHoster = cHosterGui().checkHoster(sHosterUrl)
 
                 sDisplayTitle = sMovieTitle
                 
-                if oHoster != False:
+                if oHoster:
                     oHoster.setDisplayName(sDisplayTitle)
                     oHoster.setFileName(sMovieTitle)
-                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler) 
+                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb) 
 
     except:
         oGui.addText(SITE_IDENTIFIER, '[COLOR red]فشل الاتصال بالموقع ، حاول مرة أخرى[/COLOR]')
-        time.sleep(5)
 
     oGui.setEndOfDirectory()

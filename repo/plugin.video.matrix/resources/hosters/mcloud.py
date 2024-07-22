@@ -51,7 +51,7 @@ class cHoster(iHoster):
 
         my_keys = getKeys()
         domain = self._url.split("/e/")[0]
-        id = self._url.split("/")[-1].split("?")[0]
+        id = self._url.rsplit('/e/')[1].split('?', 1)[0]
         encoded_id = encode(id, my_keys[0])
         t = self._url.split("t=")[1].split("&")[0]
         h = encode(id, my_keys[1])

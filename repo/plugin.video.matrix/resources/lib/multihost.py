@@ -4,13 +4,12 @@
 from resources.lib.parser import cParser
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import VSlog
-
+from Cryptodome.Cipher import ARC4
+from urllib.parse import unquote, quote, urlparse
 import re
 import requests, base64
-from urllib.parse import unquote
 
 UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0'
-
 
 class cMultiup:
     def __init__(self):
@@ -143,6 +142,11 @@ class cMegamax:
         return self.list 
 
 class cVidsrcto:
+    oRequestHandler = cRequestHandler("https://raw.githubusercontent.com/Ciarands/vidsrc-keys/main/keys.json")
+    res = oRequestHandler.request(jsonDecode=True)
+    if res is not None:
+        keys = (res["encrypt"][0], res["decrypt"][0])
+
     def __init__(self):
         self.id = ''
         self.list = []
@@ -169,13 +173,15 @@ class cVidsrcto:
         return self.list 
 
     def get_sources(self, data_id) -> dict:
-        req = requests.get(f"https://vidsrc.to/ajax/embed/episode/{data_id}/sources")
+        encoded_id = cVidsrcto.vrf_encrypt(self.keys[0], data_id)
+        req = requests.get(f"https://vidsrc.to/ajax/embed/episode/{data_id}/sources?token={encoded_id}")
         data = req.json()
 
         return {video.get("title"): video.get("id") for video in data.get("result")}    
 
     def get_source_url(self, source_id) -> str:
-        req = requests.get(f"https://vidsrc.to/ajax/embed/source/{source_id}")
+        encoded_source = cVidsrcto.vrf_encrypt(self.keys[0], source_id)
+        req = requests.get(f"https://vidsrc.to/ajax/embed/source/{source_id}?token={encoded_source}")
         data = req.json()
 
         encrypted_source_url = data.get("result", {}).get("url")
@@ -183,38 +189,28 @@ class cVidsrcto:
 
     def decrypt_source_url(self, source_url) -> str:
         encoded = self.decode_base64_url_safe(source_url)
-        decoded = self.decode(encoded)
-        decoded_text = decoded.decode('utf-8')
+        decoded = cVidsrcto.vrf_decrypt(self.keys[1], encoded)
 
-        return unquote(decoded_text)       
+        return unquote(decoded)       
     
-    def decode_base64_url_safe(self, s) -> bytearray:
+    def decode_base64_url_safe(self, s) -> str:
         standardized_input = s.replace('_', '/').replace('-', '+')
-        binary_data = base64.b64decode(standardized_input)
+        return standardized_input
 
-        return bytearray(binary_data)
-    
-    def decode(self, str) -> bytearray:
-        key_bytes = bytes('WXrUARXb1aDLaZjI', 'utf-8')
-        j = 0
-        s = bytearray(range(256))
+    def vrf_encrypt(key: str, input: str) -> str:
+        cipher = ARC4.new(key.encode())
+        vrf = cipher.encrypt(input.encode())
+        vrf_base64 = base64.urlsafe_b64encode(vrf).decode('utf-8')
+        string_vrf = quote(vrf_base64)
+        return string_vrf
 
-        for i in range(256):
-            j = (j + s[i] + key_bytes[i % len(key_bytes)]) & 0xff
-            s[i], s[j] = s[j], s[i]
+    def vrf_decrypt(key: str, input: str) -> str:
+        vrf_base64 = unquote(input)
+        vrf = base64.urlsafe_b64decode(vrf_base64.encode('utf-8'))
 
-        decoded = bytearray(len(str))
-        i = 0
-        k = 0
-
-        for index in range(len(str)):
-            i = (i + 1) & 0xff
-            k = (k + s[i]) & 0xff
-            s[i], s[k] = s[k], s[i]
-            t = (s[i] + s[k]) & 0xff
-            decoded[index] = str[index] ^ s[t]
-
-        return decoded
+        cipher = ARC4.new(key.encode())
+        decrypted_vrf = cipher.decrypt(vrf)
+        return decrypted_vrf.decode('utf-8')
 
 class cVidsrcnet:
     def __init__(self):
