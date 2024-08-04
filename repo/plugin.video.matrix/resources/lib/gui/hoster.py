@@ -258,7 +258,8 @@ class cHosterGui:
         streamwish = next((x for x in ['streamwish', 'khadhnayad', 'ajmidyad', 'yadmalik', 'kharabnah', 'hayaatieadhab', 'sfastwish', 'eghjrutf', 'eghzrutw',
                             'wishfast', 'fviplions', 'egtpgrvh', 'mdy48tn97', 'embedwish', 'fsdcmo.sbs', 'anime4low', 'cdnwish-down', 'heavenlyvideo', 'strwish',
                             'flaswish', 'streamzid', 'cimawish', 'egopxutd', 'obeywish', 'trgsfjll', 'mdbekjwqa', 'uqloads', 'm3lomatik', 'cdnwish', 'ma2d',
-                            'mohahhda', 'asnwish', 'jodwish', 'cinemathek', 'swhoi', 'dancima', 'warda', 'gsfqzmqu', 'swdyu', 'cinemabest.online', 'zidwish'] if x in sHostName), None)
+                            'mohahhda', 'asnwish', 'jodwish', 'cinemathek', 'swhoi', 'dancima', 'warda', 'gsfqzmqu', 'swdyu', 'cinemabest.online', 'zidwish',
+                            'wishonly'] if x in sHostName), None)
         if streamwish:
             return self.getHoster('streamwish')
 
@@ -318,7 +319,7 @@ class cHosterGui:
             return self.getHoster('mixdrop')
 
         # Mcloud Clone
-        mcloud = next((x for x in ['mcloud', 'vizcloud', 'vidstream', 'vidplay', '55a0716b8c', 'e69975b881', 'c8365730d4'] if x in sHostName), None)
+        mcloud = next((x for x in ['mcloud', 'vizcloud', 'vidstream', 'vidplay', '55a0716b8c', 'e69975b881', 'c8365730d4', 'vid2faf'] if x in sHostName), None)
         if mcloud:    
             return self.getHoster('mcloud')
 
@@ -404,10 +405,10 @@ class cHosterGui:
         if ('lanesh' in sHosterUrl):
             return self.getHoster('lanesh')
 
-        if ('lulustream' in sHosterUrl) or ('luluvdo' in sHostName) or ('luluvid' in sHostName):
+        if ('lulustream' in sHosterUrl) or ('luluvdo' in sHostName) or ('luluvid' in sHostName) or ('lulu.st' in sHostName) or ('732eg54de642sa' in sHostName):
             return self.getHoster('lulustream')
 
-        if ('rubystream' in sHosterUrl) or ('tuktukmulti' in sHostName) or ('stmruby' in sHostName) or ('streamruby' in sHostName):
+        if ('rubystream' in sHosterUrl) or ('tuktukmulti' in sHostName) or ('stmruby' in sHostName) or ('streamruby' in sHostName) or ('rubystm' in sHostName):
             return self.getHoster('rubystream')
 
         if ('asiawiki' in sHostName):

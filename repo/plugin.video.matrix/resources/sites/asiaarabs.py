@@ -77,7 +77,7 @@ def showMovies(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  
-    sPattern = "<a class='Img-Holder thumb' href='([^<]+)' title='([^<]+)'>.+?rel='tag'>(.+?)</span>.+?class='post-thumb' data-src='([^<]+)' height"
+    sPattern = "<a class='Img-Holder thumb' href='([^<]+)' title='([^<]+)'>.+?class='post-thumb' data-src='([^<]+)'.+?<div class='Short_content'>(.+?)</div>"
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
         total = len(aResult[1])
@@ -94,8 +94,8 @@ def showMovies(sSearch = ''):
  
             sTitle = cUtil().CleanMovieName(aEntry[1])
             siteUrl = aEntry[0]
-            sThumb = aEntry[3]
-            sDesc = aEntry[2]
+            sThumb = aEntry[2]
+            sDesc = cUtil().unescape(aEntry[3])
             sYear = ''
             m = re.search('([0-9]{4})', sTitle)
             if m:
@@ -110,27 +110,11 @@ def showMovies(sSearch = ''):
 
         progress_.VSclose(progress_)
 
-    sPattern = "href='([^<]+)' id='.+?' title='(.+?)'>"
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    if aResult[0]:
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        oOutputParameterHandler = cOutputParameterHandler()    
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
-            if "youtube" in aEntry[1] or "google" in aEntry[1]:
-                continue
- 
-            sTitle =   f'[COLOR red]Page: {aEntry[1]}[/COLOR]'
-            siteUrl = aEntry[0]
-
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-			
-            oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle, 'next.png', oOutputParameterHandler)
-
-        progress_.VSclose(progress_)
+        sNextPage = __checkForNextPage(sHtmlContent)
+        if sNextPage:
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
+            oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
  
     if not sSearch:
         oGui.setEndOfDirectory()
@@ -148,7 +132,7 @@ def showSeries(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  
-    sPattern = "<a class='Img-Holder thumb' href='([^<]+)' title='([^<]+)'>.+?rel='tag'>(.+?)</span>.+?class='post-thumb' data-src='([^<]+)' height"
+    sPattern = "<a class='Img-Holder thumb' href='([^<]+)' title='([^<]+)'>.+?class='post-thumb' data-src='([^<]+)'.+?<div class='Short_content'>(.+?)</div>"
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
         total = len(aResult[1])
@@ -165,8 +149,8 @@ def showSeries(sSearch = ''):
  
             sTitle = cUtil().CleanSeriesName(aEntry[1])
             siteUrl = aEntry[0]
-            sThumb = aEntry[3]
-            sDesc = aEntry[2]
+            sThumb = aEntry[2]
+            sDesc = cUtil().unescape(aEntry[3])
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -176,27 +160,11 @@ def showSeries(sSearch = ''):
 
         progress_.VSclose(progress_)
 
-    sPattern = "href='([^<]+)' id='.+?' title='(.+?)'>"
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    if aResult[0]:
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        oOutputParameterHandler = cOutputParameterHandler()    
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
-            if "youtube" in aEntry[1] or "google" in aEntry[1]:
-                continue
- 
-            sTitle =   f'[COLOR red]Page: {aEntry[1]}[/COLOR]'
-            siteUrl = aEntry[0]
-
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-			
-            oGui.addDir(SITE_IDENTIFIER, 'showSeries', sTitle, 'next.png', oOutputParameterHandler)
-
-        progress_.VSclose(progress_)
+        sNextPage = __checkForNextPage(sHtmlContent)
+        if sNextPage:
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
+            oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
  
     if not sSearch:
         oGui.setEndOfDirectory()
@@ -338,7 +306,16 @@ def showEpisodes():
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
        
     oGui.setEndOfDirectory()
-  
+
+def __checkForNextPage(sHtmlContent):
+    oParser = cParser()
+    sPattern = "<div class='loadMore'>(.+?) title='NextUrl'></a>"
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    if aResult[0] :
+        return aResult[1][0].split("href='")[1].replace("'","")
+
+    return False
+
 def showHosters():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()

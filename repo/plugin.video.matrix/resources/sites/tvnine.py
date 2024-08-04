@@ -21,10 +21,8 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-SPORT_LIVE = (f'{URL_MAIN}p/tv96.html?m=1', 'showMovies')
+SPORT_LIVE = ('https://go.radar2.com/p/footyy.html?m=1', 'showMovies')
 
-FUNCTION_SEARCH = 'showMovies'
- 
 def load():
     oGui = cGui()
 
@@ -35,16 +33,15 @@ def load():
     oGui.setEndOfDirectory()
 
    
-def showMovies(sSearch = ''):
+def showMovies():
     oGui = cGui()
 
-    if sSearch:
-      sUrl = sSearch
-    else:
-        oInputParameterHandler = cInputParameterHandler()
-        sUrl = oInputParameterHandler.getValue('siteUrl')
+    oInputParameterHandler = cInputParameterHandler()
+    sUrl = oInputParameterHandler.getValue('siteUrl')
 
     oRequestHandler = cRequestHandler(sUrl)
+    oRequestHandler.addHeaderEntry('User-Agent', UA)
+    oRequestHandler.addHeaderEntry('Referer', URL_MAIN)
     sHtmlContent = oRequestHandler.request()
  
     sPattern = '<div class="containerMatch"><a href="([^"]+)".+?<div style="font-weight: bold">(.+?)</div>.+?<div class="matchTime">(.+?)</div>.+?<div style="font-weight: bold">(.+?)</div>'
@@ -76,8 +73,7 @@ def showMovies(sSearch = ''):
         
         progress_.VSclose(progress_)
  
-    if not sSearch:
-        oGui.setEndOfDirectory()
+    oGui.setEndOfDirectory()
 
 def showLive():
     oGui = cGui()

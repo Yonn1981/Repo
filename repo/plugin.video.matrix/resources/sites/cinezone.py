@@ -525,10 +525,10 @@ def __checkForNextPage(sHtmlContent):
     return False
 
 def getKeys():
-    oRequestHandler = cRequestHandler("https://rowdy-avocado.github.io/multi-keys/")
+    oRequestHandler = cRequestHandler("https://raw.githubusercontent.com/Yonn1981/Repo/master/repo/plugin.video.matrix/resources/extra/keys.json")
     res = oRequestHandler.request(jsonDecode=True)
     if res is not None:
-        keys = (res["cinezone"][0], res["cinezone"][1])
+        keys = (res["Cinezone"][0], res["Cinezone"][1])
     else:
         raise Exception("Unable to fetch keys")
     return keys

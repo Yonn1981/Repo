@@ -27,7 +27,6 @@ MOVIE_HI = (f'{URL_MAIN}section.php?sidebarID=12', 'showMovies')
 KID_MOVIES = (f'{URL_MAIN}section.php?sidebarID=8', 'showMovies')
 MOVIE_TOP = (f'{URL_MAIN}section.php?sidebarID=11', 'showMovies')
 MOVIE_PACK = (URL_MAIN , 'showPack')
-MOVIE_ANNEES = (URL_MAIN , 'showYears')
 
 SERIE_EN = (f'{URL_MAIN}series/', 'showSeries')
 
@@ -65,9 +64,6 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_PACK[0])
     oGui.addDir(SITE_IDENTIFIER, 'showPack', 'أقسام الموقع', 'listes.png', oOutputParameterHandler)
 
-    oOutputParameterHandler.addParameter('siteUrl', MOVIE_ANNEES[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showYears', 'أفلام بالسنة', 'listes.png', oOutputParameterHandler)
-
     oGui.setEndOfDirectory()
  
 def showSearch():
@@ -88,38 +84,6 @@ def showSeriesSearch():
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
-
-def showYears():
-    oGui = cGui()
-    
-    oInputParameterHandler = cInputParameterHandler()
-    sUrl = oInputParameterHandler.getValue('siteUrl')
-
-    oParser = cParser() 
-    oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
-
-    sStart = '<ul class="menu"'
-    sEnd = '<button class'
-    sHtmlContent1 = oParser.abParse(sHtmlContent, sStart, sEnd)
-
-    sPattern = '<a href="([^"]+)".+?<li>(.+?)</li>'
-    aResult = oParser.parse(sHtmlContent1, sPattern)	
-    if aResult[0]:
-        oOutputParameterHandler = cOutputParameterHandler()
-        for aEntry in aResult[1]:
-            if 'soon' in aEntry[0] or 'alt=' in aEntry[1]:
-                continue 
-            sTitle = aEntry[1]
-            siteUrl = f'{URL_MAIN}{aEntry[0]}'
-			
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-			
-            oGui.addMisc(SITE_IDENTIFIER, 'showMovies', sTitle, 'annees.png', '', '', oOutputParameterHandler)
- 
-    oGui.setEndOfDirectory()
 
 def showPack():
     oGui = cGui()
@@ -185,7 +149,8 @@ def showMovies(sSearch = ''):
         oRequestHandler.addHeaderEntry('Origin', getHost(sUrl))
         sHtmlContent = oRequestHandler.request()
 
-        sPattern = '<div class="card">\s*<a href="([^"]+)".+?src="([^"]+)".+?alt="([^"]+)'
+        sPattern = '<div class="card.+?<a href="([^"]+)".+?src="([^"]+)".+?alt="([^"]+)"'
+        sPattern += '.+?<h3 class="movice-name">(.+?)</h3>'
 
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
@@ -206,11 +171,16 @@ def showMovies(sSearch = ''):
                 sThumb = f'{URL_MAIN}{sThumb}'
             sDesc = ''
             sYear = ''
-            m = re.search('([0-9]{4})', sTitle)
-            if m:
-                sYear = str(m.group(0))
+            try:
+                m = re.search(r'\((\d{4})\)', aEntry[3])
+                if m:
+                    sYear = str(m.group(1))
+            except:
+                m = re.search(r'\((\d{4})\)', aEntry[2])
+                if m:
+                    sYear = str(m.group(1))  
 
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oOutputParameterHandler.addParameter('sYear', sYear)
@@ -268,7 +238,7 @@ def showSeries(sSearch = ''):
         oRequestHandler.addHeaderEntry('Origin', getHost(sUrl))
         sHtmlContent = oRequestHandler.request()
 
-        sPattern = '<div class="card">\s*<a href="([^"]+)".+?data-src="([^"]+)".+?alt="([^"]+)'
+        sPattern = '<div class="card.+?<a href="([^"]+)".+?data-src="([^"]+)".+?alt="([^"]+)'
 
     itemList = []	
     aResult = oParser.parse(sHtmlContent, sPattern)

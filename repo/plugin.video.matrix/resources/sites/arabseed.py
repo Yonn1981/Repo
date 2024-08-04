@@ -83,6 +83,9 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', KID_MOVIES[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام كرتون', 'anim.png', oOutputParameterHandler)
 
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_DUBBED[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام مدبلجة', 'mdblg.png', oOutputParameterHandler) 
+
     oOutputParameterHandler.addParameter('siteUrl', SERIE_EN[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أجنبية', 'agnab.png', oOutputParameterHandler)
 

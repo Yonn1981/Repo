@@ -91,10 +91,8 @@ def decode(input_str, key):
         return unquote(decoded_string)
 
 def getKeys():
-        oRequestHandler = cRequestHandler("https://rowdy-avocado.github.io/multi-keys/")
+        oRequestHandler = cRequestHandler("https://raw.githubusercontent.com/Yonn1981/Repo/master/repo/plugin.video.matrix/resources/extra/keys.json")
         res = oRequestHandler.request(jsonDecode=True)
         if res is not None:
-             keys = res["vidplay"]
-        else:
-             keys = ["NeBk5CElH19ucfBU", "Z7YMUOoLEjfNqPAt", "eO74cTKZayUWH8x5"]
+             keys = res["Vidplay"]
         return keys

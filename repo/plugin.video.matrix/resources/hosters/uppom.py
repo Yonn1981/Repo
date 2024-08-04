@@ -26,56 +26,65 @@ class cHoster(iHoster):
             self._url = self._url.replace("embed-","")
 
     def _getMediaLinkForGuest(self, autoPlay = False):
+         VSlog(self._url)
          oParser = cParser() 
-
-         if 'https' in self._url:
-            d = re.findall('https://(.*?)/([^<]+)',self._url)
-
+         if '|Referer=' in self._url:
+            sReferer = self._url.split('|Referer=')[1]
+            self._url = self._url.split('|Referer=')[0]
          else:
-            d = re.findall('http://(.*?)/([^<]+)',self._url)
-
-         for aEntry in d:
-            sHost= aEntry[0]
-            sID= aEntry[1]
-            if '/' in sID:
-               sID = sID.split('/')[0]
-         sLink= 'http://'+sHost+'/'+sID     
-  
-         api_call = Unquote(self._url2)  
+            sReferer = self._url
 
          Sgn=requests.Session()
-         UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101 Firefox/68.0'
-         headers = {
-            'Origin': 'http://{0}'.format(sHost),
-            'Referer': sLink,
-            'User-Agent': UA}
-         sHtmlContent = Sgn.get(self._url, headers=headers).text
-         data = helpers.get_hidden(sHtmlContent)
-         _r = Sgn.post(sLink,headers=headers,data=data)
-         sHtmlContent = _r.content.decode('utf8',errors='ignore')
+         if 'key=' in self._url:
+            return True, f'{self._url}|Referer={sReferer}'
 
-         sPattern = 'id="direct_link".+?href="([^"]+)'
-         aResult = oParser.parse(sHtmlContent,sPattern)
-         if aResult[0]:
-            api_call = aResult[1][0].replace(' ', '%20')
-         
          else:
-            sLink= 'http://'+sHost+'/embed-'+sID+'.html'
+            if 'https' in self._url:
+               d = re.findall('https://(.*?)/([^<]+)',self._url)
 
-            sHtmlContent = Sgn.get(sLink, headers=headers).text
-            sPattern = '(\s*eval\s*\(\s*function\(p,a,c,k,e(?:.|\s)+?)<\/script>'
-            aResult = oParser.parse(sHtmlContent, sPattern)
+            else:
+               d = re.findall('http://(.*?)/([^<]+)',self._url)
 
-            if aResult[0] is True:
-               sHtmlContent = cPacker().unpack(aResult[1][0])
-        
-            sPattern = 'file:["\']([^"\']+)'
-            aResult = oParser.parse(sHtmlContent, sPattern)
+            for aEntry in d:
+               sHost= aEntry[0]
+               sID= aEntry[1]
+               if '/' in sID:
+                  sID = sID.split('/')[0]
+            sLink= 'http://'+sHost+'/'+sID     
+   
+            api_call = Unquote(self._url2)  
 
-            if aResult[0] is True:
-               api_call = aResult[1][0]
+            headers = {
+               'Origin': 'http://{0}'.format(sHost),
+               'Referer': sLink,
+               'User-Agent': UA}
+            sHtmlContent = Sgn.get(self._url, headers=headers).text
+            data = helpers.get_hidden(sHtmlContent)
+            _r = Sgn.post(sLink,headers=headers,data=data)
+            sHtmlContent = _r.content.decode('utf8',errors='ignore')
+
+            sPattern = 'id="direct_link".+?href="([^"]+)'
+            aResult = oParser.parse(sHtmlContent,sPattern)
+            if aResult[0]:
+               api_call = aResult[1][0].replace(' ', '%20')
+            
+            else:
+               sLink= 'http://'+sHost+'/embed-'+sID+'.html'
+
+               sHtmlContent = Sgn.get(sLink, headers=headers).text
+               sPattern = '(\s*eval\s*\(\s*function\(p,a,c,k,e(?:.|\s)+?)<\/script>'
+               aResult = oParser.parse(sHtmlContent, sPattern)
+
+               if aResult[0] is True:
+                  sHtmlContent = cPacker().unpack(aResult[1][0])
          
-         if api_call:
-             return True, api_call
+               sPattern = 'file:["\']([^"\']+)'
+               aResult = oParser.parse(sHtmlContent, sPattern)
+
+               if aResult[0] is True:
+                  api_call = aResult[1][0]
+            
+            if api_call:
+               return True, api_call
 
          return False, False

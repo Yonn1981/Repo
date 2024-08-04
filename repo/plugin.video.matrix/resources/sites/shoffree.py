@@ -572,27 +572,50 @@ def showHosters():
             url = aEntry
             if '?url' in url:
                 url = url.split('?url=')[1]
-            if 'shoffree' in url:
+            if 'shofcd' in url:
                 try:
                     oRequestHandler = cRequestHandler(url)
                     oRequestHandler.addHeaderEntry('User-Agent', UA)
                     oRequestHandler.addHeaderEntry('Referer', sUrl.encode('utf-8'))
-                    sHtmlContent = oRequestHandler.request()  
-                    sLink = oRequestHandler.getRealUrl()
-                    url = sLink.split('&role')[0]
-                    url = f'{sLink.split("?key=")[0]}?key={Quote(url.split("?key=")[1])}'
+                    sHtmlContent = oRequestHandler.request() 
+
+                    sPattern =  '<div id="player">.+?src="([^"]+)' 
+                    aResult = oParser.parse(sHtmlContent,sPattern)
+                    if aResult[0]:
+                        nUrl = aResult[1][0] 
+                        oRequestHandler = cRequestHandler(nUrl)
+                        oRequestHandler.addHeaderEntry('User-Agent', UA)
+                        oRequestHandler.addHeaderEntry('Referer', url.encode('utf-8'))
+                        sHtmlContent = oRequestHandler.request() 
+
+                        sPattern = '"file":"([^"]+)","label":"([^"]+)'
+                        aResult = oParser.parse(sHtmlContent, sPattern)
+                        if aResult[0]:
+                            for aEntry in aResult[1]:
+                                pUrl = aEntry[0]
+                                sQual = aEntry[1]
+
+                                sHosterUrl = f'{pUrl}|Referer={url}'
+                                oHoster = cHosterGui().getHoster('lien_direct')
+                                if oHoster:
+                                    oHoster.setDisplayName(f'{sMovieTitle} ({sQual})')
+                                    oHoster.setFileName(sMovieTitle)
+                                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+
                 except:
                     url = ''
-            sHosterUrl = url
-            if 'userload' in sHosterUrl:
-                sHosterUrl = f'{sHosterUrl}|Referer={URL_MAIN}'
-            if 'shoffree' in sHosterUrl:
-                sHosterUrl = f'{sHosterUrl}|Referer={sUrl}'
+            
+            else:
+                sHosterUrl = url
+                if 'userload' in sHosterUrl:
+                    sHosterUrl = f'{sHosterUrl}|Referer={URL_MAIN}'
+                if 'shoffree' in sHosterUrl:
+                    sHosterUrl = f'{sHosterUrl}|Referer={sUrl}'
 
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if oHoster:
-                oHoster.setDisplayName(sMovieTitle)
-                oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                oHoster = cHosterGui().checkHoster(sHosterUrl)
+                if oHoster:
+                    oHoster.setDisplayName(sMovieTitle)
+                    oHoster.setFileName(sMovieTitle)
+                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
     oGui.setEndOfDirectory()

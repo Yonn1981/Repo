@@ -44,10 +44,10 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', ANIM_MOVIES[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام انمي', 'anime.png', oOutputParameterHandler)
 
-    oOutputParameterHandler.addParameter('siteUrl', f'{URL_MAIN}/anime-status/%d9%8a%d8%b9%d8%b1%d8%b6-%d8%a7%d9%84%d8%a7%d9%86/')
+    oOutputParameterHandler.addParameter('siteUrl', f'{URL_MAIN}anime-status/%d9%8a%d8%b9%d8%b1%d8%b6-%d8%a7%d9%84%d8%a7%d9%86/')
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'يعرض الان', 'anime.png', oOutputParameterHandler) 
 
-    oOutputParameterHandler.addParameter('siteUrl', f'{URL_MAIN}/anime-season/%D8%B4%D8%AA%D8%A7%D8%A1-2023/')
+    oOutputParameterHandler.addParameter('siteUrl', f'{URL_MAIN}anime-season/صيف-2024/')
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أنميات الموسم', 'anime.png', oOutputParameterHandler) 
 
     oOutputParameterHandler.addParameter('siteUrl', ANIM_LIST[0])
@@ -283,21 +283,22 @@ def showHosters():
     sHtmlContent = oRequestHandler.request()
     oParser = cParser()
 
-    sStart = 'id="episode-servers">'
-    sEnd = 'class="videoWrapper'
-    sHtmlContent1 = oParser.abParse(sHtmlContent, sStart, sEnd)
-
-    sPattern = 'data-url=["\']([^"\']+)["\'].+?class="notice">(.+?)</span>'
-    aResult = oParser.parse(sHtmlContent1, sPattern)
+    sPattern = r'var server\w+ = ({.*});'
+    aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
-        for aEntry in reversed(aResult[1]):
+        sHtmlContent = aResult[1]
 
-            url = base64.b64decode(aEntry[0]).decode('utf8',errors='ignore')
-            sTitle = aEntry[1]
-            if url.startswith('//'):
-               url = 'http:' + url
-            if 'yona' in url:
-                    url = url + '&apiKey=7d942435-c790-405c-8381-f682a274b437'
+        sPattern = '"([^"]+)":"([^"]+)'
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        if aResult[0] :       
+            for aEntry in aResult[1]:
+
+                url = base64.b64decode(aEntry[1]).decode('utf8',errors='ignore')
+                sTitle = aEntry[0]
+                if url.startswith('//'):
+                    url = 'http:' + url
+                if 'yona' in url:
+                    url = url + '&apiKey=8fda55fb-7bd4-42a9-b99a-2d41505c1d8d'
                     oRequestHandler = cRequestHandler(url)
                     oRequestHandler.addHeaderEntry('User-Agent', UA)
                     oRequestHandler.addHeaderEntry('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
@@ -325,39 +326,12 @@ def showHosters():
                                 oHoster.setFileName(sMovieTitle)
                                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)                 
 
-            sHosterUrl = url
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if oHoster:
-               sDisplayTitle = f'{sMovieTitle} [COLOR coral]({sTitle})[/COLOR]'
-               oHoster.setDisplayName(sDisplayTitle)
-               oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-
-    sStart = '<div class="content episode-download-container">'
-    sEnd = '<div class="content">'
-    sHtmlContent0 = oParser.abParse(sHtmlContent, sStart, sEnd)
-
-    sPattern = '<li>(.+?)</li>(.+?)</div>'
-    aResult = oParser.parse(sHtmlContent0, sPattern)
-    if aResult[0] :       
-        for aEntry in reversed(aResult[1]):
-            sQual = aEntry[0].replace("الخارقة ","").replace(" العالية","").replace("المتوسطة","").replace("الجودة","").replace('-','').replace(' ','')
-            sHtmlContent1 = aEntry[1]
-
-            sPattern = 'data-url="([^"]+)'
-            aResult = oParser.parse(sHtmlContent1, sPattern)
-            if aResult[0] :
-                for aEntry in aResult[1]:            
-                    url = base64.b64decode(aEntry).decode('utf8',errors='ignore')
-                    if url.startswith('//'):
-                        url = 'http:' + url	
-
-                    sHosterUrl = url
-                    oHoster = cHosterGui().checkHoster(sHosterUrl)
-                    if oHoster:
-                        sDisplayTitle = f'{sMovieTitle} [COLOR coral]({sQual})[/COLOR]'
-                        oHoster.setDisplayName(sDisplayTitle)
-                        oHoster.setFileName(sMovieTitle)
-                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)	
+                sHosterUrl = url
+                oHoster = cHosterGui().checkHoster(sHosterUrl)
+                if oHoster:
+                    sDisplayTitle = f'{sMovieTitle} [COLOR coral]({sTitle})[/COLOR]'
+                    oHoster.setDisplayName(sDisplayTitle)
+                    oHoster.setFileName(sMovieTitle)
+                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 	       
     oGui.setEndOfDirectory()

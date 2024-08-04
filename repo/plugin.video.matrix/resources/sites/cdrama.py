@@ -18,11 +18,7 @@ SITE_DESC = 'arabic vod'
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 MOVIE_ASIAN = (f'{URL_MAIN}category/الأفلام-الاسيوية-asian-movies/', 'showMovies')
-
-SERIE_KR = (f'{URL_MAIN}category/الدراما-الكورية-kdrama/', 'showSeries')
-SERIE_CN = (f'{URL_MAIN}category/دراما-الصينية-chinese-drama/', 'showSeries')
 SERIE_JP = (f'{URL_MAIN}category/الدراما-اليابانية-japanese-drama/', 'showSeries')
-SERIE_ASIA = (f'{URL_MAIN}category/الدراما-الكورية-kdrama/', 'showSeries')
 
 FUNCTION_SEARCH = 'showSeries'
  
@@ -36,24 +32,9 @@ def load():
 
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_ASIAN[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أسيوية', 'asia.png', oOutputParameterHandler)
-
-    oOutputParameterHandler.addParameter('siteUrl', SERIE_ASIA[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'الدراما الكورية', 'asia.png', oOutputParameterHandler)   
-
-    oOutputParameterHandler.addParameter('siteUrl', SERIE_KR[0])
-    oGui.addDir(SITE_IDENTIFIER, SERIE_KR[1], 'مسلسلات كورية', 'kr.png', oOutputParameterHandler)
-
-    oOutputParameterHandler.addParameter('siteUrl', SERIE_CN[0])
-    oGui.addDir(SITE_IDENTIFIER, SERIE_CN[1], 'مسلسلات صينية', 'cn.png', oOutputParameterHandler)
-    
+  
     oOutputParameterHandler.addParameter('siteUrl', SERIE_JP[0])
     oGui.addDir(SITE_IDENTIFIER, SERIE_JP[1], 'مسلسلات يابانية', 'jp.png', oOutputParameterHandler)
-
-    oOutputParameterHandler.addParameter('siteUrl', f'{URL_MAIN}category/درامات-آخرى-other-dramas/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'درامات آخرى', 'asia.png', oOutputParameterHandler)   
-
-    oOutputParameterHandler.addParameter('siteUrl', f'{URL_MAIN}category/ترجماتنا-الحصرية-our-exclusive-translation/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'ترجماتنا الحصرية', 'asia.png', oOutputParameterHandler)    
 
     oOutputParameterHandler.addParameter('siteUrl', f'{URL_MAIN}category/البرامج-الأسيوية-asian-program/')
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'البرامج الأسيوية', 'brmg.png', oOutputParameterHandler)         

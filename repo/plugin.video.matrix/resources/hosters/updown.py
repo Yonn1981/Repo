@@ -1,11 +1,13 @@
 ﻿from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
-from resources.lib.comaddon import dialog, xbmcgui
 from resources.hosters.hoster import iHoster
 from resources.lib.packer import cPacker
 from resources.lib.comaddon import VSlog
-import re
+from resources.lib import random_ua
+import re, requests
 import unicodedata
+
+UA = random_ua.get_ua()
 
 class cHoster(iHoster):
 
@@ -42,7 +44,24 @@ class cHoster(iHoster):
             if aResult[0]:
                 api_call = aResult[1][0] 
         else:
-            api_call = api_call
+            headers = {
+                        'User-Agent': UA
+                        }
+            d = re.findall('https://(.*?)/([^<]+)', self._url)
+            for aEntry in d:
+                sHost = aEntry[0]
+                file_id = aEntry[1]
+                if '/' in file_id:
+                    file_id = file_id.split('/')[0]
+            payload = {
+            "op": "download2",
+            "id": f"{file_id}",
+            "method_free": "Free Download >>"
+            }
+            headers['content-type'] = "application/x-www-form-urlencoded"
+            headers['Accept'] = "application/json"
+            response = requests.post(f'https://{sHost}', data=payload, headers=headers)
+            api_call = response.url
 
         if api_call:
             return True, api_call

@@ -164,13 +164,13 @@ def showEpisodes():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-    sPattern = '<div id="content">(.+?)<div id="footer">'  
+    sPattern = '<div class="headline">(.+?)<div id='  
     aResult = oParser.parse(sHtmlContent, sPattern) 
     if aResult[0]:
-        sHtmlContent = aResult[1][0]
+        sHtmlContent2 = aResult[1][0]
 
-    sPattern = '<div class="episode.+?href="([^"]+)".+?<br>(.+?)</a>'
-    aResult = oParser.parse(sHtmlContent, sPattern)
+    sPattern = '(<div class="episode|<div class="thumb).+?href="([^"]+)".+?<br>(.+?)</a>'
+    aResult = oParser.parse(sHtmlContent2, sPattern)
     if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -179,8 +179,8 @@ def showEpisodes():
             if progress_.iscanceled():
                 break
  
-            sTitle = f'{sMovieTitle} E{aEntry[1]}'
-            siteUrl = aEntry[0].replace('video/','watch/')
+            sTitle = f'{sMovieTitle} E{aEntry[2].replace("الحلقة ","")}'
+            siteUrl = aEntry[1].replace('video/','watch/')
             if siteUrl.startswith('//'):
                 siteUrl = f'http:{siteUrl}'
             if siteUrl.startswith('/'):
