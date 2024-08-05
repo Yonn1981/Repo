@@ -4,9 +4,9 @@
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.hosters.hoster import iHoster
 from resources.lib.comaddon import VSlog
+from six.moves import urllib_parse
 import re
 import requests
-import base64
 
 UA = 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Mobile Safari/537.36'
 
@@ -48,6 +48,6 @@ class cHoster(iHoster):
          api_call = sContent['result']['url']
          
          if api_call:
-             return True, api_call
+             return True, urllib_parse.quote(api_call, ':/?=&')
 
          return False, False

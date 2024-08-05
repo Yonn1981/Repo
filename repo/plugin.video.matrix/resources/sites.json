@@ -430,6 +430,11 @@
             "active": "True",
             "url": "https://www.s96.net/"
         },
+        "vidplay": {
+            "label": "VidPlay",
+            "active": "True",
+            "url": "https://vidplay.org"
+        },
         "watanflix": {
             "label": "Watanflix",
             "active": "True",
