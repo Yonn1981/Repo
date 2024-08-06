@@ -5,7 +5,7 @@ from resources.lib.parser import cParser
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import VSlog
 from Cryptodome.Cipher import ARC4
-from urllib.parse import unquote, quote
+from urllib.parse import unquote, quote, urlparse
 import re
 import requests, base64, json
 
@@ -252,6 +252,7 @@ class cVidNet:
         iframe_src = iframe_match.group(1)
         if iframe_src.startswith("//"):
             iframe_src = f"https:{iframe_src}"
+        sReferer = f'https://{urlparse(iframe_src).netloc}/'
 
         oRequestHandler = cRequestHandler(iframe_src)
         oRequestHandler.addHeaderEntry('Referer', link)
@@ -283,13 +284,15 @@ class cVidNet:
         return {
         "source": decrypted_source,
         "subtitles": sSubs,
-        "referer": link,
+        "referer": sReferer,
         }
     
     def decode_url(self, enc_type, url):
 
         if enc_type == "NdonQLf1Tzyx7bMG":
             return self.bMGyx71TzQLfdonN(url)
+        elif enc_type == "JoAHUMCLXV":
+            return self.LXVUMCoAHJ(url)
         elif enc_type == "sXnL9MQIry":
             return self.Iry9MQXnLs(url)
         elif enc_type == "IhWrImMIGL":
@@ -308,8 +311,6 @@ class cVidNet:
             return self.laM1dAi3vO(url)
         elif enc_type == "TsA2KGDGux":
             return self.GuxKGDsA2T(url)
-        elif enc_type == "JoAHUMCLXV":
-            return self.LXVUMCoAHJ(url)
         else:
             return None
 
@@ -323,16 +324,21 @@ class cVidNet:
     def Iry9MQXnLs(self, a):
         b = "pWB9V)[*4I`nJpp?ozyB~dbr9yt!_n4u"
         d = "".join(chr(int(a[i:i+2], 16)) for i in range(0, len(a), 2))
-        c = "".join(chr(ord(d[e]) ^ ord(b[e % len(b)])) for e in range(len(d)))
-        e = "".join(chr(ord(ch) - 3) for ch in c)
-        return base64.b64decode(e).decode('utf-8')
+        c = ""
+        for e, char in enumerate(d):
+            c += chr(ord(char) ^ ord(b[e % len(b)]))
+        e = ""
+        for char in c:
+            e += chr(ord(char) - 3)
+        return self.decode_string(e)
 
     def IGLImMhWrI(self, a):
         b = a[::-1]
-        c = "".join(chr(ord(ch) + 13 if (ch >= 'a' and ch <= 'm') or (ch >= 'A' and ch <= 'M') else
-                    chr(ord(ch) - 13) if (ch >= 'n' and ch <= 'z') or (ch >= 'N' and ch <= 'Z') else ch) for ch in b)
+        c = "".join(chr(ord(char) + 13) if 'a' <= char <= 'm' or 'A' <= char <= 'M' else
+                    chr(ord(char) - 13) if 'n' <= char <= 'z' or 'N' <= char <= 'Z' else char
+                    for char in b)
         d = c[::-1]
-        return base64.b64decode(d).decode('utf-8')
+        return self.decode_string(d)
 
     def GTAxQyTyBx(self, a):
         b = a[::-1]
@@ -362,22 +368,19 @@ class cVidNet:
 
     def nZlUnj2VSo(self, a):
         b = {
-            'x': 'a', 'y': 'b', 'z': 'c', 'a': 'd', 'b': 'e', 'c': 'f', 'd': 'g',
-            'e': 'h', 'f': 'i', 'g': 'j', 'h': 'k', 'i': 'l', 'j': 'm', 'k': 'n',
-            'l': 'o', 'm': 'p', 'n': 'q', 'o': 'r', 'p': 's', 'q': 't', 'r': 'u',
-            's': 'v', 't': 'w', 'u': 'x', 'v': 'y', 'w': 'z', 'X': 'A', 'Y': 'B',
-            'Z': 'C', 'A': 'D', 'B': 'E', 'C': 'F', 'D': 'G', 'E': 'H', 'F': 'I',
-            'G': 'J', 'H': 'K', 'I': 'L', 'J': 'M', 'K': 'N', 'L': 'O', 'M': 'P',
-            'N': 'Q', 'O': 'R', 'P': 'S', 'Q': 'T', 'R': 'U', 'S': 'V', 'T': 'W',
-            'U': 'X', 'V': 'Y', 'W': 'Z'
+            'x': 'a', 'y': 'b', 'z': 'c', 'a': 'd', 'b': 'e', 'c': 'f', 'd': 'g', 'e': 'h', 'f': 'i',
+            'g': 'j', 'h': 'k', 'i': 'l', 'j': 'm', 'k': 'n', 'l': 'o', 'm': 'p', 'n': 'q', 'o': 'r',
+            'p': 's', 'q': 't', 'r': 'u', 's': 'v', 't': 'w', 'u': 'x', 'v': 'y', 'w': 'z', 'X': 'A',
+            'Y': 'B', 'Z': 'C', 'A': 'D', 'B': 'E', 'C': 'F', 'D': 'G', 'E': 'H', 'F': 'I', 'G': 'J',
+            'H': 'K', 'I': 'L', 'J': 'M', 'K': 'N', 'L': 'O', 'M': 'P', 'N': 'Q', 'O': 'R', 'P': 'S',
+            'Q': 'T', 'R': 'U', 'S': 'V', 'T': 'W', 'U': 'X', 'V': 'Y', 'W': 'Z'
         }
-        
-        return ''.join(b.get(ch, ch) for ch in a)
+        return "".join(b.get(char, char) for char in a)
 
     def laM1dAi3vO(self, a):
         b = a[::-1] 
         c = c.replace("-", "+").replace("_", "/") 
-        d = base64.b64decode(c).decode('utf-8') 
+        d = self.decode_string(c)
         e = ""
         f = 5 
         for ch in d:
@@ -387,7 +390,7 @@ class cVidNet:
     def GuxKGDsA2T(self, a):
         b = a[::-1]
         c = b.replace("-", "+").replace("_", "/")
-        d = base64.b64decode(c).decode('utf-8')
+        d = self.decode_string(c)
         e = ""
         f = 7
         for ch in d:
@@ -397,12 +400,22 @@ class cVidNet:
     def LXVUMCoAHJ(self, a):
         b = a[::-1]
         c = b.replace("-", "+").replace("_", "/")
-        d = base64.b64decode(c).decode('utf-8')
+        d = self.decode_string(c)
         e = ""
         f = 3
         for ch in d:
             e += chr(ord(ch) - f)
         return e
+
+    def decode_string(self, c):
+        try:
+            decoded_bytes = base64.b64decode(c)
+            return decoded_bytes.decode('utf-8')
+        except (UnicodeDecodeError):
+            try:
+                return decoded_bytes.decode('latin-1')
+            except Exception as e:
+                return None 
 
 class cVidPro:
     def __init__(self):

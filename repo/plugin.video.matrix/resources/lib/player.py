@@ -146,40 +146,41 @@ class cPlayer(xbmc.Player):
             except:
                 VSlog("فشل تحميل الترجمة")
 
-        kodiver = KodiVersion()
+        player_conf = self.ADDON.getSetting('playerPlay')
+
         mpd = splitext(urlHostName(sUrl))[-1] in [".mpd", ".m3u8"]
-        mpd |= '&ct=6&' in sUrl     # mpd venant de ok.ru, n'a pas d'extension
-        if kodiver > 16 and mpd:
-            if kodiver < 19:
-                item.setProperty('inputstreamaddon', 'inputstream.adaptive')
-            else:
+        mpd |= '&ct=6&' in sUrl
+        if mpd:
+            if isKrypton() == True:
+                addonManager().enableAddon('inputstream.adaptive')
                 item.setProperty('inputstream', 'inputstream.adaptive')
-            if mpd:
-                if kodiver < 21:
-                    item.setProperty('inputstream.adaptive.manifest_type', 'mpd')
-                item.setMimeType('application/dash+xml')
-            else:
-                if kodiver < 21:
+                if '.m3u8' in sUrl:
                     item.setProperty('inputstream.adaptive.manifest_type', 'hls')
-                item.setMimeType('application/vnd.apple.mpegurl')
-                
-            item.setContentLookup(False)
-            if '|' in sUrl:
-                sUrl, strhdr = sUrl.split('|')
-                item.setProperty('inputstream.adaptive.stream_headers', strhdr)
-                if kodiver > 19:
-                    item.setProperty('inputstream.adaptive.manifest_headers', strhdr)
-                item.setPath(sUrl)
+                else:
+                    item.setProperty('inputstream.adaptive.manifest_type', 'mpd')
+                xbmcplugin.setResolvedUrl(sPluginHandle, True, listitem=item)
+                VSlog('Player use inputstream addon')
+            else:
+                dialog().VSerror('Requires kodi 17 minimum')
+                return
 
-        xbmcplugin.setResolvedUrl(sPluginHandle, True, item)
+        elif player_conf == '0':
+            self.play(sUrl, item)
+            VSlog('Player use Play() method')
 
-        # Attend que le lecteur démarre, avec un max de 20s
+        elif player_conf == 'neverused':
+            xbmc.executebuiltin('PlayMedia(' + sUrl + ')')
+            VSlog('Player use PlayMedia() method')
+
+        else:
+            xbmcplugin.setResolvedUrl(sPluginHandle, True, item)
+            VSlog('Player use setResolvedUrl() method')
+
         for _ in range(20):
             if self.playBackEventReceived:
                 break
             xbmc.sleep(1000)
 
-        # active/désactive les sous-titres suivant l'option choisie dans la config
         if self.getAvailableSubtitleStreams():
             if self.ADDON.getSetting('srt-view') == 'true':
                 self.showSubtitles(True)
@@ -194,7 +195,7 @@ class cPlayer(xbmc.Player):
                 self.currentTime = self.getTime()
 
                 waitingNext += 1
-                if waitingNext == 10:  # attendre un peu avant de chercher le prochain épisode d'une série
+                if waitingNext == 10:
                     self.totalTime = self.getTotalTime()
                     self.infotag = self.getVideoInfoTag()
                     UpNext().nextEpisode(oGuiElement)
@@ -207,10 +208,13 @@ class cPlayer(xbmc.Player):
         if not self.playBackStoppedEventReceived:
             self.onPlayBackStopped()
 
+        if player_conf == '0':
+            r = xbmcplugin.addDirectoryItem(handle=sPluginHandle, url=sUrl, listitem=item, isFolder=False)
+            return r
+
         VSlog('Closing player')
         return True
 
-    # fonction light servant par exemple pour visualiser les DL ou les chaines de TV
     def startPlayer(self, window=False):
         oPlayList = self.__getPlayList()
         self.play(oPlayList, windowed=window)

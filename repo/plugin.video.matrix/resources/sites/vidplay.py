@@ -1,7 +1,7 @@
 ﻿# -*- coding: utf-8 -*-
 # Yonn1981 https://github.com/Yonn1981/Repo
 
-import re
+import re, base64
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -12,8 +12,8 @@ from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.multihost import cVidNet, cVidPro, cVidVip
 from urllib.parse import urlparse
 
-
 UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36 Edg/127.0.0.0'
+
 SITE_IDENTIFIER = 'vidplay'
 SITE_NAME = 'VidPlay'
 SITE_DESC = 'english vod'
@@ -388,10 +388,8 @@ def showSeriesLinks(oInputParameterHandler = False):
     sLinks = list(url_embed_pairs)
     
     for aEntry in sLinks:
-        import requests
         nUrl = f'{URL_MAIN}{aEntry[0]}?embed={aEntry[1]}&season={season_matches}&episode={episode_matches}'
 
-        oRequestHandler = cRequestHandler(nUrl)
         oRequestHandler = cRequestHandler(nUrl)
         oRequestHandler.addHeaderEntry('Referer', sUrl)
         oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
@@ -409,14 +407,16 @@ def showSeriesLinks(oInputParameterHandler = False):
                 season = parts[-2][1]
                 episode = parts[-1][1]
                 iFrame = f"{base_url}/{season}/{episode}"
-                if '.vip' in iFrame:
-                    iFrame = f'{iFrame}&server=1&switch=off&autoplay=true'
+            if '.vip' in iFrame:
+                iFrame = f'{iFrame}&server=1&switch=off&autoplay=true'
 
             sHost = urlparse(iFrame).netloc
 
             sTitle = f'{sMovieTitle} ({sHost})'  
             oOutputParameterHandler.addParameter('sHosterUrl', iFrame)
             oOutputParameterHandler.addParameter('siteUrl', sUrl)
+            oOutputParameterHandler.addParameter('sSeason', season)
+            oOutputParameterHandler.addParameter('sEpisode', episode)
             oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 
@@ -431,43 +431,96 @@ def showHosters():
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sUrl = oInputParameterHandler.getValue('sHosterUrl')
     sThumb = oInputParameterHandler.getValue('sThumb')
-
+    sSeason = oInputParameterHandler.getValue('sSeason')
+    sEpisode = oInputParameterHandler.getValue('sEpisode')
+    
     if '.net' in sUrl:
-        data = cVidNet().extract(sUrl)
+        try:
+            data = cVidNet().extract(sUrl)
 
-        sHosterUrl = data['source']
-        subtitles = data['subtitles']
-        referer = data['referer']
+            sHosterUrl = data['source']
+            subtitles = data['subtitles']
+            referer = data['referer']
 
-        sHosterUrl = f'{sHosterUrl}|Referer={referer}?sub.info={subtitles}'
-        oHoster = cHosterGui().checkHoster(sHosterUrl)
-        if oHoster:  
-            oHoster.setDisplayName(sMovieTitle)
-            oHoster.setFileName(sMovieTitle)
-            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-
-    if '.xyz' in sUrl or '.vip' in sUrl:
-        sLink = cVidVip().extract(sUrl)
-        for item in sLink:
-            sHosterUrl = item.split(',')[0].split('url=')[1]
-            sQual = item.split(',')[1].split('qual=')[1]
-
-            sDisplayTitle = f'{sMovieTitle} ({sQual})' 
-            oHoster = cHosterGui().getHoster('lien_direct')
+            sHosterUrl = f'{sHosterUrl}|Referer={referer}?sub.info={subtitles}'
+            oHoster = cHosterGui().getHoster('vidsrcstream')
             if oHoster:  
-                oHoster.setDisplayName(sDisplayTitle)
+                oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
-    if '.pro' in sUrl:
-        sHosterUrl = cVidPro().extract(sUrl)
+        except:
+            oGui.addText(SITE_IDENTIFIER, '[COLOR red]فشل الاتصال بالموقع الاول، حاول مرة أخرى[/COLOR]')
 
-        sDisplayTitle = sMovieTitle
-        oHoster = cHosterGui().getHoster('vidsrcstream')
-        if oHoster:
-            oHoster.setDisplayName(sDisplayTitle)
-            oHoster.setFileName(sMovieTitle)
-            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb) 
+    if '.xyz' in sUrl or '.vip' in sUrl:
+        try:
+            sLink = cVidVip().extract(sUrl)
+            for item in sLink:
+                sHosterUrl = item.split(',')[0].split('url=')[1]
+                sQual = item.split(',')[1].split('qual=')[1]
+
+                sDisplayTitle = f'{sMovieTitle} ({sQual})' 
+                oHoster = cHosterGui().getHoster('lien_direct')
+                if oHoster:  
+                    oHoster.setDisplayName(sDisplayTitle)
+                    oHoster.setFileName(sMovieTitle)
+                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+
+        except:
+            oGui.addText(SITE_IDENTIFIER, '[COLOR red]فشل الاتصال بالموقع الاول، حاول مرة أخرى[/COLOR]')
+
+    if '.pro' in sUrl:
+        try:
+            sID = sUrl.split("/")[5]
+            testURL = base64.b64decode('PURJdHNldXFlcj9oY3RlZmRuZWtjYWIvaXBhL2V2aWwubWFlcnRzZXZpci8vOnNwdHRo').decode('utf-8')[::-1]
+            aLink = f'{testURL}movieVideoProvider&id={sID}&service=vidcloud'
+            if '/tv/' in sUrl:
+                aLink = f'{testURL}tvVideoProvider&id={sID}&service=vidcloud&season={sSeason}&episode={sEpisode}'
+            oRequestHandler = cRequestHandler(aLink)
+            oRequestHandler.addHeaderEntry('Referer', testURL)
+            oRequestHandler.addHeaderEntry('User-Agent', UA)
+            sHtmlContent = oRequestHandler.request(jsonDecode=True)
+
+            sources = sHtmlContent['data']['sources']
+
+            sSub = ''
+            try:
+                captions = sHtmlContent['data']['captions']
+                arabic_subtitles = [caption['file'] for caption in captions if 'sudan' in caption['label']]
+                if arabic_subtitles:
+                    sSub =arabic_subtitles
+                else:
+                    sSub = [caption['file'] for caption in captions if 'English' in caption['label']]
+            except:
+                VSlog('failed to get subs')
+
+            for source in sources:
+                sHosterUrl = source['url']
+                sQual = source['quality']
+
+                sDisplayTitle = f'{sMovieTitle} ({sQual})' 
+                sHosterUrl = f'{sHosterUrl}|Referer={testURL.split("api/")[0]}?sub.info={sSub}'
+                oHoster = cHosterGui().getHoster('lien_direct')
+                if oHoster:  
+                    oHoster.setDisplayName(sDisplayTitle)
+                    oHoster.setFileName(sMovieTitle)
+                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+
+        except:
+            VSlog('فشل الاتصال بالموقع التجريبي')
+
+        try:
+            sHosterUrl = cVidPro().extract(sUrl)
+
+            sDisplayTitle = sMovieTitle
+            oHoster = cHosterGui().getHoster('vidsrcstream')
+            if oHoster:
+                oHoster.setDisplayName(sDisplayTitle)
+                oHoster.setFileName(sMovieTitle)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb) 
+
+        except:
+            oGui.addText(SITE_IDENTIFIER, '[COLOR red]فشل الاتصال بالموقع الاول، حاول مرة أخرى[/COLOR]')
 
     oGui.setEndOfDirectory()
 
