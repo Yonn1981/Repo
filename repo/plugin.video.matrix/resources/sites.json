@@ -180,8 +180,8 @@
         },
         "daily": {
             "label": "Daily IPTV List",
-            "active": "False",
-            "url": "https://ifixnet.blogspot.com/"
+            "active": "True",
+            "url": "https://github.com/Free-TV/IPTV?tab=readme-ov-file"
         },
         "daktna": {
             "label": "Daktna",
@@ -228,11 +228,6 @@
             "label": "Faselhd",
             "active": "True",
             "url": "https://www.faselhds.care/"
-        },
-        "fnteam": {
-            "label": "Fnteam",
-            "active": "False",
-            "url": "https://www.fn-team.com/"
         },
         "fushaar": {
             "label": "Fushaar",
