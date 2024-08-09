@@ -144,9 +144,7 @@ def showWeb():
                 if line.startswith("#EXTINF"):
                     match = re.search(r'group-title="([^"]+)"', line)
                     if match:
-                        current_group = match.group(1).replace('⚽','')
-                        if current_group and not current_group[0].isupper():
-                            current_group = current_group.capitalize()
+                        current_group = match.group(1)
                         groups.add(current_group)
 
             for group in sorted(groups):
