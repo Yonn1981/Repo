@@ -4,9 +4,9 @@
 import random
 import time
 import six
+import requests
 from kodi_six import xbmcaddon
 from resources.lib.comaddon import VSlog
-from six.moves import (http_cookiejar)
 
 addon = xbmcaddon.Addon()
 
@@ -110,7 +110,6 @@ def savecookies(flarejson):
     set_setting('current_cook', clean_cookies_dict)
 
 def get_arabseedUrl(url):
-    import requests
     try:
         last_gen = int(get_setting('last_seed_create'))
     except Exception:
@@ -124,7 +123,6 @@ def get_arabseedUrl(url):
     return arabseedUrl
 
 def get_wecimaUrl(url):
-    import requests
     try:
         last_gen = int(get_setting('last_wecima_create'))
     except Exception:

@@ -288,7 +288,7 @@ class cHosterGui:
             return self.getHoster('vidtodo')
 
         # Filemoon Clone
-        filemoon = next((x for x in ['filemoon', 'moonmov', 'allviid', 'all-vid', 'techradar', 'albrq', 'kerapoxy', 'kinoger'] if x in sHostName), None)
+        filemoon = next((x for x in ['filemoon', 'moonmov', 'allviid', 'all-vid', 'techradar', 'albrq', 'kerapoxy', 'kinoger', 'smdfs40r'] if x in sHostName), None)
         if filemoon:
             return self.getHoster("filemoon")
 

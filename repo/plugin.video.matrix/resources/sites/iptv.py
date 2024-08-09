@@ -1,26 +1,33 @@
 # -*- coding: utf-8 -*-
-# vStream https://github.com/Kodi-vStream/venom-xbmc-addons
 
-import re
-import string
-from resources.lib.comaddon import progress, addon, siteManager
+import re, base64
+import six, time
+import requests
+from kodi_six import xbmcaddon
+from resources.lib.comaddon import addon, siteManager, VSlog
 from resources.lib.gui.gui import cGui
-from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.parser import cParser
 from resources.lib import random_ua
 
-UA = random_ua.get_pc_ua()
+UA = random_ua.get_ua()
+
+sSession = requests.session()
 
 SITE_IDENTIFIER = 'iptv'
 SITE_NAME = '[COLOR orange]Premium IPTV[/COLOR]'
 SITE_DESC = 'Watch Live television'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
-URL_WEB = 'http://ugeen.live:8080/get.php?username=ugeenname&password=ugeenpassword&type=m3u_plus'
+sHost = base64.b64decode('ZXZpbC5uZWVndS8vOnB0dGg=').decode("utf-8")
+URL_MAIN = sHost[::-1]
+
+iHost = base64.b64decode('MDAwMzowNi45LjMyMS42NzEvLzpwdHRo').decode("utf-8")
+iHost = iHost[::-1]
+
+URL_WEB = f'{URL_MAIN}:8080/get.php?username=accountname&password=accountpassword&type=m3u_plus'
 
 TV_TV = (True, 'showMenuTV')
 
@@ -37,20 +44,14 @@ class track:
         self.data = data
 
 def load():
+    oGui = cGui()
     addons = addon()
 
     if (addons.getSetting('hoster_iptv_username') == '') and (addons.getSetting('hoster_iptv_password') == ''):
-        oGui = cGui()
-        oGui.addText(SITE_IDENTIFIER, '[COLOR %s]%s[/COLOR]' % ('red', 'Requires an IPTV Premium or Free Account'))
-
         oOutputParameterHandler = cOutputParameterHandler()
-        oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
-        oGui.addDir(SITE_IDENTIFIER, 'opensetting', addons.VSlang(30023), 'none.png', oOutputParameterHandler)
-        oGui.setEndOfDirectory()
-    else:
-        oGui = cGui()
-        addons = addon()
+        oGui.addDir(SITE_IDENTIFIER, 'opensetting', '[COLOR %s]%s[/COLOR]' % ('orange', 'Requires a Premium or Account'), 'none.png', oOutputParameterHandler)
 
+    else:
         oOutputParameterHandler = cOutputParameterHandler()
         oGui.addDir(SITE_IDENTIFIER, 'showMenuTV', addons.VSlang(30115), 'tv.png', oOutputParameterHandler)
 
@@ -108,143 +109,113 @@ def showWeb():
     oGui = cGui()
     addons = addon()
 
-    Iuser = addons.getSetting('hoster_iptv_username')
-    Ipass = addons.getSetting('hoster_iptv_password')
-
-    oInputParameterHandler = cInputParameterHandler()
-    sUrl = oInputParameterHandler.getValue('siteUrl').replace('P_L_U_S', '+').replace('ugeenname', Iuser).replace('ugeenpassword', Ipass)
-
-    if sUrl == 'TV':
-        sUrl = URL_WEB.replace('P_L_U_S', '+').replace('ugeenname', Iuser).replace('ugeenpassword', Ipass)
-
-
-    playlist = parseM3U(sUrl=sUrl)
-
-    if not playlist:
+    if (addons.getSetting('hoster_iptv_username') == '') and (addons.getSetting('hoster_iptv_password') == ''):
         oOutputParameterHandler = cOutputParameterHandler()
-        oOutputParameterHandler.addParameter('siteUrl', 'http://')
-        oGui.addText(SITE_IDENTIFIER, '[COLOR red]Error getting playlist - Check your Ugeen Subscription[/COLOR]')
+        oGui.addDir(SITE_IDENTIFIER, 'opensetting', '[COLOR %s]%s[/COLOR]' % ('orange', 'Requires a Premium or Free Account'), 'none.png', oOutputParameterHandler)
 
     else:
-        total = len(playlist)
-        progress_ = progress().VScreate(SITE_NAME)
-        for track in playlist:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
-            sThumb = track.icon
-            if not sThumb:
-                sThumb = 'https://raw.githubusercontent.com/Yonn1981/Repo/master/repo/plugin.video.matrix/resources/art/tv.png'
+        addont = xbmcaddon.Addon()
+        get_setting = addont.getSetting
 
-            url2 = track.path.replace('+', 'P_L_U_S')
+        Iuser = get_setting('iptv_user')
+        Ipass = get_setting('iptv_pass')
 
-            thumb = ''.join([sRootArt, sThumb])
+        oInputParameterHandler = cInputParameterHandler()
+        sUrl = oInputParameterHandler.getValue('siteUrl').replace('P_L_U_S', '+').replace('accountname', Iuser).replace('accountpassword', Ipass)
 
+        if sUrl == 'TV':
+            sUrl = URL_WEB.replace('P_L_U_S', '+').replace('accountname', Iuser).replace('accountpassword', Ipass)
+
+
+        playlist = parseM3U(sUrl=sUrl)
+        if not playlist:
+            get_Bearer()
             oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl', url2)
-            oOutputParameterHandler.addParameter('sMovieTitle', track.title)
-            oOutputParameterHandler.addParameter('sThumbnail', thumb)
+            oOutputParameterHandler.addParameter('siteUrl', 'http://')
+            oGui.addText(SITE_IDENTIFIER, '[COLOR orange]Renew Completed, Go Back and try Again[/COLOR]')
 
-            oGuiElement = cGuiElement()
-            oGuiElement.setSiteName(SITE_IDENTIFIER)
-            oGuiElement.setFunction('play__')
+        else:
+            oRequestHandler = cRequestHandler(sUrl)
+            sHtmlContent = oRequestHandler.request()
+            groups = set()
+            current_group = None
 
-            oGuiElement.setTitle(track.title)
-            oGuiElement.setFileName(track.title)
-            
-            oGuiElement.setIcon('tv.png')
-            oGuiElement.setMeta(0)
-            oGuiElement.setThumbnail(thumb)
-            oGuiElement.setDirectTvFanart()
-            oGuiElement.setCat(6)
+            for line in sHtmlContent.splitlines():
+                if line.startswith("#EXTINF"):
+                    match = re.search(r'group-title="([^"]+)"', line)
+                    if match:
+                        current_group = match.group(1).replace('⚽','')
+                        if current_group and not current_group[0].isupper():
+                            current_group = current_group.capitalize()
+                        groups.add(current_group)
 
-            oGui.addFolder(oGuiElement, oOutputParameterHandler)
-
-        progress_.VSclose(progress_)
-
-    oGui.setEndOfDirectory()
-
-def showAZ():
-    oGui = cGui()
-    oInputParameterHandler = cInputParameterHandler()
-    sUrl = oInputParameterHandler.getValue('siteUrl')
-
-    oOutputParameterHandler = cOutputParameterHandler()
-    for i in string.digits:
-        oOutputParameterHandler.addParameter('siteUrl', sUrl)
-        oOutputParameterHandler.addParameter('AZ', i)
-        oGui.addDir(SITE_IDENTIFIER, 'showTV', i, 'az.png', oOutputParameterHandler)
-
-    for i in string.ascii_uppercase:
-        oOutputParameterHandler.addParameter('siteUrl', sUrl)
-        oOutputParameterHandler.addParameter('AZ', i)
-        oGui.addDir(SITE_IDENTIFIER, 'showTV', i, 'az.png', oOutputParameterHandler)
+            for group in sorted(groups):
+                sTitle = group
+                oOutputParameterHandler = cOutputParameterHandler()
+                oOutputParameterHandler.addParameter('siteUrl', sUrl)
+                oOutputParameterHandler.addParameter('sGroup', sTitle)
+                oGui.addDir(SITE_IDENTIFIER, 'showGroup', sTitle, 'tv.png', oOutputParameterHandler)
 
     oGui.setEndOfDirectory()
 
-def showTV():
+def showGroup():
     oGui = cGui()
+
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
+    sGroup = oInputParameterHandler.getValue('sGroup')
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-    oParser = cParser()
-    sPattern = '<title>(.+?)</title><link>(.+?)</link>'
-    aResult = oParser.parse(sHtmlContent, sPattern)
+    groups = {}
+    current_group = None
+    current_name = None
+    current_logo = None
 
-    if aResult[0]:
-        progress_ = progress().VScreate(SITE_NAME)
+    for line in sHtmlContent.splitlines():
+        if line.startswith("#EXTINF"):
+            match_group = re.search(r'group-title="([^"]+)"', line)
+            match_name = re.search(r'tvg-name="([^"]+)"', line)
+            match_logo = re.search(r'tvg-logo="([^"]+)"', line)
+            if match_group:
+                current_group = match_group.group(1)
+            if match_name:
+                current_name = match_name.group(1)
+            if match_logo:
+                current_logo = match_logo.group(1)
 
-        if oInputParameterHandler.exist('AZ'):
-            sAZ = oInputParameterHandler.getValue('AZ')
-            string = filter(lambda t: t[0].strip().capitalize().startswith(sAZ), aResult[1])
-            string = sorted(string, key=lambda t: t[0].strip().capitalize())
-        else:
-            string = sorted(aResult[1], key=lambda t: t[0].strip().capitalize())
+        elif line.startswith("http"):
+            if current_group == sGroup:
+                if current_group not in groups:
+                    groups[current_group] = []
+                groups[current_group].append((current_name, current_logo, line))
 
-        total = len(string)
+
+    for name, logo, link in groups.get(sGroup, []):
+        sThumb = logo
+        sTitle = name
+        sHosterUrl = link.replace('+', 'P_L_U_S')
+        if not sThumb:
+            sThumb = 'https://raw.githubusercontent.com/Yonn1981/Repo/master/repo/plugin.video.matrix/resources/art/tv.png'
+
+        sThumb = ''.join([sRootArt, sThumb])
+
         oOutputParameterHandler = cOutputParameterHandler()
-        for aEntry in string:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
-
-            oOutputParameterHandler.addParameter('siteUrl', aEntry[1])
-            oOutputParameterHandler.addParameter('sMovieTitle', aEntry[0])
-            oOutputParameterHandler.addParameter('sThumbnail', 'tv.png')
-
-            oGuiElement = cGuiElement()
-            oGuiElement.setSiteName(SITE_IDENTIFIER)
-            oGuiElement.setFunction('play__')
-            oGuiElement.setTitle(aEntry[0])
-            oGuiElement.setFileName(aEntry[0])
-            oGuiElement.setIcon('tv.png')
-            oGuiElement.setMeta(0)
-            oGuiElement.setDirectTvFanart()
-            oGuiElement.setCat(6)
-
-            oGui.createContexMenuBookmark(oGuiElement, oOutputParameterHandler)
-            oGui.addFolder(oGuiElement, oOutputParameterHandler)
-
-        progress_.VSclose(progress_)
+        oOutputParameterHandler.addParameter('siteUrl', sHosterUrl)
+        oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+        oOutputParameterHandler.addParameter('sThumbnail', sThumb)
+        oGui.addMisc(SITE_IDENTIFIER, 'play__', sTitle, 'foot.png', sThumb, '', oOutputParameterHandler)
 
     oGui.setEndOfDirectory()
 
 def play__(): 
-    addons = addon()
     oGui = cGui()
 
-    Iuser = addons.getSetting('hoster_iptv_username')
-    Ipass = addons.getSetting('hoster_iptv_password')
     oInputParameterHandler = cInputParameterHandler()
-    sUrl = oInputParameterHandler.getValue('siteUrl').replace('P_L_U_S', '+').replace('username', Iuser).replace('password', Ipass)
+    sUrl = oInputParameterHandler.getValue('siteUrl')
     sTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumbnail = oInputParameterHandler.getValue('sThumbnail')
-
-    if '[' in sUrl and ']' in sUrl:
-        sUrl = getRealUrl(sUrl)
 
     if 'youtube' in sUrl:
         oHoster = cHosterGui().checkHoster(sUrl)
@@ -256,7 +227,6 @@ def play__():
 
     else:
         oHoster = cHosterGui().getHoster('lien_direct')
-        
         if oHoster:
             oHoster.setDisplayName(sTitle)
             oHoster.setFileName(sTitle)
@@ -264,116 +234,124 @@ def play__():
 
     oGui.setEndOfDirectory()
 
-def getRealUrl(chain):
-    oParser = cParser()
+def set_setting(id, value):
+    addon = xbmcaddon.Addon()
+    if not isinstance(value, six.string_types):
+        value = str(value)
+    addon.setSetting(id, value)
 
-    UA2 = UA
-    url = chain
-    regex = ''
-    param = ""
-    head = None
+def get_Bearer():
+    addon = xbmcaddon.Addon()
+    get_setting = addon.getSetting
 
-    r = re.search('\[[DECODENRJ]+\](.+?)(?:(?:\[[A-Z]+\])|$)', chain)
-    if r:
-        url = decodeNrj(r.group(1))
-
-    r = re.search('\[[BRIGHTCOVEKEY]+\](.+?)(?:(?:\[[A-Z]+\])|$)', chain)
-    if r:
-        url = getBrightcoveKey(r.group(1))
-
-    r = re.search('\[[REGEX]+\](.+?)(?:(?:\[[A-Z]+\])|$)', chain)
-    if r:
-        regex = r.group(1)
-
-    r = re.search('\[[UA]+\](.+?)(?:(?:\[[A-Z]+\])|$)', chain)
-    if r:
-        UA2 = r.group(1)
-
-    r = re.search('\[[URL]+\](.+?)(?:(?:\[[A-Z]+\])|$)', chain)
-    if r:
-        url = r.group(1)
-
-    r = re.search('\[[HEAD]+\](.+?)(?:(?:\[[A-Z]+\])|$)',chain)
-    if r:
-        head = r.group(1)
-
-    # post metehod ?
-    r = re.search('\[[POSTFORM]+\](.+?)(?:(?:\[[A-Z]+\])|$)', chain)
-    if r:
-        param = r.group(1)
-
-    oRequestHandler = cRequestHandler(url)
-    if param:
-        oRequestHandler.setRequestType(1)
-        oRequestHandler.addHeaderEntry('Accept-Encoding', 'identity')
-        oRequestHandler.addParametersLine(param)
-    if head:
-        import json
-        head = json.loads(head)
-        for a in head:
-            oRequestHandler.addHeaderEntry(a,head[a])
-    sHtmlContent = oRequestHandler.request()
-
-    if regex:
-        aResult2 = oParser.parse(sHtmlContent, regex)
-        if aResult2:
-            url = aResult2[1][0]
-
-    url = url + '|User-Agent=' + UA2
-
-    return url
-
-def decodeNrj(d):
-    oRequestHandler = cRequestHandler(d)
-    sHtmlContent = oRequestHandler.request()
-
-    title = re.search('data-program_title="([^"]+)"', sHtmlContent).group(1)
-    ids = re.search('data-ref="([^"]+)"', sHtmlContent).group(1)
-
-    url = 'https://www.nrj-play.fr/compte/live?channel=' + d.split('/')[3] + '&channel=' + d.split('/')[3] + '&title='
-    url += title + '&channel=' + d.split('/')[3] + '&ref=' + ids + '&formId=formDirect'
-
-    oRequestHandler = cRequestHandler(url)
-    sHtmlContent = oRequestHandler.request()
-    dataUrl = re.search('"contentUrl" content="([^"]+)"', sHtmlContent).group(1)
-
-    return dataUrl
-
-def getBrightcoveKey(sUrl):
-    oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
-
-    if "rmcdecouverte" in sUrl:
-        url = re.search('<script type="application/javascript" src="([^"]+)"></script>', sHtmlContent).group(1)
-
-        oRequestHandler = cRequestHandler("https://" + sUrl.split('/')[2] + url)
-        sHtmlContent = oRequestHandler.request()
-        result = re.search('N="([^"]+)",y="([^"]+)"\)', sHtmlContent)
-        player = result.group(1)
-        video = result.group(2)
-
-        oRequestHandler = cRequestHandler("https://static.bfmtv.com/ressources/next-player/cleo-player/playerBridge.js")
-        sHtmlContent = oRequestHandler.request().lower()
-
-        ID = sUrl.split('/')[2].split('.')[0]
-        account = re.search("\n(.+?): '" + ID + "'", sHtmlContent).group(1).replace('            ', '')
-
+    try:
+        last_gen = int(get_setting('last_bearer_create'))
+    except Exception:
+        last_gen = 0
+    if not get_setting('bearer_token') or last_gen < (time.time() - (1 * 24 * 60 * 60)):
+        sBearer, sUser, sPass = account_login()
+        set_setting('bearer_token', sBearer)
+        set_setting('iptv_user', sUser)
+        set_setting('iptv_pass', sPass)
+        set_setting('last_bearer_create', str(int(time.time())))
+        renewSubs(sBearer)
     else:
-        result = re.search('<div class="video_block" id="video_player_.+?" accountid="([^"]+)" playerid="([^"]+)" videoid="([^"]+)"', sHtmlContent)
+        sBearer = get_setting('bearer_token')
+    return sBearer
 
-        account = result.group(1)
-        player = result.group(2)
-        video = result.group(3)
+def account_login():
+    Iuser = addon().getSetting('hoster_iptv_username')
+    Ipass = addon().getSetting('hoster_iptv_password')
 
-    url = 'http://players.brightcove.net/%s/%s_default/index.min.js' % (account, player)
-    oRequestHandler = cRequestHandler(url)
-    sHtmlContent = oRequestHandler.request()
-    policyKey = re.search('policyKey:"(.+?)"', sHtmlContent).group(1)
+    # PLEASE DON'T USE my RAPID-API KEY, SIMPLY CREATE YOURS AND SUBSCRIBE FREE - I USE FREE SUBS
+    RapidApi_Key = addon().getSetting('rapidapi')
 
-    url = "https://edge.api.brightcove.com/playback/v1/accounts/%s/videos/%s" % (account, video)
-    oRequestHandler = cRequestHandler(url)
-    oRequestHandler.addHeaderEntry('Accept', "application/json;pk=" + policyKey)
-    sHtmlContent = oRequestHandler.request()
-    url = re.search('"sources":.+?src":"([^"]+)"', sHtmlContent).group(1)
+    url = f"{iHost}/auth/login"
+    user = Iuser
+    password = Ipass
+    payload = {
+        'email': user,
+        'password': password,
+        'recaptcha': get_captcha(RapidApi_Key)
+        }
 
-    return url
+    headers = {
+        "host": f"{iHost}",
+        "proxy-connection": "keep-alive",
+        "accept": "application/json",
+        "authorization": "Bearer",
+        "user-agent": UA,
+        "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+        "origin": URL_MAIN,
+        "referer": f"{URL_MAIN}/",
+        "accept-encoding": "gzip, deflate",
+        "accept-language": "en-US,en;q=0.9"
+    }
+
+    response = sSession.post(url, data=payload, headers=headers).json()
+    return response["access"]["token"], response["user"]["iptv_user"], response["user"]["iptv_pass"] 
+
+def renewSubs(Bearer):
+    url = f"{iHost}/v1/subscriptions"
+    code, token = get_code()
+    payload = {"code": code,
+            "token": token,
+            "bouquetId": '384'}
+
+    url = f"{iHost}/v1/subscriptions"
+
+    headers = {
+        "host": f"{iHost}",
+        "proxy-connection": "keep-alive",
+        "accept": "application/json",
+        "authorization": f"Bearer {Bearer}",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36 Edg/127.0.0.0",
+        "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+        "Origin": URL_MAIN,
+        "Referer": f"{URL_MAIN}/",
+        "accept-encoding": "gzip, deflate",
+        "accept-language": "en-US,en;q=0.9"
+    }
+
+    response = requests.post(url, data=payload, headers=headers)
+
+def get_captcha(key):
+    url = "https://captchakiller1.p.rapidapi.com/solvev2e"
+
+    querystring = {"site":f"{URL_MAIN}:80","sitekey":"6LexPvMgAAAAALN68SVJjCdXthMxNSs9Sp6Q4Pdr","gdomain":"false","invisible":"false"}
+
+    headers = {
+        "x-rapidapi-key": key,
+        "x-rapidapi-host": "captchakiller1.p.rapidapi.com"
+    }
+
+    recaptcha = sSession.get(url, headers=headers, params=querystring).json()
+    return recaptcha["result"]
+
+def decode_base64(data):
+    missing_padding = len(data) % 4
+    if missing_padding:
+        data += '=' * (4 - missing_padding)
+    
+    try:
+        decoded_data = base64.urlsafe_b64decode(data)
+        return decoded_data.decode('latin-1')
+    except Exception as e:
+        return f"Error decoding Base64 string: {e}"
+
+def get_code():
+    url = f"{iHost}/v1/codes"
+
+    headers = {
+        "Origin": URL_MAIN,
+        "Referer": f"{URL_MAIN}/",
+        "User-Agent": UA
+    }
+
+    data = sSession.post(url, headers=headers).json()
+    token = data["code"]["token"]
+    datas = decode_base64(token)
+
+    match = re.search(r'"code":"(\d+)"', datas)
+    if match:
+        return match.group(1), token
